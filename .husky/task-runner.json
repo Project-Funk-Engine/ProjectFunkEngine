@@ -1,0 +1,35 @@
+{
+  "$schema": "https://alirezanet.github.io/Husky.Net/schema.json",
+  "tasks": [
+    {
+      "name": "Pre-commit Test",
+      "command": "bash",
+      "args": [ "-c", "echo Starting Husky Pre-Commit Hook on UNIX" ],
+      "windows": {
+        "command": "cmd",
+        "args": ["/c", "echo Starting Husky Pre-Commit Hook on WINDOWS" ]
+      }
+    },
+    {
+      "name": "Run CSharpier",
+      "command": "dotnet",
+      "args": [
+        "csharpier",
+        "${staged}"
+      ],
+      "include": [
+        "**/*.cs"
+      ]
+    },
+    {
+      "name": "Compile Check",
+      "command": "dotnet",
+      "args": [
+        "build"
+      ],
+      "include": [
+        "**/*.cs"
+      ]
+    }
+  ]
+}
