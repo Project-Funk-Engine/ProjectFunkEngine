@@ -1,0 +1,11 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# Mac Stuff
+.DS_Store
+
+# C# Stuff
+
+
+.idea/.idea.Funk Engine/.idea/
