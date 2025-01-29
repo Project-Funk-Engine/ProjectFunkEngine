@@ -30,7 +30,7 @@ public partial class NoteManager : Node2D
                 {
                     color = Colors.Green,
                     key = "arrowUp",
-                    node = GetNode<NoteChecker>("arrowUp"),
+                    node = GetNode<NoteChecker>("noteCheckers/arrowUp"),
                 }
             },
             {
@@ -39,7 +39,7 @@ public partial class NoteManager : Node2D
                 {
                     color = Colors.Aqua,
                     key = "arrowDown",
-                    node = GetNode<NoteChecker>("arrowDown"),
+                    node = GetNode<NoteChecker>("noteCheckers/arrowDown"),
                 }
             },
             {
@@ -48,7 +48,7 @@ public partial class NoteManager : Node2D
                 {
                     color = Colors.HotPink,
                     key = "arrowLeft",
-                    node = GetNode<NoteChecker>("arrowLeft"),
+                    node = GetNode<NoteChecker>("noteCheckers/arrowLeft"),
                 }
             },
             {
@@ -57,7 +57,7 @@ public partial class NoteManager : Node2D
                 {
                     color = Colors.Red,
                     key = "arrowRight",
-                    node = GetNode<NoteChecker>("arrowRight"),
+                    node = GetNode<NoteChecker>("noteCheckers/arrowRight"),
                 }
             },
         };
@@ -72,26 +72,9 @@ public partial class NoteManager : Node2D
     public override void _Ready()
     {
         InitializeArrowCheckers();
-
-        CreateNote(ArrowType.Up);
-        CreateNote(ArrowType.Down);
-        CreateNote(ArrowType.Left);
-        CreateNote(ArrowType.Right);
     }
 
     public override void _Process(double delta)
-    {
-        HandleInput();
-
-        //have a 20% chance of creating a note in a random lane
-        if (GD.Randf() >= 0.02f)
-            return;
-        var randomLane = (ArrowType)
-            GD.RandRange(0, ArrowType.GetValues(typeof(ArrowType)).Length - 1);
-        CreateNote(randomLane);
-    }
-
-    private void HandleInput()
     {
         foreach (var arrow in _arrows)
         {
@@ -106,7 +89,7 @@ public partial class NoteManager : Node2D
         }
     }
 
-    private void CreateNote(ArrowType arrow)
+    public void CreateNote(ArrowType arrow)
     {
         CreateNote(_arrows[arrow]);
     }
