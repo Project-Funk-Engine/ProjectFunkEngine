@@ -1,0 +1,46 @@
+[gd_scene load_steps=4 format=3 uid="uid://dfevfib11kou1"]
+
+[ext_resource type="Texture2D" uid="uid://b0tvsewgnf2x7" path="res://icon.svg" id="1_0wnka"]
+[ext_resource type="Script" path="res://scenes/ChartViewport/ChartManager.cs" id="1_ruh2l"]
+[ext_resource type="Script" path="res://scenes/ChartViewport/ChartBg.cs" id="3_runyu"]
+
+[node name="VPContainer" type="SubViewportContainer" node_paths=PackedStringArray("ChartLoopables")]
+offset_right = 480.0
+offset_bottom = 220.0
+script = ExtResource("1_ruh2l")
+ChartLoopables = NodePath("SubViewport/ChartLoopables")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+handle_input_locally = false
+size = Vector2i(480, 220)
+render_target_update_mode = 4
+
+[node name="Camera2D" type="Camera2D" parent="SubViewport"]
+position = Vector2(240, 110)
+
+[node name="MockPlayhead" type="Sprite2D" parent="SubViewport"]
+modulate = Color(0, 0, 0, 0.615686)
+z_index = 1
+position = Vector2(60, 120)
+scale = Vector2(0.1, 2)
+texture = ExtResource("1_0wnka")
+
+[node name="ChartLoopables" type="CanvasGroup" parent="SubViewport"]
+unique_name_in_owner = true
+
+[node name="ChartBG1" type="TextureRect" parent="SubViewport/ChartLoopables"]
+modulate = Color(0.439216, 1, 1, 0.545098)
+offset_top = -46.0
+offset_right = 700.0
+offset_bottom = 254.0
+texture = ExtResource("1_0wnka")
+script = ExtResource("3_runyu")
+
+[node name="ChartBG2" type="TextureRect" parent="SubViewport/ChartLoopables"]
+modulate = Color(0.439216, 1, 1, 0.545098)
+offset_left = 700.0
+offset_top = -46.0
+offset_right = 1400.0
+offset_bottom = 254.0
+texture = ExtResource("1_0wnka")
+script = ExtResource("3_runyu")

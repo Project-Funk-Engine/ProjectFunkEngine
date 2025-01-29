@@ -56,3 +56,7 @@ arrowRight={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+
+[threading]
+
+worker_pool/canvas_textures/default_texture_filter=1

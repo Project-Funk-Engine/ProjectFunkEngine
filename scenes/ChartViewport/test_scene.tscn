@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://b0mrgr7h0ty1y"]
+
+[ext_resource type="PackedScene" uid="uid://dfevfib11kou1" path="res://scenes/ChartViewport/ChartViewport.tscn" id="1_1vh1u"]
+
+[node name="TestScene" type="Node2D"]
+
+[node name="SubViewport" parent="." instance=ExtResource("1_1vh1u")]
+offset_left = 80.0
+offset_top = 140.0
+offset_right = 560.0
+offset_bottom = 360.0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -1
+offset_left = -70.0
+offset_top = -34.0
+offset_right = 673.0
+offset_bottom = 393.0
+color = Color(0.147672, 0.147672, 0.147672, 1)
