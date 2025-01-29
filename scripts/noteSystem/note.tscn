@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://oax3qu72soro"]
+
+[ext_resource type="Texture2D" uid="uid://bucvj4fquqpkr" path="res://scripts/noteSystem/assets/right-arrow.png" id="1_kubiy"]
+[ext_resource type="Script" path="res://scripts/noteSystem/Note.cs" id="2_gpd2w"]
+
+[node name="Right-arrow" type="Sprite2D"]
+scale = Vector2(0.0800024, 0.0800024)
+texture = ExtResource("1_kubiy")
+script = ExtResource("2_gpd2w")
