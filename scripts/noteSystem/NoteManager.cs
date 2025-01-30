@@ -89,12 +89,12 @@ public partial class NoteManager : Node2D
         }
     }
 
-    public void CreateNote(ArrowType arrow)
+    public Note CreateNote(ArrowType arrow)
     {
-        CreateNote(_arrows[arrow]);
+        return CreateNote(_arrows[arrow]);
     }
 
-    private void CreateNote(ArrowData arrowData)
+    private Note CreateNote(ArrowData arrowData)
     {
         var noteScene = ResourceLoader.Load<PackedScene>("res://scripts/noteSystem/note.tscn");
         var note = noteScene.Instantiate<Note>();
@@ -102,5 +102,6 @@ public partial class NoteManager : Node2D
         note.Init(arrowData, 1.0f, -1);
 
         AddChild(note);
+        return note;
     }
 }
