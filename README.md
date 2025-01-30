@@ -13,3 +13,7 @@ Current team members include:
 
 
 
+#### Attributions:
+Note icon: <a href="https://www.flaticon.com/free-icons/next" title="next icons">Next icons created by Pixel perfect - Flaticon</a>
+
+
