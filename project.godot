@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Funk Engine"
-run/main_scene="res://scenes/main.tscn"
+run/main_scene="res://scenes/ChartViewport/test_scene.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -56,3 +56,7 @@ arrowRight={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+
+[threading]
+
+worker_pool/canvas_textures/default_texture_filter=1
