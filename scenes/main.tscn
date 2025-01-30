@@ -14,8 +14,8 @@ PlayerHealthBar = NodePath("ProgressBar")
 
 [node name="ProgressBar" type="ProgressBar" parent="Control"]
 layout_mode = 0
-offset_left = 74.0
-offset_top = 109.0
-offset_right = 274.0
-offset_bottom = 136.0
+offset_left = 29.0
+offset_top = 18.0
+offset_right = 229.0
+offset_bottom = 45.0
 show_percentage = false
