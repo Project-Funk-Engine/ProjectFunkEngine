@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://ck3bfqy30rjbq"]
+
+[ext_resource type="Texture2D" uid="uid://bucvj4fquqpkr" path="res://scenes/NoteManager/assets/right-arrow.png" id="1_kubiy"]
+[ext_resource type="Script" path="res://scenes/NoteManager/scripts/NoteArrow.cs" id="2_lbl4b"]
+
+[node name="Right-arrow" type="TextureRect"]
+offset_right = 38.0
+offset_bottom = 38.0
+texture = ExtResource("1_kubiy")
+expand_mode = 1
+script = ExtResource("2_lbl4b")

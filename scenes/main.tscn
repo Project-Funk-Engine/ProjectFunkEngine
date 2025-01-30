@@ -1,64 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://diq2m6va1x52k"]
+[gd_scene load_steps=2 format=3 uid="uid://diq2m6va1x52k"]
 
-[ext_resource type="Texture2D" uid="uid://bucvj4fquqpkr" path="res://scripts/noteSystem/assets/right-arrow.png" id="1_7tfja"]
 [ext_resource type="Script" path="res://scripts/Main.cs" id="1_it331"]
-[ext_resource type="Script" path="res://scripts/noteSystem/NoteChecker.cs" id="3_3bwsh"]
-[ext_resource type="Script" path="res://scripts/noteSystem/NoteManager.cs" id="3_hu33e"]
-[ext_resource type="Texture2D" uid="uid://b0tvsewgnf2x7" path="res://icon.svg" id="4_j3yyc"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_it331")
-
-[node name="ui" type="Node2D" parent="."]
-
-[node name="dividers" type="Node2D" parent="ui"]
-
-[node name="DivA" type="Sprite2D" parent="ui/dividers"]
-modulate = Color(0, 0, 0, 1)
-position = Vector2(320, 210)
-scale = Vector2(5.10938, 0.041)
-texture = ExtResource("4_j3yyc")
-
-[node name="DivB" type="Sprite2D" parent="ui/dividers"]
-modulate = Color(0, 0, 0, 1)
-position = Vector2(318, 255)
-scale = Vector2(5.10938, 0.041)
-texture = ExtResource("4_j3yyc")
-
-[node name="DivC" type="Sprite2D" parent="ui/dividers"]
-modulate = Color(0, 0, 0, 1)
-position = Vector2(317, 314)
-scale = Vector2(5.10938, 0.041)
-texture = ExtResource("4_j3yyc")
-
-[node name="noteManager" type="Node2D" parent="."]
-script = ExtResource("3_hu33e")
-
-[node name="noteCheckers" type="Node2D" parent="noteManager"]
-
-[node name="arrowUp" type="Sprite2D" parent="noteManager/noteCheckers"]
-position = Vector2(33, 179)
-rotation = -1.5708
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("1_7tfja")
-script = ExtResource("3_3bwsh")
-
-[node name="arrowLeft" type="Sprite2D" parent="noteManager/noteCheckers"]
-position = Vector2(33, 233)
-rotation = 3.14159
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("1_7tfja")
-script = ExtResource("3_3bwsh")
-
-[node name="arrowDown" type="Sprite2D" parent="noteManager/noteCheckers"]
-position = Vector2(33, 285)
-rotation = 1.5708
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("1_7tfja")
-script = ExtResource("3_3bwsh")
-
-[node name="arrowRight" type="Sprite2D" parent="noteManager/noteCheckers"]
-position = Vector2(33, 336)
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("1_7tfja")
-script = ExtResource("3_3bwsh")

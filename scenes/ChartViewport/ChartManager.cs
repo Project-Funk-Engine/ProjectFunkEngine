@@ -1,14 +1,14 @@
 using System;
 using Godot;
+using ArrowType = NoteArrow.ArrowType;
 
+/*
 //Lets say this inits all the initial notes and manages the chart BG.
 
 //What does this do?
 //Input, visual looping, timing, battle stuff, combo, note creation
 
 //Focus on the looping
-/*
-
  This should manage creating sprites for notes???
  This should manage subview camera pos and zoom.
 
@@ -28,56 +28,92 @@ If timing based input checking:
     Collision based - This might need to manage that, or have a sister manager that does, notes need more stuff on their own
  */
 
+/**
+ * @class ChartManager
+ * @brief Chart Manager is meant to handle the visual aspects of a battle. Setting up the chart background, initial notes, and handle looping. WIP
+ */
 public partial class ChartManager : SubViewportContainer
 {
-    //Simulated variables, remove later
-    private const int Bpm = 120;
-    private const double SongLength = 160; //secs
-
-    //Arbitrary vars, play with these
-    private const double ChartLength = 1400;
-    private const int NumLoops = 5; //TODO: Loops should be based on measures of a song?
-
     //Nodes from scene
+    [Export]
+    public NoteManager NM;
+
     [Export]
     public CanvasGroup ChartLoopables;
 
+    public BattleDirector.SongData SongData; //TODO: Maybe. Make settable from outside, but readonly
+
+    //Arbitrary vars, play with these
+    private const double ChartLength = 1400; //Might move this to be song specific?
+
+    //Speed that chart objs should move at, to be synced to song, in theory
+    private double _rateOfChart;
     private double _loopLen; //secs
     private int _beatsPerLoop;
 
-    public override void _Ready()
+    private void InitBackgrounds()
     {
-        _loopLen = SongLength / NumLoops;
-        _beatsPerLoop = (int)(_loopLen / (60f / Bpm));
-
-        ChartLoopables = GetNode<CanvasGroup>("%ChartLoopables");
-
-        speedL = 700 / _loopLen; // px/s
-        GD.Print(speedL);
-
+        //TODO: Get better visual for BG's, and/or create BG's on demand. Though we should only ever need 2.
+        int i = 0;
         foreach (Node child in ChartLoopables.GetChildren())
         {
-            if (child is ChartBg)
+            if (child is Loopable)
             {
-                ChartBg chartBg = (ChartBg)child;
-                chartBg.Speed = (float)speedL;
+                Loopable loopable = (Loopable)child;
+                //TODO: Consolidate
+                loopable.SetSize(new Vector2((float)ChartLength / 2 + 1, Size.Y));
+                loopable.SetPosition(new Vector2((float)ChartLength / 2 * i, 0));
+                loopable.Bounds = (float)ChartLength / 2;
+                loopable.Speed = (float)_rateOfChart;
+
+                i++;
             }
         }
-
-        InitTestNote();
     }
 
-    public override void _Process(double delta)
+    private void InitNotes(Note[] notes)
     {
-        //ChartLoopables.Position += 10 * Vector2.Left;
-        ProcessTestNote(delta);
+        foreach (Note noteData in notes)
+        {
+            CreateNote(noteData.Type, noteData.Beat);
+        }
     }
 
-    //Test code TODO: REMOVE LATER
-    private Sprite2D[] _testNotes = new Sprite2D[4];
-    private float[] _testBeats = { 60, 30, 32, 10 };
-    private double speedL;
+    public void PrepChart(BattleDirector.SongData songData, Note[] notes)
+    {
+        SongData = songData;
 
+        _loopLen = SongData.SongLength / SongData.NumLoops;
+        _beatsPerLoop = (int)(_loopLen / (60f / SongData.Bpm));
+
+        _rateOfChart = 700 / _loopLen; //px/s
+
+        InitBackgrounds();
+        InitNotes(notes);
+    }
+
+    //TODO: Rework these
+    public NoteArrow CreateNote(ArrowType arrow, int beat = 0)
+    {
+        var newNote = CreateNote(NM.Arrows[arrow]);
+        newNote.Bounds =
+            (float)((double)beat / _beatsPerLoop * (ChartLength / 2)) - newNote.Size.X / 2; //eww
+        newNote.Position += Vector2.Right * newNote.Bounds;
+        return newNote;
+    }
+
+    private NoteArrow CreateNote(NoteManager.ArrowData arrowData)
+    {
+        var noteScene = ResourceLoader.Load<PackedScene>("res://scenes/NoteManager/note.tscn");
+        var note = noteScene.Instantiate<NoteArrow>();
+
+        note.Init(arrowData, (float)_rateOfChart, -1);
+
+        ChartLoopables.AddChild(note);
+        return note;
+    }
+
+    //TODO: Queue next notes. Needs Timing System
     /*The logic:
      *Spawn in pos is a proportion (intended beat/beats per loop) = (intended pos/track length in px) ->
      *		intended pos = intended beat / bpl * track length
@@ -85,31 +121,4 @@ public partial class ChartManager : SubViewportContainer
      *		Respawn (probably obj pool, or for now new instantiation)
      *			When a note's pos is at its intended initial pos, queue up and spawn the next note of its beat at intended pos + track length
      */
-    public void InitTestNote()
-    {
-        _testNotes[0] = GetNode<Sprite2D>("%TestNote");
-        _testNotes[1] = GetNode<Sprite2D>("%TestNote2");
-        _testNotes[2] = GetNode<Sprite2D>("%TestNote3");
-        _testNotes[3] = GetNode<Sprite2D>("%TestNote4");
-        int i = 0;
-        foreach (Sprite2D note in _testNotes)
-        {
-            note.Position = new Vector2(_testBeats[i] / _beatsPerLoop * 700, 150);
-            i++;
-        }
-    }
-
-    public void ProcessTestNote(double delta)
-    {
-        int i = 0;
-        foreach (Sprite2D note in _testNotes)
-        {
-            if (note.Position.X <= (_testBeats[i] / _beatsPerLoop * 700) - 700)
-            {
-                note.Position = new Vector2(_testBeats[i] / _beatsPerLoop * 700, 150);
-            }
-            note.Position += Vector2.Left * (float)speedL * (float)delta;
-            i++;
-        }
-    }
 }

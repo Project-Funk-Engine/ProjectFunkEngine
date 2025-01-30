@@ -1,13 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://dfevfib11kou1"]
+[gd_scene load_steps=5 format=3 uid="uid://dfevfib11kou1"]
 
 [ext_resource type="Texture2D" uid="uid://b0tvsewgnf2x7" path="res://icon.svg" id="1_0wnka"]
 [ext_resource type="Script" path="res://scenes/ChartViewport/ChartManager.cs" id="1_ruh2l"]
-[ext_resource type="Script" path="res://scenes/ChartViewport/ChartBg.cs" id="3_runyu"]
+[ext_resource type="Script" path="res://scenes/ChartViewport/Loopable.cs" id="3_5u57h"]
+[ext_resource type="PackedScene" uid="uid://bn8txx53xlguw" path="res://scenes/NoteManager/note_manager.tscn" id="4_fd5fw"]
 
-[node name="VPContainer" type="SubViewportContainer" node_paths=PackedStringArray("ChartLoopables")]
+[node name="VPContainer" type="SubViewportContainer" node_paths=PackedStringArray("NM", "ChartLoopables")]
 offset_right = 480.0
 offset_bottom = 220.0
 script = ExtResource("1_ruh2l")
+NM = NodePath("SubViewport/noteManager")
 ChartLoopables = NodePath("SubViewport/ChartLoopables")
 
 [node name="SubViewport" type="SubViewport" parent="."]
@@ -18,13 +20,6 @@ render_target_update_mode = 4
 [node name="Camera2D" type="Camera2D" parent="SubViewport"]
 position = Vector2(240, 110)
 
-[node name="MockPlayhead" type="Sprite2D" parent="SubViewport"]
-modulate = Color(0, 0, 0, 0.615686)
-z_index = 1
-position = Vector2(60, 120)
-scale = Vector2(0.1, 2)
-texture = ExtResource("1_0wnka")
-
 [node name="ChartLoopables" type="CanvasGroup" parent="SubViewport"]
 unique_name_in_owner = true
 
@@ -34,7 +29,7 @@ offset_top = -46.0
 offset_right = 701.0
 offset_bottom = 254.0
 texture = ExtResource("1_0wnka")
-script = ExtResource("3_runyu")
+script = ExtResource("3_5u57h")
 
 [node name="ChartBG2" type="TextureRect" parent="SubViewport/ChartLoopables"]
 modulate = Color(2, 2, 2, 1)
@@ -43,24 +38,6 @@ offset_top = -46.0
 offset_right = 1401.0
 offset_bottom = 254.0
 texture = ExtResource("1_0wnka")
-script = ExtResource("3_runyu")
+script = ExtResource("3_5u57h")
 
-[node name="TestNote" type="Sprite2D" parent="SubViewport/ChartLoopables"]
-unique_name_in_owner = true
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("1_0wnka")
-
-[node name="TestNote2" type="Sprite2D" parent="SubViewport/ChartLoopables"]
-unique_name_in_owner = true
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("1_0wnka")
-
-[node name="TestNote3" type="Sprite2D" parent="SubViewport/ChartLoopables"]
-unique_name_in_owner = true
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("1_0wnka")
-
-[node name="TestNote4" type="Sprite2D" parent="SubViewport/ChartLoopables"]
-unique_name_in_owner = true
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("1_0wnka")
+[node name="noteManager" parent="SubViewport" instance=ExtResource("4_fd5fw")]
