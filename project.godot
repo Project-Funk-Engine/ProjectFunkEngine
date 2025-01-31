@@ -15,6 +15,10 @@ run/main_scene="res://scenes/ChartViewport/test_scene.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+TimeKeeper="*res://scripts/TimeKeeper.cs"
+
 [display]
 
 window/size/viewport_width=640

@@ -16,9 +16,6 @@ public partial class BattleDirector : Node2D
     [Export]
     public NoteManager NM;
 
-    //TODO: Slowly add data based on what it needs.
-    private double _startTime;
-    private double _currentTime;
     private double _timingInterval = .1; //secs
 
     public struct SongData
@@ -29,32 +26,45 @@ public partial class BattleDirector : Node2D
     }
 
     private SongData _curSong;
-    private Dictionary<string, Note[]> LaneNotes;
+    private readonly Note[][] _laneNotes = new Note[][]
+    {
+        Array.Empty<Note>(),
+        Array.Empty<Note>(),
+        Array.Empty<Note>(),
+        Array.Empty<Note>(),
+    };
     private Note[] _notes = Array.Empty<Note>();
 
     public override void _Ready()
     {
-        LaneNotes = new()
-        {
-            { "arrowUp", Array.Empty<Note>() },
-            { "arrowLeft", Array.Empty<Note>() },
-            { "arrowDown", Array.Empty<Note>() },
-            { "arrowRight", Array.Empty<Note>() },
-        };
         AddExampleNote();
 
         CM.PrepChart(_curSong, _notes);
         //TODO: Hook up signals
-        NM.Connect(nameof(NoteManager.NotePressed), new Callable(this, nameof(OnNotePressed)));
-        NM.Connect(nameof(NoteManager.NoteReleased), new Callable(this, nameof(OnNoteReleased)));
-
-        _startTime = (double)Time.GetTicksMsec() / 1000;
+        CM.Connect(nameof(NoteManager.NotePressed), new Callable(this, nameof(OnNotePressed)));
+        CM.Connect(nameof(NoteManager.NoteReleased), new Callable(this, nameof(OnNoteReleased)));
     }
 
     public override void _Process(double delta)
     {
-        _currentTime += delta;
-        //GD.Print($"Current Time: {_currentTime}");
+        TimeKeeper.CurrentTime += delta;
+        //Check beats downwards
+        double curBeat = TimeKeeper.CurrentTime / (60 / (double)_curSong.Bpm);
+        for (int i = 0; i < _laneNotes.Length; i++)
+        {
+            if (_laneNotes[i].Length > 0)
+            {
+                if (curBeat > _laneNotes[i][0].Beat + 1)
+                {
+                    GD.Print($"Beat: {_laneNotes[i][0].Beat} Miss");
+                    GD.Print(TimeKeeper.CurrentTime);
+                    //Cycle note queue
+                    _laneNotes[i].First().Beat += CM._beatsPerLoop;
+                    _laneNotes[i] = _laneNotes[i].Skip(1).Concat(_laneNotes[i].Take(1)).ToArray(); //TODO: No stackoverflow code
+                    CM.HandleNote((NoteArrow.ArrowType)i);
+                }
+            }
+        }
     }
 
     private void AddExampleNote()
@@ -63,13 +73,18 @@ public partial class BattleDirector : Node2D
         _curSong = new SongData
         {
             Bpm = 120,
-            SongLength = 160,
+            SongLength = 100,
             NumLoops = 5,
         };
         //Add note
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 4; i++)
         {
-            Note exampleNote = new Note(NoteArrow.ArrowType.Left, i + 9);
+            Note exampleNote = new Note(NoteArrow.ArrowType.Up, i + 3);
+            AddNoteToLane(exampleNote);
+        }
+        for (int i = 0; i < 1; i++)
+        {
+            Note exampleNote = new Note(NoteArrow.ArrowType.Left, i + 4);
             AddNoteToLane(exampleNote);
         }
     }
@@ -77,41 +92,38 @@ public partial class BattleDirector : Node2D
     private void AddNoteToLane(Note note)
     {
         _notes = _notes.Append(note).ToArray();
-        LaneNotes[NM.Arrows[note.Type].Key] = LaneNotes[NM.Arrows[note.Type].Key]
-            .Append(note)
-            .ToArray();
+        _laneNotes[(int)note.Type] = _laneNotes[(int)note.Type].Append(note).ToArray();
     }
 
-    private void OnNotePressed(string key)
+    private void OnNotePressed(NoteArrow.ArrowType type)
     {
-        GD.Print("Note pressed: " + key + " at " + _currentTime + " seconds.");
-        CheckNoteTiming(key);
+        //GD.Print("Note pressed: " + type + " at " + _currentTime + " seconds.");
+        CheckNoteTiming(type);
     }
 
     private void OnNoteReleased(NoteArrow.ArrowType arrowType)
     {
-        GD.Print("Note released: " + arrowType + " at " + _currentTime + " seconds.");
+        //GD.Print("Note released: " + arrowType + " at " + _currentTime + " seconds.");
     }
 
-    private void CheckNoteTiming(string arrowString)
+    private void CheckNoteTiming(NoteArrow.ArrowType type)
     {
         //Assume queue structure for notes
         //Know current time, calculate beat timing
-        var curBeat = _currentTime / (60 / (double)_curSong.Bpm);
-        if (LaneNotes[arrowString].Length == 0)
+        double curBeat = TimeKeeper.CurrentTime / (60 / (double)_curSong.Bpm);
+        if (_laneNotes[(int)type].Length == 0)
             return;
-        double beatDif = Math.Abs(curBeat - LaneNotes[arrowString].First().Beat);
-        GD.Print(beatDif);
+        double beatDif = Math.Abs(curBeat - _laneNotes[(int)type].First().Beat);
         if (beatDif > 1)
             return;
-        GD.Print("Note Hit.");
+        GD.Print("Note Hit. Dif: " + beatDif);
+        CM.HandleNote(type);
         //Cycle note queue
-        LaneNotes[arrowString] = LaneNotes[arrowString]
+        _laneNotes[(int)type].First().Beat += CM._beatsPerLoop;
+        _laneNotes[(int)type] = _laneNotes[(int)type] //Credit: Stackoverflow https://stackoverflow.com/questions/49494535/moving-the-first-array-element-to-end-in-c-sharp
             .Skip(1)
-            .Concat(LaneNotes[arrowString].Take(1))
+            .Concat(_laneNotes[(int)type].Take(1))
             .ToArray(); //TODO: No stackoverflow code
-        //Change note visual
-        CM.TriggerArrow();
         //Do timing stuff
         if (beatDif < _timingInterval * 2)
         {

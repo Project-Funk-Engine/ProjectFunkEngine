@@ -4,45 +4,45 @@ using Godot;
  * @class NoteArrow
  * @brief This class represents a visual note that scrolls across the screen to be played by the player. WIP
  */
-public partial class NoteArrow : Loopable
+public partial class NoteArrow : Sprite2D
 { //TextRect makes it easier to resize to something specific, but could cause issues later. :)
     public enum ArrowType
     {
-        Up,
-        Down,
-        Left,
-        Right,
+        Up = 0,
+        Down = 1,
+        Left = 2,
+        Right = 3,
     }
 
-    //TODO: This is for a time based implementation. We need to find a way to make this exact.
-    //private float _expectedHitTime = 0;
+    public float Bounds;
 
-    public void Init(NoteManager.ArrowData parentArrowData, float speed, float hitTime)
+    public void Init(NoteManager.ArrowData parentArrowData)
     {
         ZIndex = 1;
-        PivotOffset = Size / 2;
 
-        Speed = speed;
         SelfModulate = parentArrowData.Color;
-        SetPosition(new Vector2(0, parentArrowData.Node.GlobalPosition.Y - Size.Y / 2));
+        Position += Vector2.Down * (parentArrowData.Node.GlobalPosition.Y);
         RotationDegrees = parentArrowData.Node.RotationDegrees;
     }
 
     public override void _Process(double delta)
     {
-        SetPosition(new Vector2(Position.X - Speed * (float)delta, Position.Y));
-
-        if (Position.X >= Bounds)
-            Loop();
+        Vector2 newPos = Position;
+        newPos.X =
+            (float)(
+                (-TimeKeeper.CurrentTime / TimeKeeper.LoopLength * TimeKeeper.ChartLength)
+                % TimeKeeper.ChartLength
+                / 2
+            ) + Bounds;
+        if (newPos.X > Position.X)
+        {
+            Visible = true;
+        }
+        Position = newPos;
     }
 
     public void NoteHit()
     {
-        Modulate = Colors.Transparent;
-    }
-
-    public override void Loop()
-    {
-        GD.Print("Queue Looped Note Here");
+        Visible = false;
     }
 }

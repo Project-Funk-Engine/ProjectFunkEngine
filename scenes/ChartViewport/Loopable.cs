@@ -7,6 +7,7 @@ using Godot;
  */
 public partial class Loopable : TextureRect
 {
+    [Export]
     public float Bounds = 700f; //px Pos to loop or do something at.
     public float Speed = 5; //px/s
 
@@ -15,12 +16,19 @@ public partial class Loopable : TextureRect
     {
         if (Position.X <= -Bounds)
         {
-            Loop();
+            //Loop();
         }
-        Position += Speed * Vector2.Left * (float)delta;
+        Vector2 newPos = Position;
+        newPos.X =
+            (float)(
+                (-TimeKeeper.CurrentTime / TimeKeeper.LoopLength * TimeKeeper.ChartLength)
+                % TimeKeeper.ChartLength
+                / 2
+            ) + Bounds;
+        Position = newPos;
     }
 
-    public virtual void Loop()
+    public void Loop()
     {
         Position = new Vector2(Bounds, Position.Y);
     }
