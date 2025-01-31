@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="Funk Engine"
-run/main_scene="res://scenes/ChartViewport/test_scene.tscn"
+run/main_scene="res://scenes/BattleDirector/test_battle_scene.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+TimeKeeper="*res://scripts/TimeKeeper.cs"
 
 [display]
 

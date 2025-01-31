@@ -18,25 +18,23 @@ size = Vector2i(480, 220)
 render_target_update_mode = 4
 
 [node name="Camera2D" type="Camera2D" parent="SubViewport"]
-position = Vector2(240, 110)
+position = Vector2(-25, 0)
+anchor_mode = 0
 
 [node name="ChartLoopables" type="CanvasGroup" parent="SubViewport"]
 unique_name_in_owner = true
 
 [node name="ChartBG1" type="TextureRect" parent="SubViewport/ChartLoopables"]
 modulate = Color(2, 2, 2, 1)
-offset_top = -46.0
 offset_right = 701.0
-offset_bottom = 254.0
+offset_bottom = 300.0
 texture = ExtResource("1_0wnka")
 script = ExtResource("3_5u57h")
 
 [node name="ChartBG2" type="TextureRect" parent="SubViewport/ChartLoopables"]
 modulate = Color(2, 2, 2, 1)
-offset_left = 700.0
-offset_top = -46.0
-offset_right = 1401.0
-offset_bottom = 254.0
+offset_right = 701.0
+offset_bottom = 300.0
 texture = ExtResource("1_0wnka")
 script = ExtResource("3_5u57h")
 

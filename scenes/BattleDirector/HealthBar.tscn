@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://bgomxovxs7sr8"]
+
+[ext_resource type="Script" path="res://scenes/BattleDirector/HealthBar.cs" id="1_b1t4i"]
+
+[node name="Control" type="Control" node_paths=PackedStringArray("PlayerHealthBar")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_b1t4i")
+PlayerHealthBar = NodePath("ProgressBar")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = 29.0
+offset_top = 18.0
+offset_right = 229.0
+offset_bottom = 45.0

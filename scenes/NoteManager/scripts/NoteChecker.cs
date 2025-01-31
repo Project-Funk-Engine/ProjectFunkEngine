@@ -7,11 +7,6 @@ public partial class NoteChecker : Sprite2D
     private Color _color;
     private float _fadeTime = 2.0f;
 
-    public override void _Ready()
-    {
-        //TODO: Something
-    }
-
     public override void _Process(double delta)
     {
         SelfModulate = _isPressed

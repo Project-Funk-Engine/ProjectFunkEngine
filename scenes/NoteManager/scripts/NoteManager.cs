@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Godot;
 using ArrowType = NoteArrow.ArrowType;
@@ -8,62 +9,55 @@ using ArrowType = NoteArrow.ArrowType;
  */
 public partial class NoteManager : Node2D
 {
-    //TODO: Put in a Global/Somewhere it makes sense
+    [Signal]
+    public delegate void NotePressedEventHandler(ArrowType arrowType);
+
+    [Signal]
+    public delegate void NoteReleasedEventHandler(ArrowType arrowType);
+
     public struct ArrowData
     {
         public Color Color;
         public string Key;
         public NoteChecker Node;
+        public ArrowType Type;
     }
 
-    public Dictionary<ArrowType, ArrowData> Arrows;
+    public ArrowData[] Arrows = new ArrowData[]
+    {
+        new ArrowData()
+        {
+            Color = Colors.Green,
+            Key = "arrowUp",
+            Type = ArrowType.Up,
+        },
+        new ArrowData()
+        {
+            Color = Colors.Aqua,
+            Key = "arrowDown",
+            Type = ArrowType.Down,
+        },
+        new ArrowData()
+        {
+            Color = Colors.HotPink,
+            Key = "arrowLeft",
+            Type = ArrowType.Left,
+        },
+        new ArrowData()
+        {
+            Color = Colors.Red,
+            Key = "arrowRight",
+            Type = ArrowType.Right,
+        },
+    };
 
     private void InitializeArrowCheckers()
     {
-        Arrows = new()
-        {
-            {
-                ArrowType.Up,
-                new ArrowData
-                {
-                    Color = Colors.Green,
-                    Key = "arrowUp",
-                    Node = GetNode<NoteChecker>("noteCheckers/arrowUp"),
-                }
-            },
-            {
-                ArrowType.Down,
-                new ArrowData
-                {
-                    Color = Colors.Aqua,
-                    Key = "arrowDown",
-                    Node = GetNode<NoteChecker>("noteCheckers/arrowDown"),
-                }
-            },
-            {
-                ArrowType.Left,
-                new ArrowData
-                {
-                    Color = Colors.HotPink,
-                    Key = "arrowLeft",
-                    Node = GetNode<NoteChecker>("noteCheckers/arrowLeft"),
-                }
-            },
-            {
-                ArrowType.Right,
-                new ArrowData
-                {
-                    Color = Colors.Red,
-                    Key = "arrowRight",
-                    Node = GetNode<NoteChecker>("noteCheckers/arrowRight"),
-                }
-            },
-        };
-
         //Set the color of the arrows
-        foreach (var arrow in Arrows)
+        for (int i = 0; i < Arrows.Length; i++)
         {
-            arrow.Value.Node.SetColor(arrow.Value.Color);
+            Arrows[i].Node = GetNode<NoteChecker>("noteCheckers/" + Arrows[i].Key);
+            Arrows[i].Node.SetColor(Arrows[i].Color);
         }
     }
 
@@ -76,13 +70,15 @@ public partial class NoteManager : Node2D
     {
         foreach (var arrow in Arrows)
         {
-            if (Input.IsActionJustPressed(arrow.Value.Key))
+            if (Input.IsActionJustPressed(arrow.Key))
             {
-                arrow.Value.Node.SetPressed(true);
+                EmitSignal(nameof(NotePressed), (int)arrow.Type);
+                arrow.Node.SetPressed(true);
             }
-            else if (Input.IsActionJustReleased(arrow.Value.Key))
+            else if (Input.IsActionJustReleased(arrow.Key))
             {
-                arrow.Value.Node.SetPressed(false);
+                EmitSignal(nameof(NoteReleased), (int)arrow.Type);
+                arrow.Node.SetPressed(false);
             }
         }
     }
