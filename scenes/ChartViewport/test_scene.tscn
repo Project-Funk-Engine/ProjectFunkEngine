@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://b0mrgr7h0ty1y"]
+[gd_scene load_steps=6 format=3 uid="uid://b0mrgr7h0ty1y"]
 
 [ext_resource type="PackedScene" uid="uid://dfevfib11kou1" path="res://scenes/ChartViewport/ChartViewport.tscn" id="1_1vh1u"]
 [ext_resource type="Script" path="res://scenes/ChartViewport/BattleDirector.cs" id="1_jbxt1"]
+[ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://scenes/HealthBar.tscn" id="2_1t4a4"]
+[ext_resource type="Script" path="res://scenes/ChartViewport/Player.cs" id="3_gtvac"]
+[ext_resource type="Script" path="res://scenes/ChartViewport/Enemy.cs" id="5_nkoeo"]
 
 [node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM", "NM")]
 script = ExtResource("1_jbxt1")
@@ -21,3 +24,21 @@ offset_top = -34.0
 offset_right = 673.0
 offset_bottom = 393.0
 color = Color(0.147672, 0.147672, 0.147672, 1)
+
+[node name="PlayerObject" type="Node2D" parent="." node_paths=PackedStringArray("PlayerHealthBar", "BattleDirectorInstance")]
+script = ExtResource("3_gtvac")
+PlayerHealthBar = NodePath("HP")
+BattleDirectorInstance = NodePath("..")
+
+[node name="HP" parent="PlayerObject" instance=ExtResource("2_1t4a4")]
+
+[node name="EnemyObject" type="Node2D" parent="." node_paths=PackedStringArray("EnemyHealthBar", "BattleDirectorInstance")]
+script = ExtResource("5_nkoeo")
+EnemyHealthBar = NodePath("EHP")
+BattleDirectorInstance = NodePath("..")
+
+[node name="EHP" parent="EnemyObject" instance=ExtResource("2_1t4a4")]
+offset_left = 403.0
+offset_top = -4.0
+offset_right = 443.0
+offset_bottom = 36.0

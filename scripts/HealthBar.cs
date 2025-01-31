@@ -1,12 +1,14 @@
-using Godot;
 using System;
+using Godot;
 
 public partial class HealthBar : Control
 {
-    const int MAX_HEALTH = 100; 
-    int health = MAX_HEALTH;
+    const int MaxHealth = 100;
+    int _health = MaxHealth;
 
-    [Export] public ProgressBar PlayerHealthBar;
+    [Export]
+    public ProgressBar PlayerHealthBar;
+
     //we can change this to a Texture Progress bar once we have art assets for it
 
 
@@ -16,34 +18,37 @@ public partial class HealthBar : Control
         if (PlayerHealthBar != null)
         {
             GD.Print("Player Health Bar");
-            PlayerHealthBar.MaxValue = MAX_HEALTH;
+            PlayerHealthBar.MaxValue = MaxHealth;
         }
+        //Connect(nameof(BattleDirector.PlayerDamage), new Callable(this ,nameof(PlayerDamage)));
+    }
+
+    public void SetHealth(int max, int current)
+    {
+        PlayerHealthBar.MaxValue = max;
+        PlayerHealthBar.Value = current;
     }
 
     private void _updateHealthBar()
     {
-        PlayerHealthBar.Value = health;
+        PlayerHealthBar.Value = _health;
     }
 
-    private void _takeDamage(int damage)
+    public void TakeDamage(int damage)
     {
-        health -= damage;
-        if (health <= 0)
+        _health -= damage;
+        GD.Print("Health: " + _health);
+        if (_health <= 0)
         {
-            GD.Print("We are dead");
+            GD.Print("You are dead");
         }
         _updateHealthBar();
     }
 
-    public override void _Input(InputEvent @event)
+    /*public override void _Input(InputEvent @event)
     {
         if(@event.IsActionPressed("ui_accept"))
                 _takeDamage(10);
           
-    }
-    
-    
-    
-    
-    
+    }*/
 }

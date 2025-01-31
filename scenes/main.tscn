@@ -1,21 +1,3 @@
-[gd_scene load_steps=2 format=3 uid="uid://diq2m6va1x52k"]
-
-[ext_resource type="Script" path="res://scripts/HealthBar.cs" id="1_37myi"]
+[gd_scene format=3 uid="uid://diq2m6va1x52k"]
 
 [node name="Main" type="Node2D"]
-
-[node name="Control" type="Control" parent="." node_paths=PackedStringArray("PlayerHealthBar")]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("1_37myi")
-PlayerHealthBar = NodePath("ProgressBar")
-
-[node name="ProgressBar" type="ProgressBar" parent="Control"]
-layout_mode = 0
-offset_left = 29.0
-offset_top = 18.0
-offset_right = 229.0
-offset_bottom = 45.0
-show_percentage = false
