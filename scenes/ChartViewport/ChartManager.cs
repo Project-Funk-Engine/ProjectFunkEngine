@@ -25,10 +25,8 @@ public partial class ChartManager : SubViewportContainer
     //Arbitrary vars, play with these
     private double ChartLength = 2400; //Might move this to be song specific?
 
-    //Speed that chart objs should move at, to be synced to song, in theory
-    private double _rateOfChart; //Speed objects should move at px/s
     private double _loopLen; //secs
-    public int _beatsPerLoop;
+    public int BeatsPerLoop;
 
     private NoteArrow[][] _currentArrows = new NoteArrow[][]
     {
@@ -44,15 +42,12 @@ public partial class ChartManager : SubViewportContainer
         int i = 0;
         foreach (Node child in ChartLoopables.GetChildren())
         {
-            if (child is Loopable)
-            {
-                Loopable loopable = (Loopable)child;
-                //TODO: Consolidate
-                loopable.SetSize(new Vector2((float)ChartLength / 2 + 1, Size.Y));
-                loopable.Bounds = (float)ChartLength / 2 * i;
-
-                i++;
-            }
+            if (child is not Loopable)
+                continue;
+            Loopable loopable = (Loopable)child;
+            loopable.SetSize(new Vector2((float)ChartLength / 2 + 1, Size.Y));
+            loopable.Bounds = (float)ChartLength / 2 * i;
+            i++;
         }
     }
 
@@ -66,7 +61,7 @@ public partial class ChartManager : SubViewportContainer
         foreach (Note noteData in notes) //Temporary solution
         {
             if (noteData != null)
-                CreateNote(noteData.Type, noteData.Beat + _beatsPerLoop);
+                CreateNote(noteData.Type, noteData.Beat + BeatsPerLoop);
         }
     }
 
@@ -74,11 +69,9 @@ public partial class ChartManager : SubViewportContainer
     {
         _loopLen = songData.SongLength / songData.NumLoops;
         TimeKeeper.LoopLength = (float)_loopLen;
-        _beatsPerLoop = (int)(_loopLen / (60f / songData.Bpm));
+        BeatsPerLoop = (int)(_loopLen / (60f / songData.Bpm));
         ChartLength = (float)_loopLen * (float)Math.Floor(ChartLength / _loopLen);
         TimeKeeper.ChartLength = (float)ChartLength;
-
-        _rateOfChart = ChartLength / 2 / _loopLen; //px/s
 
         InitBackgrounds();
         InitNotes(notes);
@@ -87,12 +80,11 @@ public partial class ChartManager : SubViewportContainer
         NM.Connect(nameof(NoteManager.NoteReleased), new Callable(this, nameof(OnNoteReleased)));
     }
 
-    //TODO: Rework these
+    //TODO: Rework these?
     public NoteArrow CreateNote(ArrowType arrow, int beat = 0)
     {
         var newNote = CreateNote(NM.Arrows[(int)arrow], beat);
-        newNote.Bounds = (float)((double)beat / _beatsPerLoop * (ChartLength / 2)); //eww
-        newNote.Position += Vector2.Right * newNote.Bounds;
+        newNote.Bounds = (float)((double)beat / BeatsPerLoop * (ChartLength / 2));
         return newNote;
     }
 
@@ -100,9 +92,9 @@ public partial class ChartManager : SubViewportContainer
     {
         var noteScene = ResourceLoader.Load<PackedScene>("res://scenes/NoteManager/note.tscn");
         NoteArrow note = noteScene.Instantiate<NoteArrow>();
-
         note.Init(arrowData);
-        if (!(beat > _beatsPerLoop))
+
+        if (!(beat > BeatsPerLoop)) //All visual notes need a second to loop effectively. The second set should not be put in the queue.
         {
             _currentArrows[(int)arrowData.Type] = _currentArrows[(int)arrowData.Type]
                 .Append(note)

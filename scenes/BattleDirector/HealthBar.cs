@@ -8,11 +8,9 @@ public partial class HealthBar : Control
 
     [Export]
     public ProgressBar PlayerHealthBar;
-
     //we can change this to a Texture Progress bar once we have art assets for it
 
-
-
+    
     public override void _Ready()
     {
         if (PlayerHealthBar != null)

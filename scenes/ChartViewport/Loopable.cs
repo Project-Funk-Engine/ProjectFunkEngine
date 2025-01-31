@@ -9,16 +9,12 @@ public partial class Loopable : TextureRect
 {
     [Export]
     public float Bounds = 700f; //px Pos to loop or do something at.
-    public float Speed = 5; //px/s
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-        if (Position.X <= -Bounds)
-        {
-            //Loop();
-        }
         Vector2 newPos = Position;
+        //Loop position over the course of time across a loop
         newPos.X =
             (float)(
                 (-TimeKeeper.CurrentTime / TimeKeeper.LoopLength * TimeKeeper.ChartLength)
@@ -26,10 +22,5 @@ public partial class Loopable : TextureRect
                 / 2
             ) + Bounds;
         Position = newPos;
-    }
-
-    public void Loop()
-    {
-        Position = new Vector2(Bounds, Position.Y);
     }
 }

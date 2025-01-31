@@ -15,7 +15,6 @@ public partial class NoteManager : Node2D
     [Signal]
     public delegate void NoteReleasedEventHandler(ArrowType arrowType);
 
-    //TODO: Put in a Global/Somewhere it makes sense
     public struct ArrowData
     {
         public Color Color;

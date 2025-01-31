@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bgomxovxs7sr8"]
 
-[ext_resource type="Script" path="res://scripts/HealthBar.cs" id="1_b1t4i"]
+[ext_resource type="Script" path="res://scenes/BattleDirector/HealthBar.cs" id="1_b1t4i"]
 
 [node name="Control" type="Control" node_paths=PackedStringArray("PlayerHealthBar")]
 layout_mode = 3

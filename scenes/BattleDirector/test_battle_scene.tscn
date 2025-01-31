@@ -1,15 +1,15 @@
 [gd_scene load_steps=4 format=3 uid="uid://b0mrgr7h0ty1y"]
 
-[ext_resource type="PackedScene" uid="uid://dfevfib11kou1" path="res://scenes/ChartViewport/ChartViewport.tscn" id="1_1vh1u"]
-[ext_resource type="Script" path="res://scenes/ChartViewport/BattleDirector.cs" id="1_jbxt1"]
-[ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://scenes/HealthBar.tscn" id="2_1t4a4"]
+[ext_resource type="Script" path="res://scenes/BattleDirector/BattleDirector.cs" id="1_cwqqr"]
+[ext_resource type="PackedScene" uid="uid://dfevfib11kou1" path="res://scenes/ChartViewport/ChartViewport.tscn" id="2_cupb3"]
+[ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://scenes/BattleDirector/HealthBar.tscn" id="3_pp0u0"]
 
 [node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM", "NM")]
-script = ExtResource("1_jbxt1")
+script = ExtResource("1_cwqqr")
 CM = NodePath("SubViewport")
 NM = NodePath("SubViewport/SubViewport/noteManager")
 
-[node name="SubViewport" parent="." instance=ExtResource("1_1vh1u")]
+[node name="SubViewport" parent="." instance=ExtResource("2_cupb3")]
 offset_left = 80.0
 offset_top = 140.0
 offset_right = 560.0
@@ -23,9 +23,9 @@ offset_right = 673.0
 offset_bottom = 393.0
 color = Color(0.147672, 0.147672, 0.147672, 1)
 
-[node name="PlayerHP" parent="." instance=ExtResource("2_1t4a4")]
+[node name="PlayerHP" parent="." instance=ExtResource("3_pp0u0")]
 
-[node name="EnemyHP" parent="." instance=ExtResource("2_1t4a4")]
+[node name="EnemyHP" parent="." instance=ExtResource("3_pp0u0")]
 offset_left = 403.0
 offset_top = -4.0
 offset_right = 443.0

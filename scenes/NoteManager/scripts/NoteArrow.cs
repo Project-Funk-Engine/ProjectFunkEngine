@@ -5,7 +5,7 @@ using Godot;
  * @brief This class represents a visual note that scrolls across the screen to be played by the player. WIP
  */
 public partial class NoteArrow : Sprite2D
-{ //TextRect makes it easier to resize to something specific, but could cause issues later. :)
+{ //TextRect caused issues later :)
     public enum ArrowType
     {
         Up = 0,
