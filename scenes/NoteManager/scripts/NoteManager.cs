@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Godot;
 using ArrowType = NoteArrow.ArrowType;
@@ -9,6 +10,12 @@ using ArrowType = NoteArrow.ArrowType;
 public partial class NoteManager : Node2D
 {
     //TODO: Put in a Global/Somewhere it makes sense
+    [Signal]
+    public delegate void NotePressedEventHandler(ArrowType arrowType);
+
+    [Signal]
+    public delegate void NoteReleasedEventHandler(ArrowType arrowType);
+
     public struct ArrowData
     {
         public Color Color;
@@ -79,10 +86,13 @@ public partial class NoteManager : Node2D
             if (Input.IsActionJustPressed(arrow.Value.Key))
             {
                 arrow.Value.Node.SetPressed(true);
+                GD.Print(arrow.Value.Key);
+                EmitSignal(nameof(NotePressed), arrow.Value.Key);
             }
             else if (Input.IsActionJustReleased(arrow.Value.Key))
             {
                 arrow.Value.Node.SetPressed(false);
+                EmitSignal(nameof(NoteReleased), arrow.Value.Key);
             }
         }
     }

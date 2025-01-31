@@ -38,7 +38,7 @@ public partial class NoteArrow : Loopable
 
     public void NoteHit()
     {
-        Visible = false;
+        Modulate = Colors.Transparent;
     }
 
     public override void Loop()

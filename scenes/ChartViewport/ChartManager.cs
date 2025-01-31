@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Godot;
 using ArrowType = NoteArrow.ArrowType;
 
@@ -44,12 +45,15 @@ public partial class ChartManager : SubViewportContainer
     public BattleDirector.SongData SongData; //TODO: Maybe. Make settable from outside, but readonly
 
     //Arbitrary vars, play with these
-    private const double ChartLength = 1400; //Might move this to be song specific?
+    private const double ChartLength = 2800; //Might move this to be song specific?
 
     //Speed that chart objs should move at, to be synced to song, in theory
     private double _rateOfChart;
     private double _loopLen; //secs
     private int _beatsPerLoop;
+
+    //TODO: Lanes
+    private NoteArrow[] _currentArrows = Array.Empty<NoteArrow>();
 
     private void InitBackgrounds()
     {
@@ -75,7 +79,8 @@ public partial class ChartManager : SubViewportContainer
     {
         foreach (Note noteData in notes)
         {
-            CreateNote(noteData.Type, noteData.Beat);
+            if (noteData != null)
+                CreateNote(noteData.Type, noteData.Beat);
         }
     }
 
@@ -86,7 +91,7 @@ public partial class ChartManager : SubViewportContainer
         _loopLen = SongData.SongLength / SongData.NumLoops;
         _beatsPerLoop = (int)(_loopLen / (60f / SongData.Bpm));
 
-        _rateOfChart = 700 / _loopLen; //px/s
+        _rateOfChart = ChartLength / 2 / _loopLen; //px/s
 
         InitBackgrounds();
         InitNotes(notes);
@@ -105,12 +110,18 @@ public partial class ChartManager : SubViewportContainer
     private NoteArrow CreateNote(NoteManager.ArrowData arrowData)
     {
         var noteScene = ResourceLoader.Load<PackedScene>("res://scenes/NoteManager/note.tscn");
-        var note = noteScene.Instantiate<NoteArrow>();
+        NoteArrow note = noteScene.Instantiate<NoteArrow>();
 
         note.Init(arrowData, (float)_rateOfChart, -1);
-
+        _currentArrows = _currentArrows.Append(note).ToArray();
         ChartLoopables.AddChild(note);
         return note;
+    }
+
+    public void TriggerArrow()
+    {
+        _currentArrows.First().NoteHit();
+        _currentArrows = _currentArrows.Skip(1).ToArray();
     }
 
     //TODO: Queue next notes. Needs Timing System
