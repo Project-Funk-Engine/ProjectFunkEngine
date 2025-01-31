@@ -6,8 +6,6 @@ public partial class Player : Node2D
     [Export]
     public HealthBar PlayerHealthBar;
 
-    [Export]
-    public BattleDirector BattleDirectorInstance;
     private int _playerHealthMax = 100;
     private int _playerHealth = 100;
 
@@ -17,17 +15,9 @@ public partial class Player : Node2D
         {
             PlayerHealthBar.SetHealth(_playerHealthMax, _playerHealth);
         }
-
-        if (BattleDirectorInstance != null)
-        {
-            BattleDirectorInstance.Connect(
-                (nameof(BattleDirectorInstance.PlayerDamage)),
-                new Callable(this, nameof(PlayerTakeDamage))
-            );
-        }
     }
 
-    private void PlayerTakeDamage(int damage)
+    public void PlayerTakeDamage(int damage)
     {
         GD.Print("Player taking damage: " + damage);
         PlayerHealthBar.TakeDamage(damage);
