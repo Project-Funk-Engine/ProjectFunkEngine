@@ -16,8 +16,8 @@ public partial class BattleDirector : Node2D
     [Export]
     public NoteManager NM;
 
-    private Player Player;
-    private Enemy Enemy;
+    private HealthBar Player;
+    private HealthBar Enemy;
 
     private double _timingInterval = .1; //secs
 
@@ -49,8 +49,8 @@ public partial class BattleDirector : Node2D
         AddExampleNote();
         CM.PrepChart(_curSong, _notes);
 
-        Player = GetNode<Player>("PlayerObject");
-        Enemy = GetNode<Enemy>("EnemyObject");
+        Player = GetNode<HealthBar>("PlayerHP");
+        Enemy = GetNode<HealthBar>("EnemyHP");
 
         //TODO: Hook up signals
         CM.Connect(nameof(NoteManager.NotePressed), new Callable(this, nameof(OnNotePressed)));
@@ -73,7 +73,7 @@ public partial class BattleDirector : Node2D
                     //Cycle note queue
                     _laneNotes[i].First().Beat += CM._beatsPerLoop;
                     _laneNotes[i] = _laneNotes[i].Skip(1).Concat(_laneNotes[i].Take(1)).ToArray(); //TODO: No stackoverflow code
-                    Player.PlayerTakeDamage(10);
+                    Player.TakeDamage(10);
                     CM.HandleNote((NoteArrow.ArrowType)i);
                 }
             }
@@ -141,22 +141,22 @@ public partial class BattleDirector : Node2D
         if (beatDif < _timingInterval * 2)
         {
             GD.Print("Perfect");
-            Enemy.EnemyTakeDamage(10);
+            Enemy.TakeDamage(10);
         }
         else if (beatDif < _timingInterval * 4)
         {
             GD.Print("Good");
-            Enemy.EnemyTakeDamage(5);
+            Enemy.TakeDamage(5);
         }
         else if (beatDif < _timingInterval * 6)
         {
             GD.Print("Okay");
-            Enemy.EnemyTakeDamage(1);
+            Enemy.TakeDamage(1);
         }
         else
         {
             GD.Print("Miss");
-            Player.PlayerTakeDamage(10);
+            Player.TakeDamage(10);
         }
     }
 }

@@ -17,16 +17,15 @@ public partial class HealthBar : Control
     {
         if (PlayerHealthBar != null)
         {
-            GD.Print("Player Health Bar");
-            PlayerHealthBar.MaxValue = MaxHealth;
+            SetHealth(MaxHealth, MaxHealth);
         }
-        //Connect(nameof(BattleDirector.PlayerDamage), new Callable(this ,nameof(PlayerDamage)));
     }
 
     public void SetHealth(int max, int current)
     {
         PlayerHealthBar.MaxValue = max;
         PlayerHealthBar.Value = current;
+        _updateHealthBar();
     }
 
     private void _updateHealthBar()
@@ -37,18 +36,10 @@ public partial class HealthBar : Control
     public void TakeDamage(int damage)
     {
         _health -= damage;
-        GD.Print("Health: " + _health);
         if (_health <= 0)
         {
             GD.Print("You are dead");
         }
         _updateHealthBar();
     }
-
-    /*public override void _Input(InputEvent @event)
-    {
-        if(@event.IsActionPressed("ui_accept"))
-                _takeDamage(10);
-          
-    }*/
 }
