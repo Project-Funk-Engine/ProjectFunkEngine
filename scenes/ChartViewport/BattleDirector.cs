@@ -18,6 +18,12 @@ public partial class BattleDirector : Node2D
 
     private double _timingInterval = .1; //secs
 
+    [Signal]
+    public delegate void PlayerDamageEventHandler(int damage);
+
+    [Signal]
+    public delegate void EnemyDamageEventHandler(int damage);
+
     public struct SongData
     {
         public int Bpm;
@@ -128,18 +134,22 @@ public partial class BattleDirector : Node2D
         if (beatDif < _timingInterval * 2)
         {
             GD.Print("Perfect");
+            EmitSignal(nameof(EnemyDamage), 10);
         }
         else if (beatDif < _timingInterval * 4)
         {
             GD.Print("Good");
+            EmitSignal(nameof(EnemyDamage), 5);
         }
         else if (beatDif < _timingInterval * 6)
         {
             GD.Print("Okay");
+            EmitSignal(nameof(EnemyDamage), 1);
         }
         else
         {
             GD.Print("Miss");
+            EmitSignal(nameof(PlayerDamage), 10);
         }
     }
 }
