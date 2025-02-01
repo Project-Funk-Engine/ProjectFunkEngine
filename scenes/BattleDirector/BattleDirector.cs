@@ -35,6 +35,7 @@ public partial class BattleDirector : Node2D
     }
 
     private SongData _curSong;
+
     //Assume queue structure for notes in each lane.
     private readonly Note[][] _laneNotes = new Note[][]
     {
@@ -64,7 +65,8 @@ public partial class BattleDirector : Node2D
         double curBeat = TimeKeeper.CurrentTime / (60 / (double)_curSong.Bpm);
         for (int i = 0; i < _laneNotes.Length; i++)
         {
-            if (_laneNotes[i].Length <= 0) continue;
+            if (_laneNotes[i].Length <= 0)
+                continue;
             double beatDif = (curBeat - _laneNotes[i].First().Beat);
             if (beatDif > 1)
             {
@@ -105,9 +107,7 @@ public partial class BattleDirector : Node2D
         CheckNoteTiming(type);
     }
 
-    private void OnNoteReleased(NoteArrow.ArrowType arrowType)
-    {
-    }
+    private void OnNoteReleased(NoteArrow.ArrowType arrowType) { }
 
     private void handleTiming(NoteArrow.ArrowType type, double beatDif)
     {
@@ -144,12 +144,28 @@ public partial class BattleDirector : Node2D
     {
         double curBeat = TimeKeeper.CurrentTime / (60 / (double)_curSong.Bpm);
         if (_laneNotes[(int)type].Length == 0)
+        {
+            PlayerAddNote(type, (int)curBeat, 100); // 100 is temp, replace with current combo
             return;
+        }
         double beatDif = Math.Abs(curBeat - _laneNotes[(int)type].First().Beat);
         if (beatDif > 1)
+        {
+            PlayerAddNote(type, (int)curBeat, 100); // 100 is temp, replace with current combo
             return;
+        }
         GD.Print("Note Hit. Dif: " + beatDif);
         CM.HandleNote(type);
         handleTiming(type, beatDif);
+    }
+
+    private void PlayerAddNote(NoteArrow.ArrowType type, int beat, int currentCombo)
+    {
+        // can also add some sort of keybind here to also have pressed
+        // in case the user just presses the note too early and spawns a note
+        if (currentCombo >= 100)
+        {
+            CM.CreateNote(type, beat);
+        }
     }
 }
