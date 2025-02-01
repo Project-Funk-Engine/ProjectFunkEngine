@@ -27,18 +27,14 @@ public partial class ChartManager : SubViewportContainer
     private double _loopLen; //secs
     public int BeatsPerLoop;
 
-    private void InitBackgrounds()
+    public void OnNotePressed(ArrowType type)
     {
-        int i = 0;
-        foreach (Node child in ChartLoopables.GetChildren())
-        {
-            if (child is not Loopable)
-                continue;
-            Loopable loopable = (Loopable)child;
-            loopable.SetSize(new Vector2((float)ChartLength / 2 + 1, Size.Y));
-            loopable.Bounds = (float)ChartLength / 2 * i;
-            i++;
-        }
+        EmitSignal(nameof(NotePressed), (int)type);
+    }
+
+    public void OnNoteReleased(ArrowType type)
+    {
+        EmitSignal(nameof(NoteReleased), (int)type);
     }
 
     public void PrepChart(BattleDirector.SongData songData)
@@ -53,6 +49,20 @@ public partial class ChartManager : SubViewportContainer
 
         IH.Connect(nameof(InputHandler.NotePressed), new Callable(this, nameof(OnNotePressed)));
         IH.Connect(nameof(InputHandler.NoteReleased), new Callable(this, nameof(OnNoteReleased)));
+    }
+
+    private void InitBackgrounds()
+    {
+        int i = 0;
+        foreach (Node child in ChartLoopables.GetChildren())
+        {
+            if (child is not Loopable)
+                continue;
+            Loopable loopable = (Loopable)child;
+            loopable.SetSize(new Vector2((float)ChartLength / 2 + 1, Size.Y));
+            loopable.Bounds = (float)ChartLength / 2 * i;
+            i++;
+        }
     }
 
     //TODO: Rework these?
@@ -78,15 +88,5 @@ public partial class ChartManager : SubViewportContainer
         note.Init(arrowData);
         ChartLoopables.AddChild(note);
         return note;
-    }
-
-    public void OnNotePressed(ArrowType type)
-    {
-        EmitSignal(nameof(NotePressed), (int)type);
-    }
-
-    public void OnNoteReleased(ArrowType type)
-    {
-        EmitSignal(nameof(NoteReleased), (int)type);
     }
 }

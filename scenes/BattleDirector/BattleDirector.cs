@@ -10,6 +10,7 @@ using Godot;
  */
 public partial class BattleDirector : Node2D
 {
+    #region Declarations
     private HealthBar Player;
     private HealthBar Enemy;
     
@@ -37,7 +38,9 @@ public partial class BattleDirector : Node2D
         public double SongLength;
         public int NumLoops;
     }
+    #endregion
 
+    #region Note Handling
     //Assume queue structure for notes in each lane.
     //Can eventually make this its own structure
     private readonly NoteArrow[][] _laneData = new NoteArrow[][]
@@ -72,6 +75,36 @@ public partial class BattleDirector : Node2D
         return _notes[arrow.NoteIdx];
     }
 
+    private bool AddNoteToLane(Note note)
+    {
+        //Don't add dupe notes
+        if (_notes.Any(nt => nt.Type == note.Type && nt.Beat == note.Beat))
+        {
+            return false;
+        }
+        _notes = _notes.Append(note).ToArray();
+        //Get noteArrow from CM
+        var arrow = CM.AddArrowToLane(note, _notes.Length - 1);
+        _laneData[(int)note.Type] = _laneData[(int)note.Type].Append(arrow).ToArray();
+        return true;
+    }
+    #endregion
+
+    //Creeate dummy notes
+    private void AddExampleNote()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            Note exampleNote = new Note(NoteArrow.ArrowType.Up, i + 3);
+            AddNoteToLane(exampleNote);
+        }
+        for (int i = 0; i < 1; i++)
+        {
+            Note exampleNote = new Note(NoteArrow.ArrowType.Left, i + 4);
+            AddNoteToLane(exampleNote);
+        }
+    }
+
     public override void _Ready()
     {
         _curSong = new SongData
@@ -97,34 +130,7 @@ public partial class BattleDirector : Node2D
         CheckMiss();
     }
 
-    //Creeate dummy notes
-    private void AddExampleNote()
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            Note exampleNote = new Note(NoteArrow.ArrowType.Up, i + 3);
-            AddNoteToLane(exampleNote);
-        }
-        for (int i = 0; i < 1; i++)
-        {
-            Note exampleNote = new Note(NoteArrow.ArrowType.Left, i + 4);
-            AddNoteToLane(exampleNote);
-        }
-    }
-
-    private bool AddNoteToLane(Note note)
-    {
-        //Don't add dupe notes
-        if (_notes.Any(nt => nt.Type == note.Type && nt.Beat == note.Beat))
-        {
-            return false;
-        }
-        _notes = _notes.Append(note).ToArray();
-        //Get noteArrow from CM
-        var arrow = CM.AddArrowToLane(note, _notes.Length - 1);
-        _laneData[(int)note.Type] = _laneData[(int)note.Type].Append(arrow).ToArray();
-        return true;
-    }
+    #region Input
 
     private void OnNotePressed(NoteArrow.ArrowType type)
     {
@@ -147,6 +153,19 @@ public partial class BattleDirector : Node2D
                 HandleTiming((NoteArrow.ArrowType)i, Math.Abs(beatDif));
             }
         }
+    }
+
+    private void CheckNoteTiming(NoteArrow.ArrowType type)
+    {
+        double curBeat = TimeKeeper.CurrentTime / (60 / (double)_curSong.Bpm);
+        if (_laneData[(int)type].Length == 0)
+            return;
+        double beatDif = Math.Abs(curBeat - GetFirstNote(type).Beat);
+        if (beatDif > 1)
+            return;
+        GD.Print("Note Hit. Dif: " + beatDif);
+        _laneData[(int)type].First().NoteHit();
+        HandleTiming(type, beatDif);
     }
 
     private void HandleTiming(NoteArrow.ArrowType type, double beatDif)
@@ -179,25 +198,7 @@ public partial class BattleDirector : Node2D
             NotePlacementBar.MissNote();
         }
     }
-
-    private void CheckNoteTiming(NoteArrow.ArrowType type)
-    {
-        double curBeat = TimeKeeper.CurrentTime / (60 / (double)_curSong.Bpm);
-        if (_laneData[(int)type].Length == 0)
-        {
-            PlayerAddNote(type, (int)curBeat);
-            return;
-        }
-        double beatDif = Math.Abs(curBeat - GetFirstNote(type).Beat);
-        if (beatDif > 1)
-        {
-            PlayerAddNote(type, (int)curBeat);
-            return;
-        }
-        GD.Print("Note Hit. Dif: " + beatDif);
-        _laneData[(int)type].First().NoteHit();
-        HandleTiming(type, beatDif);
-    }
+    #endregion
 
     private void PlayerAddNote(NoteArrow.ArrowType type, int beat)
     {
