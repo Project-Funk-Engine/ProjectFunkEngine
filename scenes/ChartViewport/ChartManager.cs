@@ -65,7 +65,6 @@ public partial class ChartManager : SubViewportContainer
         }
     }
 
-    //TODO: Rework these?
     public NoteArrow AddArrowToLane(Note note, int noteIdx)
     {
         var newNote = CreateNote(note.Type, note.Beat);
@@ -76,17 +75,12 @@ public partial class ChartManager : SubViewportContainer
 
     private NoteArrow CreateNote(ArrowType arrow, int beat = 0)
     {
-        var newNote = CreateNote(IH.Arrows[(int)arrow]);
-        newNote.Bounds = (float)((double)beat / BeatsPerLoop * (ChartLength / 2));
-        return newNote;
-    }
-
-    private NoteArrow CreateNote(InputHandler.ArrowData arrowData)
-    {
         var noteScene = ResourceLoader.Load<PackedScene>("res://scenes/NoteManager/note.tscn");
-        NoteArrow note = noteScene.Instantiate<NoteArrow>();
-        note.Init(arrowData);
-        ChartLoopables.AddChild(note);
-        return note;
+        NoteArrow newArrow = noteScene.Instantiate<NoteArrow>();
+        newArrow.Init(IH.Arrows[(int)arrow]);
+
+        ChartLoopables.AddChild(newArrow);
+        newArrow.Bounds = (float)((double)beat / BeatsPerLoop * (ChartLength / 2));
+        return newArrow;
     }
 }
