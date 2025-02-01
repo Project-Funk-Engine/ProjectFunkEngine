@@ -11,7 +11,7 @@ public partial class ChartManager : SubViewportContainer
 {
     //Nodes from scene
     [Export]
-    public NoteManager NM;
+    public InputHandler IH;
 
     [Export]
     public CanvasGroup ChartLoopables;
@@ -24,21 +24,11 @@ public partial class ChartManager : SubViewportContainer
 
     //Arbitrary vars, play with these
     private double ChartLength = 2400; //Might move this to be song specific?
-
     private double _loopLen; //secs
     public int BeatsPerLoop;
 
-    private NoteArrow[][] _currentArrows = new NoteArrow[][]
-    {
-        Array.Empty<NoteArrow>(),
-        Array.Empty<NoteArrow>(),
-        Array.Empty<NoteArrow>(),
-        Array.Empty<NoteArrow>(),
-    };
-
     private void InitBackgrounds()
     {
-        //TODO: Get better visual for BG's
         int i = 0;
         foreach (Node child in ChartLoopables.GetChildren())
         {
@@ -51,21 +41,7 @@ public partial class ChartManager : SubViewportContainer
         }
     }
 
-    private void InitNotes(Note[] notes)
-    {
-        foreach (Note noteData in notes)
-        {
-            if (noteData != null)
-                CreateNote(noteData.Type, noteData.Beat);
-        }
-        foreach (Note noteData in notes) //Temporary solution
-        {
-            if (noteData != null)
-                CreateNote(noteData.Type, noteData.Beat + BeatsPerLoop);
-        }
-    }
-
-    public void PrepChart(BattleDirector.SongData songData, Note[] notes)
+    public void PrepChart(BattleDirector.SongData songData)
     {
         _loopLen = songData.SongLength / songData.NumLoops;
         TimeKeeper.LoopLength = (float)_loopLen;
@@ -74,56 +50,38 @@ public partial class ChartManager : SubViewportContainer
         TimeKeeper.ChartLength = (float)ChartLength;
 
         InitBackgrounds();
-        InitNotes(notes);
 
-        NM.Connect(nameof(NoteManager.NotePressed), new Callable(this, nameof(OnNotePressed)));
-        NM.Connect(nameof(NoteManager.NoteReleased), new Callable(this, nameof(OnNoteReleased)));
+        IH.Connect(nameof(InputHandler.NotePressed), new Callable(this, nameof(OnNotePressed)));
+        IH.Connect(nameof(InputHandler.NoteReleased), new Callable(this, nameof(OnNoteReleased)));
     }
 
     //TODO: Rework these?
-    public NoteArrow CreateNote(ArrowType arrow, int beat = 0)
+    public NoteArrow AddArrowToLane(Note note, int noteIdx)
     {
-        var newNote = CreateNote(NM.Arrows[(int)arrow], beat);
+        var newNote = CreateNote(note.Type, note.Beat);
+        CreateNote(note.Type, note.Beat + BeatsPerLoop); //Create a dummy arrow for looping visuals
+        newNote.NoteIdx = noteIdx;
+        return newNote;
+    }
+
+    private NoteArrow CreateNote(ArrowType arrow, int beat = 0)
+    {
+        var newNote = CreateNote(IH.Arrows[(int)arrow]);
         newNote.Bounds = (float)((double)beat / BeatsPerLoop * (ChartLength / 2));
         return newNote;
     }
 
-    private NoteArrow CreateNote(NoteManager.ArrowData arrowData, int beat)
+    private NoteArrow CreateNote(InputHandler.ArrowData arrowData)
     {
         var noteScene = ResourceLoader.Load<PackedScene>("res://scenes/NoteManager/note.tscn");
         NoteArrow note = noteScene.Instantiate<NoteArrow>();
         note.Init(arrowData);
-
-        if (!(beat > BeatsPerLoop)) //All visual notes need a second to loop effectively. The second set should not be put in the queue.
-        {
-            _currentArrows[(int)arrowData.Type] = _currentArrows[(int)arrowData.Type]
-                .Append(note)
-                .ToArray();
-        }
         ChartLoopables.AddChild(note);
-        GD.Print(
-            $"Adding note: {arrowData.Type}, Current count: {_currentArrows[(int)arrowData.Type].Length}"
-        );
         return note;
-    }
-
-    public void HandleNote(ArrowType type)
-    {
-        _currentArrows[(int)type].First().NoteHit();
-        _currentArrows[(int)type] = _currentArrows[(int)type]
-            .Skip(1)
-            .Concat(_currentArrows[(int)type].Take(1))
-            .ToArray();
     }
 
     public void OnNotePressed(ArrowType type)
     {
-        // removed this bit of code, since placement only worked on lines that already
-        // had arrows before the player added any. if needed we can add this back
-        // once we use charts that have arrows in all 4 rows from the beginning
-        //if (_currentArrows[(int)type].Length == 0)
-        //return;
-
         EmitSignal(nameof(NotePressed), (int)type);
     }
 

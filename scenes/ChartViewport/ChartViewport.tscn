@@ -5,11 +5,11 @@
 [ext_resource type="Script" path="res://scenes/ChartViewport/Loopable.cs" id="3_5u57h"]
 [ext_resource type="PackedScene" uid="uid://bn8txx53xlguw" path="res://scenes/NoteManager/note_manager.tscn" id="4_fd5fw"]
 
-[node name="VPContainer" type="SubViewportContainer" node_paths=PackedStringArray("NM", "ChartLoopables")]
+[node name="VPContainer" type="SubViewportContainer" node_paths=PackedStringArray("IH", "ChartLoopables")]
 offset_right = 480.0
 offset_bottom = 220.0
 script = ExtResource("1_ruh2l")
-NM = NodePath("SubViewport/noteManager")
+IH = NodePath("SubViewport/noteManager")
 ChartLoopables = NodePath("SubViewport/ChartLoopables")
 
 [node name="SubViewport" type="SubViewport" parent="."]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bn8txx53xlguw"]
 
-[ext_resource type="Script" path="res://scenes/NoteManager/scripts/NoteManager.cs" id="1_2oeuf"]
+[ext_resource type="Script" path="res://scenes/NoteManager/scripts/InputHandler.cs" id="1_2oeuf"]
 [ext_resource type="Texture2D" uid="uid://bucvj4fquqpkr" path="res://scenes/NoteManager/assets/right-arrow.png" id="2_ldmuy"]
 [ext_resource type="Script" path="res://scenes/NoteManager/scripts/NoteChecker.cs" id="3_0cioe"]
 [ext_resource type="Texture2D" uid="uid://b0tvsewgnf2x7" path="res://icon.svg" id="4_foklt"]

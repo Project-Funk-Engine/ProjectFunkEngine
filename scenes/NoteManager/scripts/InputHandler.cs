@@ -4,10 +4,10 @@ using Godot;
 using ArrowType = NoteArrow.ArrowType;
 
 /**
- * @class NoteManager
- * @brief Note Manager to handle input, timing and lower level data processing for notes. Should signal timing info to Battle Director for HP management. WIP
+ * @class InputHandler
+ * @brief InputHandler to handle input, and manage note checkers. WIP
  */
-public partial class NoteManager : Node2D
+public partial class InputHandler : Node2D
 {
     [Signal]
     public delegate void NotePressedEventHandler(ArrowType arrowType);

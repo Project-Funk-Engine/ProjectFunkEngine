@@ -1,5 +1,5 @@
 using System;
 using Godot;
-using static NoteManager;
+using static InputHandler;
 
 public partial class Main : Node2D { }

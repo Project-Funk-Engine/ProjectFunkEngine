@@ -14,9 +14,10 @@ public partial class NoteArrow : Sprite2D
         Right = 3,
     }
 
+    public int NoteIdx;
     public float Bounds;
 
-    public void Init(NoteManager.ArrowData parentArrowData)
+    public void Init(InputHandler.ArrowData parentArrowData)
     {
         ZIndex = 1;
 
