@@ -20,6 +20,7 @@ public partial class BattleDirector : Node2D
     [Export]
     public InputHandler IH;
 
+    [Export]
     private NotePlacementBar NotePlacementBar;
 
     private double _timingInterval = .1; //secs
@@ -118,7 +119,6 @@ public partial class BattleDirector : Node2D
 
         Player = GetNode<HealthBar>("PlayerHP");
         Enemy = GetNode<HealthBar>("EnemyHP");
-        NotePlacementBar = GetNode<NotePlacementBar>("NotePlacementBar");
 
         CM.Connect(nameof(InputHandler.NotePressed), new Callable(this, nameof(OnNotePressed)));
         CM.Connect(nameof(InputHandler.NoteReleased), new Callable(this, nameof(OnNoteReleased)));
@@ -130,8 +130,7 @@ public partial class BattleDirector : Node2D
         CheckMiss();
     }
 
-    #region Input
-
+    #region Input&Timing
     private void OnNotePressed(NoteArrow.ArrowType type)
     {
         CheckNoteTiming(type);
@@ -142,14 +141,15 @@ public partial class BattleDirector : Node2D
     //Check all lanes for misses from missed inputs
     private void CheckMiss()
     {
-        double curBeat = TimeKeeper.CurrentTime / (60 / (double)_curSong.Bpm);
+        double curBeat = TimeKeeper.CurrentTime / (60 / (double)_curSong.Bpm) % CM.BeatsPerLoop;
         for (int i = 0; i < _laneData.Length; i++)
         {
             if (_laneData[i].Length <= 0)
                 continue;
             double beatDif = (curBeat - GetFirstNote((NoteArrow.ArrowType)i).Beat);
-            if (beatDif > 1)
+            if (beatDif > 1 && _laneData[i].First().Visible) //Can change, currently using visible as a stand in for already activated.
             {
+                _laneData[i].First().NoteHit();
                 HandleTiming((NoteArrow.ArrowType)i, Math.Abs(beatDif));
             }
         }
@@ -157,7 +157,7 @@ public partial class BattleDirector : Node2D
 
     private void CheckNoteTiming(NoteArrow.ArrowType type)
     {
-        double curBeat = TimeKeeper.CurrentTime / (60 / (double)_curSong.Bpm);
+        double curBeat = TimeKeeper.CurrentTime / (60 / (double)_curSong.Bpm) % CM.BeatsPerLoop;
         if (_laneData[(int)type].Length == 0)
             return;
         double beatDif = Math.Abs(curBeat - GetFirstNote(type).Beat);
@@ -170,9 +170,7 @@ public partial class BattleDirector : Node2D
 
     private void HandleTiming(NoteArrow.ArrowType type, double beatDif)
     {
-        //Cycle note queue
-        CycleNote(type).Beat += CM.BeatsPerLoop;
-        //Do timing stuff
+        CycleNote(type);
         if (beatDif < _timingInterval * 2)
         {
             GD.Print("Perfect");

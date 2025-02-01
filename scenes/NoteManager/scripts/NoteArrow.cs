@@ -37,9 +37,14 @@ public partial class NoteArrow : Sprite2D
             ) + Bounds;
         if (newPos.X > Position.X)
         {
-            Visible = true;
+            OnLoop();
         }
         Position = newPos;
+    }
+
+    public void OnLoop()
+    {
+        Visible = true;
     }
 
     public void NoteHit()
