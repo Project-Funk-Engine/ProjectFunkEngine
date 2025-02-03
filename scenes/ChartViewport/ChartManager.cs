@@ -16,6 +16,8 @@ public partial class ChartManager : SubViewportContainer
     [Export]
     public CanvasGroup ChartLoopables;
 
+    private Node _arrowGroup;
+
     [Signal]
     public delegate void NotePressedEventHandler(ArrowType arrowType);
 
@@ -47,9 +49,29 @@ public partial class ChartManager : SubViewportContainer
         TimeKeeper.Bpm = songData.Bpm;
 
         InitBackgrounds();
+        _arrowGroup = ChartLoopables.GetNode<Node>("ArrowGroup");
 
         IH.Connect(nameof(InputHandler.NotePressed), new Callable(this, nameof(OnNotePressed)));
         IH.Connect(nameof(InputHandler.NoteReleased), new Callable(this, nameof(OnNoteReleased)));
+
+        //This could be good as a function to call on something, to have many things animated to the beat.
+        var tween = GetTree().CreateTween();
+        tween
+            .TweenMethod(
+                Callable.From((Vector2 scale) => TweenArrows(scale)),
+                new Vector2(0.07f, 0.07f),
+                new Vector2(0.07f, 0.07f) * 1.25f,
+                60f / TimeKeeper.Bpm / 2
+            )
+            .SetEase(Tween.EaseType.Out)
+            .SetTrans(Tween.TransitionType.Elastic);
+        tween.TweenMethod(
+            Callable.From((Vector2 scale) => TweenArrows(scale)),
+            new Vector2(0.07f, 0.07f) * 1.25f,
+            new Vector2(0.07f, 0.07f),
+            60f / TimeKeeper.Bpm / 2
+        );
+        tween.SetLoops().Play();
     }
 
     private void InitBackgrounds()
@@ -63,6 +85,15 @@ public partial class ChartManager : SubViewportContainer
             loopable.SetSize(new Vector2((float)ChartLength / 2 + 1, Size.Y));
             loopable.Bounds = (float)ChartLength / 2 * i;
             i++;
+        }
+    }
+
+    private void TweenArrows(Vector2 scale)
+    {
+        foreach (var node in _arrowGroup.GetChildren())
+        {
+            NoteArrow arrow = (NoteArrow)node;
+            arrow.Scale = scale;
         }
     }
 
@@ -80,7 +111,7 @@ public partial class ChartManager : SubViewportContainer
         NoteArrow newArrow = noteScene.Instantiate<NoteArrow>();
         newArrow.Init(IH.Arrows[(int)arrow]);
 
-        ChartLoopables.AddChild(newArrow);
+        _arrowGroup.AddChild(newArrow);
         newArrow.Bounds = (float)((double)beat / BeatsPerLoop * (ChartLength / 2));
         return newArrow;
     }

@@ -16,6 +16,7 @@ public partial class NoteArrow : Sprite2D
 
     public int NoteIdx;
     public float Bounds;
+    public bool IsActive;
 
     public void Init(InputHandler.ArrowData parentArrowData)
     {
@@ -24,15 +25,6 @@ public partial class NoteArrow : Sprite2D
         SelfModulate = parentArrowData.Color;
         Position += Vector2.Down * (parentArrowData.Node.GlobalPosition.Y);
         RotationDegrees = parentArrowData.Node.RotationDegrees;
-
-        //This could be good as a function to call on something, to have many things animated to the beat.
-        var tween = CreateTween();
-        tween.TweenProperty(this, "scale", Scale, 60f / TimeKeeper.Bpm / 2);
-        tween.SetEase(Tween.EaseType.In);
-        tween.SetTrans(Tween.TransitionType.Elastic);
-        tween.TweenProperty(this, "scale", Scale * 1.25f, 60f / TimeKeeper.Bpm / 2);
-        tween.SetLoops();
-        tween.Play();
     }
 
     public override void _Process(double delta)
@@ -54,10 +46,12 @@ public partial class NoteArrow : Sprite2D
     public void OnLoop()
     {
         Visible = true;
+        IsActive = true;
     }
 
     public void NoteHit()
     {
         Visible = false;
+        IsActive = false;
     }
 }

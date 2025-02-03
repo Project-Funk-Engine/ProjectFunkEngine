@@ -76,7 +76,7 @@ public partial class BattleDirector : Node2D
         return _notes[arrow.NoteIdx];
     }
 
-    private bool AddNoteToLane(Note note)
+    private bool AddNoteToLane(Note note, bool isActive = true)
     {
         //Don't add dupe notes
         if (_notes.Any(nt => nt.Type == note.Type && nt.Beat == note.Beat))
@@ -86,6 +86,7 @@ public partial class BattleDirector : Node2D
         _notes = _notes.Append(note).ToArray();
         //Get noteArrow from CM
         var arrow = CM.AddArrowToLane(note, _notes.Length - 1);
+        arrow.IsActive = isActive;
         _laneData[(int)note.Type] = _laneData[(int)note.Type].Append(arrow).ToArray();
         return true;
     }
@@ -167,7 +168,7 @@ public partial class BattleDirector : Node2D
             if (_laneData[i].Length <= 0)
                 continue;
             double beatDif = (curBeat - GetFirstNote((NoteArrow.ArrowType)i).Beat);
-            if (beatDif > 1 && _laneData[i].First().Visible) //Can change, currently using visible as a stand in for already activated.
+            if (beatDif > 1 && _laneData[i].First().IsActive)
             {
                 _laneData[i].First().NoteHit();
                 HandleTiming((NoteArrow.ArrowType)i, Math.Abs(beatDif));
@@ -179,7 +180,10 @@ public partial class BattleDirector : Node2D
     {
         double curBeat = TimeKeeper.CurrentTime / (60 / (double)_curSong.Bpm) % CM.BeatsPerLoop;
         if (_laneData[(int)type].Length == 0)
+        {
+            PlayerAddNote(type, (int)Math.Round(curBeat));
             return;
+        }
         double beatDif = Math.Abs(curBeat - GetFirstNote(type).Beat);
         if (beatDif > 1)
         {
@@ -225,7 +229,6 @@ public partial class BattleDirector : Node2D
     {
         // can also add some sort of keybind here to also have pressed
         // in case the user just presses the note too early and spawns a note
-        //TODO: Sync new notes animations with the rest.
         GD.Print(
             $"Player trying to place {type} typed note at beat: "
                 + beat
@@ -235,7 +238,7 @@ public partial class BattleDirector : Node2D
         if (NotePlacementBar.CanPlaceNote())
         {
             Note exampleNote = new Note(type, beat % CM.BeatsPerLoop);
-            if (AddNoteToLane(exampleNote))
+            if (AddNoteToLane(exampleNote, false))
                 NotePlacementBar.PlacedNote();
         }
     }

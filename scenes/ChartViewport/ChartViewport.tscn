@@ -31,14 +31,16 @@ anchor_mode = 0
 [node name="ChartLoopables" type="CanvasGroup" parent="SubViewport"]
 unique_name_in_owner = true
 
-[node name="ChartBG1" type="TextureRect" parent="SubViewport/ChartLoopables"]
+[node name="ArrowGroup" type="Node" parent="SubViewport/ChartLoopables"]
+
+[node name="ChartBG2" type="TextureRect" parent="SubViewport/ChartLoopables"]
 modulate = Color(2, 2, 2, 1)
 offset_right = 701.0
 offset_bottom = 300.0
 texture = ExtResource("1_0wnka")
 script = ExtResource("3_5u57h")
 
-[node name="ChartBG2" type="TextureRect" parent="SubViewport/ChartLoopables"]
+[node name="ChartBG1" type="TextureRect" parent="SubViewport/ChartLoopables"]
 modulate = Color(2, 2, 2, 1)
 offset_right = 701.0
 offset_bottom = 300.0
