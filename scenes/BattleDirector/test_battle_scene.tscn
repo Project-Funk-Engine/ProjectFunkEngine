@@ -1,13 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://b0mrgr7h0ty1y"]
+[gd_scene load_steps=5 format=3 uid="uid://b0mrgr7h0ty1y"]
 
 [ext_resource type="Script" path="res://scenes/BattleDirector/BattleDirector.cs" id="1_cwqqr"]
 [ext_resource type="PackedScene" uid="uid://dfevfib11kou1" path="res://scenes/ChartViewport/ChartViewport.tscn" id="2_cupb3"]
 [ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://scenes/BattleDirector/HealthBar.tscn" id="3_pp0u0"]
+[ext_resource type="PackedScene" uid="uid://duhiilcv4tat3" path="res://scenes/BattleDirector/NotePlacementBar.tscn" id="4_y2yh3"]
 
-[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM", "NM")]
+[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM")]
 script = ExtResource("1_cwqqr")
 CM = NodePath("SubViewport")
-NM = NodePath("SubViewport/SubViewport/noteManager")
 
 [node name="SubViewport" parent="." instance=ExtResource("2_cupb3")]
 offset_left = 80.0
@@ -30,3 +30,5 @@ offset_left = 403.0
 offset_top = -4.0
 offset_right = 443.0
 offset_bottom = 36.0
+
+[node name="NotePlacementBar" parent="." instance=ExtResource("4_y2yh3")]

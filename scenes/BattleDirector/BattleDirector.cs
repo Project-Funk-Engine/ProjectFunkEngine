@@ -19,6 +19,8 @@ public partial class BattleDirector : Node2D
     private HealthBar Player;
     private HealthBar Enemy;
 
+    private NotePlacementBar NotePlacementBar;
+
     private double _timingInterval = .1; //secs
 
     [Signal]
@@ -35,6 +37,7 @@ public partial class BattleDirector : Node2D
     }
 
     private SongData _curSong;
+
     //Assume queue structure for notes in each lane.
     private readonly Note[][] _laneNotes = new Note[][]
     {
@@ -52,6 +55,7 @@ public partial class BattleDirector : Node2D
 
         Player = GetNode<HealthBar>("PlayerHP");
         Enemy = GetNode<HealthBar>("EnemyHP");
+        NotePlacementBar = GetNode<NotePlacementBar>("NotePlacementBar");
 
         CM.Connect(nameof(NoteManager.NotePressed), new Callable(this, nameof(OnNotePressed)));
         CM.Connect(nameof(NoteManager.NoteReleased), new Callable(this, nameof(OnNoteReleased)));
@@ -64,7 +68,8 @@ public partial class BattleDirector : Node2D
         double curBeat = TimeKeeper.CurrentTime / (60 / (double)_curSong.Bpm);
         for (int i = 0; i < _laneNotes.Length; i++)
         {
-            if (_laneNotes[i].Length <= 0) continue;
+            if (_laneNotes[i].Length <= 0)
+                continue;
             double beatDif = (curBeat - _laneNotes[i].First().Beat);
             if (beatDif > 1)
             {
@@ -105,9 +110,7 @@ public partial class BattleDirector : Node2D
         CheckNoteTiming(type);
     }
 
-    private void OnNoteReleased(NoteArrow.ArrowType arrowType)
-    {
-    }
+    private void OnNoteReleased(NoteArrow.ArrowType arrowType) { }
 
     private void handleTiming(NoteArrow.ArrowType type, double beatDif)
     {
@@ -122,21 +125,25 @@ public partial class BattleDirector : Node2D
         {
             GD.Print("Perfect");
             Enemy.TakeDamage(10);
+            NotePlacementBar.HitNote();
         }
         else if (beatDif < _timingInterval * 4)
         {
             GD.Print("Good");
             Enemy.TakeDamage(5);
+            NotePlacementBar.HitNote();
         }
         else if (beatDif < _timingInterval * 6)
         {
             GD.Print("Okay");
             Enemy.TakeDamage(1);
+            NotePlacementBar.HitNote();
         }
         else
         {
             GD.Print("Miss");
             Player.TakeDamage(10);
+            NotePlacementBar.MissNote();
         }
     }
 
@@ -144,12 +151,38 @@ public partial class BattleDirector : Node2D
     {
         double curBeat = TimeKeeper.CurrentTime / (60 / (double)_curSong.Bpm);
         if (_laneNotes[(int)type].Length == 0)
+        {
+            PlayerAddNote(type, (int)curBeat);
             return;
+        }
         double beatDif = Math.Abs(curBeat - _laneNotes[(int)type].First().Beat);
         if (beatDif > 1)
+        {
+            PlayerAddNote(type, (int)curBeat);
             return;
+        }
         GD.Print("Note Hit. Dif: " + beatDif);
         CM.HandleNote(type);
         handleTiming(type, beatDif);
+    }
+
+    private void PlayerAddNote(NoteArrow.ArrowType type, int beat)
+    {
+        //TODO: notes currently can only be placed in first loop.
+        // placed notes are also non-interactable
+
+        // can also add some sort of keybind here to also have pressed
+        // in case the user just presses the note too early and spawns a note
+        GD.Print(
+            $"Player trying to place {type} typed note at beat: "
+                + beat
+                + " Verdict: "
+                + NotePlacementBar.CanPlaceNote()
+        );
+        if (NotePlacementBar.CanPlaceNote())
+        {
+            CM.CreateNote(type, beat);
+            NotePlacementBar.PlacedNote();
+        }
     }
 }

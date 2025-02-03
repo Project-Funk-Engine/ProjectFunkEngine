@@ -101,6 +101,9 @@ public partial class ChartManager : SubViewportContainer
                 .ToArray();
         }
         ChartLoopables.AddChild(note);
+        GD.Print(
+            $"Adding note: {arrowData.Type}, Current count: {_currentArrows[(int)arrowData.Type].Length}"
+        );
         return note;
     }
 
@@ -115,8 +118,12 @@ public partial class ChartManager : SubViewportContainer
 
     public void OnNotePressed(ArrowType type)
     {
-        if (_currentArrows[(int)type].Length == 0)
-            return;
+        // removed this bit of code, since placement only worked on lines that already
+        // had arrows before the player added any. if needed we can add this back
+        // once we use charts that have arrows in all 4 rows from the beginning
+        //if (_currentArrows[(int)type].Length == 0)
+        //return;
+
         EmitSignal(nameof(NotePressed), (int)type);
     }
 
