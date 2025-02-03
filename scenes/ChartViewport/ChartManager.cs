@@ -101,6 +101,9 @@ public partial class ChartManager : SubViewportContainer
                 .ToArray();
         }
         ChartLoopables.AddChild(note);
+        GD.Print(
+            $"Adding note: {arrowData.Type}, Current count: {_currentArrows[(int)arrowData.Type].Length}"
+        );
         return note;
     }
 
