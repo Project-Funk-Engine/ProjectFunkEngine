@@ -18,6 +18,7 @@ public partial class NotePlacementBar : Node
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        notePlacementBar.MaxValue = MaxValue;
         currentBarValue = 0;
         currentCombo = 0;
         comboMult = 1;

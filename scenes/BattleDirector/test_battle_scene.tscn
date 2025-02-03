@@ -5,10 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://scenes/BattleDirector/HealthBar.tscn" id="3_pp0u0"]
 [ext_resource type="PackedScene" uid="uid://duhiilcv4tat3" path="res://scenes/BattleDirector/NotePlacementBar.tscn" id="4_y2yh3"]
 
-[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM", "NM")]
+[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM")]
 script = ExtResource("1_cwqqr")
 CM = NodePath("SubViewport")
-NM = NodePath("SubViewport/SubViewport/noteManager")
 
 [node name="SubViewport" parent="." instance=ExtResource("2_cupb3")]
 offset_left = 80.0
