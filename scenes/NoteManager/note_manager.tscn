@@ -11,29 +11,29 @@ script = ExtResource("1_2oeuf")
 [node name="noteCheckers" type="Node2D" parent="."]
 
 [node name="arrowUp" type="Sprite2D" parent="noteCheckers"]
-position = Vector2(0, 27)
+position = Vector2(0, 24)
 rotation = -1.5708
-scale = Vector2(0.1, 0.1)
+scale = Vector2(0.09, 0.09)
 texture = ExtResource("2_ldmuy")
 script = ExtResource("3_0cioe")
 
 [node name="arrowLeft" type="Sprite2D" parent="noteCheckers"]
-position = Vector2(0, 82)
+position = Vector2(0, 76)
 rotation = 3.14159
-scale = Vector2(0.1, 0.1)
+scale = Vector2(0.09, 0.09)
 texture = ExtResource("2_ldmuy")
 script = ExtResource("3_0cioe")
 
 [node name="arrowDown" type="Sprite2D" parent="noteCheckers"]
-position = Vector2(0, 135)
+position = Vector2(0, 129)
 rotation = 1.5708
-scale = Vector2(0.1, 0.1)
+scale = Vector2(0.09, 0.09)
 texture = ExtResource("2_ldmuy")
 script = ExtResource("3_0cioe")
 
 [node name="arrowRight" type="Sprite2D" parent="noteCheckers"]
-position = Vector2(0, 188)
-scale = Vector2(0.1, 0.1)
+position = Vector2(0, 181)
+scale = Vector2(0.09, 0.09)
 texture = ExtResource("2_ldmuy")
 script = ExtResource("3_0cioe")
 
@@ -43,18 +43,18 @@ script = ExtResource("3_0cioe")
 
 [node name="DivA" type="Sprite2D" parent="ui/dividers"]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(295, 59)
+position = Vector2(295, 53)
 scale = Vector2(5.10938, 0.041)
 texture = ExtResource("4_foklt")
 
 [node name="DivB" type="Sprite2D" parent="ui/dividers"]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(295, 105)
+position = Vector2(295, 100)
 scale = Vector2(5.10938, 0.041)
 texture = ExtResource("4_foklt")
 
 [node name="DivC" type="Sprite2D" parent="ui/dividers"]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(295, 165)
+position = Vector2(295, 159)
 scale = Vector2(5.10938, 0.041)
 texture = ExtResource("4_foklt")

@@ -92,16 +92,16 @@ public partial class BattleDirector : Node2D
     #endregion
 
     //Creeate dummy notes
-    private void AddExampleNote()
+    private void AddExampleNotes()
     {
         for (int i = 0; i < 4; i++)
         {
-            Note exampleNote = new Note(NoteArrow.ArrowType.Up, i + 3);
+            Note exampleNote = new Note(NoteArrow.ArrowType.Up, i + 20);
             AddNoteToLane(exampleNote);
         }
         for (int i = 0; i < 1; i++)
         {
-            Note exampleNote = new Note(NoteArrow.ArrowType.Left, i + 4);
+            Note exampleNote = new Note(NoteArrow.ArrowType.Left, i + 21);
             AddNoteToLane(exampleNote);
         }
     }
@@ -115,10 +115,25 @@ public partial class BattleDirector : Node2D
             NumLoops = 5,
         };
         CM.PrepChart(_curSong);
-        AddExampleNote();
+        AddExampleNotes();
 
         Player = GetNode<HealthBar>("PlayerHP");
+        Player.GetNode<Sprite2D>("Sprite2D").Scale *= .5f; //TEMP
+        Player.GetNode<Sprite2D>("Sprite2D").Position += Vector2.Down * 30; //TEMP
         Enemy = GetNode<HealthBar>("EnemyHP");
+
+        //TEMP
+        var enemTween = CreateTween();
+        enemTween
+            .TweenProperty(Enemy.GetNode<Sprite2D>("Sprite2D"), "position", Vector2.Down * 5, 1f)
+            .AsRelative();
+        enemTween
+            .TweenProperty(Enemy.GetNode<Sprite2D>("Sprite2D"), "position", Vector2.Up * 5, 1f)
+            .AsRelative();
+        enemTween.SetTrans(Tween.TransitionType.Spring);
+        enemTween.SetEase(Tween.EaseType.In);
+        enemTween.SetLoops();
+        enemTween.Play();
 
         CM.Connect(nameof(InputHandler.NotePressed), new Callable(this, nameof(OnNotePressed)));
         CM.Connect(nameof(InputHandler.NoteReleased), new Callable(this, nameof(OnNoteReleased)));
@@ -174,25 +189,25 @@ public partial class BattleDirector : Node2D
         if (beatDif < _timingInterval * 2)
         {
             GD.Print("Perfect");
-            Enemy.TakeDamage(10);
+            Enemy.TakeDamage(1);
             NotePlacementBar.HitNote();
         }
         else if (beatDif < _timingInterval * 4)
         {
             GD.Print("Good");
-            Enemy.TakeDamage(5);
+            Enemy.TakeDamage(0);
             NotePlacementBar.HitNote();
         }
         else if (beatDif < _timingInterval * 6)
         {
             GD.Print("Okay");
-            Enemy.TakeDamage(1);
+            Player.TakeDamage(1);
             NotePlacementBar.HitNote();
         }
         else
         {
             GD.Print("Miss");
-            Player.TakeDamage(10);
+            Player.TakeDamage(2);
             NotePlacementBar.MissNote();
         }
     }

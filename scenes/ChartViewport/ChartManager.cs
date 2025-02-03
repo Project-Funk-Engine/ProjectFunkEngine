@@ -44,6 +44,7 @@ public partial class ChartManager : SubViewportContainer
         BeatsPerLoop = (int)(_loopLen / (60f / songData.Bpm));
         ChartLength = (float)_loopLen * (float)Math.Floor(ChartLength / _loopLen);
         TimeKeeper.ChartLength = (float)ChartLength;
+        TimeKeeper.Bpm = songData.Bpm;
 
         InitBackgrounds();
 

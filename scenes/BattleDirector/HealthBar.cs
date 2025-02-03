@@ -7,16 +7,21 @@ public partial class HealthBar : Control
     int _health = MaxHealth;
 
     [Export]
-    public ProgressBar PlayerHealthBar;
+    public TextureProgressBar PlayerHealthBar;
+
+    [Export]
+    public Texture2D SpriteText;
+
     //we can change this to a Texture Progress bar once we have art assets for it
 
-    
+
     public override void _Ready()
     {
         if (PlayerHealthBar != null)
         {
             SetHealth(MaxHealth, MaxHealth);
         }
+        GetNode<Sprite2D>("Sprite2D").Texture = SpriteText;
     }
 
     public void SetHealth(int max, int current)
