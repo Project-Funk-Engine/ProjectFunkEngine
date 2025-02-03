@@ -17,6 +17,13 @@ handle_input_locally = false
 size = Vector2i(480, 220)
 render_target_update_mode = 4
 
+[node name="ColorFill" type="ColorRect" parent="SubViewport"]
+z_index = -2
+offset_left = -30.0
+offset_right = 610.0
+offset_bottom = 360.0
+color = Color(0.258824, 0.290196, 0.392157, 1)
+
 [node name="Camera2D" type="Camera2D" parent="SubViewport"]
 position = Vector2(-25, 0)
 anchor_mode = 0

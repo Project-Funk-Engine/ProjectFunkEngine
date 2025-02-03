@@ -13,7 +13,7 @@ public partial class BattleDirector : Node2D
     #region Declarations
     private HealthBar Player;
     private HealthBar Enemy;
-    
+
     [Export]
     public ChartManager CM;
 
@@ -94,6 +94,11 @@ public partial class BattleDirector : Node2D
     //Creeate dummy notes
     private void AddExampleNotes()
     {
+        for (int i = 0; i < 1; i++)
+        {
+            Note exampleNote = new Note(NoteArrow.ArrowType.Down, i + 5);
+            AddNoteToLane(exampleNote);
+        }
         for (int i = 0; i < 4; i++)
         {
             Note exampleNote = new Note(NoteArrow.ArrowType.Up, i + 20);
@@ -177,7 +182,10 @@ public partial class BattleDirector : Node2D
             return;
         double beatDif = Math.Abs(curBeat - GetFirstNote(type).Beat);
         if (beatDif > 1)
+        {
+            PlayerAddNote(type, (int)Math.Round(curBeat));
             return;
+        }
         GD.Print("Note Hit. Dif: " + beatDif);
         _laneData[(int)type].First().NoteHit();
         HandleTiming(type, beatDif);
@@ -215,11 +223,9 @@ public partial class BattleDirector : Node2D
 
     private void PlayerAddNote(NoteArrow.ArrowType type, int beat)
     {
-        //TODO: notes currently can only be placed in first loop.
-        // placed notes are also non-interactable
-
         // can also add some sort of keybind here to also have pressed
         // in case the user just presses the note too early and spawns a note
+        //TODO: Sync new notes animations with the rest.
         GD.Print(
             $"Player trying to place {type} typed note at beat: "
                 + beat

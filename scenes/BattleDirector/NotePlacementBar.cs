@@ -10,7 +10,7 @@ public partial class NotePlacementBar : Node
     int notesToIncreaseCombo;
 
     [Export]
-    ProgressBar notePlacementBar;
+    TextureProgressBar notePlacementBar;
 
     [Export]
     TextEdit currentComboMultText;

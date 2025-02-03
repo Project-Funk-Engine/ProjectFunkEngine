@@ -63,3 +63,7 @@ offset_right = 443.0
 SpriteText = ExtResource("6_0k4pw")
 
 [node name="NotePlacementBar" parent="." instance=ExtResource("7_3ko4g")]
+offset_left = 12.0
+offset_top = 145.0
+offset_right = 12.0
+offset_bottom = 145.0
