@@ -15,13 +15,16 @@ public partial class BattleDirector : Node2D
     private HealthBar Enemy;
 
     [Export]
-    public ChartManager CM;
+    private ChartManager CM;
 
     [Export]
-    public InputHandler IH;
+    private InputHandler IH;
 
     [Export]
     private NotePlacementBar NotePlacementBar;
+
+    [Export]
+    private AudioStreamPlayer Audio;
 
     private double _timingInterval = .1; //secs
 
@@ -44,7 +47,7 @@ public partial class BattleDirector : Node2D
     #region Note Handling
     //Assume queue structure for notes in each lane.
     //Can eventually make this its own structure
-    private NoteArrow[][] _laneData;
+    private NoteArrow[][] _laneData = Array.Empty<NoteArrow[]>();
     private int[] _laneLastBeat = new int[]
     { //Temporary (hopefully) measure to bridge from note queue structure to ordered array
         0,
@@ -70,9 +73,9 @@ public partial class BattleDirector : Node2D
     {
         note.Beat %= CM.BeatsPerLoop;
         //Don't add dupe notes
-        if (_notes.Any(nt => nt.Type == note.Type && nt.Beat == note.Beat))
+        if (note.Beat == 0 || _notes.Any(nt => nt.Type == note.Type && nt.Beat == note.Beat))
         {
-            return false;
+            return false; //Beat at 0 is too messy.
         }
         _notes = _notes.Append(note).ToArray();
         //Get noteArrow from CM
@@ -87,19 +90,24 @@ public partial class BattleDirector : Node2D
     private void AddExampleNotes()
     {
         GD.Print(CM.BeatsPerLoop);
-        for (int i = 0; i < 1; i++)
+        for (int i = 1; i < 15; i++)
         {
-            Note exampleNote = new Note(NoteArrow.ArrowType.Down, i);
+            Note exampleNote = new Note(NoteArrow.ArrowType.Up, i * 4);
             AddNoteToLane(exampleNote);
         }
-        for (int i = 0; i < 4; i++)
+        for (int i = 1; i < 15; i++)
         {
-            Note exampleNote = new Note(NoteArrow.ArrowType.Up, i + 20);
+            Note exampleNote = new Note(NoteArrow.ArrowType.Left, 4 * i + 1);
             AddNoteToLane(exampleNote);
         }
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < 10; i++)
         {
-            Note exampleNote = new Note(NoteArrow.ArrowType.Left, CM.BeatsPerLoop);
+            Note exampleNote = new Note(NoteArrow.ArrowType.Right, 3 * i + 32);
+            AddNoteToLane(exampleNote);
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            Note exampleNote = new Note(NoteArrow.ArrowType.Down, 8 * i + 16);
             AddNoteToLane(exampleNote);
         }
     }
@@ -109,9 +117,16 @@ public partial class BattleDirector : Node2D
         _curSong = new SongData
         {
             Bpm = 120,
-            SongLength = 100,
+            SongLength = Audio.Stream.GetLength(),
             NumLoops = 5,
         };
+
+        var timer = GetTree().CreateTimer(AudioServer.GetTimeToNextMix());
+        timer.Timeout += Begin;
+    }
+
+    private void Begin()
+    {
         CM.PrepChart(_curSong);
         _laneData = new NoteArrow[][]
         {
@@ -142,11 +157,13 @@ public partial class BattleDirector : Node2D
 
         CM.Connect(nameof(InputHandler.NotePressed), new Callable(this, nameof(OnNotePressed)));
         CM.Connect(nameof(InputHandler.NoteReleased), new Callable(this, nameof(OnNoteReleased)));
+
+        Audio.Play();
     }
 
     public override void _Process(double delta)
     {
-        TimeKeeper.CurrentTime += delta;
+        TimeKeeper.CurrentTime = Audio.GetPlaybackPosition();
         CheckMiss();
     }
 
@@ -212,14 +229,14 @@ public partial class BattleDirector : Node2D
         if (beatDif < _timingInterval * 1)
         {
             GD.Print("Perfect");
-            Enemy.TakeDamage(1);
+            Enemy.TakeDamage(3);
             NotePlacementBar.HitNote();
             NotePlacementBar.ComboText("Perfect!");
         }
         else if (beatDif < _timingInterval * 2)
         {
             GD.Print("Good");
-            Enemy.TakeDamage(0);
+            Enemy.TakeDamage(1);
             NotePlacementBar.HitNote();
             NotePlacementBar.ComboText("Good");
         }

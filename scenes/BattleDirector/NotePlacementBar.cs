@@ -3,7 +3,7 @@ using Godot;
 
 public partial class NotePlacementBar : Node
 {
-    const int MaxValue = 5;
+    const int MaxValue = 80;
     int currentBarValue;
     int currentCombo;
     int comboMult;

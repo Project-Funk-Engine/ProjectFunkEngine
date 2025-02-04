@@ -82,6 +82,7 @@ public partial class ChartManager : SubViewportContainer
             if (child is not Loopable)
                 continue;
             Loopable loopable = (Loopable)child;
+            loopable.Position = Vector2.Zero;
             loopable.SetSize(new Vector2((float)ChartLength / 2 + 1, Size.Y));
             loopable.Bounds = (float)ChartLength / 2 * i;
             i++;
@@ -113,7 +114,7 @@ public partial class ChartManager : SubViewportContainer
 
         _arrowGroup.AddChild(newArrow);
         newArrow.Bounds = (float)((double)beat / BeatsPerLoop * (ChartLength / 2));
-        newArrow.Position += Vector2.Right * newArrow.Bounds; //temporary fix for notes spawning and instantly calling loop from originating at 0,0
+        newArrow.Position += Vector2.Right * newArrow.Bounds * 10; //temporary fix for notes spawning and instantly calling loop from originating at 0,0
         return newArrow;
     }
 }

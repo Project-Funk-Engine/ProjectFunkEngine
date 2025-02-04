@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b0mrgr7h0ty1y"]
+[gd_scene load_steps=10 format=3 uid="uid://b0mrgr7h0ty1y"]
 
 [ext_resource type="Script" path="res://scenes/BattleDirector/BattleDirector.cs" id="1_cwqqr"]
 [ext_resource type="PackedScene" uid="uid://dfevfib11kou1" path="res://scenes/ChartViewport/ChartViewport.tscn" id="2_cupb3"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://b6fkei0i83vte" path="res://scenes/BattleDirector/assets/Character1.png" id="5_elveq"]
 [ext_resource type="Texture2D" uid="uid://veedngaorx3l" path="res://scenes/BattleDirector/assets/Enemy1.png" id="6_0k4pw"]
 [ext_resource type="PackedScene" uid="uid://duhiilcv4tat3" path="res://scenes/BattleDirector/NotePlacementBar.tscn" id="7_3ko4g"]
+[ext_resource type="AudioStream" uid="uid://cv6lqjj6lu36h" path="res://Audio/335571__magntron__gamemusic_120bpm.mp3" id="8_caqms"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_v58v7"]
 shader = ExtResource("3_h0nj6")
@@ -22,11 +23,15 @@ shader_parameter/spin_amount = 0.1
 shader_parameter/pixel_filter = 200.0
 shader_parameter/is_rotating = false
 
-[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM", "IH", "NotePlacementBar")]
+[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM", "IH", "NotePlacementBar", "Audio")]
 script = ExtResource("1_cwqqr")
 CM = NodePath("SubViewport")
 IH = NodePath("SubViewport/SubViewport/noteManager")
 NotePlacementBar = NodePath("NotePlacementBar")
+Audio = NodePath("AudioStreamPlayer")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_caqms")
 
 [node name="SubViewport" parent="." instance=ExtResource("2_cupb3")]
 offset_left = 80.0
@@ -67,5 +72,3 @@ offset_left = 12.0
 offset_top = 145.0
 offset_right = 12.0
 offset_bottom = 145.0
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
