@@ -16,4 +16,6 @@ Current team members include:
 #### Attributions:
 Note icon: <a href="https://www.flaticon.com/free-icons/next" title="next icons">Next icons created by Pixel perfect - Flaticon</a>
 
+First Song: <a href="https://freesound.org/people/Magntron/sounds/335571/" title="gameMusic">gameMusic by Magntron - freesound.org</a>
+
 
