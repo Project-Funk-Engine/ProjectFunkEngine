@@ -11,10 +11,12 @@ public partial class ChartManager : SubViewportContainer
 {
     //Nodes from scene
     [Export]
-    public NoteManager NM;
+    public InputHandler IH;
 
     [Export]
     public CanvasGroup ChartLoopables;
+
+    private Node _arrowGroup;
 
     [Signal]
     public delegate void NotePressedEventHandler(ArrowType arrowType);
@@ -23,112 +25,96 @@ public partial class ChartManager : SubViewportContainer
     public delegate void NoteReleasedEventHandler(ArrowType arrowType);
 
     //Arbitrary vars, play with these
-    private double ChartLength = 2400; //Might move this to be song specific?
-
+    private double ChartLength = 5000; //Might move this to be song specific?
     private double _loopLen; //secs
     public int BeatsPerLoop;
 
-    private NoteArrow[][] _currentArrows = new NoteArrow[][]
-    {
-        Array.Empty<NoteArrow>(),
-        Array.Empty<NoteArrow>(),
-        Array.Empty<NoteArrow>(),
-        Array.Empty<NoteArrow>(),
-    };
-
-    private void InitBackgrounds()
-    {
-        //TODO: Get better visual for BG's
-        int i = 0;
-        foreach (Node child in ChartLoopables.GetChildren())
-        {
-            if (child is not Loopable)
-                continue;
-            Loopable loopable = (Loopable)child;
-            loopable.SetSize(new Vector2((float)ChartLength / 2 + 1, Size.Y));
-            loopable.Bounds = (float)ChartLength / 2 * i;
-            i++;
-        }
-    }
-
-    private void InitNotes(Note[] notes)
-    {
-        foreach (Note noteData in notes)
-        {
-            if (noteData != null)
-                CreateNote(noteData.Type, noteData.Beat);
-        }
-        foreach (Note noteData in notes) //Temporary solution
-        {
-            if (noteData != null)
-                CreateNote(noteData.Type, noteData.Beat + BeatsPerLoop);
-        }
-    }
-
-    public void PrepChart(BattleDirector.SongData songData, Note[] notes)
-    {
-        _loopLen = songData.SongLength / songData.NumLoops;
-        TimeKeeper.LoopLength = (float)_loopLen;
-        BeatsPerLoop = (int)(_loopLen / (60f / songData.Bpm));
-        ChartLength = (float)_loopLen * (float)Math.Floor(ChartLength / _loopLen);
-        TimeKeeper.ChartLength = (float)ChartLength;
-
-        InitBackgrounds();
-        InitNotes(notes);
-
-        NM.Connect(nameof(NoteManager.NotePressed), new Callable(this, nameof(OnNotePressed)));
-        NM.Connect(nameof(NoteManager.NoteReleased), new Callable(this, nameof(OnNoteReleased)));
-    }
-
-    //TODO: Rework these?
-    public NoteArrow CreateNote(ArrowType arrow, int beat = 0)
-    {
-        var newNote = CreateNote(NM.Arrows[(int)arrow], beat);
-        newNote.Bounds = (float)((double)beat / BeatsPerLoop * (ChartLength / 2));
-        return newNote;
-    }
-
-    private NoteArrow CreateNote(NoteManager.ArrowData arrowData, int beat)
-    {
-        var noteScene = ResourceLoader.Load<PackedScene>("res://scenes/NoteManager/note.tscn");
-        NoteArrow note = noteScene.Instantiate<NoteArrow>();
-        note.Init(arrowData);
-
-        if (!(beat > BeatsPerLoop)) //All visual notes need a second to loop effectively. The second set should not be put in the queue.
-        {
-            _currentArrows[(int)arrowData.Type] = _currentArrows[(int)arrowData.Type]
-                .Append(note)
-                .ToArray();
-        }
-        ChartLoopables.AddChild(note);
-        GD.Print(
-            $"Adding note: {arrowData.Type}, Current count: {_currentArrows[(int)arrowData.Type].Length}"
-        );
-        return note;
-    }
-
-    public void HandleNote(ArrowType type)
-    {
-        _currentArrows[(int)type].First().NoteHit();
-        _currentArrows[(int)type] = _currentArrows[(int)type]
-            .Skip(1)
-            .Concat(_currentArrows[(int)type].Take(1))
-            .ToArray();
-    }
-
     public void OnNotePressed(ArrowType type)
     {
-        // removed this bit of code, since placement only worked on lines that already
-        // had arrows before the player added any. if needed we can add this back
-        // once we use charts that have arrows in all 4 rows from the beginning
-        //if (_currentArrows[(int)type].Length == 0)
-        //return;
-
         EmitSignal(nameof(NotePressed), (int)type);
     }
 
     public void OnNoteReleased(ArrowType type)
     {
         EmitSignal(nameof(NoteReleased), (int)type);
+    }
+
+    public void PrepChart(BattleDirector.SongData songData)
+    {
+        _loopLen = songData.SongLength / songData.NumLoops;
+        TimeKeeper.LoopLength = (float)_loopLen;
+        BeatsPerLoop = (int)(_loopLen / (60f / songData.Bpm));
+        ChartLength = (float)_loopLen * (float)Math.Floor(ChartLength / _loopLen);
+        TimeKeeper.ChartLength = (float)ChartLength;
+        TimeKeeper.Bpm = songData.Bpm;
+
+        InitBackgrounds();
+        _arrowGroup = ChartLoopables.GetNode<Node>("ArrowGroup");
+
+        IH.Connect(nameof(InputHandler.NotePressed), new Callable(this, nameof(OnNotePressed)));
+        IH.Connect(nameof(InputHandler.NoteReleased), new Callable(this, nameof(OnNoteReleased)));
+
+        //This could be good as a function to call on something, to have many things animated to the beat.
+        var tween = GetTree().CreateTween();
+        tween
+            .TweenMethod(
+                Callable.From((Vector2 scale) => TweenArrows(scale)),
+                new Vector2(0.07f, 0.07f),
+                new Vector2(0.07f, 0.07f) * 1.25f,
+                60f / TimeKeeper.Bpm / 2
+            )
+            .SetEase(Tween.EaseType.Out)
+            .SetTrans(Tween.TransitionType.Elastic);
+        tween.TweenMethod(
+            Callable.From((Vector2 scale) => TweenArrows(scale)),
+            new Vector2(0.07f, 0.07f) * 1.25f,
+            new Vector2(0.07f, 0.07f),
+            60f / TimeKeeper.Bpm / 2
+        );
+        tween.SetLoops().Play();
+    }
+
+    private void InitBackgrounds()
+    {
+        int i = 0;
+        foreach (Node child in ChartLoopables.GetChildren())
+        {
+            if (child is not Loopable)
+                continue;
+            Loopable loopable = (Loopable)child;
+            loopable.Position = Vector2.Zero;
+            loopable.SetSize(new Vector2((float)ChartLength / 2 + 1, Size.Y));
+            loopable.Bounds = (float)ChartLength / 2 * i;
+            i++;
+        }
+    }
+
+    private void TweenArrows(Vector2 scale)
+    {
+        foreach (var node in _arrowGroup.GetChildren())
+        {
+            NoteArrow arrow = (NoteArrow)node;
+            arrow.Scale = scale;
+        }
+    }
+
+    public NoteArrow AddArrowToLane(Note note, int noteIdx)
+    {
+        var newNote = CreateNote(note.Type, note.Beat);
+        CreateNote(note.Type, note.Beat + BeatsPerLoop); //Create a dummy arrow for looping visuals
+        newNote.NoteIdx = noteIdx;
+        return newNote;
+    }
+
+    private NoteArrow CreateNote(ArrowType arrow, int beat = 0)
+    {
+        var noteScene = ResourceLoader.Load<PackedScene>("res://scenes/NoteManager/note.tscn");
+        NoteArrow newArrow = noteScene.Instantiate<NoteArrow>();
+        newArrow.Init(IH.Arrows[(int)arrow]);
+
+        _arrowGroup.AddChild(newArrow);
+        newArrow.Bounds = (float)((double)beat / BeatsPerLoop * (ChartLength / 2));
+        newArrow.Position += Vector2.Right * newArrow.Bounds * 10; //temporary fix for notes spawning and instantly calling loop from originating at 0,0
+        return newArrow;
     }
 }

@@ -1,34 +1,74 @@
-[gd_scene load_steps=5 format=3 uid="uid://b0mrgr7h0ty1y"]
+[gd_scene load_steps=10 format=3 uid="uid://b0mrgr7h0ty1y"]
 
 [ext_resource type="Script" path="res://scenes/BattleDirector/BattleDirector.cs" id="1_cwqqr"]
 [ext_resource type="PackedScene" uid="uid://dfevfib11kou1" path="res://scenes/ChartViewport/ChartViewport.tscn" id="2_cupb3"]
+[ext_resource type="Shader" path="res://scenes/BattleDirector/assets/test_background.gdshader" id="3_h0nj6"]
 [ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://scenes/BattleDirector/HealthBar.tscn" id="3_pp0u0"]
-[ext_resource type="PackedScene" uid="uid://duhiilcv4tat3" path="res://scenes/BattleDirector/NotePlacementBar.tscn" id="4_y2yh3"]
+[ext_resource type="Texture2D" uid="uid://b6fkei0i83vte" path="res://scenes/BattleDirector/assets/Character1.png" id="5_elveq"]
+[ext_resource type="Texture2D" uid="uid://veedngaorx3l" path="res://scenes/BattleDirector/assets/Enemy1.png" id="6_0k4pw"]
+[ext_resource type="PackedScene" uid="uid://duhiilcv4tat3" path="res://scenes/BattleDirector/NotePlacementBar.tscn" id="7_3ko4g"]
+[ext_resource type="AudioStream" uid="uid://cv6lqjj6lu36h" path="res://Audio/335571__magntron__gamemusic_120bpm.mp3" id="8_caqms"]
 
-[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM")]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v58v7"]
+shader = ExtResource("3_h0nj6")
+shader_parameter/spin_rotation_speed = 2.0
+shader_parameter/move_speed = 7.0
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/colour_1 = Color(0.211765, 0.239216, 0.321569, 1)
+shader_parameter/colour_2 = Color(0.278431, 0.54902, 0.74902, 1)
+shader_parameter/colour_3 = Color(0.086, 0.137, 0.145, 1)
+shader_parameter/contrast = 2.5
+shader_parameter/lighting = 0.4
+shader_parameter/spin_amount = 0.1
+shader_parameter/pixel_filter = 200.0
+shader_parameter/is_rotating = false
+
+[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM", "IH", "NotePlacementBar", "Audio")]
 script = ExtResource("1_cwqqr")
 CM = NodePath("SubViewport")
+IH = NodePath("SubViewport/SubViewport/noteManager")
+NotePlacementBar = NodePath("NotePlacementBar")
+Audio = NodePath("AudioStreamPlayer")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_caqms")
 
 [node name="SubViewport" parent="." instance=ExtResource("2_cupb3")]
 offset_left = 80.0
-offset_top = 140.0
+offset_top = 150.0
 offset_right = 560.0
-offset_bottom = 360.0
+offset_bottom = 350.0
 
 [node name="ColorRect" type="ColorRect" parent="."]
 z_index = -1
+material = SubResource("ShaderMaterial_v58v7")
+offset_left = -49.0
+offset_top = -32.0
+offset_right = 695.0
+offset_bottom = 396.0
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+self_modulate = Color(0.36, 0.36, 0.36, 0.780392)
+z_index = -1
 offset_left = -70.0
-offset_top = -34.0
+offset_top = 140.0
 offset_right = 673.0
-offset_bottom = 393.0
-color = Color(0.147672, 0.147672, 0.147672, 1)
+offset_bottom = 360.0
+color = Color(0.165656, 0.165656, 0.165656, 1)
 
 [node name="PlayerHP" parent="." instance=ExtResource("3_pp0u0")]
+offset_left = 92.0
+offset_right = 132.0
+SpriteText = ExtResource("5_elveq")
 
 [node name="EnemyHP" parent="." instance=ExtResource("3_pp0u0")]
 offset_left = 403.0
 offset_top = -4.0
 offset_right = 443.0
-offset_bottom = 36.0
+SpriteText = ExtResource("6_0k4pw")
 
-[node name="NotePlacementBar" parent="." instance=ExtResource("4_y2yh3")]
+[node name="NotePlacementBar" parent="." instance=ExtResource("7_3ko4g")]
+offset_left = 12.0
+offset_top = 145.0
+offset_right = 12.0
+offset_bottom = 145.0

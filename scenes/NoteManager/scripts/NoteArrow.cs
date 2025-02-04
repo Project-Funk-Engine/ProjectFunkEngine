@@ -14,9 +14,11 @@ public partial class NoteArrow : Sprite2D
         Right = 3,
     }
 
+    public int NoteIdx;
     public float Bounds;
+    public bool IsActive;
 
-    public void Init(NoteManager.ArrowData parentArrowData)
+    public void Init(InputHandler.ArrowData parentArrowData)
     {
         ZIndex = 1;
 
@@ -36,13 +38,20 @@ public partial class NoteArrow : Sprite2D
             ) + Bounds;
         if (newPos.X > Position.X)
         {
-            Visible = true;
+            OnLoop();
         }
         Position = newPos;
+    }
+
+    public void OnLoop()
+    {
+        Visible = true;
+        IsActive = true;
     }
 
     public void NoteHit()
     {
         Visible = false;
+        IsActive = false;
     }
 }
