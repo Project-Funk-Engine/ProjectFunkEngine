@@ -3,7 +3,7 @@ using Godot;
 
 public partial class NotePlacementBar : Node
 {
-    const int MaxValue = 50;
+    const int MaxValue = 5;
     int currentBarValue;
     int currentCombo;
     int comboMult;
@@ -23,6 +23,16 @@ public partial class NotePlacementBar : Node
         currentCombo = 0;
         comboMult = 1;
         notesToIncreaseCombo = 4;
+    }
+
+    public void ComboText(string text)
+    {
+        var feedbackScene = ResourceLoader.Load<PackedScene>(
+            "res://scenes/BattleDirector/TextParticle.tscn"
+        );
+        TextParticle newText = feedbackScene.Instantiate<TextParticle>();
+        AddChild(newText);
+        newText.Text = text + $" {currentCombo}";
     }
 
     // Hitting a note increases combo, combo mult, and note placement bar
@@ -52,9 +62,7 @@ public partial class NotePlacementBar : Node
 
     public bool CanPlaceNote()
     {
-        if (currentBarValue >= MaxValue)
-            return true;
-        return false;
+        return currentBarValue >= MaxValue;
     }
 
     private void DetermineComboMult()

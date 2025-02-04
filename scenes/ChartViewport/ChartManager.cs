@@ -25,7 +25,7 @@ public partial class ChartManager : SubViewportContainer
     public delegate void NoteReleasedEventHandler(ArrowType arrowType);
 
     //Arbitrary vars, play with these
-    private double ChartLength = 2400; //Might move this to be song specific?
+    private double ChartLength = 5000; //Might move this to be song specific?
     private double _loopLen; //secs
     public int BeatsPerLoop;
 
@@ -113,6 +113,7 @@ public partial class ChartManager : SubViewportContainer
 
         _arrowGroup.AddChild(newArrow);
         newArrow.Bounds = (float)((double)beat / BeatsPerLoop * (ChartLength / 2));
+        newArrow.Position += Vector2.Right * newArrow.Bounds; //temporary fix for notes spawning and instantly calling loop from originating at 0,0
         return newArrow;
     }
 }

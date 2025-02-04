@@ -44,30 +44,20 @@ public partial class BattleDirector : Node2D
     #region Note Handling
     //Assume queue structure for notes in each lane.
     //Can eventually make this its own structure
-    private readonly NoteArrow[][] _laneData = new NoteArrow[][]
-    {
-        Array.Empty<NoteArrow>(),
-        Array.Empty<NoteArrow>(),
-        Array.Empty<NoteArrow>(),
-        Array.Empty<NoteArrow>(),
+    private NoteArrow[][] _laneData;
+    private int[] _laneLastBeat = new int[]
+    { //Temporary (hopefully) measure to bridge from note queue structure to ordered array
+        0,
+        0,
+        0,
+        0,
     };
     private Note[] _notes = Array.Empty<Note>();
 
-    //Cycles lane of dir and returns the, initially, first note
-    private Note CycleNote(NoteArrow.ArrowType dir)
-    {
-        var note = GetFirstNote(dir);
-        _laneData[(int)dir] = _laneData[(int)dir] //Credit: Stackoverflow https://stackoverflow.com/questions/49494535/moving-the-first-array-element-to-end-in-c-sharp
-            .Skip(1)
-            .Concat(_laneData[(int)dir].Take(1))
-            .ToArray();
-        return note;
-    }
-
     //Returns first note of lane without modifying lane data
-    private Note GetFirstNote(NoteArrow.ArrowType dir)
+    private Note GetNoteAt(NoteArrow.ArrowType dir, int beat)
     {
-        return GetNote(_laneData[(int)dir].First());
+        return GetNote(_laneData[(int)dir][beat]);
     }
 
     //Get note of a note arrow
@@ -78,6 +68,7 @@ public partial class BattleDirector : Node2D
 
     private bool AddNoteToLane(Note note, bool isActive = true)
     {
+        note.Beat %= CM.BeatsPerLoop;
         //Don't add dupe notes
         if (_notes.Any(nt => nt.Type == note.Type && nt.Beat == note.Beat))
         {
@@ -87,7 +78,7 @@ public partial class BattleDirector : Node2D
         //Get noteArrow from CM
         var arrow = CM.AddArrowToLane(note, _notes.Length - 1);
         arrow.IsActive = isActive;
-        _laneData[(int)note.Type] = _laneData[(int)note.Type].Append(arrow).ToArray();
+        _laneData[(int)note.Type][note.Beat] = arrow;
         return true;
     }
     #endregion
@@ -95,9 +86,10 @@ public partial class BattleDirector : Node2D
     //Creeate dummy notes
     private void AddExampleNotes()
     {
+        GD.Print(CM.BeatsPerLoop);
         for (int i = 0; i < 1; i++)
         {
-            Note exampleNote = new Note(NoteArrow.ArrowType.Down, i + 5);
+            Note exampleNote = new Note(NoteArrow.ArrowType.Down, i);
             AddNoteToLane(exampleNote);
         }
         for (int i = 0; i < 4; i++)
@@ -107,7 +99,7 @@ public partial class BattleDirector : Node2D
         }
         for (int i = 0; i < 1; i++)
         {
-            Note exampleNote = new Note(NoteArrow.ArrowType.Left, i + 21);
+            Note exampleNote = new Note(NoteArrow.ArrowType.Left, CM.BeatsPerLoop);
             AddNoteToLane(exampleNote);
         }
     }
@@ -121,6 +113,13 @@ public partial class BattleDirector : Node2D
             NumLoops = 5,
         };
         CM.PrepChart(_curSong);
+        _laneData = new NoteArrow[][]
+        {
+            new NoteArrow[CM.BeatsPerLoop],
+            new NoteArrow[CM.BeatsPerLoop],
+            new NoteArrow[CM.BeatsPerLoop],
+            new NoteArrow[CM.BeatsPerLoop],
+        };
         AddExampleNotes();
 
         Player = GetNode<HealthBar>("PlayerHP");
@@ -162,65 +161,81 @@ public partial class BattleDirector : Node2D
     //Check all lanes for misses from missed inputs
     private void CheckMiss()
     {
-        double curBeat = TimeKeeper.CurrentTime / (60 / (double)_curSong.Bpm) % CM.BeatsPerLoop;
+        //On current beat, if prev beat is active and not inputted
+        double realBeat = TimeKeeper.CurrentTime / (60 / (double)_curSong.Bpm) % CM.BeatsPerLoop;
         for (int i = 0; i < _laneData.Length; i++)
         {
-            if (_laneData[i].Length <= 0)
-                continue;
-            double beatDif = (curBeat - GetFirstNote((NoteArrow.ArrowType)i).Beat);
-            if (beatDif > 1 && _laneData[i].First().IsActive)
-            {
-                _laneData[i].First().NoteHit();
-                HandleTiming((NoteArrow.ArrowType)i, Math.Abs(beatDif));
+            if (
+                _laneLastBeat[i] < Math.Floor(realBeat)
+                || (_laneLastBeat[i] == CM.BeatsPerLoop - 1 && Math.Floor(realBeat) == 0)
+            )
+            { //If above, a note has been missed
+                //GD.Print("Last beat " + _laneLastBeat[i]);
+                if (
+                    _laneData[i][_laneLastBeat[i]] == null
+                    || !_laneData[i][_laneLastBeat[i]].IsActive
+                )
+                {
+                    _laneLastBeat[i] = (_laneLastBeat[i] + 1) % CM.BeatsPerLoop;
+                    continue;
+                }
+                //Note exists and has been missed
+                _laneData[i][_laneLastBeat[i]].NoteHit();
+                HandleTiming((NoteArrow.ArrowType)i, 1);
+                _laneLastBeat[i] = (_laneLastBeat[i] + 1) % CM.BeatsPerLoop;
             }
         }
     }
 
     private void CheckNoteTiming(NoteArrow.ArrowType type)
     {
-        double curBeat = TimeKeeper.CurrentTime / (60 / (double)_curSong.Bpm) % CM.BeatsPerLoop;
-        if (_laneData[(int)type].Length == 0)
+        double realBeat = TimeKeeper.CurrentTime / (60 / (double)_curSong.Bpm) % CM.BeatsPerLoop;
+        int curBeat = (int)Math.Round(realBeat);
+        GD.Print("Cur beat " + curBeat + "Real: " + realBeat.ToString("#.###"));
+        if (
+            _laneData[(int)type][curBeat % CM.BeatsPerLoop] == null
+            || !_laneData[(int)type][curBeat % CM.BeatsPerLoop].IsActive
+        )
         {
-            PlayerAddNote(type, (int)Math.Round(curBeat));
+            _laneLastBeat[(int)type] = (curBeat) % CM.BeatsPerLoop;
+            PlayerAddNote(type, curBeat);
             return;
         }
-        double beatDif = Math.Abs(curBeat - GetFirstNote(type).Beat);
-        if (beatDif > 1)
-        {
-            PlayerAddNote(type, (int)Math.Round(curBeat));
-            return;
-        }
-        GD.Print("Note Hit. Dif: " + beatDif);
-        _laneData[(int)type].First().NoteHit();
+        double beatDif = Math.Abs(realBeat - curBeat);
+        _laneData[(int)type][curBeat % CM.BeatsPerLoop].NoteHit();
+        _laneLastBeat[(int)type] = (curBeat) % CM.BeatsPerLoop;
         HandleTiming(type, beatDif);
     }
 
     private void HandleTiming(NoteArrow.ArrowType type, double beatDif)
     {
-        CycleNote(type);
-        if (beatDif < _timingInterval * 2)
+        if (beatDif < _timingInterval * 1)
         {
             GD.Print("Perfect");
             Enemy.TakeDamage(1);
             NotePlacementBar.HitNote();
+            NotePlacementBar.ComboText("Perfect!");
         }
-        else if (beatDif < _timingInterval * 4)
+        else if (beatDif < _timingInterval * 2)
         {
             GD.Print("Good");
             Enemy.TakeDamage(0);
             NotePlacementBar.HitNote();
+            NotePlacementBar.ComboText("Good");
         }
-        else if (beatDif < _timingInterval * 6)
+        else if (beatDif < _timingInterval * 3)
         {
-            GD.Print("Okay");
+            GD.Print("Ok");
             Player.TakeDamage(1);
             NotePlacementBar.HitNote();
+            NotePlacementBar.ComboText("Okay");
         }
         else
         {
             GD.Print("Miss");
             Player.TakeDamage(2);
             NotePlacementBar.MissNote();
+            NotePlacementBar.ComboText("Miss");
         }
     }
     #endregion
