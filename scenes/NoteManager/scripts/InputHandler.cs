@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using FunkEngine;
 using Godot;
-using ArrowType = NoteArrow.ArrowType;
 
 /**
  * @class InputHandler
@@ -14,14 +14,6 @@ public partial class InputHandler : Node2D
 
     [Signal]
     public delegate void NoteReleasedEventHandler(ArrowType arrowType);
-
-    public struct ArrowData
-    {
-        public Color Color;
-        public string Key;
-        public NoteChecker Node;
-        public ArrowType Type;
-    }
 
     public ArrowData[] Arrows = new ArrowData[]
     {

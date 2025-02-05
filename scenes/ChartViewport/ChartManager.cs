@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
+using FunkEngine;
 using Godot;
-using ArrowType = NoteArrow.ArrowType;
 
 /**
  * @class ChartManager
@@ -98,10 +98,10 @@ public partial class ChartManager : SubViewportContainer
         }
     }
 
-    public NoteArrow AddArrowToLane(Note note, int noteIdx)
+    public NoteArrow AddArrowToLane(ArrowType type, int beat, int noteIdx)
     {
-        var newNote = CreateNote(note.Type, note.Beat);
-        CreateNote(note.Type, note.Beat + BeatsPerLoop); //Create a dummy arrow for looping visuals
+        var newNote = CreateNote(type, beat);
+        CreateNote(type, beat + BeatsPerLoop); //Create a dummy arrow for looping visuals
         newNote.NoteIdx = noteIdx;
         return newNote;
     }
@@ -110,7 +110,7 @@ public partial class ChartManager : SubViewportContainer
     {
         var noteScene = ResourceLoader.Load<PackedScene>("res://scenes/NoteManager/note.tscn");
         NoteArrow newArrow = noteScene.Instantiate<NoteArrow>();
-        newArrow.Init(IH.Arrows[(int)arrow]);
+        newArrow.Init(IH.Arrows[(int)arrow], beat);
 
         _arrowGroup.AddChild(newArrow);
         newArrow.Bounds = (float)((double)beat / BeatsPerLoop * (ChartLength / 2));

@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bd23wwbv7i4gg"]
-
-[ext_resource type="Script" path="res://scenes/BattleDirector/scripts/TextParticle.cs" id="1_j0ufq"]
-
-[node name="Control" type="Label"]
-anchors_preset = -1
-anchor_right = 0.08
-text = "900000"
-script = ExtResource("1_j0ufq")

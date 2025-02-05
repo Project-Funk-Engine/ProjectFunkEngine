@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using FunkEngine;
 using Godot;
 
 /**
@@ -26,13 +27,7 @@ public partial class BattleDirector : Node2D
     [Export]
     private AudioStreamPlayer Audio;
 
-    private double _timingInterval = .1; //secs
-
-    [Signal]
-    public delegate void PlayerDamageEventHandler(int damage);
-
-    [Signal]
-    public delegate void EnemyDamageEventHandler(int damage);
+    private double _timingInterval = .1; //secs, maybe make somewhat note dependent
 
     private SongData _curSong;
 
@@ -58,7 +53,7 @@ public partial class BattleDirector : Node2D
     private Note[] _notes = Array.Empty<Note>();
 
     //Returns first note of lane without modifying lane data
-    private Note GetNoteAt(NoteArrow.ArrowType dir, int beat)
+    private Note GetNoteAt(ArrowType dir, int beat)
     {
         return GetNote(_laneData[(int)dir][beat]);
     }
@@ -69,19 +64,23 @@ public partial class BattleDirector : Node2D
         return _notes[arrow.NoteIdx];
     }
 
-    private bool AddNoteToLane(Note note, bool isActive = true)
+    private bool IsNoteActive(ArrowType type, int beat)
     {
-        note.Beat %= CM.BeatsPerLoop;
-        //Don't add dupe notes
-        if (note.Beat == 0 || _notes.Any(nt => nt.Type == note.Type && nt.Beat == note.Beat))
+        return _laneData[(int)type][beat] != null && _laneData[(int)type][beat].IsActive;
+    }
+
+    private bool AddNoteToLane(ArrowType type, int beat, bool isActive = true)
+    {
+        beat %= CM.BeatsPerLoop;
+        //Don't add dupe notes //Beat at 0 is too messy.
+        if (beat == 0 || _laneData[(int)type][beat] != null)
         {
-            return false; //Beat at 0 is too messy.
+            return false;
         }
-        _notes = _notes.Append(note).ToArray();
         //Get noteArrow from CM
-        var arrow = CM.AddArrowToLane(note, _notes.Length - 1);
+        var arrow = CM.AddArrowToLane(type, beat, _notes.Length - 1);
         arrow.IsActive = isActive;
-        _laneData[(int)note.Type][note.Beat] = arrow;
+        _laneData[(int)type][beat] = arrow;
         return true;
     }
     #endregion
@@ -92,23 +91,19 @@ public partial class BattleDirector : Node2D
         GD.Print(CM.BeatsPerLoop);
         for (int i = 1; i < 15; i++)
         {
-            Note exampleNote = new Note(NoteArrow.ArrowType.Up, i * 4);
-            AddNoteToLane(exampleNote);
+            AddNoteToLane(ArrowType.Up, i * 4);
         }
         for (int i = 1; i < 15; i++)
         {
-            Note exampleNote = new Note(NoteArrow.ArrowType.Left, 4 * i + 1);
-            AddNoteToLane(exampleNote);
+            AddNoteToLane(ArrowType.Left, 4 * i + 1);
         }
         for (int i = 0; i < 10; i++)
         {
-            Note exampleNote = new Note(NoteArrow.ArrowType.Right, 3 * i + 32);
-            AddNoteToLane(exampleNote);
+            AddNoteToLane(ArrowType.Right, 3 * i + 32);
         }
         for (int i = 0; i < 3; i++)
         {
-            Note exampleNote = new Note(NoteArrow.ArrowType.Down, 8 * i + 16);
-            AddNoteToLane(exampleNote);
+            AddNoteToLane(ArrowType.Down, 8 * i + 16);
         }
     }
 
@@ -120,13 +115,16 @@ public partial class BattleDirector : Node2D
             SongLength = Audio.Stream.GetLength(),
             NumLoops = 5,
         };
-        
+
         Player = new Puppet_Template();
         AddChild(Player);
-        Player.Init(GD.Load<Texture2D>("res://scenes/BattleDirector/assets/Character1.png"), "Player");
+        Player.Init(
+            GD.Load<Texture2D>("res://scenes/BattleDirector/assets/Character1.png"),
+            "Player"
+        );
         Player.SetPosition(new Vector2(80, 0));
         Player.Sprite.Position += Vector2.Down * 30; //TEMP
-        
+
         Enemy = new Puppet_Template();
         Enemy.SetPosition(new Vector2(400, 0));
         AddChild(Enemy);
@@ -149,15 +147,11 @@ public partial class BattleDirector : Node2D
             new NoteArrow[CM.BeatsPerLoop],
         };
         AddExampleNotes();
-        
+
         //TEMP
         var enemTween = CreateTween();
-        enemTween
-            .TweenProperty(Enemy.Sprite, "position", Vector2.Down * 5, 1f)
-            .AsRelative();
-        enemTween
-            .TweenProperty(Enemy.Sprite, "position", Vector2.Up * 5, 1f)
-            .AsRelative();
+        enemTween.TweenProperty(Enemy.Sprite, "position", Vector2.Down * 5, 1f).AsRelative();
+        enemTween.TweenProperty(Enemy.Sprite, "position", Vector2.Up * 5, 1f).AsRelative();
         enemTween.SetTrans(Tween.TransitionType.Spring);
         enemTween.SetEase(Tween.EaseType.In);
         enemTween.SetLoops();
@@ -176,12 +170,12 @@ public partial class BattleDirector : Node2D
     }
 
     #region Input&Timing
-    private void OnNotePressed(NoteArrow.ArrowType type)
+    private void OnNotePressed(ArrowType type)
     {
         CheckNoteTiming(type);
     }
 
-    private void OnNoteReleased(NoteArrow.ArrowType arrowType) { }
+    private void OnNoteReleased(ArrowType arrowType) { }
 
     //Check all lanes for misses from missed inputs
     private void CheckMiss()
@@ -190,49 +184,39 @@ public partial class BattleDirector : Node2D
         double realBeat = TimeKeeper.CurrentTime / (60 / (double)_curSong.Bpm) % CM.BeatsPerLoop;
         for (int i = 0; i < _laneData.Length; i++)
         {
-            if (
-                _laneLastBeat[i] < Math.Floor(realBeat)
-                || (_laneLastBeat[i] == CM.BeatsPerLoop - 1 && Math.Floor(realBeat) == 0)
-            )
-            { //If above, a note has been missed
-                //GD.Print("Last beat " + _laneLastBeat[i]);
-                if (
-                    _laneData[i][_laneLastBeat[i]] == null
-                    || !_laneData[i][_laneLastBeat[i]].IsActive
-                )
-                {
-                    _laneLastBeat[i] = (_laneLastBeat[i] + 1) % CM.BeatsPerLoop;
-                    continue;
-                }
-                //Note exists and has been missed
-                _laneData[i][_laneLastBeat[i]].NoteHit();
-                HandleTiming((NoteArrow.ArrowType)i, 1);
+            if (!(_laneLastBeat[i] < Math.Floor(realBeat)))
+                continue;
+            if (!IsNoteActive((ArrowType)i, _laneLastBeat[i]))
+            {
                 _laneLastBeat[i] = (_laneLastBeat[i] + 1) % CM.BeatsPerLoop;
+                continue;
             }
+            //Note exists and has been missed
+            _laneData[i][_laneLastBeat[i]].NoteHit();
+            HandleTiming(1);
+            _laneLastBeat[i] = (_laneLastBeat[i] + 1) % CM.BeatsPerLoop;
         }
     }
 
-    private void CheckNoteTiming(NoteArrow.ArrowType type)
+    private void CheckNoteTiming(ArrowType type)
     {
         double realBeat = TimeKeeper.CurrentTime / (60 / (double)_curSong.Bpm) % CM.BeatsPerLoop;
         int curBeat = (int)Math.Round(realBeat);
         GD.Print("Cur beat " + curBeat + "Real: " + realBeat.ToString("#.###"));
-        if (
-            _laneData[(int)type][curBeat % CM.BeatsPerLoop] == null
-            || !_laneData[(int)type][curBeat % CM.BeatsPerLoop].IsActive
-        )
+        if (_laneData[(int)type][curBeat % CM.BeatsPerLoop] == null)
         {
-            _laneLastBeat[(int)type] = (curBeat) % CM.BeatsPerLoop;
             PlayerAddNote(type, curBeat);
             return;
         }
+        if (!_laneData[(int)type][curBeat % CM.BeatsPerLoop].IsActive)
+            return;
         double beatDif = Math.Abs(realBeat - curBeat);
         _laneData[(int)type][curBeat % CM.BeatsPerLoop].NoteHit();
         _laneLastBeat[(int)type] = (curBeat) % CM.BeatsPerLoop;
-        HandleTiming(type, beatDif);
+        HandleTiming(beatDif);
     }
 
-    private void HandleTiming(NoteArrow.ArrowType type, double beatDif)
+    private void HandleTiming(double beatDif)
     {
         if (beatDif < _timingInterval * 1)
         {
@@ -265,21 +249,16 @@ public partial class BattleDirector : Node2D
     }
     #endregion
 
-    private void PlayerAddNote(NoteArrow.ArrowType type, int beat)
+    private void PlayerAddNote(ArrowType type, int beat)
     {
         // can also add some sort of keybind here to also have pressed
         // in case the user just presses the note too early and spawns a note
-        GD.Print(
-            $"Player trying to place {type} typed note at beat: "
-                + beat
-                + " Verdict: "
-                + NotePlacementBar.CanPlaceNote()
-        );
+        GD.Print($"Player trying to place {type} typed note at beat: " + beat);
         if (NotePlacementBar.CanPlaceNote())
         {
-            Note exampleNote = new Note(type, beat % CM.BeatsPerLoop);
-            if (AddNoteToLane(exampleNote, false))
+            if (AddNoteToLane(type, beat % CM.BeatsPerLoop, false))
                 NotePlacementBar.PlacedNote();
+            GD.Print("Note Placed.");
         }
     }
 }

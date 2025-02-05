@@ -1,3 +1,4 @@
+using FunkEngine;
 using Godot;
 
 /**
@@ -6,21 +7,18 @@ using Godot;
  */
 public partial class NoteArrow : Sprite2D
 { //TextRect caused issues later :)
-    public enum ArrowType
-    {
-        Up = 0,
-        Down = 1,
-        Left = 2,
-        Right = 3,
-    }
-
     public int NoteIdx;
+    public ArrowType Type;
+    public int Beat;
     public float Bounds;
     public bool IsActive;
 
-    public void Init(InputHandler.ArrowData parentArrowData)
+    public void Init(ArrowData parentArrowData, int beat)
     {
         ZIndex = 1;
+
+        Type = parentArrowData.Type;
+        Beat = beat;
 
         SelfModulate = parentArrowData.Color;
         Position += Vector2.Down * (parentArrowData.Node.GlobalPosition.Y);

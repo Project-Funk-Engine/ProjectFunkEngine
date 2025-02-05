@@ -1,4 +1,5 @@
 using System;
+using FunkEngine;
 using Godot;
 
 /**
@@ -7,12 +8,15 @@ using Godot;
  */
 public partial class Note : Resource
 {
-    public int Beat;
-    public NoteArrow.ArrowType Type;
+    private string _effect;
 
-    public Note(NoteArrow.ArrowType type = NoteArrow.ArrowType.Up, int beat = 0)
+    public Note(string effect = "")
     {
-        Beat = beat;
-        Type = type;
+        _effect = effect;
+    }
+
+    public string GetEffect()
+    {
+        return _effect;
     }
 }
