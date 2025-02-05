@@ -11,8 +11,8 @@ using Godot;
 public partial class BattleDirector : Node2D
 {
     #region Declarations
-    private HealthBar Player;
-    private HealthBar Enemy;
+    private Puppet_Template Player;
+    private Puppet_Template Enemy;
 
     [Export]
     private ChartManager CM;
@@ -120,11 +120,24 @@ public partial class BattleDirector : Node2D
             SongLength = Audio.Stream.GetLength(),
             NumLoops = 5,
         };
+        
+        Player = new Puppet_Template();
+        AddChild(Player);
+        Player.Init(GD.Load<Texture2D>("res://scenes/BattleDirector/assets/Character1.png"), "Player");
+        Player.SetPosition(new Vector2(80, 0));
+        Player.Sprite.Position += Vector2.Down * 30; //TEMP
+        
+        Enemy = new Puppet_Template();
+        Enemy.SetPosition(new Vector2(400, 0));
+        AddChild(Enemy);
+        Enemy.Init(GD.Load<Texture2D>("res://scenes/BattleDirector/assets/Enemy1.png"), "Enemy");
+        Enemy.Sprite.Scale *= 2;
 
         var timer = GetTree().CreateTimer(AudioServer.GetTimeToNextMix());
         timer.Timeout += Begin;
     }
 
+    //TODO: This will all change
     private void Begin()
     {
         CM.PrepChart(_curSong);
@@ -136,19 +149,14 @@ public partial class BattleDirector : Node2D
             new NoteArrow[CM.BeatsPerLoop],
         };
         AddExampleNotes();
-
-        Player = GetNode<HealthBar>("PlayerHP");
-        Player.GetNode<Sprite2D>("Sprite2D").Scale *= .5f; //TEMP
-        Player.GetNode<Sprite2D>("Sprite2D").Position += Vector2.Down * 30; //TEMP
-        Enemy = GetNode<HealthBar>("EnemyHP");
-
+        
         //TEMP
         var enemTween = CreateTween();
         enemTween
-            .TweenProperty(Enemy.GetNode<Sprite2D>("Sprite2D"), "position", Vector2.Down * 5, 1f)
+            .TweenProperty(Enemy.Sprite, "position", Vector2.Down * 5, 1f)
             .AsRelative();
         enemTween
-            .TweenProperty(Enemy.GetNode<Sprite2D>("Sprite2D"), "position", Vector2.Up * 5, 1f)
+            .TweenProperty(Enemy.Sprite, "position", Vector2.Up * 5, 1f)
             .AsRelative();
         enemTween.SetTrans(Tween.TransitionType.Spring);
         enemTween.SetEase(Tween.EaseType.In);
