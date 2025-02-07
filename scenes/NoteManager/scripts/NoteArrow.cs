@@ -20,7 +20,7 @@ public partial class NoteArrow : Sprite2D
         Type = parentArrowData.Type;
         Beat = beat;
 
-        SelfModulate = parentArrowData.Color;
+        //SelfModulate = parentArrowData.Color;
         Position += Vector2.Down * (parentArrowData.Node.GlobalPosition.Y);
         RotationDegrees = parentArrowData.Node.RotationDegrees;
     }

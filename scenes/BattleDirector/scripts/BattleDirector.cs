@@ -10,10 +10,11 @@ using Godot;
  * @brief Higher priority director to manage battle effects. Can directly access managers, which should signal up to Director WIP
  */
 public partial class BattleDirector : Node2D
-{
+{ //TODO: Maybe move some Director functionality to a sub node.
     #region Declarations
-    private Puppet_Template Player;
-    private Puppet_Template Enemy;
+    //private Puppet_Template[] ActivePuppets;
+    private PuppetTemplate Player;
+    private PuppetTemplate Enemy;
 
     [Export]
     private ChartManager CM;
@@ -78,14 +79,21 @@ public partial class BattleDirector : Node2D
             return false;
         }
         //Get noteArrow from CM
-        var arrow = CM.AddArrowToLane(type, beat, _notes.Length - 1);
+        NoteArrow arrow;
+        if (isActive)
+        {
+            arrow = CM.AddArrowToLane(type, beat, _notes.Length - 1);
+        }
+        else
+        {
+            arrow = CM.AddArrowToLane(type, beat, _notes.Length - 1, new Color(1, 0.43f, 0.26f));
+        }
         arrow.IsActive = isActive;
         _laneData[(int)type][beat] = arrow;
         return true;
     }
     #endregion
 
-    //Creeate dummy notes
     private void AddExampleNotes()
     {
         GD.Print(CM.BeatsPerLoop);
@@ -116,7 +124,7 @@ public partial class BattleDirector : Node2D
             NumLoops = 5,
         };
 
-        Player = new Puppet_Template();
+        Player = new PlayerPuppet();
         AddChild(Player);
         Player.Init(
             GD.Load<Texture2D>("res://scenes/BattleDirector/assets/Character1.png"),
@@ -125,7 +133,7 @@ public partial class BattleDirector : Node2D
         Player.SetPosition(new Vector2(80, 0));
         Player.Sprite.Position += Vector2.Down * 30; //TEMP
 
-        Enemy = new Puppet_Template();
+        Enemy = new PuppetTemplate();
         Enemy.SetPosition(new Vector2(400, 0));
         AddChild(Enemy);
         Enemy.Init(GD.Load<Texture2D>("res://scenes/BattleDirector/assets/Enemy1.png"), "Enemy");
@@ -184,9 +192,12 @@ public partial class BattleDirector : Node2D
         double realBeat = TimeKeeper.CurrentTime / (60 / (double)_curSong.Bpm) % CM.BeatsPerLoop;
         for (int i = 0; i < _laneData.Length; i++)
         {
-            if (!(_laneLastBeat[i] < Math.Floor(realBeat)))
+            if (
+                !(_laneLastBeat[i] < Math.Floor(realBeat))
+                && (_laneLastBeat[i] != CM.BeatsPerLoop - 1 || Math.Floor(realBeat) != 0)
+            )
                 continue;
-            if (!IsNoteActive((ArrowType)i, _laneLastBeat[i]))
+            if (_laneData[i][_laneLastBeat[i]] == null || !_laneData[i][_laneLastBeat[i]].IsActive)
             {
                 _laneLastBeat[i] = (_laneLastBeat[i] + 1) % CM.BeatsPerLoop;
                 continue;

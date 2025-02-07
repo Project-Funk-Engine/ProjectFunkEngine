@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bucvj4fquqpkr"
-path="res://.godot/imported/right-arrow.png-b3005485b42777a77a9d39fbba48875d.ctex"
+uid="uid://xtygvpk7s8e4"
+path="res://.godot/imported/outline_white.png-eff17a86b93281db885f81fdb608ab83.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/NoteManager/assets/right-arrow.png"
-dest_files=["res://.godot/imported/right-arrow.png-b3005485b42777a77a9d39fbba48875d.ctex"]
+source_file="res://scenes/NoteManager/assets/outline_white.png"
+dest_files=["res://.godot/imported/outline_white.png-eff17a86b93281db885f81fdb608ab83.ctex"]
 
 [params]
 

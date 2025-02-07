@@ -10,6 +10,8 @@ public partial class Note : Resource
 {
     private string _effect;
 
+    //public Puppet_Template Owner;
+
     public Note(string effect = "")
     {
         _effect = effect;

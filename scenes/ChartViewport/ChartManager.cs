@@ -59,16 +59,16 @@ public partial class ChartManager : SubViewportContainer
         tween
             .TweenMethod(
                 Callable.From((Vector2 scale) => TweenArrows(scale)),
-                new Vector2(0.07f, 0.07f),
-                new Vector2(0.07f, 0.07f) * 1.25f,
+                Vector2.One * .8f,
+                Vector2.One,
                 60f / TimeKeeper.Bpm / 2
             )
             .SetEase(Tween.EaseType.Out)
             .SetTrans(Tween.TransitionType.Elastic);
         tween.TweenMethod(
             Callable.From((Vector2 scale) => TweenArrows(scale)),
-            new Vector2(0.07f, 0.07f) * 1.25f,
-            new Vector2(0.07f, 0.07f),
+            Vector2.One,
+            Vector2.One * .8f,
             60f / TimeKeeper.Bpm / 2
         );
         tween.SetLoops().Play();
@@ -98,10 +98,20 @@ public partial class ChartManager : SubViewportContainer
         }
     }
 
-    public NoteArrow AddArrowToLane(ArrowType type, int beat, int noteIdx)
+    public NoteArrow AddArrowToLane(
+        ArrowType type,
+        int beat,
+        int noteIdx,
+        Color colorOverride = default
+    )
     {
         var newNote = CreateNote(type, beat);
-        CreateNote(type, beat + BeatsPerLoop); //Create a dummy arrow for looping visuals
+        var loopArrow = CreateNote(type, beat + BeatsPerLoop); //Create a dummy arrow for looping visuals
+        if (colorOverride != default)
+        {
+            newNote.Modulate = colorOverride;
+            loopArrow.Modulate = colorOverride;
+        }
         newNote.NoteIdx = noteIdx;
         return newNote;
     }

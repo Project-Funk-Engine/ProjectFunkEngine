@@ -4,13 +4,13 @@ using Godot;
 /** Essentially a battle entity. Has HP and can be healed or damaged.
  * TODO: Look into interfaces
  */
-public partial class Puppet_Template : Node2D
+public partial class PuppetTemplate : Node2D
 {
-    private HealthBar _healthBar;
+    protected HealthBar _healthBar;
     public Sprite2D Sprite = new Sprite2D();
 
-    private int _maxHealth = 100;
-    private int _currentHealth = 100;
+    protected int _maxHealth = 100;
+    protected int _currentHealth = 100;
 
     //Stats would go here.
 
