@@ -7,19 +7,16 @@
 [ext_resource type="PackedScene" uid="uid://duhiilcv4tat3" path="res://scenes/BattleDirector/NotePlacementBar.tscn" id="7_3ko4g"]
 [ext_resource type="AudioStream" uid="uid://cv6lqjj6lu36h" path="res://Audio/335571__magntron__gamemusic_120bpm.mp3" id="8_caqms"]
 
-[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM", "IH", "NotePlacementBar", "CD", "Audio")]
+[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM", "NotePlacementBar", "CD", "Audio")]
 script = ExtResource("1_cwqqr")
 CM = NodePath("SubViewport")
-IH = NodePath("SubViewport/SubViewport/noteManager")
 NotePlacementBar = NodePath("NotePlacementBar")
 CD = NodePath("Conductor")
 Audio = NodePath("AudioStreamPlayer")
 
-[node name="Conductor" type="Node" parent="." node_paths=PackedStringArray("CM", "IH", "NotePlacementBar")]
+[node name="Conductor" type="Node" parent="." node_paths=PackedStringArray("CM")]
 script = ExtResource("2_pcp76")
 CM = NodePath("../SubViewport")
-IH = NodePath("../SubViewport/SubViewport/noteManager")
-NotePlacementBar = NodePath("../NotePlacementBar")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_caqms")
@@ -50,3 +47,11 @@ offset_left = 16.0
 offset_top = 164.0
 offset_right = 16.0
 offset_bottom = 164.0
+
+[node name="TempRelicList" type="Label" parent="."]
+offset_left = 564.0
+offset_top = 165.0
+offset_right = 613.0
+offset_bottom = 188.0
+theme_override_font_sizes/font_size = 10
+text = "Relics:"

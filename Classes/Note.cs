@@ -12,16 +12,29 @@ public partial class Note : Resource, IBattleEvent
     private int _baseVal;
     private Action<BattleDirector, int> NoteEffect;
 
-    Note(PuppetTemplate owner, Action<BattleDirector, int> noteEffect, int baseVal)
+    //public string Tooltip;
+
+    public Note(
+        PuppetTemplate owner,
+        int baseVal = 1,
+        Action<BattleDirector, int> noteEffect = null
+    )
     {
         Owner = owner;
-        NoteEffect = noteEffect;
+        NoteEffect =
+            noteEffect
+            ?? (
+                (BD, val) =>
+                {
+                    BD.GetTarget(this).TakeDamage(val);
+                }
+            );
         _baseVal = baseVal;
     }
 
-    public string GetTrigger()
+    public BattleEffectTrigger GetTrigger()
     {
-        return "OnHit";
+        return BattleEffectTrigger.SelfNoteHit;
     }
 
     public void OnTrigger(BattleDirector BD)

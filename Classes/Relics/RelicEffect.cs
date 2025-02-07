@@ -4,11 +4,15 @@ using Godot;
 
 public partial class RelicEffect : IBattleEvent
 {
-    private string Trigger { get; set; }
+    private BattleEffectTrigger Trigger { get; set; }
     public int BaseValue;
     private Action<BattleDirector, int> OnRelicEffect;
 
-    public RelicEffect(string trigger, int val, Action<BattleDirector, int> onRelicEffect)
+    public RelicEffect(
+        BattleEffectTrigger trigger,
+        int val,
+        Action<BattleDirector, int> onRelicEffect
+    )
     {
         BaseValue = val;
         Trigger = trigger;
@@ -20,7 +24,7 @@ public partial class RelicEffect : IBattleEvent
         OnRelicEffect(battleDirector, BaseValue);
     }
 
-    public string GetTrigger()
+    public BattleEffectTrigger GetTrigger()
     {
         return Trigger;
     }

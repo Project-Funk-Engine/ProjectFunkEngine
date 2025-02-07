@@ -7,7 +7,7 @@ public partial class Conductor : Node
     [Export]
     private ChartManager CM;
 
-    public delegate void TimedInputHandler(ArrowType type, int beat, double beatDif, int flag = 0);
+    public delegate void TimedInputHandler(Note note, ArrowType type, int beat, double beatDif);
     public event TimedInputHandler TimedInput;
 
     //Assume queue structure for notes in each lane.
@@ -23,7 +23,7 @@ public partial class Conductor : Node
         0,
     };
 
-    private Note[] _notes = Array.Empty<Note>();
+    public Note[] Notes = Array.Empty<Note>();
 
     //Returns first note of lane without modifying lane data
     private Note GetNoteAt(ArrowType dir, int beat)
@@ -34,7 +34,7 @@ public partial class Conductor : Node
     //Get note of a note arrow
     private Note GetNote(NoteArrow arrow)
     {
-        return _notes[arrow.NoteIdx];
+        return Notes[arrow.NoteIdx];
     }
 
     private bool IsNoteActive(ArrowType type, int beat)
@@ -51,15 +51,16 @@ public partial class Conductor : Node
             return false;
         }
 
-        //Get noteArrow from CM
         NoteArrow arrow;
         if (isActive)
         {
-            arrow = CM.AddArrowToLane(type, beat, _notes.Length - 1);
+            arrow = CM.AddArrowToLane(type, beat, Notes.Length - 1);
+            arrow.NoteIdx = 1;
         }
         else
         {
-            arrow = CM.AddArrowToLane(type, beat, _notes.Length - 1, new Color(1, 0.43f, 0.26f));
+            arrow = CM.AddArrowToLane(type, beat, Notes.Length - 1, new Color(1, 0.43f, 0.26f));
+            arrow.NoteIdx = 0;
         }
 
         arrow.IsActive = isActive;
@@ -76,9 +77,10 @@ public partial class Conductor : Node
             new NoteArrow[CM.BeatsPerLoop],
             new NoteArrow[CM.BeatsPerLoop],
         };
+        AddExampleNotes();
     }
 
-    public void AddExampleNotes()
+    private void AddExampleNotes()
     {
         GD.Print(CM.BeatsPerLoop);
         for (int i = 1; i < 15; i++)
@@ -122,8 +124,12 @@ public partial class Conductor : Node
 
             //Note exists and has been missed
             _laneData[i][_laneLastBeat[i]].NoteHit();
-            TimedInput?.Invoke((ArrowType)i, _laneLastBeat[i], 1);
-            //HandleTiming(1);
+            TimedInput?.Invoke(
+                GetNoteAt((ArrowType)i, _laneLastBeat[i]),
+                (ArrowType)i,
+                _laneLastBeat[i],
+                1
+            );
             _laneLastBeat[i] = (_laneLastBeat[i] + 1) % CM.BeatsPerLoop;
         }
     }
@@ -135,7 +141,7 @@ public partial class Conductor : Node
         GD.Print("Cur beat " + curBeat + "Real: " + realBeat.ToString("#.###"));
         if (_laneData[(int)type][curBeat % CM.BeatsPerLoop] == null)
         {
-            TimedInput?.Invoke(type, curBeat, Math.Abs(realBeat - curBeat), -1);
+            TimedInput?.Invoke(null, type, curBeat, Math.Abs(realBeat - curBeat));
             return;
         }
 
@@ -144,6 +150,6 @@ public partial class Conductor : Node
         double beatDif = Math.Abs(realBeat - curBeat);
         _laneData[(int)type][curBeat % CM.BeatsPerLoop].NoteHit();
         _laneLastBeat[(int)type] = (curBeat) % CM.BeatsPerLoop;
-        TimedInput?.Invoke(type, curBeat, beatDif);
+        TimedInput?.Invoke(GetNoteAt(type, curBeat), type, curBeat, beatDif);
     }
 }

@@ -20,9 +20,6 @@ public partial class BattleDirector : Node2D
     private ChartManager CM;
 
     [Export]
-    private InputHandler IH;
-
-    [Export]
     private NotePlacementBar NotePlacementBar;
 
     [Export]
@@ -50,6 +47,16 @@ public partial class BattleDirector : Node2D
             GD.Print("Note Placed.");
         }
     }
+
+    public PuppetTemplate GetTarget(Note note)
+    {
+        if (note.Owner == Player)
+        {
+            return Enemy;
+        }
+
+        return Player;
+    }
     #endregion
 
     #region Initialization
@@ -66,13 +73,14 @@ public partial class BattleDirector : Node2D
 
         Player = new PlayerPuppet();
         AddChild(Player);
-        Player.Init(
-            GD.Load<Texture2D>("res://scenes/BattleDirector/assets/Character1.png"),
-            "Player"
-        );
-        Player.SetPosition(new Vector2(80, 0));
-        Player.Sprite.Position += Vector2.Down * 30; //TEMP
         EventizeRelics();
+        foreach (var note in Player.Stats.CurNotes)
+        {
+            note.Owner = Player;
+            CD.Notes = CD.Notes.Append(note).ToArray();
+        }
+        Note enemNote = new Note(Enemy, 2);
+        CD.Notes = CD.Notes.Append(enemNote).ToArray();
 
         Enemy = new PuppetTemplate();
         Enemy.SetPosition(new Vector2(400, 0));
@@ -89,10 +97,9 @@ public partial class BattleDirector : Node2D
     {
         CM.PrepChart(_curSong);
         CD.Prep();
-        CD.AddExampleNotes();
         CD.TimedInput += OnTimedInput;
 
-        //TEMP
+        //TEMP TODO: Make enemies, can put this in an enemy subclass
         var enemTween = CreateTween();
         enemTween.TweenProperty(Enemy.Sprite, "position", Vector2.Down * 5, 1f).AsRelative();
         enemTween.TweenProperty(Enemy.Sprite, "position", Vector2.Up * 5, 1f).AsRelative();
@@ -122,10 +129,10 @@ public partial class BattleDirector : Node2D
 
     private void OnNoteReleased(ArrowType arrowType) { }
 
-    private void OnTimedInput(ArrowType arrowType, int beat, double beatDif, int flag)
+    private void OnTimedInput(Note note, ArrowType arrowType, int beat, double beatDif)
     {
         GD.Print(arrowType + " " + beat + " difference: " + beatDif);
-        if (flag == -1)
+        if (note == null)
         {
             PlayerAddNote(arrowType, beat);
             return;
@@ -134,28 +141,28 @@ public partial class BattleDirector : Node2D
         if (beatDif < _timingInterval * 1)
         {
             GD.Print("Perfect");
-            Enemy.TakeDamage(3);
+            note.OnTrigger(this);
             NotePlacementBar.HitNote();
             NotePlacementBar.ComboText("Perfect!");
         }
         else if (beatDif < _timingInterval * 2)
         {
             GD.Print("Good");
-            Enemy.TakeDamage(1);
+            note.OnTrigger(this);
             NotePlacementBar.HitNote();
             NotePlacementBar.ComboText("Good");
         }
         else if (beatDif < _timingInterval * 3)
         {
             GD.Print("Ok");
-            Player.TakeDamage(1);
+            note.OnTrigger(this);
             NotePlacementBar.HitNote();
             NotePlacementBar.ComboText("Okay");
         }
         else
         {
             GD.Print("Miss");
-            Player.TakeDamage(2);
+            note.OnTrigger(this);
             NotePlacementBar.MissNote();
             NotePlacementBar.ComboText("Miss");
         }
@@ -165,19 +172,20 @@ public partial class BattleDirector : Node2D
 
     #region BattleEffect Handling
 
-    public delegate void NotePlacedHandler(BattleDirector BD);
+    private delegate void NotePlacedHandler(BattleDirector BD);
     private event NotePlacedHandler NotePlaced;
 
     private void EventizeRelics()
     {
         GD.Print("Hooking up relics");
-        foreach (RelicTemplate relic in Player.Stats.CurRelics)
+        foreach (var relic in Player.Stats.CurRelics)
         {
-            foreach (RelicEffect effect in relic.Effects)
+            GetNode<Label>("TempRelicList").Text += "\n" + relic.Name;
+            foreach (var effect in relic.Effects)
             {
                 switch (effect.GetTrigger()) //TODO: Look into a way to get eventhandler from string
                 {
-                    case "NotePlaced":
+                    case BattleEffectTrigger.NotePlaced:
                         NotePlaced += effect.OnTrigger;
                         break;
                 }

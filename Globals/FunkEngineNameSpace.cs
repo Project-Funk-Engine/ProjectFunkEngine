@@ -10,6 +10,13 @@ public enum ArrowType
     Right = 3,
 }
 
+public enum BattleEffectTrigger
+{
+    NotePlaced,
+    NoteHit,
+    SelfNoteHit,
+}
+
 public struct SongData
 {
     public int Bpm;
@@ -28,5 +35,5 @@ public struct ArrowData
 public interface IBattleEvent
 {
     void OnTrigger(BattleDirector BD);
-    string GetTrigger();
+    BattleEffectTrigger GetTrigger();
 }

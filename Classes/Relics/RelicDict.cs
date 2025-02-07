@@ -2,6 +2,9 @@ using System;
 using FunkEngine;
 using Godot;
 
+/**
+ *
+ */
 public class RelicDict
 {
     public static RelicTemplate[] RelicPool = new[]
@@ -11,7 +14,7 @@ public class RelicDict
             new RelicEffect[]
             {
                 new RelicEffect(
-                    "NotePlaced",
+                    BattleEffectTrigger.NotePlaced,
                     5,
                     (director, val) =>
                     {
