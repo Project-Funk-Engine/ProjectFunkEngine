@@ -10,10 +10,23 @@ public enum ArrowType
     Right = 3,
 }
 
+public struct SongData
+{
+    public int Bpm;
+    public double SongLength;
+    public int NumLoops;
+}
+
 public struct ArrowData
 {
     public Color Color;
     public string Key;
     public NoteChecker Node;
     public ArrowType Type;
+}
+
+public interface IBattleEvent
+{
+    void OnTrigger(BattleDirector BD);
+    string GetTrigger();
 }

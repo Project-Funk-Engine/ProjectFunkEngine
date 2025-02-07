@@ -39,7 +39,7 @@ public partial class ChartManager : SubViewportContainer
         EmitSignal(nameof(NoteReleased), (int)type);
     }
 
-    public void PrepChart(BattleDirector.SongData songData)
+    public void PrepChart(SongData songData)
     {
         _loopLen = songData.SongLength / songData.NumLoops;
         TimeKeeper.LoopLength = (float)_loopLen;

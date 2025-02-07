@@ -6,19 +6,26 @@ using Godot;
  * @class Note
  * @brief Data structure class for holding data and methods for a battle time note. WIP
  */
-public partial class Note : Resource
+public partial class Note : Resource, IBattleEvent
 {
-    private string _effect;
+    public PuppetTemplate Owner;
+    private int _baseVal;
+    private Action<BattleDirector, int> NoteEffect;
 
-    //public Puppet_Template Owner;
-
-    public Note(string effect = "")
+    Note(PuppetTemplate owner, Action<BattleDirector, int> noteEffect, int baseVal)
     {
-        _effect = effect;
+        Owner = owner;
+        NoteEffect = noteEffect;
+        _baseVal = baseVal;
     }
 
-    public string GetEffect()
+    public string GetTrigger()
     {
-        return _effect;
+        return "OnHit";
+    }
+
+    public void OnTrigger(BattleDirector BD)
+    {
+        NoteEffect(BD, _baseVal);
     }
 }
