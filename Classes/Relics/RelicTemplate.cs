@@ -14,4 +14,9 @@ public partial class RelicTemplate : Resource
         Effects = EffectTags;
         this.Name = Name;
     }
+
+    public RelicTemplate Clone()
+    {
+        return (RelicTemplate)MemberwiseClone();
+    }
 }

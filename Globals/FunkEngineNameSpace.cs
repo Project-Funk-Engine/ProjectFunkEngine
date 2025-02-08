@@ -17,6 +17,15 @@ public enum BattleEffectTrigger
     SelfNoteHit,
 }
 
+public enum Timing
+{
+    Miss = 0,
+    Bad = 1,
+    Okay = 2,
+    Good = 3,
+    Perfect = 4,
+}
+
 public struct SongData
 {
     public int Bpm;

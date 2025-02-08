@@ -60,7 +60,6 @@ public partial class BattleDirector : Node2D
     #endregion
 
     #region Initialization
-
     public override void _Ready()
     {
         _curSong = new SongData
@@ -74,12 +73,13 @@ public partial class BattleDirector : Node2D
         Player = new PlayerPuppet();
         AddChild(Player);
         EventizeRelics();
+        //TODO: Refine
         foreach (var note in Player.Stats.CurNotes)
         {
             note.Owner = Player;
             CD.Notes = CD.Notes.Append(note).ToArray();
         }
-        Note enemNote = new Note(Enemy, 2);
+        Note enemNote = Scribe.NoteDictionary[0].Clone();
         CD.Notes = CD.Notes.Append(enemNote).ToArray();
 
         Enemy = new PuppetTemplate();
@@ -138,34 +138,40 @@ public partial class BattleDirector : Node2D
             return;
         }
         //TODO: Evaluate Timing as a function
-        if (beatDif < _timingInterval * 1)
+        Timing timed = CheckTiming(beatDif);
+        GD.Print(timed);
+
+        if (timed == Timing.Miss)
         {
-            GD.Print("Perfect");
-            note.OnTrigger(this);
-            NotePlacementBar.HitNote();
-            NotePlacementBar.ComboText("Perfect!");
-        }
-        else if (beatDif < _timingInterval * 2)
-        {
-            GD.Print("Good");
-            note.OnTrigger(this);
-            NotePlacementBar.HitNote();
-            NotePlacementBar.ComboText("Good");
-        }
-        else if (beatDif < _timingInterval * 3)
-        {
-            GD.Print("Ok");
-            note.OnTrigger(this);
-            NotePlacementBar.HitNote();
-            NotePlacementBar.ComboText("Okay");
+            note.OnHit(this, timed);
+            NotePlacementBar.MissNote();
         }
         else
         {
-            GD.Print("Miss");
-            note.OnTrigger(this);
-            NotePlacementBar.MissNote();
-            NotePlacementBar.ComboText("Miss");
+            note.OnHit(this, timed);
+            NotePlacementBar.HitNote();
         }
+        NotePlacementBar.ComboText(timed.ToString());
+    }
+
+    private Timing CheckTiming(double beatDif)
+    {
+        if (beatDif < _timingInterval * 1)
+        {
+            return Timing.Perfect;
+        }
+
+        if (beatDif < _timingInterval * 2)
+        {
+            return Timing.Good;
+        }
+
+        if (beatDif < _timingInterval * 3)
+        {
+            return Timing.Okay;
+        }
+
+        return Timing.Miss;
     }
 
     #endregion
@@ -177,7 +183,6 @@ public partial class BattleDirector : Node2D
 
     private void EventizeRelics()
     {
-        GD.Print("Hooking up relics");
         foreach (var relic in Player.Stats.CurRelics)
         {
             GetNode<Label>("TempRelicList").Text += "\n" + relic.Name;
