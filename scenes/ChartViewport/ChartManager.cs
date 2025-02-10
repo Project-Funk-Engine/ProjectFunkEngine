@@ -127,4 +127,15 @@ public partial class ChartManager : SubViewportContainer
         newArrow.Position += Vector2.Right * newArrow.Bounds * 10; //temporary fix for notes spawning and instantly calling loop from originating at 0,0
         return newArrow;
     }
+
+    public override void _ExitTree()
+    {
+        GD.Print("[DEBUG] Stopping tweens before exiting the scene...");
+
+        foreach (var tween in GetTree().GetProcessedTweens())
+        {
+            tween.Stop();
+            GD.Print("[DEBUG] Stopped tween.");
+        }
+    }
 }

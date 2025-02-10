@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b0mrgr7h0ty1y"]
+[gd_scene load_steps=10 format=3 uid="uid://b0mrgr7h0ty1y"]
 
 [ext_resource type="Script" path="res://scenes/BattleDirector/scripts/BattleDirector.cs" id="1_cwqqr"]
 [ext_resource type="PackedScene" uid="uid://dfevfib11kou1" path="res://scenes/ChartViewport/ChartViewport.tscn" id="2_cupb3"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://ci0g72j8q4ec2" path="res://scenes/BattleDirector/assets/CoolBG.jpg" id="4_13o87"]
 [ext_resource type="PackedScene" uid="uid://duhiilcv4tat3" path="res://scenes/BattleDirector/NotePlacementBar.tscn" id="7_3ko4g"]
 [ext_resource type="AudioStream" uid="uid://cv6lqjj6lu36h" path="res://Audio/335571__magntron__gamemusic_120bpm.mp3" id="8_caqms"]
+[ext_resource type="Script" path="res://scripts/SceneChange.cs" id="9_bxa6e"]
 
 [node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM", "NotePlacementBar", "CD", "Audio")]
 script = ExtResource("1_cwqqr")
@@ -47,6 +48,20 @@ offset_left = 16.0
 offset_top = 164.0
 offset_right = 16.0
 offset_bottom = 164.0
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Button" type="Button" parent="Control"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Return to Title"
+script = ExtResource("9_bxa6e")
+ScenePath = "res://scenes/TestTransition/testTransition.tscn"
 
 [node name="TempRelicList" type="Label" parent="."]
 offset_left = 564.0
