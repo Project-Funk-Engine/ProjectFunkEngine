@@ -9,12 +9,12 @@ public partial class SceneChange : Button
     public override void _Ready()
     {
         Pressed += OnButtonPressed;
-        GD.Print($"[DEBUG] Scene Path: '{ScenePath}' (Length: {ScenePath.Length})");
+        GD.Print($"[DEBUG] Scene Path: '{ScenePath}'");
     }
 
     private void OnButtonPressed()
     {
-        ScenePath = ScenePath.Trim('\"');
+        //ScenePath = ScenePath.Trim('\"');
         if (ScenePath.ToLower() == "exit")
         {
             GD.Print("Exiting game");
@@ -25,7 +25,7 @@ public partial class SceneChange : Button
         if (string.IsNullOrEmpty(ScenePath) || !ResourceLoader.Exists(ScenePath))
         {
             GD.PrintErr($"❌ Scene not found: {ScenePath}");
-            GD.Print($"[DEBUG] Trying to load: '{ScenePath}' (Length: {ScenePath.Length})");
+            GD.Print($"[DEBUG] Trying to load: '{ScenePath}'");
             return;
         }
 
