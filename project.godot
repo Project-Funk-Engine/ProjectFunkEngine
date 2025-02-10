@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 TimeKeeper="*res://Globals/TimeKeeper.cs"
 Scribe="*res://Globals/Scribe.cs"
+StageProducer="*res://Globals/StageProducer.cs"
 
 [display]
 
