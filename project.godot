@@ -17,7 +17,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-TimeKeeper="*res://scripts/TimeKeeper.cs"
+TimeKeeper="*res://Globals/TimeKeeper.cs"
+Scribe="*res://Globals/Scribe.cs"
 
 [display]
 
