@@ -26,6 +26,14 @@ public enum Timing
     Perfect = 4,
 }
 
+public enum Stages
+{
+    Title,
+    Battle,
+    Quit,
+    Map,
+}
+
 public struct SongData
 {
     public int Bpm;

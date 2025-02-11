@@ -1,11 +1,19 @@
 using System;
 using System.Linq;
+using FunkEngine;
 using Godot;
 
 public partial class StageProducer : Node
 {
     //Generate a map, starting as a width x height grid, pick a starting spot and do (path) paths from that to the last
     //row, connecting the path, then connect all at the end to the boss room.
+    public static RandomNumberGenerator GlobalRng = new RandomNumberGenerator();
+    private ulong _seed;
+    private ulong _lastRngState;
+
+    private Stages _curStage = Stages.Title;
+    private Node _curScene;
+
     private MapGrid _map = new MapGrid();
 
     public class MapGrid
@@ -49,7 +57,7 @@ public partial class StageProducer : Node
             _rooms = Array.Empty<Room>();
             _map = new int[width, height]; //x,y
 
-            int startX = GD.RandRange(0, width - 1); //TODO: Replace with seeding
+            int startX = GlobalRng.RandiRange(0, width - 1); //TODO: Replace with seeding
             _rooms = _rooms.Append(new Room(_curIdx, startX, 0)).ToArray();
             _map[startX, 0] = _curIdx++;
 
@@ -64,7 +72,7 @@ public partial class StageProducer : Node
         //Start at x, y, assume prev room exists. Picks new x pos within +/- 1, attaches recursively
         private void GeneratePath_r(int x, int y, int width, int height)
         {
-            int nextX = GD.RandRange(Math.Max(x - 1, 0), Math.Min(x + 1, width - 1));
+            int nextX = GlobalRng.RandiRange(Math.Max(x - 1, 0), Math.Min(x + 1, width - 1));
             if (_map[nextX, y + 1] == 0)
             {
                 _rooms = _rooms.Append(new Room(_curIdx, nextX, y + 1)).ToArray();
@@ -93,5 +101,28 @@ public partial class StageProducer : Node
                 }
             }
         }
+    }
+
+    public void StartGame()
+    {
+        _map.InitMapGrid(2, 2, 1);
+        _seed = GlobalRng.Seed;
+        _lastRngState = GlobalRng.State;
+    }
+
+    public void TransitionStage(Stages nextStage)
+    {
+        GD.Print(GetTree().CurrentScene);
+        switch (nextStage)
+        {
+            case Stages.Title:
+                GetTree().ChangeSceneToFile("res://scenes/SceneTransitions/TitleScreen.tscn");
+                break;
+            case Stages.Battle:
+                GetTree().ChangeSceneToFile("res://scenes/BattleDirector/test_battle_scene.tscn");
+                break;
+        }
+
+        _curStage = nextStage;
     }
 }

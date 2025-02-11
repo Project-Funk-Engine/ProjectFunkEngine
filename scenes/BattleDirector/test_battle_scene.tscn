@@ -54,7 +54,6 @@ offset_right = 119.0
 offset_bottom = 31.0
 text = "Return to Title"
 script = ExtResource("9_bxa6e")
-ScenePath = "res://scenes/SceneTransitions/TitleScreen.tscn"
 
 [node name="TempRelicList" type="Label" parent="."]
 offset_left = 564.0

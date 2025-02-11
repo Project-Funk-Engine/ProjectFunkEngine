@@ -1,10 +1,11 @@
 using System;
+using FunkEngine;
 using Godot;
 
 public partial class SceneChange : Button
 {
     [Export]
-    public string ScenePath = "";
+    public Stages ScenePath;
 
     public override void _Ready()
     {
@@ -14,22 +15,14 @@ public partial class SceneChange : Button
 
     private void OnButtonPressed()
     {
-        //ScenePath = ScenePath.Trim('\"');
-        if (ScenePath.ToLower() == "exit")
+        if (ScenePath == Stages.Quit)
         {
             GD.Print("Exiting game");
             GetTree().Quit();
             return;
         }
 
-        if (string.IsNullOrEmpty(ScenePath) || !ResourceLoader.Exists(ScenePath))
-        {
-            GD.PrintErr($"❌ Scene not found: {ScenePath}");
-            GD.Print($"[DEBUG] Trying to load: '{ScenePath}'");
-            return;
-        }
-
         GD.Print($"✅ Loading scene: {ScenePath}");
-        GetTree().ChangeSceneToFile(ScenePath);
+        GetNode<StageProducer>("/root/StageProducer").TransitionStage(ScenePath);
     }
 }
