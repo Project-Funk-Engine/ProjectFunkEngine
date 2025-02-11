@@ -32,6 +32,9 @@ public partial class BattleDirector : Node2D
 
     private SongData _curSong;
 
+    private bool battleLost = false;
+    private bool battleWon = false;
+
     #endregion
 
     #region Note Handling
@@ -116,8 +119,13 @@ public partial class BattleDirector : Node2D
 
     public override void _Process(double delta)
     {
+        if (!battleLost || !battleWon)
+        {
+            CheckBattleStatus();
+        }
         TimeKeeper.CurrentTime = Audio.GetPlaybackPosition();
         CD.CheckMiss();
+        //CheckBattleStatus();
     }
     #endregion
 
@@ -125,6 +133,14 @@ public partial class BattleDirector : Node2D
 
     public override void _UnhandledInput(InputEvent @event)
     {
+        if (@event is InputEventKey eventKey && eventKey.Pressed && !eventKey.Echo)
+        {
+            if (eventKey.Keycode == Key.Key0) // Adjust if you prefer a different key code.
+            {
+                DebugKillEnemy();
+            }
+        }
+
         if (@event.IsActionPressed("Pause"))
         {
             var pauseMenu = GD.Load<PackedScene>("res://scenes/UI/Pause.tscn");
@@ -209,4 +225,33 @@ public partial class BattleDirector : Node2D
         }
     }
     #endregion
+
+
+    private void CheckBattleStatus()
+    {
+        if (battleLost || battleWon)
+            return;
+
+        if (Player.GetCurrentHealth() <= 0)
+        {
+            GD.Print("Player is Dead");
+            battleLost = true;
+            return;
+        }
+
+        if (Enemy.GetCurrentHealth() <= 0)
+        {
+            GD.Print("Enemy is dead");
+            battleWon = true;
+
+            Reward.GiveRandomRelic(Player.Stats);
+            EventizeRelics(); //literally just here for debugging, ignore later
+            return;
+        }
+    }
+
+    private void DebugKillEnemy()
+    {
+        Enemy.TakeDamage(1000);
+    }
 }
