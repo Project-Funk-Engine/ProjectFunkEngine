@@ -12,7 +12,8 @@ public partial class Scribe : Node
     {
         new Note(
             "EnemyBase",
-            null,
+            "Basic enemy note, deals damage to player.",
+            GD.Load<Texture2D>("res://scenes/BattleDirector/assets/Character1.png"),
             null,
             1,
             (director, note, timing) =>
@@ -22,8 +23,9 @@ public partial class Scribe : Node
         ),
         new Note(
             "PlayerBase",
-            null,
+            "Basic player note, deals damage to enemy",
             GD.Load<Texture2D>("res://Classes/Notes/assets/single_note.png"),
+            null,
             1,
             (director, note, timing) =>
             {
@@ -32,8 +34,9 @@ public partial class Scribe : Node
         ),
         new Note(
             "PlayerDouble",
+            "Basic player note, deals damage to enemy",
+            GD.Load<Texture2D>("res://Classes/Notes/assets/single_note.png"),
             null,
-            GD.Load<Texture2D>("res://Classes/Notes/assets/double_note.png"),
             1,
             (director, note, timing) =>
             {
@@ -48,11 +51,13 @@ public partial class Scribe : Node
     {
         new RelicTemplate(
             "Breakfast", //Reference ha ha, Item to give when relic pool is empty.
+            "Breakfast, currently does nothing :).", //TODO: Description can include the relics values?
+            GD.Load<Texture2D>("res://scenes/BattleDirector/assets/Character1.png"),
             new RelicEffect[]
             {
                 new RelicEffect(
                     BattleEffectTrigger.NotePlaced,
-                    1,
+                    0,
                     (director, val) =>
                     {
                         director.Player.Heal(val);
@@ -62,25 +67,13 @@ public partial class Scribe : Node
         ),
         new RelicTemplate(
             "Good Vibes",
+            "Good vibes, heals the player whenever they place a note.", //TODO: Description can include the relics values?
+            GD.Load<Texture2D>("res://scenes/BattleDirector/assets/Character1.png"),
             new RelicEffect[]
             {
                 new RelicEffect(
                     BattleEffectTrigger.NotePlaced,
-                    5,
-                    (director, val) =>
-                    {
-                        director.Player.Heal(val);
-                    }
-                ),
-            }
-        ),
-        new RelicTemplate(
-            "Dummy Item",
-            new RelicEffect[]
-            {
-                new RelicEffect(
-                    BattleEffectTrigger.NotePlaced,
-                    100,
+                    1,
                     (director, val) =>
                     {
                         director.Player.Heal(val);

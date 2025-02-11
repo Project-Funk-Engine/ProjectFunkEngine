@@ -134,6 +134,14 @@ public partial class BattleDirector : Node2D
             GetNode<CanvasLayer>("UILayer").AddChild(pauseMenu.Instantiate());
             GetTree().Paused = true;
         }
+        if (@event.IsActionPressed("Inventory"))
+        {
+            var invenMenu = GD.Load<PackedScene>("res://scenes/UI/inventory.tscn")
+                .Instantiate<Inventory>();
+            GetNode<CanvasLayer>("UILayer").AddChild(invenMenu);
+            invenMenu.Display(Player.Stats);
+            GetTree().Paused = true;
+        }
     }
 
     private void OnNotePressed(ArrowType type)
@@ -224,7 +232,6 @@ public partial class BattleDirector : Node2D
     {
         foreach (var relic in Player.Stats.CurRelics)
         {
-            GetNode<Label>("TempRelicList").Text += "\n" + relic.Name;
             foreach (var effect in relic.Effects)
             {
                 switch (effect.GetTrigger()) //TODO: Look into a way to get eventhandler from string

@@ -7,12 +7,20 @@ public partial class RelicTemplate : Resource
     public RelicEffect[] Effects;
     public string Name;
 
-    //public Texture2D Texture
-    //public string Tooltip
-    public RelicTemplate(string Name = "", RelicEffect[] EffectTags = null)
+    public Texture2D Texture;
+    public string Tooltip;
+
+    public RelicTemplate(
+        string name = "",
+        string tooltip = "",
+        Texture2D texture = null,
+        RelicEffect[] EffectTags = null
+    )
     {
         Effects = EffectTags;
-        this.Name = Name;
+        Name = name;
+        Tooltip = tooltip;
+        Texture = texture;
     }
 
     public RelicTemplate Clone()

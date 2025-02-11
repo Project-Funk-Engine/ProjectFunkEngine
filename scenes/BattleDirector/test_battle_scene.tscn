@@ -51,11 +51,3 @@ offset_left = 16.0
 offset_top = 164.0
 offset_right = 16.0
 offset_bottom = 164.0
-
-[node name="TempRelicList" type="Label" parent="."]
-offset_left = 564.0
-offset_top = 165.0
-offset_right = 613.0
-offset_bottom = 188.0
-theme_override_font_sizes/font_size = 10
-text = "Relics:"
