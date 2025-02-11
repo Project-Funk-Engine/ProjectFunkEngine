@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using Godot;
 
+//it's very messy, feel free to clean up as much as necessary
+
 public static class Reward
 {
     private static readonly Random _rng = new Random();
@@ -45,5 +47,20 @@ public static class Reward
         }
         player.CurRelics = player.CurRelics.Append(relic).ToArray();
         GD.Print("Adding relic: " + relic.Name);
+    }
+
+    public static RelicTemplate[] GetMultipleRelics(RelicTemplate[] ownedRelics, int count)
+    {
+        var availableRelics = Scribe
+            .RelicDictionary.Where(r => !ownedRelics.Any(o => o.Name == r.Name))
+            .ToArray();
+        if (availableRelics.Length == 0)
+            return new RelicTemplate[0];
+
+        return availableRelics
+            .OrderBy(_ => _rng.Next())
+            .Take(count)
+            .Select(r => r.Clone())
+            .ToArray();
     }
 }
