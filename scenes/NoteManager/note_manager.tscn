@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bn8txx53xlguw"]
 
 [ext_resource type="Script" path="res://scenes/NoteManager/scripts/InputHandler.cs" id="1_2oeuf"]
-[ext_resource type="Texture2D" uid="uid://bucvj4fquqpkr" path="res://scenes/NoteManager/assets/right-arrow.png" id="2_ldmuy"]
+[ext_resource type="Texture2D" uid="uid://xtygvpk7s8e4" path="res://scenes/NoteManager/assets/outline_white.png" id="2_7ue4e"]
 [ext_resource type="Script" path="res://scenes/NoteManager/scripts/NoteChecker.cs" id="3_0cioe"]
 [ext_resource type="Texture2D" uid="uid://b0tvsewgnf2x7" path="res://icon.svg" id="4_foklt"]
 
@@ -13,28 +13,24 @@ script = ExtResource("1_2oeuf")
 [node name="arrowUp" type="Sprite2D" parent="noteCheckers"]
 position = Vector2(0, 24)
 rotation = -1.5708
-scale = Vector2(0.09, 0.09)
-texture = ExtResource("2_ldmuy")
+texture = ExtResource("2_7ue4e")
 script = ExtResource("3_0cioe")
 
 [node name="arrowLeft" type="Sprite2D" parent="noteCheckers"]
 position = Vector2(0, 76)
 rotation = 3.14159
-scale = Vector2(0.09, 0.09)
-texture = ExtResource("2_ldmuy")
+texture = ExtResource("2_7ue4e")
 script = ExtResource("3_0cioe")
 
 [node name="arrowDown" type="Sprite2D" parent="noteCheckers"]
 position = Vector2(0, 129)
 rotation = 1.5708
-scale = Vector2(0.09, 0.09)
-texture = ExtResource("2_ldmuy")
+texture = ExtResource("2_7ue4e")
 script = ExtResource("3_0cioe")
 
 [node name="arrowRight" type="Sprite2D" parent="noteCheckers"]
 position = Vector2(0, 181)
-scale = Vector2(0.09, 0.09)
-texture = ExtResource("2_ldmuy")
+texture = ExtResource("2_7ue4e")
 script = ExtResource("3_0cioe")
 
 [node name="ui" type="Node2D" parent="."]
