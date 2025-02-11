@@ -27,6 +27,15 @@ public partial class Scribe : Node
                 director.Enemy.TakeDamage((int)timing);
             }
         ),
+        new Note(
+            "PlayerDouble",
+            null,
+            2,
+            (director, note, timing) =>
+            {
+                director.Enemy.TakeDamage((int)timing);
+            }
+        ),
     };
 
     public static readonly RelicTemplate[] RelicDictionary = new[]
