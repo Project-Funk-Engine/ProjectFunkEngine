@@ -122,6 +122,17 @@ public partial class BattleDirector : Node2D
     #endregion
 
     #region Input&Timing
+
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (@event.IsActionPressed("Pause"))
+        {
+            var pauseMenu = GD.Load<PackedScene>("res://scenes/UI/Pause.tscn");
+            GetNode<CanvasLayer>("UILayer").AddChild(pauseMenu.Instantiate());
+            GetTree().Paused = true;
+        }
+    }
+
     private void OnNotePressed(ArrowType type)
     {
         CD.CheckNoteTiming(type);

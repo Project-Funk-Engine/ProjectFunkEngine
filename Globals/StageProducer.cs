@@ -121,6 +121,13 @@ public partial class StageProducer : Node
             case Stages.Battle:
                 GetTree().ChangeSceneToFile("res://scenes/BattleDirector/test_battle_scene.tscn");
                 break;
+            case Stages.Quit:
+                GD.Print("Exiting game");
+                GetTree().Quit();
+                return;
+            default:
+                GD.Print($"Error Scene Transition is {nextStage}");
+                break;
         }
 
         _curStage = nextStage;
