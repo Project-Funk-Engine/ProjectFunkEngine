@@ -30,10 +30,12 @@ public partial class Scribe : Node
         new Note(
             "PlayerDouble",
             null,
-            2,
+            1,
             (director, note, timing) =>
             {
-                director.Enemy.TakeDamage((int)timing);
+                // can change later, but I want it like this instead of changing base
+                // in case we have some relic that messes with timing
+                director.Enemy.TakeDamage(2 * (int)timing);
             }
         ),
     };

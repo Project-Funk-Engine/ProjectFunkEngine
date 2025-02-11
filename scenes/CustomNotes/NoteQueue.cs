@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using FunkEngine;
 using Godot;
 
 public partial class NoteQueue : Node
@@ -23,15 +22,56 @@ public partial class NoteQueue : Node
             "res://scenes/CustomNotes/assets/double_note.png"
         );
 
+        LoadQueueFromSave();
+        ScrambleQueue();
         UpdateQueue();
     }
 
-    public void LoadQueue(PlayerPuppet player)
+    // Loads the notes from SaveData.json, and adds them to the queue
+    public void LoadQueueFromSave()
     {
-        for (int i = 0; i < player.Stats.CurNotes.Length; i++)
+        Dictionary<string, int> savedNotes = SaveSystem.LoadNotes();
+        foreach (var noteEntry in savedNotes)
         {
-            AddNoteToQueue(player.Stats.CurNotes[i]);
+            string noteName = noteEntry.Key;
+            int numNotes = noteEntry.Value;
+
+            for (int i = 0; i < numNotes; i++)
+            {
+                AddNoteToQueue(CreateNoteFromName(noteName));
+            }
         }
+    }
+
+    // Creates a note from a string of the note's name.
+    private Note CreateNoteFromName(string noteName)
+    {
+        if (noteName == "PlayerBase")
+        {
+            return new Note(
+                "PlayerBase",
+                null,
+                1,
+                (director, note, timing) =>
+                {
+                    director.Enemy.TakeDamage((int)timing);
+                }
+            );
+        }
+        if (noteName == "PlayerDouble")
+        {
+            return new Note(
+                "PlayerDouble",
+                null,
+                1,
+                (director, note, timing) =>
+                {
+                    director.Enemy.TakeDamage(2 * (int)timing);
+                }
+            );
+        }
+
+        return null;
     }
 
     public void AddNoteToQueue(Note noteType)
@@ -40,7 +80,7 @@ public partial class NoteQueue : Node
         UpdateQueue();
     }
 
-    //returns current note, and removes it from the queue
+    // Returns current note, and removes it from the queue
     public Note GetCurrentNote()
     {
         if (_noteQueue.Count > 0)
@@ -52,6 +92,7 @@ public partial class NoteQueue : Node
         return null;
     }
 
+    // Updates the queue's graphics
     private void UpdateQueue()
     {
         if (_noteQueue.Count > 0 && _noteSprites.ContainsKey(_noteQueue.Peek().Name))
@@ -73,7 +114,7 @@ public partial class NoteQueue : Node
         }
     }
 
-    //Fisher-Yates shuffle from: https://stackoverflow.com/a/1262619
+    // Fisher-Yates shuffle from: https://stackoverflow.com/a/1262619
     public void ScrambleQueue()
     {
         List<Note> tempList = new List<Note>(_noteQueue);
