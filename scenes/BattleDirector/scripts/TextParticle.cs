@@ -17,7 +17,4 @@ public partial class TextParticle : Label
         tween.SetParallel(false);
         tween.TweenCallback(Callable.From(QueueFree));
     }
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta) { }
 }

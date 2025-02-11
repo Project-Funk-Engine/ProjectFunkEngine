@@ -4,8 +4,8 @@ using Godot;
 public partial class NotePlacementBar : Node
 {
     const int MaxValue = 80;
-    int currentBarValue;
-    int currentCombo;
+    private int _currentBarValue;
+    private int _currentCombo;
     int comboMult;
     int notesToIncreaseCombo;
 
@@ -19,36 +19,33 @@ public partial class NotePlacementBar : Node
     public override void _Ready()
     {
         notePlacementBar.MaxValue = MaxValue;
-        currentBarValue = 0;
-        currentCombo = 0;
+        _currentBarValue = 0;
+        _currentCombo = 0;
         comboMult = 1;
         notesToIncreaseCombo = 4;
     }
 
     public void ComboText(string text)
     {
-        var feedbackScene = ResourceLoader.Load<PackedScene>(
-            "res://scenes/BattleDirector/TextParticle.tscn"
-        );
-        TextParticle newText = feedbackScene.Instantiate<TextParticle>();
+        TextParticle newText = new TextParticle();
         AddChild(newText);
-        newText.Text = text + $" {currentCombo}";
+        newText.Text = text + $" {_currentCombo}";
     }
 
     // Hitting a note increases combo, combo mult, and note placement bar
     public void HitNote()
     {
-        currentCombo++;
+        _currentCombo++;
         DetermineComboMult();
-        currentBarValue += comboMult;
-        UpdateNotePlacementBar(currentBarValue);
+        _currentBarValue += comboMult;
+        UpdateNotePlacementBar(_currentBarValue);
         UpdateComboMultText();
     }
 
     // Missing a note resets combo
     public void MissNote()
     {
-        currentCombo = 0;
+        _currentCombo = 0;
         DetermineComboMult();
         UpdateComboMultText();
     }
@@ -56,26 +53,26 @@ public partial class NotePlacementBar : Node
     // Placing a note resets the note placement bar
     public void PlacedNote()
     {
-        currentBarValue = 0;
-        UpdateNotePlacementBar(currentBarValue);
+        _currentBarValue = 0;
+        UpdateNotePlacementBar(_currentBarValue);
     }
 
     public bool CanPlaceNote()
     {
-        return currentBarValue >= MaxValue;
+        return _currentBarValue >= MaxValue;
     }
 
     private void DetermineComboMult()
     {
-        comboMult = currentCombo / notesToIncreaseCombo + 1;
+        comboMult = _currentCombo / notesToIncreaseCombo + 1;
     }
 
-    public void UpdateNotePlacementBar(int newValue)
+    private void UpdateNotePlacementBar(int newValue)
     {
         notePlacementBar.Value = newValue;
     }
 
-    public void UpdateComboMultText()
+    private void UpdateComboMultText()
     {
         currentComboMultText.Text = $"x{comboMult.ToString()}";
     }
