@@ -1,3 +1,6 @@
-[gd_scene format=3 uid="uid://cydmo2lbnj1de"]
+[gd_scene load_steps=2 format=3 uid="uid://cydmo2lbnj1de"]
+
+[ext_resource type="Script" path="res://scenes/Maps/scripts/Cartographer.cs" id="1_u4q3n"]
 
 [node name="Cartographer" type="Node2D"]
+script = ExtResource("1_u4q3n")

@@ -10,11 +10,14 @@ public partial class StageProducer : Node
     public static RandomNumberGenerator GlobalRng = new RandomNumberGenerator();
     private ulong _seed;
     private ulong _lastRngState;
+    private bool _isInitialized = false;
 
     private Stages _curStage = Stages.Title;
     private Node _curScene;
+    public static MapGrid.Room CurRoom { get; private set; }
+    public static Vector2I MapSize { get; private set; } = new Vector2I(3, 2); //For now, make width an odd number
 
-    private MapGrid _map = new MapGrid();
+    public static MapGrid Map { get; } = new MapGrid();
 
     //Hold here to persist between changes
     //TODO: Allow for permanent changes and battle temporary stat changes.
@@ -26,6 +29,11 @@ public partial class StageProducer : Node
         private Room[] _rooms;
         private int _curIdx = 0;
         private int _curRoom = 0;
+
+        public Room[] GetRooms()
+        {
+            return _rooms;
+        }
 
         public class Room
         {
@@ -48,10 +56,10 @@ public partial class StageProducer : Node
                 Children = Children.Append(newIdx).ToArray();
             }
 
-            private int Idx;
-            private int[] Children = Array.Empty<int>();
-            private int X;
-            private int Y;
+            public int Idx { get; private set; }
+            public int[] Children { get; private set; } = Array.Empty<int>();
+            public int X { get; private set; }
+            public int Y { get; private set; }
             private string Type;
         }
 
@@ -61,7 +69,7 @@ public partial class StageProducer : Node
             _rooms = Array.Empty<Room>();
             _map = new int[width, height]; //x,y
 
-            int startX = GlobalRng.RandiRange(0, width - 1); //TODO: Replace with seeding
+            int startX = (width / 2);
             _rooms = _rooms.Append(new Room(_curIdx, startX, 0)).ToArray();
             _map[startX, 0] = _curIdx++;
 
@@ -69,7 +77,7 @@ public partial class StageProducer : Node
             {
                 GeneratePath_r(startX, 0, width, height);
             }
-
+            CreateCommonChildren(width, height);
             AddBossRoom(width, height);
         }
 
@@ -93,9 +101,25 @@ public partial class StageProducer : Node
             }
         }
 
+        //Asserts that if there is a room at the same x, but y+1 they are connected
+        private void CreateCommonChildren(int width, int height)
+        {
+            foreach (Room room in _rooms)
+            {
+                Vector2I curPos = new Vector2I(room.X, room.Y);
+                if (room.Y + 1 >= height)
+                    continue;
+                if (_map[curPos.X, curPos.Y + 1] == 0)
+                    continue;
+                GD.Print("Added child on same X.");
+                room.AddChild(_map[curPos.X, curPos.Y + 1]);
+            }
+        }
+
+        //Adds a boss room at the end of rooms, all max height rooms connect to it.
         private void AddBossRoom(int width, int height)
         {
-            _rooms = _rooms.Append(new Room(_curIdx, 0, height)).ToArray();
+            _rooms = _rooms.Append(new Room(_curIdx, width / 2, height)).ToArray();
             _rooms[_curIdx].SetType("Boss");
             for (int i = 0; i < width; i++) //Attach all last rooms to a boss room
             {
@@ -109,10 +133,19 @@ public partial class StageProducer : Node
 
     public void StartGame()
     {
-        _map.InitMapGrid(2, 2, 1);
+        Map.InitMapGrid(MapSize.X, MapSize.Y, 1);
         _seed = GlobalRng.Seed;
         _lastRngState = GlobalRng.State;
         PlayerStats = new PlayerStats();
+
+        CurRoom = Map.GetRooms()[0];
+        _isInitialized = true;
+    }
+
+    public void TransitionFromRoom(int nextRoomIdx)
+    {
+        //CurRoom = Map.GetRooms()[nextRoomIdx];
+        TransitionStage(Stages.Battle);
     }
 
     public void TransitionStage(Stages nextStage)
@@ -124,8 +157,14 @@ public partial class StageProducer : Node
                 GetTree().ChangeSceneToFile("res://scenes/SceneTransitions/TitleScreen.tscn");
                 break;
             case Stages.Battle:
-                StartGame();
                 GetTree().ChangeSceneToFile("res://scenes/BattleDirector/test_battle_scene.tscn");
+                break;
+            case Stages.Map:
+                GetTree().ChangeSceneToFile("res://scenes/Maps/cartographer.tscn");
+                if (!_isInitialized)
+                {
+                    StartGame();
+                }
                 break;
             case Stages.Quit:
                 GD.Print("Exiting game");
