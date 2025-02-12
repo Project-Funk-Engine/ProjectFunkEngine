@@ -85,11 +85,15 @@ public partial class NoteQueue : Node
     {
         if (_noteQueue.Count > 0)
         {
-            Note currentNote = _noteQueue.Dequeue();
-            UpdateQueue();
-            return currentNote;
+            return _noteQueue.Peek();
         }
         return null;
+    }
+
+    public void DequeueNote()
+    {
+        _noteQueue.Dequeue();
+        UpdateQueue();
     }
 
     // Updates the queue's graphics
@@ -131,6 +135,5 @@ public partial class NoteQueue : Node
         _noteQueue = new Queue<Note>(tempList);
     }
 
-    //TODO: should work, in order to run in game use
-    // noteQueueInstance.AddNoteToQueue("single");
+    //TODO: MAYBE? implement saving the notequeue to savedata
 }
