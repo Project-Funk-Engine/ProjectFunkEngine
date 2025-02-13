@@ -15,13 +15,6 @@ public partial class SceneChange : Button
 
     private void OnButtonPressed()
     {
-        if (ScenePath == Stages.Quit)
-        {
-            GD.Print("Exiting game");
-            GetTree().Quit();
-            return;
-        }
-
         GD.Print($"✅ Loading scene: {ScenePath}");
         GetNode<StageProducer>("/root/StageProducer").TransitionStage(ScenePath);
     }

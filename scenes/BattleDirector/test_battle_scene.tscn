@@ -7,15 +7,17 @@
 [ext_resource type="PackedScene" uid="uid://duhiilcv4tat3" path="res://scenes/BattleDirector/NotePlacementBar.tscn" id="7_3ko4g"]
 [ext_resource type="PackedScene" uid="uid://bvhpon5liybd1" path="res://scenes/CustomNotes/NoteQueue.tscn" id="8_7wwxo"]
 [ext_resource type="AudioStream" uid="uid://cv6lqjj6lu36h" path="res://Audio/335571__magntron__gamemusic_120bpm.mp3" id="8_caqms"]
-[ext_resource type="Script" path="res://scenes/SceneTransitions/scripts/SceneChange.cs" id="9_bxa6e"]
 
 [node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM", "NotePlacementBar", "CD", "Audio", "NQ")]
+process_mode = 1
 script = ExtResource("1_cwqqr")
 CM = NodePath("SubViewport")
 NotePlacementBar = NodePath("NotePlacementBar")
 CD = NodePath("Conductor")
 Audio = NodePath("AudioStreamPlayer")
 NQ = NodePath("NoteQueue")
+
+[node name="UILayer" type="CanvasLayer" parent="."]
 
 [node name="Conductor" type="Node" parent="." node_paths=PackedStringArray("CM")]
 script = ExtResource("2_pcp76")
@@ -50,12 +52,6 @@ offset_left = 16.0
 offset_top = 164.0
 offset_right = 16.0
 offset_bottom = 164.0
-
-[node name="LeaveButton" type="Button" parent="."]
-offset_right = 119.0
-offset_bottom = 31.0
-text = "Return to Title"
-script = ExtResource("9_bxa6e")
 
 [node name="TempRelicList" type="Label" parent="."]
 offset_left = 564.0

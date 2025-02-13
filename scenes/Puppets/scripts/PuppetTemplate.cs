@@ -6,6 +6,9 @@ using Godot;
  */
 public partial class PuppetTemplate : Node2D
 {
+    public delegate void DefeatedHandler(PuppetTemplate self);
+    public event DefeatedHandler Defeated;
+
     protected HealthBar _healthBar;
     public Sprite2D Sprite = new Sprite2D();
 
@@ -34,13 +37,22 @@ public partial class PuppetTemplate : Node2D
         UniqName = name;
     }
 
-    public void TakeDamage(int amount)
+    public virtual void TakeDamage(int amount)
     {
-        _healthBar.ChangeHP(-amount);
+        _currentHealth = _healthBar.ChangeHP(-amount);
+        if (_currentHealth <= 0)
+        {
+            Defeated?.Invoke(this);
+        }
     }
 
-    public void Heal(int amount)
+    public virtual void Heal(int amount)
     {
-        _healthBar.ChangeHP(amount);
+        _currentHealth = _healthBar.ChangeHP(amount);
+    }
+
+    public int GetCurrentHealth()
+    {
+        return _currentHealth;
     }
 }

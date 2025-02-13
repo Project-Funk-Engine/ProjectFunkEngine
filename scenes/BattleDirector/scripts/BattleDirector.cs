@@ -84,6 +84,7 @@ public partial class BattleDirector : Node2D
 
         Player = new PlayerPuppet();
         AddChild(Player);
+        Player.Defeated += CheckBattleStatus;
         EventizeRelics();
         //TODO: Refine
         foreach (var note in Player.Stats.CurNotes)
@@ -97,6 +98,7 @@ public partial class BattleDirector : Node2D
         Enemy = new PuppetTemplate();
         Enemy.SetPosition(new Vector2(400, 0));
         AddChild(Enemy);
+        Enemy.Defeated += CheckBattleStatus;
         Enemy.Init(GD.Load<Texture2D>("res://scenes/BattleDirector/assets/Enemy1.png"), "Enemy");
         Enemy.Sprite.Scale *= 2;
 
@@ -134,6 +136,26 @@ public partial class BattleDirector : Node2D
     #endregion
 
     #region Input&Timing
+
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        //this one is for calling a debug key to insta-kill the enemy
+        if (@event is InputEventKey eventKey && eventKey.Pressed && !eventKey.Echo)
+        {
+            if (eventKey.Keycode == Key.Key0)
+            {
+                DebugKillEnemy();
+            }
+        }
+
+        if (@event.IsActionPressed("Pause"))
+        {
+            var pauseMenu = GD.Load<PackedScene>("res://scenes/UI/Pause.tscn");
+            GetNode<CanvasLayer>("UILayer").AddChild(pauseMenu.Instantiate());
+            GetTree().Paused = true;
+        }
+    }
+
     private void OnNotePressed(ArrowType type)
     {
         CD.CheckNoteTiming(type);
@@ -186,6 +208,31 @@ public partial class BattleDirector : Node2D
         return Timing.Miss;
     }
 
+    private void CheckBattleStatus(PuppetTemplate puppet)
+    {
+        if (puppet == Player)
+        {
+            GD.Print("Player is Dead");
+            return;
+        }
+
+        //will have to adjust this to account for when we have multiple enemies at once
+        if (puppet == Enemy)
+        {
+            GD.Print("Enemy is dead");
+            ShowRewardSelection(3);
+        }
+    }
+
+    private void ShowRewardSelection(int amount)
+    {
+        var rewardUI = GD.Load<PackedScene>("res://scenes/UI/RewardSelectionUI.tscn")
+            .Instantiate<RewardSelect>();
+        AddChild(rewardUI);
+        rewardUI.Initialize(Player.Stats, amount);
+        GetTree().Paused = true;
+    }
+
     #endregion
 
     #region BattleEffect Handling
@@ -210,4 +257,9 @@ public partial class BattleDirector : Node2D
         }
     }
     #endregion
+
+    private void DebugKillEnemy()
+    {
+        Enemy.TakeDamage(1000);
+    }
 }
