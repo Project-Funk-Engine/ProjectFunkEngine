@@ -48,14 +48,15 @@ public partial class BattleDirector : Node2D
             return;
         }
 
-        GD.Print($"Player trying to place {type} typed note at beat: " + beat);
+        GD.Print($"Player trying to place {note.Name}:{type} typed note at beat: " + beat);
         if (!NotePlacementBar.CanPlaceNote())
             return;
-        if (CD.AddNoteToLane(type, beat % CM.BeatsPerLoop, false))
+        if (CD.AddNoteToLane(type, beat % CM.BeatsPerLoop, note, false))
         {
             NotePlacementBar.PlacedNote();
             NotePlaced?.Invoke(this);
             GD.Print("Note Placed.");
+            NQ.DequeueNote();
         }
     }
 

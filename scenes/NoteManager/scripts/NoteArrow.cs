@@ -12,8 +12,9 @@ public partial class NoteArrow : Sprite2D
     public int Beat;
     public float Bounds;
     public bool IsActive;
+    public Note NoteRef;
 
-    public void Init(ArrowData parentArrowData, int beat)
+    public void Init(ArrowData parentArrowData, int beat, Note note)
     {
         ZIndex = 1;
 

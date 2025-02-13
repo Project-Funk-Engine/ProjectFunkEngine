@@ -9,12 +9,13 @@
 [ext_resource type="AudioStream" uid="uid://cv6lqjj6lu36h" path="res://Audio/335571__magntron__gamemusic_120bpm.mp3" id="8_caqms"]
 [ext_resource type="Script" path="res://scenes/SceneTransitions/scripts/SceneChange.cs" id="9_bxa6e"]
 
-[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM", "NotePlacementBar", "CD", "Audio")]
+[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM", "NotePlacementBar", "CD", "Audio", "NQ")]
 script = ExtResource("1_cwqqr")
 CM = NodePath("SubViewport")
 NotePlacementBar = NodePath("NotePlacementBar")
 CD = NodePath("Conductor")
 Audio = NodePath("AudioStreamPlayer")
+NQ = NodePath("NoteQueue")
 
 [node name="Conductor" type="Node" parent="." node_paths=PackedStringArray("CM")]
 script = ExtResource("2_pcp76")

@@ -38,6 +38,7 @@ public partial class NoteQueue : Node
 
             for (int i = 0; i < numNotes; i++)
             {
+                GD.Print($"Creating note from noteName: {noteName}");
                 AddNoteToQueue(CreateNoteFromName(noteName));
             }
         }
@@ -47,30 +48,12 @@ public partial class NoteQueue : Node
     private Note CreateNoteFromName(string noteName)
     {
         if (noteName == "PlayerBase")
-        {
-            return new Note(
-                "PlayerBase",
-                null,
-                1,
-                (director, note, timing) =>
-                {
-                    director.Enemy.TakeDamage((int)timing);
-                }
-            );
-        }
-        if (noteName == "PlayerDouble")
-        {
-            return new Note(
-                "PlayerDouble",
-                null,
-                1,
-                (director, note, timing) =>
-                {
-                    director.Enemy.TakeDamage(2 * (int)timing);
-                }
-            );
-        }
+            return Scribe.NoteDictionary[1];
 
+        if (noteName == "PlayerDouble")
+            return Scribe.NoteDictionary[2];
+
+        GD.Print($"Failed to create not from noteName: {noteName}");
         return null;
     }
 
