@@ -32,9 +32,6 @@ public partial class BattleDirector : Node2D
 
     private SongData _curSong;
 
-    private bool battleLost = false;
-    private bool battleWon = false;
-
     #endregion
 
     #region Note Handling
@@ -75,6 +72,7 @@ public partial class BattleDirector : Node2D
 
         Player = new PlayerPuppet();
         AddChild(Player);
+        Player.Defeated += CheckBattleStatus;
         EventizeRelics();
         //TODO: Refine
         foreach (var note in Player.Stats.CurNotes)
@@ -88,6 +86,7 @@ public partial class BattleDirector : Node2D
         Enemy = new PuppetTemplate();
         Enemy.SetPosition(new Vector2(400, 0));
         AddChild(Enemy);
+        Enemy.Defeated += CheckBattleStatus;
         Enemy.Init(GD.Load<Texture2D>("res://scenes/BattleDirector/assets/Enemy1.png"), "Enemy");
         Enemy.Sprite.Scale *= 2;
 
@@ -119,12 +118,6 @@ public partial class BattleDirector : Node2D
 
     public override void _Process(double delta)
     {
-        //check if either one is dead until one is true, feel free to remove if we have a more efficent way of checking
-        //alternatively, stop the other process since the battle is over
-        if (!battleLost || !battleWon)
-        {
-            CheckBattleStatus();
-        }
         TimeKeeper.CurrentTime = Audio.GetPlaybackPosition();
         CD.CheckMiss();
     }
@@ -203,6 +196,31 @@ public partial class BattleDirector : Node2D
         return Timing.Miss;
     }
 
+    private void CheckBattleStatus(PuppetTemplate puppet)
+    {
+        if (puppet == Player)
+        {
+            GD.Print("Player is Dead");
+            return;
+        }
+
+        //will have to adjust this to account for when we have multiple enemies at once
+        if (puppet == Enemy)
+        {
+            GD.Print("Enemy is dead");
+            ShowRewardSelection(3);
+        }
+    }
+
+    private void ShowRewardSelection(int amount)
+    {
+        var rewardUI = GD.Load<PackedScene>("res://scenes/UI/RewardSelectionUI.tscn")
+            .Instantiate<RewardSelect>();
+        AddChild(rewardUI);
+        rewardUI.Initialize(Player.Stats, amount);
+        GetTree().Paused = true;
+    }
+
     #endregion
 
     #region BattleEffect Handling
@@ -228,47 +246,8 @@ public partial class BattleDirector : Node2D
     }
     #endregion
 
-
-    private void CheckBattleStatus()
-    {
-        if (battleLost || battleWon)
-            return;
-
-        if (Player.GetCurrentHealth() <= 0)
-        {
-            GD.Print("Player is Dead");
-            battleLost = true;
-            return;
-        }
-
-        //will have to adjust this to account for when we have multiple enemies at once
-        if (Enemy.GetCurrentHealth() <= 0)
-        {
-            GD.Print("Enemy is dead");
-            battleWon = true;
-
-            //below, old method that just adds a random relic to the inventory
-            //Reward.GiveRandomRelic(Player.Stats);
-            //EventizeRelics(); //literally just here to force the ui to update and see if it was added, remove with the proper ui update
-            //probably won't even need it since we'll be loading to seperate scene anyways
-
-            //new method that allows player to choose a relic
-            ShowRewardSelection();
-
-            return;
-        }
-    }
-
     private void DebugKillEnemy()
     {
         Enemy.TakeDamage(1000);
-    }
-
-    private void ShowRewardSelection()
-    {
-        var rewardUI = GD.Load<PackedScene>("res://RewardSelectionUI.tscn")
-            .Instantiate<RewardSelect>();
-        AddChild(rewardUI);
-        rewardUI.Initialize(Player.Stats);
     }
 }

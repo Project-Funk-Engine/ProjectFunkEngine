@@ -16,6 +16,10 @@ public partial class StageProducer : Node
 
     private MapGrid _map = new MapGrid();
 
+    //Hold here to persist between changes
+    //TODO: Allow for permanent changes and battle temporary stat changes.
+    public static PlayerStats PlayerStats;
+
     public class MapGrid
     {
         private int[,] _map;
@@ -108,6 +112,7 @@ public partial class StageProducer : Node
         _map.InitMapGrid(2, 2, 1);
         _seed = GlobalRng.Seed;
         _lastRngState = GlobalRng.State;
+        PlayerStats = new PlayerStats();
     }
 
     public void TransitionStage(Stages nextStage)
@@ -119,6 +124,7 @@ public partial class StageProducer : Node
                 GetTree().ChangeSceneToFile("res://scenes/SceneTransitions/TitleScreen.tscn");
                 break;
             case Stages.Battle:
+                StartGame();
                 GetTree().ChangeSceneToFile("res://scenes/BattleDirector/test_battle_scene.tscn");
                 break;
             case Stages.Quit:

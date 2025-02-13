@@ -10,17 +10,17 @@ public partial class RewardSelect : CanvasLayer
     private PlayerStats _player;
     private RelicTemplate[] _choices;
 
-    public void Initialize(PlayerStats player)
+    public void Initialize(PlayerStats player, int amount)
     {
         _player = player;
-        GenerateRelicChoices();
+        GenerateRelicChoices(amount);
     }
 
-    private void GenerateRelicChoices()
+    private void GenerateRelicChoices(int amount = 1)
     {
         //should probably change this so that the amount of relics offered can be changed when BD calls it
         //i.e less options when killing trash mobs/basic/weak enemies
-        _choices = Reward.GetMultipleRelics(_player.CurRelics, 3);
+        _choices = Scribe.GetRandomRelics(_player.CurRelics, amount);
 
         foreach (var relic in _choices)
         {
@@ -33,9 +33,9 @@ public partial class RewardSelect : CanvasLayer
 
     private void OnRelicSelected(RelicTemplate choiceRelic)
     {
-        Reward.AddRelic(_player, choiceRelic);
+        _player.AddRelic(choiceRelic);
         GD.Print("Relic selected: " + choiceRelic.Name);
-
+        GetTree().Paused = false;
         QueueFree();
     }
 }
