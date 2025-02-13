@@ -42,7 +42,7 @@ public partial class Conductor : Node
         return _laneData[(int)type][beat] != null && _laneData[(int)type][beat].IsActive;
     }
 
-    public bool AddNoteToLane(ArrowType type, int beat, bool isActive = true)
+    public bool AddNoteToLane(ArrowType type, int beat, Note note, bool isActive = true)
     {
         beat %= CM.BeatsPerLoop;
         //Don't add dupe notes //Beat at 0 is too messy.
@@ -54,12 +54,18 @@ public partial class Conductor : Node
         NoteArrow arrow;
         if (isActive)
         {
-            arrow = CM.AddArrowToLane(type, beat, Notes.Length - 1);
+            arrow = CM.AddArrowToLane(type, beat, Notes.Length - 1, note);
             arrow.NoteIdx = 1;
         }
         else
         {
-            arrow = CM.AddArrowToLane(type, beat, Notes.Length - 1, new Color(1, 0.43f, 0.26f));
+            arrow = CM.AddArrowToLane(
+                type,
+                beat,
+                Notes.Length - 1,
+                note,
+                new Color(1, 0.43f, 0.26f)
+            );
             arrow.NoteIdx = 0;
         }
 
@@ -85,22 +91,22 @@ public partial class Conductor : Node
         GD.Print(CM.BeatsPerLoop);
         for (int i = 1; i < 15; i++)
         {
-            AddNoteToLane(ArrowType.Up, i * 4);
+            AddNoteToLane(ArrowType.Up, i * 4, Scribe.NoteDictionary[0]);
         }
 
         for (int i = 1; i < 15; i++)
         {
-            AddNoteToLane(ArrowType.Left, 4 * i + 1);
+            AddNoteToLane(ArrowType.Left, 4 * i + 1, Scribe.NoteDictionary[0]);
         }
 
         for (int i = 0; i < 10; i++)
         {
-            AddNoteToLane(ArrowType.Right, 3 * i + 32);
+            AddNoteToLane(ArrowType.Right, 3 * i + 32, Scribe.NoteDictionary[0]);
         }
 
         for (int i = 0; i < 3; i++)
         {
-            AddNoteToLane(ArrowType.Down, 8 * i + 16);
+            AddNoteToLane(ArrowType.Down, 8 * i + 16, Scribe.NoteDictionary[0]);
         }
     }
 

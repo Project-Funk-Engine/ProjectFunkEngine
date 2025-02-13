@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://bvhpon5liybd1"]
+
+[ext_resource type="Script" path="res://scenes/CustomNotes/NoteQueue.cs" id="1_jeqam"]
+[ext_resource type="Texture2D" uid="uid://cnyr5usjdv0ni" path="res://scenes/CustomNotes/assets/temp_note_queue.png" id="2_0p21a"]
+[ext_resource type="Texture2D" uid="uid://c3chrsxrulapd" path="res://scenes/CustomNotes/assets/single_note.png" id="3_ewo1s"]
+[ext_resource type="Texture2D" uid="uid://caw70lr5e1yiq" path="res://scenes/CustomNotes/assets/double_note.png" id="4_7sgy6"]
+
+[node name="NoteQueue" type="Control" node_paths=PackedStringArray("_currentNote", "_nextNote")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jeqam")
+_currentNote = NodePath("CurrentNote")
+_nextNote = NodePath("NextNote")
+
+[node name="NoteQueueSprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_0p21a")
+
+[node name="CurrentNote" type="Sprite2D" parent="."]
+position = Vector2(-14, -1)
+texture = ExtResource("3_ewo1s")
+
+[node name="NextNote" type="Sprite2D" parent="."]
+position = Vector2(16, -2)
+texture = ExtResource("4_7sgy6")

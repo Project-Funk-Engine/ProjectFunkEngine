@@ -32,19 +32,31 @@ public partial class BattleDirector : Node2D
 
     private SongData _curSong;
 
+    [Export]
+    private NoteQueue NQ;
+
     #endregion
 
     #region Note Handling
     private void PlayerAddNote(ArrowType type, int beat)
     {
-        GD.Print($"Player trying to place {type} typed note at beat: " + beat);
+        //TODO: note that should be added from the queue
+        Note note = NQ.GetCurrentNote();
+        if (note == null)
+        {
+            GD.Print("No notes in queue");
+            return;
+        }
+
+        GD.Print($"Player trying to place {note.Name}:{type} typed note at beat: " + beat);
         if (!NotePlacementBar.CanPlaceNote())
             return;
-        if (CD.AddNoteToLane(type, beat % CM.BeatsPerLoop, false))
+        if (CD.AddNoteToLane(type, beat % CM.BeatsPerLoop, note, false))
         {
             NotePlacementBar.PlacedNote();
             NotePlaced?.Invoke(this);
             GD.Print("Note Placed.");
+            NQ.DequeueNote();
         }
     }
 
