@@ -36,11 +36,16 @@ public partial class PuppetTemplate : Node2D
 
     public void TakeDamage(int amount)
     {
-        _healthBar.ChangeHP(-amount);
+        _currentHealth = _healthBar.ChangeHP(-amount);
     }
 
     public void Heal(int amount)
     {
         _healthBar.ChangeHP(amount);
+    }
+
+    public int GetCurrentHealth()
+    {
+        return _currentHealth;
     }
 }

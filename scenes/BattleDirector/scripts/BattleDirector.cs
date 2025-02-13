@@ -32,6 +32,9 @@ public partial class BattleDirector : Node2D
 
     private SongData _curSong;
 
+    private bool battleLost = false;
+    private bool battleWon = false;
+
     #endregion
 
     #region Note Handling
@@ -116,6 +119,12 @@ public partial class BattleDirector : Node2D
 
     public override void _Process(double delta)
     {
+        //check if either one is dead until one is true, feel free to remove if we have a more efficent way of checking
+        //alternatively, stop the other process since the battle is over
+        if (!battleLost || !battleWon)
+        {
+            CheckBattleStatus();
+        }
         TimeKeeper.CurrentTime = Audio.GetPlaybackPosition();
         CD.CheckMiss();
     }
@@ -125,6 +134,15 @@ public partial class BattleDirector : Node2D
 
     public override void _UnhandledInput(InputEvent @event)
     {
+        //this one is for calling a debug key to insta-kill the enemy
+        if (@event is InputEventKey eventKey && eventKey.Pressed && !eventKey.Echo)
+        {
+            if (eventKey.Keycode == Key.Key0)
+            {
+                DebugKillEnemy();
+            }
+        }
+
         if (@event.IsActionPressed("Pause"))
         {
             var pauseMenu = GD.Load<PackedScene>("res://scenes/UI/Pause.tscn");
@@ -209,4 +227,48 @@ public partial class BattleDirector : Node2D
         }
     }
     #endregion
+
+
+    private void CheckBattleStatus()
+    {
+        if (battleLost || battleWon)
+            return;
+
+        if (Player.GetCurrentHealth() <= 0)
+        {
+            GD.Print("Player is Dead");
+            battleLost = true;
+            return;
+        }
+
+        //will have to adjust this to account for when we have multiple enemies at once
+        if (Enemy.GetCurrentHealth() <= 0)
+        {
+            GD.Print("Enemy is dead");
+            battleWon = true;
+
+            //below, old method that just adds a random relic to the inventory
+            //Reward.GiveRandomRelic(Player.Stats);
+            //EventizeRelics(); //literally just here to force the ui to update and see if it was added, remove with the proper ui update
+            //probably won't even need it since we'll be loading to seperate scene anyways
+
+            //new method that allows player to choose a relic
+            ShowRewardSelection();
+
+            return;
+        }
+    }
+
+    private void DebugKillEnemy()
+    {
+        Enemy.TakeDamage(1000);
+    }
+
+    private void ShowRewardSelection()
+    {
+        var rewardUI = GD.Load<PackedScene>("res://RewardSelectionUI.tscn")
+            .Instantiate<RewardSelect>();
+        AddChild(rewardUI);
+        rewardUI.Initialize(Player.Stats);
+    }
 }

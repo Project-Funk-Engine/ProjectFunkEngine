@@ -45,5 +45,19 @@ public partial class Scribe : Node
                 ),
             }
         ),
+        new RelicTemplate(
+            "Dummy Item",
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.NotePlaced,
+                    100,
+                    (director, val) =>
+                    {
+                        director.Player.Heal(val);
+                    }
+                ),
+            }
+        ),
     };
 }
