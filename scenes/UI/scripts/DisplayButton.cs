@@ -3,6 +3,7 @@ using Godot;
 
 public partial class DisplayButton : Button
 {
+    //TODO: Make various menus change descriptions when focus changes, instead of on click.
     [Export]
     public Texture2D Texture;
 
