@@ -154,6 +154,7 @@ public partial class StageProducer : Node
         switch (nextStage)
         {
             case Stages.Title:
+                _isInitialized = false;
                 GetTree().ChangeSceneToFile("res://scenes/SceneTransitions/TitleScreen.tscn");
                 break;
             case Stages.Battle:

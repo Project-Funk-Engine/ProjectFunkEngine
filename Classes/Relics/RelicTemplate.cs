@@ -25,6 +25,7 @@ public partial class RelicTemplate : Resource
 
     public RelicTemplate Clone()
     {
-        return (RelicTemplate)MemberwiseClone();
+        RelicTemplate newRelic = new RelicTemplate(Name, Tooltip, Texture, Effects);
+        return newRelic;
     }
 }

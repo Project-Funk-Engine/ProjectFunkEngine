@@ -49,6 +49,7 @@ public partial class Note : Resource
     {
         //Eventually could look into something more robust, but for now shallow copy is preferable.
         //We only would want val and name to be copied by value
-        return (Note)MemberwiseClone();
+        Note newNote = new Note(Name, Tooltip, Texture, Owner, _baseVal, NoteEffect);
+        return newNote;
     }
 }

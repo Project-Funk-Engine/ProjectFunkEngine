@@ -32,6 +32,8 @@ public partial class BattleDirector : Node2D
 
     private SongData _curSong;
 
+    private bool _battleEnd;
+
     #endregion
 
     #region Note Handling
@@ -122,6 +124,8 @@ public partial class BattleDirector : Node2D
     {
         TimeKeeper.CurrentTime = Audio.GetPlaybackPosition();
         CD.CheckMiss();
+        if (_battleEnd)
+            GetNode<StageProducer>("/root/StageProducer").TransitionStage(Stages.Map);
     }
     #endregion
 
@@ -210,6 +214,7 @@ public partial class BattleDirector : Node2D
         if (puppet == Player)
         {
             GD.Print("Player is Dead");
+            GetNode<StageProducer>("/root/StageProducer").TransitionStage(Stages.Title);
             return;
         }
 
@@ -218,6 +223,7 @@ public partial class BattleDirector : Node2D
         {
             GD.Print("Enemy is dead");
             ShowRewardSelection(3);
+            _battleEnd = true;
         }
     }
 
