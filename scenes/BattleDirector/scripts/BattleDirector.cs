@@ -60,6 +60,7 @@ public partial class BattleDirector : Node2D
     #region Initialization
     public override void _Ready()
     {
+        //TODO: Should come from transition into battle
         _curSong = new SongData
         {
             Bpm = 120,
@@ -80,10 +81,18 @@ public partial class BattleDirector : Node2D
         AddChild(Enemy);
         Enemy.Defeated += CheckBattleStatus;
         Enemy.Init(GD.Load<Texture2D>("res://scenes/BattleDirector/assets/Enemy1.png"), "Enemy");
-        Enemy.Sprite.Scale *= 2;
 
-        var timer = GetTree().CreateTimer(AudioServer.GetTimeToNextMix());
-        timer.Timeout += Begin;
+        //TODO: This is a temporary measure
+        Button startButton = new Button();
+        startButton.Text = "Start";
+        startButton.Position = GetViewportRect().Size / 2;
+        AddChild(startButton);
+        startButton.Pressed += () =>
+        {
+            var timer = GetTree().CreateTimer(AudioServer.GetTimeToNextMix());
+            timer.Timeout += Begin;
+            startButton.QueueFree();
+        };
     }
 
     //TODO: This will all change
@@ -93,7 +102,8 @@ public partial class BattleDirector : Node2D
         CD.Prep();
         CD.TimedInput += OnTimedInput;
 
-        //TEMP TODO: Make enemies, can put this in an enemy subclass
+        //TODO: Make enemies, can put this in an enemy subclass
+        Enemy.Sprite.Scale *= 2;
         var enemTween = CreateTween();
         enemTween.TweenProperty(Enemy.Sprite, "position", Vector2.Down * 5, 1f).AsRelative();
         enemTween.TweenProperty(Enemy.Sprite, "position", Vector2.Up * 5, 1f).AsRelative();
@@ -159,9 +169,8 @@ public partial class BattleDirector : Node2D
             PlayerAddNote(arrowType, beat);
             return;
         }
-        //TODO: Evaluate Timing as a function
+
         Timing timed = CheckTiming(beatDif);
-        GD.Print(timed);
 
         if (timed == Timing.Miss)
         {

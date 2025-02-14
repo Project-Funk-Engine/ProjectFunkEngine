@@ -34,8 +34,8 @@ public partial class Scribe : Node
         ),
         new Note(
             "PlayerDouble",
-            "Basic player note, deals damage to enemy",
-            GD.Load<Texture2D>("res://Classes/Notes/assets/single_note.png"),
+            "Basic player note, deals double damage to enemy",
+            GD.Load<Texture2D>("res://Classes/Notes/assets/double_note.png"),
             null,
             1,
             (director, note, timing) =>
