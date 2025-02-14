@@ -4,6 +4,7 @@ using FunkEngine;
 using Godot;
 using Melanchall.DryWetMidi.Core;
 using Melanchall.DryWetMidi.Interaction;
+using Melanchall.DryWetMidi.Multimedia;
 
 public partial class MidiMaestro : Resource
 {
@@ -14,6 +15,8 @@ public partial class MidiMaestro : Resource
     private midiNoteInfo[] _downNotes;
     private midiNoteInfo[] _leftNotes;
     private midiNoteInfo[] _rightNotes;
+
+    private MidiFile strippedSong;
 
     private SongData songData;
 
@@ -33,7 +36,7 @@ public partial class MidiMaestro : Resource
             string trackName = track.Events.OfType<SequenceTrackNameEvent>().FirstOrDefault()?.Text;
             midiNoteInfo[] noteEvents = track
                 .GetNotes()
-                .Select(note => new midiNoteInfo(note))
+                .Select(note => new midiNoteInfo(note, _midiFile.GetTempoMap()))
                 .ToArray();
 
             switch (trackName)
@@ -89,13 +92,17 @@ public partial class MidiMaestro : Resource
 public class midiNoteInfo
 {
     private readonly Melanchall.DryWetMidi.Interaction.Note _note;
+    private readonly TempoMap _tempoMap;
 
-    public midiNoteInfo(Melanchall.DryWetMidi.Interaction.Note note)
+    public midiNoteInfo(Melanchall.DryWetMidi.Interaction.Note note, TempoMap tempoMap)
     {
         _note = note;
+        _tempoMap = tempoMap;
     }
 
-    public long GetStartTime() => _note.Time;
+    public long GetStartTimeTicks() => _note.Time;
+
+    public int GetStartTimeSeconds() => _note.TimeAs<MetricTimeSpan>(_tempoMap).Seconds;
 
     public long GetEndTime() => _note.EndTime;
 
