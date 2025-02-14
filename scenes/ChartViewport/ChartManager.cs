@@ -101,27 +101,26 @@ public partial class ChartManager : SubViewportContainer
     public NoteArrow AddArrowToLane(
         ArrowType type,
         int beat,
-        int noteIdx,
         Note note,
         Color colorOverride = default
     )
     {
-        var newNote = CreateNote(type, note, beat);
-        var loopArrow = CreateNote(type, note, beat + BeatsPerLoop); //Create a dummy arrow for looping visuals
+        var newNote = CreateNote(type, beat); //TODO: Notes on track have unqiue visuals
+        var loopArrow = CreateNote(type, beat + BeatsPerLoop); //Create a dummy arrow for looping visuals
         if (colorOverride != default)
         {
             newNote.Modulate = colorOverride;
             loopArrow.Modulate = colorOverride;
         }
-        newNote.NoteIdx = noteIdx;
+        newNote.NoteRef = note;
         return newNote;
     }
 
-    private NoteArrow CreateNote(ArrowType arrow, Note note, int beat = 0)
+    private NoteArrow CreateNote(ArrowType arrow, int beat = 0)
     {
         var noteScene = ResourceLoader.Load<PackedScene>("res://scenes/NoteManager/note.tscn");
         NoteArrow newArrow = noteScene.Instantiate<NoteArrow>();
-        newArrow.Init(IH.Arrows[(int)arrow], beat, note);
+        newArrow.Init(IH.Arrows[(int)arrow], beat);
 
         _arrowGroup.AddChild(newArrow);
         newArrow.Bounds = (float)((double)beat / BeatsPerLoop * (ChartLength / 2));

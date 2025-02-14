@@ -13,6 +13,7 @@ public partial class Scribe : Node
         new Note(
             "EnemyBase",
             null,
+            null,
             1,
             (director, note, timing) =>
             {
@@ -22,6 +23,7 @@ public partial class Scribe : Node
         new Note(
             "PlayerBase",
             null,
+            GD.Load<Texture2D>("res://Classes/Notes/assets/single_note.png"),
             1,
             (director, note, timing) =>
             {
@@ -31,6 +33,7 @@ public partial class Scribe : Node
         new Note(
             "PlayerDouble",
             null,
+            GD.Load<Texture2D>("res://Classes/Notes/assets/double_note.png"),
             1,
             (director, note, timing) =>
             {

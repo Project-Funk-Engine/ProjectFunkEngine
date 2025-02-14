@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://caw70lr5e1yiq"
-path="res://.godot/imported/double_note.png-b077a9744f626fbc60d331cfc2e231a0.ctex"
+path="res://.godot/imported/double_note.png-1b788aee0b7f76d502303d178d821d3b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/CustomNotes/assets/double_note.png"
-dest_files=["res://.godot/imported/double_note.png-b077a9744f626fbc60d331cfc2e231a0.ctex"]
+source_file="res://Classes/Notes/assets/double_note.png"
+dest_files=["res://.godot/imported/double_note.png-1b788aee0b7f76d502303d178d821d3b.ctex"]
 
 [params]
 

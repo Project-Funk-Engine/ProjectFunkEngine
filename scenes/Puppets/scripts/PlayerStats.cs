@@ -6,7 +6,12 @@ public partial class PlayerStats : Resource
 {
     public int MaxHealth = 100;
     public int CurrentHealth = 100;
-    public Note[] CurNotes = new Note[] { Scribe.NoteDictionary[1].Clone() }; //TODO: Get a better method than .Clone
+    public Note[] CurNotes = new Note[]
+    {
+        Scribe.NoteDictionary[1].Clone(),
+        Scribe.NoteDictionary[1].Clone(),
+        Scribe.NoteDictionary[2].Clone(),
+    }; //TODO: Get a better method than .Clone
 
     public RelicTemplate[] CurRelics = Array.Empty<RelicTemplate>();
     public int Attack = 1;

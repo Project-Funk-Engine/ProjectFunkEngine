@@ -23,8 +23,6 @@ public partial class Conductor : Node
         0,
     };
 
-    public Note[] Notes = Array.Empty<Note>();
-
     //Returns first note of lane without modifying lane data
     private Note GetNoteAt(ArrowType dir, int beat)
     {
@@ -34,7 +32,7 @@ public partial class Conductor : Node
     //Get note of a note arrow
     private Note GetNote(NoteArrow arrow)
     {
-        return Notes[arrow.NoteIdx];
+        return arrow.NoteRef;
     }
 
     private bool IsNoteActive(ArrowType type, int beat)
@@ -45,28 +43,19 @@ public partial class Conductor : Node
     public bool AddNoteToLane(ArrowType type, int beat, Note note, bool isActive = true)
     {
         beat %= CM.BeatsPerLoop;
-        //Don't add dupe notes //Beat at 0 is too messy.
-        if (beat == 0 || _laneData[(int)type][beat] != null)
-        {
+        Note newNote = note.Clone();
+
+        if (beat == 0)
             return false;
-        }
 
         NoteArrow arrow;
-        if (isActive)
+        if (isActive) //Currently an enemy note.
         {
-            arrow = CM.AddArrowToLane(type, beat, Notes.Length - 1, note);
-            arrow.NoteIdx = 1;
+            arrow = CM.AddArrowToLane(type, beat, newNote);
         }
         else
         {
-            arrow = CM.AddArrowToLane(
-                type,
-                beat,
-                Notes.Length - 1,
-                note,
-                new Color(1, 0.43f, 0.26f)
-            );
-            arrow.NoteIdx = 0;
+            arrow = CM.AddArrowToLane(type, beat, newNote, new Color(1, 0.43f, 0.26f));
         }
 
         arrow.IsActive = isActive;
@@ -145,6 +134,8 @@ public partial class Conductor : Node
         double realBeat = TimeKeeper.CurrentTime / (60 / (double)TimeKeeper.Bpm) % CM.BeatsPerLoop;
         int curBeat = (int)Math.Round(realBeat);
         GD.Print("Cur beat " + curBeat + "Real: " + realBeat.ToString("#.###"));
+        if (curBeat % CM.BeatsPerLoop == 0)
+            return; //Ignore note 0 //TODO: Double check this works as intended.
         if (_laneData[(int)type][curBeat % CM.BeatsPerLoop] == null)
         {
             TimedInput?.Invoke(null, type, curBeat, Math.Abs(realBeat - curBeat));

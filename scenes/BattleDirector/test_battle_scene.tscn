@@ -1,30 +1,29 @@
-[gd_scene load_steps=9 format=3 uid="uid://b0mrgr7h0ty1y"]
+[gd_scene load_steps=7 format=3 uid="uid://b0mrgr7h0ty1y"]
 
 [ext_resource type="Script" path="res://scenes/BattleDirector/scripts/BattleDirector.cs" id="1_cwqqr"]
 [ext_resource type="PackedScene" uid="uid://dfevfib11kou1" path="res://scenes/ChartViewport/ChartViewport.tscn" id="2_cupb3"]
 [ext_resource type="Script" path="res://scenes/BattleDirector/scripts/Conductor.cs" id="2_pcp76"]
 [ext_resource type="Texture2D" uid="uid://ci0g72j8q4ec2" path="res://scenes/BattleDirector/assets/CoolBG.jpg" id="4_13o87"]
 [ext_resource type="PackedScene" uid="uid://duhiilcv4tat3" path="res://scenes/BattleDirector/NotePlacementBar.tscn" id="7_3ko4g"]
-[ext_resource type="PackedScene" uid="uid://bvhpon5liybd1" path="res://scenes/CustomNotes/NoteQueue.tscn" id="8_7wwxo"]
 [ext_resource type="AudioStream" uid="uid://cv6lqjj6lu36h" path="res://Audio/335571__magntron__gamemusic_120bpm.mp3" id="8_caqms"]
 
-[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM", "NotePlacementBar", "CD", "Audio", "NQ")]
+[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM", "NotePlacementBar", "CD", "Audio")]
 process_mode = 1
 script = ExtResource("1_cwqqr")
 CM = NodePath("SubViewport")
 NotePlacementBar = NodePath("NotePlacementBar")
 CD = NodePath("Conductor")
 Audio = NodePath("AudioStreamPlayer")
-NQ = NodePath("NoteQueue")
+metadata/_edit_lock_ = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_caqms")
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 
 [node name="Conductor" type="Node" parent="." node_paths=PackedStringArray("CM")]
 script = ExtResource("2_pcp76")
 CM = NodePath("../SubViewport")
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("8_caqms")
 
 [node name="SubViewport" parent="." instance=ExtResource("2_cupb3")]
 offset_left = 80.0
@@ -60,14 +59,3 @@ offset_right = 613.0
 offset_bottom = 188.0
 theme_override_font_sizes/font_size = 10
 text = "Relics:"
-
-[node name="NoteQueue" parent="." instance=ExtResource("8_7wwxo")]
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 100.0
-offset_top = 140.0
-offset_right = 100.0
-offset_bottom = 140.0
-grow_horizontal = 1
-grow_vertical = 1

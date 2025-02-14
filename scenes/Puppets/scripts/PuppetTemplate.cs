@@ -39,6 +39,8 @@ public partial class PuppetTemplate : Node2D
 
     public virtual void TakeDamage(int amount)
     {
+        if (_currentHealth <= 0)
+            return; //TEMP Only fire once.
         _currentHealth = _healthBar.ChangeHP(-amount);
         if (_currentHealth <= 0)
         {

@@ -13,17 +13,21 @@ public partial class Note : Resource
     private int _baseVal;
     private Action<BattleDirector, Note, Timing> NoteEffect; //TODO: Where/How to deal with timing.
 
+    public Texture2D Texture;
+
     //public string Tooltip;
 
     public Note(
         string name,
         PuppetTemplate owner = null,
+        Texture2D texture = null,
         int baseVal = 1,
         Action<BattleDirector, Note, Timing> noteEffect = null
     )
     {
         Name = name;
         Owner = owner;
+        Texture = texture;
         NoteEffect =
             noteEffect
             ?? (
@@ -42,6 +46,8 @@ public partial class Note : Resource
 
     public Note Clone()
     {
+        //Eventually could look into something more robust, but for now shallow copy is preferable.
+        //We only would want val and name to be copied by value
         return (Note)MemberwiseClone();
     }
 }

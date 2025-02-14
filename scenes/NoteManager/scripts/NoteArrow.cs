@@ -7,14 +7,13 @@ using Godot;
  */
 public partial class NoteArrow : Sprite2D
 { //TextRect caused issues later :)
-    public int NoteIdx;
     public ArrowType Type;
     public int Beat;
     public float Bounds;
     public bool IsActive;
     public Note NoteRef;
 
-    public void Init(ArrowData parentArrowData, int beat, Note note)
+    public void Init(ArrowData parentArrowData, int beat)
     {
         ZIndex = 1;
 

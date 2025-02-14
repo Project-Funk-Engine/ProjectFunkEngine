@@ -32,31 +32,17 @@ public partial class BattleDirector : Node2D
 
     private SongData _curSong;
 
-    [Export]
-    private NoteQueue NQ;
-
     #endregion
 
     #region Note Handling
     private void PlayerAddNote(ArrowType type, int beat)
     {
-        //TODO: note that should be added from the queue
-        Note note = NQ.GetCurrentNote();
-        if (note == null)
-        {
-            GD.Print("No notes in queue");
-            return;
-        }
-
-        GD.Print($"Player trying to place {note.Name}:{type} typed note at beat: " + beat);
         if (!NotePlacementBar.CanPlaceNote())
             return;
-        if (CD.AddNoteToLane(type, beat % CM.BeatsPerLoop, note, false))
+        if (CD.AddNoteToLane(type, beat % CM.BeatsPerLoop, NotePlacementBar.PlacedNote(), false))
         {
-            NotePlacementBar.PlacedNote();
             NotePlaced?.Invoke(this);
             GD.Print("Note Placed.");
-            NQ.DequeueNote();
         }
     }
 
@@ -86,15 +72,9 @@ public partial class BattleDirector : Node2D
         AddChild(Player);
         Player.Defeated += CheckBattleStatus;
         EventizeRelics();
-        //TODO: Refine
-        foreach (var note in Player.Stats.CurNotes)
-        {
-            note.Owner = Player;
-            CD.Notes = CD.Notes.Append(note).ToArray();
-        }
-        Note enemNote = Scribe.NoteDictionary[0].Clone();
-        CD.Notes = CD.Notes.Append(enemNote).ToArray();
+        NotePlacementBar.Setup(StageProducer.PlayerStats);
 
+        //TODO: Refine
         Enemy = new PuppetTemplate();
         Enemy.SetPosition(new Vector2(400, 0));
         AddChild(Enemy);
