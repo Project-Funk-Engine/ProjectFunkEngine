@@ -6,6 +6,7 @@ public partial class Conductor : Node
 {
     [Export]
     private ChartManager CM;
+    public MidiMaestro MM;
 
     public delegate void TimedInputHandler(Note note, ArrowType type, int beat, double beatDif);
     public event TimedInputHandler TimedInput;
@@ -74,6 +75,11 @@ public partial class Conductor : Node
         return true;
     }
 
+    public override void _Ready()
+    {
+        MM = new MidiMaestro("Audio/midi/midiTest.mid");
+    }
+
     public void Prep() //TODO: Streamline battle initialization
     {
         _laneData = new NoteArrow[][]
@@ -89,7 +95,40 @@ public partial class Conductor : Node
     private void AddExampleNotes()
     {
         GD.Print(CM.BeatsPerLoop);
-        for (int i = 1; i < 15; i++)
+        foreach (midiNoteInfo mNote in MM.GetNotes(ArrowType.Up))
+        {
+            AddNoteToLane(
+                ArrowType.Up,
+                (int)(mNote.GetStartTimeSeconds() / (60 / (double)TimeKeeper.Bpm)),
+                Scribe.NoteDictionary[0]
+            );
+        }
+        foreach (midiNoteInfo mNote in MM.GetNotes(ArrowType.Down))
+        {
+            AddNoteToLane(
+                ArrowType.Down,
+                (int)(mNote.GetStartTimeSeconds() / (60 / (double)TimeKeeper.Bpm)),
+                Scribe.NoteDictionary[0]
+            );
+        }
+        foreach (midiNoteInfo mNote in MM.GetNotes(ArrowType.Right))
+        {
+            AddNoteToLane(
+                ArrowType.Right,
+                (int)(mNote.GetStartTimeSeconds() / (60 / (double)TimeKeeper.Bpm)),
+                Scribe.NoteDictionary[0]
+            );
+        }
+        foreach (midiNoteInfo mNote in MM.GetNotes(ArrowType.Left))
+        {
+            AddNoteToLane(
+                ArrowType.Left,
+                (int)(mNote.GetStartTimeSeconds() / (60 / (double)TimeKeeper.Bpm)),
+                Scribe.NoteDictionary[0]
+            );
+        }
+
+        /*for (int i = 1; i < 15; i++)
         {
             AddNoteToLane(ArrowType.Up, i * 4, Scribe.NoteDictionary[0]);
         }
@@ -107,7 +146,7 @@ public partial class Conductor : Node
         for (int i = 0; i < 3; i++)
         {
             AddNoteToLane(ArrowType.Down, 8 * i + 16, Scribe.NoteDictionary[0]);
-        }
+        }*/
     }
 
     //Check all lanes for misses from missed inputs

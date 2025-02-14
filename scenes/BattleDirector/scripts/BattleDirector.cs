@@ -74,12 +74,7 @@ public partial class BattleDirector : Node2D
     #region Initialization
     public override void _Ready()
     {
-        _curSong = new SongData
-        {
-            Bpm = 120,
-            SongLength = Audio.Stream.GetLength(),
-            NumLoops = 5,
-        };
+        _curSong = CD.MM.GetSongData();
         TimeKeeper.Bpm = _curSong.Bpm;
 
         Player = new PlayerPuppet();
