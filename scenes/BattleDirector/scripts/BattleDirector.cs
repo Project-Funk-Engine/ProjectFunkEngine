@@ -32,6 +32,8 @@ public partial class BattleDirector : Node2D
 
     private SongData _curSong;
 
+    private bool _battleEnd;
+
     #endregion
 
     #region Note Handling
@@ -60,6 +62,7 @@ public partial class BattleDirector : Node2D
     #region Initialization
     public override void _Ready()
     {
+        //TODO: Should come from transition into battle
         _curSong = new SongData
         {
             Bpm = 120,
@@ -80,10 +83,18 @@ public partial class BattleDirector : Node2D
         AddChild(Enemy);
         Enemy.Defeated += CheckBattleStatus;
         Enemy.Init(GD.Load<Texture2D>("res://scenes/BattleDirector/assets/Enemy1.png"), "Enemy");
-        Enemy.Sprite.Scale *= 2;
 
-        var timer = GetTree().CreateTimer(AudioServer.GetTimeToNextMix());
-        timer.Timeout += Begin;
+        //TODO: This is a temporary measure
+        Button startButton = new Button();
+        startButton.Text = "Start";
+        startButton.Position = GetViewportRect().Size / 2;
+        AddChild(startButton);
+        startButton.Pressed += () =>
+        {
+            var timer = GetTree().CreateTimer(AudioServer.GetTimeToNextMix());
+            timer.Timeout += Begin;
+            startButton.QueueFree();
+        };
     }
 
     //TODO: This will all change
@@ -93,7 +104,8 @@ public partial class BattleDirector : Node2D
         CD.Prep();
         CD.TimedInput += OnTimedInput;
 
-        //TEMP TODO: Make enemies, can put this in an enemy subclass
+        //TODO: Make enemies, can put this in an enemy subclass
+        Enemy.Sprite.Scale *= 2;
         var enemTween = CreateTween();
         enemTween.TweenProperty(Enemy.Sprite, "position", Vector2.Down * 5, 1f).AsRelative();
         enemTween.TweenProperty(Enemy.Sprite, "position", Vector2.Up * 5, 1f).AsRelative();
@@ -112,6 +124,8 @@ public partial class BattleDirector : Node2D
     {
         TimeKeeper.CurrentTime = Audio.GetPlaybackPosition();
         CD.CheckMiss();
+        if (_battleEnd)
+            GetNode<StageProducer>("/root/StageProducer").TransitionStage(Stages.Map);
     }
     #endregion
 
@@ -124,7 +138,7 @@ public partial class BattleDirector : Node2D
         {
             if (eventKey.Keycode == Key.Key0)
             {
-                DebugKillEnemy();
+                //DebugKillEnemy();
             }
         }
 
@@ -132,6 +146,14 @@ public partial class BattleDirector : Node2D
         {
             var pauseMenu = GD.Load<PackedScene>("res://scenes/UI/Pause.tscn");
             GetNode<CanvasLayer>("UILayer").AddChild(pauseMenu.Instantiate());
+            GetTree().Paused = true;
+        }
+        if (@event.IsActionPressed("Inventory"))
+        {
+            var invenMenu = GD.Load<PackedScene>("res://scenes/UI/inventory.tscn")
+                .Instantiate<Inventory>();
+            GetNode<CanvasLayer>("UILayer").AddChild(invenMenu);
+            invenMenu.Display(Player.Stats);
             GetTree().Paused = true;
         }
     }
@@ -151,9 +173,8 @@ public partial class BattleDirector : Node2D
             PlayerAddNote(arrowType, beat);
             return;
         }
-        //TODO: Evaluate Timing as a function
+
         Timing timed = CheckTiming(beatDif);
-        GD.Print(timed);
 
         if (timed == Timing.Miss)
         {
@@ -193,6 +214,7 @@ public partial class BattleDirector : Node2D
         if (puppet == Player)
         {
             GD.Print("Player is Dead");
+            GetNode<StageProducer>("/root/StageProducer").TransitionStage(Stages.Title);
             return;
         }
 
@@ -201,6 +223,7 @@ public partial class BattleDirector : Node2D
         {
             GD.Print("Enemy is dead");
             ShowRewardSelection(3);
+            _battleEnd = true;
         }
     }
 
@@ -224,7 +247,6 @@ public partial class BattleDirector : Node2D
     {
         foreach (var relic in Player.Stats.CurRelics)
         {
-            GetNode<Label>("TempRelicList").Text += "\n" + relic.Name;
             foreach (var effect in relic.Effects)
             {
                 switch (effect.GetTrigger()) //TODO: Look into a way to get eventhandler from string

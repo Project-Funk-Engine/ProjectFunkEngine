@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using FunkEngine;
 using Godot;
 
 public partial class PlayerStats : Resource
@@ -18,10 +19,12 @@ public partial class PlayerStats : Resource
 
     public void AddRelic(RelicTemplate relic)
     {
-        if (CurRelics.Any(r => r.Name == relic.Name))
+        foreach (RelicEffect effect in relic.Effects)
         {
-            GD.PrintErr("Relic already in inventory: " + relic.Name);
-            return;
+            if (effect.GetTrigger() == BattleEffectTrigger.OnPickup)
+            {
+                effect.OnTrigger(null);
+            }
         }
         CurRelics = CurRelics.Append(relic).ToArray();
         GD.Print("Adding relic: " + relic.Name);

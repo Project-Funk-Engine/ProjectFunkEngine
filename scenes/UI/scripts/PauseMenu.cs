@@ -37,6 +37,7 @@ public partial class PauseMenu : Control
 
     private void QuitToMainMenu()
     {
+        GetTree().Paused = false;
         GetNode<StageProducer>("/root/StageProducer").TransitionStage(Stages.Title);
     }
 }

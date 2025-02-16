@@ -13,12 +13,12 @@ gradient = SubResource("Gradient_0u6yv")
 width = 26
 height = 100
 
-[sub_resource type="Gradient" id="Gradient_lyd0l"]
+[sub_resource type="Gradient" id="Gradient_xvck1"]
 offsets = PackedFloat32Array(0, 0.485915, 0.739437, 1)
 colors = PackedColorArray(0, 1, 0, 1, 0.68, 0, 0.272, 1, 0, 0.64, 0.608, 1, 0.4, 0, 0, 1)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_k7kvy"]
-gradient = SubResource("Gradient_lyd0l")
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_0bqho"]
+gradient = SubResource("Gradient_xvck1")
 width = 24
 height = 98
 fill_to = Vector2(0, 1)
@@ -42,7 +42,7 @@ offset_right = 26.0
 offset_bottom = 100.0
 fill_mode = 3
 texture_under = SubResource("GradientTexture2D_hhds4")
-texture_progress = SubResource("GradientTexture2D_k7kvy")
+texture_progress = SubResource("GradientTexture2D_0bqho")
 texture_progress_offset = Vector2(1, 1)
 
 [node name="TextEdit" type="TextEdit" parent="."]

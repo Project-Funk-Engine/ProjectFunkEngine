@@ -46,10 +46,24 @@ public partial class PuppetTemplate : Node2D
         {
             Defeated?.Invoke(this);
         }
+        if (amount != 0)
+        {
+            TextParticle newText = new TextParticle();
+            newText.Modulate = Colors.Red;
+            Sprite.AddChild(newText);
+            newText.Text = $"-{amount}";
+        }
     }
 
     public virtual void Heal(int amount)
     {
+        if (amount != 0)
+        {
+            TextParticle newText = new TextParticle();
+            newText.Modulate = Colors.Green;
+            Sprite.AddChild(newText);
+            newText.Text = $"+{amount}";
+        }
         _currentHealth = _healthBar.ChangeHP(amount);
     }
 
