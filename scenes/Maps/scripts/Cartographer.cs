@@ -12,7 +12,7 @@ public partial class Cartographer : Node2D
 
     private Vector2 GetPosition(int x, int y)
     {
-        return new Vector2((float)x * 640 / StageProducer.MapSize.X - 1 + 64, y * 64 + 16);
+        return new Vector2((float)x * 640 / StageProducer.MapSize.X - 1 + 64, y * 48 + 16);
     }
 
     private void DrawMap()

@@ -51,16 +51,17 @@ public partial class Scribe : Node
     {
         new RelicTemplate(
             "Breakfast", //Reference ha ha, Item to give when relic pool is empty.
-            "Breakfast, currently does nothing :).", //TODO: Description can include the relics values?
-            GD.Load<Texture2D>("res://scenes/BattleDirector/assets/Character1.png"),
+            "Increases max hp.", //TODO: Description can include the relics values?
+            GD.Load<Texture2D>("res://Classes/Relics/assets/relic_Breakfast.png"),
             new RelicEffect[]
             {
                 new RelicEffect(
-                    BattleEffectTrigger.NotePlaced,
-                    0,
+                    BattleEffectTrigger.OnPickup,
+                    10,
                     (director, val) =>
                     {
-                        director.Player.Heal(val);
+                        StageProducer.PlayerStats.MaxHealth += val;
+                        StageProducer.PlayerStats.CurrentHealth += val;
                     }
                 ),
             }
@@ -68,7 +69,7 @@ public partial class Scribe : Node
         new RelicTemplate(
             "Good Vibes",
             "Good vibes, heals the player whenever they place a note.", //TODO: Description can include the relics values?
-            GD.Load<Texture2D>("res://scenes/BattleDirector/assets/Character1.png"),
+            GD.Load<Texture2D>("res://Classes/Relics/assets/relic_GoodVibes.png"),
             new RelicEffect[]
             {
                 new RelicEffect(

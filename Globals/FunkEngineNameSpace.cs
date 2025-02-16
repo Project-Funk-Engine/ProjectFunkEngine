@@ -15,6 +15,7 @@ public enum BattleEffectTrigger
     NotePlaced,
     NoteHit,
     SelfNoteHit,
+    OnPickup,
 }
 
 public enum Timing

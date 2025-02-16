@@ -29,6 +29,11 @@ public partial class RewardSelect : CanvasLayer
         _skipButton.Pressed += OnSkip;
     }
 
+    public override void _Process(double delta)
+    {
+        _acceptButton.Visible = _selection != null;
+    }
+
     private void GenerateRelicChoices(int amount = 1)
     {
         //should probably change this so that the amount of relics offered can be changed when BD calls it

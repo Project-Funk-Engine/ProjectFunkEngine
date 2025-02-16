@@ -15,7 +15,7 @@ public partial class StageProducer : Node
     private Stages _curStage = Stages.Title;
     private Node _curScene;
     public static MapGrid.Room CurRoom { get; private set; }
-    public static Vector2I MapSize { get; private set; } = new Vector2I(3, 2); //For now, make width an odd number
+    public static Vector2I MapSize { get; private set; } = new Vector2I(7, 6); //For now, make width an odd number
 
     public static MapGrid Map { get; } = new MapGrid();
 
@@ -133,7 +133,7 @@ public partial class StageProducer : Node
 
     public void StartGame()
     {
-        Map.InitMapGrid(MapSize.X, MapSize.Y, 1);
+        Map.InitMapGrid(MapSize.X, MapSize.Y, 3);
         _seed = GlobalRng.Seed;
         _lastRngState = GlobalRng.State;
         PlayerStats = new PlayerStats();
