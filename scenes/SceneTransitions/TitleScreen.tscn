@@ -1,0 +1,106 @@
+[gd_scene load_steps=4 format=3 uid="uid://bm41yti6ij2j"]
+
+[ext_resource type="Texture2D" uid="uid://b0tvsewgnf2x7" path="res://icon.svg" id="1_r5xy8"]
+[ext_resource type="Script" path="res://scenes/SceneTransitions/scripts/SceneChange.cs" id="2_7f3m6"]
+[ext_resource type="Texture2D" uid="uid://b6fkei0i83vte" path="res://scenes/BattleDirector/assets/Character1.png" id="2_cf582"]
+
+[node name="Title" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SecretLabel" type="Label" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 49.0
+offset_bottom = 23.0
+text = "(Control nodes are fucking weird weird.)"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="Control" type="CenterContainer" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="VBoxContainer/MarginContainer/Control"]
+layout_mode = 2
+
+[node name="Godot" type="Sprite2D" parent="VBoxContainer/MarginContainer/Control/Control"]
+texture = ExtResource("1_r5xy8")
+
+[node name="Rabb" type="Sprite2D" parent="VBoxContainer/MarginContainer/Control/Control"]
+texture = ExtResource("2_cf582")
+
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/Control"]
+layout_mode = 2
+text = "Insert Title Screen Here"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Start Game"
+script = ExtResource("2_7f3m6")
+ScenePath = 3
+_startFocused = true
+
+[node name="MarginContainer3" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer/MarginContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Load Game (Experimental)"
+script = ExtResource("2_7f3m6")
+ScenePath = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer/MarginContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Quit Game"
+script = ExtResource("2_7f3m6")
+ScenePath = 2

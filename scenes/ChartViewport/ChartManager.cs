@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
+using FunkEngine;
 using Godot;
-using ArrowType = NoteArrow.ArrowType;
 
 /**
  * @class ChartManager
@@ -39,7 +39,7 @@ public partial class ChartManager : SubViewportContainer
         EmitSignal(nameof(NoteReleased), (int)type);
     }
 
-    public void PrepChart(BattleDirector.SongData songData)
+    public void PrepChart(SongData songData)
     {
         _loopLen = songData.SongLength / songData.NumLoops;
         TimeKeeper.LoopLength = (float)_loopLen;
@@ -59,16 +59,16 @@ public partial class ChartManager : SubViewportContainer
         tween
             .TweenMethod(
                 Callable.From((Vector2 scale) => TweenArrows(scale)),
-                new Vector2(0.07f, 0.07f),
-                new Vector2(0.07f, 0.07f) * 1.25f,
+                Vector2.One * .8f,
+                Vector2.One,
                 60f / TimeKeeper.Bpm / 2
             )
             .SetEase(Tween.EaseType.Out)
             .SetTrans(Tween.TransitionType.Elastic);
         tween.TweenMethod(
             Callable.From((Vector2 scale) => TweenArrows(scale)),
-            new Vector2(0.07f, 0.07f) * 1.25f,
-            new Vector2(0.07f, 0.07f),
+            Vector2.One,
+            Vector2.One * .8f,
             60f / TimeKeeper.Bpm / 2
         );
         tween.SetLoops().Play();
@@ -98,11 +98,21 @@ public partial class ChartManager : SubViewportContainer
         }
     }
 
-    public NoteArrow AddArrowToLane(Note note, int noteIdx)
+    public NoteArrow AddArrowToLane(
+        ArrowType type,
+        int beat,
+        Note note,
+        Color colorOverride = default
+    )
     {
-        var newNote = CreateNote(note.Type, note.Beat);
-        CreateNote(note.Type, note.Beat + BeatsPerLoop); //Create a dummy arrow for looping visuals
-        newNote.NoteIdx = noteIdx;
+        var newNote = CreateNote(type, beat); //TODO: Notes on track have unqiue visuals
+        var loopArrow = CreateNote(type, beat + BeatsPerLoop); //Create a dummy arrow for looping visuals
+        if (colorOverride != default)
+        {
+            newNote.Modulate = colorOverride;
+            loopArrow.Modulate = colorOverride;
+        }
+        newNote.NoteRef = note;
         return newNote;
     }
 
@@ -110,11 +120,22 @@ public partial class ChartManager : SubViewportContainer
     {
         var noteScene = ResourceLoader.Load<PackedScene>("res://scenes/NoteManager/note.tscn");
         NoteArrow newArrow = noteScene.Instantiate<NoteArrow>();
-        newArrow.Init(IH.Arrows[(int)arrow]);
+        newArrow.Init(IH.Arrows[(int)arrow], beat);
 
         _arrowGroup.AddChild(newArrow);
         newArrow.Bounds = (float)((double)beat / BeatsPerLoop * (ChartLength / 2));
         newArrow.Position += Vector2.Right * newArrow.Bounds * 10; //temporary fix for notes spawning and instantly calling loop from originating at 0,0
         return newArrow;
+    }
+
+    public override void _ExitTree()
+    {
+        GD.Print("[DEBUG] Stopping tweens before exiting the scene...");
+
+        foreach (var tween in GetTree().GetProcessedTweens())
+        {
+            tween.Stop();
+            GD.Print("[DEBUG] Stopped tween.");
+        }
     }
 }

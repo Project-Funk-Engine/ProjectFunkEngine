@@ -1,23 +1,29 @@
-[gd_scene load_steps=9 format=3 uid="uid://b0mrgr7h0ty1y"]
+[gd_scene load_steps=7 format=3 uid="uid://b0mrgr7h0ty1y"]
 
-[ext_resource type="Script" path="res://scenes/BattleDirector/BattleDirector.cs" id="1_cwqqr"]
+[ext_resource type="Script" path="res://scenes/BattleDirector/scripts/BattleDirector.cs" id="1_cwqqr"]
 [ext_resource type="PackedScene" uid="uid://dfevfib11kou1" path="res://scenes/ChartViewport/ChartViewport.tscn" id="2_cupb3"]
-[ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://scenes/BattleDirector/HealthBar.tscn" id="3_pp0u0"]
+[ext_resource type="Script" path="res://scenes/BattleDirector/scripts/Conductor.cs" id="2_pcp76"]
 [ext_resource type="Texture2D" uid="uid://ci0g72j8q4ec2" path="res://scenes/BattleDirector/assets/CoolBG.jpg" id="4_13o87"]
-[ext_resource type="Texture2D" uid="uid://b6fkei0i83vte" path="res://scenes/BattleDirector/assets/Character1.png" id="5_elveq"]
-[ext_resource type="Texture2D" uid="uid://veedngaorx3l" path="res://scenes/BattleDirector/assets/Enemy1.png" id="6_0k4pw"]
 [ext_resource type="PackedScene" uid="uid://duhiilcv4tat3" path="res://scenes/BattleDirector/NotePlacementBar.tscn" id="7_3ko4g"]
 [ext_resource type="AudioStream" uid="uid://cv6lqjj6lu36h" path="res://Audio/335571__magntron__gamemusic_120bpm.mp3" id="8_caqms"]
 
-[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM", "IH", "NotePlacementBar", "Audio")]
+[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM", "NotePlacementBar", "CD", "Audio")]
+process_mode = 1
 script = ExtResource("1_cwqqr")
 CM = NodePath("SubViewport")
-IH = NodePath("SubViewport/SubViewport/noteManager")
 NotePlacementBar = NodePath("NotePlacementBar")
+CD = NodePath("Conductor")
 Audio = NodePath("AudioStreamPlayer")
+metadata/_edit_lock_ = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_caqms")
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="Conductor" type="Node" parent="." node_paths=PackedStringArray("CM")]
+script = ExtResource("2_pcp76")
+CM = NodePath("../SubViewport")
 
 [node name="SubViewport" parent="." instance=ExtResource("2_cupb3")]
 offset_left = 80.0
@@ -40,21 +46,8 @@ offset_right = 673.0
 offset_bottom = 360.0
 color = Color(0.165656, 0.165656, 0.165656, 1)
 
-[node name="PlayerHP" parent="." instance=ExtResource("3_pp0u0")]
-offset_left = 92.0
-offset_top = 8.0
-offset_right = 132.0
-offset_bottom = 48.0
-SpriteText = ExtResource("5_elveq")
-
-[node name="EnemyHP" parent="." instance=ExtResource("3_pp0u0")]
-offset_left = 403.0
-offset_top = 8.0
-offset_right = 443.0
-offset_bottom = 52.0
-SpriteText = ExtResource("6_0k4pw")
-
 [node name="NotePlacementBar" parent="." instance=ExtResource("7_3ko4g")]
+z_index = 1
 offset_left = 16.0
 offset_top = 164.0
 offset_right = 16.0
