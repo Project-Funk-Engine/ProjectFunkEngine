@@ -18,7 +18,14 @@ public partial class Scribe : Node
             1,
             (director, note, timing) =>
             {
-                director.Player.TakeDamage(4 - (int)timing);
+                if (timing == Timing.Okay)
+                {
+                    director.Player.TakeDamage(1);
+                }
+                else if (timing == Timing.Miss)
+                {
+                    director.Player.TakeDamage(2);
+                }
             }
         ),
         new Note(

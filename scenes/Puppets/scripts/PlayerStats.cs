@@ -5,8 +5,8 @@ using Godot;
 
 public partial class PlayerStats : Resource
 {
-    public int MaxHealth = 100;
-    public int CurrentHealth = 100;
+    public int MaxHealth = 200;
+    public int CurrentHealth = 200;
     public Note[] CurNotes = new Note[]
     {
         Scribe.NoteDictionary[1].Clone(),

@@ -5,7 +5,7 @@ using Godot;
 
 public partial class NotePlacementBar : Node
 {
-    const int MaxValue = 80;
+    const int MaxValue = 50;
     private int _currentBarValue;
     private int _currentCombo;
     int comboMult;
@@ -34,7 +34,7 @@ public partial class NotePlacementBar : Node
         _currentBarValue = 0;
         _currentCombo = 0;
         comboMult = 1;
-        notesToIncreaseCombo = 4;
+        notesToIncreaseCombo = 5;
     }
 
     public void Setup(PlayerStats playerStats)
