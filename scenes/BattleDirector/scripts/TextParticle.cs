@@ -7,6 +7,7 @@ public partial class TextParticle : Label
     public override void _Ready()
     {
         Tween tween = GetTree().CreateTween();
+        ZIndex = 2;
         Position += Vector2.Left * (GD.Randf() * 40 - 20);
         tween.SetTrans(Tween.TransitionType.Quad);
         tween.SetEase(Tween.EaseType.Out);

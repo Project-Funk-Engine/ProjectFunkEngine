@@ -7,25 +7,25 @@
 
 [node name="VPContainer" type="SubViewportContainer" node_paths=PackedStringArray("IH", "ChartLoopables")]
 offset_right = 480.0
-offset_bottom = 200.0
+offset_bottom = 180.0
 script = ExtResource("1_ruh2l")
 IH = NodePath("SubViewport/noteManager")
 ChartLoopables = NodePath("SubViewport/ChartLoopables")
 
 [node name="SubViewport" type="SubViewport" parent="."]
 handle_input_locally = false
-size = Vector2i(480, 200)
+size = Vector2i(480, 180)
 render_target_update_mode = 4
 
 [node name="ColorFill" type="ColorRect" parent="SubViewport"]
 z_index = -2
-offset_left = -30.0
-offset_right = 610.0
+offset_left = -60.0
+offset_right = 690.0
 offset_bottom = 360.0
-color = Color(0.258824, 0.290196, 0.392157, 1)
+color = Color(0.129412, 0.145098, 0.196078, 1)
 
 [node name="Camera2D" type="Camera2D" parent="SubViewport"]
-position = Vector2(-25, 0)
+position = Vector2(-50, 0)
 anchor_mode = 0
 
 [node name="ChartLoopables" type="CanvasGroup" parent="SubViewport"]
@@ -34,14 +34,12 @@ unique_name_in_owner = true
 [node name="ArrowGroup" type="Node" parent="SubViewport/ChartLoopables"]
 
 [node name="ChartBG2" type="TextureRect" parent="SubViewport/ChartLoopables"]
-modulate = Color(2, 2, 2, 1)
 offset_right = 701.0
 offset_bottom = 300.0
 texture = ExtResource("1_0wnka")
 script = ExtResource("3_5u57h")
 
 [node name="ChartBG1" type="TextureRect" parent="SubViewport/ChartLoopables"]
-modulate = Color(2, 2, 2, 1)
 offset_right = 701.0
 offset_bottom = 300.0
 texture = ExtResource("1_0wnka")
