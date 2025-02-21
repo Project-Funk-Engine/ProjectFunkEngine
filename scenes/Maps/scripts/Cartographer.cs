@@ -5,6 +5,8 @@ using Godot;
 
 public partial class Cartographer : Node2D
 {
+    private Button[] validButtons = Array.Empty<Button>();
+
     public override void _Ready()
     {
         DrawMap();
@@ -29,30 +31,46 @@ public partial class Cartographer : Node2D
                 AddChild(newLine);
             }
         }
+
+        validButtons = validButtons.OrderBy(x => x.Position.X).ToArray();
+        AddFocusNeighbors();
     }
 
     private void DrawMapSprite(StageProducer.MapGrid.Room room)
     {
-        var newSprite = new Button();
-        AddChild(newSprite);
+        var newButton = new Button();
+        AddChild(newButton);
         //button is disabled if it is not a child of current room.
         if (!StageProducer.CurRoom.Children.Contains(room.Idx))
         {
-            newSprite.Disabled = true;
-            newSprite.FocusMode = Control.FocusModeEnum.None;
+            newButton.Disabled = true;
+            newButton.FocusMode = Control.FocusModeEnum.None;
         }
         else
         {
-            newSprite.GrabFocus();
-            newSprite.Pressed += () =>
+            newButton.GrabFocus();
+            newButton.Pressed += () =>
             {
                 EnterStage(room.Idx);
             };
+            validButtons = validButtons.Append(newButton).ToArray();
         }
-        newSprite.Icon = (Texture2D)GD.Load("res://icon.svg"); //TODO: Room types icons
-        newSprite.Scale *= .25f;
-        newSprite.ZIndex = 1;
-        newSprite.Position = GetPosition(room.X, room.Y) - newSprite.Size * 2;
+        newButton.Icon = (Texture2D)GD.Load("res://icon.svg"); //TODO: Room types icons
+        newButton.Scale *= .25f;
+        newButton.ZIndex = 1;
+        newButton.Position = GetPosition(room.X, room.Y) - newButton.Size * 2;
+    }
+
+    private void AddFocusNeighbors()
+    {
+        GD.Print(validButtons);
+        for (int i = 0; i < validButtons.Length; i++)
+        {
+            validButtons[i].FocusNeighborRight = validButtons[(i + 1) % (validButtons.Length)]
+                .GetPath();
+            validButtons[(i + 1) % (validButtons.Length)].FocusNeighborLeft = validButtons[i]
+                .GetPath();
+        }
     }
 
     private void EnterStage(int roomIdx)

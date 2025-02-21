@@ -9,13 +9,13 @@
 [ext_resource type="AudioStream" uid="uid://cv6lqjj6lu36h" path="res://Audio/335571__magntron__gamemusic_120bpm.mp3" id="8_caqms"]
 
 [sub_resource type="Gradient" id="Gradient_8uy3a"]
-offsets = PackedFloat32Array(0, 0.558442, 1)
+offsets = PackedFloat32Array(0, 0.766234, 1)
 colors = PackedColorArray(0.0823529, 0, 0.0784314, 1, 0.305882, 0.247059, 0.321569, 1, 0.27451, 0.243137, 0.403922, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_bajwn"]
 gradient = SubResource("Gradient_8uy3a")
 fill_from = Vector2(1, 0)
-fill_to = Vector2(1, 1)
+fill_to = Vector2(0.738532, 1)
 
 [node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM", "NotePlacementBar", "CD", "Audio")]
 process_mode = 1
