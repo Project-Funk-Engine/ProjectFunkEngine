@@ -20,7 +20,7 @@ public partial class Cartographer : Node2D
     private void DrawMap()
     {
         var rooms = StageProducer.Map.GetRooms();
-        foreach (StageProducer.MapGrid.Room room in rooms)
+        foreach (MapGrid.Room room in rooms)
         {
             DrawMapSprite(room);
             foreach (int roomIdx in room.Children)
@@ -36,7 +36,7 @@ public partial class Cartographer : Node2D
         AddFocusNeighbors();
     }
 
-    private void DrawMapSprite(StageProducer.MapGrid.Room room)
+    private void DrawMapSprite(MapGrid.Room room)
     {
         var newButton = new Button();
         AddChild(newButton);
@@ -55,8 +55,19 @@ public partial class Cartographer : Node2D
             };
             validButtons = validButtons.Append(newButton).ToArray();
         }
-        newButton.Icon = (Texture2D)GD.Load("res://icon.svg"); //TODO: Room types icons
-        newButton.Scale *= .25f;
+
+        switch (room.Type)
+        {
+            case MapRooms.Battle:
+                newButton.Icon = (Texture2D)GD.Load("res://scenes/Maps/assets/BattleIcon.png");
+                break;
+            case MapRooms.Boss:
+                newButton.Icon = (Texture2D)GD.Load("res://scenes/Maps/assets/BossIcon.png");
+                break;
+            case MapRooms.Chest:
+                newButton.Icon = (Texture2D)GD.Load("res://scenes/Maps/assets/ChestIcon.png");
+                break;
+        }
         newButton.ZIndex = 1;
         newButton.Position = GetPosition(room.X, room.Y) - newButton.Size * 2;
     }
