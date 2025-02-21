@@ -1,9 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://dfevfib11kou1"]
+[gd_scene load_steps=7 format=3 uid="uid://dfevfib11kou1"]
 
 [ext_resource type="Texture2D" uid="uid://b0tvsewgnf2x7" path="res://icon.svg" id="1_0wnka"]
 [ext_resource type="Script" path="res://scenes/ChartViewport/ChartManager.cs" id="1_ruh2l"]
 [ext_resource type="Script" path="res://scenes/ChartViewport/Loopable.cs" id="3_5u57h"]
 [ext_resource type="PackedScene" uid="uid://bn8txx53xlguw" path="res://scenes/NoteManager/note_manager.tscn" id="4_fd5fw"]
+[ext_resource type="Shader" path="res://scenes/ChartViewport/StarryNight.gdshader" id="5_kqrxg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5uw0y"]
+shader = ExtResource("5_kqrxg")
+shader_parameter/bg_color = Vector4(0.18, 0.08, 0.12, 0)
 
 [node name="VPContainer" type="SubViewportContainer" node_paths=PackedStringArray("IH", "ChartLoopables")]
 offset_right = 480.0
@@ -44,5 +49,13 @@ offset_right = 701.0
 offset_bottom = 300.0
 texture = ExtResource("1_0wnka")
 script = ExtResource("3_5u57h")
+
+[node name="StarShader" type="ColorRect" parent="SubViewport"]
+material = SubResource("ShaderMaterial_5uw0y")
+offset_left = -60.0
+offset_right = 415.0
+offset_bottom = 177.0
+scale = Vector2(2.18, 2.18)
+color = Color(0, 0, 0, 1)
 
 [node name="noteManager" parent="SubViewport" instance=ExtResource("4_fd5fw")]
