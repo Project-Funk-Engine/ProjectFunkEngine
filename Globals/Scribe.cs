@@ -56,6 +56,18 @@ public partial class Scribe : Node
                 director.Player.Heal((int)timing);
             }
         ),
+        new Note(
+            "PlayerVampire",
+            "Steals health from enemy.",
+            GD.Load<Texture2D>("res://Classes/Notes/assets/vampire_note.png"),
+            null,
+            1,
+            (director, note, timing) =>
+            {
+                director.Player.Heal((int)timing);
+                director.Enemy.TakeDamage((int)timing);
+            }
+        ),
     };
 
     public static readonly RelicTemplate[] RelicDictionary = new[]
