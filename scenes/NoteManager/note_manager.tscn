@@ -21,23 +21,23 @@ script = ExtResource("3_0cioe")
 modulate = Color(0, 0, 0, 1)
 texture = ExtResource("4_3mttx")
 
-[node name="arrowDown" type="Sprite2D" parent="noteCheckers"]
-position = Vector2(0, 70)
-rotation = 1.5708
-texture = ExtResource("2_pb1qk")
-script = ExtResource("3_0cioe")
-
-[node name="Outline" type="Sprite2D" parent="noteCheckers/arrowDown"]
-modulate = Color(0, 0, 0, 1)
-texture = ExtResource("4_3mttx")
-
 [node name="arrowUp" type="Sprite2D" parent="noteCheckers"]
-position = Vector2(0, 111)
+position = Vector2(0, 70)
 rotation = -1.5708
 texture = ExtResource("2_pb1qk")
 script = ExtResource("3_0cioe")
 
 [node name="Outline" type="Sprite2D" parent="noteCheckers/arrowUp"]
+modulate = Color(0, 0, 0, 1)
+texture = ExtResource("4_3mttx")
+
+[node name="arrowDown" type="Sprite2D" parent="noteCheckers"]
+position = Vector2(0, 111)
+rotation = 1.5708
+texture = ExtResource("2_pb1qk")
+script = ExtResource("3_0cioe")
+
+[node name="Outline" type="Sprite2D" parent="noteCheckers/arrowDown"]
 modulate = Color(0, 0, 0, 1)
 texture = ExtResource("4_3mttx")
 
