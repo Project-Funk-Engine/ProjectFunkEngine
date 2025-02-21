@@ -58,13 +58,24 @@ public partial class Scribe : Node
         ),
         new Note(
             "PlayerVampire",
-            "Steals health from enemy.",
+            "Steals health from enemy",
             GD.Load<Texture2D>("res://Classes/Notes/assets/vampire_note.png"),
             null,
             1,
             (director, note, timing) =>
             {
                 director.Player.Heal((int)timing);
+                director.Enemy.TakeDamage((int)timing);
+            }
+        ),
+        new Note(
+            "PlayerQuarter",
+            "Basic note at a quarter of the cost",
+            GD.Load<Texture2D>("res://Classes/Notes/assets/quarter_note.png"),
+            null,
+            1,
+            (director, note, timing) =>
+            {
                 director.Enemy.TakeDamage((int)timing);
             }
         ),
