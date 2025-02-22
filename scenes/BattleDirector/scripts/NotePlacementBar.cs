@@ -133,13 +133,20 @@ public partial class NotePlacementBar : Node
     // Placing a note resets the note placement bar
     public Note PlacedNote()
     {
-        _currentBarValue = 0;
+        if (_noteQueue.Peek().Name == "PlayerQuarter")
+            _currentBarValue -= MaxValue / 4;
+        else
+            _currentBarValue = 0;
+
         UpdateNotePlacementBar(_currentBarValue);
         return GetNote();
     }
 
     public bool CanPlaceNote()
     {
+        if (_noteQueue.Peek().Name == "PlayerQuarter")
+            return _currentBarValue >= MaxValue / 4;
+
         return _currentBarValue >= MaxValue;
     }
 

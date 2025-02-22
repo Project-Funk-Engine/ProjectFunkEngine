@@ -12,6 +12,7 @@ public partial class PlayerStats : Resource
         Scribe.NoteDictionary[1].Clone(),
         Scribe.NoteDictionary[1].Clone(),
         Scribe.NoteDictionary[2].Clone(),
+        Scribe.NoteDictionary[3].Clone(),
     }; //TODO: Get a better method than .Clone
 
     public RelicTemplate[] CurRelics = Array.Empty<RelicTemplate>();
