@@ -7,7 +7,7 @@ public partial class PlayerPuppet : PuppetTemplate
 
     public override void _Ready()
     {
-        Stats = StageProducer.PlayerStats;
+        Stats = StageProducer.PlayerStats ?? new PlayerStats();
 
         _currentHealth = Stats.CurrentHealth;
         _maxHealth = Stats.MaxHealth;

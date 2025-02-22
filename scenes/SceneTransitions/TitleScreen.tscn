@@ -69,7 +69,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Start Game"
 script = ExtResource("2_7f3m6")
-ScenePath = 3
+ScenePath = 5
 _startFocused = true
 
 [node name="MarginContainer3" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
@@ -103,4 +103,4 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Quit Game"
 script = ExtResource("2_7f3m6")
-ScenePath = 2
+ScenePath = 4

@@ -58,13 +58,13 @@ public partial class Cartographer : Node2D
 
         switch (room.Type)
         {
-            case MapRooms.Battle:
+            case Stages.Battle:
                 newButton.Icon = (Texture2D)GD.Load("res://scenes/Maps/assets/BattleIcon.png");
                 break;
-            case MapRooms.Boss:
+            case Stages.Boss:
                 newButton.Icon = (Texture2D)GD.Load("res://scenes/Maps/assets/BossIcon.png");
                 break;
-            case MapRooms.Chest:
+            case Stages.Chest:
                 newButton.Icon = (Texture2D)GD.Load("res://scenes/Maps/assets/ChestIcon.png");
                 break;
         }

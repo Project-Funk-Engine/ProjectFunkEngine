@@ -16,6 +16,9 @@ public partial class RewardSelect : CanvasLayer
     [Export]
     private Button _skipButton;
 
+    public delegate void SelectionMadeHandler();
+    public event SelectionMadeHandler Selected;
+
     private PlayerStats _player;
     private RelicTemplate[] _choices;
     private RelicTemplate _selection;
@@ -50,6 +53,17 @@ public partial class RewardSelect : CanvasLayer
         }
     }
 
+    public static RewardSelect CreateSelection(Node2D parent, PlayerStats playerStats, int amount)
+    {
+        var rewardUI = GD.Load<PackedScene>("res://scenes/UI/RewardSelectionUI.tscn")
+            .Instantiate<RewardSelect>();
+        parent.AddChild(rewardUI);
+        rewardUI.Initialize(playerStats, amount);
+        parent.GetTree().Paused = true;
+
+        return rewardUI;
+    }
+
     private void OnRelicSelected(RelicTemplate choiceRelic)
     {
         _selection = choiceRelic;
@@ -63,6 +77,7 @@ public partial class RewardSelect : CanvasLayer
         GD.Print("Relic selected: " + _selection.Name);
         _player.AddRelic(_selection);
         GetTree().Paused = false;
+        Selected?.Invoke();
         QueueFree();
     }
 
@@ -70,6 +85,7 @@ public partial class RewardSelect : CanvasLayer
     {
         GD.Print("Relic skipped.");
         GetTree().Paused = false;
+        Selected?.Invoke();
         QueueFree();
     }
 }
