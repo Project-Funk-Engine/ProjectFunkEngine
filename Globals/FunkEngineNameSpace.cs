@@ -132,11 +132,7 @@ public class MapGrid
             _rooms = _rooms.Append(new Room(_curIdx, nextX, y + 1)).ToArray();
             _map[nextX, y + 1] = _curIdx;
             _rooms[_map[x, y]].AddChild(_curIdx++);
-            _rooms[^1].SetType(Stages.Battle);
-            if (y > 0 && y % 3 == 0)
-            {
-                _rooms[^1].SetType(Stages.Chest);
-            }
+            _rooms[^1].SetType(PickRoomType(x, y));
         }
         else
         {
@@ -146,6 +142,17 @@ public class MapGrid
         {
             GeneratePath_r(nextX, y + 1, width, height);
         }
+    }
+
+    private Stages PickRoomType(int x, int y)
+    {
+        if (y <= 2)
+            return Stages.Battle;
+        if (y % 3 == 0)
+            return Stages.Chest;
+        if (StageProducer.GlobalRng.Randf() < .1)
+            return Stages.Chest;
+        return Stages.Battle;
     }
 
     //Asserts that if there is a room at the same x, but y+1 they are connected

@@ -1,13 +1,24 @@
-[gd_scene load_steps=3 format=3 uid="uid://cydmo2lbnj1de"]
+[gd_scene load_steps=5 format=3 uid="uid://cydmo2lbnj1de"]
 
 [ext_resource type="Script" path="res://scenes/Maps/scripts/Cartographer.cs" id="1_u4q3n"]
 [ext_resource type="Texture2D" uid="uid://qhwve7fik4do" path="res://scenes/BattleDirector/assets/bgupdate.png" id="2_5g6at"]
+[ext_resource type="Script" path="res://scenes/UI/scripts/MenuModule.cs" id="2_cl7v0"]
+[ext_resource type="Texture2D" uid="uid://cmc7gcplqnebx" path="res://scenes/Maps/assets/Player.png" id="3_qiprp"]
 
-[node name="Cartographer" type="Node2D"]
+[node name="Cartographer" type="Node2D" node_paths=PackedStringArray("PlayerSprite")]
+process_mode = 1
 script = ExtResource("1_u4q3n")
+PlayerSprite = NodePath("Player")
+
+[node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource("2_cl7v0")
 
 [node name="BG" type="Sprite2D" parent="."]
 modulate = Color(0.462, 0.462, 0.66, 1)
 position = Vector2(870, 219)
 scale = Vector2(2.75702, 2.75702)
 texture = ExtResource("2_5g6at")
+
+[node name="Player" type="Sprite2D" parent="."]
+z_index = 2
+texture = ExtResource("3_qiprp")
