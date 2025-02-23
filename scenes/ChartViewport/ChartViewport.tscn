@@ -8,7 +8,10 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5uw0y"]
 shader = ExtResource("5_kqrxg")
-shader_parameter/bg_color = Vector4(0.18, 0.08, 0.12, 0)
+shader_parameter/bg_top_color = Vector4(0.18, 0.08, 0.12, 0)
+shader_parameter/bg_bottom_color = Vector4(0.028, 0.008, 0.184, 0)
+shader_parameter/gradient_ratio = 1.0
+shader_parameter/time_scale = 1.0
 
 [node name="VPContainer" type="SubViewportContainer" node_paths=PackedStringArray("IH", "ChartLoopables")]
 offset_right = 480.0
