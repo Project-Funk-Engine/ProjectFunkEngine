@@ -77,7 +77,8 @@ public partial class Scribe : Node
             (director, note, timing) =>
             {
                 director.Enemy.TakeDamage((int)timing);
-            }
+            },
+            0.25f
         ),
     };
 
