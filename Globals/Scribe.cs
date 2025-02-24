@@ -13,7 +13,7 @@ public partial class Scribe : Node
         new Note(
             "EnemyBase",
             "Basic enemy note, deals damage to player.",
-            GD.Load<Texture2D>("res://scenes/BattleDirector/assets/Character1.png"),
+            null,
             null,
             1,
             (director, note, timing) =>

@@ -16,7 +16,10 @@ public partial class NoteArrow : Sprite2D
     [Export]
     public Sprite2D OutlineSprite;
 
-    public void Init(ArrowData parentArrowData, int beat, string noteName)
+    [Export]
+    public Sprite2D IconSprite;
+
+    public void Init(ArrowData parentArrowData, int beat, Note note)
     {
         ZIndex = 1;
 
@@ -25,15 +28,8 @@ public partial class NoteArrow : Sprite2D
 
         Position += Vector2.Down * (parentArrowData.Node.GlobalPosition.Y);
         RotationDegrees = parentArrowData.Node.RotationDegrees;
-
-        if (noteName == "EnemyBase")
-            return;
-        Sprite2D child = GetNode<Sprite2D>(noteName);
-        if (child != null)
-        {
-            child.Visible = true;
-            child.RotationDegrees = -parentArrowData.Node.RotationDegrees;
-        }
+        IconSprite.Texture = note.Texture;
+        IconSprite.Rotation = -Rotation;
     }
 
     public override void _Process(double delta)
