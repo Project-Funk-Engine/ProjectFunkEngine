@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwm0n2wu851nx"]
+
+[ext_resource type="Script" path="res://scenes/Puppets/scripts/PuppetTemplate.cs" id="1_kgmh0"]
+[ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://scenes/Puppets/HealthBar.tscn" id="1_sxlrs"]
+
+[node name="EnemPuppet" type="Node2D" node_paths=PackedStringArray("_healthBar", "Sprite")]
+script = ExtResource("1_kgmh0")
+_healthBar = NodePath("ProgressBar")
+Sprite = NodePath("Sprite")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+
+[node name="ProgressBar" parent="." instance=ExtResource("1_sxlrs")]
+offset_left = -75.0
+offset_top = 32.0
+offset_right = 75.0
+offset_bottom = 52.0

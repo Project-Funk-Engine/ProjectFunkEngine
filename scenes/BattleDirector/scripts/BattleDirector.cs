@@ -71,18 +71,18 @@ public partial class BattleDirector : Node2D
         };
         TimeKeeper.Bpm = _curSong.Bpm;
 
-        Player = new PlayerPuppet();
+        Player = GD.Load<PackedScene>("res://scenes/Puppets/PlayerPuppet.tscn")
+            .Instantiate<PlayerPuppet>();
         AddChild(Player);
         Player.Defeated += CheckBattleStatus;
         EventizeRelics();
         NotePlacementBar.Setup(StageProducer.PlayerStats);
 
         //TODO: Refine
-        Enemy = new PuppetTemplate();
-        Enemy.SetPosition(new Vector2(400, 0));
+        Enemy = GD.Load<PackedScene>("res://scenes/Puppets/Enemies/Boss1.tscn")
+            .Instantiate<PuppetTemplate>();
         AddChild(Enemy);
         Enemy.Defeated += CheckBattleStatus;
-        Enemy.Init(GD.Load<Texture2D>("res://scenes/BattleDirector/assets/Enemy1.png"), "Enemy");
 
         //TODO: This is a temporary measure
         Button startButton = new Button();
@@ -105,7 +105,6 @@ public partial class BattleDirector : Node2D
         CD.TimedInput += OnTimedInput;
 
         //TODO: Make enemies, can put this in an enemy subclass
-        Enemy.Sprite.Scale *= 2;
         var enemTween = CreateTween();
         enemTween.TweenProperty(Enemy.Sprite, "position", Vector2.Down * 5, 1f).AsRelative();
         enemTween.TweenProperty(Enemy.Sprite, "position", Vector2.Up * 5, 1f).AsRelative();

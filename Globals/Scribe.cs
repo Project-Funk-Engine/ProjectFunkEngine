@@ -45,6 +45,40 @@ public partial class Scribe : Node
                 director.Enemy.TakeDamage(2 * (int)timing);
             }
         ),
+        new Note(
+            "PlayerHeal",
+            "Basic player note, heals player",
+            GD.Load<Texture2D>("res://Classes/Notes/assets/heal_note.png"),
+            null,
+            1,
+            (director, note, timing) =>
+            {
+                director.Player.Heal((int)timing);
+            }
+        ),
+        new Note(
+            "PlayerVampire",
+            "Steals health from enemy",
+            GD.Load<Texture2D>("res://Classes/Notes/assets/vampire_note.png"),
+            null,
+            1,
+            (director, note, timing) =>
+            {
+                director.Player.Heal((int)timing);
+                director.Enemy.TakeDamage((int)timing);
+            }
+        ),
+        new Note(
+            "PlayerQuarter",
+            "Basic note at a quarter of the cost",
+            GD.Load<Texture2D>("res://Classes/Notes/assets/quarter_note.png"),
+            null,
+            1,
+            (director, note, timing) =>
+            {
+                director.Enemy.TakeDamage((int)timing);
+            }
+        ),
     };
 
     public static readonly RelicTemplate[] RelicDictionary = new[]

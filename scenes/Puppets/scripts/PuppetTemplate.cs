@@ -9,8 +9,17 @@ public partial class PuppetTemplate : Node2D
     public delegate void DefeatedHandler(PuppetTemplate self);
     public event DefeatedHandler Defeated;
 
+    [Export]
     protected HealthBar _healthBar;
-    public Sprite2D Sprite = new Sprite2D();
+
+    [Export]
+    public Sprite2D Sprite;
+
+    [Export]
+    public Vector2 StartPos; //158, 126
+
+    [Export]
+    public Vector2 InitScale = Vector2.One;
 
     protected int _maxHealth = 100;
     protected int _currentHealth = 100;
@@ -21,15 +30,9 @@ public partial class PuppetTemplate : Node2D
 
     public override void _Ready()
     {
-        _healthBar = GD.Load<PackedScene>("res://scenes/Puppets/HealthBar.tscn")
-            .Instantiate<HealthBar>();
-        AddChild(_healthBar);
-        _healthBar.Position += Vector2.Down * 155;
-
-        Sprite.Position = new Vector2(75, 86);
-        AddChild(Sprite); //TODO: DECIDE Whether to replace with packedscenes/robust subclasses
-
         _healthBar.SetHealth(_maxHealth, _currentHealth);
+        Position = StartPos;
+        Sprite.Scale = InitScale;
     }
 
     public void Init(Texture2D texture, string name)
