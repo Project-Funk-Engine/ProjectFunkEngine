@@ -72,7 +72,6 @@ public class MapGrid
     private int[,] _map;
     private Room[] _rooms;
     private int _curIdx = 0;
-    private int _curRoom = 0;
 
     public Room[] GetRooms()
     {

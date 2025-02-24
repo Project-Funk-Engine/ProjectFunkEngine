@@ -48,7 +48,6 @@ public partial class ChartManager : SubViewportContainer
         TimeKeeper.ChartLength = (float)ChartLength;
         TimeKeeper.Bpm = songData.Bpm;
 
-        InitBackgrounds();
         _arrowGroup = ChartLoopables.GetNode<Node>("ArrowGroup");
 
         IH.Connect(nameof(InputHandler.NotePressed), new Callable(this, nameof(OnNotePressed)));
@@ -72,21 +71,6 @@ public partial class ChartManager : SubViewportContainer
             60f / TimeKeeper.Bpm / 2
         );
         tween.SetLoops().Play();
-    }
-
-    private void InitBackgrounds()
-    {
-        int i = 0;
-        foreach (Node child in ChartLoopables.GetChildren())
-        {
-            if (child is not Loopable)
-                continue;
-            Loopable loopable = (Loopable)child;
-            loopable.Position = Vector2.Zero;
-            loopable.SetSize(new Vector2((float)ChartLength / 2 + 1, Size.Y));
-            loopable.Bounds = (float)ChartLength / 2 * i;
-            i++;
-        }
     }
 
     private void TweenArrows(Vector2 scale)

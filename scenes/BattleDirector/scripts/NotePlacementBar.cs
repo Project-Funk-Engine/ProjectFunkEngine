@@ -117,7 +117,7 @@ public partial class NotePlacementBar : Node
     {
         _currentCombo++;
         DetermineComboMult();
-        _currentBarValue += comboMult;
+        _currentBarValue = Math.Min(_currentBarValue + comboMult, MaxValue);
         UpdateNotePlacementBar(_currentBarValue);
         UpdateComboMultText();
     }
@@ -133,10 +133,7 @@ public partial class NotePlacementBar : Node
     // Placing a note resets the note placement bar
     public Note PlacedNote()
     {
-        if (_noteQueue.Peek().Name == "PlayerQuarter")
-            _currentBarValue -= MaxValue / 4;
-        else
-            _currentBarValue = 0;
+        _currentBarValue -= (int)(_currentNoteInstance.CostModifier * MaxValue);
 
         UpdateNotePlacementBar(_currentBarValue);
         return GetNote();
@@ -144,9 +141,6 @@ public partial class NotePlacementBar : Node
 
     public bool CanPlaceNote()
     {
-        if (_noteQueue.Peek().Name == "PlayerQuarter")
-            return _currentBarValue >= MaxValue / 4;
-
         return _currentBarValue >= MaxValue;
     }
 
