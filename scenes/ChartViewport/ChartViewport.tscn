@@ -1,8 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://dfevfib11kou1"]
+[gd_scene load_steps=5 format=3 uid="uid://dfevfib11kou1"]
 
-[ext_resource type="Texture2D" uid="uid://b0tvsewgnf2x7" path="res://icon.svg" id="1_0wnka"]
 [ext_resource type="Script" path="res://scenes/ChartViewport/ChartManager.cs" id="1_ruh2l"]
-[ext_resource type="Script" path="res://scenes/ChartViewport/Loopable.cs" id="3_5u57h"]
 [ext_resource type="PackedScene" uid="uid://bn8txx53xlguw" path="res://scenes/NoteManager/note_manager.tscn" id="4_fd5fw"]
 [ext_resource type="Shader" path="res://scenes/ChartViewport/StarryNight.gdshader" id="5_kqrxg"]
 
@@ -25,13 +23,6 @@ handle_input_locally = false
 size = Vector2i(480, 180)
 render_target_update_mode = 4
 
-[node name="ColorFill" type="ColorRect" parent="SubViewport"]
-z_index = -2
-offset_left = -60.0
-offset_right = 690.0
-offset_bottom = 360.0
-color = Color(0.129412, 0.145098, 0.196078, 1)
-
 [node name="Camera2D" type="Camera2D" parent="SubViewport"]
 position = Vector2(-50, 0)
 anchor_mode = 0
@@ -40,18 +31,6 @@ anchor_mode = 0
 unique_name_in_owner = true
 
 [node name="ArrowGroup" type="Node" parent="SubViewport/ChartLoopables"]
-
-[node name="ChartBG2" type="TextureRect" parent="SubViewport/ChartLoopables"]
-offset_right = 701.0
-offset_bottom = 300.0
-texture = ExtResource("1_0wnka")
-script = ExtResource("3_5u57h")
-
-[node name="ChartBG1" type="TextureRect" parent="SubViewport/ChartLoopables"]
-offset_right = 701.0
-offset_bottom = 300.0
-texture = ExtResource("1_0wnka")
-script = ExtResource("3_5u57h")
 
 [node name="StarShader" type="ColorRect" parent="SubViewport"]
 material = SubResource("ShaderMaterial_5uw0y")
