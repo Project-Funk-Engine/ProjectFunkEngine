@@ -22,6 +22,7 @@ public partial class Loopable : Sprite2D
             (float)( //Yes I know. https://www.desmos.com/calculator/fkmoqi50ee
                 (TimeKeeper.PosMod(-relativePosition - interval / 2, interval) - interval / 2) / 2
             ) + LoopOffset;
-        Position = newPos;
+        if (!float.IsNaN(newPos.X))
+            Position = newPos;
     }
 }
