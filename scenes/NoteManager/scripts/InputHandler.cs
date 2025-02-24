@@ -63,7 +63,7 @@ public partial class InputHandler : Node2D
     {
         string scheme = ProjectSettings.HasSetting("game/input_scheme")
             ? (string)ProjectSettings.GetSetting("game/input_scheme")
-            : "ARROW";
+            : "ARROWS";
         foreach (var arrow in Arrows)
         {
             var events = InputMap.ActionGetEvents(arrow.Key);
