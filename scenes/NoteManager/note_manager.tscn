@@ -12,7 +12,7 @@ script = ExtResource("1_2oeuf")
 [node name="noteCheckers" type="Node2D" parent="."]
 
 [node name="arrowLeft" type="Sprite2D" parent="noteCheckers"]
-position = Vector2(0, 32)
+position = Vector2(0, 29)
 rotation = 3.14159
 texture = ExtResource("2_pb1qk")
 script = ExtResource("3_0cioe")
@@ -22,7 +22,7 @@ modulate = Color(0, 0, 0, 1)
 texture = ExtResource("4_3mttx")
 
 [node name="arrowUp" type="Sprite2D" parent="noteCheckers"]
-position = Vector2(0, 70)
+position = Vector2(0, 68)
 rotation = -1.5708
 texture = ExtResource("2_pb1qk")
 script = ExtResource("3_0cioe")
@@ -32,7 +32,7 @@ modulate = Color(0, 0, 0, 1)
 texture = ExtResource("4_3mttx")
 
 [node name="arrowDown" type="Sprite2D" parent="noteCheckers"]
-position = Vector2(0, 111)
+position = Vector2(0, 112)
 rotation = 1.5708
 texture = ExtResource("2_pb1qk")
 script = ExtResource("3_0cioe")
@@ -42,7 +42,7 @@ modulate = Color(0, 0, 0, 1)
 texture = ExtResource("4_3mttx")
 
 [node name="arrowRight" type="Sprite2D" parent="noteCheckers"]
-position = Vector2(0, 152)
+position = Vector2(0, 151)
 texture = ExtResource("2_pb1qk")
 script = ExtResource("3_0cioe")
 

@@ -25,7 +25,8 @@ public partial class ChartManager : SubViewportContainer
     public delegate void NoteReleasedEventHandler(ArrowType arrowType);
 
     //Arbitrary vars, play with these
-    private double ChartLength = 5000; //Might move this to be song specific?
+    //Might move this to be song specific? For now, should never go below ~2000, else visual break because there isn't enough room to loop.
+    private double ChartLength = 5000;
     private double _loopLen; //secs
     public int BeatsPerLoop;
 

@@ -32,8 +32,6 @@ public partial class BattleDirector : Node2D
 
     private SongData _curSong;
 
-    private bool _battleEnd;
-
     #endregion
 
     #region Note Handling
@@ -63,12 +61,11 @@ public partial class BattleDirector : Node2D
     public override void _Ready()
     {
         //TODO: Should come from transition into battle
-        _curSong = new SongData
+        _curSong = StageProducer.Config.CurSong;
+        if (_curSong.SongLength <= 0)
         {
-            Bpm = 120,
-            SongLength = Audio.Stream.GetLength(),
-            NumLoops = 5,
-        };
+            _curSong.SongLength = Audio.Stream.GetLength();
+        }
         TimeKeeper.Bpm = _curSong.Bpm;
 
         Player = GD.Load<PackedScene>("res://scenes/Puppets/PlayerPuppet.tscn")
@@ -119,12 +116,16 @@ public partial class BattleDirector : Node2D
         Audio.Play();
     }
 
+    private void EndBattle()
+    {
+        StageProducer.ChangeCurRoom(StageProducer.Config.BattleRoom);
+        GetNode<StageProducer>("/root/StageProducer").TransitionStage(Stages.Map);
+    }
+
     public override void _Process(double delta)
     {
         TimeKeeper.CurrentTime = Audio.GetPlaybackPosition();
         CD.CheckMiss();
-        if (_battleEnd)
-            GetNode<StageProducer>("/root/StageProducer").TransitionStage(Stages.Map);
     }
     #endregion
 
@@ -137,23 +138,8 @@ public partial class BattleDirector : Node2D
         {
             if (eventKey.Keycode == Key.Key0)
             {
-                //DebugKillEnemy();
+                DebugKillEnemy();
             }
-        }
-
-        if (@event.IsActionPressed("Pause"))
-        {
-            var pauseMenu = GD.Load<PackedScene>("res://scenes/UI/Pause.tscn");
-            GetNode<CanvasLayer>("UILayer").AddChild(pauseMenu.Instantiate());
-            GetTree().Paused = true;
-        }
-        if (@event.IsActionPressed("Inventory"))
-        {
-            var invenMenu = GD.Load<PackedScene>("res://scenes/UI/inventory.tscn")
-                .Instantiate<Inventory>();
-            GetNode<CanvasLayer>("UILayer").AddChild(invenMenu);
-            invenMenu.Display(Player.Stats);
-            GetTree().Paused = true;
         }
     }
 
@@ -213,6 +199,7 @@ public partial class BattleDirector : Node2D
         if (puppet == Player)
         {
             GD.Print("Player is Dead");
+            Audio.StreamPaused = true;
             GetNode<StageProducer>("/root/StageProducer").TransitionStage(Stages.Title);
             return;
         }
@@ -220,19 +207,15 @@ public partial class BattleDirector : Node2D
         //will have to adjust this to account for when we have multiple enemies at once
         if (puppet == Enemy)
         {
+            Audio.StreamPaused = true;
             GD.Print("Enemy is dead");
             ShowRewardSelection(3);
-            _battleEnd = true;
         }
     }
 
     private void ShowRewardSelection(int amount)
     {
-        var rewardUI = GD.Load<PackedScene>("res://scenes/UI/RewardSelectionUI.tscn")
-            .Instantiate<RewardSelect>();
-        AddChild(rewardUI);
-        rewardUI.Initialize(Player.Stats, amount);
-        GetTree().Paused = true;
+        RewardSelect.CreateSelection(this, Player.Stats, amount).Selected += EndBattle;
     }
 
     #endregion

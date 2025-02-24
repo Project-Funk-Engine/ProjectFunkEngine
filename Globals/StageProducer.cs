@@ -36,13 +36,17 @@ public partial class StageProducer : Node
         _isInitialized = true;
     }
 
-    public void TransitionFromRoom(int nextRoomIdx)
+    public static void ChangeCurRoom(MapGrid.Room room)
     {
-        //CurRoom = Map.GetRooms()[nextRoomIdx];
-        TransitionStage(Stages.Battle);
+        CurRoom = room;
     }
 
-    public void TransitionStage(Stages nextStage)
+    public void TransitionFromRoom(int nextRoomIdx)
+    {
+        TransitionStage(Map.GetRooms()[nextRoomIdx].Type, nextRoomIdx);
+    }
+
+    public void TransitionStage(Stages nextStage, int nextRoomIdx = -1)
     {
         GD.Print(GetTree().CurrentScene);
         switch (nextStage)
@@ -52,8 +56,12 @@ public partial class StageProducer : Node
                 GetTree().ChangeSceneToFile("res://scenes/SceneTransitions/TitleScreen.tscn");
                 break;
             case Stages.Battle:
-                Config = new BattleConfig() { };
+                Config = MakeConfig(nextStage, nextRoomIdx);
                 GetTree().ChangeSceneToFile("res://scenes/BattleDirector/test_battle_scene.tscn");
+                break;
+            case Stages.Chest:
+                Config = MakeConfig(nextStage, nextRoomIdx);
+                GetTree().ChangeSceneToFile("res://scenes/ChestScene/ChestScene.tscn");
                 break;
             case Stages.Map:
                 GetTree().ChangeSceneToFile("res://scenes/Maps/cartographer.tscn");
@@ -72,5 +80,23 @@ public partial class StageProducer : Node
         }
 
         _curStage = nextStage;
+    }
+
+    private BattleConfig MakeConfig(Stages nextRoom, int nextRoomIdx)
+    {
+        BattleConfig result = new BattleConfig();
+        result.BattleRoom = Map.GetRooms()[nextRoomIdx];
+        result.RoomType = nextRoom;
+        if (nextRoom is Stages.Battle or Stages.Boss)
+        {
+            result.CurSong = new SongData
+            {
+                Bpm = 120,
+                SongLength = -1,
+                NumLoops = 5,
+            };
+        }
+
+        return result;
     }
 }

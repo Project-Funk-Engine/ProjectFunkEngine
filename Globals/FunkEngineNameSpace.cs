@@ -38,10 +38,10 @@ public enum Timing
 
 public struct BattleConfig
 {
-    public MapRooms RoomType { get; private set; }
-    public MapGrid.Room CurRoom { get; private set; }
-    public SongData CurSong { get; set; }
+    public Stages RoomType;
+    public MapGrid.Room BattleRoom;
     public int TodoEnemyAndChart;
+    public SongData CurSong;
 }
 
 public enum BattleEffectTrigger
@@ -56,15 +56,10 @@ public enum Stages
 {
     Title,
     Battle,
-    Quit,
-    Map,
-}
-
-public enum MapRooms
-{
-    Battle,
     Chest,
     Boss,
+    Quit,
+    Map,
 }
 
 public class MapGrid
@@ -87,7 +82,7 @@ public class MapGrid
             Y = y;
         }
 
-        public void SetType(MapRooms type)
+        public void SetType(Stages type)
         {
             Type = type;
         }
@@ -103,7 +98,7 @@ public class MapGrid
         public int[] Children { get; private set; } = Array.Empty<int>();
         public int X { get; private set; }
         public int Y { get; private set; }
-        public MapRooms Type { get; private set; }
+        public Stages Type { get; private set; }
     }
 
     public void InitMapGrid(int width, int height, int paths)
@@ -114,6 +109,7 @@ public class MapGrid
 
         int startX = (width / 2);
         _rooms = _rooms.Append(new Room(_curIdx, startX, 0)).ToArray();
+        _rooms[0].SetType(Stages.Battle);
         _map[startX, 0] = _curIdx++;
 
         for (int i = 0; i < paths; i++)
@@ -136,11 +132,7 @@ public class MapGrid
             _rooms = _rooms.Append(new Room(_curIdx, nextX, y + 1)).ToArray();
             _map[nextX, y + 1] = _curIdx;
             _rooms[_map[x, y]].AddChild(_curIdx++);
-            _rooms[^1].SetType(MapRooms.Battle);
-            if (y > 0 && y % 3 == 0)
-            {
-                _rooms[^1].SetType(MapRooms.Chest);
-            }
+            _rooms[^1].SetType(PickRoomType(x, y));
         }
         else
         {
@@ -150,6 +142,17 @@ public class MapGrid
         {
             GeneratePath_r(nextX, y + 1, width, height);
         }
+    }
+
+    private Stages PickRoomType(int x, int y)
+    {
+        if (y <= 2)
+            return Stages.Battle;
+        if (y % 3 == 0)
+            return Stages.Chest;
+        if (StageProducer.GlobalRng.Randf() < .1)
+            return Stages.Chest;
+        return Stages.Battle;
     }
 
     //Asserts that if there is a room at the same x, but y+1 they are connected
@@ -171,7 +174,7 @@ public class MapGrid
     private void AddBossRoom(int width, int height)
     {
         _rooms = _rooms.Append(new Room(_curIdx, width / 2, height)).ToArray();
-        _rooms[_curIdx].SetType(MapRooms.Boss);
+        _rooms[_curIdx].SetType(Stages.Boss);
         for (int i = 0; i < width; i++) //Attach all last rooms to a boss room
         {
             if (_map[i, height - 1] != 0)

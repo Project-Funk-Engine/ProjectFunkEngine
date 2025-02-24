@@ -5,11 +5,32 @@ using Godot;
 
 public partial class Cartographer : Node2D
 {
-    private Button[] validButtons = Array.Empty<Button>();
+    [Export]
+    public Sprite2D PlayerSprite;
+
+    private Button[] _validButtons = Array.Empty<Button>();
+
+    [Export]
+    private Button _focusedButton = null;
 
     public override void _Ready()
     {
         DrawMap();
+        GetViewport().GuiFocusChanged += UpdateFocus;
+    }
+
+    public override void _Process(double delta)
+    {
+        if (!GetTree().Paused && !_validButtons.Contains(GetViewport().GuiGetFocusOwner()))
+        {
+            _focusedButton.GrabFocus();
+        }
+    }
+
+    private void UpdateFocus(Control focusOwner)
+    {
+        if (_validButtons.Contains(focusOwner))
+            _focusedButton = focusOwner as Button;
     }
 
     private Vector2 GetPosition(int x, int y)
@@ -32,7 +53,7 @@ public partial class Cartographer : Node2D
             }
         }
 
-        validButtons = validButtons.OrderBy(x => x.Position.X).ToArray();
+        _validButtons = _validButtons.OrderBy(x => x.Position.X).ToArray();
         AddFocusNeighbors();
     }
 
@@ -49,43 +70,57 @@ public partial class Cartographer : Node2D
         else
         {
             newButton.GrabFocus();
+            _focusedButton = newButton;
             newButton.Pressed += () =>
             {
-                EnterStage(room.Idx);
+                EnterStage(room.Idx, newButton);
             };
-            validButtons = validButtons.Append(newButton).ToArray();
+            _validButtons = _validButtons.Append(newButton).ToArray();
         }
 
         switch (room.Type)
         {
-            case MapRooms.Battle:
+            case Stages.Battle:
                 newButton.Icon = (Texture2D)GD.Load("res://scenes/Maps/assets/BattleIcon.png");
                 break;
-            case MapRooms.Boss:
+            case Stages.Boss:
                 newButton.Icon = (Texture2D)GD.Load("res://scenes/Maps/assets/BossIcon.png");
                 break;
-            case MapRooms.Chest:
+            case Stages.Chest:
                 newButton.Icon = (Texture2D)GD.Load("res://scenes/Maps/assets/ChestIcon.png");
                 break;
         }
         newButton.ZIndex = 1;
         newButton.Position = GetPosition(room.X, room.Y) - newButton.Size * 2;
+        if (room == StageProducer.CurRoom)
+            PlayerSprite.Position = newButton.Position + newButton.Size * .5f;
     }
 
     private void AddFocusNeighbors()
     {
-        GD.Print(validButtons);
-        for (int i = 0; i < validButtons.Length; i++)
+        for (int i = 0; i < _validButtons.Length; i++)
         {
-            validButtons[i].FocusNeighborRight = validButtons[(i + 1) % (validButtons.Length)]
+            _validButtons[i].FocusNeighborRight = _validButtons[(i + 1) % (_validButtons.Length)]
                 .GetPath();
-            validButtons[(i + 1) % (validButtons.Length)].FocusNeighborLeft = validButtons[i]
+            _validButtons[(i + 1) % (_validButtons.Length)].FocusNeighborLeft = _validButtons[i]
                 .GetPath();
         }
     }
 
-    private void EnterStage(int roomIdx)
+    private void EnterStage(int roomIdx, Button button)
     {
-        GetNode<StageProducer>("/root/StageProducer").TransitionFromRoom(roomIdx);
+        foreach (Button btn in _validButtons)
+        {
+            btn.Disabled = true;
+            if (btn == button)
+                continue;
+            btn.FocusMode = Control.FocusModeEnum.None;
+        }
+
+        var tween = CreateTween()
+            .TweenProperty(PlayerSprite, "position", button.Position + button.Size * .5f, 1f);
+        tween.SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.InOut);
+        tween.Finished += () =>
+            GetNode<StageProducer>("/root/StageProducer").TransitionFromRoom(roomIdx);
     }
 }
