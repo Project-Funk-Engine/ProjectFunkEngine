@@ -1,6 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://dfevfib11kou1"]
 
 [ext_resource type="Script" path="res://scenes/ChartViewport/ChartManager.cs" id="1_ruh2l"]
+[ext_resource type="Texture2D" uid="uid://cp78odda2doab" path="res://scenes/ChartViewport/LoopMarker.png" id="2_q5cjc"]
+[ext_resource type="Script" path="res://scenes/ChartViewport/Loopable.cs" id="3_5u57h"]
 [ext_resource type="PackedScene" uid="uid://bn8txx53xlguw" path="res://scenes/NoteManager/note_manager.tscn" id="4_fd5fw"]
 [ext_resource type="Shader" path="res://scenes/ChartViewport/StarryNight.gdshader" id="5_kqrxg"]
 
@@ -39,5 +41,10 @@ offset_right = 415.0
 offset_bottom = 177.0
 scale = Vector2(2.18, 2.18)
 color = Color(0, 0, 0, 1)
+[node name="LoopMarker" type="Sprite2D" parent="SubViewport/ChartLoopables"]
+position = Vector2(0, 90)
+texture = ExtResource("2_q5cjc")
+script = ExtResource("3_5u57h")
+LoopOffset = 0.0
 
 [node name="noteManager" parent="SubViewport" instance=ExtResource("4_fd5fw")]
