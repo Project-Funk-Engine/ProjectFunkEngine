@@ -56,6 +56,33 @@ public partial class InputHandler : Node2D
     public override void _Ready()
     {
         InitializeArrowCheckers();
+        LoadControlScheme();
+    }
+
+    private void LoadControlScheme()
+    {
+        string scheme = ProjectSettings.HasSetting("game/input_scheme")
+            ? (string)ProjectSettings.GetSetting("game/input_scheme")
+            : "ARROW";
+        foreach (var arrow in Arrows)
+        {
+            var events = InputMap.ActionGetEvents(arrow.Key);
+            foreach (var inputEvent in events)
+            {
+                InputMap.ActionEraseEvent(arrow.Key, inputEvent);
+            }
+        }
+
+        var selectedScheme = ControlSchemes.Schemes[scheme];
+        foreach (var arrow in Arrows)
+        {
+            if (selectedScheme.ContainsKey(arrow.Key))
+            {
+                InputEventKey eventKey = new InputEventKey();
+                eventKey.Keycode = (Key)Enum.Parse(typeof(Key), selectedScheme[arrow.Key]);
+                InputMap.ActionAddEvent(arrow.Key, eventKey);
+            }
+        }
     }
 
     public override void _Process(double delta)

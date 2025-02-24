@@ -1,3 +1,56 @@
-[gd_scene format=3 uid="uid://bew23sumjs0fg"]
+[gd_scene load_steps=4 format=3 uid="uid://bew23sumjs0fg"]
+
+[ext_resource type="Script" path="res://scenes/Remapping/ControlSettings.cs" id="1_ir12b"]
+[ext_resource type="Script" path="res://scenes/Remapping/ControlSchemes.cs" id="1_n6sxo"]
+[ext_resource type="Script" path="res://scenes/SceneTransitions/scripts/SceneChange.cs" id="2_oippk"]
 
 [node name="Remap" type="Node2D"]
+script = ExtResource("1_ir12b")
+
+[node name="Panel" type="Panel" parent="."]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 638.0
+offset_bottom = 346.0
+script = ExtResource("1_n6sxo")
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 2
+offset_top = 9.0
+offset_right = 642.0
+offset_bottom = 32.0
+text = "Choose Control Scheme"
+horizontal_alignment = 1
+
+[node name="WASDButton" type="Button" parent="Panel"]
+layout_mode = 2
+offset_left = 453.0
+offset_top = 66.0
+offset_right = 558.0
+offset_bottom = 97.0
+text = "WASD"
+
+[node name="ArrowButton" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 458.0
+offset_top = 111.0
+offset_right = 554.0
+offset_bottom = 142.0
+text = "Arrow Keys"
+
+[node name="QWERTButton" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 459.0
+offset_top = 152.0
+offset_right = 555.0
+offset_bottom = 183.0
+text = "QWER"
+
+[node name="TitleButton" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 431.0
+offset_top = 291.0
+offset_right = 607.0
+offset_bottom = 322.0
+text = "Return to Title Screen"
+script = ExtResource("2_oippk")
