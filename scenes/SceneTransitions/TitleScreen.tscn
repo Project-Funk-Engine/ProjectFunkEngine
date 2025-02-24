@@ -103,4 +103,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Quit Game"
 script = ExtResource("2_7f3m6")
+ScenePath = 2
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Change Controls"
+script = ExtResource("2_7f3m6")
 ScenePath = 4
