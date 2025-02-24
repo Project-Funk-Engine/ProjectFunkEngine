@@ -1,8 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://ck3bfqy30rjbq"]
+[gd_scene load_steps=9 format=3 uid="uid://ck3bfqy30rjbq"]
 
 [ext_resource type="Texture2D" uid="uid://hfxynr5jdgsp" path="res://scenes/NoteManager/assets/new_arrow.png" id="1_wq1hy"]
 [ext_resource type="Script" path="res://scenes/NoteManager/scripts/NoteArrow.cs" id="2_lbl4b"]
 [ext_resource type="Texture2D" uid="uid://cgq2ar3pdmkac" path="res://scenes/NoteManager/assets/arrow_outline.png" id="3_5g4ja"]
+[ext_resource type="Texture2D" uid="uid://c3chrsxrulapd" path="res://Classes/Notes/assets/single_note.png" id="4_1l7sl"]
+[ext_resource type="Texture2D" uid="uid://caw70lr5e1yiq" path="res://Classes/Notes/assets/double_note.png" id="5_yg3rb"]
+[ext_resource type="Texture2D" uid="uid://cdf3g3174du4r" path="res://Classes/Notes/assets/heal_note.png" id="6_lfb4v"]
+[ext_resource type="Texture2D" uid="uid://dg0lmu0pip4lr" path="res://Classes/Notes/assets/vampire_note.png" id="7_vcn70"]
+[ext_resource type="Texture2D" uid="uid://uksjoqp7p0gq" path="res://Classes/Notes/assets/quarter_note.png" id="8_2o4if"]
 
 [node name="Right-arrow" type="Sprite2D" node_paths=PackedStringArray("OutlineSprite")]
 texture = ExtResource("1_wq1hy")
@@ -11,3 +16,23 @@ OutlineSprite = NodePath("Outline")
 
 [node name="Outline" type="Sprite2D" parent="."]
 texture = ExtResource("3_5g4ja")
+
+[node name="PlayerBase" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("4_1l7sl")
+
+[node name="PlayerDouble" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("5_yg3rb")
+
+[node name="PlayerHeal" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("6_lfb4v")
+
+[node name="PlayerVampire" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("7_vcn70")
+
+[node name="PlayerQuarter" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("8_2o4if")

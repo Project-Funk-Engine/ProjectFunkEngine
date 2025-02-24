@@ -89,8 +89,8 @@ public partial class ChartManager : SubViewportContainer
         Color colorOverride = default
     )
     {
-        var newNote = CreateNote(type, beat); //TODO: Notes on track have unqiue visuals
-        var loopArrow = CreateNote(type, beat + BeatsPerLoop); //Create a dummy arrow for looping visuals
+        var newNote = CreateNote(type, note.Name, beat); //TODO: Notes on track have unqiue visuals
+        var loopArrow = CreateNote(type, note.Name, beat + BeatsPerLoop); //Create a dummy arrow for looping visuals
         if (colorOverride != default)
         {
             newNote.SelfModulate = colorOverride;
@@ -100,11 +100,11 @@ public partial class ChartManager : SubViewportContainer
         return newNote;
     }
 
-    private NoteArrow CreateNote(ArrowType arrow, int beat = 0)
+    private NoteArrow CreateNote(ArrowType arrow, string noteName, int beat = 0)
     {
         var noteScene = ResourceLoader.Load<PackedScene>("res://scenes/NoteManager/note.tscn");
         NoteArrow newArrow = noteScene.Instantiate<NoteArrow>();
-        newArrow.Init(IH.Arrows[(int)arrow], beat);
+        newArrow.Init(IH.Arrows[(int)arrow], beat, noteName);
         newArrow.OutlineSprite.Modulate = IH.Arrows[(int)arrow].Color;
 
         _arrowGroup.AddChild(newArrow);
