@@ -32,8 +32,8 @@ public static class ControlSchemes
             "QWERT",
             new Dictionary<string, string>()
             {
-                { "arrowUp", "E" },
-                { "arrowDown", "W" },
+                { "arrowUp", "W" },
+                { "arrowDown", "E" },
                 { "arrowLeft", "Q" },
                 { "arrowRight", "R" },
             }
@@ -71,8 +71,8 @@ public static class ControlSchemes
             {
                 { "left", "res://scenes/Remapping/assets/Q_Key_Light.png" },
                 { "right", "res://scenes/Remapping/assets/R_Key_Light.png" },
-                { "up", "res://scenes/Remapping/assets/E_Key_Light.png" },
-                { "down", "res://scenes/Remapping/assets/W_Key_Light.png" },
+                { "up", "res://scenes/Remapping/assets/W_Key_Light.png" },
+                { "down", "res://scenes/Remapping/assets/E_Key_Light.png" },
             }
         },
     };

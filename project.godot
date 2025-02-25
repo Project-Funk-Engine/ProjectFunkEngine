@@ -10,6 +10,7 @@ config_version=5
 
 [application]
 
+config/name="ProjectFunkEngine"
 run/main_scene="res://scenes/SceneTransitions/TitleScreen.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 config/icon="res://scenes/BattleDirector/assets/Character1.png"
@@ -33,7 +34,7 @@ project/assembly_name="Funk Engine"
 
 [game]
 
-input_scheme="ARROWS"
+input_scheme="QWERT"
 
 [input]
 
