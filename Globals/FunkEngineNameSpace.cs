@@ -4,40 +4,6 @@ using Godot;
 
 namespace FunkEngine;
 
-public enum ArrowType
-{
-    Up = 0,
-    Down = 1,
-    Left = 2,
-    Right = 3,
-}
-
-public enum BattleEffectTrigger
-{
-    NotePlaced,
-    NoteHit,
-    SelfNoteHit,
-    OnPickup,
-}
-
-public enum Timing
-{
-    Miss = 0,
-    Bad = 1,
-    Okay = 2,
-    Good = 3,
-    Perfect = 4,
-}
-
-public enum Stages
-{
-    Title,
-    Battle,
-    Quit,
-    Map,
-    Controls,
-}
-
 public struct SongData
 {
     public int Bpm;
@@ -94,6 +60,7 @@ public enum Stages
     Boss,
     Quit,
     Map,
+    Controls,
 }
 
 public class MapGrid
