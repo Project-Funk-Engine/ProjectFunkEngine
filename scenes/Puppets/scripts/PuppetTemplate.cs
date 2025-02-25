@@ -24,6 +24,7 @@ public partial class PuppetTemplate : Node2D
         _healthBar = GD.Load<PackedScene>("res://scenes/Puppets/HealthBar.tscn")
             .Instantiate<HealthBar>();
         AddChild(_healthBar);
+        _healthBar.Position += Vector2.Down * 155;
 
         Sprite.Position = new Vector2(75, 86);
         AddChild(Sprite); //TODO: DECIDE Whether to replace with packedscenes/robust subclasses

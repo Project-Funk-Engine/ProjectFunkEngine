@@ -13,6 +13,9 @@ public partial class NoteArrow : Sprite2D
     public bool IsActive;
     public Note NoteRef;
 
+    [Export]
+    public Sprite2D OutlineSprite;
+
     public void Init(ArrowData parentArrowData, int beat)
     {
         ZIndex = 1;

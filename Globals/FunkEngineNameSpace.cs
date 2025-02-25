@@ -33,6 +33,7 @@ public enum Stages
     Battle,
     Quit,
     Map,
+    Controls,
 }
 
 public struct SongData

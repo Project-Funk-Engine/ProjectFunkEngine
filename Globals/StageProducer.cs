@@ -160,6 +160,9 @@ public partial class StageProducer : Node
             case Stages.Battle:
                 GetTree().ChangeSceneToFile("res://scenes/BattleDirector/test_battle_scene.tscn");
                 break;
+            case Stages.Controls:
+                GetTree().ChangeSceneToFile("res://scenes/Remapping/Remap.tscn");
+                break;
             case Stages.Map:
                 GetTree().ChangeSceneToFile("res://scenes/Maps/cartographer.tscn");
                 if (!_isInitialized)

@@ -155,6 +155,6 @@ public partial class NotePlacementBar : Node
 
     private void UpdateComboMultText()
     {
-        currentComboMultText.Text = $"x{comboMult.ToString()}";
+        currentComboMultText.Text = $"    x{comboMult.ToString()}";
     }
 }

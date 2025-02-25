@@ -109,8 +109,8 @@ public partial class ChartManager : SubViewportContainer
         var loopArrow = CreateNote(type, beat + BeatsPerLoop); //Create a dummy arrow for looping visuals
         if (colorOverride != default)
         {
-            newNote.Modulate = colorOverride;
-            loopArrow.Modulate = colorOverride;
+            newNote.SelfModulate = colorOverride;
+            loopArrow.SelfModulate = colorOverride;
         }
         newNote.NoteRef = note;
         return newNote;
@@ -121,6 +121,7 @@ public partial class ChartManager : SubViewportContainer
         var noteScene = ResourceLoader.Load<PackedScene>("res://scenes/NoteManager/note.tscn");
         NoteArrow newArrow = noteScene.Instantiate<NoteArrow>();
         newArrow.Init(IH.Arrows[(int)arrow], beat);
+        newArrow.OutlineSprite.Modulate = IH.Arrows[(int)arrow].Color;
 
         _arrowGroup.AddChild(newArrow);
         newArrow.Bounds = (float)((double)beat / BeatsPerLoop * (ChartLength / 2));
