@@ -60,6 +60,7 @@ public enum Stages
     Boss,
     Quit,
     Map,
+    Controls,
 }
 
 public class MapGrid

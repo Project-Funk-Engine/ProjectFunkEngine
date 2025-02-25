@@ -59,6 +59,9 @@ public partial class StageProducer : Node
                 Config = MakeConfig(nextStage, nextRoomIdx);
                 GetTree().ChangeSceneToFile("res://scenes/BattleDirector/test_battle_scene.tscn");
                 break;
+            case Stages.Controls:
+                GetTree().ChangeSceneToFile("res://scenes/Remapping/Remap.tscn");
+                break;
             case Stages.Chest:
                 Config = MakeConfig(nextStage, nextRoomIdx);
                 GetTree().ChangeSceneToFile("res://scenes/ChestScene/ChestScene.tscn");
