@@ -15,8 +15,9 @@ public partial class InputHandler : Node2D
     [Signal]
     public delegate void NoteReleasedEventHandler(ArrowType arrowType);
 
-    private Dictionary<ArrowType, Color> originalColors = new Dictionary<ArrowType, Color>();
-    private Dictionary<ArrowType, Tween> colorTweens = new Dictionary<ArrowType, Tween>();
+    // Dictionary to store Particles2D nodes for each arrow
+    private Dictionary<ArrowType, CpuParticles2D> hitParticles =
+        new Dictionary<ArrowType, CpuParticles2D>();
 
     public ArrowData[] Arrows = new ArrowData[]
     {
@@ -54,51 +55,56 @@ public partial class InputHandler : Node2D
             Arrows[i].Node = GetNode<NoteChecker>("noteCheckers/" + Arrows[i].Key);
             Arrows[i].Node.SetColor(Arrows[i].Color);
 
-            originalColors[Arrows[i].Type] = Arrows[i].Color;
-            GD.Print($"Initialized Arrow: {Arrows[i].Type}, Node: {Arrows[i].Node.Name}");
+            var particles = Arrows[i].Node.GetNode<CpuParticles2D>("HitParticles");
+            particles.Emitting = false;
+            hitParticles[Arrows[i].Type] = particles;
         }
     }
 
     public void FeedbackColor(ArrowType arrow, string text)
     {
-        GD.Print($"FeedbackColor called for {arrow} with timing: {text}");
-
-        foreach (var arrowData in Arrows)
+        if (hitParticles.ContainsKey(arrow))
         {
-            if (arrow == arrowData.Type)
+            // Get the particle node for this arrow
+            var particles = hitParticles[arrow];
+
+            // Set the particle amount based on timing
+            int particleAmount;
+
+            if (text == "Perfect")
             {
-                Color feedbackColor;
-                float duration = 0.25f; // Short, snappy feedback duration
-
-                // Determine vibrant feedback color based on timing
-                if (text == "Perfect")
-                {
-                    feedbackColor = new Color(1.0f, 0.85f, 0.2f, 1.0f); // Vibrant Gold/Yellow
-                }
-                else if (text == "Good")
-                {
-                    feedbackColor = new Color(0.0f, 1.0f, 1.0f, 1.0f); // Bright Cyan
-                }
-                else if (text == "Okay")
-                {
-                    feedbackColor = new Color(1.0f, 0.0f, 1.0f, 0.9f); // Vibrant Magenta
-                }
-                else
-                {
-                    feedbackColor = arrowData.Color; // Default to original color if no match
-                }
-
-                // Apply the feedback color instantly
-                arrowData.Node.SetColor(feedbackColor);
-                GD.Print($"Setting {arrowData.Type} to {feedbackColor}");
-
-                // Create a Tween and reset to original color smoothly
-                var tween = CreateTween();
-                tween.SetTrans(Tween.TransitionType.Sine);
-                tween.SetEase(Tween.EaseType.Out);
-
-                tween.TweenProperty(arrowData.Node, "modulate", originalColors[arrow], duration);
+                particleAmount = 15; // A lot of particles for Perfect
             }
+            else if (text == "Great")
+            {
+                particleAmount = 10; // Moderate amount for Great
+            }
+            else if (text == "Good")
+            {
+                particleAmount = 5; // Few particles for Good
+            }
+            else
+            {
+                return; // No particles for a miss
+            }
+
+            // Apply the particle amount and start emitting
+            particles.Amount = particleAmount;
+            particles.Emitting = true;
+            GD.Print($"Emitting {particleAmount} particles for {arrow} with timing {text}");
+
+            // Stop particles after a short delay using a Timer
+            Timer timer = new Timer();
+            timer.WaitTime = 0.5f; // Stop emitting after 0.5 seconds
+            timer.OneShot = true;
+            timer.Timeout += () =>
+            {
+                particles.Emitting = false;
+                timer.QueueFree(); // Clean up the timer
+            };
+
+            AddChild(timer);
+            timer.Start();
         }
     }
 

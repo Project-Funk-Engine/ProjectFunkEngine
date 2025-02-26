@@ -21,6 +21,18 @@ script = ExtResource("3_0cioe")
 modulate = Color(0, 0, 0, 1)
 texture = ExtResource("4_3mttx")
 
+[node name="HitParticles" type="CPUParticles2D" parent="noteCheckers/arrowLeft"]
+emitting = false
+amount = 1
+lifetime = 0.25
+speed_scale = 2.01
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 200.0
+scale_amount_max = 2.0
+color = Color(0.975142, 0.975142, 7.70092e-06, 1)
+
 [node name="arrowUp" type="Sprite2D" parent="noteCheckers"]
 position = Vector2(0, 68)
 rotation = -1.5708
@@ -30,6 +42,18 @@ script = ExtResource("3_0cioe")
 [node name="Outline" type="Sprite2D" parent="noteCheckers/arrowUp"]
 modulate = Color(0, 0, 0, 1)
 texture = ExtResource("4_3mttx")
+
+[node name="HitParticles" type="CPUParticles2D" parent="noteCheckers/arrowUp"]
+emitting = false
+amount = 1
+lifetime = 0.25
+speed_scale = 2.01
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 200.0
+scale_amount_max = 2.0
+color = Color(0.975142, 0.975142, 7.70092e-06, 1)
 
 [node name="arrowDown" type="Sprite2D" parent="noteCheckers"]
 position = Vector2(0, 112)
@@ -41,6 +65,18 @@ script = ExtResource("3_0cioe")
 modulate = Color(0, 0, 0, 1)
 texture = ExtResource("4_3mttx")
 
+[node name="HitParticles" type="CPUParticles2D" parent="noteCheckers/arrowDown"]
+emitting = false
+amount = 1
+lifetime = 0.25
+speed_scale = 2.01
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 200.0
+scale_amount_max = 2.0
+color = Color(0.975142, 0.975142, 7.70092e-06, 1)
+
 [node name="arrowRight" type="Sprite2D" parent="noteCheckers"]
 position = Vector2(0, 151)
 texture = ExtResource("2_pb1qk")
@@ -49,6 +85,18 @@ script = ExtResource("3_0cioe")
 [node name="Outline" type="Sprite2D" parent="noteCheckers/arrowRight"]
 modulate = Color(0, 0, 0, 1)
 texture = ExtResource("4_3mttx")
+
+[node name="HitParticles" type="CPUParticles2D" parent="noteCheckers/arrowRight"]
+emitting = false
+amount = 1
+lifetime = 0.25
+speed_scale = 2.01
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 200.0
+scale_amount_max = 2.0
+color = Color(0.975142, 0.975142, 7.70092e-06, 1)
 
 [node name="ui" type="Node2D" parent="."]
 
