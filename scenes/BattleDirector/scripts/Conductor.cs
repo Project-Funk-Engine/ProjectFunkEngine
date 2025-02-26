@@ -77,7 +77,7 @@ public partial class Conductor : Node
 
     public override void _Ready()
     {
-        MM = new MidiMaestro("Audio/midi/midiTest.mid");
+        MM = new MidiMaestro("Audio/midi/midiTest2.mid");
     }
 
     public void Prep() //TODO: Streamline battle initialization
