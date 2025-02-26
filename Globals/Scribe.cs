@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using FunkEngine;
+using FunkEngine.Classes.MidiMaestro;
 using Godot;
 
 /**
@@ -139,4 +140,18 @@ public partial class Scribe : Node
         }
         return availableRelics;
     }
+
+    public static readonly SongTemplate[] SongDictionary = new[]
+    {
+        new SongTemplate(
+            "Song1",
+            "Audio/335571__magntron__gamemusic_120bpm.mp3",
+            "Audio/midi/midiTest.mid"
+        ),
+        new SongTemplate(
+            "Song2",
+            "Audio/620230__josefpres__dark-loops-220-octave-piano-with-efect-short-loop-60-bpm.wav",
+            "Audio/midi/midiTest2.mid"
+        ),
+    };
 }
