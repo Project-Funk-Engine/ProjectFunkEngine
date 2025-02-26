@@ -9,6 +9,7 @@ public partial class NotePlacementBar : Node
     private int _currentBarValue;
     private int _currentCombo;
     int comboMult;
+    int bonusMult;
     int notesToIncreaseCombo;
 
     [Export]
@@ -126,7 +127,22 @@ public partial class NotePlacementBar : Node
     public void MissNote()
     {
         _currentCombo = 0;
+        bonusMult = 0;
         DetermineComboMult();
+        UpdateComboMultText();
+    }
+
+    public void IncreaseBonusMult(int amount = 1)
+    {
+        bonusMult += amount;
+        DetermineComboMult();
+        UpdateComboMultText();
+    }
+
+    public void IncreaseCharge(int amount = 1)
+    {
+        _currentBarValue = Math.Min(_currentBarValue + amount, MaxValue);
+        UpdateNotePlacementBar(_currentBarValue);
         UpdateComboMultText();
     }
 
@@ -146,7 +162,7 @@ public partial class NotePlacementBar : Node
 
     private void DetermineComboMult()
     {
-        comboMult = _currentCombo / notesToIncreaseCombo + 1;
+        comboMult = _currentCombo / notesToIncreaseCombo + 1 + bonusMult;
     }
 
     private void UpdateNotePlacementBar(int newValue)

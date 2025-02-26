@@ -50,6 +50,7 @@ public enum BattleEffectTrigger
     NoteHit,
     SelfNoteHit,
     OnPickup,
+    OnLoop,
 }
 
 public enum Stages

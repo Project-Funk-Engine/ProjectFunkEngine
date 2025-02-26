@@ -20,7 +20,7 @@ public partial class BattleDirector : Node2D
     private ChartManager CM;
 
     [Export]
-    private NotePlacementBar NotePlacementBar;
+    public NotePlacementBar NotePlacementBar;
 
     [Export]
     private Conductor CD;
@@ -29,6 +29,7 @@ public partial class BattleDirector : Node2D
     private AudioStreamPlayer Audio;
 
     private double _timingInterval = .1; //secs, maybe make somewhat note dependent
+    private double _lastBeat;
 
     private SongData _curSong;
 
@@ -125,7 +126,11 @@ public partial class BattleDirector : Node2D
     public override void _Process(double delta)
     {
         TimeKeeper.CurrentTime = Audio.GetPlaybackPosition();
-        CD.CheckMiss();
+        double realBeat = TimeKeeper.CurrentTime / (60 / (double)TimeKeeper.Bpm) % CM.BeatsPerLoop;
+        CD.CheckMiss(realBeat);
+        if (realBeat < _lastBeat)
+            ChartLooped?.Invoke(this);
+        _lastBeat = realBeat;
     }
     #endregion
 
@@ -225,6 +230,9 @@ public partial class BattleDirector : Node2D
     private delegate void NotePlacedHandler(BattleDirector BD);
     private event NotePlacedHandler NotePlaced;
 
+    private delegate void ChartLoopHandler(BattleDirector BD);
+    private event ChartLoopHandler ChartLooped;
+
     private void EventizeRelics()
     {
         foreach (var relic in Player.Stats.CurRelics)
@@ -235,6 +243,9 @@ public partial class BattleDirector : Node2D
                 {
                     case BattleEffectTrigger.NotePlaced:
                         NotePlaced += effect.OnTrigger;
+                        break;
+                    case BattleEffectTrigger.OnLoop:
+                        ChartLooped += effect.OnTrigger;
                         break;
                 }
             }
