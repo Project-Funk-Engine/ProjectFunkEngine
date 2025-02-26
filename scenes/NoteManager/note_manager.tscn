@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bn8txx53xlguw"]
+[gd_scene load_steps=6 format=3 uid="uid://bn8txx53xlguw"]
 
 [ext_resource type="Script" path="res://scenes/NoteManager/scripts/InputHandler.cs" id="1_2oeuf"]
-[ext_resource type="Texture2D" uid="uid://xtygvpk7s8e4" path="res://scenes/NoteManager/assets/outline_white.png" id="2_7ue4e"]
+[ext_resource type="Texture2D" uid="uid://hfxynr5jdgsp" path="res://scenes/NoteManager/assets/new_arrow.png" id="2_pb1qk"]
 [ext_resource type="Script" path="res://scenes/NoteManager/scripts/NoteChecker.cs" id="3_0cioe"]
+[ext_resource type="Texture2D" uid="uid://cgq2ar3pdmkac" path="res://scenes/NoteManager/assets/arrow_outline.png" id="4_3mttx"]
 [ext_resource type="Texture2D" uid="uid://b0tvsewgnf2x7" path="res://icon.svg" id="4_foklt"]
 
 [node name="noteManager" type="Node2D"]
@@ -10,47 +11,64 @@ script = ExtResource("1_2oeuf")
 
 [node name="noteCheckers" type="Node2D" parent="."]
 
-[node name="arrowUp" type="Sprite2D" parent="noteCheckers"]
-position = Vector2(0, 24)
-rotation = -1.5708
-texture = ExtResource("2_7ue4e")
+[node name="arrowLeft" type="Sprite2D" parent="noteCheckers"]
+position = Vector2(0, 29)
+rotation = 3.14159
+texture = ExtResource("2_pb1qk")
 script = ExtResource("3_0cioe")
 
-[node name="arrowLeft" type="Sprite2D" parent="noteCheckers"]
-position = Vector2(0, 76)
-rotation = 3.14159
-texture = ExtResource("2_7ue4e")
+[node name="Outline" type="Sprite2D" parent="noteCheckers/arrowLeft"]
+modulate = Color(0, 0, 0, 1)
+texture = ExtResource("4_3mttx")
+
+[node name="arrowUp" type="Sprite2D" parent="noteCheckers"]
+position = Vector2(0, 68)
+rotation = -1.5708
+texture = ExtResource("2_pb1qk")
 script = ExtResource("3_0cioe")
+
+[node name="Outline" type="Sprite2D" parent="noteCheckers/arrowUp"]
+modulate = Color(0, 0, 0, 1)
+texture = ExtResource("4_3mttx")
 
 [node name="arrowDown" type="Sprite2D" parent="noteCheckers"]
-position = Vector2(0, 129)
+position = Vector2(0, 112)
 rotation = 1.5708
-texture = ExtResource("2_7ue4e")
+texture = ExtResource("2_pb1qk")
 script = ExtResource("3_0cioe")
 
+[node name="Outline" type="Sprite2D" parent="noteCheckers/arrowDown"]
+modulate = Color(0, 0, 0, 1)
+texture = ExtResource("4_3mttx")
+
 [node name="arrowRight" type="Sprite2D" parent="noteCheckers"]
-position = Vector2(0, 181)
-texture = ExtResource("2_7ue4e")
+position = Vector2(0, 151)
+texture = ExtResource("2_pb1qk")
 script = ExtResource("3_0cioe")
+
+[node name="Outline" type="Sprite2D" parent="noteCheckers/arrowRight"]
+modulate = Color(0, 0, 0, 1)
+texture = ExtResource("4_3mttx")
 
 [node name="ui" type="Node2D" parent="."]
 
 [node name="dividers" type="Node2D" parent="ui"]
+visible = false
 
 [node name="DivA" type="Sprite2D" parent="ui/dividers"]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(295, 53)
+position = Vector2(295, 37)
 scale = Vector2(5.10938, 0.041)
 texture = ExtResource("4_foklt")
 
 [node name="DivB" type="Sprite2D" parent="ui/dividers"]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(295, 100)
+position = Vector2(295, 77)
 scale = Vector2(5.10938, 0.041)
 texture = ExtResource("4_foklt")
 
 [node name="DivC" type="Sprite2D" parent="ui/dividers"]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(295, 159)
+position = Vector2(295, 120)
 scale = Vector2(5.10938, 0.041)
 texture = ExtResource("4_foklt")

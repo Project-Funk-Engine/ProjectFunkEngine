@@ -7,12 +7,17 @@ using Godot;
  */
 public partial class NoteArrow : Sprite2D
 { //TextRect caused issues later :)
-    public int NoteIdx;
     public ArrowType Type;
     public int Beat;
     public float Bounds;
     public bool IsActive;
     public Note NoteRef;
+
+    [Export]
+    public Sprite2D OutlineSprite;
+
+    [Export]
+    public Sprite2D IconSprite;
 
     public void Init(ArrowData parentArrowData, int beat, Note note)
     {
@@ -23,6 +28,8 @@ public partial class NoteArrow : Sprite2D
 
         Position += Vector2.Down * (parentArrowData.Node.GlobalPosition.Y);
         RotationDegrees = parentArrowData.Node.RotationDegrees;
+        IconSprite.Texture = note.Texture;
+        IconSprite.Rotation = -Rotation;
     }
 
     public override void _Process(double delta)

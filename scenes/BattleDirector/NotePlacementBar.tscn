@@ -1,26 +1,29 @@
-[gd_scene load_steps=6 format=3 uid="uid://duhiilcv4tat3"]
+[gd_scene load_steps=9 format=3 uid="uid://duhiilcv4tat3"]
 
 [ext_resource type="Script" path="res://scenes/BattleDirector/scripts/NotePlacementBar.cs" id="1_456es"]
+[ext_resource type="Texture2D" uid="uid://cnyr5usjdv0ni" path="res://scenes/BattleDirector/assets/temp_note_queue.png" id="2_3tw16"]
+[ext_resource type="Texture2D" uid="uid://c3chrsxrulapd" path="res://Classes/Notes/assets/single_note.png" id="3_6ylx6"]
+[ext_resource type="Texture2D" uid="uid://caw70lr5e1yiq" path="res://Classes/Notes/assets/double_note.png" id="4_6w8ha"]
 
 [sub_resource type="Gradient" id="Gradient_0u6yv"]
 colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_hhds4"]
 gradient = SubResource("Gradient_0u6yv")
-width = 26
+width = 34
 height = 100
 
-[sub_resource type="Gradient" id="Gradient_lyd0l"]
-offsets = PackedFloat32Array(0, 0.485915, 0.739437, 1)
-colors = PackedColorArray(0, 1, 0, 1, 0.68, 0, 0.272, 1, 0, 0.64, 0.608, 1, 0.4, 0, 0, 1)
+[sub_resource type="Gradient" id="Gradient_xvck1"]
+offsets = PackedFloat32Array(0, 0.373239, 0.690141, 1)
+colors = PackedColorArray(0, 1, 0, 1, 1, 0, 0.4, 1, 0, 1, 0.95, 1, 1, 0, 0, 1)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_k7kvy"]
-gradient = SubResource("Gradient_lyd0l")
-width = 24
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_0bqho"]
+gradient = SubResource("Gradient_xvck1")
+width = 32
 height = 98
 fill_to = Vector2(0, 1)
 
-[node name="NotePlacementBar" type="Control" node_paths=PackedStringArray("notePlacementBar", "currentComboMultText")]
+[node name="NotePlacementBar" type="Control" node_paths=PackedStringArray("notePlacementBar", "currentComboMultText", "_currentNote", "_nextNote")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -30,23 +33,27 @@ grow_vertical = 2
 script = ExtResource("1_456es")
 notePlacementBar = NodePath("ProgressBar")
 currentComboMultText = NodePath("TextEdit")
+_currentNote = NodePath("NoteQueueSprite/NextNote")
+_nextNote = NodePath("NoteQueueSprite/CurrentNote")
 
 [node name="ProgressBar" type="TextureProgressBar" parent="."]
 layout_mode = 0
-offset_right = 26.0
-offset_bottom = 100.0
+offset_left = 41.0
+offset_top = 33.0
+offset_right = 75.0
+offset_bottom = 133.0
 fill_mode = 3
 texture_under = SubResource("GradientTexture2D_hhds4")
-texture_progress = SubResource("GradientTexture2D_k7kvy")
+texture_progress = SubResource("GradientTexture2D_0bqho")
 texture_progress_offset = Vector2(1, 1)
 
 [node name="TextEdit" type="TextEdit" parent="."]
+z_as_relative = false
 layout_mode = 0
-offset_top = -41.0
-offset_right = 50.0
-offset_bottom = -6.0
+offset_right = 80.0
+offset_bottom = 35.0
 mouse_filter = 2
-text = "x1"
+text = "    x1"
 context_menu_enabled = false
 shortcut_keys_enabled = false
 selecting_enabled = false
@@ -54,3 +61,18 @@ deselect_on_focus_loss_enabled = false
 drag_and_drop_selection_enabled = false
 virtual_keyboard_enabled = false
 middle_mouse_paste_enabled = false
+
+[node name="NoteQueueSprite" type="Sprite2D" parent="."]
+position = Vector2(23, 66)
+rotation = -1.5708
+texture = ExtResource("2_3tw16")
+
+[node name="NextNote" type="Sprite2D" parent="NoteQueueSprite"]
+position = Vector2(-16, 0)
+rotation = 1.5708
+texture = ExtResource("3_6ylx6")
+
+[node name="CurrentNote" type="Sprite2D" parent="NoteQueueSprite"]
+position = Vector2(16, 0)
+rotation = 1.5708
+texture = ExtResource("4_6w8ha")

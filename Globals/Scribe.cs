@@ -12,6 +12,8 @@ public partial class Scribe : Node
     {
         new Note(
             "EnemyBase",
+            "Basic enemy note, deals damage to player.",
+            null,
             null,
             1,
             (director, note, timing) =>
@@ -21,6 +23,8 @@ public partial class Scribe : Node
         ),
         new Note(
             "PlayerBase",
+            "Basic player note, deals damage to enemy",
+            GD.Load<Texture2D>("res://Classes/Notes/assets/single_note.png"),
             null,
             1,
             (director, note, timing) =>
@@ -30,6 +34,8 @@ public partial class Scribe : Node
         ),
         new Note(
             "PlayerDouble",
+            "Basic player note, deals double damage to enemy",
+            GD.Load<Texture2D>("res://Classes/Notes/assets/double_note.png"),
             null,
             1,
             (director, note, timing) =>
@@ -39,45 +45,71 @@ public partial class Scribe : Node
                 director.Enemy.TakeDamage(2 * (int)timing);
             }
         ),
+        new Note(
+            "PlayerHeal",
+            "Basic player note, heals player",
+            GD.Load<Texture2D>("res://Classes/Notes/assets/heal_note.png"),
+            null,
+            1,
+            (director, note, timing) =>
+            {
+                director.Player.Heal((int)timing);
+            }
+        ),
+        new Note(
+            "PlayerVampire",
+            "Steals health from enemy",
+            GD.Load<Texture2D>("res://Classes/Notes/assets/vampire_note.png"),
+            null,
+            1,
+            (director, note, timing) =>
+            {
+                director.Player.Heal((int)timing);
+                director.Enemy.TakeDamage((int)timing);
+            }
+        ),
+        new Note(
+            "PlayerQuarter",
+            "Basic note at a quarter of the cost",
+            GD.Load<Texture2D>("res://Classes/Notes/assets/quarter_note.png"),
+            null,
+            1,
+            (director, note, timing) =>
+            {
+                director.Enemy.TakeDamage((int)timing);
+            },
+            0.25f
+        ),
     };
 
     public static readonly RelicTemplate[] RelicDictionary = new[]
     {
         new RelicTemplate(
             "Breakfast", //Reference ha ha, Item to give when relic pool is empty.
+            "Increases max hp.", //TODO: Description can include the relics values?
+            GD.Load<Texture2D>("res://Classes/Relics/assets/relic_Breakfast.png"),
             new RelicEffect[]
             {
                 new RelicEffect(
-                    BattleEffectTrigger.NotePlaced,
-                    1,
+                    BattleEffectTrigger.OnPickup,
+                    10,
                     (director, val) =>
                     {
-                        director.Player.Heal(val);
+                        StageProducer.PlayerStats.MaxHealth += val;
+                        StageProducer.PlayerStats.CurrentHealth += val;
                     }
                 ),
             }
         ),
         new RelicTemplate(
             "Good Vibes",
+            "Good vibes, heals the player whenever they place a note.", //TODO: Description can include the relics values?
+            GD.Load<Texture2D>("res://Classes/Relics/assets/relic_GoodVibes.png"),
             new RelicEffect[]
             {
                 new RelicEffect(
                     BattleEffectTrigger.NotePlaced,
-                    5,
-                    (director, val) =>
-                    {
-                        director.Player.Heal(val);
-                    }
-                ),
-            }
-        ),
-        new RelicTemplate(
-            "Dummy Item",
-            new RelicEffect[]
-            {
-                new RelicEffect(
-                    BattleEffectTrigger.NotePlaced,
-                    100,
+                    1,
                     (director, val) =>
                     {
                         director.Player.Heal(val);

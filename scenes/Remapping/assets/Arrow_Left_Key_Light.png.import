@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cnyr5usjdv0ni"
-path="res://.godot/imported/temp_note_queue.png-e563d517d16e6739ec71ecb1d9b4ade7.ctex"
+uid="uid://cr6wtf6j6dcfg"
+path="res://.godot/imported/Arrow_Left_Key_Light.png-e169ba7507bfaa6b4f35f05316273b88.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/CustomNotes/assets/temp_note_queue.png"
-dest_files=["res://.godot/imported/temp_note_queue.png-e563d517d16e6739ec71ecb1d9b4ade7.ctex"]
+source_file="res://scenes/Remapping/assets/Arrow_Left_Key_Light.png"
+dest_files=["res://.godot/imported/Arrow_Left_Key_Light.png-e169ba7507bfaa6b4f35f05316273b88.ctex"]
 
 [params]
 

@@ -1,50 +1,51 @@
-[gd_scene load_steps=5 format=3 uid="uid://dfevfib11kou1"]
+[gd_scene load_steps=7 format=3 uid="uid://dfevfib11kou1"]
 
-[ext_resource type="Texture2D" uid="uid://b0tvsewgnf2x7" path="res://icon.svg" id="1_0wnka"]
 [ext_resource type="Script" path="res://scenes/ChartViewport/ChartManager.cs" id="1_ruh2l"]
+[ext_resource type="Texture2D" uid="uid://cp78odda2doab" path="res://scenes/ChartViewport/LoopMarker.png" id="2_q5cjc"]
 [ext_resource type="Script" path="res://scenes/ChartViewport/Loopable.cs" id="3_5u57h"]
 [ext_resource type="PackedScene" uid="uid://bn8txx53xlguw" path="res://scenes/NoteManager/note_manager.tscn" id="4_fd5fw"]
+[ext_resource type="Shader" path="res://scenes/ChartViewport/StarryNight.gdshader" id="5_kqrxg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5uw0y"]
+shader = ExtResource("5_kqrxg")
+shader_parameter/bg_top_color = Vector4(0.18, 0.08, 0.12, 0)
+shader_parameter/bg_bottom_color = Vector4(0.028, 0.008, 0.184, 0)
+shader_parameter/gradient_ratio = 1.0
+shader_parameter/time_scale = 1.0
 
 [node name="VPContainer" type="SubViewportContainer" node_paths=PackedStringArray("IH", "ChartLoopables")]
 offset_right = 480.0
-offset_bottom = 200.0
+offset_bottom = 180.0
 script = ExtResource("1_ruh2l")
 IH = NodePath("SubViewport/noteManager")
 ChartLoopables = NodePath("SubViewport/ChartLoopables")
 
 [node name="SubViewport" type="SubViewport" parent="."]
 handle_input_locally = false
-size = Vector2i(480, 200)
+size = Vector2i(480, 180)
 render_target_update_mode = 4
 
-[node name="ColorFill" type="ColorRect" parent="SubViewport"]
-z_index = -2
-offset_left = -30.0
-offset_right = 610.0
-offset_bottom = 360.0
-color = Color(0.258824, 0.290196, 0.392157, 1)
-
 [node name="Camera2D" type="Camera2D" parent="SubViewport"]
-position = Vector2(-25, 0)
+position = Vector2(-50, 0)
 anchor_mode = 0
+
+[node name="StarShader" type="ColorRect" parent="SubViewport"]
+material = SubResource("ShaderMaterial_5uw0y")
+offset_left = -60.0
+offset_right = 415.0
+offset_bottom = 177.0
+scale = Vector2(2.18, 2.18)
+color = Color(0, 0, 0, 1)
 
 [node name="ChartLoopables" type="CanvasGroup" parent="SubViewport"]
 unique_name_in_owner = true
 
 [node name="ArrowGroup" type="Node" parent="SubViewport/ChartLoopables"]
 
-[node name="ChartBG2" type="TextureRect" parent="SubViewport/ChartLoopables"]
-modulate = Color(2, 2, 2, 1)
-offset_right = 701.0
-offset_bottom = 300.0
-texture = ExtResource("1_0wnka")
+[node name="LoopMarker" type="Sprite2D" parent="SubViewport/ChartLoopables"]
+position = Vector2(0, 90)
+texture = ExtResource("2_q5cjc")
 script = ExtResource("3_5u57h")
-
-[node name="ChartBG1" type="TextureRect" parent="SubViewport/ChartLoopables"]
-modulate = Color(2, 2, 2, 1)
-offset_right = 701.0
-offset_bottom = 300.0
-texture = ExtResource("1_0wnka")
-script = ExtResource("3_5u57h")
+LoopOffset = 0.0
 
 [node name="noteManager" parent="SubViewport" instance=ExtResource("4_fd5fw")]

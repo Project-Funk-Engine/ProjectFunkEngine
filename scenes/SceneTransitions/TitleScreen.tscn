@@ -48,7 +48,7 @@ texture = ExtResource("2_cf582")
 
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer/Control"]
 layout_mode = 2
-text = "Project Funk engine"
+text = "Insert Title Screen Here"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -69,7 +69,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Start Game"
 script = ExtResource("2_7f3m6")
-ScenePath = 1
+ScenePath = 5
+_startFocused = true
 
 [node name="MarginContainer3" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
 visible = false
@@ -102,4 +103,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Quit Game"
 script = ExtResource("2_7f3m6")
-ScenePath = 2
+ScenePath = 4
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Change Controls"
+script = ExtResource("2_7f3m6")
+ScenePath = 6

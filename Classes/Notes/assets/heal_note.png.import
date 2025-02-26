@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://caw70lr5e1yiq"
-path="res://.godot/imported/double_note.png-b077a9744f626fbc60d331cfc2e231a0.ctex"
+uid="uid://cdf3g3174du4r"
+path="res://.godot/imported/heal_note.png-09ca289a296eee82d33c64101a4e593a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/CustomNotes/assets/double_note.png"
-dest_files=["res://.godot/imported/double_note.png-b077a9744f626fbc60d331cfc2e231a0.ctex"]
+source_file="res://Classes/Notes/assets/heal_note.png"
+dest_files=["res://.godot/imported/heal_note.png-09ca289a296eee82d33c64101a4e593a.ctex"]
 
 [params]
 

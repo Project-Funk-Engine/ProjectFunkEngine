@@ -32,31 +32,17 @@ public partial class BattleDirector : Node2D
 
     private SongData _curSong;
 
-    [Export]
-    private NoteQueue NQ;
-
     #endregion
 
     #region Note Handling
     private void PlayerAddNote(ArrowType type, int beat)
     {
-        //TODO: note that should be added from the queue
-        Note note = NQ.GetCurrentNote();
-        if (note == null)
-        {
-            GD.Print("No notes in queue");
-            return;
-        }
-
-        GD.Print($"Player trying to place {note.Name}:{type} typed note at beat: " + beat);
         if (!NotePlacementBar.CanPlaceNote())
             return;
-        if (CD.AddNoteToLane(type, beat % CM.BeatsPerLoop, note, false))
+        if (CD.AddNoteToLane(type, beat % CM.BeatsPerLoop, NotePlacementBar.PlacedNote(), false))
         {
-            NotePlacementBar.PlacedNote();
             NotePlaced?.Invoke(this);
             GD.Print("Note Placed.");
-            NQ.DequeueNote();
         }
     }
 
@@ -74,31 +60,38 @@ public partial class BattleDirector : Node2D
     #region Initialization
     public override void _Ready()
     {
-        _curSong = CD.MM.GetSongData();
+        //TODO: Should come from transition into battle
+        _curSong = StageProducer.Config.CurSong;
+        if (_curSong.SongLength <= 0)
+        {
+            _curSong.SongLength = Audio.Stream.GetLength();
+        }
         TimeKeeper.Bpm = _curSong.Bpm;
 
-        Player = new PlayerPuppet();
+        Player = GD.Load<PackedScene>("res://scenes/Puppets/PlayerPuppet.tscn")
+            .Instantiate<PlayerPuppet>();
         AddChild(Player);
         Player.Defeated += CheckBattleStatus;
         EventizeRelics();
-        //TODO: Refine
-        foreach (var note in Player.Stats.CurNotes)
-        {
-            note.Owner = Player;
-            CD.Notes = CD.Notes.Append(note).ToArray();
-        }
-        Note enemNote = Scribe.NoteDictionary[0].Clone();
-        CD.Notes = CD.Notes.Append(enemNote).ToArray();
+        NotePlacementBar.Setup(StageProducer.PlayerStats);
 
-        Enemy = new PuppetTemplate();
-        Enemy.SetPosition(new Vector2(400, 0));
+        //TODO: Refine
+        Enemy = GD.Load<PackedScene>("res://scenes/Puppets/Enemies/Boss1.tscn")
+            .Instantiate<PuppetTemplate>();
         AddChild(Enemy);
         Enemy.Defeated += CheckBattleStatus;
-        Enemy.Init(GD.Load<Texture2D>("res://scenes/BattleDirector/assets/Enemy1.png"), "Enemy");
-        Enemy.Sprite.Scale *= 2;
 
-        var timer = GetTree().CreateTimer(AudioServer.GetTimeToNextMix());
-        timer.Timeout += Begin;
+        //TODO: This is a temporary measure
+        Button startButton = new Button();
+        startButton.Text = "Start";
+        startButton.Position = GetViewportRect().Size / 2;
+        AddChild(startButton);
+        startButton.Pressed += () =>
+        {
+            var timer = GetTree().CreateTimer(AudioServer.GetTimeToNextMix());
+            timer.Timeout += Begin;
+            startButton.QueueFree();
+        };
     }
 
     //TODO: This will all change
@@ -108,7 +101,7 @@ public partial class BattleDirector : Node2D
         CD.Prep();
         CD.TimedInput += OnTimedInput;
 
-        //TEMP TODO: Make enemies, can put this in an enemy subclass
+        //TODO: Make enemies, can put this in an enemy subclass
         var enemTween = CreateTween();
         enemTween.TweenProperty(Enemy.Sprite, "position", Vector2.Down * 5, 1f).AsRelative();
         enemTween.TweenProperty(Enemy.Sprite, "position", Vector2.Up * 5, 1f).AsRelative();
@@ -121,6 +114,12 @@ public partial class BattleDirector : Node2D
         CM.Connect(nameof(InputHandler.NoteReleased), new Callable(this, nameof(OnNoteReleased)));
 
         Audio.Play();
+    }
+
+    private void EndBattle()
+    {
+        StageProducer.ChangeCurRoom(StageProducer.Config.BattleRoom);
+        GetNode<StageProducer>("/root/StageProducer").TransitionStage(Stages.Map);
     }
 
     public override void _Process(double delta)
@@ -142,13 +141,6 @@ public partial class BattleDirector : Node2D
                 DebugKillEnemy();
             }
         }
-
-        if (@event.IsActionPressed("Pause"))
-        {
-            var pauseMenu = GD.Load<PackedScene>("res://scenes/UI/Pause.tscn");
-            GetNode<CanvasLayer>("UILayer").AddChild(pauseMenu.Instantiate());
-            GetTree().Paused = true;
-        }
     }
 
     private void OnNotePressed(ArrowType type)
@@ -166,9 +158,8 @@ public partial class BattleDirector : Node2D
             PlayerAddNote(arrowType, beat);
             return;
         }
-        //TODO: Evaluate Timing as a function
+
         Timing timed = CheckTiming(beatDif);
-        GD.Print(timed);
 
         if (timed == Timing.Miss)
         {
@@ -208,12 +199,15 @@ public partial class BattleDirector : Node2D
         if (puppet == Player)
         {
             GD.Print("Player is Dead");
+            Audio.StreamPaused = true;
+            GetNode<StageProducer>("/root/StageProducer").TransitionStage(Stages.Title);
             return;
         }
 
         //will have to adjust this to account for when we have multiple enemies at once
         if (puppet == Enemy)
         {
+            Audio.StreamPaused = true;
             GD.Print("Enemy is dead");
             ShowRewardSelection(3);
         }
@@ -221,11 +215,7 @@ public partial class BattleDirector : Node2D
 
     private void ShowRewardSelection(int amount)
     {
-        var rewardUI = GD.Load<PackedScene>("res://scenes/UI/RewardSelectionUI.tscn")
-            .Instantiate<RewardSelect>();
-        AddChild(rewardUI);
-        rewardUI.Initialize(Player.Stats, amount);
-        GetTree().Paused = true;
+        RewardSelect.CreateSelection(this, Player.Stats, amount).Selected += EndBattle;
     }
 
     #endregion
@@ -239,7 +229,6 @@ public partial class BattleDirector : Node2D
     {
         foreach (var relic in Player.Stats.CurRelics)
         {
-            GetNode<Label>("TempRelicList").Text += "\n" + relic.Name;
             foreach (var effect in relic.Effects)
             {
                 switch (effect.GetTrigger()) //TODO: Look into a way to get eventhandler from string

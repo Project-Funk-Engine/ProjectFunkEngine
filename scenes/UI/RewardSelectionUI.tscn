@@ -2,10 +2,13 @@
 
 [ext_resource type="Script" path="res://scenes/UI/scripts/RewardSelect.cs" id="1_1m6an"]
 
-[node name="CanvasLayer" type="CanvasLayer" node_paths=PackedStringArray("ButtonContainer")]
+[node name="CanvasLayer" type="CanvasLayer" node_paths=PackedStringArray("ButtonContainer", "_description", "_acceptButton", "_skipButton")]
 process_mode = 2
 script = ExtResource("1_1m6an")
-ButtonContainer = NodePath("MarginContainer/PanelContainer/VBoxContainer")
+ButtonContainer = NodePath("MarginContainer/PanelContainer/VBoxContainer/ScrollContainer/CenterContainer/HBoxContainer")
+_description = NodePath("MarginContainer/PanelContainer/VBoxContainer/DescBox/Description")
+_acceptButton = NodePath("MarginContainer/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/AcceptButton")
+_skipButton = NodePath("MarginContainer/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/SkipButton")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchors_preset = 15
@@ -25,3 +28,57 @@ layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer"]
 layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/PanelContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer/ScrollContainer/CenterContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DescBox" type="MarginContainer" parent="MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/PanelContainer/VBoxContainer/DescBox"]
+layout_mode = 2
+color = Color(0, 0, 0, 0.552941)
+
+[node name="Description" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/DescBox"]
+layout_mode = 2
+size_flags_vertical = 1
+autowrap_mode = 2
+clip_text = true
+text_overrun_behavior = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="AcceptButton" type="Button" parent="MarginContainer/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Accept"
+
+[node name="SkipButton" type="Button" parent="MarginContainer/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Skip
+"

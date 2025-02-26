@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://c4vmb783d3v03"]
+
+[ext_resource type="Script" path="res://scenes/ChestScene/ChestScene.cs" id="1_ardd2"]
+[ext_resource type="AudioStream" uid="uid://cv6lqjj6lu36h" path="res://Audio/335571__magntron__gamemusic_120bpm.mp3" id="2_ogp8i"]
+[ext_resource type="Script" path="res://scenes/UI/scripts/MenuModule.cs" id="3_5uvci"]
+[ext_resource type="Texture2D" uid="uid://qhwve7fik4do" path="res://scenes/BattleDirector/assets/bgupdate.png" id="6_37nar"]
+[ext_resource type="Texture2D" uid="uid://d0ywqw1j1k71v" path="res://scenes/ChestScene/assets/Chest.png" id="6_58hf4"]
+[ext_resource type="Texture2D" uid="uid://dbjotl0v1ymia" path="res://scenes/BattleDirector/assets/BattleFrame1.png" id="7_kkck7"]
+
+[node name="ChestScene" type="Node2D" node_paths=PackedStringArray("ChestButton")]
+process_mode = 1
+script = ExtResource("1_ardd2")
+ChestButton = NodePath("ChestButton")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_ogp8i")
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+script = ExtResource("3_5uvci")
+
+[node name="BackGround" type="TextureRect" parent="."]
+z_index = -1
+offset_right = 640.0
+offset_bottom = 178.0
+texture = ExtResource("6_37nar")
+
+[node name="BattleFrame" type="TextureRect" parent="."]
+z_index = 1
+offset_top = 178.0
+offset_right = 640.0
+offset_bottom = 360.0
+texture = ExtResource("7_kkck7")
+
+[node name="ChestButton" type="Button" parent="."]
+offset_left = 375.0
+offset_top = 126.0
+offset_right = 431.0
+offset_bottom = 166.0
+icon = ExtResource("6_58hf4")

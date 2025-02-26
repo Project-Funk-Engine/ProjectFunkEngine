@@ -7,14 +7,12 @@ public partial class PlayerPuppet : PuppetTemplate
 
     public override void _Ready()
     {
-        Stats = StageProducer.PlayerStats;
+        Stats = StageProducer.PlayerStats ?? new PlayerStats();
 
         _currentHealth = Stats.CurrentHealth;
         _maxHealth = Stats.MaxHealth;
 
-        Init(GD.Load<Texture2D>("res://scenes/BattleDirector/assets/Character1.png"), "Player");
-        SetPosition(new Vector2(80, 0));
-        Sprite.Position += Vector2.Down * 30; //TEMP
+        UniqName = "Player";
         base._Ready();
     }
 
