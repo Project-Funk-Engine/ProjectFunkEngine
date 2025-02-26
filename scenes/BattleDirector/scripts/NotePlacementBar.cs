@@ -105,13 +105,6 @@ public partial class NotePlacementBar : Node
         return result;
     }
 
-    public void ComboText(string text)
-    {
-        TextParticle newText = new TextParticle();
-        AddChild(newText);
-        newText.Text = text + $" {_currentCombo}";
-    }
-
     // Hitting a note increases combo, combo mult, and note placement bar
     public void HitNote()
     {
@@ -147,6 +140,11 @@ public partial class NotePlacementBar : Node
     private void DetermineComboMult()
     {
         comboMult = _currentCombo / notesToIncreaseCombo + 1;
+    }
+
+    public int GetCurrentCombo()
+    {
+        return _currentCombo;
     }
 
     private void UpdateNotePlacementBar(int newValue)

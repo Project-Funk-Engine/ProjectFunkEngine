@@ -15,6 +15,9 @@ public partial class InputHandler : Node2D
     [Signal]
     public delegate void NoteReleasedEventHandler(ArrowType arrowType);
 
+    private Dictionary<ArrowType, Color> originalColors = new Dictionary<ArrowType, Color>();
+    private Dictionary<ArrowType, Tween> colorTweens = new Dictionary<ArrowType, Tween>();
+
     public ArrowData[] Arrows = new ArrowData[]
     {
         new ArrowData()
@@ -50,6 +53,52 @@ public partial class InputHandler : Node2D
         {
             Arrows[i].Node = GetNode<NoteChecker>("noteCheckers/" + Arrows[i].Key);
             Arrows[i].Node.SetColor(Arrows[i].Color);
+
+            originalColors[Arrows[i].Type] = Arrows[i].Color;
+            GD.Print($"Initialized Arrow: {Arrows[i].Type}, Node: {Arrows[i].Node.Name}");
+        }
+    }
+
+    public void FeedbackColor(ArrowType arrow, string text)
+    {
+        GD.Print($"FeedbackColor called for {arrow} with timing: {text}");
+
+        foreach (var arrowData in Arrows)
+        {
+            if (arrow == arrowData.Type)
+            {
+                Color feedbackColor;
+                float duration = 0.25f; // Short, snappy feedback duration
+
+                // Determine vibrant feedback color based on timing
+                if (text == "Perfect")
+                {
+                    feedbackColor = new Color(1.0f, 0.85f, 0.2f, 1.0f); // Vibrant Gold/Yellow
+                }
+                else if (text == "Good")
+                {
+                    feedbackColor = new Color(0.0f, 1.0f, 1.0f, 1.0f); // Bright Cyan
+                }
+                else if (text == "Okay")
+                {
+                    feedbackColor = new Color(1.0f, 0.0f, 1.0f, 0.9f); // Vibrant Magenta
+                }
+                else
+                {
+                    feedbackColor = arrowData.Color; // Default to original color if no match
+                }
+
+                // Apply the feedback color instantly
+                arrowData.Node.SetColor(feedbackColor);
+                GD.Print($"Setting {arrowData.Type} to {feedbackColor}");
+
+                // Create a Tween and reset to original color smoothly
+                var tween = CreateTween();
+                tween.SetTrans(Tween.TransitionType.Sine);
+                tween.SetEase(Tween.EaseType.Out);
+
+                tween.TweenProperty(arrowData.Node, "modulate", originalColors[arrow], duration);
+            }
         }
     }
 
