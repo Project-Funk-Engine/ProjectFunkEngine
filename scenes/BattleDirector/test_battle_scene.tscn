@@ -37,12 +37,6 @@ script = ExtResource("3_8hff6")
 script = ExtResource("2_pcp76")
 CM = NodePath("../SubViewport")
 
-[node name="SubViewport" parent="." instance=ExtResource("2_cupb3")]
-offset_left = 80.0
-offset_top = 180.0
-offset_right = 560.0
-offset_bottom = 360.0
-
 [node name="NotePlacementBar" parent="." instance=ExtResource("7_3ko4g")]
 offset_top = 183.0
 offset_bottom = 183.0
@@ -53,6 +47,12 @@ layout_mode = 0
 offset_right = 81.0
 offset_bottom = 175.0
 texture = SubResource("GradientTexture2D_bajwn")
+
+[node name="SubViewport" parent="." instance=ExtResource("2_cupb3")]
+offset_left = 80.0
+offset_top = 180.0
+offset_right = 560.0
+offset_bottom = 360.0
 
 [node name="BackGround" type="TextureRect" parent="."]
 z_index = -1

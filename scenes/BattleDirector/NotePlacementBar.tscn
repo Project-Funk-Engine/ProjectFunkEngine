@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://duhiilcv4tat3"]
+[gd_scene load_steps=12 format=3 uid="uid://duhiilcv4tat3"]
 
 [ext_resource type="Script" path="res://scenes/BattleDirector/scripts/NotePlacementBar.cs" id="1_456es"]
 [ext_resource type="Texture2D" uid="uid://cnyr5usjdv0ni" path="res://scenes/BattleDirector/assets/temp_note_queue.png" id="2_3tw16"]
@@ -23,7 +23,33 @@ width = 32
 height = 98
 fill_to = Vector2(0, 1)
 
-[node name="NotePlacementBar" type="Control" node_paths=PackedStringArray("notePlacementBar", "currentComboMultText", "_currentNote", "_nextNote")]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fy2uu"]
+lifetime_randomness = 0.32
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(40, 5, 1)
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, 1, 0)
+spread = 13.548
+initial_velocity_min = 124.08
+initial_velocity_max = 176.41
+gravity = Vector3(0, 98, 0)
+scale_min = 2.0
+scale_max = 3.0
+turbulence_noise_strength = 0.1
+turbulence_noise_scale = 5.0
+turbulence_influence_min = 0.0
+turbulence_influence_max = 0.018
+
+[sub_resource type="Gradient" id="Gradient_2uknl"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.46, 0.2162, 0.39905, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_d62c7"]
+gradient = SubResource("Gradient_2uknl")
+width = 1
+
+[node name="NotePlacementBar" type="Control" node_paths=PackedStringArray("notePlacementBar", "currentComboMultText", "_particles", "_currentNote", "_nextNote")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -33,6 +59,7 @@ grow_vertical = 2
 script = ExtResource("1_456es")
 notePlacementBar = NodePath("ProgressBar")
 currentComboMultText = NodePath("TextEdit")
+_particles = NodePath("ProgressBar/Rock")
 _currentNote = NodePath("NoteQueueSprite/NextNote")
 _nextNote = NodePath("NoteQueueSprite/CurrentNote")
 
@@ -47,8 +74,21 @@ texture_under = SubResource("GradientTexture2D_hhds4")
 texture_progress = SubResource("GradientTexture2D_0bqho")
 texture_progress_offset = Vector2(1, 1)
 
+[node name="Rock" type="GPUParticles2D" parent="ProgressBar"]
+z_index = 1
+position = Vector2(-1, -32)
+emitting = false
+amount = 22
+process_material = SubResource("ParticleProcessMaterial_fy2uu")
+texture = SubResource("GradientTexture1D_d62c7")
+lifetime = 2.0
+preprocess = 0.1
+explosiveness = 0.3
+randomness = 0.05
+
 [node name="TextEdit" type="TextEdit" parent="."]
 z_as_relative = false
+custom_minimum_size = Vector2(80, 35)
 layout_mode = 0
 offset_right = 80.0
 offset_bottom = 35.0
