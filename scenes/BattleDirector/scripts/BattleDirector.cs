@@ -220,7 +220,10 @@ public partial class BattleDirector : Node2D
 
     private void ShowRewardSelection(int amount)
     {
-        RewardSelect.CreateSelection(this, Player.Stats, amount).Selected += EndBattle;
+        string type = "Note";
+        if (StageProducer.Config.RoomType == Stages.Boss)
+            type = "Relic";
+        RewardSelect.CreateSelection(this, Player.Stats, amount, type).Selected += EndBattle;
     }
 
     #endregion

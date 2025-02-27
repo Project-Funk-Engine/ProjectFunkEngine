@@ -171,4 +171,19 @@ public partial class Scribe : Node
         }
         return availableRelics;
     }
+
+    public static Note[] GetRandomRewardNotes(int count)
+    {
+        var availableNotes = Scribe
+            .NoteDictionary.Where(r => r.Name.Contains("Player")) //TODO: Classifications/pools
+            .ToArray();
+
+        availableNotes = availableNotes
+            .OrderBy(_ => StageProducer.GlobalRng.Randi())
+            .Take(count)
+            .Select(r => r.Clone())
+            .ToArray();
+
+        return availableNotes;
+    }
 }

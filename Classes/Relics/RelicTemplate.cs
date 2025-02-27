@@ -2,13 +2,13 @@ using System;
 using FunkEngine;
 using Godot;
 
-public partial class RelicTemplate : Resource
+public partial class RelicTemplate : Resource, IDisplayable
 {
     public RelicEffect[] Effects;
-    public string Name;
+    public string Name { get; set; }
 
-    public Texture2D Texture;
-    public string Tooltip;
+    public Texture2D Texture { get; set; }
+    public string Tooltip { get; set; }
 
     public RelicTemplate(
         string name = "",

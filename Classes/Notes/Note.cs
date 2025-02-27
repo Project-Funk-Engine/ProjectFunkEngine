@@ -6,16 +6,16 @@ using Godot;
  * @class Note
  * @brief Data structure class for holding data and methods for a battle time note. WIP
  */
-public partial class Note : Resource
+public partial class Note : Resource, IDisplayable
 {
     public PuppetTemplate Owner;
-    public string Name;
+    public string Name { get; set; }
     private int _baseVal;
     public float CostModifier { get; private set; }
     private Action<BattleDirector, Note, Timing> NoteEffect; //TODO: Where/How to deal with timing.
 
-    public string Tooltip;
-    public Texture2D Texture;
+    public string Tooltip { get; set; }
+    public Texture2D Texture { get; set; }
 
     public Note(
         string name,
