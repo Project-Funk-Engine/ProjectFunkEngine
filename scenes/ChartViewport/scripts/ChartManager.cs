@@ -114,6 +114,15 @@ public partial class ChartManager : SubViewportContainer
         return newArrow;
     }
 
+    public void ComboText(string text, ArrowType arrow, int currentCombo)
+    {
+        TextParticle newText = new TextParticle();
+        AddChild(newText);
+        newText.Position = IH.Arrows[(int)arrow].Node.Position - newText.Size/2;
+        IH.FeedbackEffect(arrow, text);
+        newText.Text = text + $" {currentCombo}";
+    }
+
     public override void _ExitTree()
     {
         GD.Print("[DEBUG] Stopping tweens before exiting the scene...");
