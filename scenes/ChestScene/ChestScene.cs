@@ -29,7 +29,7 @@ public partial class ChestScene : Node2D
     private void GetLoot()
     {
         ChestButton.Disabled = true;
-        RewardSelect.CreateSelection(this, Player.Stats, 3).Selected += EndBattle;
+        RewardSelect.CreateSelection(this, Player.Stats, 3, "Relic").Selected += EndBattle;
     }
 
     private void EndBattle()

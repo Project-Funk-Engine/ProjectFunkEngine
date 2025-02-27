@@ -34,7 +34,7 @@ project/assembly_name="Funk Engine"
 
 [game]
 
-input_scheme="QWERT"
+input_scheme="ARROWS"
 
 [input]
 

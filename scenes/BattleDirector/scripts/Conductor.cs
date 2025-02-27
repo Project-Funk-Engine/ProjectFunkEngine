@@ -100,10 +100,9 @@ public partial class Conductor : Node
     }
 
     //Check all lanes for misses from missed inputs
-    public void CheckMiss()
+    public void CheckMiss(double realBeat)
     {
         //On current beat, if prev beat is active and not inputted
-        double realBeat = TimeKeeper.CurrentTime / (60 / (double)TimeKeeper.Bpm) % CM.BeatsPerLoop;
         for (int i = 0; i < _laneData.Length; i++)
         {
             if (

@@ -50,6 +50,7 @@ public enum BattleEffectTrigger
     NoteHit,
     SelfNoteHit,
     OnPickup,
+    OnLoop,
 }
 
 public enum Stages
@@ -190,4 +191,11 @@ public interface IBattleEvent
 {
     void OnTrigger(BattleDirector BD);
     BattleEffectTrigger GetTrigger();
+}
+
+public interface IDisplayable
+{
+    string Name { get; set; }
+    string Tooltip { get; set; }
+    Texture2D Texture { get; set; }
 }

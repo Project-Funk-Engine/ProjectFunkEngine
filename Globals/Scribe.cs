@@ -103,7 +103,7 @@ public partial class Scribe : Node
         ),
         new RelicTemplate(
             "Good Vibes",
-            "Good vibes, heals the player whenever they place a note.", //TODO: Description can include the relics values?
+            "Heals the player whenever they place a note.",
             GD.Load<Texture2D>("res://Classes/Relics/assets/relic_GoodVibes.png"),
             new RelicEffect[]
             {
@@ -117,6 +117,38 @@ public partial class Scribe : Node
                 ),
             }
         ),
+        new RelicTemplate(
+            "Auroboros",
+            "Bigger number, better person. Increases combo multiplier every riff.",
+            GD.Load<Texture2D>("res://Classes/Relics/assets/Auroboros.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnLoop,
+                    1,
+                    (director, val) =>
+                    {
+                        director.NotePlacementBar.IncreaseBonusMult(val);
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            "Colorboros",
+            "Taste the rainbow. Charges the freestyle bar every riff.",
+            GD.Load<Texture2D>("res://Classes/Relics/assets/Colorboros.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnLoop,
+                    20,
+                    (director, val) =>
+                    {
+                        director.NotePlacementBar.IncreaseCharge(val);
+                    }
+                ),
+            }
+        ),
     };
 
     //TODO: Item pool(s)
@@ -124,7 +156,7 @@ public partial class Scribe : Node
     public static RelicTemplate[] GetRandomRelics(RelicTemplate[] ownedRelics, int count)
     {
         var availableRelics = Scribe
-            .RelicDictionary.Where(r => !ownedRelics.Any(o => o.Name == r.Name))
+            .RelicDictionary.Where(r => ownedRelics.All(o => o.Name != r.Name))
             .ToArray();
 
         availableRelics = availableRelics
@@ -138,5 +170,20 @@ public partial class Scribe : Node
             availableRelics = availableRelics.Append(RelicDictionary[0].Clone()).ToArray();
         }
         return availableRelics;
+    }
+
+    public static Note[] GetRandomRewardNotes(int count)
+    {
+        var availableNotes = Scribe
+            .NoteDictionary.Where(r => r.Name.Contains("Player")) //TODO: Classifications/pools
+            .ToArray();
+
+        availableNotes = availableNotes
+            .OrderBy(_ => StageProducer.GlobalRng.Randi())
+            .Take(count)
+            .Select(r => r.Clone())
+            .ToArray();
+
+        return availableNotes;
     }
 }
