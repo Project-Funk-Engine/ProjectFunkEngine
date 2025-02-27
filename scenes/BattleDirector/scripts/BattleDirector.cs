@@ -14,7 +14,7 @@ public partial class BattleDirector : Node2D
     #region Declarations
 
     public PlayerPuppet Player;
-    public PuppetTemplate Enemy;
+    public EnemyPuppet Enemy;
 
     [Export]
     private ChartManager CM;
@@ -62,7 +62,8 @@ public partial class BattleDirector : Node2D
     public override void _Ready()
     {
         //TODO: Should come from transition into battle
-        _curSong = StageProducer.Config.CurSong;
+        _curSong = StageProducer.Config.CurSong.SongData;
+        Audio.SetStream(GD.Load<AudioStream>(StageProducer.Config.CurSong.AudioLocation));
         if (_curSong.SongLength <= 0)
         {
             _curSong.SongLength = Audio.Stream.GetLength();
@@ -77,8 +78,8 @@ public partial class BattleDirector : Node2D
         NotePlacementBar.Setup(StageProducer.PlayerStats);
 
         //TODO: Refine
-        Enemy = GD.Load<PackedScene>("res://scenes/Puppets/Enemies/Boss1.tscn")
-            .Instantiate<PuppetTemplate>();
+        Enemy = GD.Load<PackedScene>(StageProducer.Config.EnemyScenePath)
+            .Instantiate<EnemyPuppet>();
         AddChild(Enemy);
         Enemy.Defeated += CheckBattleStatus;
 
@@ -101,15 +102,6 @@ public partial class BattleDirector : Node2D
         CM.PrepChart(_curSong);
         CD.Prep();
         CD.TimedInput += OnTimedInput;
-
-        //TODO: Make enemies, can put this in an enemy subclass
-        var enemTween = CreateTween();
-        enemTween.TweenProperty(Enemy.Sprite, "position", Vector2.Down * 5, 1f).AsRelative();
-        enemTween.TweenProperty(Enemy.Sprite, "position", Vector2.Up * 5, 1f).AsRelative();
-        enemTween.SetTrans(Tween.TransitionType.Spring);
-        enemTween.SetEase(Tween.EaseType.In);
-        enemTween.SetLoops();
-        enemTween.Play();
 
         CM.Connect(nameof(InputHandler.NotePressed), new Callable(this, nameof(OnNotePressed)));
         CM.Connect(nameof(InputHandler.NoteReleased), new Callable(this, nameof(OnNoteReleased)));

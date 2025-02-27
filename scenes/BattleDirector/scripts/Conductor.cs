@@ -6,6 +6,7 @@ public partial class Conductor : Node
 {
     [Export]
     private ChartManager CM;
+    public MidiMaestro MM;
 
     public delegate void TimedInputHandler(Note note, ArrowType type, int beat, double beatDif);
     public event TimedInputHandler TimedInput;
@@ -44,8 +45,7 @@ public partial class Conductor : Node
     {
         beat %= CM.BeatsPerLoop;
         Note newNote = note.Clone();
-
-        if (beat == 0)
+        if (beat == 0 || _laneData[(int)type][beat] != null)
             return false;
 
         NoteArrow arrow;
@@ -63,6 +63,11 @@ public partial class Conductor : Node
         return true;
     }
 
+    public override void _Ready()
+    {
+        MM = new MidiMaestro(StageProducer.Config.CurSong.MIDILocation);
+    }
+
     public void Prep() //TODO: Streamline battle initialization
     {
         _laneData = new NoteArrow[][]
@@ -78,24 +83,16 @@ public partial class Conductor : Node
     private void AddExampleNotes()
     {
         GD.Print(CM.BeatsPerLoop);
-        for (int i = 1; i < 15; i++)
+        foreach (ArrowType type in Enum.GetValues(typeof(ArrowType)))
         {
-            AddNoteToLane(ArrowType.Up, i * 4, Scribe.NoteDictionary[0]);
-        }
-
-        for (int i = 1; i < 15; i++)
-        {
-            AddNoteToLane(ArrowType.Left, 4 * i + 1, Scribe.NoteDictionary[0]);
-        }
-
-        for (int i = 0; i < 10; i++)
-        {
-            AddNoteToLane(ArrowType.Right, 3 * i + 32, Scribe.NoteDictionary[0]);
-        }
-
-        for (int i = 0; i < 3; i++)
-        {
-            AddNoteToLane(ArrowType.Down, 8 * i + 16, Scribe.NoteDictionary[0]);
+            foreach (midiNoteInfo mNote in MM.GetNotes(type))
+            {
+                AddNoteToLane(
+                    type,
+                    (int)(mNote.GetStartTimeSeconds() / (60 / (double)TimeKeeper.Bpm)),
+                    Scribe.NoteDictionary[0]
+                );
+            }
         }
     }
 

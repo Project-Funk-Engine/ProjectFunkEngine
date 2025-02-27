@@ -28,6 +28,7 @@ public partial class StageProducer : Node
     public void StartGame()
     {
         Map.InitMapGrid(MapSize.X, MapSize.Y, 3);
+        GlobalRng.Randomize();
         _seed = GlobalRng.Seed;
         _lastRngState = GlobalRng.State;
         PlayerStats = new PlayerStats();
@@ -56,6 +57,10 @@ public partial class StageProducer : Node
                 GetTree().ChangeSceneToFile("res://scenes/SceneTransitions/TitleScreen.tscn");
                 break;
             case Stages.Battle:
+                Config = MakeConfig(nextStage, nextRoomIdx);
+                GetTree().ChangeSceneToFile("res://scenes/BattleDirector/test_battle_scene.tscn");
+                break;
+            case Stages.Boss:
                 Config = MakeConfig(nextStage, nextRoomIdx);
                 GetTree().ChangeSceneToFile("res://scenes/BattleDirector/test_battle_scene.tscn");
                 break;
@@ -90,14 +95,17 @@ public partial class StageProducer : Node
         BattleConfig result = new BattleConfig();
         result.BattleRoom = Map.GetRooms()[nextRoomIdx];
         result.RoomType = nextRoom;
-        if (nextRoom is Stages.Battle or Stages.Boss)
+        switch (nextRoom)
         {
-            result.CurSong = new SongData
-            {
-                Bpm = 120,
-                SongLength = -1,
-                NumLoops = 5,
-            };
+            case Stages.Battle:
+                int songIdx = GlobalRng.RandiRange(1, 2);
+                result.CurSong = Scribe.SongDictionary[songIdx];
+                result.EnemyScenePath = Scribe.SongDictionary[songIdx].EnemyScenePath;
+                break;
+            case Stages.Boss:
+                result.EnemyScenePath = "res://scenes/Puppets/Enemies/BossBlood/Boss1.tscn";
+                result.CurSong = Scribe.SongDictionary[0];
+                break;
         }
 
         return result;

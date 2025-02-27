@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using FunkEngine;
+using FunkEngine.Classes.MidiMaestro;
 using Godot;
 
 /**
@@ -151,7 +152,46 @@ public partial class Scribe : Node
         ),
     };
 
-    //TODO: Item pool(s)
+    public static readonly SongTemplate[] SongDictionary = new[]
+    {
+        new SongTemplate(
+            new SongData
+            {
+                Bpm = 120,
+                SongLength = -1,
+                NumLoops = 5,
+            },
+            "Song1",
+            "Audio/Song1.ogg",
+            "Audio/midi/song1.mid"
+        ),
+        new SongTemplate(
+            new SongData
+            {
+                Bpm = 60,
+                SongLength = -1,
+                NumLoops = 1,
+            },
+            "Song2",
+            "Audio/Song2.ogg",
+            "Audio/midi/Song2.mid",
+            "res://scenes/Puppets/Enemies/Parasifly/Parasifly.tscn"
+        ),
+        new SongTemplate(
+            new SongData
+            {
+                Bpm = 120,
+                SongLength = -1,
+                NumLoops = 1,
+            },
+            "Song3",
+            "Audio/Song3.ogg",
+            "Audio/midi/Song3.mid",
+            "res://scenes/Puppets/Enemies/TheGWS/GWS.tscn"
+        ),
+    };
+    
+        //TODO: Item pool(s)
 
     public static RelicTemplate[] GetRandomRelics(RelicTemplate[] ownedRelics, int count)
     {
@@ -171,7 +211,7 @@ public partial class Scribe : Node
         }
         return availableRelics;
     }
-
+    
     public static Note[] GetRandomRewardNotes(int count)
     {
         var availableNotes = Scribe

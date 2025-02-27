@@ -23,7 +23,7 @@ public partial class Cartographer : Node2D
     {
         if (!GetTree().Paused && !_validButtons.Contains(GetViewport().GuiGetFocusOwner()))
         {
-            _focusedButton.GrabFocus();
+            _focusedButton?.GrabFocus();
         }
     }
 

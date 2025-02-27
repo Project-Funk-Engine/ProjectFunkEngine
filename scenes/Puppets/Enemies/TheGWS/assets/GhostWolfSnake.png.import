@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b5jpi2i502lw5"
-path="res://.godot/imported/Enemy1EmissionShape.png-e1502c3313247b217f7d453af1069017.ctex"
+uid="uid://ci0a2h2eatjht"
+path="res://.godot/imported/GhostWolfSnake.png-6a5e038cc9802e04c7700f7f9b1f8a8f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/Puppets/Enemies/assets/Enemy1EmissionShape.png"
-dest_files=["res://.godot/imported/Enemy1EmissionShape.png-e1502c3313247b217f7d453af1069017.ctex"]
+source_file="res://scenes/Puppets/Enemies/TheGWS/assets/GhostWolfSnake.png"
+dest_files=["res://.godot/imported/GhostWolfSnake.png-6a5e038cc9802e04c7700f7f9b1f8a8f.ctex"]
 
 [params]
 
