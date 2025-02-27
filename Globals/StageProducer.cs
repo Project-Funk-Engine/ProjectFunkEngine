@@ -92,12 +92,7 @@ public partial class StageProducer : Node
         result.RoomType = nextRoom;
         if (nextRoom is Stages.Battle or Stages.Boss)
         {
-            result.CurSong = new SongData
-            {
-                Bpm = 120,
-                SongLength = -1,
-                NumLoops = 5,
-            };
+            result.CurSong = Scribe.SongDictionary[1];
         }
 
         return result;

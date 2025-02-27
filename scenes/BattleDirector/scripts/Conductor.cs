@@ -45,8 +45,7 @@ public partial class Conductor : Node
     {
         beat %= CM.BeatsPerLoop;
         Note newNote = note.Clone();
-
-        if (beat == 0)
+        if (beat == 0 || _laneData[(int)type][beat] != null)
             return false;
 
         NoteArrow arrow;
@@ -66,7 +65,7 @@ public partial class Conductor : Node
 
     public override void _Ready()
     {
-        MM = new MidiMaestro("Audio/midi/midiTest2.mid");
+        MM = new MidiMaestro(StageProducer.Config.CurSong.MIDILocation);
     }
 
     public void Prep() //TODO: Streamline battle initialization
@@ -84,58 +83,17 @@ public partial class Conductor : Node
     private void AddExampleNotes()
     {
         GD.Print(CM.BeatsPerLoop);
-        foreach (midiNoteInfo mNote in MM.GetNotes(ArrowType.Up))
+        foreach (ArrowType type in Enum.GetValues(typeof(ArrowType)))
         {
-            AddNoteToLane(
-                ArrowType.Up,
-                (int)(mNote.GetStartTimeSeconds() / (60 / (double)TimeKeeper.Bpm)),
-                Scribe.NoteDictionary[0]
-            );
+            foreach (midiNoteInfo mNote in MM.GetNotes(type))
+            {
+                AddNoteToLane(
+                    type,
+                    (int)(mNote.GetStartTimeSeconds() / (60 / (double)TimeKeeper.Bpm)),
+                    Scribe.NoteDictionary[0]
+                );
+            }
         }
-        foreach (midiNoteInfo mNote in MM.GetNotes(ArrowType.Down))
-        {
-            AddNoteToLane(
-                ArrowType.Down,
-                (int)(mNote.GetStartTimeSeconds() / (60 / (double)TimeKeeper.Bpm)),
-                Scribe.NoteDictionary[0]
-            );
-        }
-        foreach (midiNoteInfo mNote in MM.GetNotes(ArrowType.Right))
-        {
-            AddNoteToLane(
-                ArrowType.Right,
-                (int)(mNote.GetStartTimeSeconds() / (60 / (double)TimeKeeper.Bpm)),
-                Scribe.NoteDictionary[0]
-            );
-        }
-        foreach (midiNoteInfo mNote in MM.GetNotes(ArrowType.Left))
-        {
-            AddNoteToLane(
-                ArrowType.Left,
-                (int)(mNote.GetStartTimeSeconds() / (60 / (double)TimeKeeper.Bpm)),
-                Scribe.NoteDictionary[0]
-            );
-        }
-
-        /*for (int i = 1; i < 15; i++)
-        {
-            AddNoteToLane(ArrowType.Up, i * 4, Scribe.NoteDictionary[0]);
-        }
-
-        for (int i = 1; i < 15; i++)
-        {
-            AddNoteToLane(ArrowType.Left, 4 * i + 1, Scribe.NoteDictionary[0]);
-        }
-
-        for (int i = 0; i < 10; i++)
-        {
-            AddNoteToLane(ArrowType.Right, 3 * i + 32, Scribe.NoteDictionary[0]);
-        }
-
-        for (int i = 0; i < 3; i++)
-        {
-            AddNoteToLane(ArrowType.Down, 8 * i + 16, Scribe.NoteDictionary[0]);
-        }*/
     }
 
     //Check all lanes for misses from missed inputs

@@ -144,11 +144,23 @@ public partial class Scribe : Node
     public static readonly SongTemplate[] SongDictionary = new[]
     {
         new SongTemplate(
+            new SongData
+            {
+                Bpm = 120,
+                SongLength = -1,
+                NumLoops = 5,
+            },
             "Song1",
             "Audio/335571__magntron__gamemusic_120bpm.mp3",
             "Audio/midi/midiTest.mid"
         ),
         new SongTemplate(
+            new SongData
+            {
+                Bpm = 120,
+                SongLength = -1,
+                NumLoops = 1,
+            },
             "Song2",
             "Audio/620230__josefpres__dark-loops-220-octave-piano-with-efect-short-loop-60-bpm.wav",
             "Audio/midi/midiTest2.mid"

@@ -61,7 +61,8 @@ public partial class BattleDirector : Node2D
     public override void _Ready()
     {
         //TODO: Should come from transition into battle
-        _curSong = StageProducer.Config.CurSong;
+        _curSong = StageProducer.Config.CurSong.SongData;
+        Audio.SetStream(GD.Load<AudioStream>(StageProducer.Config.CurSong.AudioLocation));
         if (_curSong.SongLength <= 0)
         {
             _curSong.SongLength = Audio.Stream.GetLength();

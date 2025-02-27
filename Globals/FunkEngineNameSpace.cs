@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using FunkEngine.Classes.MidiMaestro;
 using Godot;
 
 namespace FunkEngine;
@@ -41,7 +42,7 @@ public struct BattleConfig
     public Stages RoomType;
     public MapGrid.Room BattleRoom;
     public int TodoEnemyAndChart;
-    public SongData CurSong;
+    public SongTemplate CurSong;
 }
 
 public enum BattleEffectTrigger
