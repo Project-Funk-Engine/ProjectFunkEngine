@@ -15,10 +15,6 @@ public partial class InputHandler : Node2D
     [Signal]
     public delegate void NoteReleasedEventHandler(ArrowType arrowType);
 
-    // Dictionary to store Particles2D nodes for each arrow
-    private Dictionary<ArrowType, CpuParticles2D> hitParticles =
-        new Dictionary<ArrowType, CpuParticles2D>();
-
     public ArrowData[] Arrows = new ArrowData[]
     {
         new ArrowData()
@@ -54,57 +50,32 @@ public partial class InputHandler : Node2D
         {
             Arrows[i].Node = GetNode<NoteChecker>("noteCheckers/" + Arrows[i].Key);
             Arrows[i].Node.SetColor(Arrows[i].Color);
-
-            var particles = Arrows[i].Node.GetNode<CpuParticles2D>("HitParticles");
-            particles.Emitting = false;
-            hitParticles[Arrows[i].Type] = particles;
         }
     }
 
     public void FeedbackEffect(ArrowType arrow, string text)
     {
-        if (hitParticles.ContainsKey(arrow))
+        // Get the particle node for this arrow
+        var particles = Arrows[(int)arrow].Node.Particles;
+
+        // Set the particle amount based on timing
+        int particleAmount;
+        switch (text)
         {
-            // Get the particle node for this arrow
-            var particles = hitParticles[arrow];
-
-            // Set the particle amount based on timing
-            int particleAmount;
-
-            if (text == "Perfect")
-            {
-                particleAmount = 15; // A lot of particles for Perfect
-            }
-            else if (text == "Great")
-            {
-                particleAmount = 10; // Moderate amount for Great
-            }
-            else if (text == "Good")
-            {
-                particleAmount = 5; // Few particles for Good
-            }
-            else
-            {
+            case "Perfect":
+                particleAmount = 10; // A lot of particles for Perfect
+                break;
+            case "Great":
+                particleAmount = 7; // Moderate amount for Great
+                break;
+            case "Good":
+                particleAmount = 4; // Few particles for Good
+                break;
+            default:
                 return; // No particles for a miss
-            }
-
-            // Apply the particle amount and start emitting
-            particles.Amount = particleAmount;
-            particles.Emitting = true;
-
-            // Stop particles after a short delay using a Timer
-            Timer timer = new Timer();
-            timer.WaitTime = 0.5f; // Stop emitting after 0.5 seconds
-            timer.OneShot = true;
-            timer.Timeout += () =>
-            {
-                particles.Emitting = false;
-                timer.QueueFree(); // Clean up the timer
-            };
-
-            AddChild(timer);
-            timer.Start();
         }
+
+        particles.Emit(particleAmount);
     }
 
     public override void _Ready()

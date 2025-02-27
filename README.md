@@ -15,5 +15,3 @@ Current team members include:
 
 #### Attributions:
 First Song: <a href="https://freesound.org/people/Magntron/sounds/335571/" title="gameMusic">gameMusic by Magntron - freesound.org</a>
-
-

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Godot;
 
@@ -117,13 +116,7 @@ public partial class NotePlacementBar : Node
         _currentBarValue = Math.Min(_currentBarValue + comboMult, MaxValue);
         UpdateNotePlacementBar(_currentBarValue);
         UpdateComboMultText();
-        if (CanPlaceNote())
-        {
-            if (!fullBarParticles.Emitting)
-            {
-                fullBarParticles.Emitting = true;
-            }
-        }
+        //fullBarParticles.Emitting = CanPlaceNote();
     }
 
     // Missing a note resets combo
@@ -140,7 +133,7 @@ public partial class NotePlacementBar : Node
         _currentBarValue -= (int)(_currentNoteInstance.CostModifier * MaxValue);
 
         UpdateNotePlacementBar(_currentBarValue);
-        fullBarParticles.Emitting = false;
+        //fullBarParticles.Emitting = false;
         return GetNote();
     }
 
