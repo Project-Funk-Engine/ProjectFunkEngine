@@ -1,11 +1,19 @@
-[gd_scene load_steps=7 format=3 uid="uid://c4vmb783d3v03"]
+[gd_scene load_steps=9 format=3 uid="uid://c4vmb783d3v03"]
 
 [ext_resource type="Script" path="res://scenes/ChestScene/ChestScene.cs" id="1_ardd2"]
 [ext_resource type="AudioStream" uid="uid://iq0xxe5cggs8" path="res://Audio/Song1.ogg" id="2_x78jo"]
 [ext_resource type="Script" path="res://scenes/UI/scripts/MenuModule.cs" id="3_5uvci"]
+[ext_resource type="Shader" path="res://scenes/ChartViewport/StarryNight.gdshader" id="5_whthd"]
 [ext_resource type="Texture2D" uid="uid://qhwve7fik4do" path="res://scenes/BattleDirector/assets/bgupdate.png" id="6_37nar"]
 [ext_resource type="Texture2D" uid="uid://d0ywqw1j1k71v" path="res://scenes/ChestScene/assets/Chest.png" id="6_58hf4"]
 [ext_resource type="Texture2D" uid="uid://dbjotl0v1ymia" path="res://scenes/BattleDirector/assets/BattleFrame1.png" id="7_kkck7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4lvcv"]
+shader = ExtResource("5_whthd")
+shader_parameter/bg_top_color = Vector4(0.18, 0.08, 0.12, 0)
+shader_parameter/bg_bottom_color = Vector4(0.028, 0.008, 0.184, 0)
+shader_parameter/gradient_ratio = 1.22
+shader_parameter/time_scale = 1.0
 
 [node name="ChestScene" type="Node2D" node_paths=PackedStringArray("ChestButton")]
 process_mode = 1
@@ -24,6 +32,15 @@ z_index = -1
 offset_right = 640.0
 offset_bottom = 178.0
 texture = ExtResource("6_37nar")
+
+[node name="StarShader" type="ColorRect" parent="."]
+z_index = -1
+material = SubResource("ShaderMaterial_4lvcv")
+offset_top = 180.0
+offset_right = 255.0
+offset_bottom = 262.0
+scale = Vector2(2.18, 2.18)
+color = Color(0, 0, 0, 1)
 
 [node name="BattleFrame" type="TextureRect" parent="."]
 z_index = 1
