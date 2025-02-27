@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using Godot;
 
-public partial class NotePlacementBar : Node2D
+public partial class NotePlacementBar : Node
 {
     const int MaxValue = 80;
     private int _currentBarValue;
@@ -117,6 +117,13 @@ public partial class NotePlacementBar : Node2D
         _currentBarValue = Math.Min(_currentBarValue + comboMult, MaxValue);
         UpdateNotePlacementBar(_currentBarValue);
         UpdateComboMultText();
+        if (CanPlaceNote())
+        {
+            if (!fullBarParticles.Emitting)
+            {
+                fullBarParticles.Emitting = true;
+            }
+        }
     }
 
     // Missing a note resets combo
@@ -140,18 +147,6 @@ public partial class NotePlacementBar : Node2D
     public bool CanPlaceNote()
     {
         return _currentBarValue >= MaxValue;
-    }
-
-    //editor gets mad and won't let me change this to override for some reason v
-    public void _Process(float delta)
-    {
-        if (CanPlaceNote())
-        {
-            if (!fullBarParticles.Emitting)
-            {
-                fullBarParticles.Emitting = true;
-            }
-        }
     }
 
     private void DetermineComboMult()

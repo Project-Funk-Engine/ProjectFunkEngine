@@ -23,7 +23,7 @@ width = 32
 height = 98
 fill_to = Vector2(0, 1)
 
-[node name="NotePlacementBar" type="Control" node_paths=PackedStringArray("notePlacementBar", "currentComboMultText", "_currentNote", "_nextNote")]
+[node name="NotePlacementBar" type="Control" node_paths=PackedStringArray("notePlacementBar", "currentComboMultText", "_currentNote", "_nextNote", "fullBarParticles")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -35,6 +35,7 @@ notePlacementBar = NodePath("ProgressBar")
 currentComboMultText = NodePath("TextEdit")
 _currentNote = NodePath("NoteQueueSprite/NextNote")
 _nextNote = NodePath("NoteQueueSprite/CurrentNote")
+fullBarParticles = NodePath("ProgressBar/CPUParticles2D")
 
 [node name="ProgressBar" type="TextureProgressBar" parent="."]
 layout_mode = 0

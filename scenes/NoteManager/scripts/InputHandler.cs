@@ -91,7 +91,6 @@ public partial class InputHandler : Node2D
             // Apply the particle amount and start emitting
             particles.Amount = particleAmount;
             particles.Emitting = true;
-            GD.Print($"Emitting {particleAmount} particles for {arrow} with timing {text}");
 
             // Stop particles after a short delay using a Timer
             Timer timer = new Timer();
