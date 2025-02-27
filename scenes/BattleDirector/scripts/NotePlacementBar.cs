@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Godot;
 
-public partial class NotePlacementBar : Node
+public partial class NotePlacementBar : Node2D
 {
     const int MaxValue = 80;
     private int _currentBarValue;
@@ -23,6 +24,9 @@ public partial class NotePlacementBar : Node
 
     [Export]
     private Sprite2D _nextNote;
+
+    [Export]
+    private CpuParticles2D fullBarParticles;
 
     private Note[] _noteDeck;
     private Queue<Note> _noteQueue = new Queue<Note>();
@@ -129,12 +133,25 @@ public partial class NotePlacementBar : Node
         _currentBarValue -= (int)(_currentNoteInstance.CostModifier * MaxValue);
 
         UpdateNotePlacementBar(_currentBarValue);
+        fullBarParticles.Emitting = false;
         return GetNote();
     }
 
     public bool CanPlaceNote()
     {
         return _currentBarValue >= MaxValue;
+    }
+
+    //editor gets mad and won't let me change this to override for some reason v
+    public void _Process(float delta)
+    {
+        if (CanPlaceNote())
+        {
+            if (!fullBarParticles.Emitting)
+            {
+                fullBarParticles.Emitting = true;
+            }
+        }
     }
 
     private void DetermineComboMult()

@@ -61,7 +61,7 @@ public partial class InputHandler : Node2D
         }
     }
 
-    public void FeedbackColor(ArrowType arrow, string text)
+    public void FeedbackEffect(ArrowType arrow, string text)
     {
         if (hitParticles.ContainsKey(arrow))
         {

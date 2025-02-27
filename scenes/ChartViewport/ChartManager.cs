@@ -119,7 +119,7 @@ public partial class ChartManager : SubViewportContainer
         TextParticle newText = new TextParticle();
         AddChild(newText);
         //IH.Arrows[(int)arrow].Node.AddChild(newText);
-        IH.FeedbackColor(arrow, text);
+        IH.FeedbackEffect(arrow, text);
         newText.Text = text + $" {currentCombo}";
     }
 
