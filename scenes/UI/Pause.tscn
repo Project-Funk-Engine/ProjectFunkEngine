@@ -17,7 +17,7 @@ pauseButtons = [NodePath("MarginContainer/VBoxContainer/MarginContainer/ResumeBu
 layout_mode = 2
 offset_right = 640.0
 offset_bottom = 360.0
-color = Color(0.237539, 0.237539, 0.237539, 0.466667)
+color = Color(0.24, 0.24, 0.24, 0.854902)
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1

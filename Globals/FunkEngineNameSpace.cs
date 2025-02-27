@@ -149,8 +149,6 @@ public class MapGrid
 
     private Stages PickRoomType(int x, int y)
     {
-        if (y <= 2)
-            return Stages.Battle;
         if (y % 3 == 0)
             return Stages.Chest;
         if (StageProducer.GlobalRng.Randf() < .1)
