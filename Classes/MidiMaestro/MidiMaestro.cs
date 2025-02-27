@@ -102,7 +102,9 @@ public class midiNoteInfo
 
     public long GetStartTimeTicks() => _note.Time;
 
-    public int GetStartTimeSeconds() => _note.TimeAs<MetricTimeSpan>(_tempoMap).Seconds;
+    public float GetStartTimeSeconds() =>
+        _note.TimeAs<MetricTimeSpan>(_tempoMap).Milliseconds / 1000f
+        + _note.TimeAs<MetricTimeSpan>(_tempoMap).Seconds;
 
     public long GetEndTime() => _note.EndTime;
 
