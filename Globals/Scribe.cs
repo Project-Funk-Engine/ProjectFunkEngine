@@ -165,5 +165,16 @@ public partial class Scribe : Node
             "Audio/620230__josefpres__dark-loops-220-octave-piano-with-efect-short-loop-60-bpm.wav",
             "Audio/midi/midiTest2.mid"
         ),
+        new SongTemplate(
+            new SongData
+            {
+                Bpm = 120,
+                SongLength = -1,
+                NumLoops = 1,
+            },
+            "Song3",
+            "Audio/789998__josefpres__piano-loops-181-octave-short-loop-120-bpm.wav",
+            "Audio/midi/midiTest3.mid"
+        ),
     };
 }

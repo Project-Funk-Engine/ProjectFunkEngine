@@ -93,7 +93,7 @@ public partial class StageProducer : Node
         if (nextRoom is Stages.Battle)
         {
             result.EnemyScenePath = "res://scenes/Puppets/Enemies/BossBlood/Boss1.tscn";
-            result.CurSong = Scribe.SongDictionary[1];
+            result.CurSong = Scribe.SongDictionary[2];
         }
         else if (nextRoom is Stages.Boss)
         {

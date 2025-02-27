@@ -90,7 +90,7 @@ public partial class Conductor : Node
                 AddNoteToLane(
                     type,
                     (int)(mNote.GetStartTimeSeconds() / (60 / (double)TimeKeeper.Bpm)),
-                    Scribe.NoteDictionary[0]
+                    Scribe.NoteDictionary[2]
                 );
             }
         }
