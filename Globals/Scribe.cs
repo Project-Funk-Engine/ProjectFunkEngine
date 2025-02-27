@@ -151,8 +151,8 @@ public partial class Scribe : Node
                 NumLoops = 5,
             },
             "Song1",
-            "Audio/335571__magntron__gamemusic_120bpm.mp3",
-            "Audio/midi/midiTest.mid"
+            "Audio/Song1.ogg",
+            "Audio/midi/song1.mid"
         ),
         new SongTemplate(
             new SongData
@@ -162,8 +162,8 @@ public partial class Scribe : Node
                 NumLoops = 1,
             },
             "Song2",
-            "Audio/620230__josefpres__dark-loops-220-octave-piano-with-efect-short-loop-60-bpm.wav",
-            "Audio/midi/midiTest2.mid",
+            "Audio/Song2.ogg",
+            "Audio/midi/Song2.mid",
             "res://scenes/Puppets/Enemies/Parasifly/Parasifly.tscn"
         ),
         new SongTemplate(
@@ -174,8 +174,8 @@ public partial class Scribe : Node
                 NumLoops = 1,
             },
             "Song3",
-            "Audio/789998__josefpres__piano-loops-181-octave-short-loop-120-bpm.wav",
-            "Audio/midi/midiTest3.mid",
+            "Audio/Song3.ogg",
+            "Audio/midi/Song3.mid",
             "res://scenes/Puppets/Enemies/TheGWS/GWS.tscn"
         ),
     };
