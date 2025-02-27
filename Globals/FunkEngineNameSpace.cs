@@ -41,7 +41,7 @@ public struct BattleConfig
 {
     public Stages RoomType;
     public MapGrid.Room BattleRoom;
-    public int TodoEnemyAndChart;
+    public string EnemyScenePath;
     public SongTemplate CurSong;
 }
 

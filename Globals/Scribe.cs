@@ -157,7 +157,7 @@ public partial class Scribe : Node
         new SongTemplate(
             new SongData
             {
-                Bpm = 120,
+                Bpm = 60,
                 SongLength = -1,
                 NumLoops = 1,
             },

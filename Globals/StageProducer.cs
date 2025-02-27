@@ -90,9 +90,15 @@ public partial class StageProducer : Node
         BattleConfig result = new BattleConfig();
         result.BattleRoom = Map.GetRooms()[nextRoomIdx];
         result.RoomType = nextRoom;
-        if (nextRoom is Stages.Battle or Stages.Boss)
+        if (nextRoom is Stages.Battle)
         {
-            result.CurSong = Scribe.SongDictionary[1];
+            result.EnemyScenePath = "res://scenes/Puppets/Enemies/BossBlood/Boss1.tscn";
+            result.CurSong = Scribe.SongDictionary[0];
+        }
+        else if (nextRoom is Stages.Boss)
+        {
+            result.EnemyScenePath = "res://scenes/Puppets/Enemies/BossBlood/Boss1.tscn";
+            result.CurSong = Scribe.SongDictionary[0];
         }
 
         return result;
