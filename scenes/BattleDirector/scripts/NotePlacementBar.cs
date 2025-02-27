@@ -28,6 +28,9 @@ public partial class NotePlacementBar : Node
     [Export]
     private Sprite2D _nextNote;
 
+    [Export]
+    private CpuParticles2D fullBarParticles;
+
     private Note[] _noteDeck;
     private Queue<Note> _noteQueue = new Queue<Note>();
 
@@ -145,13 +148,6 @@ public partial class NotePlacementBar : Node
         return result;
     }
 
-    public void ComboText(string text)
-    {
-        TextParticle newText = new TextParticle();
-        AddChild(newText);
-        newText.Text = text + $" {_currentCombo}";
-    }
-
     // Hitting a note increases combo, combo mult, and note placement bar
     public void HitNote()
     {
@@ -160,6 +156,7 @@ public partial class NotePlacementBar : Node
         _currentBarValue = Math.Min(_currentBarValue + comboMult, MaxValue);
         UpdateNotePlacementBar(_currentBarValue);
         UpdateComboMultText();
+        //fullBarParticles.Emitting = CanPlaceNote();
     }
 
     // Missing a note resets combo
@@ -191,6 +188,7 @@ public partial class NotePlacementBar : Node
         _currentBarValue -= (int)(_currentNoteInstance.CostModifier * MaxValue);
 
         UpdateNotePlacementBar(_currentBarValue);
+        //fullBarParticles.Emitting = false;
         return GetNote();
     }
 
@@ -202,6 +200,11 @@ public partial class NotePlacementBar : Node
     private void DetermineComboMult()
     {
         comboMult = _currentCombo / notesToIncreaseCombo + 1 + bonusMult;
+    }
+
+    public int GetCurrentCombo()
+    {
+        return _currentCombo;
     }
 
     private void UpdateNotePlacementBar(int newValue)

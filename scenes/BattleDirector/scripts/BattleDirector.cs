@@ -174,9 +174,11 @@ public partial class BattleDirector : Node2D
         else
         {
             note.OnHit(this, timed);
+
             NotePlacementBar.HitNote();
         }
-        NotePlacementBar.ComboText(timed.ToString());
+        //NotePlacementBar.ComboText(timed.ToString());
+        CM.ComboText(timed.ToString(), arrowType, NotePlacementBar.GetCurrentCombo());
     }
 
     private Timing CheckTiming(double beatDif)
