@@ -72,13 +72,13 @@ theme_override_constants/margin_bottom = 5
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="AcceptButton" type="Button" parent="MarginContainer/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Accept"
-
 [node name="SkipButton" type="Button" parent="MarginContainer/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Skip
 "
+
+[node name="AcceptButton" type="Button" parent="MarginContainer/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Accept"

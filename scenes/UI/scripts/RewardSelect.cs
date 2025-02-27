@@ -44,7 +44,7 @@ public partial class RewardSelect : CanvasLayer
 
     public override void _Process(double delta)
     {
-        _acceptButton.Visible = (_nSelection != null) || (_nChoices != null);
+        _acceptButton.Visible = (_nSelection != null) || (_rSelection != null);
     }
 
     private void GenerateRelicChoices(int amount = 1)
