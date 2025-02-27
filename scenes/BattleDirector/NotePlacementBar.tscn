@@ -49,7 +49,7 @@ colors = PackedColorArray(0.46, 0.2162, 0.39905, 1)
 gradient = SubResource("Gradient_2uknl")
 width = 1
 
-[node name="NotePlacementBar" type="Control" node_paths=PackedStringArray("notePlacementBar", "currentComboMultText", "_currentNote", "_nextNote", "fullBarParticles")]
+[node name="NotePlacementBar" type="Control" node_paths=PackedStringArray("notePlacementBar", "currentComboMultText", "_particles", "_currentNote", "_nextNote", "fullBarParticles")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
