@@ -163,7 +163,8 @@ public partial class Scribe : Node
             },
             "Song2",
             "Audio/620230__josefpres__dark-loops-220-octave-piano-with-efect-short-loop-60-bpm.wav",
-            "Audio/midi/midiTest2.mid"
+            "Audio/midi/midiTest2.mid",
+            "res://scenes/Puppets/Enemies/Parasifly/Parasifly.tscn"
         ),
         new SongTemplate(
             new SongData
@@ -174,7 +175,8 @@ public partial class Scribe : Node
             },
             "Song3",
             "Audio/789998__josefpres__piano-loops-181-octave-short-loop-120-bpm.wav",
-            "Audio/midi/midiTest3.mid"
+            "Audio/midi/midiTest3.mid",
+            "res://scenes/Puppets/Enemies/TheGWS/GWS.tscn"
         ),
     };
 }
