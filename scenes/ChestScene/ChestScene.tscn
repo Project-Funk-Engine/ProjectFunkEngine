@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://c4vmb783d3v03"]
 
 [ext_resource type="Script" path="res://scenes/ChestScene/ChestScene.cs" id="1_ardd2"]
-[ext_resource type="AudioStream" uid="uid://cv6lqjj6lu36h" path="res://Audio/335571__magntron__gamemusic_120bpm.mp3" id="2_ogp8i"]
+[ext_resource type="AudioStream" uid="uid://iq0xxe5cggs8" path="res://Audio/Song1.ogg" id="2_x78jo"]
 [ext_resource type="Script" path="res://scenes/UI/scripts/MenuModule.cs" id="3_5uvci"]
 [ext_resource type="Texture2D" uid="uid://qhwve7fik4do" path="res://scenes/BattleDirector/assets/bgupdate.png" id="6_37nar"]
 [ext_resource type="Texture2D" uid="uid://d0ywqw1j1k71v" path="res://scenes/ChestScene/assets/Chest.png" id="6_58hf4"]
@@ -13,7 +13,8 @@ script = ExtResource("1_ardd2")
 ChestButton = NodePath("ChestButton")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_ogp8i")
+stream = ExtResource("2_x78jo")
+autoplay = true
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 script = ExtResource("3_5uvci")
