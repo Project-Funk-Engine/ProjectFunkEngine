@@ -163,7 +163,7 @@ public partial class Scribe : Node
             },
             "Song1",
             "Audio/Song1.ogg",
-            "Audio/midi/song1.mid"
+            "Audio/midi/Song1.mid"
         ),
         new SongTemplate(
             new SongData
@@ -190,8 +190,8 @@ public partial class Scribe : Node
             "res://scenes/Puppets/Enemies/TheGWS/GWS.tscn"
         ),
     };
-    
-        //TODO: Item pool(s)
+
+    //TODO: Item pool(s)
 
     public static RelicTemplate[] GetRandomRelics(RelicTemplate[] ownedRelics, int count)
     {
@@ -211,7 +211,7 @@ public partial class Scribe : Node
         }
         return availableRelics;
     }
-    
+
     public static Note[] GetRandomRewardNotes(int count)
     {
         var availableNotes = Scribe
