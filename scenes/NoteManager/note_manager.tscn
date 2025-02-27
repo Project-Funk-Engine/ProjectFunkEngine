@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://bn8txx53xlguw"]
+[gd_scene load_steps=7 format=3 uid="uid://bn8txx53xlguw"]
 
 [ext_resource type="Script" path="res://scenes/NoteManager/scripts/InputHandler.cs" id="1_2oeuf"]
 [ext_resource type="Texture2D" uid="uid://hfxynr5jdgsp" path="res://scenes/NoteManager/assets/new_arrow.png" id="2_pb1qk"]
 [ext_resource type="Script" path="res://scenes/NoteManager/scripts/NoteChecker.cs" id="3_0cioe"]
 [ext_resource type="Texture2D" uid="uid://cgq2ar3pdmkac" path="res://scenes/NoteManager/assets/arrow_outline.png" id="4_3mttx"]
 [ext_resource type="Texture2D" uid="uid://b0tvsewgnf2x7" path="res://icon.svg" id="4_foklt"]
+[ext_resource type="PackedScene" uid="uid://bcf6vs4aqoxr5" path="res://scenes/ChartViewport/hit_particles.tscn" id="5_jv1tr"]
 
 [node name="noteManager" type="Node2D"]
 script = ExtResource("1_2oeuf")
@@ -21,6 +22,8 @@ script = ExtResource("3_0cioe")
 modulate = Color(0, 0, 0, 1)
 texture = ExtResource("4_3mttx")
 
+[node name="HitParticles" parent="noteCheckers/arrowLeft" instance=ExtResource("5_jv1tr")]
+
 [node name="arrowUp" type="Sprite2D" parent="noteCheckers"]
 position = Vector2(0, 68)
 rotation = -1.5708
@@ -30,6 +33,8 @@ script = ExtResource("3_0cioe")
 [node name="Outline" type="Sprite2D" parent="noteCheckers/arrowUp"]
 modulate = Color(0, 0, 0, 1)
 texture = ExtResource("4_3mttx")
+
+[node name="HitParticles" parent="noteCheckers/arrowUp" instance=ExtResource("5_jv1tr")]
 
 [node name="arrowDown" type="Sprite2D" parent="noteCheckers"]
 position = Vector2(0, 112)
@@ -41,6 +46,8 @@ script = ExtResource("3_0cioe")
 modulate = Color(0, 0, 0, 1)
 texture = ExtResource("4_3mttx")
 
+[node name="HitParticles" parent="noteCheckers/arrowDown" instance=ExtResource("5_jv1tr")]
+
 [node name="arrowRight" type="Sprite2D" parent="noteCheckers"]
 position = Vector2(0, 151)
 texture = ExtResource("2_pb1qk")
@@ -49,6 +56,8 @@ script = ExtResource("3_0cioe")
 [node name="Outline" type="Sprite2D" parent="noteCheckers/arrowRight"]
 modulate = Color(0, 0, 0, 1)
 texture = ExtResource("4_3mttx")
+
+[node name="HitParticles" parent="noteCheckers/arrowRight" instance=ExtResource("5_jv1tr")]
 
 [node name="ui" type="Node2D" parent="."]
 

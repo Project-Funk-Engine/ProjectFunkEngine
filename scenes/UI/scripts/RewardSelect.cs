@@ -20,13 +20,23 @@ public partial class RewardSelect : CanvasLayer
     public event SelectionMadeHandler Selected;
 
     private PlayerStats _player;
-    private RelicTemplate[] _choices;
-    private RelicTemplate _selection;
 
-    public void Initialize(PlayerStats player, int amount)
+    private RelicTemplate[] _rChoices; //TODO: look into simplifying
+    private RelicTemplate _rSelection;
+    private Note[] _nChoices;
+    private Note _nSelection;
+
+    public void Initialize(PlayerStats player, int amount, string type)
     {
         _player = player;
-        GenerateRelicChoices(amount);
+        if (type == "Relic")
+        {
+            GenerateRelicChoices(amount);
+        }
+        else
+        {
+            GenerateNoteChoices(amount);
+        }
 
         _acceptButton.Pressed += OnSelect;
         _skipButton.Pressed += OnSkip;
@@ -34,16 +44,16 @@ public partial class RewardSelect : CanvasLayer
 
     public override void _Process(double delta)
     {
-        _acceptButton.Visible = _selection != null;
+        _acceptButton.Visible = (_nSelection != null) || (_rSelection != null);
     }
 
     private void GenerateRelicChoices(int amount = 1)
     {
         //should probably change this so that the amount of relics offered can be changed when BD calls it
         //i.e less options when killing trash mobs/basic/weak enemies
-        _choices = Scribe.GetRandomRelics(_player.CurRelics, amount);
+        _rChoices = Scribe.GetRandomRelics(_player.CurRelics, amount);
 
-        foreach (var relic in _choices)
+        foreach (var relic in _rChoices)
         {
             var button = new DisplayButton();
             button.Display(relic.Texture, relic.Tooltip, relic.Name);
@@ -53,29 +63,64 @@ public partial class RewardSelect : CanvasLayer
         }
     }
 
-    public static RewardSelect CreateSelection(Node2D parent, PlayerStats playerStats, int amount)
+    private void GenerateNoteChoices(int amount = 1)
+    {
+        //should probably change this so that the amount of relics offered can be changed when BD calls it
+        //i.e less options when killing trash mobs/basic/weak enemies
+        _nChoices = Scribe.GetRandomRewardNotes(amount);
+
+        foreach (var note in _nChoices)
+        {
+            var button = new DisplayButton();
+            button.Display(note.Texture, note.Tooltip, note.Name);
+            button.Pressed += () => OnNoteSelected(note);
+            ButtonContainer.AddChild(button);
+            button.GrabFocus();
+        }
+    }
+
+    public static RewardSelect CreateSelection(
+        Node2D parent,
+        PlayerStats playerStats,
+        int amount,
+        string type
+    )
     {
         var rewardUI = GD.Load<PackedScene>("res://scenes/UI/RewardSelectionUI.tscn")
             .Instantiate<RewardSelect>();
         parent.AddChild(rewardUI);
-        rewardUI.Initialize(playerStats, amount);
+        rewardUI.Initialize(playerStats, amount, type);
         parent.GetTree().Paused = true;
 
         return rewardUI;
     }
 
+    private void OnNoteSelected(Note choiceNote)
+    {
+        _nSelection = choiceNote;
+        _description.Text = $"{choiceNote.Name}: {choiceNote.Tooltip}";
+    }
+
     private void OnRelicSelected(RelicTemplate choiceRelic)
     {
-        _selection = choiceRelic;
+        _rSelection = choiceRelic;
         _description.Text = $"{choiceRelic.Name}: {choiceRelic.Tooltip}";
     }
 
     private void OnSelect()
     {
-        if (_selection == null)
+        if (_nSelection == null && _rSelection == null)
             return;
-        GD.Print("Relic selected: " + _selection.Name);
-        _player.AddRelic(_selection);
+        if (_nSelection != null)
+        {
+            GD.Print("Note selected: " + _nSelection.Name);
+            _player.AddNote(_nSelection);
+        }
+        else if (_rSelection != null)
+        {
+            GD.Print("Relic selected: " + _rSelection.Name);
+            _player.AddRelic(_rSelection);
+        }
         GetTree().Paused = false;
         Selected?.Invoke();
         QueueFree();

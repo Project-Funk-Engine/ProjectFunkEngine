@@ -6,6 +6,7 @@ public partial class NoteChecker : Sprite2D
     private bool _isPressed;
     private Color _color;
     private float _fadeTime = 2.0f;
+    public HitParticles Particles;
 
     public override void _Process(double delta)
     {
@@ -25,7 +26,8 @@ public partial class NoteChecker : Sprite2D
     public void SetColor(Color color)
     {
         _color = color;
-
+        Particles = GetNode<HitParticles>("HitParticles");
+        Particles.Modulate = color;
         SelfModulate = new Color(_color.R * 0.5f, _color.G * 0.5f, _color.B * 0.5f, 1);
     }
 }
