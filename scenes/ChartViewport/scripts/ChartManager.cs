@@ -53,7 +53,10 @@ public partial class ChartManager : SubViewportContainer
 
         IH.Connect(nameof(InputHandler.NotePressed), new Callable(this, nameof(OnNotePressed)));
         IH.Connect(nameof(InputHandler.NoteReleased), new Callable(this, nameof(OnNoteReleased)));
+    }
 
+    public void BeginTweens()
+    {
         //This could be good as a function to call on something, to have many things animated to the beat.
         var tween = GetTree().CreateTween();
         tween
@@ -118,7 +121,7 @@ public partial class ChartManager : SubViewportContainer
     {
         TextParticle newText = new TextParticle();
         AddChild(newText);
-        newText.Position = IH.Arrows[(int)arrow].Node.Position - newText.Size/2;
+        newText.Position = IH.Arrows[(int)arrow].Node.Position - newText.Size / 2;
         IH.FeedbackEffect(arrow, text);
         newText.Text = text + $" {currentCombo}";
     }

@@ -58,7 +58,8 @@ public partial class Conductor : Node
             arrow = CM.AddArrowToLane(type, beat, newNote, new Color(1, 0.43f, 0.26f));
         }
 
-        arrow.IsActive = isActive;
+        if (!isActive)
+            arrow.NoteHit();
         _laneData[(int)type][beat] = arrow;
         return true;
     }

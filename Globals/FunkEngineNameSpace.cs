@@ -151,7 +151,7 @@ public class MapGrid
     {
         if (y % 3 == 0)
             return Stages.Chest;
-        if (StageProducer.GlobalRng.Randf() < .1)
+        if (StageProducer.GlobalRng.Randf() < .08)
             return Stages.Chest;
         return Stages.Battle;
     }

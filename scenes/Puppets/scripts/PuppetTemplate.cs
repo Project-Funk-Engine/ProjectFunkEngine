@@ -45,30 +45,31 @@ public partial class PuppetTemplate : Node2D
     {
         if (_currentHealth <= 0)
             return; //TEMP Only fire once.
+        amount = Math.Max(0, amount); //Should not be able to heal from damage.
         _currentHealth = _healthBar.ChangeHP(-amount);
         if (_currentHealth <= 0)
         {
             Defeated?.Invoke(this);
         }
-        if (amount != 0)
-        {
-            TextParticle newText = new TextParticle();
-            newText.Modulate = Colors.Red;
-            Sprite.AddChild(newText);
-            newText.Text = $"-{amount}";
-        }
+
+        if (amount == 0)
+            return;
+        TextParticle newText = new TextParticle();
+        newText.Modulate = Colors.Red;
+        Sprite.AddChild(newText);
+        newText.Text = $"-{amount}";
     }
 
     public virtual void Heal(int amount)
     {
-        if (amount != 0)
-        {
-            TextParticle newText = new TextParticle();
-            newText.Modulate = Colors.Green;
-            Sprite.AddChild(newText);
-            newText.Text = $"+{amount}";
-        }
         _currentHealth = _healthBar.ChangeHP(amount);
+
+        if (amount == 0)
+            return;
+        TextParticle newText = new TextParticle();
+        newText.Modulate = Colors.Green;
+        Sprite.AddChild(newText);
+        newText.Text = $"+{amount}";
     }
 
     public int GetCurrentHealth()

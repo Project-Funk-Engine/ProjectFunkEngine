@@ -19,7 +19,7 @@ public partial class Scribe : Node
             1,
             (director, note, timing) =>
             {
-                director.Player.TakeDamage(4 - (int)timing);
+                director.Player.TakeDamage(3 - (int)timing);
             }
         ),
         new Note(
@@ -110,7 +110,7 @@ public partial class Scribe : Node
             {
                 new RelicEffect(
                     BattleEffectTrigger.NotePlaced,
-                    1,
+                    2,
                     (director, val) =>
                     {
                         director.Player.Heal(val);
@@ -126,7 +126,7 @@ public partial class Scribe : Node
             {
                 new RelicEffect(
                     BattleEffectTrigger.OnLoop,
-                    1,
+                    2,
                     (director, val) =>
                     {
                         director.NotePlacementBar.IncreaseBonusMult(val);
