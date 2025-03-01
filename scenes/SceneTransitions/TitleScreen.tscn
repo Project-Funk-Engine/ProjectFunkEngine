@@ -1,8 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://bm41yti6ij2j"]
+[gd_scene load_steps=12 format=3 uid="uid://bm41yti6ij2j"]
 
 [ext_resource type="Texture2D" uid="uid://b0tvsewgnf2x7" path="res://icon.svg" id="1_r5xy8"]
+[ext_resource type="Texture2D" uid="uid://ruxgynq6bc1m" path="res://scenes/SceneTransitions/assets/background.png" id="1_txix1"]
+[ext_resource type="Texture2D" uid="uid://de2j543j83hmh" path="res://scenes/SceneTransitions/assets/backTree.png" id="2_4luva"]
 [ext_resource type="Script" path="res://scenes/SceneTransitions/scripts/SceneChange.cs" id="2_7f3m6"]
 [ext_resource type="Texture2D" uid="uid://b6fkei0i83vte" path="res://scenes/BattleDirector/assets/Character1.png" id="2_cf582"]
+[ext_resource type="Texture2D" uid="uid://dat1eoyl3do4e" path="res://scenes/SceneTransitions/assets/frontTree.png" id="3_hvvt6"]
+[ext_resource type="Texture2D" uid="uid://d3rxic3mi8jwb" path="res://scenes/SceneTransitions/assets/midTree.png" id="4_ui8kj"]
+[ext_resource type="Texture2D" uid="uid://bj8dxrlwuwrv4" path="res://scenes/SceneTransitions/assets/moon.png" id="5_squvs"]
+[ext_resource type="Shader" path="res://scenes/SceneTransitions/assets/transparentStars.gdshader" id="5_x5dhk"]
+[ext_resource type="FontFile" uid="uid://dlwfb7kb7pd76" path="res://scenes/SceneTransitions/assets/font.TTF" id="8_gkfev"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cbpjr"]
+shader = ExtResource("5_x5dhk")
+shader_parameter/time_scale = 0.24
 
 [node name="Title" type="Control"]
 layout_mode = 3
@@ -13,6 +24,41 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="Background" type="Node2D" parent="."]
+position = Vector2(-38, -31)
+scale = Vector2(2.2, 2.2)
+
+[node name="Background" type="Sprite2D" parent="Background"]
+z_index = -2
+position = Vector2(314, 91)
+texture = ExtResource("1_txix1")
+
+[node name="BackTree" type="Sprite2D" parent="Background"]
+position = Vector2(314, 91)
+texture = ExtResource("2_4luva")
+
+[node name="FrontTree" type="Sprite2D" parent="Background"]
+position = Vector2(314, 91)
+texture = ExtResource("3_hvvt6")
+
+[node name="MidTree" type="Sprite2D" parent="Background"]
+position = Vector2(314, 91)
+texture = ExtResource("4_ui8kj")
+
+[node name="Moon" type="Sprite2D" parent="Background"]
+position = Vector2(314, 91)
+texture = ExtResource("5_squvs")
+
+[node name="StarShader" type="ColorRect" parent="."]
+z_index = -1
+material = SubResource("ShaderMaterial_cbpjr")
+offset_left = -223.0
+offset_top = -200.0
+offset_right = 252.0
+offset_bottom = -23.0
+scale = Vector2(3.78, 3.82)
+color = Color(0, 0, 0, 1)
 
 [node name="SecretLabel" type="Label" parent="."]
 visible = false
@@ -41,14 +87,21 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="Godot" type="Sprite2D" parent="VBoxContainer/MarginContainer/Control/Control"]
+visible = false
 texture = ExtResource("1_r5xy8")
 
 [node name="Rabb" type="Sprite2D" parent="VBoxContainer/MarginContainer/Control/Control"]
+position = Vector2(0, 120)
+scale = Vector2(2.20001, 2.20001)
 texture = ExtResource("2_cf582")
 
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer/Control"]
 layout_mode = 2
-text = "Insert Title Screen Here"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 13
+theme_override_fonts/font = ExtResource("8_gkfev")
+theme_override_font_sizes/font_size = 57
+text = "Funk Engine"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
