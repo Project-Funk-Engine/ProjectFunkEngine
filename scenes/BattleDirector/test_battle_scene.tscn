@@ -17,13 +17,14 @@ gradient = SubResource("Gradient_8uy3a")
 fill_from = Vector2(1, 0)
 fill_to = Vector2(0.738532, 1)
 
-[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM", "NotePlacementBar", "CD", "Audio")]
+[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM", "NotePlacementBar", "CD", "Audio", "_focusedButton")]
 process_mode = 1
 script = ExtResource("1_cwqqr")
 CM = NodePath("SubViewport")
 NotePlacementBar = NodePath("NotePlacementBar")
 CD = NodePath("Conductor")
 Audio = NodePath("AudioStreamPlayer")
+_focusedButton = NodePath("StartButton")
 metadata/_edit_lock_ = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
@@ -64,3 +65,11 @@ offset_top = 178.0
 offset_right = 640.0
 offset_bottom = 360.0
 texture = ExtResource("6_0ak0g")
+
+[node name="StartButton" type="Button" parent="."]
+modulate = Color(5, 5, 5, 1)
+offset_left = 241.0
+offset_top = 234.0
+offset_right = 399.0
+offset_bottom = 265.0
+text = "Begin Battle [Enter]"

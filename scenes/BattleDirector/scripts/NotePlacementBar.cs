@@ -189,7 +189,7 @@ public partial class NotePlacementBar : Node
 
         UpdateNotePlacementBar(_currentBarValue);
         //fullBarParticles.Emitting = false;
-        return GetNote();
+        return GetNote(Input.IsActionPressed("Secondary"));
     }
 
     public bool CanPlaceNote()

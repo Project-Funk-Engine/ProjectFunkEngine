@@ -26,7 +26,21 @@ public partial class ControlSettings : Node2D
         string scheme = ProjectSettings.HasSetting("game/input_scheme")
             ? (string)ProjectSettings.GetSetting("game/input_scheme")
             : "ARROWS";
-        ChangeKeySprites(scheme);
+        switch (scheme)
+        {
+            case "ARROWS":
+                OnArrowButtonPressed();
+                GetNode<Button>("Panel/ArrowButton").GrabFocus();
+                break;
+            case "QWERT":
+                OnQWERTButtonPressed();
+                GetNode<Button>("Panel/QWERTButton").GrabFocus();
+                break;
+            case "WASD":
+                OnWASDButtonPressed();
+                GetNode<Button>("Panel/WASDButton").GrabFocus();
+                break;
+        }
     }
 
     private void OnWASDButtonPressed()

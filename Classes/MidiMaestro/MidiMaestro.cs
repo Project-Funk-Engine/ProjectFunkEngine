@@ -23,6 +23,11 @@ public partial class MidiMaestro : Resource
     //The path relative to the Audio folder. Will change later
     public MidiMaestro(string filePath)
     {
+        if (!OS.HasFeature("editor"))
+        {
+            filePath = OS.GetExecutablePath().GetBaseDir() + "/" + filePath;
+        }
+
         if (!FileAccess.FileExists(filePath))
         {
             GD.PrintErr("ERROR: Unable to load level Midi file: " + filePath);

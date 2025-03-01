@@ -28,6 +28,9 @@ public partial class BattleDirector : Node2D
     [Export]
     private AudioStreamPlayer Audio;
 
+    [Export]
+    private Button _focusedButton; //Initially start button
+
     private double _timingInterval = .1; //secs, maybe make somewhat note dependent
     private double _lastBeat;
 
@@ -36,15 +39,15 @@ public partial class BattleDirector : Node2D
     #endregion
 
     #region Note Handling
-    private void PlayerAddNote(ArrowType type, int beat)
+    private bool PlayerAddNote(ArrowType type, int beat)
     {
         if (!NotePlacementBar.CanPlaceNote())
-            return;
-        if (CD.AddNoteToLane(type, beat % CM.BeatsPerLoop, NotePlacementBar.PlacedNote(), false))
-        {
-            NotePlaced?.Invoke(this);
-            GD.Print("Note Placed.");
-        }
+            return false;
+        if (!CD.AddNoteToLane(type, beat % CM.BeatsPerLoop, NotePlacementBar.PlacedNote(), false))
+            return false;
+        NotePlaced?.Invoke(this);
+        GD.Print("Note Placed.");
+        return true;
     }
 
     public PuppetTemplate GetTarget(Note note)
@@ -83,22 +86,6 @@ public partial class BattleDirector : Node2D
         AddChild(Enemy);
         Enemy.Defeated += CheckBattleStatus;
 
-        //TODO: This is a temporary measure
-        Button startButton = new Button();
-        startButton.Text = "Start";
-        startButton.Position = GetViewportRect().Size / 2;
-        AddChild(startButton);
-        startButton.Pressed += () =>
-        {
-            var timer = GetTree().CreateTimer(AudioServer.GetTimeToNextMix());
-            timer.Timeout += Begin;
-            startButton.QueueFree();
-        };
-    }
-
-    //TODO: This will all change
-    private void Begin()
-    {
         CM.PrepChart(_curSong);
         CD.Prep();
         CD.TimedInput += OnTimedInput;
@@ -106,6 +93,20 @@ public partial class BattleDirector : Node2D
         CM.Connect(nameof(InputHandler.NotePressed), new Callable(this, nameof(OnNotePressed)));
         CM.Connect(nameof(InputHandler.NoteReleased), new Callable(this, nameof(OnNoteReleased)));
 
+        _focusedButton.GrabFocus();
+        _focusedButton.Pressed += () =>
+        {
+            var timer = GetTree().CreateTimer(AudioServer.GetTimeToNextMix());
+            timer.Timeout += Begin;
+            _focusedButton.QueueFree();
+            _focusedButton = null;
+        };
+    }
+
+    //TODO: This will all change
+    private void Begin()
+    {
+        CM.BeginTweens();
         Audio.Play();
     }
 
@@ -117,6 +118,7 @@ public partial class BattleDirector : Node2D
 
     public override void _Process(double delta)
     {
+        _focusedButton?.GrabFocus();
         TimeKeeper.CurrentTime = Audio.GetPlaybackPosition();
         double realBeat = TimeKeeper.CurrentTime / (60 / (double)TimeKeeper.Bpm) % CM.BeatsPerLoop;
         CD.CheckMiss(realBeat);
@@ -152,24 +154,25 @@ public partial class BattleDirector : Node2D
         GD.Print(arrowType + " " + beat + " difference: " + beatDif);
         if (note == null)
         {
-            PlayerAddNote(arrowType, beat);
+            if (PlayerAddNote(arrowType, beat))
+                return; //Miss on empty note. This does not apply to inactive existing notes as a balance decision for now.
+            NotePlacementBar.MissNote();
+            CM.ComboText(Timing.Miss.ToString(), arrowType, NotePlacementBar.GetCurrentCombo());
+            Player.TakeDamage(4);
             return;
         }
 
         Timing timed = CheckTiming(beatDif);
 
+        note.OnHit(this, timed);
         if (timed == Timing.Miss)
         {
-            note.OnHit(this, timed);
             NotePlacementBar.MissNote();
         }
         else
         {
-            note.OnHit(this, timed);
-
             NotePlacementBar.HitNote();
         }
-        //NotePlacementBar.ComboText(timed.ToString());
         CM.ComboText(timed.ToString(), arrowType, NotePlacementBar.GetCurrentCombo());
     }
 

@@ -10,7 +10,7 @@ public partial class NoteArrow : Sprite2D
     public ArrowType Type;
     public int Beat;
     public float Bounds;
-    public bool IsActive;
+    public bool IsActive = true;
     public Note NoteRef;
 
     [Export]
@@ -48,15 +48,18 @@ public partial class NoteArrow : Sprite2D
         Position = newPos;
     }
 
-    public void OnLoop()
+    private void OnLoop()
     {
-        Visible = true;
+        if (!IsActive)
+        {
+            Modulate /= .7f;
+        }
         IsActive = true;
     }
 
     public void NoteHit()
     {
-        Visible = false;
+        Modulate *= .7f;
         IsActive = false;
     }
 }
