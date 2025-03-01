@@ -28,6 +28,9 @@ public partial class BattleDirector : Node2D
     [Export]
     private AudioStreamPlayer Audio;
 
+    [Export]
+    private Button _focusedButton; //Initially start button
+
     private double _timingInterval = .1; //secs, maybe make somewhat note dependent
     private double _lastBeat;
 
@@ -90,16 +93,13 @@ public partial class BattleDirector : Node2D
         CM.Connect(nameof(InputHandler.NotePressed), new Callable(this, nameof(OnNotePressed)));
         CM.Connect(nameof(InputHandler.NoteReleased), new Callable(this, nameof(OnNoteReleased)));
 
-        //TODO: This is a temporary measure
-        Button startButton = new Button();
-        startButton.Text = "Start";
-        startButton.Position = GetViewportRect().Size / 2;
-        AddChild(startButton);
-        startButton.Pressed += () =>
+        _focusedButton.GrabFocus();
+        _focusedButton.Pressed += () =>
         {
             var timer = GetTree().CreateTimer(AudioServer.GetTimeToNextMix());
             timer.Timeout += Begin;
-            startButton.QueueFree();
+            _focusedButton.QueueFree();
+            _focusedButton = null;
         };
     }
 
@@ -118,6 +118,7 @@ public partial class BattleDirector : Node2D
 
     public override void _Process(double delta)
     {
+        _focusedButton?.GrabFocus();
         TimeKeeper.CurrentTime = Audio.GetPlaybackPosition();
         double realBeat = TimeKeeper.CurrentTime / (60 / (double)TimeKeeper.Bpm) % CM.BeatsPerLoop;
         CD.CheckMiss(realBeat);
