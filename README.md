@@ -10,6 +10,8 @@ Current team members include:
 
 ### Artists
 - Ares Atlas
+- Evelyn Fu
+- Emily Wen
 
 
 
