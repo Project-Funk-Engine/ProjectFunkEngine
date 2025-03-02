@@ -10,7 +10,7 @@ public partial class StageProducer : Node
     public static RandomNumberGenerator GlobalRng = new RandomNumberGenerator();
     private ulong _seed;
     private ulong _lastRngState;
-    private bool _isInitialized = false;
+    public static bool IsInitialized;
 
     private Stages _curStage = Stages.Title; //TODO: State Machine kinda deal?
     private Node _curScene;
@@ -34,7 +34,7 @@ public partial class StageProducer : Node
         PlayerStats = new PlayerStats();
 
         CurRoom = Map.GetRooms()[0];
-        _isInitialized = true;
+        IsInitialized = true;
     }
 
     public static void ChangeCurRoom(MapGrid.Room room)
@@ -53,7 +53,7 @@ public partial class StageProducer : Node
         switch (nextStage)
         {
             case Stages.Title:
-                _isInitialized = false;
+                IsInitialized = false;
                 GetTree().ChangeSceneToFile("res://scenes/SceneTransitions/TitleScreen.tscn");
                 break;
             case Stages.Battle:
@@ -73,7 +73,7 @@ public partial class StageProducer : Node
                 break;
             case Stages.Map:
                 GetTree().ChangeSceneToFile("res://scenes/Maps/cartographer.tscn");
-                if (!_isInitialized)
+                if (!IsInitialized)
                 {
                     StartGame();
                 }
