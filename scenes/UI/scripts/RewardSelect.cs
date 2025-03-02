@@ -49,6 +49,8 @@ public partial class RewardSelect : CanvasLayer
 
     private void GenerateRelicChoices(int amount = 1)
     {
+        if (amount < 1)
+            GD.PushError("Error: In RewardSelect: amount < 1");
         //should probably change this so that the amount of relics offered can be changed when BD calls it
         //i.e less options when killing trash mobs/basic/weak enemies
         _rChoices = Scribe.GetRandomRelics(_player.CurRelics, amount);
@@ -59,12 +61,14 @@ public partial class RewardSelect : CanvasLayer
             button.Display(relic.Texture, relic.Tooltip, relic.Name);
             button.Pressed += () => OnRelicSelected(relic);
             ButtonContainer.AddChild(button);
-            button.GrabFocus();
         }
+        ButtonContainer.GetChild<Button>(0).GrabFocus();
     }
 
     private void GenerateNoteChoices(int amount = 1)
     {
+        if (amount < 1)
+            GD.PushError("Error: In RewardSelect: amount < 1");
         //should probably change this so that the amount of relics offered can be changed when BD calls it
         //i.e less options when killing trash mobs/basic/weak enemies
         _nChoices = Scribe.GetRandomRewardNotes(amount);
@@ -75,8 +79,8 @@ public partial class RewardSelect : CanvasLayer
             button.Display(note.Texture, note.Tooltip, note.Name);
             button.Pressed += () => OnNoteSelected(note);
             ButtonContainer.AddChild(button);
-            button.GrabFocus();
         }
+        ButtonContainer.GetChild<Button>(0).GrabFocus();
     }
 
     public static RewardSelect CreateSelection(

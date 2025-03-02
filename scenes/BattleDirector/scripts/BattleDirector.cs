@@ -200,9 +200,7 @@ public partial class BattleDirector : Node2D
     {
         if (puppet == Player)
         {
-            GD.Print("Player is Dead");
-            Audio.StreamPaused = true;
-            GetNode<StageProducer>("/root/StageProducer").TransitionStage(Stages.Title);
+            LostBattle();
             return;
         }
 
@@ -215,12 +213,22 @@ public partial class BattleDirector : Node2D
         }
     }
 
+    private void LostBattle()
+    {
+        GD.Print("Player is Dead");
+        Audio.StreamPaused = true;
+        AddChild(GD.Load<PackedScene>("res://scenes/UI/LoseScreen.tscn").Instantiate());
+        GetTree().Paused = true;
+    }
+
     private void ShowRewardSelection(int amount)
     {
         string type = "Note";
         if (StageProducer.Config.RoomType == Stages.Boss)
             type = "Relic";
-        RewardSelect.CreateSelection(this, Player.Stats, amount, type).Selected += EndBattle;
+        var rewardSelect = RewardSelect.CreateSelection(this, Player.Stats, amount, type);
+        rewardSelect.GetNode<Label>("%TopLabel").Text = "You win!";
+        rewardSelect.Selected += EndBattle;
     }
 
     #endregion
