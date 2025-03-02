@@ -85,6 +85,7 @@ public partial class BattleDirector : Node2D
             .Instantiate<EnemyPuppet>();
         AddChild(Enemy);
         Enemy.Defeated += CheckBattleStatus;
+        AddEnemyEffects();
 
         CM.PrepChart(_curSong);
         CD.Prep();
@@ -200,20 +201,22 @@ public partial class BattleDirector : Node2D
     {
         if (puppet == Player)
         {
-            LostBattle();
+            BattleLost();
             return;
         }
-
-        //will have to adjust this to account for when we have multiple enemies at once
-        if (puppet == Enemy)
-        {
-            Audio.StreamPaused = true;
-            GD.Print("Enemy is dead");
-            ShowRewardSelection(3);
-        }
+        else if (puppet == Enemy)
+            BattleWon(); //will have to adjust this to account for when we have multiple enemies at once
     }
 
-    private void LostBattle()
+    private void BattleWon()
+    {
+        Audio.StreamPaused = true;
+        GD.Print("Enemy is dead");
+        CleanUpRelics();
+        ShowRewardSelection(3);
+    }
+
+    private void BattleLost()
     {
         GD.Print("Player is Dead");
         Audio.StreamPaused = true;
@@ -241,21 +244,45 @@ public partial class BattleDirector : Node2D
     private delegate void ChartLoopHandler(BattleDirector BD);
     private event ChartLoopHandler ChartLooped;
 
+    private void AddEvent(IBattleEvent bEvent)
+    {
+        switch (bEvent.GetTrigger()) //TODO: Look into a way to get eventhandler from string
+        {
+            case BattleEffectTrigger.NotePlaced:
+                NotePlaced += bEvent.OnTrigger;
+                break;
+            case BattleEffectTrigger.OnLoop:
+                ChartLooped += bEvent.OnTrigger;
+                break;
+        }
+    }
+
+    private void AddEnemyEffects()
+    {
+        foreach (var effect in Enemy.GetBattleEvents())
+        {
+            AddEvent(effect);
+        }
+    }
+
     private void EventizeRelics()
     {
         foreach (var relic in Player.Stats.CurRelics)
         {
             foreach (var effect in relic.Effects)
             {
-                switch (effect.GetTrigger()) //TODO: Look into a way to get eventhandler from string
-                {
-                    case BattleEffectTrigger.NotePlaced:
-                        NotePlaced += effect.OnTrigger;
-                        break;
-                    case BattleEffectTrigger.OnLoop:
-                        ChartLooped += effect.OnTrigger;
-                        break;
-                }
+                AddEvent(effect);
+            }
+        }
+    }
+
+    private void CleanUpRelics()
+    {
+        foreach (var relic in Player.Stats.CurRelics)
+        {
+            foreach (var effect in relic.Effects)
+            {
+                effect.OnBattleEnd();
             }
         }
     }
