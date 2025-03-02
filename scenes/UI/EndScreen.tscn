@@ -1,11 +1,12 @@
 [gd_scene load_steps=2 format=3 uid="uid://hjho5n2f8rkf"]
 
-[ext_resource type="Script" path="res://scenes/UI/scripts/LoseScreen.cs" id="1_13iue"]
+[ext_resource type="Script" path="res://scenes/UI/scripts/EndScreen.cs" id="1_37m3y"]
 
-[node name="CanvasLayer" type="CanvasLayer" node_paths=PackedStringArray("buttons")]
+[node name="CanvasLayer" type="CanvasLayer" node_paths=PackedStringArray("buttons", "TopLabel")]
 process_mode = 2
-script = ExtResource("1_13iue")
+script = ExtResource("1_37m3y")
 buttons = [NodePath("MarginContainer2/VBoxContainer/MarginContainer/Restart"), NodePath("MarginContainer2/VBoxContainer/MarginContainer2/Title"), NodePath("MarginContainer2/VBoxContainer/MarginContainer3/Quit")]
+TopLabel = NodePath("MarginContainer2/VBoxContainer/TopLabel")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_right = 640.0

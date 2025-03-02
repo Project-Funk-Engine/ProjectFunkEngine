@@ -217,7 +217,7 @@ public partial class BattleDirector : Node2D
     {
         GD.Print("Player is Dead");
         Audio.StreamPaused = true;
-        AddChild(GD.Load<PackedScene>("res://scenes/UI/LoseScreen.tscn").Instantiate());
+        AddChild(GD.Load<PackedScene>("res://scenes/UI/EndScreen.tscn").Instantiate());
         GetTree().Paused = true;
     }
 

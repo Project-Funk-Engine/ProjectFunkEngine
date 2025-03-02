@@ -2,10 +2,12 @@ using System;
 using FunkEngine;
 using Godot;
 
-public partial class LoseScreen : CanvasLayer
+public partial class EndScreen : CanvasLayer
 {
     [Export]
     private Button[] buttons;
+
+    [Export] public Label TopLabel;
 
     public override void _Ready()
     {
