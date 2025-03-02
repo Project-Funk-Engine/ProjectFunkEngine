@@ -21,6 +21,9 @@ public partial class PuppetTemplate : Node2D
     [Export]
     public Vector2 InitScale = Vector2.One;
 
+    [Export]
+    public bool hideHealth = false;
+
     protected int _maxHealth = 100;
     protected int _currentHealth = 100;
 
@@ -33,6 +36,11 @@ public partial class PuppetTemplate : Node2D
         _healthBar.SetHealth(_maxHealth, _currentHealth);
         Position = StartPos;
         Sprite.Scale = InitScale;
+
+        if (hideHealth)
+        {
+            _healthBar.Hide();
+        }
     }
 
     public void Init(Texture2D texture, string name)

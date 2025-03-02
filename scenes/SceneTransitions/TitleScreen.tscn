@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bm41yti6ij2j"]
+[gd_scene load_steps=15 format=3 uid="uid://bm41yti6ij2j"]
 
 [ext_resource type="Texture2D" uid="uid://b0tvsewgnf2x7" path="res://icon.svg" id="1_r5xy8"]
 [ext_resource type="Texture2D" uid="uid://ruxgynq6bc1m" path="res://scenes/SceneTransitions/assets/background.png" id="1_txix1"]
@@ -10,6 +10,9 @@
 [ext_resource type="Texture2D" uid="uid://bj8dxrlwuwrv4" path="res://scenes/SceneTransitions/assets/moon.png" id="5_squvs"]
 [ext_resource type="Shader" path="res://scenes/SceneTransitions/assets/transparentStars.gdshader" id="5_x5dhk"]
 [ext_resource type="FontFile" uid="uid://dlwfb7kb7pd76" path="res://scenes/SceneTransitions/assets/font.TTF" id="8_gkfev"]
+[ext_resource type="AudioStream" uid="uid://co61cvxxakdjs" path="res://scenes/SceneTransitions/assets/song18.mp3" id="11_t7vbg"]
+[ext_resource type="PackedScene" uid="uid://bi5iqbwpsd381" path="res://scenes/Puppets/Enemies/BossBlood/Boss1.tscn" id="12_lng3a"]
+[ext_resource type="PackedScene" uid="uid://uvlux4t6h5de" path="res://scenes/Puppets/Enemies/Parasifly/Parasifly.tscn" id="13_j3xa4"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cbpjr"]
 shader = ExtResource("5_x5dhk")
@@ -29,26 +32,35 @@ size_flags_vertical = 3
 position = Vector2(-38, -31)
 scale = Vector2(2.2, 2.2)
 
-[node name="Background" type="Sprite2D" parent="Background"]
+[node name="Art" type="Node2D" parent="Background"]
+
+[node name="Background" type="Sprite2D" parent="Background/Art"]
 z_index = -2
 position = Vector2(314, 91)
 texture = ExtResource("1_txix1")
 
-[node name="BackTree" type="Sprite2D" parent="Background"]
+[node name="BackTree" type="Sprite2D" parent="Background/Art"]
 position = Vector2(314, 91)
 texture = ExtResource("2_4luva")
 
-[node name="FrontTree" type="Sprite2D" parent="Background"]
+[node name="FrontTree" type="Sprite2D" parent="Background/Art"]
+z_index = 1
 position = Vector2(314, 91)
 texture = ExtResource("3_hvvt6")
 
-[node name="MidTree" type="Sprite2D" parent="Background"]
+[node name="MidTree" type="Sprite2D" parent="Background/Art"]
 position = Vector2(314, 91)
 texture = ExtResource("4_ui8kj")
 
-[node name="Moon" type="Sprite2D" parent="Background"]
+[node name="Moon" type="Sprite2D" parent="Background/Art"]
 position = Vector2(314, 91)
 texture = ExtResource("5_squvs")
+
+[node name="Rabb" type="Sprite2D" parent="Background"]
+z_index = 2
+position = Vector2(162.727, 114.091)
+scale = Vector2(1, 1)
+texture = ExtResource("2_cf582")
 
 [node name="StarShader" type="ColorRect" parent="."]
 z_index = -1
@@ -68,6 +80,7 @@ offset_bottom = 23.0
 text = "(Control nodes are fucking weird weird.)"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
+z_index = 4
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -90,12 +103,8 @@ layout_mode = 2
 visible = false
 texture = ExtResource("1_r5xy8")
 
-[node name="Rabb" type="Sprite2D" parent="VBoxContainer/MarginContainer/Control/Control"]
-position = Vector2(0, 120)
-scale = Vector2(2.20001, 2.20001)
-texture = ExtResource("2_cf582")
-
 [node name="Label" type="Label" parent="VBoxContainer/MarginContainer/Control"]
+z_index = 10
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 13
@@ -163,3 +172,18 @@ layout_mode = 2
 text = "Change Controls"
 script = ExtResource("2_7f3m6")
 ScenePath = 6
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_t7vbg")
+autoplay = true
+
+[node name="EnemPuppet" parent="." instance=ExtResource("12_lng3a")]
+position = Vector2(37, 186)
+StartPos = Vector2(40, 150)
+InitScale = Vector2(1, 1)
+hideHealth = true
+
+[node name="EnemPuppet2" parent="." instance=ExtResource("13_j3xa4")]
+position = Vector2(572, 167)
+StartPos = Vector2(572, 167)
+hideHealth = true
