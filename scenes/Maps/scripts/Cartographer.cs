@@ -13,10 +13,19 @@ public partial class Cartographer : Node2D
     [Export]
     private Button _focusedButton = null;
 
+    private BgAudioPlayer _bgPlayer;
+
     public override void _Ready()
     {
         DrawMap();
         GetViewport().GuiFocusChanged += UpdateFocus;
+    }
+
+    public override void _EnterTree()
+    {
+        GD.Print("[DEBUG] TitleScreen entered the tree");
+        _bgPlayer = GetNode<BgAudioPlayer>("/root/BgAudioPlayer");
+        _bgPlayer.PlayLevelMusic();
     }
 
     public override void _Process(double delta)
@@ -121,6 +130,9 @@ public partial class Cartographer : Node2D
             .TweenProperty(PlayerSprite, "position", button.Position + button.Size * .5f, 1f);
         tween.SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.InOut);
         tween.Finished += () =>
+        {
+            _bgPlayer.StopMusic();
             GetNode<StageProducer>("/root/StageProducer").TransitionFromRoom(roomIdx);
+        };
     }
 }
