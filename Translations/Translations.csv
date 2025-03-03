@@ -1,0 +1,12 @@
+keys,en,es,pt,fr,de
+titlescreen.label.game_name,MIDNIGHT RIFF,Melodía de Medianoche,Harmonia da Meia-Noite,Sonate de Minuit,Mitternachtsklang
+titlescreen.button.start,Start Game,Iniciar Juego,Iniciar Jogo,Démarrer le Jeu,Spiel Starten
+titlescreen.button.load,Load Game,Cargar Juego,Carregar Jogo,Charger la Partie,Spiel Laden
+titlescreen.button.quit,Quit Game,Salir del Juego,Sair do Jogo,Quitter le Jeu,Spiel Beenden
+titlescreen.button.controls,Change Controls,Cambiar Controles,Alterar Controles,Modifier les Contrôles,Steuerung Ändern
+titlescreen.label.secret_message,(Control nodes are fucking weird weird.),(Los nodos de control son jodidamente raros.),(Os nós de controle são muito estranhos pra caramba.),(Les nœuds de contrôle sont sacrément bizarres.),(Steuerknoten sind verdammt seltsam.)
+endscreen.label.game_over,Game Over!,¡Fin del Juego!,Fim de Jogo!,Fin de la Partie !,Spiel Vorbei!
+endscreen.button.restart,Restart,Reiniciar,Reiniciar,Redémarrer,Neustarten
+endscreen.button.quit_to_title,Quit To Title,Salir al Título,Sair para o Título,Quitter vers le Titre,Zum Titelbildschirm
+endscreen.button.exit_game,Quit Game,Salir del Juego,Sair do Jogo,Quitter le Jeu,Spiel Beenden
+rewards.label.top,Rewards!,¡Recompensas!,Recompensas!,Récompenses !,Belohnungen!

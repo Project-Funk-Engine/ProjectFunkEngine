@@ -158,7 +158,7 @@ theme_override_constants/shadow_offset_x = 4
 theme_override_constants/shadow_offset_y = 5
 theme_override_fonts/font = ExtResource("8_gkfev")
 theme_override_font_sizes/font_size = 55
-text = "Midnight Riff"
+text = "titlescreen.label.game_name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -179,13 +179,12 @@ theme_override_constants/margin_bottom = 20
 [node name="Button" type="Button" parent="VBoxContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Start Game"
+text = "titlescreen.button.start"
 script = ExtResource("2_7f3m6")
 ScenePath = 5
 _startFocused = true
 
 [node name="MarginContainer3" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
@@ -197,7 +196,7 @@ theme_override_constants/margin_bottom = 20
 [node name="Button" type="Button" parent="VBoxContainer/HBoxContainer/MarginContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Load Game (Experimental)"
+text = "titlescreen.button.load"
 script = ExtResource("2_7f3m6")
 ScenePath = 1
 
@@ -213,13 +212,13 @@ theme_override_constants/margin_bottom = 20
 [node name="Button" type="Button" parent="VBoxContainer/HBoxContainer/MarginContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Quit Game"
+text = "titlescreen.button.quit"
 script = ExtResource("2_7f3m6")
 ScenePath = 4
 
 [node name="Button" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "Change Controls"
+text = "titlescreen.button.controls"
 script = ExtResource("2_7f3m6")
 ScenePath = 6
 
