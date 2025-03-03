@@ -11,7 +11,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_6jc8n")
-pauseButtons = [NodePath("MarginContainer/VBoxContainer/MarginContainer/ResumeButton"), NodePath("MarginContainer/VBoxContainer/MarginContainer2/QuitButton"), NodePath("MarginContainer/VBoxContainer/MarginContainer3/PlaceHolderButton")]
+pauseButtons = [NodePath("MarginContainer/VBoxContainer/MarginContainer/ResumeButton"), NodePath("MarginContainer/VBoxContainer/MarginContainer4/OptionsButton"), NodePath("MarginContainer/VBoxContainer/MarginContainer2/QuitButton"), NodePath("MarginContainer/VBoxContainer/MarginContainer3/PlaceHolderButton")]
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 2
@@ -44,9 +44,21 @@ theme_override_constants/margin_bottom = 20
 
 [node name="ResumeButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
+text = "ESCAPE_MENU_RESUME"
+
+[node name="MarginContainer4" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="OptionsButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer4"]
+layout_mode = 2
 focus_neighbor_top = NodePath("../../MarginContainer3/PlaceHolderButton")
 focus_neighbor_bottom = NodePath("../../MarginContainer2/QuitButton")
-text = "ESCAPE_MENU_RESUME"
+text = "TITLE_OPTIONS"
 
 [node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -58,8 +70,6 @@ theme_override_constants/margin_bottom = 20
 
 [node name="QuitButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer2"]
 layout_mode = 2
-focus_neighbor_top = NodePath("../../MarginContainer/ResumeButton")
-focus_neighbor_bottom = NodePath("../../MarginContainer3/PlaceHolderButton")
 text = "ESCAPE_MENU_QUIT"
 
 [node name="MarginContainer3" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
@@ -72,6 +82,4 @@ theme_override_constants/margin_bottom = 20
 
 [node name="PlaceHolderButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer3"]
 layout_mode = 2
-focus_neighbor_top = NodePath("../../MarginContainer2/QuitButton")
-focus_neighbor_bottom = NodePath("../../MarginContainer/ResumeButton")
 text = "ESCAPE_MENU_TITLE"

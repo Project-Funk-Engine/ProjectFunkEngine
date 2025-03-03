@@ -15,6 +15,12 @@ public partial class ControlSettings : Node2D
     [Export]
     public Sprite2D downKey;
 
+    private Node _previousScene;
+    private ProcessModeEnum _previousProcessMode;
+
+    [Export]
+    private Button _closeButton;
+
     public override void _Ready()
     {
         GetNode<Button>("Panel/WASDButton").Connect("pressed", Callable.From(OnWASDButtonPressed));
@@ -40,6 +46,30 @@ public partial class ControlSettings : Node2D
                 OnWASDButtonPressed();
                 GetNode<Button>("Panel/WASDButton").GrabFocus();
                 break;
+        }
+
+        _closeButton.Pressed += CloseMenu;
+    }
+
+    public void OpenMenu(Node prevScene)
+    {
+        _previousScene = prevScene;
+        _previousProcessMode = _previousScene.GetProcessMode();
+        prevScene.ProcessMode = ProcessModeEnum.Disabled;
+    }
+
+    private void CloseMenu()
+    {
+        _previousScene.ProcessMode = _previousProcessMode;
+        QueueFree();
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        if (@event.IsActionPressed("Pause"))
+        {
+            CloseMenu();
+            GetViewport().SetInputAsHandled();
         }
     }
 
