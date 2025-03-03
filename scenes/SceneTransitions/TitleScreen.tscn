@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bm41yti6ij2j"]
+[gd_scene load_steps=21 format=3 uid="uid://bm41yti6ij2j"]
 
 [ext_resource type="Texture2D" uid="uid://b0tvsewgnf2x7" path="res://icon.svg" id="1_r5xy8"]
 [ext_resource type="Script" path="res://scenes/SceneTransitions/scripts/TitleScreen.cs" id="1_r22ha"]
@@ -13,6 +13,7 @@
 [ext_resource type="Shader" path="res://scenes/SceneTransitions/assets/transparentStars.gdshader" id="5_x5dhk"]
 [ext_resource type="FontFile" uid="uid://dlwfb7kb7pd76" path="res://scenes/SceneTransitions/assets/font.TTF" id="8_gkfev"]
 [ext_resource type="Texture2D" uid="uid://hfxynr5jdgsp" path="res://scenes/NoteManager/assets/new_arrow.png" id="10_4hnj8"]
+[ext_resource type="Shader" path="res://scenes/SceneTransitions/assets/TitleFont.gdshader" id="11_ht0dv"]
 [ext_resource type="PackedScene" uid="uid://bi5iqbwpsd381" path="res://scenes/Puppets/Enemies/BossBlood/Boss1.tscn" id="12_lng3a"]
 [ext_resource type="PackedScene" uid="uid://uvlux4t6h5de" path="res://scenes/Puppets/Enemies/Parasifly/Parasifly.tscn" id="13_j3xa4"]
 
@@ -21,6 +22,16 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cbpjr"]
 shader = ExtResource("5_x5dhk")
 shader_parameter/time_scale = 0.24
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4cy5c"]
+shader = ExtResource("11_ht0dv")
+shader_parameter/height = 10.0
+shader_parameter/speed = 2.0
+shader_parameter/freq = 10.0
+shader_parameter/bg_top_color = null
+shader_parameter/bg_bottom_color = null
+shader_parameter/gradient_ratio = 0.0
+shader_parameter/time_scale = null
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4croe"]
 particle_flag_disable_z = true
@@ -139,16 +150,17 @@ texture = ExtResource("1_r5xy8")
 [node name="Title" type="Label" parent="VBoxContainer/MarginContainer/Control"]
 light_mask = 2
 z_index = 10
+material = SubResource("ShaderMaterial_4cy5c")
 layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 4
-theme_override_constants/shadow_offset_y = 7
-theme_override_constants/outline_size = 13
-theme_override_constants/shadow_outline_size = 1
+theme_override_constants/shadow_offset_y = 5
 theme_override_fonts/font = ExtResource("8_gkfev")
-theme_override_font_sizes/font_size = 57
+theme_override_font_sizes/font_size = 55
 text = "Midnight Riff"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
