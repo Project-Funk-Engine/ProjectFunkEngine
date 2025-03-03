@@ -94,7 +94,7 @@ public partial class Scribe : Node
                 new RelicEffect(
                     BattleEffectTrigger.OnPickup,
                     10,
-                    (director, val) =>
+                    (director, self, val) =>
                     {
                         StageProducer.PlayerStats.MaxHealth += val;
                         StageProducer.PlayerStats.CurrentHealth += val;
@@ -111,7 +111,7 @@ public partial class Scribe : Node
                 new RelicEffect(
                     BattleEffectTrigger.NotePlaced,
                     2,
-                    (director, val) =>
+                    (director, self, val) =>
                     {
                         director.Player.Heal(val);
                     }
@@ -126,10 +126,11 @@ public partial class Scribe : Node
             {
                 new RelicEffect(
                     BattleEffectTrigger.OnLoop,
-                    2,
-                    (director, val) =>
+                    1,
+                    (director, self, val) =>
                     {
                         director.NotePlacementBar.IncreaseBonusMult(val);
+                        self.Value++;
                     }
                 ),
             }
@@ -143,9 +144,10 @@ public partial class Scribe : Node
                 new RelicEffect(
                     BattleEffectTrigger.OnLoop,
                     20,
-                    (director, val) =>
+                    (director, self, val) =>
                     {
                         director.NotePlacementBar.IncreaseCharge(val);
+                        self.Value++;
                     }
                 ),
             }

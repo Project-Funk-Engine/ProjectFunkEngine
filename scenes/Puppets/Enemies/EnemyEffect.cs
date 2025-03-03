@@ -2,35 +2,31 @@ using System;
 using FunkEngine;
 using Godot;
 
-public partial class RelicEffect : IBattleEvent
+public partial class EnemyEffect : IBattleEvent
 {
     private BattleEffectTrigger Trigger { get; set; }
+    public EnemyPuppet Owner;
     private int _baseValue;
     public int Value;
-    private Action<BattleDirector, RelicEffect, int> _onRelicEffect;
-    private bool _effectPersists = false;
+    private Action<BattleDirector, EnemyEffect, int> _onEnemyEffect;
 
-    public RelicEffect(
+    public EnemyEffect(
+        EnemyPuppet owner,
         BattleEffectTrigger trigger,
         int val,
-        Action<BattleDirector, RelicEffect, int> onRelicEffect
+        Action<BattleDirector, EnemyEffect, int> onEnemyEffect
     )
     {
+        Owner = owner;
         _baseValue = val;
         Value = _baseValue;
         Trigger = trigger;
-        _onRelicEffect = onRelicEffect;
-    }
-
-    public void OnBattleEnd()
-    {
-        if (!_effectPersists)
-            Value = _baseValue;
+        _onEnemyEffect = onEnemyEffect;
     }
 
     public void OnTrigger(BattleDirector battleDirector)
     {
-        _onRelicEffect(battleDirector, this, Value);
+        _onEnemyEffect(battleDirector, this, Value);
     }
 
     public BattleEffectTrigger GetTrigger()

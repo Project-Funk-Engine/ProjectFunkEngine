@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using FunkEngine;
 using Godot;
 
 public partial class P_BossBlood : EnemyPuppet
@@ -13,5 +15,18 @@ public partial class P_BossBlood : EnemyPuppet
         enemTween.SetEase(Tween.EaseType.In);
         enemTween.SetLoops();
         enemTween.Play();
+
+        _battleEvents = new EnemyEffect[]
+        {
+            new EnemyEffect(
+                this,
+                BattleEffectTrigger.OnLoop,
+                5,
+                (director, eff, val) =>
+                {
+                    eff.Owner.Heal(val);
+                }
+            ),
+        };
     }
 }
