@@ -294,6 +294,6 @@ public partial class BattleDirector : Node2D
 
     private void DebugKillEnemy()
     {
-        //Enemy.TakeDamage(1000);
+        Enemy.TakeDamage(1000);
     }
 }

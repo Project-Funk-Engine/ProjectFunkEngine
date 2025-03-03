@@ -13,7 +13,7 @@ public partial class Scribe : Node
     {
         new Note(
             "EnemyBase",
-            "Basic enemy note, deals damage to player",
+            "Basic enemy note, deals damage to player.",
             null,
             null,
             1,
@@ -24,7 +24,7 @@ public partial class Scribe : Node
         ),
         new Note(
             "PlayerBase",
-            "Basic player note, deals damage to enemy",
+            "Basic player note, deals damage to enemy.",
             GD.Load<Texture2D>("res://Classes/Notes/assets/single_note.png"),
             null,
             1,
@@ -35,7 +35,7 @@ public partial class Scribe : Node
         ),
         new Note(
             "PlayerDouble",
-            "Basic player note, deals double damage to enemy",
+            "Basic player note, deals double damage to enemy.",
             GD.Load<Texture2D>("res://Classes/Notes/assets/double_note.png"),
             null,
             1,
@@ -48,7 +48,7 @@ public partial class Scribe : Node
         ),
         new Note(
             "PlayerHeal",
-            "Basic player note, heals player",
+            "Basic player note, heals player.",
             GD.Load<Texture2D>("res://Classes/Notes/assets/heal_note.png"),
             null,
             1,
@@ -59,7 +59,7 @@ public partial class Scribe : Node
         ),
         new Note(
             "PlayerVampire",
-            "Steals health from enemy",
+            "Steals health from enemy.",
             GD.Load<Texture2D>("res://Classes/Notes/assets/vampire_note.png"),
             null,
             1,
@@ -71,7 +71,7 @@ public partial class Scribe : Node
         ),
         new Note(
             "PlayerQuarter",
-            "Basic note at a quarter of the cost",
+            "Basic note at a quarter of the cost.",
             GD.Load<Texture2D>("res://Classes/Notes/assets/quarter_note.png"),
             null,
             1,

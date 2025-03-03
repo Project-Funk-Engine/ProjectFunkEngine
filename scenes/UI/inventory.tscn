@@ -11,8 +11,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_8rcwd")
-Relics = NodePath("InvenVBox/Tabs/Relics/RelicBox/RelicGrid")
-Notes = NodePath("InvenVBox/Tabs/Notes/NotesBox/NotesGrid")
+Relics = NodePath("InvenVBox/Tabs/INVENTORY_TAB_RELICS/RelicBox/RelicGrid")
+Notes = NodePath("InvenVBox/Tabs/INVENTORY_TAB_NOTES/NotesBox/NotesGrid")
 Description = NodePath("InvenVBox/DescBox/Description")
 Tabs = NodePath("InvenVBox/Tabs")
 
@@ -40,7 +40,7 @@ size_flags_vertical = 3
 current_tab = 0
 clip_tabs = false
 
-[node name="Notes" type="MarginContainer" parent="InvenVBox/Tabs"]
+[node name="INVENTORY_TAB_NOTES" type="MarginContainer" parent="InvenVBox/Tabs"]
 layout_mode = 2
 theme_override_constants/margin_left = 30
 theme_override_constants/margin_top = 30
@@ -48,16 +48,16 @@ theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 30
 metadata/_tab_index = 0
 
-[node name="NotesBox" type="ScrollContainer" parent="InvenVBox/Tabs/Notes"]
+[node name="NotesBox" type="ScrollContainer" parent="InvenVBox/Tabs/INVENTORY_TAB_NOTES"]
 layout_mode = 2
 follow_focus = true
 
-[node name="NotesGrid" type="GridContainer" parent="InvenVBox/Tabs/Notes/NotesBox"]
+[node name="NotesGrid" type="GridContainer" parent="InvenVBox/Tabs/INVENTORY_TAB_NOTES/NotesBox"]
 layout_mode = 2
 size_flags_vertical = 4
 columns = 5
 
-[node name="Relics" type="MarginContainer" parent="InvenVBox/Tabs"]
+[node name="INVENTORY_TAB_RELICS" type="MarginContainer" parent="InvenVBox/Tabs"]
 visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 30
@@ -66,11 +66,11 @@ theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 30
 metadata/_tab_index = 1
 
-[node name="RelicBox" type="ScrollContainer" parent="InvenVBox/Tabs/Relics"]
+[node name="RelicBox" type="ScrollContainer" parent="InvenVBox/Tabs/INVENTORY_TAB_RELICS"]
 layout_mode = 2
 follow_focus = true
 
-[node name="RelicGrid" type="GridContainer" parent="InvenVBox/Tabs/Relics/RelicBox"]
+[node name="RelicGrid" type="GridContainer" parent="InvenVBox/Tabs/INVENTORY_TAB_RELICS/RelicBox"]
 layout_mode = 2
 size_flags_vertical = 4
 columns = 5
