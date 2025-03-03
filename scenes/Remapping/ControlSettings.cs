@@ -70,7 +70,6 @@ public partial class ControlSettings : Node2D
     private void ChangeKeySprites(string scheme)
     {
         var selectedScheme = ControlSchemes.SpriteMappings[scheme];
-        GD.Print(scheme);
         leftKey.Texture = GD.Load<Texture2D>(selectedScheme["left"]);
         rightKey.Texture = GD.Load<Texture2D>(selectedScheme["right"]);
         upKey.Texture = GD.Load<Texture2D>(selectedScheme["up"]);

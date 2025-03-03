@@ -27,7 +27,6 @@ public partial class Cartographer : Node2D
 
     public override void _EnterTree()
     {
-        GD.Print("[DEBUG] TitleScreen entered the tree");
         _bgPlayer = GetNode<BgAudioPlayer>("/root/BgAudioPlayer");
         _bgPlayer.PlayLevelMusic();
     }

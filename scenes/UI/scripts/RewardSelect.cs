@@ -117,12 +117,10 @@ public partial class RewardSelect : CanvasLayer
             return;
         if (_nSelection != null)
         {
-            GD.Print("Note selected: " + _nSelection.Name);
             _player.AddNote(_nSelection);
         }
         else if (_rSelection != null)
         {
-            GD.Print("Relic selected: " + _rSelection.Name);
             _player.AddRelic(_rSelection);
         }
         GetTree().Paused = false;
@@ -132,7 +130,6 @@ public partial class RewardSelect : CanvasLayer
 
     private void OnSkip()
     {
-        GD.Print("Relic skipped.");
         GetTree().Paused = false;
         Selected?.Invoke();
         QueueFree();

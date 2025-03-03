@@ -49,7 +49,6 @@ public partial class StageProducer : Node
 
     public void TransitionStage(Stages nextStage, int nextRoomIdx = -1)
     {
-        GD.Print(GetTree().CurrentScene);
         switch (nextStage)
         {
             case Stages.Title:
@@ -79,7 +78,6 @@ public partial class StageProducer : Node
                 }
                 break;
             case Stages.Quit:
-                GD.Print("Exiting game");
                 GetTree().Quit();
                 return;
             default:

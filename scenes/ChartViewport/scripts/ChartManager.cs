@@ -128,12 +128,9 @@ public partial class ChartManager : SubViewportContainer
 
     public override void _ExitTree()
     {
-        GD.Print("[DEBUG] Stopping tweens before exiting the scene...");
-
         foreach (var tween in GetTree().GetProcessedTweens())
         {
             tween.Stop();
-            GD.Print("[DEBUG] Stopped tween.");
         }
     }
 }

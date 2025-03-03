@@ -46,7 +46,6 @@ public partial class BattleDirector : Node2D
         if (!CD.AddNoteToLane(type, beat % CM.BeatsPerLoop, NotePlacementBar.PlacedNote(), false))
             return false;
         NotePlaced?.Invoke(this);
-        GD.Print("Note Placed.");
         return true;
     }
 
@@ -152,7 +151,6 @@ public partial class BattleDirector : Node2D
 
     private void OnTimedInput(Note note, ArrowType arrowType, int beat, double beatDif)
     {
-        GD.Print(arrowType + " " + beat + " difference: " + beatDif);
         if (note == null)
         {
             if (PlayerAddNote(arrowType, beat))
@@ -211,14 +209,12 @@ public partial class BattleDirector : Node2D
     private void BattleWon()
     {
         Audio.StreamPaused = true;
-        GD.Print("Enemy is dead");
         CleanUpRelics();
         ShowRewardSelection(3);
     }
 
     private void BattleLost()
     {
-        GD.Print("Player is Dead");
         Audio.StreamPaused = true;
         AddChild(GD.Load<PackedScene>("res://scenes/UI/EndScreen.tscn").Instantiate());
         GetTree().Paused = true;
@@ -290,6 +286,6 @@ public partial class BattleDirector : Node2D
 
     private void DebugKillEnemy()
     {
-        Enemy.TakeDamage(1000);
+        //Enemy.TakeDamage(1000);
     }
 }

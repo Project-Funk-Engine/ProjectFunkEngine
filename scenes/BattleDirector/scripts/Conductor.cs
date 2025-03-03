@@ -83,7 +83,6 @@ public partial class Conductor : Node
 
     private void AddExampleNotes()
     {
-        GD.Print(CM.BeatsPerLoop);
         foreach (ArrowType type in Enum.GetValues(typeof(ArrowType)))
         {
             foreach (midiNoteInfo mNote in MM.GetNotes(type))
@@ -130,7 +129,6 @@ public partial class Conductor : Node
     {
         double realBeat = TimeKeeper.CurrentTime / (60 / (double)TimeKeeper.Bpm) % CM.BeatsPerLoop;
         int curBeat = (int)Math.Round(realBeat);
-        GD.Print("Cur beat " + curBeat + "Real: " + realBeat.ToString("#.###"));
         if (curBeat % CM.BeatsPerLoop == 0)
             return; //Ignore note 0 //TODO: Double check this works as intended.
         if (_laneData[(int)type][curBeat % CM.BeatsPerLoop] == null)

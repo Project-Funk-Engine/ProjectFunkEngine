@@ -16,7 +16,7 @@ public partial class MidiMaestro : Resource
     private midiNoteInfo[] _leftNotes;
     private midiNoteInfo[] _rightNotes;
 
-    private MidiFile strippedSong;
+    //private MidiFile strippedSong;
 
     private SongData songData;
 

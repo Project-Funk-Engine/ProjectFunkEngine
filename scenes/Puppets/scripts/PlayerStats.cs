@@ -28,12 +28,10 @@ public partial class PlayerStats : Resource
             }
         }
         CurRelics = CurRelics.Append(relic).ToArray();
-        GD.Print("Adding relic: " + relic.Name);
     }
 
     public void AddNote(Note nSelection)
     {
         CurNotes = CurNotes.Append(nSelection).ToArray();
-        GD.Print("Adding note: " + nSelection.Name);
     }
 }
