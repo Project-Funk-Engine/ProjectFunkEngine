@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://de2j543j83hmh" path="res://scenes/SceneTransitions/assets/backTree.png" id="2_4luva"]
 [ext_resource type="Script" path="res://scenes/SceneTransitions/scripts/SceneChange.cs" id="2_7f3m6"]
 [ext_resource type="Texture2D" uid="uid://b6fkei0i83vte" path="res://scenes/BattleDirector/assets/Character1.png" id="2_cf582"]
-[ext_resource type="Texture2D" uid="uid://iqbqsiyjd3uq" path="res://2d_lights_and_shadows_neutral_point_light.webp" id="2_kw6qk"]
+[ext_resource type="Texture2D" uid="uid://iqbqsiyjd3uq" path="res://scenes/SceneTransitions/assets/2d_lights_and_shadows_neutral_point_light.webp" id="2_kw6qk"]
 [ext_resource type="Texture2D" uid="uid://dat1eoyl3do4e" path="res://scenes/SceneTransitions/assets/frontTree.png" id="3_hvvt6"]
 [ext_resource type="Texture2D" uid="uid://d3rxic3mi8jwb" path="res://scenes/SceneTransitions/assets/midTree.png" id="4_ui8kj"]
 [ext_resource type="Texture2D" uid="uid://bj8dxrlwuwrv4" path="res://scenes/SceneTransitions/assets/moon.png" id="5_squvs"]
