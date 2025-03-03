@@ -5,23 +5,32 @@ using Godot;
 public partial class RelicEffect : IBattleEvent
 {
     private BattleEffectTrigger Trigger { get; set; }
-    public int BaseValue;
-    private Action<BattleDirector, int> OnRelicEffect;
+    private int _baseValue;
+    public int Value;
+    private Action<BattleDirector, RelicEffect, int> _onRelicEffect;
+    private bool _effectPersists = false;
 
     public RelicEffect(
         BattleEffectTrigger trigger,
         int val,
-        Action<BattleDirector, int> onRelicEffect
+        Action<BattleDirector, RelicEffect, int> onRelicEffect
     )
     {
-        BaseValue = val;
+        _baseValue = val;
+        Value = _baseValue;
         Trigger = trigger;
-        OnRelicEffect = onRelicEffect;
+        _onRelicEffect = onRelicEffect;
+    }
+
+    public void OnBattleEnd()
+    {
+        if (!_effectPersists)
+            Value = _baseValue;
     }
 
     public void OnTrigger(BattleDirector battleDirector)
     {
-        OnRelicEffect(battleDirector, BaseValue);
+        _onRelicEffect(battleDirector, this, Value);
     }
 
     public BattleEffectTrigger GetTrigger()

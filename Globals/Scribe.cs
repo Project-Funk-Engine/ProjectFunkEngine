@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using FunkEngine;
+using FunkEngine.Classes.MidiMaestro;
 using Godot;
 
 /**
@@ -13,12 +14,12 @@ public partial class Scribe : Node
         new Note(
             "EnemyBase",
             "Basic enemy note, deals damage to player.",
-            GD.Load<Texture2D>("res://scenes/BattleDirector/assets/Character1.png"),
+            null,
             null,
             1,
             (director, note, timing) =>
             {
-                director.Player.TakeDamage(4 - (int)timing);
+                director.Player.TakeDamage(3 - (int)timing);
             }
         ),
         new Note(
@@ -45,6 +46,41 @@ public partial class Scribe : Node
                 director.Enemy.TakeDamage(2 * (int)timing);
             }
         ),
+        new Note(
+            "PlayerHeal",
+            "Basic player note, heals player",
+            GD.Load<Texture2D>("res://Classes/Notes/assets/heal_note.png"),
+            null,
+            1,
+            (director, note, timing) =>
+            {
+                director.Player.Heal((int)timing);
+            }
+        ),
+        new Note(
+            "PlayerVampire",
+            "Steals health from enemy",
+            GD.Load<Texture2D>("res://Classes/Notes/assets/vampire_note.png"),
+            null,
+            1,
+            (director, note, timing) =>
+            {
+                director.Player.Heal((int)timing);
+                director.Enemy.TakeDamage((int)timing);
+            }
+        ),
+        new Note(
+            "PlayerQuarter",
+            "Basic note at a quarter of the cost",
+            GD.Load<Texture2D>("res://Classes/Notes/assets/quarter_note.png"),
+            null,
+            1,
+            (director, note, timing) =>
+            {
+                director.Enemy.TakeDamage((int)timing);
+            },
+            0.25f
+        ),
     };
 
     public static readonly RelicTemplate[] RelicDictionary = new[]
@@ -58,7 +94,7 @@ public partial class Scribe : Node
                 new RelicEffect(
                     BattleEffectTrigger.OnPickup,
                     10,
-                    (director, val) =>
+                    (director, self, val) =>
                     {
                         StageProducer.PlayerStats.MaxHealth += val;
                         StageProducer.PlayerStats.CurrentHealth += val;
@@ -68,19 +104,92 @@ public partial class Scribe : Node
         ),
         new RelicTemplate(
             "Good Vibes",
-            "Good vibes, heals the player whenever they place a note.", //TODO: Description can include the relics values?
+            "Heals the player whenever they place a note.",
             GD.Load<Texture2D>("res://Classes/Relics/assets/relic_GoodVibes.png"),
             new RelicEffect[]
             {
                 new RelicEffect(
                     BattleEffectTrigger.NotePlaced,
-                    1,
-                    (director, val) =>
+                    2,
+                    (director, self, val) =>
                     {
                         director.Player.Heal(val);
                     }
                 ),
             }
+        ),
+        new RelicTemplate(
+            "Auroboros",
+            "Bigger number, better person. Increases combo multiplier every riff.",
+            GD.Load<Texture2D>("res://Classes/Relics/assets/Auroboros.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnLoop,
+                    1,
+                    (director, self, val) =>
+                    {
+                        director.NotePlacementBar.IncreaseBonusMult(val);
+                        self.Value++;
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            "Colorboros",
+            "Taste the rainbow. Charges the freestyle bar every riff.",
+            GD.Load<Texture2D>("res://Classes/Relics/assets/Colorboros.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnLoop,
+                    20,
+                    (director, self, val) =>
+                    {
+                        director.NotePlacementBar.IncreaseCharge(val);
+                        self.Value++;
+                    }
+                ),
+            }
+        ),
+    };
+
+    public static readonly SongTemplate[] SongDictionary = new[]
+    {
+        new SongTemplate(
+            new SongData
+            {
+                Bpm = 120,
+                SongLength = -1,
+                NumLoops = 5,
+            },
+            "Song1",
+            "Audio/Song1.ogg",
+            "Audio/midi/Song1.mid"
+        ),
+        new SongTemplate(
+            new SongData
+            {
+                Bpm = 60,
+                SongLength = -1,
+                NumLoops = 1,
+            },
+            "Song2",
+            "Audio/Song2.ogg",
+            "Audio/midi/Song2.mid",
+            "res://scenes/Puppets/Enemies/Parasifly/Parasifly.tscn"
+        ),
+        new SongTemplate(
+            new SongData
+            {
+                Bpm = 120,
+                SongLength = -1,
+                NumLoops = 1,
+            },
+            "Song3",
+            "Audio/Song3.ogg",
+            "Audio/midi/Song3.mid",
+            "res://scenes/Puppets/Enemies/TheGWS/GWS.tscn"
         ),
     };
 
@@ -89,7 +198,7 @@ public partial class Scribe : Node
     public static RelicTemplate[] GetRandomRelics(RelicTemplate[] ownedRelics, int count)
     {
         var availableRelics = Scribe
-            .RelicDictionary.Where(r => !ownedRelics.Any(o => o.Name == r.Name))
+            .RelicDictionary.Where(r => ownedRelics.All(o => o.Name != r.Name))
             .ToArray();
 
         availableRelics = availableRelics
@@ -103,5 +212,20 @@ public partial class Scribe : Node
             availableRelics = availableRelics.Append(RelicDictionary[0].Clone()).ToArray();
         }
         return availableRelics;
+    }
+
+    public static Note[] GetRandomRewardNotes(int count)
+    {
+        var availableNotes = Scribe
+            .NoteDictionary.Where(r => r.Name.Contains("Player")) //TODO: Classifications/pools
+            .ToArray();
+
+        availableNotes = availableNotes
+            .OrderBy(_ => StageProducer.GlobalRng.Randi())
+            .Take(count)
+            .Select(r => r.Clone())
+            .ToArray();
+
+        return availableNotes;
     }
 }

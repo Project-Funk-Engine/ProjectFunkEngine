@@ -6,6 +6,7 @@ public partial class Conductor : Node
 {
     [Export]
     private ChartManager CM;
+    public MidiMaestro MM;
 
     public delegate void TimedInputHandler(Note note, ArrowType type, int beat, double beatDif);
     public event TimedInputHandler TimedInput;
@@ -44,8 +45,7 @@ public partial class Conductor : Node
     {
         beat %= CM.BeatsPerLoop;
         Note newNote = note.Clone();
-
-        if (beat == 0)
+        if (beat == 0 || _laneData[(int)type][beat] != null)
             return false;
 
         NoteArrow arrow;
@@ -58,9 +58,15 @@ public partial class Conductor : Node
             arrow = CM.AddArrowToLane(type, beat, newNote, new Color(1, 0.43f, 0.26f));
         }
 
-        arrow.IsActive = isActive;
+        if (!isActive)
+            arrow.NoteHit();
         _laneData[(int)type][beat] = arrow;
         return true;
+    }
+
+    public override void _Ready()
+    {
+        MM = new MidiMaestro(StageProducer.Config.CurSong.MIDILocation);
     }
 
     public void Prep() //TODO: Streamline battle initialization
@@ -77,33 +83,23 @@ public partial class Conductor : Node
 
     private void AddExampleNotes()
     {
-        GD.Print(CM.BeatsPerLoop);
-        for (int i = 1; i < 15; i++)
+        foreach (ArrowType type in Enum.GetValues(typeof(ArrowType)))
         {
-            AddNoteToLane(ArrowType.Up, i * 4, Scribe.NoteDictionary[0]);
-        }
-
-        for (int i = 1; i < 15; i++)
-        {
-            AddNoteToLane(ArrowType.Left, 4 * i + 1, Scribe.NoteDictionary[0]);
-        }
-
-        for (int i = 0; i < 10; i++)
-        {
-            AddNoteToLane(ArrowType.Right, 3 * i + 32, Scribe.NoteDictionary[0]);
-        }
-
-        for (int i = 0; i < 3; i++)
-        {
-            AddNoteToLane(ArrowType.Down, 8 * i + 16, Scribe.NoteDictionary[0]);
+            foreach (midiNoteInfo mNote in MM.GetNotes(type))
+            {
+                AddNoteToLane(
+                    type,
+                    (int)(mNote.GetStartTimeSeconds() / (60 / (double)TimeKeeper.Bpm)),
+                    Scribe.NoteDictionary[0]
+                );
+            }
         }
     }
 
     //Check all lanes for misses from missed inputs
-    public void CheckMiss()
+    public void CheckMiss(double realBeat)
     {
         //On current beat, if prev beat is active and not inputted
-        double realBeat = TimeKeeper.CurrentTime / (60 / (double)TimeKeeper.Bpm) % CM.BeatsPerLoop;
         for (int i = 0; i < _laneData.Length; i++)
         {
             if (
@@ -133,7 +129,6 @@ public partial class Conductor : Node
     {
         double realBeat = TimeKeeper.CurrentTime / (60 / (double)TimeKeeper.Bpm) % CM.BeatsPerLoop;
         int curBeat = (int)Math.Round(realBeat);
-        GD.Print("Cur beat " + curBeat + "Real: " + realBeat.ToString("#.###"));
         if (curBeat % CM.BeatsPerLoop == 0)
             return; //Ignore note 0 //TODO: Double check this works as intended.
         if (_laneData[(int)type][curBeat % CM.BeatsPerLoop] == null)

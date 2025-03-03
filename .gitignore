@@ -9,3 +9,6 @@
 
 
 .idea/.idea.Funk Engine/.idea/
+
+*.DotSettings.user
+export_presets.cfg

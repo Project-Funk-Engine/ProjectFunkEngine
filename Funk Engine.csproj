@@ -1,4 +1,4 @@
-﻿<Project Sdk="Godot.NET.Sdk/4.3.0">
+<Project Sdk="Godot.NET.Sdk/4.3.0">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'android' ">net7.0</TargetFramework>
@@ -8,6 +8,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="SaveData\SaveData.json" />
+    <PackageReference Include="Melanchall.DryWetMidi" Version="7.2.0" />
   </ItemGroup>
   <Target Name="Husky" BeforeTargets="Restore;CollectPackageReferences" Condition="'$(HUSKY)' != 0">
     <Exec Command="dotnet tool restore" StandardOutputImportance="Low" StandardErrorImportance="High" />

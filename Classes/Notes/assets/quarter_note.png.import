@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ci0g72j8q4ec2"
-path="res://.godot/imported/CoolBG.jpg-3bad5dc436fec2c6453223cfa1feeeb8.ctex"
+uid="uid://uksjoqp7p0gq"
+path="res://.godot/imported/quarter_note.png-2b4c9985d99038807abfd63e553c2d6a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/BattleDirector/assets/CoolBG.jpg"
-dest_files=["res://.godot/imported/CoolBG.jpg-3bad5dc436fec2c6453223cfa1feeeb8.ctex"]
+source_file="res://Classes/Notes/assets/quarter_note.png"
+dest_files=["res://.godot/imported/quarter_note.png-2b4c9985d99038807abfd63e553c2d6a.ctex"]
 
 [params]
 

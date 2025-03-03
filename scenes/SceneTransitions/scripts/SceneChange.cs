@@ -17,12 +17,10 @@ public partial class SceneChange : Button
             GrabFocus();
         }
         Pressed += OnButtonPressed;
-        GD.Print($"[DEBUG] Scene Path: '{ScenePath}'");
     }
 
     private void OnButtonPressed()
     {
-        GD.Print($"✅ Loading scene: {ScenePath}");
         GetNode<StageProducer>("/root/StageProducer").TransitionStage(ScenePath);
     }
 }

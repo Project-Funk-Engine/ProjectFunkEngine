@@ -19,7 +19,6 @@ offset_bottom = 64.0
 scale = Vector2(2.48, 2.48)
 text = "start battle"
 script = ExtResource("1_n6d5u")
-ScenePath = "res://scenes/BattleDirector/test_battle_scene.tscn"
 
 [node name="ExitButton" type="Button" parent="."]
 layout_mode = 0
@@ -30,4 +29,3 @@ offset_bottom = 126.0
 scale = Vector2(2.56, 2.56)
 text = "exit"
 script = ExtResource("1_n6d5u")
-ScenePath = "exit"

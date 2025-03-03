@@ -25,7 +25,8 @@ public partial class ChartManager : SubViewportContainer
     public delegate void NoteReleasedEventHandler(ArrowType arrowType);
 
     //Arbitrary vars, play with these
-    private double ChartLength = 5000; //Might move this to be song specific?
+    //Might move this to be song specific? For now, should never go below ~2000, else visual break because there isn't enough room to loop.
+    private double ChartLength = 5000;
     private double _loopLen; //secs
     public int BeatsPerLoop;
 
@@ -48,12 +49,14 @@ public partial class ChartManager : SubViewportContainer
         TimeKeeper.ChartLength = (float)ChartLength;
         TimeKeeper.Bpm = songData.Bpm;
 
-        InitBackgrounds();
         _arrowGroup = ChartLoopables.GetNode<Node>("ArrowGroup");
 
         IH.Connect(nameof(InputHandler.NotePressed), new Callable(this, nameof(OnNotePressed)));
         IH.Connect(nameof(InputHandler.NoteReleased), new Callable(this, nameof(OnNoteReleased)));
+    }
 
+    public void BeginTweens()
+    {
         //This could be good as a function to call on something, to have many things animated to the beat.
         var tween = GetTree().CreateTween();
         tween
@@ -74,21 +77,6 @@ public partial class ChartManager : SubViewportContainer
         tween.SetLoops().Play();
     }
 
-    private void InitBackgrounds()
-    {
-        int i = 0;
-        foreach (Node child in ChartLoopables.GetChildren())
-        {
-            if (child is not Loopable)
-                continue;
-            Loopable loopable = (Loopable)child;
-            loopable.Position = Vector2.Zero;
-            loopable.SetSize(new Vector2((float)ChartLength / 2 + 1, Size.Y));
-            loopable.Bounds = (float)ChartLength / 2 * i;
-            i++;
-        }
-    }
-
     private void TweenArrows(Vector2 scale)
     {
         foreach (var node in _arrowGroup.GetChildren())
@@ -105,22 +93,23 @@ public partial class ChartManager : SubViewportContainer
         Color colorOverride = default
     )
     {
-        var newNote = CreateNote(type, beat); //TODO: Notes on track have unqiue visuals
-        var loopArrow = CreateNote(type, beat + BeatsPerLoop); //Create a dummy arrow for looping visuals
+        var newNote = CreateNote(type, note, beat); //TODO: Notes on track have unqiue visuals
+        var loopArrow = CreateNote(type, note, beat + BeatsPerLoop); //Create a dummy arrow for looping visuals
         if (colorOverride != default)
         {
-            newNote.Modulate = colorOverride;
-            loopArrow.Modulate = colorOverride;
+            newNote.SelfModulate = colorOverride;
+            loopArrow.SelfModulate = colorOverride;
         }
         newNote.NoteRef = note;
         return newNote;
     }
 
-    private NoteArrow CreateNote(ArrowType arrow, int beat = 0)
+    private NoteArrow CreateNote(ArrowType arrow, Note note, int beat = 0)
     {
         var noteScene = ResourceLoader.Load<PackedScene>("res://scenes/NoteManager/note.tscn");
         NoteArrow newArrow = noteScene.Instantiate<NoteArrow>();
-        newArrow.Init(IH.Arrows[(int)arrow], beat);
+        newArrow.Init(IH.Arrows[(int)arrow], beat, note);
+        newArrow.OutlineSprite.Modulate = IH.Arrows[(int)arrow].Color;
 
         _arrowGroup.AddChild(newArrow);
         newArrow.Bounds = (float)((double)beat / BeatsPerLoop * (ChartLength / 2));
@@ -128,14 +117,20 @@ public partial class ChartManager : SubViewportContainer
         return newArrow;
     }
 
+    public void ComboText(string text, ArrowType arrow, int currentCombo)
+    {
+        TextParticle newText = new TextParticle();
+        AddChild(newText);
+        newText.Position = IH.Arrows[(int)arrow].Node.Position - newText.Size / 2;
+        IH.FeedbackEffect(arrow, text);
+        newText.Text = text + $" {currentCombo}";
+    }
+
     public override void _ExitTree()
     {
-        GD.Print("[DEBUG] Stopping tweens before exiting the scene...");
-
         foreach (var tween in GetTree().GetProcessedTweens())
         {
             tween.Stop();
-            GD.Print("[DEBUG] Stopped tween.");
         }
     }
 }

@@ -10,10 +10,16 @@ public partial class NoteArrow : Sprite2D
     public ArrowType Type;
     public int Beat;
     public float Bounds;
-    public bool IsActive;
+    public bool IsActive = true;
     public Note NoteRef;
 
-    public void Init(ArrowData parentArrowData, int beat)
+    [Export]
+    public Sprite2D OutlineSprite;
+
+    [Export]
+    public Sprite2D IconSprite;
+
+    public void Init(ArrowData parentArrowData, int beat, Note note)
     {
         ZIndex = 1;
 
@@ -22,6 +28,8 @@ public partial class NoteArrow : Sprite2D
 
         Position += Vector2.Down * (parentArrowData.Node.GlobalPosition.Y);
         RotationDegrees = parentArrowData.Node.RotationDegrees;
+        IconSprite.Texture = note.Texture;
+        IconSprite.Rotation = -Rotation;
     }
 
     public override void _Process(double delta)
@@ -40,15 +48,18 @@ public partial class NoteArrow : Sprite2D
         Position = newPos;
     }
 
-    public void OnLoop()
+    private void OnLoop()
     {
-        Visible = true;
+        if (!IsActive)
+        {
+            Modulate /= .7f;
+        }
         IsActive = true;
     }
 
     public void NoteHit()
     {
-        Visible = false;
+        Modulate *= .7f;
         IsActive = false;
     }
 }

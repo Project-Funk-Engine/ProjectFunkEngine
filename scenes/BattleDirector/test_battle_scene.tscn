@@ -1,54 +1,75 @@
-[gd_scene load_steps=7 format=3 uid="uid://b0mrgr7h0ty1y"]
+[gd_scene load_steps=10 format=3 uid="uid://b0mrgr7h0ty1y"]
 
 [ext_resource type="Script" path="res://scenes/BattleDirector/scripts/BattleDirector.cs" id="1_cwqqr"]
 [ext_resource type="PackedScene" uid="uid://dfevfib11kou1" path="res://scenes/ChartViewport/ChartViewport.tscn" id="2_cupb3"]
 [ext_resource type="Script" path="res://scenes/BattleDirector/scripts/Conductor.cs" id="2_pcp76"]
-[ext_resource type="Texture2D" uid="uid://ci0g72j8q4ec2" path="res://scenes/BattleDirector/assets/CoolBG.jpg" id="4_13o87"]
+[ext_resource type="Script" path="res://scenes/UI/scripts/MenuModule.cs" id="3_8hff6"]
+[ext_resource type="Texture2D" uid="uid://qhwve7fik4do" path="res://scenes/BattleDirector/assets/bgupdate.png" id="4_13o87"]
+[ext_resource type="Texture2D" uid="uid://dbjotl0v1ymia" path="res://scenes/BattleDirector/assets/BattleFrame1.png" id="6_0ak0g"]
 [ext_resource type="PackedScene" uid="uid://duhiilcv4tat3" path="res://scenes/BattleDirector/NotePlacementBar.tscn" id="7_3ko4g"]
-[ext_resource type="AudioStream" uid="uid://cv6lqjj6lu36h" path="res://Audio/335571__magntron__gamemusic_120bpm.mp3" id="8_caqms"]
 
-[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM", "NotePlacementBar", "CD", "Audio")]
+[sub_resource type="Gradient" id="Gradient_8uy3a"]
+offsets = PackedFloat32Array(0, 0.766234, 1)
+colors = PackedColorArray(0.0823529, 0, 0.0784314, 1, 0.305882, 0.247059, 0.321569, 1, 0.27451, 0.243137, 0.403922, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bajwn"]
+gradient = SubResource("Gradient_8uy3a")
+fill_from = Vector2(1, 0)
+fill_to = Vector2(0.738532, 1)
+
+[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM", "NotePlacementBar", "CD", "Audio", "_focusedButton")]
 process_mode = 1
 script = ExtResource("1_cwqqr")
 CM = NodePath("SubViewport")
 NotePlacementBar = NodePath("NotePlacementBar")
 CD = NodePath("Conductor")
 Audio = NodePath("AudioStreamPlayer")
+_focusedButton = NodePath("StartButton")
 metadata/_edit_lock_ = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("8_caqms")
 
 [node name="UILayer" type="CanvasLayer" parent="."]
+script = ExtResource("3_8hff6")
 
 [node name="Conductor" type="Node" parent="." node_paths=PackedStringArray("CM")]
 script = ExtResource("2_pcp76")
 CM = NodePath("../SubViewport")
 
+[node name="NotePlacementBar" parent="." instance=ExtResource("7_3ko4g")]
+offset_top = 183.0
+offset_bottom = 183.0
+
+[node name="NPBBacking" type="TextureRect" parent="NotePlacementBar"]
+z_index = -1
+layout_mode = 0
+offset_right = 81.0
+offset_bottom = 175.0
+texture = SubResource("GradientTexture2D_bajwn")
+
 [node name="SubViewport" parent="." instance=ExtResource("2_cupb3")]
 offset_left = 80.0
-offset_top = 160.0
+offset_top = 180.0
 offset_right = 560.0
 offset_bottom = 360.0
 
-[node name="ColorRect" type="TextureRect" parent="."]
+[node name="BackGround" type="TextureRect" parent="."]
 z_index = -1
 offset_right = 640.0
-offset_bottom = 360.0
+offset_bottom = 178.0
 texture = ExtResource("4_13o87")
 
-[node name="ColorRect2" type="ColorRect" parent="."]
-self_modulate = Color(0.36, 0.36, 0.36, 0.780392)
-z_index = -1
-offset_left = -70.0
-offset_top = 160.0
-offset_right = 673.0
-offset_bottom = 360.0
-color = Color(0.165656, 0.165656, 0.165656, 1)
-
-[node name="NotePlacementBar" parent="." instance=ExtResource("7_3ko4g")]
+[node name="BattleFrame" type="TextureRect" parent="."]
 z_index = 1
-offset_left = 16.0
-offset_top = 164.0
-offset_right = 16.0
-offset_bottom = 164.0
+offset_top = 178.0
+offset_right = 640.0
+offset_bottom = 360.0
+texture = ExtResource("6_0ak0g")
+
+[node name="StartButton" type="Button" parent="."]
+modulate = Color(5, 5, 5, 1)
+offset_left = 241.0
+offset_top = 234.0
+offset_right = 399.0
+offset_bottom = 265.0
+text = "Begin Battle [Enter]"

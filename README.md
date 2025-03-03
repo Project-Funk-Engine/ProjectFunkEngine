@@ -10,10 +10,17 @@ Current team members include:
 
 ### Artists
 - Ares Atlas
+- Evelyn Fu
+- Emily Wen
 
 
 
 #### Attributions:
-First Song: <a href="https://freesound.org/people/Magntron/sounds/335571/" title="gameMusic">gameMusic by Magntron - freesound.org</a>
+Music:
+- Title Screen: [Crystal Cave - Cynicmusic](https://opengameart.org/content/crystal-cave-song18)
+- Battle Song 1: [gameMusic - Magntron](https://freesound.org/people/Magntron/sounds/335571/)
 
-
+Images:
+- Input Buttons: [inputKeys - Nicolae (Xelu) Berbece](https://thoseawesomeguys.com/prompts/)
+- Title Screen Font: [04B-30 - Yuji Oshimoto](http://04.jp.org/)
+- Light map texture: [Godot Engine docs - Godot Foundation](https://docs.godotengine.org/en/stable/tutorials/2d/2d_lights_and_shadows.html)

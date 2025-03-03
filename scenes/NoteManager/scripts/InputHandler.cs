@@ -53,9 +53,61 @@ public partial class InputHandler : Node2D
         }
     }
 
+    public void FeedbackEffect(ArrowType arrow, string text)
+    {
+        // Get the particle node for this arrow
+        var particles = Arrows[(int)arrow].Node.Particles;
+
+        // Set the particle amount based on timing
+        int particleAmount;
+        switch (text)
+        {
+            case "Perfect":
+                particleAmount = 10; // A lot of particles for Perfect
+                break;
+            case "Great":
+                particleAmount = 7; // Moderate amount for Great
+                break;
+            case "Good":
+                particleAmount = 4; // Few particles for Good
+                break;
+            default:
+                return; // No particles for a miss
+        }
+
+        particles.Emit(particleAmount);
+    }
+
     public override void _Ready()
     {
         InitializeArrowCheckers();
+        LoadControlScheme();
+    }
+
+    private void LoadControlScheme()
+    {
+        string scheme = ProjectSettings.HasSetting("game/input_scheme")
+            ? (string)ProjectSettings.GetSetting("game/input_scheme")
+            : "ARROWS";
+        foreach (var arrow in Arrows)
+        {
+            var events = InputMap.ActionGetEvents(arrow.Key);
+            foreach (var inputEvent in events)
+            {
+                InputMap.ActionEraseEvent(arrow.Key, inputEvent);
+            }
+        }
+
+        var selectedScheme = ControlSchemes.Schemes[scheme];
+        foreach (var arrow in Arrows)
+        {
+            if (selectedScheme.ContainsKey(arrow.Key))
+            {
+                InputEventKey eventKey = new InputEventKey();
+                eventKey.Keycode = (Key)Enum.Parse(typeof(Key), selectedScheme[arrow.Key]);
+                InputMap.ActionAddEvent(arrow.Key, eventKey);
+            }
+        }
     }
 
     public override void _Process(double delta)
