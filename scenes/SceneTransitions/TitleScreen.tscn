@@ -1,6 +1,7 @@
-[gd_scene load_steps=17 format=3 uid="uid://bm41yti6ij2j"]
+[gd_scene load_steps=18 format=3 uid="uid://bm41yti6ij2j"]
 
 [ext_resource type="Texture2D" uid="uid://b0tvsewgnf2x7" path="res://icon.svg" id="1_r5xy8"]
+[ext_resource type="Script" path="res://scenes/SceneTransitions/scripts/TitleScreen.cs" id="1_r22ha"]
 [ext_resource type="Texture2D" uid="uid://ruxgynq6bc1m" path="res://scenes/SceneTransitions/assets/background.png" id="1_txix1"]
 [ext_resource type="Texture2D" uid="uid://de2j543j83hmh" path="res://scenes/SceneTransitions/assets/backTree.png" id="2_4luva"]
 [ext_resource type="Script" path="res://scenes/SceneTransitions/scripts/SceneChange.cs" id="2_7f3m6"]
@@ -37,6 +38,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource("1_r22ha")
 
 [node name="Background" type="Node2D" parent="."]
 position = Vector2(-38, -31)
@@ -69,12 +71,12 @@ texture = ExtResource("5_squvs")
 [node name="Rabb" type="Sprite2D" parent="Background"]
 z_index = 2
 position = Vector2(162.727, 114.091)
-scale = Vector2(1, 1)
 texture = ExtResource("2_cf582")
 
 [node name="StarShader" type="ColorRect" parent="."]
 z_index = -1
 material = SubResource("ShaderMaterial_cbpjr")
+layout_mode = 0
 offset_left = -223.0
 offset_top = -200.0
 offset_right = 252.0
@@ -185,7 +187,6 @@ ScenePath = 6
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("11_t7vbg")
-autoplay = true
 
 [node name="EnemPuppet" parent="." instance=ExtResource("12_lng3a")]
 position = Vector2(37, 186)
