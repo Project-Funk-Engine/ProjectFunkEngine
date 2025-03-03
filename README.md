@@ -22,3 +22,4 @@ Music:
 
 Images:
 - Input Buttons: [inputKeys - Nicolae (Xelu) Berbece](https://thoseawesomeguys.com/prompts/)
+- Title Screen Font: [04B-30 - Yuji Oshimoto](http://04.jp.org/)
