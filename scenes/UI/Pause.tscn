@@ -46,7 +46,7 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 focus_neighbor_top = NodePath("../../MarginContainer3/PlaceHolderButton")
 focus_neighbor_bottom = NodePath("../../MarginContainer2/QuitButton")
-text = "Resume"
+text = "ESCAPE_MENU_RESUME"
 
 [node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -60,7 +60,7 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 focus_neighbor_top = NodePath("../../MarginContainer/ResumeButton")
 focus_neighbor_bottom = NodePath("../../MarginContainer3/PlaceHolderButton")
-text = "Quit"
+text = "ESCAPE_MENU_QUIT"
 
 [node name="MarginContainer3" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -74,4 +74,4 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 focus_neighbor_top = NodePath("../../MarginContainer2/QuitButton")
 focus_neighbor_bottom = NodePath("../../MarginContainer/ResumeButton")
-text = "Quit to Title"
+text = "ESCAPE_MENU_TITLE"

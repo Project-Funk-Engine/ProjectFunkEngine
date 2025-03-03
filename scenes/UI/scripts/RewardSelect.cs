@@ -102,13 +102,18 @@ public partial class RewardSelect : CanvasLayer
     private void OnNoteSelected(Note choiceNote)
     {
         _nSelection = choiceNote;
-        _description.Text = $"{choiceNote.Name}: {choiceNote.Tooltip}";
+        string notename = choiceNote.Name.ToUpper();
+        _description.Text =
+            Tr("NOTE_" + notename + "_NAME") + ": " + Tr("NOTE_" + notename + "_TOOLTIP");
     }
 
     private void OnRelicSelected(RelicTemplate choiceRelic)
     {
         _rSelection = choiceRelic;
-        _description.Text = $"{choiceRelic.Name}: {choiceRelic.Tooltip}";
+        string relicname = choiceRelic.Name.ToUpper();
+        relicname = relicname.Replace(" ", "");
+        _description.Text =
+            Tr("RELIC_" + relicname + "_NAME") + ": " + Tr("RELIC_" + relicname + "_TOOLTIP");
     }
 
     private void OnSelect()

@@ -34,7 +34,7 @@ offset_left = 450.0
 offset_top = 50.0
 offset_right = 555.0
 offset_bottom = 81.0
-text = "WASD"
+text = "CONTROLS_WASD_BUTTON"
 
 [node name="ArrowButton" type="Button" parent="Panel"]
 layout_mode = 0
@@ -42,7 +42,7 @@ offset_left = 399.0
 offset_top = 94.0
 offset_right = 495.0
 offset_bottom = 125.0
-text = "Arrow Keys"
+text = "CONTROLS_ARROW_BUTTON"
 
 [node name="QWERTButton" type="Button" parent="Panel"]
 layout_mode = 0
@@ -50,7 +50,7 @@ offset_left = 507.0
 offset_top = 94.0
 offset_right = 603.0
 offset_bottom = 125.0
-text = "QWER"
+text = "CONTROLS_QWER_BUTTON"
 
 [node name="TitleButton" type="Button" parent="Panel"]
 layout_mode = 0
@@ -58,7 +58,7 @@ offset_left = 232.0
 offset_top = 320.0
 offset_right = 408.0
 offset_bottom = 351.0
-text = "Return to Title Screen"
+text = "CONTROLS_RETURN_BUTTON"
 script = ExtResource("2_oippk")
 
 [node name="Control" type="Control" parent="Panel"]

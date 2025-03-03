@@ -13,7 +13,7 @@ public partial class Scribe : Node
     {
         new Note(
             "EnemyBase",
-            "Basic enemy note, deals damage to player.",
+            "Basic enemy note, deals damage to player",
             null,
             null,
             1,

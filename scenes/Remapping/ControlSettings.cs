@@ -45,7 +45,8 @@ public partial class ControlSettings : Node2D
 
     private void OnWASDButtonPressed()
     {
-        GetNode<Label>("Panel/Label").Text = "WASD Selected";
+        GetNode<Label>("Panel/Label").Text =
+            Tr("CONTROLS_TITLE_TYPE_WASD") + " " + Tr("CONTROLS_TITLE_SELECTED");
         ProjectSettings.SetSetting("game/input_scheme", "WASD");
         ProjectSettings.Save();
         ChangeKeySprites("WASD");
@@ -53,7 +54,8 @@ public partial class ControlSettings : Node2D
 
     private void OnArrowButtonPressed()
     {
-        GetNode<Label>("Panel/Label").Text = "Arrow Selected";
+        GetNode<Label>("Panel/Label").Text =
+            Tr("CONTROLS_TITLE_TYPE_ARROW") + " " + Tr("CONTROLS_TITLE_SELECTED");
         ProjectSettings.SetSetting("game/input_scheme", "ARROWS");
         ProjectSettings.Save();
         ChangeKeySprites("ARROWS");
@@ -61,7 +63,8 @@ public partial class ControlSettings : Node2D
 
     private void OnQWERTButtonPressed()
     {
-        GetNode<Label>("Panel/Label").Text = "QWERT Selected";
+        GetNode<Label>("Panel/Label").Text =
+            Tr("CONTROLS_TITLE_TYPE_QWER") + " " + Tr("CONTROLS_TITLE_SELECTED");
         ProjectSettings.SetSetting("game/input_scheme", "QWERT");
         ProjectSettings.Save();
         ChangeKeySprites("QWERT");

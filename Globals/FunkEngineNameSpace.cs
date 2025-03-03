@@ -63,6 +63,7 @@ public enum Stages
     Quit,
     Map,
     Controls,
+    Options,
 }
 
 public class MapGrid

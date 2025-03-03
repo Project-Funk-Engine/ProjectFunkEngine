@@ -145,7 +145,7 @@ public partial class Cartographer : Node2D
         EndScreen es = GD.Load<PackedScene>("res://scenes/UI/EndScreen.tscn")
             .Instantiate<EndScreen>();
         AddChild(es);
-        es.TopLabel.Text = "You Win!";
+        es.TopLabel.Text = Tr("BATTLE_ROOM_WIN");
         GetTree().Paused = true;
     }
 }
