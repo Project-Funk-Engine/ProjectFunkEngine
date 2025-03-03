@@ -19,6 +19,10 @@ public partial class Cartographer : Node2D
     {
         DrawMap();
         GetViewport().GuiFocusChanged += UpdateFocus;
+        if (StageProducer.CurRoom.Type == Stages.Boss && StageProducer.CurRoom.Children.Length == 0)
+        {
+            WinStage();
+        }
     }
 
     public override void _EnterTree()
@@ -134,5 +138,15 @@ public partial class Cartographer : Node2D
             _bgPlayer.StopMusic();
             GetNode<StageProducer>("/root/StageProducer").TransitionFromRoom(roomIdx);
         };
+    }
+
+    private void WinStage()
+    {
+        GD.Print("Player is Dead");
+        EndScreen es = GD.Load<PackedScene>("res://scenes/UI/EndScreen.tscn")
+            .Instantiate<EndScreen>();
+        AddChild(es);
+        es.TopLabel.Text = "You Win!";
+        GetTree().Paused = true;
     }
 }
