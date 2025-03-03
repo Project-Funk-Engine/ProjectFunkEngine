@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bm41yti6ij2j"]
+[gd_scene load_steps=17 format=3 uid="uid://bm41yti6ij2j"]
 
 [ext_resource type="Texture2D" uid="uid://b0tvsewgnf2x7" path="res://icon.svg" id="1_r5xy8"]
 [ext_resource type="Script" path="res://scenes/SceneTransitions/scripts/TitleScreen.cs" id="1_r22ha"]
@@ -12,7 +12,6 @@
 [ext_resource type="Shader" path="res://scenes/SceneTransitions/assets/transparentStars.gdshader" id="5_x5dhk"]
 [ext_resource type="FontFile" uid="uid://dlwfb7kb7pd76" path="res://scenes/SceneTransitions/assets/font.TTF" id="8_gkfev"]
 [ext_resource type="Texture2D" uid="uid://hfxynr5jdgsp" path="res://scenes/NoteManager/assets/new_arrow.png" id="10_4hnj8"]
-[ext_resource type="AudioStream" uid="uid://co61cvxxakdjs" path="res://scenes/SceneTransitions/assets/song18.mp3" id="11_t7vbg"]
 [ext_resource type="PackedScene" uid="uid://bi5iqbwpsd381" path="res://scenes/Puppets/Enemies/BossBlood/Boss1.tscn" id="12_lng3a"]
 [ext_resource type="PackedScene" uid="uid://uvlux4t6h5de" path="res://scenes/Puppets/Enemies/Parasifly/Parasifly.tscn" id="13_j3xa4"]
 
@@ -184,9 +183,6 @@ layout_mode = 2
 text = "Change Controls"
 script = ExtResource("2_7f3m6")
 ScenePath = 6
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("11_t7vbg")
 
 [node name="EnemPuppet" parent="." instance=ExtResource("12_lng3a")]
 position = Vector2(37, 186)

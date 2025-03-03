@@ -3,7 +3,7 @@ using Godot;
 public partial class BgAudioPlayer : AudioStreamPlayer
 {
     private readonly AudioStream _levelMusic = (AudioStream)
-        ResourceLoader.Load("res://scenes/SceneTransitions/assets/song18.mp3");
+        ResourceLoader.Load("res://scenes/SceneTransitions/assets/titleSong.ogg");
 
     private void PlayMusic(AudioStream music, float volume)
     {
