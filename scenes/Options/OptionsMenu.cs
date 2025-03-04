@@ -18,6 +18,9 @@ public partial class OptionsMenu : CanvasLayer
     [Export]
     private Button _controlsButton;
 
+    [Export]
+    private CheckBox _highContrastToggle;
+
     private const float MinVolumeVal = 50f;
 
     public override void _Ready()
@@ -25,9 +28,14 @@ public partial class OptionsMenu : CanvasLayer
         _focused.GrabFocus();
         _volumeSlider.MinValue = MinVolumeVal;
         _volumeSlider.Value = AudioServer.GetBusVolumeDb(AudioServer.GetBusIndex("Master")) + 80;
+        _highContrastToggle.ButtonPressed = SaveSystem
+            .GetConfigValue(SaveSystem.ConfigSettings.HighContrast)
+            .AsBool();
         _volumeSlider.DragEnded += VolumeChanged;
+        _volumeSlider.ValueChanged += ChangeVolume;
         _closeButton.Pressed += CloseMenu;
         _controlsButton.Pressed += OpenControls;
+        _highContrastToggle.Toggled += HighContrastChanged;
     }
 
     public override void _Process(double delta) //TODO: Better method for returning focus
@@ -76,12 +84,17 @@ public partial class OptionsMenu : CanvasLayer
         SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.Volume, _volumeSlider.Value);
     }
 
-    public static void ChangeVolume(float value)
+    public static void ChangeVolume(double value)
     {
         AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"), (float)value - 80);
         AudioServer.SetBusMute(
             AudioServer.GetBusIndex("Master"),
             Math.Abs(value - MinVolumeVal) < .1
         );
+    }
+
+    private void HighContrastChanged(bool toggled)
+    {
+        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.HighContrast, toggled);
     }
 }

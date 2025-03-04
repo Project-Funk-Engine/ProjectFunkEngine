@@ -3,13 +3,14 @@
 [ext_resource type="Script" path="res://scenes/Options/scripts/LanguageSelection.cs" id="1_qyvkw"]
 [ext_resource type="Script" path="res://scenes/Options/OptionsMenu.cs" id="1_yjq7i"]
 
-[node name="OptionsMenu" type="CanvasLayer" node_paths=PackedStringArray("_focused", "_volumeSlider", "_closeButton", "_controlsButton")]
+[node name="OptionsMenu" type="CanvasLayer" node_paths=PackedStringArray("_focused", "_volumeSlider", "_closeButton", "_controlsButton", "_highContrastToggle")]
 process_mode = 3
 script = ExtResource("1_yjq7i")
 _focused = NodePath("Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/LanguageSelection")
 _volumeSlider = NodePath("Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/Container/Volume")
 _closeButton = NodePath("Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/TitleButton")
 _controlsButton = NodePath("Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ControlsButton")
+_highContrastToggle = NodePath("Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/CheckBox")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -68,6 +69,19 @@ horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="CheckBox" type="CheckBox" parent="Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "OPTIONS_CONTRAST_LABEL"
+horizontal_alignment = 1
 
 [node name="Container" type="VBoxContainer" parent="Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2

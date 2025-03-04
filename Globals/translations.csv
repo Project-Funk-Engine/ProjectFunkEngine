@@ -50,4 +50,5 @@ RELIC_COLORBOROS_NAME,Colorboros,彩蛇轮回
 RELIC_COLORBOROS_TOOLTIP,"Taste the rainbow. Charges the freestyle bar every riff.","品尝临岛，每次现场充值自由格条"
 INVENTORY_TAB_NOTES,Notes,乐谱
 INVENTORY_TAB_RELICS,Relics,遗物
-OPTIONS_VOLUME_LABEL,Master Volume,(TODO)
+OPTIONS_VOLUME_LABEL,Master Volume,最终音量设置
+OPTIONS_CONTRAST_LABEL,High Contrast,高对比度模式

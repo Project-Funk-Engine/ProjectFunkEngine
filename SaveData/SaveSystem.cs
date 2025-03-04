@@ -12,19 +12,26 @@ public static class SaveSystem
     public static string UserConfigPath = "user://Options.cfg";
     private static ConfigFile _curConfigData;
 
+    private const float DefaultVolume = 80f;
+    private const string DefaultInput = "WASD";
+    private const string DefaultLanguage = "en";
+    private const bool DefaultHighCon = false;
+
     public enum ConfigSettings
     {
         Volume,
         InputKey,
         LanguageKey,
+        HighContrast,
     }
 
     private static void InitConfig()
     {
         _curConfigData = new ConfigFile();
-        UpdateConfig(ConfigSettings.Volume, 80f);
-        UpdateConfig(ConfigSettings.InputKey, "WASD");
-        UpdateConfig(ConfigSettings.LanguageKey, "en");
+        UpdateConfig(ConfigSettings.Volume, DefaultVolume);
+        UpdateConfig(ConfigSettings.InputKey, DefaultInput);
+        UpdateConfig(ConfigSettings.LanguageKey, DefaultLanguage);
+        UpdateConfig(ConfigSettings.HighContrast, DefaultHighCon);
     }
 
     private static void SaveConfig()
@@ -46,6 +53,9 @@ public static class SaveSystem
                 break;
             case ConfigSettings.LanguageKey:
                 _curConfigData.SetValue("Options", "LanguageKey", value);
+                break;
+            case ConfigSettings.HighContrast:
+                _curConfigData.SetValue("Options", "HighContrast", value);
                 break;
         }
         SaveConfig();
@@ -100,11 +110,13 @@ public static class SaveSystem
         switch (setting)
         {
             case ConfigSettings.Volume:
-                return _curConfigData.GetValue("Options", "Volume");
+                return _curConfigData.GetValue("Options", "Volume", DefaultVolume);
             case ConfigSettings.InputKey:
-                return _curConfigData.GetValue("Options", "InputKey");
+                return _curConfigData.GetValue("Options", "InputKey", DefaultInput);
             case ConfigSettings.LanguageKey:
-                return _curConfigData.GetValue("Options", "LanguageKey");
+                return _curConfigData.GetValue("Options", "LanguageKey", DefaultLanguage);
+            case ConfigSettings.HighContrast:
+                return _curConfigData.GetValue("Options", "HighContrast", DefaultHighCon);
             default:
                 GD.PushError(
                     "SaveSystem.GetConfigValue: Invalid config setting passed. " + setting
