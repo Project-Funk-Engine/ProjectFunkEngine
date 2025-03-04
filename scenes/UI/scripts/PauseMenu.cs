@@ -10,9 +10,26 @@ public partial class PauseMenu : Control
     public override void _Ready()
     {
         pauseButtons[0].Pressed += Resume;
-        pauseButtons[1].Pressed += Quit;
-        pauseButtons[2].Pressed += QuitToMainMenu;
+        pauseButtons[1].Pressed += OpenOptions;
+        pauseButtons[2].Pressed += Quit;
+        pauseButtons[3].Pressed += QuitToMainMenu;
         pauseButtons[0].GrabFocus();
+    }
+
+    public override void _Process(double delta)
+    {
+        if (GetViewport().GuiGetFocusOwner() == null) //TODO: Better method for returning focus
+        {
+            pauseButtons[0].GrabFocus();
+        }
+    }
+
+    private void OpenOptions()
+    {
+        OptionsMenu optionsMenu = GD.Load<PackedScene>("res://scenes/Options/OptionsMenu.tscn")
+            .Instantiate<OptionsMenu>();
+        AddChild(optionsMenu);
+        optionsMenu.OpenMenu(this);
     }
 
     public override void _Input(InputEvent @event)

@@ -156,7 +156,11 @@ public partial class BattleDirector : Node2D
             if (PlayerAddNote(arrowType, beat))
                 return; //Miss on empty note. This does not apply to inactive existing notes as a balance decision for now.
             NotePlacementBar.MissNote();
-            CM.ComboText(Timing.Miss.ToString(), arrowType, NotePlacementBar.GetCurrentCombo());
+            CM.ComboText(
+                Tr("BATTLE_ROOM_" + Timing.Miss.ToString().ToUpper()),
+                arrowType,
+                NotePlacementBar.GetCurrentCombo()
+            );
             Player.TakeDamage(4);
             return;
         }
@@ -172,7 +176,11 @@ public partial class BattleDirector : Node2D
         {
             NotePlacementBar.HitNote();
         }
-        CM.ComboText(timed.ToString(), arrowType, NotePlacementBar.GetCurrentCombo());
+        CM.ComboText(
+            Tr("BATTLE_ROOM_" + timed.ToString().ToUpper()),
+            arrowType,
+            NotePlacementBar.GetCurrentCombo()
+        );
     }
 
     private Timing CheckTiming(double beatDif)
@@ -226,7 +234,7 @@ public partial class BattleDirector : Node2D
         if (StageProducer.Config.RoomType == Stages.Boss)
             type = "Relic";
         var rewardSelect = RewardSelect.CreateSelection(this, Player.Stats, amount, type);
-        rewardSelect.GetNode<Label>("%TopLabel").Text = "You win!";
+        rewardSelect.GetNode<Label>("%TopLabel").Text = Tr("BATTLE_ROOM_WIN");
         rewardSelect.Selected += EndBattle;
     }
 
@@ -286,6 +294,6 @@ public partial class BattleDirector : Node2D
 
     private void DebugKillEnemy()
     {
-        //Enemy.TakeDamage(1000);
+        Enemy.TakeDamage(1000);
     }
 }

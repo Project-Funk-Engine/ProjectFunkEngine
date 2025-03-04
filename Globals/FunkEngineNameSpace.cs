@@ -63,6 +63,7 @@ public enum Stages
     Quit,
     Map,
     Controls,
+    Options,
 }
 
 public class MapGrid
@@ -166,7 +167,6 @@ public class MapGrid
                 continue;
             if (_map[curPos.X, curPos.Y + 1] == 0)
                 continue;
-            GD.Print("Added child on same X.");
             room.AddChild(_map[curPos.X, curPos.Y + 1]);
         }
     }

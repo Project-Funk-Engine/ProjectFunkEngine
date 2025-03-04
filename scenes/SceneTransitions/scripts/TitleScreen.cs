@@ -6,9 +6,29 @@ public partial class TitleScreen : Control
     [Export]
     public PointLight2D TextLight;
 
+    [Export]
+    public Button Options;
+
     public override void _Ready()
     {
         TweenLight();
+        Options.Pressed += OpenOptions;
+    }
+
+    public override void _Process(double delta)
+    {
+        if (GetViewport().GuiGetFocusOwner() == null) //TODO: Better method for returning focus
+        {
+            Options.GrabFocus();
+        }
+    }
+
+    private void OpenOptions()
+    {
+        OptionsMenu optionsMenu = GD.Load<PackedScene>("res://scenes/Options/OptionsMenu.tscn")
+            .Instantiate<OptionsMenu>();
+        AddChild(optionsMenu);
+        optionsMenu.OpenMenu(this);
     }
 
     private void TweenLight()
