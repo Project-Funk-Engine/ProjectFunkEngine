@@ -9,68 +9,83 @@ using FileAccess = Godot.FileAccess;
 public static class SaveSystem
 {
     public static string UserConfigPath = "user://Options.cfg";
-    private static ConfigData _curConfigData = null;
+    private static ConfigFile _curConfigData;
+
+    public enum ConfigSettings
+    {
+        Volume,
+        InputKey,
+        LanguageKey,
+    }
+
+    private static void InitConfig()
+    {
+        _curConfigData = new ConfigFile();
+        UpdateConfig(ConfigSettings.Volume, 80f);
+        UpdateConfig(ConfigSettings.InputKey, "WASD");
+        UpdateConfig(ConfigSettings.LanguageKey, "en");
+    }
 
     private static void SaveConfig()
     {
-        _curConfigData = GetConfigData();
-        string json = JsonSerializer.Serialize(_curConfigData);
-        GD.Print(json);
-        FileAccess file = FileAccess.Open(UserConfigPath, FileAccess.ModeFlags.Write);
-        file.StoreLine(json);
-        file.Close();
+        AssertConfigFile();
+        _curConfigData.Save(UserConfigPath);
     }
 
-    public static void UpdateConfig(string setting, Variant value)
+    public static void UpdateConfig(ConfigSettings setting, Variant value)
     {
-        _curConfigData = GetConfigData();
+        AssertConfigFile();
         switch (setting)
         {
-            case (nameof(ConfigData.Volume)):
-                _curConfigData.Volume = (float)value;
+            case ConfigSettings.Volume:
+                _curConfigData.SetValue("Options", "Volume", value);
                 break;
-            case (nameof(ConfigData.InputKey)):
-                _curConfigData.InputKey = (string)value;
+            case ConfigSettings.InputKey:
+                _curConfigData.SetValue("Options", "InputKey", value);
                 break;
-            case nameof(ConfigData.LanguageKey):
-                _curConfigData.LanguageKey = (string)value;
+            case ConfigSettings.LanguageKey:
+                _curConfigData.SetValue("Options", "LanguageKey", value);
                 break;
         }
         SaveConfig();
     }
 
-    public static ConfigData GetConfigData()
+    public static void AssertConfigFile()
     {
-        return _curConfigData ?? LoadConfigData();
+        if (_curConfigData == null)
+        {
+            LoadConfigData();
+        }
     }
 
     // This method loads the entire save data
-    private static ConfigData LoadConfigData()
+    private static ConfigFile LoadConfigData()
     {
-        if (!FileAccess.FileExists(UserConfigPath))
-        {
-            GD.Print("No config could be found, creating a new one.");
-            _curConfigData = new ConfigData();
-            SaveConfig();
+        _curConfigData = new ConfigFile();
+        if (_curConfigData.Load(UserConfigPath) == Error.Ok)
             return _curConfigData;
-        }
-
-        string json = FileAccess.Open(UserConfigPath, FileAccess.ModeFlags.Read).GetAsText();
-        ConfigData data = JsonSerializer.Deserialize<ConfigData>(json);
-        return data;
+        GD.Print("No config could be found, creating a new one.");
+        InitConfig();
+        SaveConfig();
+        return _curConfigData;
     }
-}
 
-public class ConfigData
-{
-    public float Volume { get; set; }
-    public string InputKey { get; set; }
-    public string LanguageKey { get; set; }
-
-    public ConfigData(float volume = 80, string inputKey = "WASD", string languageKey = "en")
+    public static Variant GetConfigValue(ConfigSettings setting)
     {
-        Volume = volume;
-        InputKey = inputKey;
-        LanguageKey = languageKey;
+        AssertConfigFile();
+        switch (setting)
+        {
+            case ConfigSettings.Volume:
+                return _curConfigData.GetValue("Options", "Volume");
+            case ConfigSettings.InputKey:
+                return _curConfigData.GetValue("Options", "InputKey");
+            case ConfigSettings.LanguageKey:
+                return _curConfigData.GetValue("Options", "LanguageKey");
+            default:
+                GD.PushError(
+                    "SaveSystem.GetConfigValue: Invalid config setting passed. " + setting
+                );
+                return float.MinValue;
+        }
     }
 }

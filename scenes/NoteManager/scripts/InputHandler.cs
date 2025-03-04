@@ -86,7 +86,7 @@ public partial class InputHandler : Node2D
 
     private void LoadControlScheme()
     {
-        string scheme = SaveSystem.GetConfigData().InputKey;
+        string scheme = SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.InputKey).As<string>();
         foreach (var arrow in Arrows)
         {
             var events = InputMap.ActionGetEvents(arrow.Key);

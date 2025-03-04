@@ -27,7 +27,7 @@ public partial class LanguageSelection : OptionButton
     private void ChangeLanguage(string language)
     {
         TranslationServer.SetLocale(language);
-        SaveSystem.UpdateConfig(nameof(ConfigData.LanguageKey), language);
+        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.LanguageKey, language);
     }
 
     private void PresetDropdown(string language)

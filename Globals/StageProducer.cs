@@ -32,9 +32,12 @@ public partial class StageProducer : Node
 
     private void InitFromCfg()
     {
-        ConfigData cfg = SaveSystem.GetConfigData();
-        OptionsMenu.ChangeVolume(cfg.Volume);
-        TranslationServer.SetLocale(cfg.LanguageKey);
+        OptionsMenu.ChangeVolume(
+            SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.Volume).As<float>()
+        );
+        TranslationServer.SetLocale(
+            SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.LanguageKey).As<string>()
+        );
     }
 
     public void StartGame()

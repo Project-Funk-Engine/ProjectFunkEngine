@@ -73,7 +73,7 @@ public partial class OptionsMenu : CanvasLayer
         if (!valueChanged)
             return;
         ChangeVolume((float)_volumeSlider.Value);
-        SaveSystem.UpdateConfig(nameof(ConfigData.Volume), _volumeSlider.Value);
+        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.Volume, _volumeSlider.Value);
     }
 
     public static void ChangeVolume(float value)
