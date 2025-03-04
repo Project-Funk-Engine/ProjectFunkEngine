@@ -15,6 +15,12 @@ public partial class ControlSettings : Node2D
     [Export]
     public Sprite2D downKey;
 
+    private Node _previousScene;
+    private ProcessModeEnum _previousProcessMode;
+
+    [Export]
+    private Button _closeButton;
+
     public override void _Ready()
     {
         GetNode<Button>("Panel/WASDButton").Connect("pressed", Callable.From(OnWASDButtonPressed));
@@ -23,9 +29,7 @@ public partial class ControlSettings : Node2D
         GetNode<Button>("Panel/QWERTButton")
             .Connect("pressed", Callable.From(OnQWERTButtonPressed));
 
-        string scheme = ProjectSettings.HasSetting("game/input_scheme")
-            ? (string)ProjectSettings.GetSetting("game/input_scheme")
-            : "ARROWS";
+        string scheme = SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.InputKey).As<string>();
         switch (scheme)
         {
             case "ARROWS":
@@ -41,14 +45,37 @@ public partial class ControlSettings : Node2D
                 GetNode<Button>("Panel/WASDButton").GrabFocus();
                 break;
         }
+
+        _closeButton.Pressed += CloseMenu;
+    }
+
+    public void OpenMenu(Node prevScene)
+    {
+        _previousScene = prevScene;
+        _previousProcessMode = _previousScene.GetProcessMode();
+        prevScene.ProcessMode = ProcessModeEnum.Disabled;
+    }
+
+    private void CloseMenu()
+    {
+        _previousScene.ProcessMode = _previousProcessMode;
+        QueueFree();
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        if (@event.IsActionPressed("Pause"))
+        {
+            CloseMenu();
+            GetViewport().SetInputAsHandled();
+        }
     }
 
     private void OnWASDButtonPressed()
     {
         GetNode<Label>("Panel/Label").Text =
             Tr("CONTROLS_TITLE_TYPE_WASD") + " " + Tr("CONTROLS_TITLE_SELECTED");
-        ProjectSettings.SetSetting("game/input_scheme", "WASD");
-        ProjectSettings.Save();
+        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKey, "WASD");
         ChangeKeySprites("WASD");
     }
 
@@ -56,8 +83,7 @@ public partial class ControlSettings : Node2D
     {
         GetNode<Label>("Panel/Label").Text =
             Tr("CONTROLS_TITLE_TYPE_ARROW") + " " + Tr("CONTROLS_TITLE_SELECTED");
-        ProjectSettings.SetSetting("game/input_scheme", "ARROWS");
-        ProjectSettings.Save();
+        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKey, "ARROWS");
         ChangeKeySprites("ARROWS");
     }
 
@@ -65,8 +91,7 @@ public partial class ControlSettings : Node2D
     {
         GetNode<Label>("Panel/Label").Text =
             Tr("CONTROLS_TITLE_TYPE_QWER") + " " + Tr("CONTROLS_TITLE_SELECTED");
-        ProjectSettings.SetSetting("game/input_scheme", "QWERT");
-        ProjectSettings.Save();
+        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKey, "QWERT");
         ChangeKeySprites("QWERT");
     }
 

@@ -6,12 +6,11 @@ public partial class LanguageSelection : OptionButton
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        this.Connect("item_selected", new Callable(this, nameof(OnLanguageSelected)));
-        GD.Print("getlocale: " + TranslationServer.GetLocale());
+        Connect("item_selected", new Callable(this, nameof(OnLanguageSelected)));
         PresetDropdown(TranslationServer.GetLocale());
     }
 
-    private void OnLanguageSelected(int index)
+    public void OnLanguageSelected(int index)
     {
         switch (index)
         {
@@ -27,6 +26,7 @@ public partial class LanguageSelection : OptionButton
     private void ChangeLanguage(string language)
     {
         TranslationServer.SetLocale(language);
+        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.LanguageKey, language);
     }
 
     private void PresetDropdown(string language)

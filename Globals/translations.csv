@@ -11,7 +11,7 @@ CONTROLS_TITLE_SELECTED,Selected,已选择
 CONTROLS_WASD_BUTTON,WASD,WASD
 CONTROLS_QWER_BUTTON,QWER,QWER
 CONTROLS_ARROW_BUTTON,Arrow Keys,箭头键
-CONTROLS_RETURN_BUTTON,Return to Title Screen,返回主菜单
+CONTROLS_RETURN_BUTTON,Return,返回
 ESCAPE_MENU_RESUME,Resume,继续
 ESCAPE_MENU_QUIT,Quit,退出
 ESCAPE_MENU_TITLE,Quit to Title,返回标题
@@ -50,3 +50,5 @@ RELIC_COLORBOROS_NAME,Colorboros,彩蛇轮回
 RELIC_COLORBOROS_TOOLTIP,"Taste the rainbow. Charges the freestyle bar every riff.","品尝临岛，每次现场充值自由格条"
 INVENTORY_TAB_NOTES,Notes,乐谱
 INVENTORY_TAB_RELICS,Relics,遗物
+OPTIONS_VOLUME_LABEL,Master Volume,最终音量设置
+OPTIONS_CONTRAST_LABEL,High Contrast,高对比度模式

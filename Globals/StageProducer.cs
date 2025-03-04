@@ -25,6 +25,21 @@ public partial class StageProducer : Node
     //TODO: Allow for permanent changes and battle temporary stat changes.
     public static PlayerStats PlayerStats;
 
+    public override void _EnterTree()
+    {
+        InitFromCfg();
+    }
+
+    private void InitFromCfg()
+    {
+        OptionsMenu.ChangeVolume(
+            SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.Volume).As<float>()
+        );
+        TranslationServer.SetLocale(
+            SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.LanguageKey).As<string>()
+        );
+    }
+
     public void StartGame()
     {
         Map.InitMapGrid(MapSize.X, MapSize.Y, 3);
@@ -62,12 +77,6 @@ public partial class StageProducer : Node
             case Stages.Boss:
                 Config = MakeConfig(nextStage, nextRoomIdx);
                 GetTree().ChangeSceneToFile("res://scenes/BattleDirector/test_battle_scene.tscn");
-                break;
-            case Stages.Controls:
-                GetTree().ChangeSceneToFile("res://scenes/Remapping/Remap.tscn");
-                break;
-            case Stages.Options:
-                GetTree().ChangeSceneToFile("res://scenes/Options/OptionsMenu.tscn");
                 break;
             case Stages.Chest:
                 Config = MakeConfig(nextStage, nextRoomIdx);

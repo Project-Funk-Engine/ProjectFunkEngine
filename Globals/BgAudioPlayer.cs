@@ -7,6 +7,7 @@ public partial class BgAudioPlayer : AudioStreamPlayer
 
     private void PlayMusic(AudioStream music, float volume)
     {
+        ProcessMode = ProcessModeEnum.Always;
         if (Playing && music.Equals(Stream))
         {
             return;
