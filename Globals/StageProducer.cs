@@ -25,6 +25,18 @@ public partial class StageProducer : Node
     //TODO: Allow for permanent changes and battle temporary stat changes.
     public static PlayerStats PlayerStats;
 
+    public override void _EnterTree()
+    {
+        InitFromCfg();
+    }
+
+    private void InitFromCfg()
+    {
+        ConfigData cfg = SaveSystem.GetConfigData();
+        OptionsMenu.ChangeVolume(cfg.Volume);
+        TranslationServer.SetLocale(cfg.LanguageKey);
+    }
+
     public void StartGame()
     {
         Map.InitMapGrid(MapSize.X, MapSize.Y, 3);

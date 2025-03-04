@@ -15,11 +15,15 @@ run/main_scene="res://scenes/SceneTransitions/TitleScreen.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 config/icon="res://scenes/BattleDirector/assets/Character1.png"
 
+[audio]
+
+buses/default_bus_layout=""
+
 [autoload]
 
+StageProducer="*res://Globals/StageProducer.cs"
 TimeKeeper="*res://Globals/TimeKeeper.cs"
 Scribe="*res://Globals/Scribe.cs"
-StageProducer="*res://Globals/StageProducer.cs"
 BgAudioPlayer="*res://Globals/BGAudioPlayer.tscn"
 
 [display]

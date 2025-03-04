@@ -2,47 +2,75 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using Godot;
+using FileAccess = Godot.FileAccess;
 
 // TODO: implement saving
 
 public static class SaveSystem
 {
-    private static string SavePath => "res://SaveData/SaveData.json"; // Update if needed
+    public static string UserConfigPath = "user://Options.cfg";
+    private static ConfigData _curConfigData = null;
 
-    // Loads only the notes section
-    public static Dictionary<string, int> LoadNotes()
+    private static void SaveConfig()
     {
-        var saveData = LoadSaveData();
-        if (saveData != null && saveData.Notes != null)
+        _curConfigData = GetConfigData();
+        string json = JsonSerializer.Serialize(_curConfigData);
+        GD.Print(json);
+        FileAccess file = FileAccess.Open(UserConfigPath, FileAccess.ModeFlags.Write);
+        file.StoreLine(json);
+        file.Close();
+    }
+
+    public static void UpdateConfig(string setting, Variant value)
+    {
+        _curConfigData = GetConfigData();
+        switch (setting)
         {
-            return saveData.Notes;
+            case (nameof(ConfigData.Volume)):
+                _curConfigData.Volume = (float)value;
+                break;
+            case (nameof(ConfigData.InputKey)):
+                _curConfigData.InputKey = (string)value;
+                break;
+            case nameof(ConfigData.LanguageKey):
+                _curConfigData.LanguageKey = (string)value;
+                break;
         }
-        else
-        {
-            return new Dictionary<string, int>();
-        }
+        SaveConfig();
+    }
+
+    public static ConfigData GetConfigData()
+    {
+        return _curConfigData ?? LoadConfigData();
     }
 
     // This method loads the entire save data
-    public static SaveData LoadSaveData()
+    private static ConfigData LoadConfigData()
     {
-        string path = ProjectSettings.GlobalizePath(SavePath);
-        if (!File.Exists(path))
+        if (!FileAccess.FileExists(UserConfigPath))
         {
-            GD.PrintErr("Can't load save game");
-            return null;
+            GD.Print("No config could be found, creating a new one.");
+            _curConfigData = new ConfigData();
+            SaveConfig();
+            return _curConfigData;
         }
 
-        string json = File.ReadAllText(path);
-        SaveData data = JsonSerializer.Deserialize<SaveData>(json);
+        string json = FileAccess.Open(UserConfigPath, FileAccess.ModeFlags.Read).GetAsText();
+        ConfigData data = JsonSerializer.Deserialize<ConfigData>(json);
         return data;
     }
 }
 
-public class SaveData
+public class ConfigData
 {
-    public string AccountName { get; set; }
-    public Dictionary<string, int> Notes { get; set; } = new Dictionary<string, int>();
-    public Dictionary<string, object> Relics { get; set; } = new Dictionary<string, object>();
-    public Dictionary<string, float> Settings { get; set; } = new Dictionary<string, float>();
+    public float Volume { get; set; }
+    public string InputKey { get; set; }
+    public string LanguageKey { get; set; }
+
+    public ConfigData(float volume = 80, string inputKey = "WASD", string languageKey = "en")
+    {
+        Volume = volume;
+        InputKey = inputKey;
+        LanguageKey = languageKey;
+    }
 }

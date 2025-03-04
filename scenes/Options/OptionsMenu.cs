@@ -18,11 +18,14 @@ public partial class OptionsMenu : CanvasLayer
     [Export]
     private Button _controlsButton;
 
+    private const float MinVolumeVal = 50f;
+
     public override void _Ready()
     {
         _focused.GrabFocus();
+        _volumeSlider.MinValue = MinVolumeVal;
         _volumeSlider.Value = AudioServer.GetBusVolumeDb(AudioServer.GetBusIndex("Master")) + 80;
-        _volumeSlider.DragEnded += ChangeVolume;
+        _volumeSlider.DragEnded += VolumeChanged;
         _closeButton.Pressed += CloseMenu;
         _controlsButton.Pressed += OpenControls;
     }
@@ -65,17 +68,20 @@ public partial class OptionsMenu : CanvasLayer
         controlSettings.OpenMenu(this);
     }
 
-    private void ChangeVolume(bool valueChanged)
+    private void VolumeChanged(bool valueChanged)
     {
         if (!valueChanged)
             return;
-        AudioServer.SetBusVolumeDb(
-            AudioServer.GetBusIndex("Master"),
-            (float)_volumeSlider.Value - 80
-        );
+        ChangeVolume((float)_volumeSlider.Value);
+        SaveSystem.UpdateConfig(nameof(ConfigData.Volume), _volumeSlider.Value);
+    }
+
+    public static void ChangeVolume(float value)
+    {
+        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"), (float)value - 80);
         AudioServer.SetBusMute(
             AudioServer.GetBusIndex("Master"),
-            _volumeSlider.Value == _volumeSlider.MinValue
+            Math.Abs(value - MinVolumeVal) < .1
         );
     }
 }

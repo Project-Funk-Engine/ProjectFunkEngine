@@ -8,7 +8,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Globals\translations.csv" />
-    <Content Include="SaveData\SaveData.json" />
     <PackageReference Include="Melanchall.DryWetMidi" Version="7.2.0" />
   </ItemGroup>
   <Target Name="Husky" BeforeTargets="Restore;CollectPackageReferences" Condition="'$(HUSKY)' != 0">

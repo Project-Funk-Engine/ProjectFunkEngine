@@ -11,7 +11,7 @@ public partial class LanguageSelection : OptionButton
         PresetDropdown(TranslationServer.GetLocale());
     }
 
-    private void OnLanguageSelected(int index)
+    public void OnLanguageSelected(int index)
     {
         switch (index)
         {
@@ -27,6 +27,7 @@ public partial class LanguageSelection : OptionButton
     private void ChangeLanguage(string language)
     {
         TranslationServer.SetLocale(language);
+        SaveSystem.UpdateConfig(nameof(ConfigData.LanguageKey), language);
     }
 
     private void PresetDropdown(string language)

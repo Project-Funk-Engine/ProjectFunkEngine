@@ -29,9 +29,7 @@ public partial class ControlSettings : Node2D
         GetNode<Button>("Panel/QWERTButton")
             .Connect("pressed", Callable.From(OnQWERTButtonPressed));
 
-        string scheme = ProjectSettings.HasSetting("game/input_scheme")
-            ? (string)ProjectSettings.GetSetting("game/input_scheme")
-            : "ARROWS";
+        string scheme = SaveSystem.GetConfigData().InputKey;
         switch (scheme)
         {
             case "ARROWS":
@@ -77,8 +75,7 @@ public partial class ControlSettings : Node2D
     {
         GetNode<Label>("Panel/Label").Text =
             Tr("CONTROLS_TITLE_TYPE_WASD") + " " + Tr("CONTROLS_TITLE_SELECTED");
-        ProjectSettings.SetSetting("game/input_scheme", "WASD");
-        ProjectSettings.Save();
+        SaveSystem.UpdateConfig(nameof(ConfigData.InputKey), "WASD");
         ChangeKeySprites("WASD");
     }
 
@@ -86,8 +83,7 @@ public partial class ControlSettings : Node2D
     {
         GetNode<Label>("Panel/Label").Text =
             Tr("CONTROLS_TITLE_TYPE_ARROW") + " " + Tr("CONTROLS_TITLE_SELECTED");
-        ProjectSettings.SetSetting("game/input_scheme", "ARROWS");
-        ProjectSettings.Save();
+        SaveSystem.UpdateConfig(nameof(ConfigData.InputKey), "ARROWS");
         ChangeKeySprites("ARROWS");
     }
 
@@ -95,8 +91,7 @@ public partial class ControlSettings : Node2D
     {
         GetNode<Label>("Panel/Label").Text =
             Tr("CONTROLS_TITLE_TYPE_QWER") + " " + Tr("CONTROLS_TITLE_SELECTED");
-        ProjectSettings.SetSetting("game/input_scheme", "QWERT");
-        ProjectSettings.Save();
+        SaveSystem.UpdateConfig(nameof(ConfigData.InputKey), "QWERT");
         ChangeKeySprites("QWERT");
     }
 

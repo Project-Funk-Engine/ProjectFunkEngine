@@ -6,10 +6,10 @@
 [node name="OptionsMenu" type="CanvasLayer" node_paths=PackedStringArray("_focused", "_volumeSlider", "_closeButton", "_controlsButton")]
 process_mode = 3
 script = ExtResource("1_yjq7i")
-_focused = NodePath("Control/CenterContainer/MarginContainer/VBoxContainer/LanguageSelection")
-_volumeSlider = NodePath("Control/CenterContainer/MarginContainer/VBoxContainer/Container/Volume")
-_closeButton = NodePath("Control/CenterContainer/MarginContainer/VBoxContainer/TitleButton")
-_controlsButton = NodePath("Control/CenterContainer/MarginContainer/VBoxContainer/ControlsButton")
+_focused = NodePath("Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/LanguageSelection")
+_volumeSlider = NodePath("Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/Container/Volume")
+_closeButton = NodePath("Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/TitleButton")
+_controlsButton = NodePath("Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ControlsButton")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -40,47 +40,53 @@ grow_vertical = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/CenterContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 5
 
 [node name="ColorRect" type="ColorRect" parent="Control/CenterContainer/MarginContainer"]
 layout_mode = 2
 color = Color(0.24, 0.24, 0.24, 0.854902)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer/MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/CenterContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer/MarginContainer/MarginContainer"]
 custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 25
 alignment = 1
 
-[node name="Title" type="Label" parent="Control/CenterContainer/MarginContainer/VBoxContainer"]
+[node name="Title" type="Label" parent="Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "TITLE_OPTIONS"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="Control/CenterContainer/MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Container" type="VBoxContainer" parent="Control/CenterContainer/MarginContainer/VBoxContainer"]
+[node name="Container" type="VBoxContainer" parent="Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Label" type="Label" parent="Control/CenterContainer/MarginContainer/VBoxContainer/Container"]
+[node name="Label" type="Label" parent="Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/Container"]
 layout_mode = 2
 text = "OPTIONS_VOLUME_LABEL"
 horizontal_alignment = 1
 
-[node name="Volume" type="HSlider" parent="Control/CenterContainer/MarginContainer/VBoxContainer/Container"]
+[node name="Volume" type="HSlider" parent="Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/Container"]
 layout_mode = 2
 tooltip_text = "OPTIONS_VOLUME_LABEL"
 min_value = 50.0
 max_value = 80.0
-value = 60.0
+value = 80.0
 
-[node name="LanguageSelection" type="OptionButton" parent="Control/CenterContainer/MarginContainer/VBoxContainer"]
+[node name="LanguageSelection" type="OptionButton" parent="Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 item_count = 2
 popup/item_0/text = "English"
@@ -88,10 +94,10 @@ popup/item_1/text = "中文"
 popup/item_1/id = 1
 script = ExtResource("1_qyvkw")
 
-[node name="ControlsButton" type="Button" parent="Control/CenterContainer/MarginContainer/VBoxContainer"]
+[node name="ControlsButton" type="Button" parent="Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "TITLE_CONTROLS"
 
-[node name="TitleButton" type="Button" parent="Control/CenterContainer/MarginContainer/VBoxContainer"]
+[node name="TitleButton" type="Button" parent="Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "CONTROLS_RETURN_BUTTON"
