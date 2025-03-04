@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using Godot;
 using FileAccess = Godot.FileAccess;
@@ -59,15 +60,38 @@ public static class SaveSystem
     }
 
     // This method loads the entire save data
-    private static ConfigFile LoadConfigData()
+    private static void LoadConfigData()
     {
         _curConfigData = new ConfigFile();
+        VerifyConfig();
         if (_curConfigData.Load(UserConfigPath) == Error.Ok)
-            return _curConfigData;
+            return;
         GD.Print("No config could be found, creating a new one.");
         InitConfig();
         SaveConfig();
-        return _curConfigData;
+    }
+
+    //Really naive approach to verifying config integrity, could I have just changed back to JSON? yes. But I'm a real programmer.
+    //In theory ConfigFiles should be more stable across any version changes.
+    private static void VerifyConfig()
+    {
+        if (!FileAccess.FileExists(UserConfigPath))
+            return;
+        string[] sus = new[]
+        {
+            "init",
+            "object",
+            "script",
+            "source",
+            "extends",
+            "RefCounted",
+            "sus",
+        };
+        FileAccess file = FileAccess.Open(UserConfigPath, FileAccess.ModeFlags.Read);
+        if (!sus.Any(s => file.GetAsText().Contains(s)))
+            return;
+        file.Close();
+        InitConfig();
     }
 
     public static Variant GetConfigValue(ConfigSettings setting)
