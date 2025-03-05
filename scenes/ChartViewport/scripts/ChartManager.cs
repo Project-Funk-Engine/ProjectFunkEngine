@@ -28,6 +28,7 @@ public partial class ChartManager : SubViewportContainer
     //Might move this to be song specific? For now, should never go below ~2000, else visual break because there isn't enough room to loop.
     private double ChartLength = 5000;
     private double _loopLen; //secs
+    public double TrueBeatsPerLoop;
     public int BeatsPerLoop;
 
     public void OnNotePressed(ArrowType type)
@@ -44,7 +45,8 @@ public partial class ChartManager : SubViewportContainer
     {
         _loopLen = songData.SongLength / songData.NumLoops;
         TimeKeeper.LoopLength = (float)_loopLen;
-        BeatsPerLoop = (int)(_loopLen / (60f / songData.Bpm));
+        TrueBeatsPerLoop = (_loopLen / (60f / songData.Bpm));
+        BeatsPerLoop = (int)TrueBeatsPerLoop;
         ChartLength = (float)_loopLen * (float)Math.Floor(ChartLength / _loopLen);
         TimeKeeper.ChartLength = (float)ChartLength;
         TimeKeeper.Bpm = songData.Bpm;
@@ -112,7 +114,7 @@ public partial class ChartManager : SubViewportContainer
         newArrow.OutlineSprite.Modulate = IH.Arrows[(int)arrow].Color;
 
         _arrowGroup.AddChild(newArrow);
-        newArrow.Bounds = (float)((double)beat / BeatsPerLoop * (ChartLength / 2));
+        newArrow.Bounds = (float)(beat / TrueBeatsPerLoop * (ChartLength / 2));
         newArrow.Position += Vector2.Right * newArrow.Bounds * 10; //temporary fix for notes spawning and instantly calling loop from originating at 0,0
         return newArrow;
     }

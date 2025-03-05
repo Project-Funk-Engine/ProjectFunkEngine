@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://c4vmb783d3v03"]
 
 [ext_resource type="Script" path="res://scenes/ChestScene/ChestScene.cs" id="1_ardd2"]
-[ext_resource type="AudioStream" uid="uid://iq0xxe5cggs8" path="res://Audio/Song1.ogg" id="2_x78jo"]
+[ext_resource type="AudioStream" uid="uid://be5ial13ynf3o" path="res://Audio/Song1.ogg" id="2_x78jo"]
 [ext_resource type="Script" path="res://scenes/UI/scripts/MenuModule.cs" id="3_5uvci"]
 [ext_resource type="Shader" path="res://scenes/ChartViewport/StarryNight.gdshader" id="5_whthd"]
 [ext_resource type="Texture2D" uid="uid://qhwve7fik4do" path="res://scenes/BattleDirector/assets/bgupdate.png" id="6_37nar"]
