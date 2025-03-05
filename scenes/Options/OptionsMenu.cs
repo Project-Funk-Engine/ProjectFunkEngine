@@ -95,6 +95,7 @@ public partial class OptionsMenu : CanvasLayer
 
     private void HighContrastChanged(bool toggled)
     {
+        StageProducer.ContrastFilter.Visible = toggled;
         SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.HighContrast, toggled);
     }
 }

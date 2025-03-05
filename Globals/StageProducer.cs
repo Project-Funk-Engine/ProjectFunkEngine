@@ -23,6 +23,8 @@ public partial class StageProducer : Node
     //TODO: Allow for permanent changes and battle temporary stat changes.
     public static PlayerStats PlayerStats;
 
+    public static CanvasLayer ContrastFilter;
+
     public override void _EnterTree()
     {
         InitFromCfg();
@@ -36,6 +38,12 @@ public partial class StageProducer : Node
         TranslationServer.SetLocale(
             SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.LanguageKey).As<string>()
         );
+        ContrastFilter = GD.Load<PackedScene>("res://Globals/ContrastFilter/ContrastFilter.tscn")
+            .Instantiate<CanvasLayer>();
+        ContrastFilter.Visible = SaveSystem
+            .GetConfigValue(SaveSystem.ConfigSettings.HighContrast)
+            .AsBool();
+        GetTree().Root.CallDeferred("add_child", ContrastFilter);
     }
 
     public void StartGame()
@@ -101,6 +109,7 @@ public partial class StageProducer : Node
 
     public void TransitionStage(Stages nextStage, int nextRoomIdx = -1)
     {
+        GetTree().Root.RemoveChild(ContrastFilter);
         switch (nextStage)
         {
             case Stages.Title:
@@ -139,6 +148,8 @@ public partial class StageProducer : Node
                 break;
         }
 
+        //Apply grayscale shader to all scenes
+        GetTree().Root.AddChild(ContrastFilter);
         _curStage = nextStage;
     }
 
