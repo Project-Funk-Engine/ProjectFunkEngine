@@ -18,8 +18,6 @@ public partial class MidiMaestro : Resource
 
     //private MidiFile strippedSong;
 
-    private SongData songData;
-
     //The path relative to the Audio folder. Will change later
     public MidiMaestro(string filePath)
     {
@@ -60,19 +58,6 @@ public partial class MidiMaestro : Resource
                     break;
             }
         }
-
-        //Populate the song data
-        songData = new SongData
-        {
-            //TODO: Allow for changes in this data
-            Bpm = 120,
-            //Fudge the numbers a bit if we have a really short song
-            SongLength =
-                _midiFile.GetDuration<MetricTimeSpan>().Seconds < 20
-                    ? 20
-                    : _midiFile.GetDuration<MetricTimeSpan>().Seconds,
-            NumLoops = 1,
-        };
     }
 
     public midiNoteInfo[] GetNotes(ArrowType arrowType)
@@ -85,11 +70,6 @@ public partial class MidiMaestro : Resource
             ArrowType.Right => _rightNotes,
             _ => throw new ArgumentOutOfRangeException(nameof(arrowType), arrowType, null),
         };
-    }
-
-    public SongData GetSongData()
-    {
-        return songData;
     }
 }
 
