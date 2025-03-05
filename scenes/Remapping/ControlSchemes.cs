@@ -3,57 +3,6 @@ using Godot;
 
 public static class ControlSchemes
 {
-    public static Dictionary<string, Dictionary<string, string>> Schemes = new Dictionary<
-        string,
-        Dictionary<string, string>
-    >()
-    {
-        {
-            "WASD",
-            new Dictionary<string, string>()
-            {
-                { "arrowUp", "W" },
-                { "arrowDown", "S" },
-                { "arrowLeft", "A" },
-                { "arrowRight", "D" },
-            }
-        },
-        {
-            "ARROWS",
-            new Dictionary<string, string>()
-            {
-                { "arrowUp", "Up" },
-                { "arrowDown", "Down" },
-                { "arrowLeft", "Left" },
-                { "arrowRight", "Right" },
-            }
-        },
-        {
-            "QWERT",
-            new Dictionary<string, string>()
-            {
-                { "arrowUp", "W" },
-                { "arrowDown", "E" },
-                { "arrowLeft", "Q" },
-                { "arrowRight", "R" },
-            }
-        },
-        {
-            "CONTROLLER",
-            new Dictionary<string, string>()
-            {
-                { "arrowUp", "Joypad_Dpad_Up" },
-                { "arrowDown", "Joypad_Dpad_Down" },
-                { "arrowLeft", "Joypad_Dpad_Left" },
-                { "arrowRight", "Joypad_Dpad_Right" },
-                { "leftStickUp", "Joypad_Left_Stick_Up" }, // Left Stick Up
-                { "leftStickDown", "Joypad_Left_Stick_Down" }, // Left Stick Down
-                { "leftStickLeft", "Joypad_Left_Stick_Left" }, // Left Stick Left
-                { "leftStickRight", "Joypad_Left_Stick_Right" }, // Left Stick Right
-            }
-        },
-    };
-
     public static Dictionary<string, Dictionary<string, string>> SpriteMappings = new Dictionary<
         string,
         Dictionary<string, string>

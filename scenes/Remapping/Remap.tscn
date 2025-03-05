@@ -37,11 +37,11 @@ text = "Choose Control Scheme"
 horizontal_alignment = 1
 
 [node name="WASDButton" type="Button" parent="Panel"]
-layout_mode = 2
-offset_left = 450.0
-offset_top = 50.0
-offset_right = 555.0
-offset_bottom = 81.0
+layout_mode = 0
+offset_left = 507.0
+offset_top = 54.0
+offset_right = 515.0
+offset_bottom = 62.0
 text = "CONTROLS_WASD_BUTTON"
 
 [node name="ArrowButton" type="Button" parent="Panel"]
@@ -62,11 +62,11 @@ text = "CONTROLS_QWER_BUTTON"
 
 [node name="ControllerButton" type="Button" parent="Panel"]
 layout_mode = 0
-offset_left = 404.0
+offset_left = 399.0
 offset_top = 57.0
-offset_right = 491.0
+offset_right = 486.0
 offset_bottom = 88.0
-text = "Controller"
+text = "CONTROLS_CONTROLLER_BUTTON"
 
 [node name="TitleButton" type="Button" parent="Panel"]
 layout_mode = 0
@@ -139,20 +139,20 @@ text = "="
 
 [node name="LeftRemap" type="Sprite2D" parent="Panel/Control"]
 position = Vector2(225, 160)
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.4, 0.4)
 texture = ExtResource("5_xn13c")
 
 [node name="UpRemap" type="Sprite2D" parent="Panel/Control"]
 position = Vector2(225, 200)
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.4, 0.4)
 texture = ExtResource("7_1a2jy")
 
 [node name="DownRemap" type="Sprite2D" parent="Panel/Control"]
 position = Vector2(225, 243)
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.4, 0.4)
 texture = ExtResource("6_qrl0g")
 
 [node name="RightRemap" type="Sprite2D" parent="Panel/Control"]
 position = Vector2(225, 284)
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.4, 0.4)
 texture = ExtResource("8_o7swo")

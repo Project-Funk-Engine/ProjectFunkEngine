@@ -34,7 +34,7 @@ public partial class PauseMenu : Control
 
     public override void _Input(InputEvent @event)
     {
-        if (@event.IsActionPressed("Pause"))
+        if (@event.IsActionPressed("ui_cancel"))
         {
             Resume();
             GetViewport().SetInputAsHandled();

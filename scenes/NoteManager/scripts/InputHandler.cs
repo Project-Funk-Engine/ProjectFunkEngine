@@ -81,160 +81,35 @@ public partial class InputHandler : Node2D
     public override void _Ready()
     {
         InitializeArrowCheckers();
-        LoadControlScheme();
     }
 
-    private void LoadControlScheme()
+    public override void _UnhandledInput(InputEvent @event)
     {
-        string scheme = SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.InputKey).As<string>();
-        foreach (var arrow in Arrows)
+        if (@event is InputEventJoypadButton)
         {
-            var events = InputMap.ActionGetEvents(arrow.Key);
-            foreach (var inputEvent in events)
-            {
-                InputMap.ActionEraseEvent(arrow.Key, inputEvent);
-            }
+            SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKey, "CONTROLLER");
         }
-
-        var selectedScheme = ControlSchemes.Schemes[scheme];
-
-        foreach (var arrow in Arrows)
-        {
-            if (selectedScheme.ContainsKey(arrow.Key))
-            {
-                string inputName = selectedScheme[arrow.Key];
-
-                if (inputName.StartsWith("Joypad")) // Controller input (D-pad or Stick)
-                {
-                    if (inputName.Contains("Stick")) // Left Stick Motion
-                    {
-                        InputEventJoypadMotion eventJoypadMotion = new InputEventJoypadMotion();
-                        eventJoypadMotion.Axis = GetJoypadAxis(inputName);
-                        InputMap.ActionAddEvent(arrow.Key, eventJoypadMotion);
-                    }
-
-                    // Add D-pad button mapping
-                    InputEventJoypadButton eventJoypadButton = new InputEventJoypadButton();
-                    eventJoypadButton.ButtonIndex = GetJoypadButton(inputName);
-
-                    if (eventJoypadButton.ButtonIndex != JoyButton.Invalid)
-                    {
-                        InputMap.ActionAddEvent(arrow.Key, eventJoypadButton);
-                    }
-                    else
-                    {
-                        GD.PrintErr($"Invalid joypad button mapping: {inputName}");
-                    }
-                }
-                else // Keyboard input
-                {
-                    if (Enum.TryParse(inputName, out Key keycode))
-                    {
-                        InputEventKey eventKey = new InputEventKey();
-                        eventKey.Keycode = keycode;
-                        InputMap.ActionAddEvent(arrow.Key, eventKey);
-                    }
-                    else
-                    {
-                        GD.PrintErr($"Invalid key mapping: {inputName}");
-                    }
-                }
-            }
-        }
-    }
-
-    private JoyAxis GetJoypadAxis(string action)
-    {
-        return action switch
-        {
-            "Joypad_Left_Stick_Up" => JoyAxis.LeftY,
-            "Joypad_Left_Stick_Down" => JoyAxis.LeftY,
-            "Joypad_Left_Stick_Left" => JoyAxis.LeftX,
-            "Joypad_Left_Stick_Right" => JoyAxis.LeftX,
-            _ => JoyAxis.Invalid, // Return an invalid axis if unknown
-        };
-    }
-
-    private JoyButton GetJoypadButton(string action)
-    {
-        return action switch
-        {
-            "Joypad_Dpad_Up" => JoyButton.DpadUp,
-            "Joypad_Dpad_Down" => JoyButton.DpadDown,
-            "Joypad_Dpad_Left" => JoyButton.DpadLeft,
-            "Joypad_Dpad_Right" => JoyButton.DpadRight,
-            _ => JoyButton.Invalid, // Return an invalid button if unknown
-        };
     }
 
     public override void _Process(double delta)
     {
+        string scheme = SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.InputKey).As<string>();
+        if (Input.GetConnectedJoypads().Count <= 0 && scheme == "CONTROLLER")
+        {
+            SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKey, "ARROWS");
+        }
+
         foreach (var arrow in Arrows)
         {
-            if (Input.IsActionJustPressed(arrow.Key))
+            if (Input.IsActionJustPressed(scheme + "_" + arrow.Key))
             {
                 EmitSignal(nameof(NotePressed), (int)arrow.Type);
                 arrow.Node.SetPressed(true);
             }
-            else if (Input.IsActionJustReleased(arrow.Key))
+            else if (Input.IsActionJustReleased(scheme + "_" + arrow.Key))
             {
                 EmitSignal(nameof(NoteReleased), (int)arrow.Type);
                 arrow.Node.SetPressed(false);
-            }
-        }
-    }
-
-    public override void _Input(InputEvent @event)
-    {
-        // Switch to CONTROLLER scheme if gamepad is used
-        if (@event is InputEventJoypadButton || @event is InputEventJoypadMotion)
-        {
-            string currentScheme = (string)ProjectSettings.GetSetting("game/input_scheme");
-            if (currentScheme != "CONTROLLER")
-            {
-                GD.Print("Gamepad detected, switching to CONTROLLER scheme.");
-                ProjectSettings.SetSetting("game/input_scheme", "CONTROLLER");
-                ProjectSettings.Save();
-                LoadControlScheme();
-            }
-        }
-
-        // Detect left stick movement and trigger button presses
-        if (@event is InputEventJoypadMotion motionEvent)
-        {
-            float deadzone = 0.5f; // Stick must be moved past this threshold
-
-            if (motionEvent.Axis == JoyAxis.LeftX)
-            {
-                if (motionEvent.AxisValue < -deadzone)
-                {
-                    Input.ActionPress("arrowLeft");
-                }
-                else if (motionEvent.AxisValue > deadzone)
-                {
-                    Input.ActionPress("arrowRight");
-                }
-                else
-                {
-                    Input.ActionRelease("arrowLeft");
-                    Input.ActionRelease("arrowRight");
-                }
-            }
-            else if (motionEvent.Axis == JoyAxis.LeftY)
-            {
-                if (motionEvent.AxisValue < -deadzone)
-                {
-                    Input.ActionPress("arrowUp");
-                }
-                else if (motionEvent.AxisValue > deadzone)
-                {
-                    Input.ActionPress("arrowDown");
-                }
-                else
-                {
-                    Input.ActionRelease("arrowUp");
-                    Input.ActionRelease("arrowDown");
-                }
             }
         }
     }

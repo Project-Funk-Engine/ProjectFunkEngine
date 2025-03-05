@@ -52,7 +52,7 @@ public partial class Inventory : Control
 
     public override void _Input(InputEvent @event)
     {
-        if (@event.IsActionPressed("Pause") || @event.IsActionPressed("Inventory"))
+        if (@event.IsActionPressed("ui_cancel") || @event.IsActionPressed("Inventory"))
         {
             Resume();
             GetViewport().SetInputAsHandled();
