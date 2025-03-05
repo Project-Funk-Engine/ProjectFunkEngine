@@ -18,7 +18,9 @@ Current team members include:
 #### Attributions:
 Music:
 - Title Screen: [Crystal Cave - Cynicmusic](https://opengameart.org/content/crystal-cave-song18)
-- Battle Song 1: [gameMusic - Magntron](https://freesound.org/people/Magntron/sounds/335571/)
+- Boss Song 1: [gameMusic - Magntron](https://freesound.org/people/Magntron/sounds/335571/)
+- Battle Song 1: [Piano loops 181 - josefpres](https://freesound.org/people/josefpres/sounds/789998/)
+- Battle Song 2: [Dark loops 220 - josefpres](https://freesound.org/people/josefpres/sounds/620230/)
 
 Images:
 - Input Buttons: [inputKeys - Nicolae (Xelu) Berbece](https://thoseawesomeguys.com/prompts/)
