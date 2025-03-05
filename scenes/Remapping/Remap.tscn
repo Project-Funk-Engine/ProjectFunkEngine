@@ -60,6 +60,14 @@ offset_right = 603.0
 offset_bottom = 125.0
 text = "CONTROLS_QWER_BUTTON"
 
+[node name="ControllerButton" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 404.0
+offset_top = 57.0
+offset_right = 491.0
+offset_bottom = 88.0
+text = "Controller"
+
 [node name="TitleButton" type="Button" parent="Panel"]
 layout_mode = 0
 offset_left = 232.0

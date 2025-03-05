@@ -97,15 +97,54 @@ public partial class InputHandler : Node2D
         }
 
         var selectedScheme = ControlSchemes.Schemes[scheme];
+
         foreach (var arrow in Arrows)
         {
             if (selectedScheme.ContainsKey(arrow.Key))
             {
-                InputEventKey eventKey = new InputEventKey();
-                eventKey.Keycode = (Key)Enum.Parse(typeof(Key), selectedScheme[arrow.Key]);
-                InputMap.ActionAddEvent(arrow.Key, eventKey);
+                string inputName = selectedScheme[arrow.Key];
+
+                if (inputName.StartsWith("Joypad")) // Controller input
+                {
+                    InputEventJoypadButton eventJoypad = new InputEventJoypadButton();
+                    eventJoypad.ButtonIndex = GetJoypadButton(inputName);
+
+                    if (eventJoypad.ButtonIndex != JoyButton.Invalid) // Ensure it's valid
+                    {
+                        InputMap.ActionAddEvent(arrow.Key, eventJoypad);
+                    }
+                    else
+                    {
+                        GD.PrintErr($"Invalid joypad button mapping: {inputName}");
+                    }
+                }
+                else // Keyboard input
+                {
+                    if (Enum.TryParse(inputName, out Key keycode)) // Check if valid keyboard key
+                    {
+                        InputEventKey eventKey = new InputEventKey();
+                        eventKey.Keycode = keycode;
+                        InputMap.ActionAddEvent(arrow.Key, eventKey);
+                    }
+                    else
+                    {
+                        GD.PrintErr($"Invalid key mapping: {inputName}");
+                    }
+                }
             }
         }
+    }
+
+    private JoyButton GetJoypadButton(string action)
+    {
+        return action switch
+        {
+            "Joypad_Dpad_Up" => JoyButton.DpadUp,
+            "Joypad_Dpad_Down" => JoyButton.DpadDown,
+            "Joypad_Dpad_Left" => JoyButton.DpadLeft,
+            "Joypad_Dpad_Right" => JoyButton.DpadRight,
+            _ => JoyButton.Invalid, // Return an invalid button if unknown
+        };
     }
 
     public override void _Process(double delta)
@@ -121,6 +160,27 @@ public partial class InputHandler : Node2D
             {
                 EmitSignal(nameof(NoteReleased), (int)arrow.Type);
                 arrow.Node.SetPressed(false);
+            }
+        }
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        // Detect if a gamepad button is pressed
+        if (@event is InputEventJoypadButton || @event is InputEventJoypadMotion)
+        {
+            // Get the currently active control scheme
+            string currentScheme = (string)ProjectSettings.GetSetting("game/input_scheme");
+
+            // Switch to "CONTROLLER" scheme if not already active
+            if (currentScheme != "CONTROLLER")
+            {
+                GD.Print("Gamepad detected, switching to CONTROLLER scheme.");
+                ProjectSettings.SetSetting("game/input_scheme", "CONTROLLER");
+                ProjectSettings.Save();
+
+                // Reload the control scheme to apply changes
+                LoadControlScheme();
             }
         }
     }

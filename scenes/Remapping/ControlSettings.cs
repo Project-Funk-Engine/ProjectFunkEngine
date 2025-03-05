@@ -28,6 +28,8 @@ public partial class ControlSettings : Node2D
             .Connect("pressed", Callable.From(OnArrowButtonPressed));
         GetNode<Button>("Panel/QWERTButton")
             .Connect("pressed", Callable.From(OnQWERTButtonPressed));
+        GetNode<Button>("Panel/ControllerButton")
+            .Connect("pressed", Callable.From(OnControllerButtonPressed));
 
         string scheme = SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.InputKey).As<string>();
         switch (scheme)
@@ -43,6 +45,10 @@ public partial class ControlSettings : Node2D
             case "WASD":
                 OnWASDButtonPressed();
                 GetNode<Button>("Panel/WASDButton").GrabFocus();
+                break;
+            case "CONTROLLER":
+                OnControllerButtonPressed();
+                GetNode<Button>("Panel/ControllerButton").GrabFocus();
                 break;
         }
 
@@ -93,6 +99,14 @@ public partial class ControlSettings : Node2D
             Tr("CONTROLS_TITLE_TYPE_QWER") + " " + Tr("CONTROLS_TITLE_SELECTED");
         SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKey, "QWERT");
         ChangeKeySprites("QWERT");
+    }
+
+    private void OnControllerButtonPressed()
+    {
+        GetNode<Label>("Panel/Label").Text = "Controller Selected";
+        ProjectSettings.SetSetting("game/input_scheme", "CONTROLLER");
+        ProjectSettings.Save();
+        ChangeKeySprites("CONTROLLER");
     }
 
     private void ChangeKeySprites(string scheme)

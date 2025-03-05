@@ -38,6 +38,16 @@ public static class ControlSchemes
                 { "arrowRight", "R" },
             }
         },
+        {
+            "CONTROLLER",
+            new Dictionary<string, string>()
+            {
+                { "arrowUp", "Joypad_Dpad_Up" },
+                { "arrowDown", "Joypad_Dpad_Down" },
+                { "arrowLeft", "Joypad_Dpad_Left" },
+                { "arrowRight", "Joypad_Dpad_Right" },
+            }
+        },
     };
 
     public static Dictionary<string, Dictionary<string, string>> SpriteMappings = new Dictionary<
@@ -73,6 +83,16 @@ public static class ControlSchemes
                 { "right", "res://scenes/Remapping/assets/R_Key_Light.png" },
                 { "up", "res://scenes/Remapping/assets/W_Key_Light.png" },
                 { "down", "res://scenes/Remapping/assets/E_Key_Light.png" },
+            }
+        },
+        {
+            "CONTROLLER",
+            new Dictionary<string, string>()
+            {
+                { "left", "res://scenes/Remapping/assets/360_Dpad_Left.png" },
+                { "right", "res://scenes/Remapping/assets/360_Dpad_Right.png" },
+                { "up", "res://scenes/Remapping/assets/360_Dpad_Up.png" },
+                { "down", "res://scenes/Remapping/assets/360_Dpad_Down.png" },
             }
         },
     };
