@@ -93,10 +93,10 @@ public static class ControlSchemes
             "CONTROLLER",
             new Dictionary<string, string>()
             {
-                { "left", "res://scenes/Remapping/assets/360_Dpad_Left.png" },
-                { "right", "res://scenes/Remapping/assets/360_Dpad_Right.png" },
-                { "up", "res://scenes/Remapping/assets/360_Dpad_Up.png" },
-                { "down", "res://scenes/Remapping/assets/360_Dpad_Down.png" },
+                { "left", "res://scenes/Remapping/assets/Positional_Prompts_Left.png" },
+                { "right", "res://scenes/Remapping/assets/Positional_Prompts_Right.png" },
+                { "up", "res://scenes/Remapping/assets/Positional_Prompts_Up.png" },
+                { "down", "res://scenes/Remapping/assets/Positional_Prompts_Down.png" },
             }
         },
     };

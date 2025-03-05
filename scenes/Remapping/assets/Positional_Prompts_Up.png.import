@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b8obc10bo43tn"
-path="res://.godot/imported/360_Dpad_Up.png-8f15a022de783873fca6ccee7bfe71d0.ctex"
+uid="uid://dlj21le4bp7cw"
+path="res://.godot/imported/Positional_Prompts_Up.png-7d12b23f22144d5032611d5d3d789658.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/Remapping/assets/360_Dpad_Up.png"
-dest_files=["res://.godot/imported/360_Dpad_Up.png-8f15a022de783873fca6ccee7bfe71d0.ctex"]
+source_file="res://scenes/Remapping/assets/Positional_Prompts_Up.png"
+dest_files=["res://.godot/imported/Positional_Prompts_Up.png-7d12b23f22144d5032611d5d3d789658.ctex"]
 
 [params]
 
