@@ -9,6 +9,7 @@ using Godot;
 public partial class Note : Resource, IDisplayable
 {
     public PuppetTemplate Owner;
+    public int Id;
     public string Name { get; set; }
     private int _baseVal;
     public float CostModifier { get; private set; }
@@ -18,6 +19,7 @@ public partial class Note : Resource, IDisplayable
     public Texture2D Texture { get; set; }
 
     public Note(
+        int id,
         string name,
         string tooltip,
         Texture2D texture = null,
@@ -27,6 +29,7 @@ public partial class Note : Resource, IDisplayable
         float costModifier = 1.0f
     )
     {
+        Id = id;
         Name = name;
         Owner = owner;
         NoteEffect =
@@ -52,7 +55,16 @@ public partial class Note : Resource, IDisplayable
     {
         //Eventually could look into something more robust, but for now shallow copy is preferable.
         //We only would want val and name to be copied by value
-        Note newNote = new Note(Name, Tooltip, Texture, Owner, _baseVal, NoteEffect, CostModifier);
+        Note newNote = new Note(
+            Id,
+            Name,
+            Tooltip,
+            Texture,
+            Owner,
+            _baseVal,
+            NoteEffect,
+            CostModifier
+        );
         return newNote;
     }
 }

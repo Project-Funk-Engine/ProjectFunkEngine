@@ -19,7 +19,11 @@ public partial class Cartographer : Node2D
     {
         DrawMap();
         GetViewport().GuiFocusChanged += UpdateFocus;
-        if (StageProducer.CurRoom.Type == Stages.Boss && StageProducer.CurRoom.Children.Length == 0)
+        SaveSystem.SaveGame();
+        if (
+            StageProducer.GetCurRoom().Type == Stages.Boss
+            && StageProducer.GetCurRoom().Children.Length == 0
+        )
         {
             WinStage();
         }
@@ -74,7 +78,7 @@ public partial class Cartographer : Node2D
         var newButton = new Button();
         AddChild(newButton);
         //button is disabled if it is not a child of current room.
-        if (!StageProducer.CurRoom.Children.Contains(room.Idx))
+        if (!StageProducer.GetCurRoom().Children.Contains(room.Idx))
         {
             newButton.Disabled = true;
             newButton.FocusMode = Control.FocusModeEnum.None;
@@ -104,7 +108,7 @@ public partial class Cartographer : Node2D
         }
         newButton.ZIndex = 1;
         newButton.Position = GetPosition(room.X, room.Y) - newButton.Size * 2;
-        if (room == StageProducer.CurRoom)
+        if (room == StageProducer.GetCurRoom())
             PlayerSprite.Position = newButton.Position + newButton.Size * .5f;
     }
 
