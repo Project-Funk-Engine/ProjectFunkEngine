@@ -104,14 +104,22 @@ public partial class InputHandler : Node2D
             {
                 string inputName = selectedScheme[arrow.Key];
 
-                if (inputName.StartsWith("Joypad")) // Controller input
+                if (inputName.StartsWith("Joypad")) // Controller input (D-pad or Stick)
                 {
-                    InputEventJoypadButton eventJoypad = new InputEventJoypadButton();
-                    eventJoypad.ButtonIndex = GetJoypadButton(inputName);
-
-                    if (eventJoypad.ButtonIndex != JoyButton.Invalid) // Ensure it's valid
+                    if (inputName.Contains("Stick")) // Left Stick Motion
                     {
-                        InputMap.ActionAddEvent(arrow.Key, eventJoypad);
+                        InputEventJoypadMotion eventJoypadMotion = new InputEventJoypadMotion();
+                        eventJoypadMotion.Axis = GetJoypadAxis(inputName);
+                        InputMap.ActionAddEvent(arrow.Key, eventJoypadMotion);
+                    }
+
+                    // Add D-pad button mapping
+                    InputEventJoypadButton eventJoypadButton = new InputEventJoypadButton();
+                    eventJoypadButton.ButtonIndex = GetJoypadButton(inputName);
+
+                    if (eventJoypadButton.ButtonIndex != JoyButton.Invalid)
+                    {
+                        InputMap.ActionAddEvent(arrow.Key, eventJoypadButton);
                     }
                     else
                     {
@@ -120,7 +128,7 @@ public partial class InputHandler : Node2D
                 }
                 else // Keyboard input
                 {
-                    if (Enum.TryParse(inputName, out Key keycode)) // Check if valid keyboard key
+                    if (Enum.TryParse(inputName, out Key keycode))
                     {
                         InputEventKey eventKey = new InputEventKey();
                         eventKey.Keycode = keycode;
@@ -133,6 +141,18 @@ public partial class InputHandler : Node2D
                 }
             }
         }
+    }
+
+    private JoyAxis GetJoypadAxis(string action)
+    {
+        return action switch
+        {
+            "Joypad_Left_Stick_Up" => JoyAxis.LeftY,
+            "Joypad_Left_Stick_Down" => JoyAxis.LeftY,
+            "Joypad_Left_Stick_Left" => JoyAxis.LeftX,
+            "Joypad_Left_Stick_Right" => JoyAxis.LeftX,
+            _ => JoyAxis.Invalid, // Return an invalid axis if unknown
+        };
     }
 
     private JoyButton GetJoypadButton(string action)
@@ -166,21 +186,55 @@ public partial class InputHandler : Node2D
 
     public override void _Input(InputEvent @event)
     {
-        // Detect if a gamepad button is pressed
+        // Switch to CONTROLLER scheme if gamepad is used
         if (@event is InputEventJoypadButton || @event is InputEventJoypadMotion)
         {
-            // Get the currently active control scheme
             string currentScheme = (string)ProjectSettings.GetSetting("game/input_scheme");
-
-            // Switch to "CONTROLLER" scheme if not already active
             if (currentScheme != "CONTROLLER")
             {
                 GD.Print("Gamepad detected, switching to CONTROLLER scheme.");
                 ProjectSettings.SetSetting("game/input_scheme", "CONTROLLER");
                 ProjectSettings.Save();
-
-                // Reload the control scheme to apply changes
                 LoadControlScheme();
+            }
+        }
+
+        // Detect left stick movement and trigger button presses
+        if (@event is InputEventJoypadMotion motionEvent)
+        {
+            float deadzone = 0.5f; // Stick must be moved past this threshold
+
+            if (motionEvent.Axis == JoyAxis.LeftX)
+            {
+                if (motionEvent.AxisValue < -deadzone)
+                {
+                    Input.ActionPress("arrowLeft");
+                }
+                else if (motionEvent.AxisValue > deadzone)
+                {
+                    Input.ActionPress("arrowRight");
+                }
+                else
+                {
+                    Input.ActionRelease("arrowLeft");
+                    Input.ActionRelease("arrowRight");
+                }
+            }
+            else if (motionEvent.Axis == JoyAxis.LeftY)
+            {
+                if (motionEvent.AxisValue < -deadzone)
+                {
+                    Input.ActionPress("arrowUp");
+                }
+                else if (motionEvent.AxisValue > deadzone)
+                {
+                    Input.ActionPress("arrowDown");
+                }
+                else
+                {
+                    Input.ActionRelease("arrowUp");
+                    Input.ActionRelease("arrowDown");
+                }
             }
         }
     }

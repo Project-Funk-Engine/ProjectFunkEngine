@@ -46,6 +46,10 @@ public static class ControlSchemes
                 { "arrowDown", "Joypad_Dpad_Down" },
                 { "arrowLeft", "Joypad_Dpad_Left" },
                 { "arrowRight", "Joypad_Dpad_Right" },
+                { "leftStickUp", "Joypad_Left_Stick_Up" }, // Left Stick Up
+                { "leftStickDown", "Joypad_Left_Stick_Down" }, // Left Stick Down
+                { "leftStickLeft", "Joypad_Left_Stick_Left" }, // Left Stick Left
+                { "leftStickRight", "Joypad_Left_Stick_Right" }, // Left Stick Right
             }
         },
     };
