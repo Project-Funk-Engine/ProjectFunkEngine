@@ -108,7 +108,8 @@ public partial class StageProducer : Node
         switch (nextRoom)
         {
             case Stages.Battle:
-                int songIdx = GlobalRng.RandiRange(1, 2);
+                //int songIdx = GlobalRng.RandiRange(1, 2);
+                int songIdx = 1;
                 result.CurSong = Scribe.SongDictionary[songIdx];
                 result.EnemyScenePath = Scribe.SongDictionary[songIdx].EnemyScenePath;
                 break;
