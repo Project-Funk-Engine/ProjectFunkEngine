@@ -96,7 +96,7 @@ public partial class ChartManager : SubViewportContainer
     )
     {
         var newNote = CreateNote(type, note, beat); //TODO: Notes on track have unqiue visuals
-        var loopArrow = CreateNote(type, note, beat + BeatsPerLoop); //Create a dummy arrow for looping visuals
+        var loopArrow = CreateNote(type, note, beat, 1); //Create a dummy arrow for looping visuals
         if (colorOverride != default)
         {
             newNote.SelfModulate = colorOverride;
@@ -106,7 +106,7 @@ public partial class ChartManager : SubViewportContainer
         return newNote;
     }
 
-    private NoteArrow CreateNote(ArrowType arrow, Note note, int beat = 0)
+    private NoteArrow CreateNote(ArrowType arrow, Note note, int beat = 0, int loopOffset = 0)
     {
         var noteScene = ResourceLoader.Load<PackedScene>("res://scenes/NoteManager/note.tscn");
         NoteArrow newArrow = noteScene.Instantiate<NoteArrow>();
@@ -114,7 +114,9 @@ public partial class ChartManager : SubViewportContainer
         newArrow.OutlineSprite.Modulate = IH.Arrows[(int)arrow].Color;
 
         _arrowGroup.AddChild(newArrow);
-        newArrow.Bounds = (float)(beat / TrueBeatsPerLoop * (ChartLength / 2));
+        newArrow.Bounds = (float)(
+            beat / TrueBeatsPerLoop * (ChartLength / 2) + loopOffset * (ChartLength / 2)
+        );
         newArrow.Position += Vector2.Right * newArrow.Bounds * 10; //temporary fix for notes spawning and instantly calling loop from originating at 0,0
         return newArrow;
     }

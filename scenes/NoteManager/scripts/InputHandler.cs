@@ -81,43 +81,32 @@ public partial class InputHandler : Node2D
     public override void _Ready()
     {
         InitializeArrowCheckers();
-        LoadControlScheme();
     }
 
-    private void LoadControlScheme()
+    public override void _UnhandledInput(InputEvent @event)
     {
-        string scheme = SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.InputKey).As<string>();
-        foreach (var arrow in Arrows)
+        if (@event is InputEventJoypadButton)
         {
-            var events = InputMap.ActionGetEvents(arrow.Key);
-            foreach (var inputEvent in events)
-            {
-                InputMap.ActionEraseEvent(arrow.Key, inputEvent);
-            }
-        }
-
-        var selectedScheme = ControlSchemes.Schemes[scheme];
-        foreach (var arrow in Arrows)
-        {
-            if (selectedScheme.ContainsKey(arrow.Key))
-            {
-                InputEventKey eventKey = new InputEventKey();
-                eventKey.Keycode = (Key)Enum.Parse(typeof(Key), selectedScheme[arrow.Key]);
-                InputMap.ActionAddEvent(arrow.Key, eventKey);
-            }
+            SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKey, "CONTROLLER");
         }
     }
 
     public override void _Process(double delta)
     {
+        string scheme = SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.InputKey).As<string>();
+        if (Input.GetConnectedJoypads().Count <= 0 && scheme == "CONTROLLER")
+        {
+            SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKey, "ARROWS");
+        }
+
         foreach (var arrow in Arrows)
         {
-            if (Input.IsActionJustPressed(arrow.Key))
+            if (Input.IsActionJustPressed(scheme + "_" + arrow.Key))
             {
                 EmitSignal(nameof(NotePressed), (int)arrow.Type);
                 arrow.Node.SetPressed(true);
             }
-            else if (Input.IsActionJustReleased(arrow.Key))
+            else if (Input.IsActionJustReleased(scheme + "_" + arrow.Key))
             {
                 EmitSignal(nameof(NoteReleased), (int)arrow.Type);
                 arrow.Node.SetPressed(false);

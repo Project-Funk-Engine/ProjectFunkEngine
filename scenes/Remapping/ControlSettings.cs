@@ -21,6 +21,8 @@ public partial class ControlSettings : Node2D
     [Export]
     private Button _closeButton;
 
+    private Button _controllerButton;
+
     public override void _Ready()
     {
         GetNode<Button>("Panel/WASDButton").Connect("pressed", Callable.From(OnWASDButtonPressed));
@@ -28,6 +30,11 @@ public partial class ControlSettings : Node2D
             .Connect("pressed", Callable.From(OnArrowButtonPressed));
         GetNode<Button>("Panel/QWERTButton")
             .Connect("pressed", Callable.From(OnQWERTButtonPressed));
+        _controllerButton = GetNode<Button>("Panel/ControllerButton");
+        _controllerButton.Connect("pressed", Callable.From(OnControllerButtonPressed));
+
+        ControllerConnectionChanged(-1, false);
+        Input.JoyConnectionChanged += ControllerConnectionChanged;
 
         string scheme = SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.InputKey).As<string>();
         switch (scheme)
@@ -43,6 +50,10 @@ public partial class ControlSettings : Node2D
             case "WASD":
                 OnWASDButtonPressed();
                 GetNode<Button>("Panel/WASDButton").GrabFocus();
+                break;
+            case "CONTROLLER":
+                OnControllerButtonPressed();
+                GetNode<Button>("Panel/ControllerButton").GrabFocus();
                 break;
         }
 
@@ -64,7 +75,7 @@ public partial class ControlSettings : Node2D
 
     public override void _Input(InputEvent @event)
     {
-        if (@event.IsActionPressed("Pause"))
+        if (@event.IsActionPressed("ui_cancel"))
         {
             CloseMenu();
             GetViewport().SetInputAsHandled();
@@ -93,6 +104,25 @@ public partial class ControlSettings : Node2D
             Tr("CONTROLS_TITLE_TYPE_QWER") + " " + Tr("CONTROLS_TITLE_SELECTED");
         SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKey, "QWERT");
         ChangeKeySprites("QWERT");
+    }
+
+    private void OnControllerButtonPressed()
+    {
+        GetNode<Label>("Panel/Label").Text = "Controller Selected";
+        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKey, "CONTROLLER");
+        ChangeKeySprites("CONTROLLER");
+    }
+
+    private void ControllerConnectionChanged(long id, bool connected)
+    {
+        _controllerButton.Visible = Input.GetConnectedJoypads().Count > 0;
+        if (
+            (string)SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.InputKey) == "CONTROLLER"
+            && !_closeButton.Visible
+        )
+        {
+            OnArrowButtonPressed();
+        }
     }
 
     private void ChangeKeySprites(string scheme)
