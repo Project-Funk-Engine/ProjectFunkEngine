@@ -39,7 +39,6 @@ project/assembly_name="Funk Engine"
 
 [game]
 
-input_scheme="CONTROLLER"
 
 [input]
 
