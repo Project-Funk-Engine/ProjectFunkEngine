@@ -224,6 +224,7 @@ public partial class BattleDirector : Node2D
     private void BattleLost()
     {
         Audio.StreamPaused = true;
+        SaveSystem.ClearSave();
         AddChild(GD.Load<PackedScene>("res://scenes/UI/EndScreen.tscn").Instantiate());
         GetTree().Paused = true;
     }

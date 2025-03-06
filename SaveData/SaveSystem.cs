@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -202,8 +203,22 @@ public static class SaveSystem
         GD.Print(json);
 
         file.Close();
-        SaveFile sv = JsonSerializer.Deserialize<SaveFile>(json);
+        SaveFile sv;
+        try
+        {
+            sv = JsonSerializer.Deserialize<SaveFile>(json);
+        }
+        catch (JsonException)
+        {
+            GD.PushWarning("Cannot deserialize save file, returning null.");
+            return null;
+        }
         return sv;
+    }
+
+    public static void ClearSave()
+    {
+        DirAccess.RemoveAbsolute(UserSavePath);
     }
 
     #endregion

@@ -61,9 +61,7 @@ public partial class StageProducer : Node
         SaveSystem.SaveFile sv = SaveSystem.LoadGame();
         if (sv == null)
         {
-            GD.PushError(
-                "StageProducer.LoadGame(): Can't load game, either file 404 or invalid file."
-            );
+            GD.PushWarning("Can't load game, either file 404 or invalid file.");
             return false;
         }
         GlobalRng.Seed = sv.RngSeed;
@@ -144,7 +142,7 @@ public partial class StageProducer : Node
                 GetTree().Quit();
                 return;
             default:
-                GD.Print($"Error Scene Transition is {nextStage}");
+                GD.PushError($"Error Scene Transition is {nextStage}");
                 break;
         }
 
