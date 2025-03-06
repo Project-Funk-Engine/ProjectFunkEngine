@@ -37,9 +37,6 @@ window/stretch/scale_mode="integer"
 
 project/assembly_name="Funk Engine"
 
-[game]
-
-
 [input]
 
 ui_accept={
