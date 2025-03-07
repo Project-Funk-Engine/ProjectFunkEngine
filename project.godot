@@ -30,7 +30,7 @@ BgAudioPlayer="*res://Globals/BgAudioPlayer/BGAudioPlayer.tscn"
 
 window/size/viewport_width=640
 window/size/viewport_height=360
-window/stretch/mode="viewport"
+window/stretch/mode="canvas_items"
 window/stretch/scale_mode="integer"
 
 [dotnet]
