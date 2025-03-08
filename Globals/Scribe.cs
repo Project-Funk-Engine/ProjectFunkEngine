@@ -20,7 +20,7 @@ public partial class Scribe : Node
             1,
             (director, note, timing) =>
             {
-                director.Player.TakeDamage(3 - (int)timing);
+                director.Player.TakeDamage((3 - (int)timing) * note.GetBaseVal());
             }
         ),
         new Note(
@@ -32,7 +32,7 @@ public partial class Scribe : Node
             1,
             (director, note, timing) =>
             {
-                director.Enemy.TakeDamage((int)timing);
+                director.Enemy.TakeDamage((int)timing * note.GetBaseVal());
             }
         ),
         new Note(
@@ -46,7 +46,7 @@ public partial class Scribe : Node
             {
                 // can change later, but I want it like this instead of changing base
                 // in case we have some relic that messes with timing
-                director.Enemy.TakeDamage(2 * (int)timing);
+                director.Enemy.TakeDamage((2 * (int)timing) * note.GetBaseVal());
             }
         ),
         new Note(
@@ -58,7 +58,7 @@ public partial class Scribe : Node
             1,
             (director, note, timing) =>
             {
-                director.Player.Heal((int)timing);
+                director.Player.Heal((int)timing * note.GetBaseVal());
             }
         ),
         new Note(
@@ -71,7 +71,7 @@ public partial class Scribe : Node
             (director, note, timing) =>
             {
                 director.Player.Heal((int)timing);
-                director.Enemy.TakeDamage((int)timing);
+                director.Enemy.TakeDamage((int)timing * note.GetBaseVal());
             }
         ),
         new Note(
@@ -83,7 +83,7 @@ public partial class Scribe : Node
             1,
             (director, note, timing) =>
             {
-                director.Enemy.TakeDamage((int)timing);
+                director.Enemy.TakeDamage((int)timing * note.GetBaseVal());
             },
             0.25f
         ),
