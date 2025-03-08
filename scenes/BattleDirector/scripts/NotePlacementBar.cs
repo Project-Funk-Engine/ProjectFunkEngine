@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FunkEngine;
 using Godot;
 
 public partial class NotePlacementBar : Node
@@ -183,13 +184,16 @@ public partial class NotePlacementBar : Node
     }
 
     // Placing a note resets the note placement bar
-    public Note PlacedNote()
+    public Note PlacedNote(BattleDirector BD, Timing timing)
     {
         _currentBarValue -= (int)(_currentNoteInstance.CostModifier * MaxValue);
 
         UpdateNotePlacementBar(_currentBarValue);
         //fullBarParticles.Emitting = false;
-        return GetNote(Input.IsActionPressed("Secondary"));
+
+        Note placedNote = GetNote(Input.IsActionPressed("Secondary"));
+        placedNote?.OnHit(BD, timing);
+        return placedNote;
     }
 
     public bool CanPlaceNote()
