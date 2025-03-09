@@ -87,11 +87,7 @@ public partial class Conductor : Node
         {
             foreach (midiNoteInfo mNote in MM.GetNotes(type))
             {
-                AddNoteToLane(
-                    type,
-                    (int)(mNote.GetStartTimeSeconds() / (60 / (double)TimeKeeper.Bpm)),
-                    Scribe.NoteDictionary[0]
-                );
+                AddNoteToLane(type, (int)mNote.GetStartTimeBeat(), Scribe.NoteDictionary[0]);
             }
         }
     }
