@@ -5,6 +5,8 @@ public partial class P_Parasifly : EnemyPuppet
 {
     public override void _Ready()
     {
+        _currentHealth = 50;
+        _maxHealth = 50;
         base._Ready();
         var enemTween = CreateTween();
         enemTween.TweenProperty(Sprite, "position", Vector2.Down * 2, 2f).AsRelative();

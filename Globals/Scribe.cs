@@ -20,7 +20,7 @@ public partial class Scribe : Node
             1,
             (director, note, timing) =>
             {
-                director.Player.TakeDamage((3 - (int)timing) * note.GetBaseVal());
+                director.Player.TakeDamage((3 - (int)timing) + note.GetBaseVal());
             }
         ),
         new Note(
@@ -32,7 +32,8 @@ public partial class Scribe : Node
             1,
             (director, note, timing) =>
             {
-                director.Enemy.TakeDamage((int)timing * note.GetBaseVal());
+                if (timing != Timing.Miss)
+                    director.Enemy.TakeDamage((int)timing + note.GetBaseVal());
             }
         ),
         new Note(
@@ -44,9 +45,8 @@ public partial class Scribe : Node
             1,
             (director, note, timing) =>
             {
-                // can change later, but I want it like this instead of changing base
-                // in case we have some relic that messes with timing
-                director.Enemy.TakeDamage((2 * (int)timing) * note.GetBaseVal());
+                if (timing != Timing.Miss)
+                    director.Enemy.TakeDamage((2 * (int)timing) + note.GetBaseVal());
             }
         ),
         new Note(
@@ -58,7 +58,8 @@ public partial class Scribe : Node
             1,
             (director, note, timing) =>
             {
-                director.Player.Heal((int)timing * note.GetBaseVal());
+                if (timing != Timing.Miss)
+                    director.Player.Heal((int)timing + note.GetBaseVal());
             }
         ),
         new Note(
@@ -70,8 +71,11 @@ public partial class Scribe : Node
             1,
             (director, note, timing) =>
             {
-                director.Player.Heal((int)timing);
-                director.Enemy.TakeDamage((int)timing * note.GetBaseVal());
+                if (timing != Timing.Miss)
+                {
+                    director.Player.Heal((int)timing);
+                    director.Enemy.TakeDamage((int)timing + note.GetBaseVal());
+                }
             }
         ),
         new Note(
@@ -83,7 +87,8 @@ public partial class Scribe : Node
             1,
             (director, note, timing) =>
             {
-                director.Enemy.TakeDamage((int)timing * note.GetBaseVal());
+                if (timing != Timing.Miss)
+                    director.Enemy.TakeDamage((int)timing + note.GetBaseVal());
             },
             0.25f
         ),
