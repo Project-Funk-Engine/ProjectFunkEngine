@@ -13,8 +13,8 @@ void fragment() {
     if (rand(SCREEN_UV.xy / 20.0) > 0.996) {
         float r = rand(SCREEN_UV.xy);
         star_intensity = r * (0.85 * sin((TIME * time_scale) * (r * 5.0) + 720.0 * r) + 0.95);
-        alpha = star_intensity; 
+        alpha = star_intensity;
     }
-    
+
     COLOR = vec4(vec3(star_intensity), alpha);
 }

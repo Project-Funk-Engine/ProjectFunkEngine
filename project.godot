@@ -24,13 +24,13 @@ buses/default_bus_layout=""
 StageProducer="*res://Globals/StageProducer.cs"
 TimeKeeper="*res://Globals/TimeKeeper.cs"
 Scribe="*res://Globals/Scribe.cs"
-BgAudioPlayer="*res://Globals/BGAudioPlayer.tscn"
+BgAudioPlayer="*res://Globals/BgAudioPlayer/BGAudioPlayer.tscn"
 
 [display]
 
 window/size/viewport_width=640
 window/size/viewport_height=360
-window/stretch/mode="viewport"
+window/stretch/mode="canvas_items"
 window/stretch/scale_mode="integer"
 
 [dotnet]
@@ -191,7 +191,7 @@ QWERT_arrowRight={
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://Globals/translations.cn.translation", "res://Globals/translations.en.translation")
+locale/translations=PackedStringArray("res://Globals/Translations/translations.cn.translation", "res://Globals/Translations/translations.en.translation")
 
 [rendering]
 

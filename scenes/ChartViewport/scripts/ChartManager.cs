@@ -60,7 +60,7 @@ public partial class ChartManager : SubViewportContainer
     public void BeginTweens()
     {
         //This could be good as a function to call on something, to have many things animated to the beat.
-        var tween = GetTree().CreateTween();
+        var tween = CreateTween();
         tween
             .TweenMethod(
                 Callable.From((Vector2 scale) => TweenArrows(scale)),
@@ -110,14 +110,13 @@ public partial class ChartManager : SubViewportContainer
     {
         var noteScene = ResourceLoader.Load<PackedScene>("res://scenes/NoteManager/note.tscn");
         NoteArrow newArrow = noteScene.Instantiate<NoteArrow>();
+        newArrow.Bounds = (float)(
+            beat / TrueBeatsPerLoop * (ChartLength / 2) + loopOffset * (ChartLength / 2)
+        );
         newArrow.Init(IH.Arrows[(int)arrow], beat, note);
         newArrow.OutlineSprite.Modulate = IH.Arrows[(int)arrow].Color;
 
         _arrowGroup.AddChild(newArrow);
-        newArrow.Bounds = (float)(
-            beat / TrueBeatsPerLoop * (ChartLength / 2) + loopOffset * (ChartLength / 2)
-        );
-        newArrow.Position += Vector2.Right * newArrow.Bounds * 10; //temporary fix for notes spawning and instantly calling loop from originating at 0,0
         return newArrow;
     }
 
@@ -128,13 +127,5 @@ public partial class ChartManager : SubViewportContainer
         newText.Position = IH.Arrows[(int)arrow].Node.Position - newText.Size / 2;
         IH.FeedbackEffect(arrow, text);
         newText.Text = text + $" {currentCombo}";
-    }
-
-    public override void _ExitTree()
-    {
-        foreach (var tween in GetTree().GetProcessedTweens())
-        {
-            tween.Stop();
-        }
     }
 }

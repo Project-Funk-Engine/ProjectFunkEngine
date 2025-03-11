@@ -28,10 +28,6 @@ shader = ExtResource("11_ht0dv")
 shader_parameter/height = 10.0
 shader_parameter/speed = 2.0
 shader_parameter/freq = 10.0
-shader_parameter/bg_top_color = null
-shader_parameter/bg_bottom_color = null
-shader_parameter/gradient_ratio = 0.0
-shader_parameter/time_scale = null
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4croe"]
 particle_flag_disable_z = true
@@ -110,11 +106,9 @@ texture = ExtResource("2_cf582")
 z_index = -1
 material = SubResource("ShaderMaterial_cbpjr")
 layout_mode = 0
-offset_left = -223.0
-offset_top = -200.0
-offset_right = 252.0
-offset_bottom = -23.0
-scale = Vector2(3.78, 3.82)
+offset_right = 475.0
+offset_bottom = 177.0
+scale = Vector2(2, 2)
 color = Color(0, 0, 0, 1)
 
 [node name="SecretLabel" type="Label" parent="."]
