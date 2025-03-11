@@ -20,7 +20,7 @@ public partial class Scribe : Node
             1,
             (director, note, timing) =>
             {
-                director.Player.TakeDamage((3 - (int)timing) + note.GetBaseVal());
+                director.Player.TakeDamage((3 - (int)timing) * note.GetBaseVal());
             }
         ),
         new Note(
@@ -32,8 +32,9 @@ public partial class Scribe : Node
             1,
             (director, note, timing) =>
             {
-                if (timing != Timing.Miss)
-                    director.Enemy.TakeDamage((int)timing + note.GetBaseVal());
+                if (timing == Timing.Miss)
+                    return;
+                director.Enemy.TakeDamage((int)timing * note.GetBaseVal());
             }
         ),
         new Note(
@@ -42,11 +43,12 @@ public partial class Scribe : Node
             "Basic player note, deals double damage to enemy.",
             GD.Load<Texture2D>("res://Classes/Notes/assets/double_note.png"),
             null,
-            1,
+            2,
             (director, note, timing) =>
             {
-                if (timing != Timing.Miss)
-                    director.Enemy.TakeDamage((2 * (int)timing) + note.GetBaseVal());
+                if (timing == Timing.Miss)
+                    return;
+                director.Enemy.TakeDamage(note.GetBaseVal() * (int)timing);
             }
         ),
         new Note(
@@ -58,8 +60,9 @@ public partial class Scribe : Node
             1,
             (director, note, timing) =>
             {
-                if (timing != Timing.Miss)
-                    director.Player.Heal((int)timing + note.GetBaseVal());
+                if (timing == Timing.Miss)
+                    return;
+                director.Player.Heal((int)timing * note.GetBaseVal());
             }
         ),
         new Note(
@@ -71,11 +74,10 @@ public partial class Scribe : Node
             1,
             (director, note, timing) =>
             {
-                if (timing != Timing.Miss)
-                {
-                    director.Player.Heal((int)timing);
-                    director.Enemy.TakeDamage((int)timing + note.GetBaseVal());
-                }
+                if (timing == Timing.Miss)
+                    return;
+                director.Player.Heal((int)timing * note.GetBaseVal());
+                director.Enemy.TakeDamage((int)timing * note.GetBaseVal());
             }
         ),
         new Note(
@@ -87,8 +89,9 @@ public partial class Scribe : Node
             1,
             (director, note, timing) =>
             {
-                if (timing != Timing.Miss)
-                    director.Enemy.TakeDamage((int)timing + note.GetBaseVal());
+                if (timing == Timing.Miss)
+                    return;
+                director.Enemy.TakeDamage((int)timing + note.GetBaseVal());
             },
             0.25f
         ),

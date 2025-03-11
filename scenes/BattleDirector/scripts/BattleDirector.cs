@@ -47,10 +47,10 @@ public partial class BattleDirector : Node2D
             !CD.AddNoteToLane(
                 type,
                 beat % CM.BeatsPerLoop,
-                NotePlacementBar.PlacedNote(this, Timing.Okay),
+                NotePlacementBar.PlacedNote(this),
                 false
             )
-        )
+        ) //TODO: Remove passing BD into NPB
             return false;
         NotePlaced?.Invoke(this);
         return true;
