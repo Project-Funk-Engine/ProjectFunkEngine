@@ -37,7 +37,7 @@ public partial class Note : Resource, IDisplayable
             ?? (
                 (BD, source, Timing) =>
                 {
-                    BD.GetTarget(this).TakeDamage(source._baseVal);
+                    BD.GetTarget(this).TakeDamage((int)Timing * source._baseVal);
                 }
             );
         _baseVal = baseVal;
@@ -66,5 +66,10 @@ public partial class Note : Resource, IDisplayable
             CostModifier
         );
         return newNote;
+    }
+
+    public int GetBaseVal()
+    {
+        return _baseVal;
     }
 }

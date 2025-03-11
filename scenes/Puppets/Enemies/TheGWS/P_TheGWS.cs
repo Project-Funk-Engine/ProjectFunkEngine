@@ -5,6 +5,8 @@ public partial class P_TheGWS : EnemyPuppet
 {
     public override void _Ready()
     {
+        _currentHealth = 75;
+        _maxHealth = 75;
         base._Ready();
         var enemTween = CreateTween();
         enemTween.TweenProperty(Sprite, "position", Vector2.Down * 10, 3f).AsRelative();
