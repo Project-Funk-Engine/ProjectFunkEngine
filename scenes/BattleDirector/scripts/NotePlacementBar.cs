@@ -37,7 +37,7 @@ public partial class NotePlacementBar : Node
     //Juice - https://www.youtube.com/watch?v=LGt-jjVf-ZU
     private int _limiter;
     private Vector2 _barInitPosition;
-    private float _randomStrength = 1f;
+    private float _baseShake = 1f;
     private float _shakeFade = 10f;
     private RandomNumberGenerator _rng = new();
     private float _shakeStrength;
@@ -49,7 +49,7 @@ public partial class NotePlacementBar : Node
             return;
         if (_currentBarValue >= MaxValue)
         {
-            _shakeStrength = _randomStrength;
+            _shakeStrength = _baseShake;
         }
         if (_shakeStrength > 0)
         {

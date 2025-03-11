@@ -60,7 +60,7 @@ public partial class ChartManager : SubViewportContainer
     public void BeginTweens()
     {
         //This could be good as a function to call on something, to have many things animated to the beat.
-        var tween = GetTree().CreateTween();
+        var tween = CreateTween();
         tween
             .TweenMethod(
                 Callable.From((Vector2 scale) => TweenArrows(scale)),
@@ -128,13 +128,5 @@ public partial class ChartManager : SubViewportContainer
         newText.Position = IH.Arrows[(int)arrow].Node.Position - newText.Size / 2;
         IH.FeedbackEffect(arrow, text);
         newText.Text = text + $" {currentCombo}";
-    }
-
-    public override void _ExitTree()
-    {
-        foreach (var tween in GetTree().GetProcessedTweens())
-        {
-            tween.Stop();
-        }
     }
 }
