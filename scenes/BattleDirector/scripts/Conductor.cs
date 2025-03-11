@@ -45,11 +45,11 @@ public partial class Conductor : Node
     {
         beat %= CM.BeatsPerLoop;
         Note newNote = note.Clone();
-        if (beat == 0 || _laneData[(int)type][beat] != null)
+        if (beat == 0 || _laneData[(int)type][beat] != null) //TODO: Double check if this is still necessary, doesn't seem to matter for player placed notes
             return false;
 
         NoteArrow arrow;
-        if (isActive) //Currently an enemy note.
+        if (isActive) //Currently isActive means an enemy note.
         {
             arrow = CM.AddArrowToLane(type, beat, newNote);
         }

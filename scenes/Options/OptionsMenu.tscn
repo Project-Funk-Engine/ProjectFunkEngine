@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scenes/Options/scripts/LanguageSelection.cs" id="1_qyvkw"]
 [ext_resource type="Script" path="res://scenes/Options/OptionsMenu.cs" id="1_yjq7i"]
 
-[node name="OptionsMenu" type="CanvasLayer" node_paths=PackedStringArray("_focused", "_volumeSlider", "_closeButton", "_controlsButton", "_highContrastToggle")]
+[node name="OptionsMenu" type="CanvasLayer" node_paths=PackedStringArray("_focused", "_volumeSlider", "_closeButton", "_controlsButton", "_highContrastToggle", "_howToPlayButton")]
 process_mode = 3
 script = ExtResource("1_yjq7i")
 _focused = NodePath("Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/LanguageSelection")
@@ -11,6 +11,7 @@ _volumeSlider = NodePath("Control/CenterContainer/MarginContainer/MarginContaine
 _closeButton = NodePath("Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/TitleButton")
 _controlsButton = NodePath("Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ControlsButton")
 _highContrastToggle = NodePath("Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/CheckBox")
+_howToPlayButton = NodePath("Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/HowToPlayButton")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -59,7 +60,7 @@ theme_override_constants/margin_bottom = 10
 custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_constants/separation = 25
+theme_override_constants/separation = 18
 alignment = 1
 
 [node name="Title" type="Label" parent="Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer"]
@@ -111,6 +112,10 @@ script = ExtResource("1_qyvkw")
 [node name="ControlsButton" type="Button" parent="Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "TITLE_CONTROLS"
+
+[node name="HowToPlayButton" type="Button" parent="Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "HOW_TO_PLAY"
 
 [node name="TitleButton" type="Button" parent="Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
