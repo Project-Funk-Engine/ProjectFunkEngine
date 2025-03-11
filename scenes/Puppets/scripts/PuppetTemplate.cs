@@ -2,7 +2,7 @@ using System;
 using Godot;
 
 /** Essentially a battle entity. Has HP and can be healed or damaged.
- * TODO: Look into interfaces
+ *
  */
 public partial class PuppetTemplate : Node2D
 {
@@ -113,7 +113,7 @@ public partial class PuppetTemplate : Node2D
     {
         amount = Math.Max(0, amount); //Should not be able to heal from damage.
         if (_currentHealth <= 0 || amount == 0)
-            return; //TEMP Only fire once.
+            return; //Only check if hp would change
         _currentHealth = _healthBar.ChangeHP(-amount);
         DamageAnimate(amount);
         if (_currentHealth <= 0)
@@ -129,7 +129,7 @@ public partial class PuppetTemplate : Node2D
     public virtual void Heal(int amount)
     {
         _currentHealth = _healthBar.ChangeHP(amount);
-        amount = Math.Max(0, amount); //Should not be able to damage from heal.
+        amount = Math.Max(0, amount);
         if (amount == 0)
             return;
         DamageAnimate(-amount);

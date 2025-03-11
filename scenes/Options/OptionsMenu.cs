@@ -29,20 +29,25 @@ public partial class OptionsMenu : CanvasLayer
     public override void _Ready()
     {
         _focused.GrabFocus();
+
         _volumeSlider.MinValue = MinVolumeVal;
         _volumeSlider.Value = AudioServer.GetBusVolumeDb(AudioServer.GetBusIndex("Master")) + 80;
+
         _highContrastToggle.ButtonPressed = SaveSystem
             .GetConfigValue(SaveSystem.ConfigSettings.HighContrast)
             .AsBool();
+
         _volumeSlider.DragEnded += VolumeChanged;
         _volumeSlider.ValueChanged += ChangeVolume;
+
         _closeButton.Pressed += CloseMenu;
         _controlsButton.Pressed += OpenControls;
         _highContrastToggle.Toggled += HighContrastChanged;
         _howToPlayButton.Pressed += OpenHowToPlay;
     }
 
-    public override void _Process(double delta) //TODO: Better method for returning focus
+    //TODO: Menu subclass/interface
+    public override void _Process(double delta)
     {
         if (GetViewport().GuiGetFocusOwner() == null)
         {

@@ -145,7 +145,6 @@ public partial class Cartographer : Node2D
 
     private void WinStage()
     {
-        GD.Print("Player is Dead");
         EndScreen es = GD.Load<PackedScene>("res://scenes/UI/EndScreen.tscn")
             .Instantiate<EndScreen>();
         AddChild(es);

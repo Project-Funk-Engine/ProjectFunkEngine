@@ -95,7 +95,7 @@ public partial class ChartManager : SubViewportContainer
         Color colorOverride = default
     )
     {
-        var newNote = CreateNote(type, note, beat); //TODO: Notes on track have unqiue visuals
+        var newNote = CreateNote(type, note, beat);
         var loopArrow = CreateNote(type, note, beat, 1); //Create a dummy arrow for looping visuals
         if (colorOverride != default)
         {

@@ -10,7 +10,6 @@ public partial class Loopable : Sprite2D
     [Export]
     public float LoopOffset = 700f; //px Pos to loop or do something at.
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
         Vector2 newPos = Position;

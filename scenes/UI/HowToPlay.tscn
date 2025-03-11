@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://cavxn51vwbew3"]
 
-[ext_resource type="Script" path="res://scenes/UI/HowToPlay.cs" id="1_kqayr"]
+[ext_resource type="Script" path="res://scenes/UI/scripts/HowToPlay.cs" id="1_kqayr"]
 [ext_resource type="Texture2D" uid="uid://xtygvpk7s8e4" path="res://scenes/NoteManager/assets/outline_white.png" id="2_4i384"]
 [ext_resource type="Texture2D" uid="uid://dp3vkn65j4o3s" path="res://scenes/UI/assets/combobar.png" id="3_7006y"]
 [ext_resource type="Texture2D" uid="uid://caw70lr5e1yiq" path="res://Classes/Notes/assets/double_note.png" id="4_m6low"]

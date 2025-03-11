@@ -9,13 +9,12 @@ public partial class HowToPlay : Node2D
     private Node _previousScene;
     private ProcessModeEnum _previousProcessMode;
 
-    // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        _returnButton.GrabFocus();
         _returnButton.Pressed += CloseMenu;
     }
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta) { }
 
     public void OpenMenu(Node prevScene)

@@ -17,7 +17,7 @@ public partial class TitleScreen : Control
 
     public override void _Process(double delta)
     {
-        if (GetViewport().GuiGetFocusOwner() == null) //TODO: Better method for returning focus
+        if (GetViewport().GuiGetFocusOwner() == null)
         {
             Options.GrabFocus();
         }

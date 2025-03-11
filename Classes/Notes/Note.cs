@@ -13,7 +13,7 @@ public partial class Note : Resource, IDisplayable
     public string Name { get; set; }
     private int _baseVal;
     public float CostModifier { get; private set; }
-    private Action<BattleDirector, Note, Timing> NoteEffect; //TODO: Where/How to deal with timing.
+    private Action<BattleDirector, Note, Timing> NoteEffect;
 
     public string Tooltip { get; set; }
     public Texture2D Texture { get; set; }

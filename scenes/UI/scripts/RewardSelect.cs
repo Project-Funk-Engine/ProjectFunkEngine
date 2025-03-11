@@ -21,7 +21,7 @@ public partial class RewardSelect : CanvasLayer
 
     private PlayerStats _player;
 
-    private RelicTemplate[] _rChoices; //TODO: look into simplifying
+    private RelicTemplate[] _rChoices; //TODO: look into typed functions
     private RelicTemplate _rSelection;
     private Note[] _nChoices;
     private Note _nSelection;
@@ -51,8 +51,6 @@ public partial class RewardSelect : CanvasLayer
     {
         if (amount < 1)
             GD.PushError("Error: In RewardSelect: amount < 1");
-        //should probably change this so that the amount of relics offered can be changed when BD calls it
-        //i.e less options when killing trash mobs/basic/weak enemies
         _rChoices = Scribe.GetRandomRelics(_player.CurRelics, amount);
 
         foreach (var relic in _rChoices)
@@ -69,8 +67,6 @@ public partial class RewardSelect : CanvasLayer
     {
         if (amount < 1)
             GD.PushError("Error: In RewardSelect: amount < 1");
-        //should probably change this so that the amount of relics offered can be changed when BD calls it
-        //i.e less options when killing trash mobs/basic/weak enemies
         _nChoices = Scribe.GetRandomRewardNotes(amount);
 
         foreach (var note in _nChoices)

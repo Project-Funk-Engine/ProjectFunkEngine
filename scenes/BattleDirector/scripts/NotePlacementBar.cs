@@ -192,7 +192,6 @@ public partial class NotePlacementBar : Node
         _currentBarValue -= (int)(_currentNoteInstance.CostModifier * MaxValue);
 
         UpdateNotePlacementBar(_currentBarValue);
-        //fullBarParticles.Emitting = false;
 
         Note placedNote = GetNote(Input.IsActionPressed("Secondary"));
         placedNote?.OnHit(BD, Timing.Okay); //Hardcode for now, eventually the note itself could have its default

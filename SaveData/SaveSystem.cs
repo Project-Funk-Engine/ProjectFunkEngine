@@ -106,7 +106,7 @@ public static class SaveSystem
         VerifyConfig();
         if (_curConfigData.Load(UserConfigPath) == Error.Ok)
             return;
-        GD.Print("No config could be found, creating a new one.");
+        GD.PushWarning("Safe. No config could be found, creating a new one.");
         InitConfig();
         SaveConfig();
     }
@@ -187,8 +187,6 @@ public static class SaveSystem
 
         FileAccess file = FileAccess.Open(UserSavePath, FileAccess.ModeFlags.Write);
 
-        GD.Print(json);
-
         file.StoreLine(json);
         file.Close();
     }
@@ -199,8 +197,6 @@ public static class SaveSystem
             return null;
         FileAccess file = FileAccess.Open(UserSavePath, FileAccess.ModeFlags.Read);
         string json = file.GetAsText();
-
-        GD.Print(json);
 
         file.Close();
         SaveFile sv;

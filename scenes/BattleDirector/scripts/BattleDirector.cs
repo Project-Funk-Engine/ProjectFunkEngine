@@ -10,7 +10,7 @@ using Godot;
  * @brief Higher priority director to manage battle effects. Can directly access managers, which should signal up to Director WIP
  */
 public partial class BattleDirector : Node2D
-{ //TODO: Maybe move some Director functionality to a sub node.
+{
     #region Declarations
 
     public PlayerPuppet Player;
@@ -70,7 +70,6 @@ public partial class BattleDirector : Node2D
     #region Initialization
     public override void _Ready()
     {
-        //TODO: Should come from transition into battle
         _curSong = StageProducer.Config.CurSong.SongData;
         Audio.SetStream(GD.Load<AudioStream>(StageProducer.Config.CurSong.AudioLocation));
         if (_curSong.SongLength <= 0)
@@ -110,7 +109,6 @@ public partial class BattleDirector : Node2D
         };
     }
 
-    //TODO: This will all change
     private void Begin()
     {
         CM.BeginTweens();
@@ -127,10 +125,13 @@ public partial class BattleDirector : Node2D
     {
         _focusedButton?.GrabFocus();
         TimeKeeper.CurrentTime = Audio.GetPlaybackPosition();
-        double realBeat = TimeKeeper.CurrentTime / (60 / (double)TimeKeeper.Bpm) % CM.BeatsPerLoop;
+        double realBeat =
+            TimeKeeper.CurrentTime / (60 / (double)TimeKeeper.Bpm) % CM.TrueBeatsPerLoop;
         CD.CheckMiss(realBeat);
         if (realBeat < _lastBeat)
+        {
             ChartLooped?.Invoke(this);
+        }
         _lastBeat = realBeat;
     }
     #endregion

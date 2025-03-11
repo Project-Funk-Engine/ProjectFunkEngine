@@ -10,7 +10,7 @@ public partial class StageProducer : Node
     public static RandomNumberGenerator GlobalRng = new RandomNumberGenerator();
     public static bool IsInitialized;
 
-    private Stages _curStage = Stages.Title; //TODO: State Machine kinda deal?
+    private Stages _curStage = Stages.Title;
     private Node _curScene;
     public static int CurRoom { get; private set; }
 
@@ -20,7 +20,6 @@ public partial class StageProducer : Node
     public static BattleConfig Config;
 
     //Hold here to persist between changes
-    //TODO: Allow for permanent changes and battle temporary stat changes.
     public static PlayerStats PlayerStats;
 
     public static CanvasLayer ContrastFilter;

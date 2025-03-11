@@ -16,11 +16,11 @@ public partial class RelicTemplate : Resource, IDisplayable
         string name = "",
         string tooltip = "",
         Texture2D texture = null,
-        RelicEffect[] EffectTags = null
+        RelicEffect[] effectTags = null
     )
     {
         Id = id;
-        Effects = EffectTags;
+        Effects = effectTags;
         Name = name;
         Tooltip = tooltip;
         Texture = texture;

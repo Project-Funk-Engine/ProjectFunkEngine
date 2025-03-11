@@ -70,7 +70,7 @@ public partial class Conductor : Node
         MM = new MidiMaestro(StageProducer.Config.CurSong.MIDILocation);
     }
 
-    public void Prep() //TODO: Streamline battle initialization
+    public void Prep()
     {
         _laneData = new NoteArrow[][]
         {
@@ -79,10 +79,10 @@ public partial class Conductor : Node
             new NoteArrow[CM.BeatsPerLoop],
             new NoteArrow[CM.BeatsPerLoop],
         };
-        AddExampleNotes();
+        AddInitialNotes();
     }
 
-    private void AddExampleNotes()
+    private void AddInitialNotes()
     {
         foreach (ArrowType type in Enum.GetValues(typeof(ArrowType)))
         {
