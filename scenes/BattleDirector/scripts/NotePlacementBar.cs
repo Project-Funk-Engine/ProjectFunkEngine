@@ -135,15 +135,19 @@ public partial class NotePlacementBar : Node
     private Note GetNote(bool getNextNote = false)
     {
         Note result;
+        Sprite2D selectedNote;
         if (!getNextNote)
         {
+            selectedNote = _currentNote;
             result = _currentNoteInstance;
             _currentNoteInstance = null;
         }
         else
         {
+            selectedNote = _nextNote;
             result = _noteQueue.Dequeue();
         }
+        NoteQueueParticlesFactory.NoteParticles(selectedNote, selectedNote.Texture);
         ProgressQueue();
         return result;
     }
@@ -156,7 +160,6 @@ public partial class NotePlacementBar : Node
         _currentBarValue = Math.Min(_currentBarValue + comboMult, MaxValue);
         UpdateNotePlacementBar(_currentBarValue);
         UpdateComboMultText();
-        //fullBarParticles.Emitting = CanPlaceNote();
     }
 
     // Missing a note resets combo

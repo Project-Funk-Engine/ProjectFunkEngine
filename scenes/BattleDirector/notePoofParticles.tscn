@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://k21psn7b5sxf"]
+
+[ext_resource type="Texture2D" uid="uid://cdf3g3174du4r" path="res://Classes/Notes/assets/heal_note.png" id="1_hjrch"]
+
+[sub_resource type="Curve" id="Curve_xix4e"]
+_data = [Vector2(0, 1), 0.0, 1.4, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_h7u0t"]
+curve = SubResource("Curve_xix4e")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_k0qar"]
+lifetime_randomness = 0.25
+particle_flag_disable_z = true
+emission_shape = 2
+emission_sphere_radius = 3.0
+spread = 180.0
+initial_velocity_min = 30.77
+initial_velocity_max = 61.55
+gravity = Vector3(0, 0, 0)
+tangential_accel_min = -100.0
+tangential_accel_max = 85.12
+scale_curve = SubResource("CurveTexture_h7u0t")
+
+[node name="NotePoof" type="GPUParticles2D"]
+emitting = false
+amount = 10
+process_material = SubResource("ParticleProcessMaterial_k0qar")
+texture = ExtResource("1_hjrch")
+lifetime = 0.75
+one_shot = true
+preprocess = 0.1
+explosiveness = 1.0

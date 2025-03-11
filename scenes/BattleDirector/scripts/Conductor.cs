@@ -56,6 +56,7 @@ public partial class Conductor : Node
         else
         {
             arrow = CM.AddArrowToLane(type, beat, newNote, new Color(1, 0.43f, 0.26f));
+            NoteQueueParticlesFactory.NoteParticles(arrow, note.Texture, .5f);
         }
 
         if (!isActive)

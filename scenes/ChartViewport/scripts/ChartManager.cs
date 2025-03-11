@@ -110,14 +110,13 @@ public partial class ChartManager : SubViewportContainer
     {
         var noteScene = ResourceLoader.Load<PackedScene>("res://scenes/NoteManager/note.tscn");
         NoteArrow newArrow = noteScene.Instantiate<NoteArrow>();
+        newArrow.Bounds = (float)(
+            beat / TrueBeatsPerLoop * (ChartLength / 2) + loopOffset * (ChartLength / 2)
+        );
         newArrow.Init(IH.Arrows[(int)arrow], beat, note);
         newArrow.OutlineSprite.Modulate = IH.Arrows[(int)arrow].Color;
 
         _arrowGroup.AddChild(newArrow);
-        newArrow.Bounds = (float)(
-            beat / TrueBeatsPerLoop * (ChartLength / 2) + loopOffset * (ChartLength / 2)
-        );
-        newArrow.Position += Vector2.Right * newArrow.Bounds * 10; //temporary fix for notes spawning and instantly calling loop from originating at 0,0
         return newArrow;
     }
 
