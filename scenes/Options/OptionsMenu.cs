@@ -21,6 +21,9 @@ public partial class OptionsMenu : CanvasLayer
     [Export]
     private CheckBox _highContrastToggle;
 
+    [Export]
+    private Button _howToPlayButton;
+
     private const float MinVolumeVal = 50f;
 
     public override void _Ready()
@@ -36,6 +39,7 @@ public partial class OptionsMenu : CanvasLayer
         _closeButton.Pressed += CloseMenu;
         _controlsButton.Pressed += OpenControls;
         _highContrastToggle.Toggled += HighContrastChanged;
+        _howToPlayButton.Pressed += OpenHowToPlay;
     }
 
     public override void _Process(double delta) //TODO: Better method for returning focus
@@ -97,5 +101,13 @@ public partial class OptionsMenu : CanvasLayer
     {
         StageProducer.ContrastFilter.Visible = toggled;
         SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.HighContrast, toggled);
+    }
+
+    private void OpenHowToPlay()
+    {
+        HowToPlay howtoPlay = GD.Load<PackedScene>("res://scenes/UI/HowToPlay.tscn")
+            .Instantiate<HowToPlay>();
+        AddChild(howtoPlay);
+        howtoPlay.OpenMenu(this);
     }
 }
