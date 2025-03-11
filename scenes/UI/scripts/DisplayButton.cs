@@ -19,5 +19,13 @@ public partial class DisplayButton : Button
         Description = description;
         DisplayName = name;
         Icon = Texture;
+
+        FocusEntered += Selected;
+    }
+
+    private void Selected() //TODO: Button groups
+    {
+        EmitSignal(BaseButton.SignalName.Pressed);
+        SetPressed(true);
     }
 }

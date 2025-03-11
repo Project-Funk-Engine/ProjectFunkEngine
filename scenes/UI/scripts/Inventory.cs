@@ -62,7 +62,7 @@ public partial class Inventory : Control
     private void Resume()
     {
         GetTree().Paused = false;
-        QueueFree(); //Hacky and shortsighted (probably?)
+        QueueFree();
     }
 
     private void DoDescription(DisplayButton dispButton)
