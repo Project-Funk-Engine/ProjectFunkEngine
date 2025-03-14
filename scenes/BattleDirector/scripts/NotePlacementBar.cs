@@ -189,12 +189,12 @@ public partial class NotePlacementBar : Node
     // Placing a note resets the note placement bar
     public Note PlacedNote(BattleDirector BD)
     {
-        _currentBarValue -= (int)(_currentNoteInstance.CostModifier * MaxValue);
+        Note placedNote = GetNote(Input.IsActionPressed("Secondary"));
 
+        _currentBarValue -= (int)(placedNote.CostModifier * MaxValue);
         UpdateNotePlacementBar(_currentBarValue);
 
-        Note placedNote = GetNote(Input.IsActionPressed("Secondary"));
-        placedNote?.OnHit(BD, Timing.Okay); //Hardcode for now, eventually the note itself could have its default
+        placedNote.OnHit(BD, Timing.Okay); //Hardcode for now, eventually the note itself could have its default
         return placedNote;
     }
 
