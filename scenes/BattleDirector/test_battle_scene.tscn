@@ -72,4 +72,4 @@ offset_left = 241.0
 offset_top = 234.0
 offset_right = 399.0
 offset_bottom = 265.0
-text = "Begin Battle [Enter]"
+text = "BATTLE_ROOM_BEGIN_BUTTON"

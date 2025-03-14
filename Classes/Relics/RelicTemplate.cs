@@ -5,19 +5,22 @@ using Godot;
 public partial class RelicTemplate : Resource, IDisplayable
 {
     public RelicEffect[] Effects;
+    public int Id;
     public string Name { get; set; }
 
     public Texture2D Texture { get; set; }
     public string Tooltip { get; set; }
 
     public RelicTemplate(
+        int id,
         string name = "",
         string tooltip = "",
         Texture2D texture = null,
-        RelicEffect[] EffectTags = null
+        RelicEffect[] effectTags = null
     )
     {
-        Effects = EffectTags;
+        Id = id;
+        Effects = effectTags;
         Name = name;
         Tooltip = tooltip;
         Texture = texture;
@@ -25,7 +28,7 @@ public partial class RelicTemplate : Resource, IDisplayable
 
     public RelicTemplate Clone()
     {
-        RelicTemplate newRelic = new RelicTemplate(Name, Tooltip, Texture, Effects);
+        RelicTemplate newRelic = new RelicTemplate(Id, Name, Tooltip, Texture, Effects);
         return newRelic;
     }
 }

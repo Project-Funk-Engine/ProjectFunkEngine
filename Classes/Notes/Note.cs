@@ -9,15 +9,17 @@ using Godot;
 public partial class Note : Resource, IDisplayable
 {
     public PuppetTemplate Owner;
+    public int Id;
     public string Name { get; set; }
     private int _baseVal;
     public float CostModifier { get; private set; }
-    private Action<BattleDirector, Note, Timing> NoteEffect; //TODO: Where/How to deal with timing.
+    private Action<BattleDirector, Note, Timing> NoteEffect;
 
     public string Tooltip { get; set; }
     public Texture2D Texture { get; set; }
 
     public Note(
+        int id,
         string name,
         string tooltip,
         Texture2D texture = null,
@@ -27,6 +29,7 @@ public partial class Note : Resource, IDisplayable
         float costModifier = 1.0f
     )
     {
+        Id = id;
         Name = name;
         Owner = owner;
         NoteEffect =
@@ -34,7 +37,7 @@ public partial class Note : Resource, IDisplayable
             ?? (
                 (BD, source, Timing) =>
                 {
-                    BD.GetTarget(this).TakeDamage(source._baseVal);
+                    BD.GetTarget(this).TakeDamage((int)Timing * source._baseVal);
                 }
             );
         _baseVal = baseVal;
@@ -52,7 +55,21 @@ public partial class Note : Resource, IDisplayable
     {
         //Eventually could look into something more robust, but for now shallow copy is preferable.
         //We only would want val and name to be copied by value
-        Note newNote = new Note(Name, Tooltip, Texture, Owner, _baseVal, NoteEffect, CostModifier);
+        Note newNote = new Note(
+            Id,
+            Name,
+            Tooltip,
+            Texture,
+            Owner,
+            _baseVal,
+            NoteEffect,
+            CostModifier
+        );
         return newNote;
+    }
+
+    public int GetBaseVal()
+    {
+        return _baseVal;
     }
 }

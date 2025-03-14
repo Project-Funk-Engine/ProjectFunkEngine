@@ -62,7 +62,7 @@ public enum Stages
     Boss,
     Quit,
     Map,
-    Controls,
+    Load,
 }
 
 public class MapGrid
@@ -78,6 +78,12 @@ public class MapGrid
 
     public class Room
     {
+        public int Idx { get; private set; }
+        public int[] Children { get; private set; } = Array.Empty<int>();
+        public int X { get; private set; }
+        public int Y { get; private set; }
+        public Stages Type { get; private set; }
+
         public Room(int idx, int x, int y)
         {
             Idx = idx;
@@ -96,12 +102,6 @@ public class MapGrid
                 return;
             Children = Children.Append(newIdx).ToArray();
         }
-
-        public int Idx { get; private set; }
-        public int[] Children { get; private set; } = Array.Empty<int>();
-        public int X { get; private set; }
-        public int Y { get; private set; }
-        public Stages Type { get; private set; }
     }
 
     public void InitMapGrid(int width, int height, int paths)
@@ -166,7 +166,6 @@ public class MapGrid
                 continue;
             if (_map[curPos.X, curPos.Y + 1] == 0)
                 continue;
-            GD.Print("Added child on same X.");
             room.AddChild(_map[curPos.X, curPos.Y + 1]);
         }
     }

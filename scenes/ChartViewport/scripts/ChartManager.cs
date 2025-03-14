@@ -28,6 +28,7 @@ public partial class ChartManager : SubViewportContainer
     //Might move this to be song specific? For now, should never go below ~2000, else visual break because there isn't enough room to loop.
     private double ChartLength = 5000;
     private double _loopLen; //secs
+    public double TrueBeatsPerLoop;
     public int BeatsPerLoop;
 
     public void OnNotePressed(ArrowType type)
@@ -44,7 +45,8 @@ public partial class ChartManager : SubViewportContainer
     {
         _loopLen = songData.SongLength / songData.NumLoops;
         TimeKeeper.LoopLength = (float)_loopLen;
-        BeatsPerLoop = (int)(_loopLen / (60f / songData.Bpm));
+        TrueBeatsPerLoop = (_loopLen / (60f / songData.Bpm));
+        BeatsPerLoop = (int)TrueBeatsPerLoop;
         ChartLength = (float)_loopLen * (float)Math.Floor(ChartLength / _loopLen);
         TimeKeeper.ChartLength = (float)ChartLength;
         TimeKeeper.Bpm = songData.Bpm;
@@ -58,7 +60,7 @@ public partial class ChartManager : SubViewportContainer
     public void BeginTweens()
     {
         //This could be good as a function to call on something, to have many things animated to the beat.
-        var tween = GetTree().CreateTween();
+        var tween = CreateTween();
         tween
             .TweenMethod(
                 Callable.From((Vector2 scale) => TweenArrows(scale)),
@@ -93,8 +95,8 @@ public partial class ChartManager : SubViewportContainer
         Color colorOverride = default
     )
     {
-        var newNote = CreateNote(type, note, beat); //TODO: Notes on track have unqiue visuals
-        var loopArrow = CreateNote(type, note, beat + BeatsPerLoop); //Create a dummy arrow for looping visuals
+        var newNote = CreateNote(type, note, beat);
+        var loopArrow = CreateNote(type, note, beat, 1); //Create a dummy arrow for looping visuals
         if (colorOverride != default)
         {
             newNote.SelfModulate = colorOverride;
@@ -104,16 +106,17 @@ public partial class ChartManager : SubViewportContainer
         return newNote;
     }
 
-    private NoteArrow CreateNote(ArrowType arrow, Note note, int beat = 0)
+    private NoteArrow CreateNote(ArrowType arrow, Note note, int beat = 0, int loopOffset = 0)
     {
         var noteScene = ResourceLoader.Load<PackedScene>("res://scenes/NoteManager/note.tscn");
         NoteArrow newArrow = noteScene.Instantiate<NoteArrow>();
+        newArrow.Bounds = (float)(
+            beat / TrueBeatsPerLoop * (ChartLength / 2) + loopOffset * (ChartLength / 2)
+        );
         newArrow.Init(IH.Arrows[(int)arrow], beat, note);
         newArrow.OutlineSprite.Modulate = IH.Arrows[(int)arrow].Color;
 
         _arrowGroup.AddChild(newArrow);
-        newArrow.Bounds = (float)((double)beat / BeatsPerLoop * (ChartLength / 2));
-        newArrow.Position += Vector2.Right * newArrow.Bounds * 10; //temporary fix for notes spawning and instantly calling loop from originating at 0,0
         return newArrow;
     }
 
@@ -124,13 +127,5 @@ public partial class ChartManager : SubViewportContainer
         newText.Position = IH.Arrows[(int)arrow].Node.Position - newText.Size / 2;
         IH.FeedbackEffect(arrow, text);
         newText.Text = text + $" {currentCombo}";
-    }
-
-    public override void _ExitTree()
-    {
-        foreach (var tween in GetTree().GetProcessedTweens())
-        {
-            tween.Stop();
-        }
     }
 }

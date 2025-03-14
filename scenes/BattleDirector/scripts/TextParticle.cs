@@ -6,7 +6,7 @@ public partial class TextParticle : Label
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        Tween tween = GetTree().CreateTween();
+        Tween tween = CreateTween();
         ZIndex = 2;
         Position += Vector2.Left * (GD.Randf() * 40 - 20);
         tween.SetTrans(Tween.TransitionType.Elastic);

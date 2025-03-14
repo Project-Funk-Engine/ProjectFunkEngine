@@ -11,12 +11,12 @@ public partial class HitParticles : CpuParticles2D
 
         // Stop particles after a short delay using a Timer
         Timer timer = new Timer();
-        timer.WaitTime = 0.25f; // Stop emitting after 0.5 seconds
+        timer.WaitTime = 0.25f;
         timer.OneShot = true;
         timer.Timeout += () =>
         {
             Emitting = false;
-            timer.QueueFree(); // Clean up the timer
+            timer.QueueFree();
         };
 
         AddChild(timer);

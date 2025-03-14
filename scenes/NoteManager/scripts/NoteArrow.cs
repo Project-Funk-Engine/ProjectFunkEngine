@@ -26,7 +26,7 @@ public partial class NoteArrow : Sprite2D
         Type = parentArrowData.Type;
         Beat = beat;
 
-        Position += Vector2.Down * (parentArrowData.Node.GlobalPosition.Y);
+        Position = new Vector2(GetNewPos(), parentArrowData.Node.GlobalPosition.Y);
         RotationDegrees = parentArrowData.Node.RotationDegrees;
         IconSprite.Texture = note.Texture;
         IconSprite.Rotation = -Rotation;
@@ -35,17 +35,21 @@ public partial class NoteArrow : Sprite2D
     public override void _Process(double delta)
     {
         Vector2 newPos = Position;
-        newPos.X =
-            (float)(
-                (-TimeKeeper.CurrentTime / TimeKeeper.LoopLength * TimeKeeper.ChartLength)
-                % TimeKeeper.ChartLength
-                / 2
-            ) + Bounds;
+        newPos.X = GetNewPos();
         if (newPos.X > Position.X)
         {
             OnLoop();
         }
         Position = newPos;
+    }
+
+    private float GetNewPos()
+    {
+        return (float)(
+                (-TimeKeeper.CurrentTime / TimeKeeper.LoopLength * TimeKeeper.ChartLength)
+                % TimeKeeper.ChartLength
+                / 2
+            ) + Bounds;
     }
 
     private void OnLoop()

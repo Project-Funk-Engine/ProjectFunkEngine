@@ -1,7 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://bew23sumjs0fg"]
+[gd_scene load_steps=8 format=3 uid="uid://bew23sumjs0fg"]
 
 [ext_resource type="Script" path="res://scenes/Remapping/ControlSettings.cs" id="1_ir12b"]
-[ext_resource type="Script" path="res://scenes/SceneTransitions/scripts/SceneChange.cs" id="2_oippk"]
 [ext_resource type="Texture2D" uid="uid://dbjotl0v1ymia" path="res://scenes/BattleDirector/assets/BattleFrame1.png" id="3_4uyjb"]
 [ext_resource type="Texture2D" uid="uid://xtygvpk7s8e4" path="res://scenes/NoteManager/assets/outline_white.png" id="4_se2m3"]
 [ext_resource type="Texture2D" uid="uid://cr6wtf6j6dcfg" path="res://scenes/Remapping/assets/Arrow_Left_Key_Light.png" id="5_xn13c"]
@@ -9,12 +8,21 @@
 [ext_resource type="Texture2D" uid="uid://p06451gq2ujc" path="res://scenes/Remapping/assets/Arrow_Up_Key_Light.png" id="7_1a2jy"]
 [ext_resource type="Texture2D" uid="uid://dvlekute37smy" path="res://scenes/Remapping/assets/Arrow_Right_Key_Light.png" id="8_o7swo"]
 
-[node name="Remap" type="Node2D" node_paths=PackedStringArray("leftKey", "rightKey", "upKey", "downKey")]
+[node name="Remap" type="Node2D" node_paths=PackedStringArray("leftKey", "rightKey", "upKey", "downKey", "_closeButton")]
+process_mode = 3
 script = ExtResource("1_ir12b")
 leftKey = NodePath("Panel/Control/LeftRemap")
 rightKey = NodePath("Panel/Control/RightRemap")
 upKey = NodePath("Panel/Control/UpRemap")
 downKey = NodePath("Panel/Control/DownRemap")
+_closeButton = NodePath("Panel/TitleButton")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 645.0
+offset_bottom = 370.0
+color = Color(0.298039, 0.298039, 0.298039, 1)
 
 [node name="Panel" type="Panel" parent="."]
 offset_right = 640.0
@@ -29,12 +37,12 @@ text = "Choose Control Scheme"
 horizontal_alignment = 1
 
 [node name="WASDButton" type="Button" parent="Panel"]
-layout_mode = 2
-offset_left = 450.0
-offset_top = 50.0
-offset_right = 555.0
-offset_bottom = 81.0
-text = "WASD"
+layout_mode = 0
+offset_left = 507.0
+offset_top = 54.0
+offset_right = 515.0
+offset_bottom = 62.0
+text = "CONTROLS_WASD_BUTTON"
 
 [node name="ArrowButton" type="Button" parent="Panel"]
 layout_mode = 0
@@ -42,7 +50,7 @@ offset_left = 399.0
 offset_top = 94.0
 offset_right = 495.0
 offset_bottom = 125.0
-text = "Arrow Keys"
+text = "CONTROLS_ARROW_BUTTON"
 
 [node name="QWERTButton" type="Button" parent="Panel"]
 layout_mode = 0
@@ -50,7 +58,15 @@ offset_left = 507.0
 offset_top = 94.0
 offset_right = 603.0
 offset_bottom = 125.0
-text = "QWER"
+text = "CONTROLS_QWER_BUTTON"
+
+[node name="ControllerButton" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 399.0
+offset_top = 57.0
+offset_right = 486.0
+offset_bottom = 88.0
+text = "CONTROLS_CONTROLLER_BUTTON"
 
 [node name="TitleButton" type="Button" parent="Panel"]
 layout_mode = 0
@@ -58,8 +74,7 @@ offset_left = 232.0
 offset_top = 320.0
 offset_right = 408.0
 offset_bottom = 351.0
-text = "Return to Title Screen"
-script = ExtResource("2_oippk")
+text = "CONTROLS_RETURN_BUTTON"
 
 [node name="Control" type="Control" parent="Panel"]
 layout_mode = 3
@@ -124,20 +139,20 @@ text = "="
 
 [node name="LeftRemap" type="Sprite2D" parent="Panel/Control"]
 position = Vector2(225, 160)
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.4, 0.4)
 texture = ExtResource("5_xn13c")
 
 [node name="UpRemap" type="Sprite2D" parent="Panel/Control"]
 position = Vector2(225, 200)
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.4, 0.4)
 texture = ExtResource("7_1a2jy")
 
 [node name="DownRemap" type="Sprite2D" parent="Panel/Control"]
 position = Vector2(225, 243)
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.4, 0.4)
 texture = ExtResource("6_qrl0g")
 
 [node name="RightRemap" type="Sprite2D" parent="Panel/Control"]
 position = Vector2(225, 284)
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.4, 0.4)
 texture = ExtResource("8_o7swo")

@@ -45,17 +45,18 @@ public partial class Conductor : Node
     {
         beat %= CM.BeatsPerLoop;
         Note newNote = note.Clone();
-        if (beat == 0 || _laneData[(int)type][beat] != null)
+        if (beat == 0 || _laneData[(int)type][beat] != null) //TODO: Double check if this is still necessary, doesn't seem to matter for player placed notes
             return false;
 
         NoteArrow arrow;
-        if (isActive) //Currently an enemy note.
+        if (isActive) //Currently isActive means an enemy note.
         {
             arrow = CM.AddArrowToLane(type, beat, newNote);
         }
         else
         {
             arrow = CM.AddArrowToLane(type, beat, newNote, new Color(1, 0.43f, 0.26f));
+            NoteQueueParticlesFactory.NoteParticles(arrow, note.Texture, .5f);
         }
 
         if (!isActive)
@@ -69,7 +70,7 @@ public partial class Conductor : Node
         MM = new MidiMaestro(StageProducer.Config.CurSong.MIDILocation);
     }
 
-    public void Prep() //TODO: Streamline battle initialization
+    public void Prep()
     {
         _laneData = new NoteArrow[][]
         {
@@ -78,20 +79,16 @@ public partial class Conductor : Node
             new NoteArrow[CM.BeatsPerLoop],
             new NoteArrow[CM.BeatsPerLoop],
         };
-        AddExampleNotes();
+        AddInitialNotes();
     }
 
-    private void AddExampleNotes()
+    private void AddInitialNotes()
     {
         foreach (ArrowType type in Enum.GetValues(typeof(ArrowType)))
         {
             foreach (midiNoteInfo mNote in MM.GetNotes(type))
             {
-                AddNoteToLane(
-                    type,
-                    (int)(mNote.GetStartTimeSeconds() / (60 / (double)TimeKeeper.Bpm)),
-                    Scribe.NoteDictionary[0]
-                );
+                AddNoteToLane(type, (int)mNote.GetStartTimeBeat(), Scribe.NoteDictionary[0]);
             }
         }
     }

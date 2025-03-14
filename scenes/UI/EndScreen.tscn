@@ -35,7 +35,7 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
-text = "Game Over!"
+text = "BATTLE_ROOM_LOSE"
 horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer2/VBoxContainer"]
@@ -53,7 +53,7 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 focus_neighbor_top = NodePath("../../MarginContainer3/Quit")
 focus_neighbor_bottom = NodePath("../../MarginContainer2/Title")
-text = "Restart"
+text = "END_SCREEN_RESTART"
 
 [node name="MarginContainer2" type="MarginContainer" parent="MarginContainer2/VBoxContainer"]
 layout_mode = 2
@@ -67,7 +67,7 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 focus_neighbor_top = NodePath("../../MarginContainer/Restart")
 focus_neighbor_bottom = NodePath("../../MarginContainer3/Quit")
-text = "Quit To Title"
+text = "ESCAPE_MENU_TITLE"
 
 [node name="MarginContainer3" type="MarginContainer" parent="MarginContainer2/VBoxContainer"]
 layout_mode = 2
@@ -81,4 +81,4 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 focus_neighbor_top = NodePath("../../MarginContainer2/Title")
 focus_neighbor_bottom = NodePath("../../MarginContainer/Restart")
-text = "Quit Game"
+text = "TITLE_QUIT"

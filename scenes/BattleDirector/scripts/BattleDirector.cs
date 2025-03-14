@@ -10,7 +10,7 @@ using Godot;
  * @brief Higher priority director to manage battle effects. Can directly access managers, which should signal up to Director WIP
  */
 public partial class BattleDirector : Node2D
-{ //TODO: Maybe move some Director functionality to a sub node.
+{
     #region Declarations
 
     public PlayerPuppet Player;
@@ -43,7 +43,14 @@ public partial class BattleDirector : Node2D
     {
         if (!NotePlacementBar.CanPlaceNote())
             return false;
-        if (!CD.AddNoteToLane(type, beat % CM.BeatsPerLoop, NotePlacementBar.PlacedNote(), false))
+        if (
+            !CD.AddNoteToLane(
+                type,
+                beat % CM.BeatsPerLoop,
+                NotePlacementBar.PlacedNote(this),
+                false
+            )
+        ) //TODO: Remove passing BD into NPB
             return false;
         NotePlaced?.Invoke(this);
         return true;
@@ -63,7 +70,6 @@ public partial class BattleDirector : Node2D
     #region Initialization
     public override void _Ready()
     {
-        //TODO: Should come from transition into battle
         _curSong = StageProducer.Config.CurSong.SongData;
         Audio.SetStream(GD.Load<AudioStream>(StageProducer.Config.CurSong.AudioLocation));
         if (_curSong.SongLength <= 0)
@@ -103,7 +109,6 @@ public partial class BattleDirector : Node2D
         };
     }
 
-    //TODO: This will all change
     private void Begin()
     {
         CM.BeginTweens();
@@ -112,7 +117,7 @@ public partial class BattleDirector : Node2D
 
     private void EndBattle()
     {
-        StageProducer.ChangeCurRoom(StageProducer.Config.BattleRoom);
+        StageProducer.ChangeCurRoom(StageProducer.Config.BattleRoom.Idx);
         GetNode<StageProducer>("/root/StageProducer").TransitionStage(Stages.Map);
     }
 
@@ -120,10 +125,13 @@ public partial class BattleDirector : Node2D
     {
         _focusedButton?.GrabFocus();
         TimeKeeper.CurrentTime = Audio.GetPlaybackPosition();
-        double realBeat = TimeKeeper.CurrentTime / (60 / (double)TimeKeeper.Bpm) % CM.BeatsPerLoop;
+        double realBeat =
+            TimeKeeper.CurrentTime / (60 / (double)TimeKeeper.Bpm) % CM.TrueBeatsPerLoop;
         CD.CheckMiss(realBeat);
         if (realBeat < _lastBeat)
+        {
             ChartLooped?.Invoke(this);
+        }
         _lastBeat = realBeat;
     }
     #endregion
@@ -137,7 +145,7 @@ public partial class BattleDirector : Node2D
         {
             if (eventKey.Keycode == Key.Key0)
             {
-                DebugKillEnemy();
+                //DebugKillEnemy();
             }
         }
     }
@@ -156,7 +164,11 @@ public partial class BattleDirector : Node2D
             if (PlayerAddNote(arrowType, beat))
                 return; //Miss on empty note. This does not apply to inactive existing notes as a balance decision for now.
             NotePlacementBar.MissNote();
-            CM.ComboText(Timing.Miss.ToString(), arrowType, NotePlacementBar.GetCurrentCombo());
+            CM.ComboText(
+                Tr("BATTLE_ROOM_" + Timing.Miss.ToString().ToUpper()),
+                arrowType,
+                NotePlacementBar.GetCurrentCombo()
+            );
             Player.TakeDamage(4);
             return;
         }
@@ -172,7 +184,11 @@ public partial class BattleDirector : Node2D
         {
             NotePlacementBar.HitNote();
         }
-        CM.ComboText(timed.ToString(), arrowType, NotePlacementBar.GetCurrentCombo());
+        CM.ComboText(
+            Tr("BATTLE_ROOM_" + timed.ToString().ToUpper()),
+            arrowType,
+            NotePlacementBar.GetCurrentCombo()
+        );
     }
 
     private Timing CheckTiming(double beatDif)
@@ -216,6 +232,7 @@ public partial class BattleDirector : Node2D
     private void BattleLost()
     {
         Audio.StreamPaused = true;
+        SaveSystem.ClearSave();
         AddChild(GD.Load<PackedScene>("res://scenes/UI/EndScreen.tscn").Instantiate());
         GetTree().Paused = true;
     }
@@ -226,7 +243,7 @@ public partial class BattleDirector : Node2D
         if (StageProducer.Config.RoomType == Stages.Boss)
             type = "Relic";
         var rewardSelect = RewardSelect.CreateSelection(this, Player.Stats, amount, type);
-        rewardSelect.GetNode<Label>("%TopLabel").Text = "You win!";
+        rewardSelect.GetNode<Label>("%TopLabel").Text = Tr("BATTLE_ROOM_WIN");
         rewardSelect.Selected += EndBattle;
     }
 
@@ -286,6 +303,6 @@ public partial class BattleDirector : Node2D
 
     private void DebugKillEnemy()
     {
-        //Enemy.TakeDamage(1000);
+        Enemy.TakeDamage(1000);
     }
 }

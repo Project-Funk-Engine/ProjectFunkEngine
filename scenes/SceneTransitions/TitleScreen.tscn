@@ -28,10 +28,6 @@ shader = ExtResource("11_ht0dv")
 shader_parameter/height = 10.0
 shader_parameter/speed = 2.0
 shader_parameter/freq = 10.0
-shader_parameter/bg_top_color = null
-shader_parameter/bg_bottom_color = null
-shader_parameter/gradient_ratio = 0.0
-shader_parameter/time_scale = null
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4croe"]
 particle_flag_disable_z = true
@@ -42,7 +38,7 @@ hue_variation_min = -1.0
 hue_variation_max = 1.0
 turbulence_enabled = true
 
-[node name="Title" type="Control" node_paths=PackedStringArray("TextLight")]
+[node name="Title" type="Control" node_paths=PackedStringArray("TextLight", "Options")]
 modulate = Color(0.355314, 0.355314, 0.355314, 1)
 layout_mode = 3
 anchors_preset = 15
@@ -54,6 +50,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_r22ha")
 TextLight = NodePath("TextLight")
+Options = NodePath("VBoxContainer/Options")
 
 [node name="MoonLight" type="PointLight2D" parent="."]
 position = Vector2(363, 37)
@@ -109,11 +106,9 @@ texture = ExtResource("2_cf582")
 z_index = -1
 material = SubResource("ShaderMaterial_cbpjr")
 layout_mode = 0
-offset_left = -223.0
-offset_top = -200.0
-offset_right = 252.0
-offset_bottom = -23.0
-scale = Vector2(3.78, 3.82)
+offset_right = 475.0
+offset_bottom = 177.0
+scale = Vector2(2, 2)
 color = Color(0, 0, 0, 1)
 
 [node name="SecretLabel" type="Label" parent="."]
@@ -158,7 +153,7 @@ theme_override_constants/shadow_offset_x = 4
 theme_override_constants/shadow_offset_y = 5
 theme_override_fonts/font = ExtResource("8_gkfev")
 theme_override_font_sizes/font_size = 55
-text = "Midnight Riff"
+text = "TITLE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -179,13 +174,12 @@ theme_override_constants/margin_bottom = 20
 [node name="Button" type="Button" parent="VBoxContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Start Game"
+text = "TITLE_START"
 script = ExtResource("2_7f3m6")
 ScenePath = 5
 _startFocused = true
 
 [node name="MarginContainer3" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
@@ -197,9 +191,9 @@ theme_override_constants/margin_bottom = 20
 [node name="Button" type="Button" parent="VBoxContainer/HBoxContainer/MarginContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Load Game (Experimental)"
+text = "TITLE_CONTINUE"
 script = ExtResource("2_7f3m6")
-ScenePath = 1
+ScenePath = 6
 
 [node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -213,15 +207,20 @@ theme_override_constants/margin_bottom = 20
 [node name="Button" type="Button" parent="VBoxContainer/HBoxContainer/MarginContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Quit Game"
+text = "TITLE_QUIT"
 script = ExtResource("2_7f3m6")
 ScenePath = 4
 
 [node name="Button" type="Button" parent="VBoxContainer"]
+visible = false
 layout_mode = 2
-text = "Change Controls"
+text = "TITLE_CONTROLS"
 script = ExtResource("2_7f3m6")
 ScenePath = 6
+
+[node name="Options" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "TITLE_OPTIONS"
 
 [node name="EnemPuppet" parent="." instance=ExtResource("12_lng3a")]
 visible = false

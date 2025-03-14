@@ -60,8 +60,8 @@ script = ExtResource("1_456es")
 notePlacementBar = NodePath("ProgressBar")
 currentComboMultText = NodePath("TextEdit")
 _particles = NodePath("ProgressBar/Rock")
-_currentNote = NodePath("NoteQueueSprite/NextNote")
-_nextNote = NodePath("NoteQueueSprite/CurrentNote")
+_currentNote = NodePath("NoteQueueSprite/CurrentNote")
+_nextNote = NodePath("NoteQueueSprite/NextNote")
 fullBarParticles = NodePath("ProgressBar/CPUParticles2D")
 
 [node name="ProgressBar" type="TextureProgressBar" parent="."]

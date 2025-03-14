@@ -15,6 +15,8 @@ public partial class Inventory : Control
     [Export]
     private TabContainer Tabs;
 
+    private static readonly string[] TabNames = new[] { "NOTE", "RELIC" };
+
     public void Display(PlayerStats playerStats)
     {
         foreach (RelicTemplate relic in playerStats.CurRelics)
@@ -50,7 +52,7 @@ public partial class Inventory : Control
 
     public override void _Input(InputEvent @event)
     {
-        if (@event.IsActionPressed("Pause") || @event.IsActionPressed("Inventory"))
+        if (@event.IsActionPressed("ui_cancel") || @event.IsActionPressed("Inventory"))
         {
             Resume();
             GetViewport().SetInputAsHandled();
@@ -60,12 +62,17 @@ public partial class Inventory : Control
     private void Resume()
     {
         GetTree().Paused = false;
-        QueueFree(); //Hacky and shortsighted (probably?)
+        QueueFree();
     }
 
     private void DoDescription(DisplayButton dispButton)
     {
-        Description.Text = $"{dispButton.DisplayName}: {dispButton.Description}";
+        string itemName = dispButton.DisplayName.ToUpper();
+        itemName = itemName.Replace(" ", "");
+        Description.Text =
+            Tr(TabNames[Tabs.CurrentTab] + "_" + itemName + "_NAME")
+            + ": "
+            + Tr(TabNames[Tabs.CurrentTab] + "_" + itemName + "_TOOLTIP");
     }
 
     private void ClearDescription(long newTab)

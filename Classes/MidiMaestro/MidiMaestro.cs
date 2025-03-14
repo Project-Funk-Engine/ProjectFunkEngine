@@ -10,6 +10,9 @@ public partial class MidiMaestro : Resource
 {
     private MidiFile _midiFile;
 
+    public static TempoMap TempoMap;
+    public static TimeSignature TimeSignature;
+
     //The four note rows that we care about
     private midiNoteInfo[] _upNotes;
     private midiNoteInfo[] _downNotes;
@@ -17,8 +20,6 @@ public partial class MidiMaestro : Resource
     private midiNoteInfo[] _rightNotes;
 
     //private MidiFile strippedSong;
-
-    private SongData songData;
 
     //The path relative to the Audio folder. Will change later
     public MidiMaestro(string filePath)
@@ -30,10 +31,12 @@ public partial class MidiMaestro : Resource
 
         if (!FileAccess.FileExists(filePath))
         {
-            GD.PrintErr("ERROR: Unable to load level Midi file: " + filePath);
+            GD.PushError("ERROR: Unable to load level Midi file: " + filePath);
         }
 
         _midiFile = MidiFile.Read(filePath);
+        TempoMap = _midiFile.GetTempoMap();
+        TimeSignature = TempoMap.GetTimeSignatureAtTime(new MidiTimeSpan());
 
         //Strip out the notes from the midi file
         foreach (var track in _midiFile.GetTrackChunks())
@@ -41,7 +44,7 @@ public partial class MidiMaestro : Resource
             string trackName = track.Events.OfType<SequenceTrackNameEvent>().FirstOrDefault()?.Text;
             midiNoteInfo[] noteEvents = track
                 .GetNotes()
-                .Select(note => new midiNoteInfo(note, _midiFile.GetTempoMap()))
+                .Select(note => new midiNoteInfo(note))
                 .ToArray();
 
             switch (trackName)
@@ -60,19 +63,6 @@ public partial class MidiMaestro : Resource
                     break;
             }
         }
-
-        //Populate the song data
-        songData = new SongData
-        {
-            //TODO: Allow for changes in this data
-            Bpm = 120,
-            //Fudge the numbers a bit if we have a really short song
-            SongLength =
-                _midiFile.GetDuration<MetricTimeSpan>().Seconds < 20
-                    ? 20
-                    : _midiFile.GetDuration<MetricTimeSpan>().Seconds,
-            NumLoops = 1,
-        };
     }
 
     public midiNoteInfo[] GetNotes(ArrowType arrowType)
@@ -86,30 +76,29 @@ public partial class MidiMaestro : Resource
             _ => throw new ArgumentOutOfRangeException(nameof(arrowType), arrowType, null),
         };
     }
-
-    public SongData GetSongData()
-    {
-        return songData;
-    }
 }
 
 //A facade to wrap the midi notes. This is a simple class that wraps a Note object from the DryWetMidi library.
 public class midiNoteInfo
 {
     private readonly Melanchall.DryWetMidi.Interaction.Note _note;
-    private readonly TempoMap _tempoMap;
 
-    public midiNoteInfo(Melanchall.DryWetMidi.Interaction.Note note, TempoMap tempoMap)
+    public midiNoteInfo(Melanchall.DryWetMidi.Interaction.Note note)
     {
         _note = note;
-        _tempoMap = tempoMap;
+    }
+
+    public long GetStartTimeBeat()
+    {
+        var beatsBar = _note.TimeAs<BarBeatTicksTimeSpan>(MidiMaestro.TempoMap);
+        return beatsBar.Bars * MidiMaestro.TimeSignature.Numerator + beatsBar.Beats;
     }
 
     public long GetStartTimeTicks() => _note.Time;
 
     public float GetStartTimeSeconds() =>
-        _note.TimeAs<MetricTimeSpan>(_tempoMap).Milliseconds / 1000f
-        + _note.TimeAs<MetricTimeSpan>(_tempoMap).Seconds;
+        _note.TimeAs<MetricTimeSpan>(MidiMaestro.TempoMap).Milliseconds / 1000f
+        + _note.TimeAs<MetricTimeSpan>(MidiMaestro.TempoMap).Seconds;
 
     public long GetEndTime() => _note.EndTime;
 

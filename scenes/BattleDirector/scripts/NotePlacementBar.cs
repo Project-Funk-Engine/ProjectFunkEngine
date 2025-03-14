@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FunkEngine;
 using Godot;
 
 public partial class NotePlacementBar : Node
@@ -37,7 +38,7 @@ public partial class NotePlacementBar : Node
     //Juice - https://www.youtube.com/watch?v=LGt-jjVf-ZU
     private int _limiter;
     private Vector2 _barInitPosition;
-    private float _randomStrength = 1f;
+    private float _baseShake = 1f;
     private float _shakeFade = 10f;
     private RandomNumberGenerator _rng = new();
     private float _shakeStrength;
@@ -49,7 +50,7 @@ public partial class NotePlacementBar : Node
             return;
         if (_currentBarValue >= MaxValue)
         {
-            _shakeStrength = _randomStrength;
+            _shakeStrength = _baseShake;
         }
         if (_shakeStrength > 0)
         {
@@ -135,15 +136,19 @@ public partial class NotePlacementBar : Node
     private Note GetNote(bool getNextNote = false)
     {
         Note result;
+        Sprite2D selectedNote;
         if (!getNextNote)
         {
+            selectedNote = _currentNote;
             result = _currentNoteInstance;
             _currentNoteInstance = null;
         }
         else
         {
+            selectedNote = _nextNote;
             result = _noteQueue.Dequeue();
         }
+        NoteQueueParticlesFactory.NoteParticles(selectedNote, selectedNote.Texture);
         ProgressQueue();
         return result;
     }
@@ -156,7 +161,6 @@ public partial class NotePlacementBar : Node
         _currentBarValue = Math.Min(_currentBarValue + comboMult, MaxValue);
         UpdateNotePlacementBar(_currentBarValue);
         UpdateComboMultText();
-        //fullBarParticles.Emitting = CanPlaceNote();
     }
 
     // Missing a note resets combo
@@ -183,13 +187,15 @@ public partial class NotePlacementBar : Node
     }
 
     // Placing a note resets the note placement bar
-    public Note PlacedNote()
+    public Note PlacedNote(BattleDirector BD)
     {
         _currentBarValue -= (int)(_currentNoteInstance.CostModifier * MaxValue);
 
         UpdateNotePlacementBar(_currentBarValue);
-        //fullBarParticles.Emitting = false;
-        return GetNote(Input.IsActionPressed("Secondary"));
+
+        Note placedNote = GetNote(Input.IsActionPressed("Secondary"));
+        placedNote?.OnHit(BD, Timing.Okay); //Hardcode for now, eventually the note itself could have its default
+        return placedNote;
     }
 
     public bool CanPlaceNote()

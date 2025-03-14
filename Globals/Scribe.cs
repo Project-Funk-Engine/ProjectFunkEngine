@@ -12,6 +12,7 @@ public partial class Scribe : Node
     public static readonly Note[] NoteDictionary = new[]
     {
         new Note(
+            0,
             "EnemyBase",
             "Basic enemy note, deals damage to player.",
             null,
@@ -19,65 +20,78 @@ public partial class Scribe : Node
             1,
             (director, note, timing) =>
             {
-                director.Player.TakeDamage(3 - (int)timing);
+                director.Player.TakeDamage((3 - (int)timing) * note.GetBaseVal());
             }
         ),
         new Note(
+            1,
             "PlayerBase",
-            "Basic player note, deals damage to enemy",
+            "Basic player note, deals damage to enemy.",
             GD.Load<Texture2D>("res://Classes/Notes/assets/single_note.png"),
             null,
             1,
             (director, note, timing) =>
             {
-                director.Enemy.TakeDamage((int)timing);
+                if (timing == Timing.Miss)
+                    return;
+                director.Enemy.TakeDamage((int)timing * note.GetBaseVal());
             }
         ),
         new Note(
+            2,
             "PlayerDouble",
-            "Basic player note, deals double damage to enemy",
+            "Basic player note, deals double damage to enemy.",
             GD.Load<Texture2D>("res://Classes/Notes/assets/double_note.png"),
             null,
-            1,
+            2,
             (director, note, timing) =>
             {
-                // can change later, but I want it like this instead of changing base
-                // in case we have some relic that messes with timing
-                director.Enemy.TakeDamage(2 * (int)timing);
+                if (timing == Timing.Miss)
+                    return;
+                director.Enemy.TakeDamage(note.GetBaseVal() * (int)timing);
             }
         ),
         new Note(
+            3,
             "PlayerHeal",
-            "Basic player note, heals player",
+            "Basic player note, heals player.",
             GD.Load<Texture2D>("res://Classes/Notes/assets/heal_note.png"),
             null,
             1,
             (director, note, timing) =>
             {
-                director.Player.Heal((int)timing);
+                if (timing == Timing.Miss)
+                    return;
+                director.Player.Heal((int)timing * note.GetBaseVal());
             }
         ),
         new Note(
+            4,
             "PlayerVampire",
-            "Steals health from enemy",
+            "Steals health from enemy.",
             GD.Load<Texture2D>("res://Classes/Notes/assets/vampire_note.png"),
             null,
             1,
             (director, note, timing) =>
             {
-                director.Player.Heal((int)timing);
-                director.Enemy.TakeDamage((int)timing);
+                if (timing == Timing.Miss)
+                    return;
+                director.Player.Heal((int)timing * note.GetBaseVal());
+                director.Enemy.TakeDamage((int)timing * note.GetBaseVal());
             }
         ),
         new Note(
+            5,
             "PlayerQuarter",
-            "Basic note at a quarter of the cost",
+            "Basic note at a quarter of the cost.",
             GD.Load<Texture2D>("res://Classes/Notes/assets/quarter_note.png"),
             null,
             1,
             (director, note, timing) =>
             {
-                director.Enemy.TakeDamage((int)timing);
+                if (timing == Timing.Miss)
+                    return;
+                director.Enemy.TakeDamage((int)timing + note.GetBaseVal());
             },
             0.25f
         ),
@@ -86,6 +100,7 @@ public partial class Scribe : Node
     public static readonly RelicTemplate[] RelicDictionary = new[]
     {
         new RelicTemplate(
+            0,
             "Breakfast", //Reference ha ha, Item to give when relic pool is empty.
             "Increases max hp.", //TODO: Description can include the relics values?
             GD.Load<Texture2D>("res://Classes/Relics/assets/relic_Breakfast.png"),
@@ -103,6 +118,7 @@ public partial class Scribe : Node
             }
         ),
         new RelicTemplate(
+            1,
             "Good Vibes",
             "Heals the player whenever they place a note.",
             GD.Load<Texture2D>("res://Classes/Relics/assets/relic_GoodVibes.png"),
@@ -119,6 +135,7 @@ public partial class Scribe : Node
             }
         ),
         new RelicTemplate(
+            2,
             "Auroboros",
             "Bigger number, better person. Increases combo multiplier every riff.",
             GD.Load<Texture2D>("res://Classes/Relics/assets/Auroboros.png"),
@@ -136,6 +153,7 @@ public partial class Scribe : Node
             }
         ),
         new RelicTemplate(
+            3,
             "Colorboros",
             "Taste the rainbow. Charges the freestyle bar every riff.",
             GD.Load<Texture2D>("res://Classes/Relics/assets/Colorboros.png"),
