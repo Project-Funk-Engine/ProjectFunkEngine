@@ -3,10 +3,11 @@ using System.Linq;
 using FunkEngine;
 using Godot;
 
+/**
+ * <summary>StageProducer: Handles scene transitions and persistent gameplay data.</summary>
+ */
 public partial class StageProducer : Node
 {
-    //Generate a map, starting as a width x height grid, pick a starting spot and do (path) paths from that to the last
-    //row, connecting the path, then connect all at the end to the boss room.
     public static RandomNumberGenerator GlobalRng = new RandomNumberGenerator();
     public static bool IsInitialized;
 
@@ -19,8 +20,7 @@ public partial class StageProducer : Node
 
     public static BattleConfig Config;
 
-    //Hold here to persist between changes
-    public static PlayerStats PlayerStats;
+    public static PlayerStats PlayerStats; //Hold here to persist between changes
 
     public static CanvasLayer ContrastFilter;
 
@@ -45,7 +45,7 @@ public partial class StageProducer : Node
         GetTree().Root.CallDeferred("add_child", ContrastFilter);
     }
 
-    public void StartGame()
+    private void StartGame()
     {
         GlobalRng.Randomize();
         GenerateMapConsistent();
@@ -55,7 +55,7 @@ public partial class StageProducer : Node
         IsInitialized = true;
     }
 
-    public bool LoadGame()
+    private bool LoadGame()
     {
         SaveSystem.SaveFile sv = SaveSystem.LoadGame();
         if (sv == null)
@@ -85,7 +85,7 @@ public partial class StageProducer : Node
 
     private void GenerateMapConsistent()
     {
-        GlobalRng.State = GlobalRng.Seed << 5 / 2;
+        GlobalRng.State = GlobalRng.Seed << 5 / 2; //Fudge seed state, to get consistent maps across new/loaded games
         Map.InitMapGrid(MapSize.X, MapSize.Y, 3);
     }
 

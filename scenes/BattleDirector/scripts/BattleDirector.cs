@@ -5,9 +5,7 @@ using System.Linq;
 using FunkEngine;
 using Godot;
 
-/**
- * @class BattleDirector
- * @brief Higher priority director to manage battle effects. Can directly access managers, which should signal up to Director WIP
+/**<summary>BattleDirector: Higher priority director to manage battle effects. Can directly access managers, which should signal up to Director WIP</summary>
  */
 public partial class BattleDirector : Node2D
 {

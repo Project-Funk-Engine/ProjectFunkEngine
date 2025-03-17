@@ -2,8 +2,7 @@ using System;
 using Godot;
 
 /**
- * @class Loopable
- * @brief A general class fo textures on the chart which should have a position at which point they loop. WIP
+ * <summary>A general class of textures on the chart which should have a position at which point they loop.</summary>
  */
 public partial class Loopable : Sprite2D
 {

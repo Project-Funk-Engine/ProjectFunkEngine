@@ -2,6 +2,9 @@ using System;
 using FunkEngine;
 using Godot;
 
+/**
+ * <summary>Generic button to initiate scene transition on press.</summary>
+ */
 public partial class SceneChange : Button
 {
     [Export]

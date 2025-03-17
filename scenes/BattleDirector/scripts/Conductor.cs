@@ -2,6 +2,8 @@ using System;
 using FunkEngine;
 using Godot;
 
+/**<summary>Conductor: Arm of BattleDirector for handling note lanes and timing.</summary>
+ */
 public partial class Conductor : Node
 {
     [Export]

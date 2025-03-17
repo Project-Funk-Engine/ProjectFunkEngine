@@ -1,6 +1,8 @@
 using System;
 using Godot;
 
+/**<summary>Particle effects on placing a note.</summary>
+ */
 public static class NoteQueueParticlesFactory
 {
     private static PackedScene particlesScene = null;

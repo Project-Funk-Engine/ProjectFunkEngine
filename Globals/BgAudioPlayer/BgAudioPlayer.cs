@@ -1,5 +1,8 @@
 using Godot;
 
+/**
+ * <summary>BgAudioPlayer: Autoload to play scene persistant music..</summary>
+ */
 public partial class BgAudioPlayer : AudioStreamPlayer
 {
     private readonly AudioStream _levelMusic = (AudioStream)

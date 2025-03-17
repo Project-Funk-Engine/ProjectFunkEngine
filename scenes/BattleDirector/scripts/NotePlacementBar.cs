@@ -4,6 +4,8 @@ using System.Linq;
 using FunkEngine;
 using Godot;
 
+/**<summary>Current charge bar amount and note queue.</summary>
+ */
 public partial class NotePlacementBar : Node
 {
     const int MaxValue = 80;

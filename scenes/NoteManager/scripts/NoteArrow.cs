@@ -2,8 +2,7 @@ using FunkEngine;
 using Godot;
 
 /**
- * @class NoteArrow
- * @brief This class represents a visual note that scrolls across the screen to be played by the player. WIP
+*<summary>This class represents a visual note that scrolls across the screen to be played by the player.</summary>
  */
 public partial class NoteArrow : Sprite2D
 { //TextRect caused issues later :)

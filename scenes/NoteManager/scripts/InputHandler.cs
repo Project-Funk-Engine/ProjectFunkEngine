@@ -4,8 +4,7 @@ using FunkEngine;
 using Godot;
 
 /**
- * @class InputHandler
- * @brief InputHandler to handle input, and manage note checkers. WIP
+ * <summary>InputHandler to handle note checkers, and bubble input events upwards.</summary>
  */
 public partial class InputHandler : Node2D
 {

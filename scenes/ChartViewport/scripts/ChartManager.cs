@@ -3,9 +3,7 @@ using System.Linq;
 using FunkEngine;
 using Godot;
 
-/**
- * @class ChartManager
- * @brief Chart Manager is meant to handle the visual aspects of a battle. Setting up the chart background, initial notes, and handle looping. WIP
+/**<summary>Manager for handling the visual aspects of a battle. Placing visual NoteArrows, looping visuals, and combo text.</summary>
  */
 public partial class ChartManager : SubViewportContainer
 {

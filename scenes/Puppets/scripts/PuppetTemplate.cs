@@ -1,8 +1,8 @@
 using System;
 using Godot;
 
-/** Essentially a battle entity. Has HP and can be healed or damaged.
- *
+/**
+ *<summary>Base class for battle entity. Manages sprite, health, and initial conditions.</summary>
  */
 public partial class PuppetTemplate : Node2D
 {
@@ -29,7 +29,7 @@ public partial class PuppetTemplate : Node2D
 
     //Stats would go here.
 
-    public string UniqName = ""; //Eventually make subclasses/scenes/real stuff
+    protected string UniqName = ""; //Eventually make subclasses/scenes/real stuff
 
     public override void _Ready()
     {
@@ -37,10 +37,7 @@ public partial class PuppetTemplate : Node2D
         Position = StartPos;
         Sprite.Scale = InitScale;
 
-        if (hideHealth)
-        {
-            _healthBar.Hide();
-        }
+        _healthBar.Visible = !hideHealth;
     }
 
     public override void _Process(double delta)
@@ -48,12 +45,13 @@ public partial class PuppetTemplate : Node2D
         ProcessShake(delta);
     }
 
-    public void Init(Texture2D texture, string name)
+    private void Init(Texture2D texture, string name)
     {
         Sprite.Texture = texture;
         UniqName = name;
     }
 
+    #region DamageAnim
     //Juice - https://www.youtube.com/watch?v=LGt-jjVf-ZU
     private int _limiter;
     private const float BaseShake = 100f;
@@ -108,6 +106,7 @@ public partial class PuppetTemplate : Node2D
             .AsRelative();
         tween.Chain().TweenProperty(this, "position", StartPos, 2 * _baseAnimDuration);
     }
+    #endregion
 
     public virtual void TakeDamage(int amount)
     {

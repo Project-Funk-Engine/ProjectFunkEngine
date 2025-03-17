@@ -1,6 +1,9 @@
 using System;
 using Godot;
 
+/**
+ * <summary>Visual input handlers, glow and emit particles on note hits/player input.</summary>
+ */
 public partial class NoteChecker : Sprite2D
 {
     private bool _isPressed;

@@ -3,8 +3,7 @@ using FunkEngine;
 using Godot;
 
 /**
- * @class Note
- * @brief Data structure class for holding data and methods for a battle time note. WIP
+ * <summary>Note: Data structure class for holding data and methods for a battle time note.</summary>
  */
 public partial class Note : Resource, IDisplayable
 {

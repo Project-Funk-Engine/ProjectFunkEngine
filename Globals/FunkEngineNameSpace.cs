@@ -5,6 +5,9 @@ using Godot;
 
 namespace FunkEngine;
 
+/**
+ * <summary>SongData: Basic information defining the statistics of an in-battle song.</summary>
+ */
 public struct SongData
 {
     public int Bpm;
@@ -12,6 +15,9 @@ public struct SongData
     public int NumLoops;
 }
 
+/**
+ * <summary>ArrowData: Data representing the necessary information for each arrow checker.</summary>
+ */
 public struct ArrowData
 {
     public Color Color;
@@ -37,6 +43,9 @@ public enum Timing
     Perfect = 4,
 }
 
+/**
+ * <summary>BattleConfig: Necessary data for a battle.</summary>
+ */
 public struct BattleConfig
 {
     public Stages RoomType;
@@ -65,6 +74,11 @@ public enum Stages
     Load,
 }
 
+/**
+ * <summary>MapGrid: Map as data.
+ * Essentially a width by height grid. Valid rooms are determined by choosing a random starting room at height: 0, and makes random walks to height: height.
+ * Walks go from x,y to {x/x+1/x-1},y+1</summary>
+ */
 public class MapGrid
 {
     private int[,] _map;
@@ -104,6 +118,9 @@ public class MapGrid
         }
     }
 
+    /**
+    * <summary>Initializes the map with max <c>width</c>, max <c>height</c>, and with number of <c>paths</c>.</summary>
+    */
     public void InitMapGrid(int width, int height, int paths)
     {
         _curIdx = 0;
@@ -123,7 +140,7 @@ public class MapGrid
         AddBossRoom(width, height);
     }
 
-    //Start at x, y, assume prev room exists. Picks new x pos within +/- 1, attaches recursively
+    /**Start at x, y, assume prev room exists. Picks new x pos within +/- 1, attaches recursively*/
     private void GeneratePath_r(int x, int y, int width, int height)
     {
         int nextX = StageProducer.GlobalRng.RandiRange(
@@ -185,6 +202,9 @@ public class MapGrid
     }
 }
 
+/**
+ * <summary>A BattleDirector driven battle event. Needs an enum defined trigger.</summary>
+ */
 public interface IBattleEvent
 {
     void OnTrigger(BattleDirector BD);

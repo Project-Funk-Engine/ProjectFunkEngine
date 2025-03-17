@@ -6,6 +6,10 @@ using Melanchall.DryWetMidi.Core;
 using Melanchall.DryWetMidi.Interaction;
 using Melanchall.DryWetMidi.Multimedia;
 
+/**
+ <summary> MidiMaestro: Manages reading midi file into lane note information.</summary>
+
+ */
 public partial class MidiMaestro : Resource
 {
     private MidiFile _midiFile;
@@ -22,6 +26,10 @@ public partial class MidiMaestro : Resource
     //private MidiFile strippedSong;
 
     //The path relative to the Audio folder. Will change later
+    /**
+     * <summary>Constrctor loads midi file and populates lane note arrays with midiNoteInfo</summary>
+     * <param name="filePath">A string file path to a valid midi file</param>
+     */
     public MidiMaestro(string filePath)
     {
         if (!OS.HasFeature("editor"))
@@ -65,6 +73,9 @@ public partial class MidiMaestro : Resource
         }
     }
 
+    /**
+     * <summary>Gets midiNoteInfo by lane. </summary>
+     */
     public midiNoteInfo[] GetNotes(ArrowType arrowType)
     {
         return arrowType switch

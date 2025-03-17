@@ -1,6 +1,9 @@
 using System;
 using Godot;
 
+/**
+ * <summary>TimeKeeper: Global scale current song position.</summary>
+ */
 public partial class TimeKeeper : Node
 {
     public static double CurrentTime = 0;

@@ -5,7 +5,7 @@ using FunkEngine.Classes.MidiMaestro;
 using Godot;
 
 /**
- * Global for storing defined data, e.g. Notes and Relic Dictionaries.
+ * Catch all for storing defined data. Catch all as single source of truth for items and battles.
  */
 public partial class Scribe : Node
 {
@@ -213,10 +213,10 @@ public partial class Scribe : Node
 
     //TODO: Item pool(s)
 
-    public static RelicTemplate[] GetRandomRelics(RelicTemplate[] ownedRelics, int count)
+    public static RelicTemplate[] GetRandomRelics(RelicTemplate[] excludedRelics, int count)
     {
         var availableRelics = Scribe
-            .RelicDictionary.Where(r => ownedRelics.All(o => o.Name != r.Name))
+            .RelicDictionary.Where(r => excludedRelics.All(o => o.Name != r.Name))
             .ToArray();
 
         availableRelics = availableRelics

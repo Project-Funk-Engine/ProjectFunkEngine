@@ -1,6 +1,9 @@
 using System;
 using Godot;
 
+/**
+ * <summary>Particles on note checker from successful note hits.</summary>
+ */
 public partial class HitParticles : CpuParticles2D
 {
     public void Emit(int particleAmount)

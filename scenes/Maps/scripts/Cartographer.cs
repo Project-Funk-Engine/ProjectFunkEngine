@@ -3,6 +3,9 @@ using System.Linq;
 using FunkEngine;
 using Godot;
 
+/**
+ * <summary>Handles drawing a map from a MapGrid and scene transitions from player input. Currently, this also handles overarching win/lose conditions.</summary>
+ */
 public partial class Cartographer : Node2D
 {
     [Export]

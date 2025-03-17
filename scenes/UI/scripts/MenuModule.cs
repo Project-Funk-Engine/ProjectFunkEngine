@@ -1,6 +1,9 @@
 using System;
 using Godot;
 
+/**
+ * <summary>Simple system for any scene which should display pause and inventory screen.</summary>
+ */
 public partial class MenuModule : CanvasLayer
 {
     public override void _Input(InputEvent @event)

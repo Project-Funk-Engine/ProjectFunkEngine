@@ -6,6 +6,9 @@ using System.Text.Json;
 using Godot;
 using FileAccess = Godot.FileAccess;
 
+/**
+ * <summary>SaveSystem: Manages FileI/O of configs and save files.</summary>
+ */
 public static class SaveSystem
 {
     #region Config
@@ -25,7 +28,9 @@ public static class SaveSystem
         HighContrast,
     }
 
-    //Initializes a new Config and saves it
+    /**
+     * <remarks>Overwrites any file at <c>UserConfigPath</c></remarks>
+     */
     private static void InitConfig()
     {
         _curConfigData = new ConfigFile();
@@ -35,14 +40,12 @@ public static class SaveSystem
         UpdateConfig(ConfigSettings.HighContrast, DefaultHighCon);
     }
 
-    //Saves config
     private static void SaveConfig()
     {
         AssertConfigFile();
         _curConfigData.Save(UserConfigPath);
     }
 
-    //Update a config of relevant setting and saves
     public static void UpdateConfig(ConfigSettings setting, Variant value)
     {
         AssertConfigFile();
@@ -67,7 +70,8 @@ public static class SaveSystem
         SaveConfig();
     }
 
-    //Verifies a config file is currently loaded.
+    /**<remarks>Either returns, loads current config, or if no config found inits one.</remarks>
+    */
     private static void AssertConfigFile()
     {
         if (_curConfigData == null)
@@ -76,8 +80,8 @@ public static class SaveSystem
         }
     }
 
-    //Really naive approach to verifying config integrity, could I have just changed back to JSON? yes. But I'm a real programmer.
-    //In theory ConfigFiles should be more stable across any version changes.
+    /**Really naive approach to verifying config integrity, could I have just changed back to JSON? yes. But I'm a real programmer.
+    In theory ConfigFiles should be more stable across any version changes.*/
     private static void VerifyConfig()
     {
         if (!FileAccess.FileExists(UserConfigPath))
@@ -99,7 +103,6 @@ public static class SaveSystem
         InitConfig();
     }
 
-    // This method loads the entire save data
     private static void LoadConfigData()
     {
         _curConfigData = new ConfigFile();
@@ -111,7 +114,6 @@ public static class SaveSystem
         SaveConfig();
     }
 
-    //Gets config value
     public static Variant GetConfigValue(ConfigSettings setting)
     {
         AssertConfigFile();
@@ -126,9 +128,7 @@ public static class SaveSystem
             case ConfigSettings.HighContrast:
                 return _curConfigData.GetValue("Options", "HighContrast", DefaultHighCon);
             default:
-                GD.PushError(
-                    "SaveSystem.GetConfigValue: Invalid config setting passed. " + setting
-                );
+                GD.PushError("Invalid config setting passed. " + setting);
                 return float.MinValue;
         }
     }
@@ -138,11 +138,6 @@ public static class SaveSystem
 
     private const string UserSavePath = "user://MidnighRiff.save";
 
-    /*
-     * Values to save:
-     * Globals: rng seed, rng state, current room (hopefully id)
-     * Player: Id's of relics, id's of notes, current health
-     */
     public class SaveFile
     {
         public ulong RngSeed { get; set; }
@@ -191,6 +186,9 @@ public static class SaveSystem
         file.Close();
     }
 
+    /**
+     * <remarks>Returns null if invalid save or save 404's.</remarks>
+     */
     public static SaveFile LoadGame()
     {
         if (!FileAccess.FileExists(UserSavePath))

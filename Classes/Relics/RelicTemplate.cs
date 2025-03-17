@@ -2,6 +2,9 @@ using System;
 using FunkEngine;
 using Godot;
 
+/**
+ * <summary>RelicTemplate: Generic class representing a player passive relic.</summary>
+ */
 public partial class RelicTemplate : Resource, IDisplayable
 {
     public RelicEffect[] Effects;
