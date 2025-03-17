@@ -97,13 +97,13 @@ public partial class Cartographer : Node2D
         switch (room.Type)
         {
             case Stages.Battle:
-                newButton.Icon = (Texture2D)GD.Load("res://scenes/Maps/assets/BattleIcon.png");
+                newButton.Icon = (Texture2D)GD.Load("res://Scenes/Maps/Assets/BattleIcon.png");
                 break;
             case Stages.Boss:
-                newButton.Icon = (Texture2D)GD.Load("res://scenes/Maps/assets/BossIcon.png");
+                newButton.Icon = (Texture2D)GD.Load("res://Scenes/Maps/Assets/BossIcon.png");
                 break;
             case Stages.Chest:
-                newButton.Icon = (Texture2D)GD.Load("res://scenes/Maps/assets/ChestIcon.png");
+                newButton.Icon = (Texture2D)GD.Load("res://Scenes/Maps/Assets/ChestIcon.png");
                 break;
         }
         newButton.ZIndex = 1;
@@ -145,7 +145,7 @@ public partial class Cartographer : Node2D
 
     private void WinStage()
     {
-        EndScreen es = GD.Load<PackedScene>("res://scenes/UI/EndScreen.tscn")
+        EndScreen es = GD.Load<PackedScene>("res://Scenes/UI/EndScreen.tscn")
             .Instantiate<EndScreen>();
         AddChild(es);
         es.TopLabel.Text = Tr("BATTLE_ROOM_WIN");

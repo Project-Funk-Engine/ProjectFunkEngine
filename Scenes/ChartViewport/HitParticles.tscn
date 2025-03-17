@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://bcf6vs4aqoxr5"]
+
+[ext_resource type="Script" path="res://Scenes/ChartViewport/Scripts/HitParticles.cs" id="1_7gkj5"]
+
+[node name="HitParticles" type="CPUParticles2D"]
+z_index = -1
+emitting = false
+amount = 1
+lifetime = 0.25
+speed_scale = 2.01
+explosiveness = 0.5
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 200.0
+scale_amount_max = 2.0
+script = ExtResource("1_7gkj5")

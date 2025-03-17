@@ -12,7 +12,7 @@ public static class NoteQueueParticlesFactory
     )
     {
         particlesScene ??= GD.Load<PackedScene>(
-            "res://scenes/BattleDirector/notePoofParticles.tscn"
+            "res://Scenes/BattleDirector/NotePoofParticles.tscn"
         );
 
         GpuParticles2D particles = particlesScene.Instantiate<GpuParticles2D>();

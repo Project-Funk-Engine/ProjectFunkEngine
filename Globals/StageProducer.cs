@@ -111,22 +111,22 @@ public partial class StageProducer : Node
         {
             case Stages.Title:
                 IsInitialized = false;
-                GetTree().ChangeSceneToFile("res://scenes/SceneTransitions/TitleScreen.tscn");
+                GetTree().ChangeSceneToFile("res://Scenes/UI/TitleScreen/TitleScreen.tscn");
                 break;
             case Stages.Battle:
                 Config = MakeConfig(nextStage, nextRoomIdx);
-                GetTree().ChangeSceneToFile("res://scenes/BattleDirector/test_battle_scene.tscn");
+                GetTree().ChangeSceneToFile("res://Scenes/BattleDirector/BattleScene.tscn");
                 break;
             case Stages.Boss:
                 Config = MakeConfig(nextStage, nextRoomIdx);
-                GetTree().ChangeSceneToFile("res://scenes/BattleDirector/test_battle_scene.tscn");
+                GetTree().ChangeSceneToFile("res://Scenes/BattleDirector/BattleScene.tscn");
                 break;
             case Stages.Chest:
                 Config = MakeConfig(nextStage, nextRoomIdx);
-                GetTree().ChangeSceneToFile("res://scenes/ChestScene/ChestScene.tscn");
+                GetTree().ChangeSceneToFile("res://Scenes/ChestScene/ChestScene.tscn");
                 break;
             case Stages.Map:
-                GetTree().ChangeSceneToFile("res://scenes/Maps/cartographer.tscn");
+                GetTree().ChangeSceneToFile("res://Scenes/Maps/Cartographer.tscn");
                 if (!IsInitialized)
                 {
                     StartGame();
@@ -135,7 +135,7 @@ public partial class StageProducer : Node
             case Stages.Load:
                 if (!LoadGame())
                     StartGame();
-                GetTree().ChangeSceneToFile("res://scenes/Maps/cartographer.tscn");
+                GetTree().ChangeSceneToFile("res://Scenes/Maps/Cartographer.tscn");
                 break;
             case Stages.Quit:
                 GetTree().Quit();

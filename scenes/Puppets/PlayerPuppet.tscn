@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://eus17omen6yk"]
 
-[ext_resource type="Script" path="res://scenes/Puppets/scripts/PlayerPuppet.cs" id="1_f4rea"]
-[ext_resource type="Texture2D" uid="uid://b6fkei0i83vte" path="res://scenes/BattleDirector/assets/Character1.png" id="2_affso"]
-[ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://scenes/Puppets/HealthBar.tscn" id="3_rechw"]
+[ext_resource type="Script" path="res://Scenes/Puppets/Scripts/PlayerPuppet.cs" id="1_f4rea"]
+[ext_resource type="Texture2D" uid="uid://b6fkei0i83vte" path="res://SharedAssets/Character1.png" id="2_affso"]
+[ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://Scenes/Puppets/HealthBar.tscn" id="3_rechw"]
 
 [node name="PlayerPuppet" type="Node2D" node_paths=PackedStringArray("_healthBar", "Sprite")]
 script = ExtResource("1_f4rea")

@@ -7,13 +7,13 @@ public partial class MenuModule : CanvasLayer
     {
         if (@event.IsActionPressed("Pause"))
         {
-            var pauseMenu = GD.Load<PackedScene>("res://scenes/UI/Pause.tscn");
+            var pauseMenu = GD.Load<PackedScene>("res://Scenes/UI/Pause.tscn");
             AddChild(pauseMenu.Instantiate());
             GetTree().Paused = true;
         }
         if (@event.IsActionPressed("Inventory"))
         {
-            var invenMenu = GD.Load<PackedScene>("res://scenes/UI/inventory.tscn")
+            var invenMenu = GD.Load<PackedScene>("res://Scenes/UI/inventory.tscn")
                 .Instantiate<Inventory>();
             AddChild(invenMenu);
             invenMenu.Display(StageProducer.PlayerStats ?? new PlayerStats()); //For now work around for testing

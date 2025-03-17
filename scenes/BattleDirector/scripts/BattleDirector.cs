@@ -78,7 +78,7 @@ public partial class BattleDirector : Node2D
         }
         TimeKeeper.Bpm = _curSong.Bpm;
 
-        Player = GD.Load<PackedScene>("res://scenes/Puppets/PlayerPuppet.tscn")
+        Player = GD.Load<PackedScene>("res://Scenes/Puppets/PlayerPuppet.tscn")
             .Instantiate<PlayerPuppet>();
         AddChild(Player);
         Player.Defeated += CheckBattleStatus;
@@ -233,7 +233,7 @@ public partial class BattleDirector : Node2D
     {
         Audio.StreamPaused = true;
         SaveSystem.ClearSave();
-        AddChild(GD.Load<PackedScene>("res://scenes/UI/EndScreen.tscn").Instantiate());
+        AddChild(GD.Load<PackedScene>("res://Scenes/UI/EndScreen.tscn").Instantiate());
         GetTree().Paused = true;
     }
 

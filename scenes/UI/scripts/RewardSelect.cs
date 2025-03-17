@@ -86,7 +86,7 @@ public partial class RewardSelect : CanvasLayer
         string type
     )
     {
-        var rewardUI = GD.Load<PackedScene>("res://scenes/UI/RewardSelectionUI.tscn")
+        var rewardUI = GD.Load<PackedScene>("res://Scenes/UI/RewardSelectionUI.tscn")
             .Instantiate<RewardSelect>();
         parent.AddChild(rewardUI);
         rewardUI.Initialize(playerStats, amount, type);

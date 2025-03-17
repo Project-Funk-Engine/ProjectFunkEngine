@@ -108,7 +108,7 @@ public partial class ChartManager : SubViewportContainer
 
     private NoteArrow CreateNote(ArrowType arrow, Note note, int beat = 0, int loopOffset = 0)
     {
-        var noteScene = ResourceLoader.Load<PackedScene>("res://scenes/NoteManager/note.tscn");
+        var noteScene = ResourceLoader.Load<PackedScene>("res://Scenes/NoteManager/NoteArrow.tscn");
         NoteArrow newArrow = noteScene.Instantiate<NoteArrow>();
         newArrow.Bounds = (float)(
             beat / TrueBeatsPerLoop * (ChartLength / 2) + loopOffset * (ChartLength / 2)

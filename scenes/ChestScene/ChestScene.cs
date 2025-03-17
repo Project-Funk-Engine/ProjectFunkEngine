@@ -11,7 +11,7 @@ public partial class ChestScene : Node2D
 
     public override void _Ready()
     {
-        Player = GD.Load<PackedScene>("res://scenes/Puppets/PlayerPuppet.tscn")
+        Player = GD.Load<PackedScene>("res://Scenes/Puppets/PlayerPuppet.tscn")
             .Instantiate<PlayerPuppet>();
         AddChild(Player);
 

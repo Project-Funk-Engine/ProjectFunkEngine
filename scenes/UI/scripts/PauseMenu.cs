@@ -26,7 +26,7 @@ public partial class PauseMenu : Control
 
     private void OpenOptions()
     {
-        OptionsMenu optionsMenu = GD.Load<PackedScene>("res://scenes/Options/OptionsMenu.tscn")
+        OptionsMenu optionsMenu = GD.Load<PackedScene>("res://Scenes/UI/Options/OptionsMenu.tscn")
             .Instantiate<OptionsMenu>();
         AddChild(optionsMenu);
         optionsMenu.OpenMenu(this);

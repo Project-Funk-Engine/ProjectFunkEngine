@@ -21,7 +21,7 @@ public partial class Inventory : Control
     {
         foreach (RelicTemplate relic in playerStats.CurRelics)
         {
-            var newButton = GD.Load<PackedScene>("res://scenes/UI/display_button.tscn")
+            var newButton = GD.Load<PackedScene>("res://Scenes/UI/DisplayButton.tscn")
                 .Instantiate<DisplayButton>();
             newButton.Display(relic.Texture, relic.Tooltip, relic.Name);
             newButton.Pressed += () =>
@@ -32,7 +32,7 @@ public partial class Inventory : Control
         }
         foreach (Note note in playerStats.CurNotes)
         {
-            var newButton = GD.Load<PackedScene>("res://scenes/UI/display_button.tscn")
+            var newButton = GD.Load<PackedScene>("res://Scenes/UI/DisplayButton.tscn")
                 .Instantiate<DisplayButton>();
             newButton.Display(note.Texture, note.Tooltip, note.Name);
             newButton.Pressed += () =>

@@ -27,7 +27,7 @@ public partial class Scribe : Node
             1,
             "PlayerBase",
             "Basic player note, deals damage to enemy.",
-            GD.Load<Texture2D>("res://Classes/Notes/assets/single_note.png"),
+            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerBasic.png"),
             null,
             1,
             (director, note, timing) =>
@@ -41,7 +41,7 @@ public partial class Scribe : Node
             2,
             "PlayerDouble",
             "Basic player note, deals double damage to enemy.",
-            GD.Load<Texture2D>("res://Classes/Notes/assets/double_note.png"),
+            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerDouble.png"),
             null,
             2,
             (director, note, timing) =>
@@ -55,7 +55,7 @@ public partial class Scribe : Node
             3,
             "PlayerHeal",
             "Basic player note, heals player.",
-            GD.Load<Texture2D>("res://Classes/Notes/assets/heal_note.png"),
+            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerHeal.png"),
             null,
             1,
             (director, note, timing) =>
@@ -69,7 +69,7 @@ public partial class Scribe : Node
             4,
             "PlayerVampire",
             "Steals health from enemy.",
-            GD.Load<Texture2D>("res://Classes/Notes/assets/vampire_note.png"),
+            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerVampire.png"),
             null,
             1,
             (director, note, timing) =>
@@ -84,7 +84,7 @@ public partial class Scribe : Node
             5,
             "PlayerQuarter",
             "Basic note at a quarter of the cost.",
-            GD.Load<Texture2D>("res://Classes/Notes/assets/quarter_note.png"),
+            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerQuarter.png"),
             null,
             1,
             (director, note, timing) =>
@@ -103,7 +103,7 @@ public partial class Scribe : Node
             0,
             "Breakfast", //Reference ha ha, Item to give when relic pool is empty.
             "Increases max hp.", //TODO: Description can include the relics values?
-            GD.Load<Texture2D>("res://Classes/Relics/assets/relic_Breakfast.png"),
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Breakfast.png"),
             new RelicEffect[]
             {
                 new RelicEffect(
@@ -121,7 +121,7 @@ public partial class Scribe : Node
             1,
             "Good Vibes",
             "Heals the player whenever they place a note.",
-            GD.Load<Texture2D>("res://Classes/Relics/assets/relic_GoodVibes.png"),
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_GoodVibes.png"),
             new RelicEffect[]
             {
                 new RelicEffect(
@@ -138,7 +138,7 @@ public partial class Scribe : Node
             2,
             "Auroboros",
             "Bigger number, better person. Increases combo multiplier every riff.",
-            GD.Load<Texture2D>("res://Classes/Relics/assets/Auroboros.png"),
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Auroboros.png"),
             new RelicEffect[]
             {
                 new RelicEffect(
@@ -156,7 +156,7 @@ public partial class Scribe : Node
             3,
             "Colorboros",
             "Taste the rainbow. Charges the freestyle bar every riff.",
-            GD.Load<Texture2D>("res://Classes/Relics/assets/Colorboros.png"),
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Colorboros.png"),
             new RelicEffect[]
             {
                 new RelicEffect(
@@ -183,7 +183,7 @@ public partial class Scribe : Node
             },
             "Song1",
             "Audio/Song1.ogg",
-            "Audio/midi/Song1.mid"
+            "Audio/Midi/Song1.mid"
         ),
         new SongTemplate(
             new SongData
@@ -194,8 +194,8 @@ public partial class Scribe : Node
             },
             "Song2",
             "Audio/Song2.ogg",
-            "Audio/midi/Song2.mid",
-            "res://scenes/Puppets/Enemies/Parasifly/Parasifly.tscn"
+            "Audio/Midi/Song2.mid",
+            "res://Scenes/Puppets/Enemies/Parasifly/Parasifly.tscn"
         ),
         new SongTemplate(
             new SongData
@@ -206,8 +206,8 @@ public partial class Scribe : Node
             },
             "Song3",
             "Audio/Song3.ogg",
-            "Audio/midi/Song3.mid",
-            "res://scenes/Puppets/Enemies/TheGWS/GWS.tscn"
+            "Audio/Midi/Song3.mid",
+            "res://Scenes/Puppets/Enemies/TheGWS/GWS.tscn"
         ),
     };
 

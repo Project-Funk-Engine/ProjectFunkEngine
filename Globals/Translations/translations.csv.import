@@ -6,10 +6,10 @@ uid="uid://drjnsd6mqpxqh"
 
 [deps]
 
-files=["res://Globals/Translations/translations.en.translation", "res://Globals/Translations/translations.cn.translation"]
+files=["res://Globals/Translations/Translations.en.translation", "res://Globals/Translations/Translations.cn.translation"]
 
-source_file="res://Globals/Translations/translations.csv"
-dest_files=["res://Globals/Translations/translations.en.translation", "res://Globals/Translations/translations.cn.translation"]
+source_file="res://Globals/Translations/Translations.csv"
+dest_files=["res://Globals/Translations/Translations.en.translation", "res://Globals/Translations/Translations.cn.translation"]
 
 [params]
 
