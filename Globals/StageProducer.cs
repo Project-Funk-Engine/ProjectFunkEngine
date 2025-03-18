@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading;
 using FunkEngine;
 using Godot;
 
@@ -8,15 +9,16 @@ using Godot;
  */
 public partial class StageProducer : Node
 {
-    public static RandomNumberGenerator GlobalRng = new RandomNumberGenerator();
+    public static readonly RandomNumberGenerator GlobalRng = new();
     public static bool IsInitialized;
 
     private Stages _curStage = Stages.Title;
     private Node _curScene;
+    private Node _preloadStage;
     public static int CurRoom { get; private set; }
 
-    public static Vector2I MapSize { get; private set; } = new Vector2I(7, 6); //For now, make width an odd number
-    public static MapGrid Map { get; } = new MapGrid();
+    public static Vector2I MapSize { get; } = new(7, 6); //For now, make width an odd number
+    public static MapGrid Map { get; } = new();
 
     public static BattleConfig Config;
 
@@ -104,6 +106,42 @@ public partial class StageProducer : Node
         TransitionStage(Map.GetRooms()[nextRoomIdx].Type, nextRoomIdx);
     }
 
+    private Thread _loadThread;
+
+    /**
+     * <summary>To be used from Cartographer. Preloads the scene during transition animation.
+     * This removes the occasionally noticeable load time for the scene change.</summary>
+     */
+    public void PreloadScene(int nextRoomIdx)
+    {
+        Stages nextStage = Map.GetRooms()[nextRoomIdx].Type;
+        Config = MakeConfig(nextStage, nextRoomIdx);
+        switch (nextStage)
+        {
+            case Stages.Battle:
+            case Stages.Boss:
+                _loadThread = new Thread(() =>
+                {
+                    _preloadStage = GD.Load<PackedScene>(
+                            "res://Scenes/BattleDirector/BattleScene.tscn"
+                        )
+                        .Instantiate<Node>();
+                });
+                break;
+            case Stages.Chest:
+                _loadThread = new Thread(() =>
+                {
+                    _preloadStage = GD.Load<PackedScene>("res://Scenes/ChestScene/ChestScene.tscn")
+                        .Instantiate<Node>();
+                });
+                break;
+            default:
+                GD.PushError($"Error Scene Transition is {nextStage}");
+                break;
+        }
+        _loadThread?.Start();
+    }
+
     public void TransitionStage(Stages nextStage, int nextRoomIdx = -1)
     {
         GetTree().Root.RemoveChild(ContrastFilter);
@@ -113,17 +151,13 @@ public partial class StageProducer : Node
                 IsInitialized = false;
                 GetTree().ChangeSceneToFile("res://Scenes/UI/TitleScreen/TitleScreen.tscn");
                 break;
-            case Stages.Battle:
-                Config = MakeConfig(nextStage, nextRoomIdx);
-                GetTree().ChangeSceneToFile("res://Scenes/BattleDirector/BattleScene.tscn");
-                break;
-            case Stages.Boss:
-                Config = MakeConfig(nextStage, nextRoomIdx);
-                GetTree().ChangeSceneToFile("res://Scenes/BattleDirector/BattleScene.tscn");
-                break;
+            case Stages.Battle: //Currently these are only ever entered from map. Be aware if we change
+            case Stages.Boss: //this, scenes either need to be preloaded first, or a different setup is needed.
             case Stages.Chest:
-                Config = MakeConfig(nextStage, nextRoomIdx);
-                GetTree().ChangeSceneToFile("res://Scenes/ChestScene/ChestScene.tscn");
+                _loadThread.Join(); //Should always finish by the time it gets here, this guarantees it.
+                GetTree().GetCurrentScene().Free();
+                GetTree().Root.AddChild(_preloadStage);
+                GetTree().SetCurrentScene(_preloadStage);
                 break;
             case Stages.Map:
                 GetTree().ChangeSceneToFile("res://Scenes/Maps/Cartographer.tscn");
@@ -145,6 +179,7 @@ public partial class StageProducer : Node
                 break;
         }
 
+        _preloadStage = null;
         //Apply grayscale shader to all scenes
         GetTree().Root.AddChild(ContrastFilter);
         _curStage = nextStage;
@@ -152,9 +187,11 @@ public partial class StageProducer : Node
 
     private BattleConfig MakeConfig(Stages nextRoom, int nextRoomIdx)
     {
-        BattleConfig result = new BattleConfig();
-        result.BattleRoom = Map.GetRooms()[nextRoomIdx];
-        result.RoomType = nextRoom;
+        BattleConfig result = new BattleConfig
+        {
+            BattleRoom = Map.GetRooms()[nextRoomIdx],
+            RoomType = nextRoom,
+        };
         switch (nextRoom)
         {
             case Stages.Battle:
@@ -163,8 +200,13 @@ public partial class StageProducer : Node
                 result.EnemyScenePath = Scribe.SongDictionary[songIdx].EnemyScenePath;
                 break;
             case Stages.Boss:
-                result.EnemyScenePath = "res://scenes/Puppets/Enemies/BossBlood/Boss1.tscn";
+                result.EnemyScenePath = "res://Scenes/Puppets/Enemies/BossBlood/Boss1.tscn";
                 result.CurSong = Scribe.SongDictionary[0];
+                break;
+            case Stages.Chest:
+                break;
+            default:
+                GD.PushError($"Error making Config for invalid room type: {nextRoom}");
                 break;
         }
 

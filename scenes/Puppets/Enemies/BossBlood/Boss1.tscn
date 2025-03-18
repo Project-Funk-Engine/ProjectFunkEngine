@@ -26,6 +26,8 @@ width = 1
 script = ExtResource("1_qj2oj")
 _healthBar = NodePath("ProgressBar")
 Sprite = NodePath("Sprite")
+StartPos = Vector2(500, 125)
+InitScale = Vector2(2, 2)
 
 [node name="Sprite" type="Sprite2D" parent="."]
 position = Vector2(0, -32)

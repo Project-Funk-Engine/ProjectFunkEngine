@@ -143,7 +143,7 @@ public partial class BattleDirector : Node2D
         {
             if (eventKey.Keycode == Key.Key0)
             {
-                //DebugKillEnemy();
+                DebugKillEnemy();
             }
         }
     }

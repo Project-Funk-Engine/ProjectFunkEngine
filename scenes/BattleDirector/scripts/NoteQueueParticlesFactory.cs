@@ -5,7 +5,9 @@ using Godot;
  */
 public static class NoteQueueParticlesFactory
 {
-    private static PackedScene particlesScene = null;
+    private static readonly PackedScene ParticlesScene = GD.Load<PackedScene>(
+        "res://Scenes/BattleDirector/NotePoofParticles.tscn"
+    );
 
     public static GpuParticles2D NoteParticles(
         Node parent,
@@ -13,11 +15,7 @@ public static class NoteQueueParticlesFactory
         float amountModifier = 1
     )
     {
-        particlesScene ??= GD.Load<PackedScene>(
-            "res://Scenes/BattleDirector/NotePoofParticles.tscn"
-        );
-
-        GpuParticles2D particles = particlesScene.Instantiate<GpuParticles2D>();
+        GpuParticles2D particles = ParticlesScene.Instantiate<GpuParticles2D>();
 
         parent.AddChild(particles);
         particles.Amount = (int)(particles.Amount * amountModifier);
