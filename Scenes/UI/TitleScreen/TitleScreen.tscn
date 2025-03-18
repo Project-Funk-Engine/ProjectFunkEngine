@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://bj8dxrlwuwrv4" path="res://Scenes/UI/TitleScreen/Assets/Background_Moon.png" id="5_squvs"]
 [ext_resource type="Shader" path="res://Scenes/UI/TitleScreen/Assets/TransparentStars.gdshader" id="5_x5dhk"]
 [ext_resource type="FontFile" uid="uid://dlwfb7kb7pd76" path="res://Scenes/UI/TitleScreen/Assets/TitleScreenFont.TTF" id="8_gkfev"]
-[ext_resource type="Texture2D" uid="uid://hfxynr5jdgsp" path="res://Scenes/NoteManager/Assets/new_arrow.png" id="10_4hnj8"]
+[ext_resource type="Texture2D" uid="uid://hfxynr5jdgsp" path="res://Scenes/NoteManager/Assets/New_Arrow.png" id="10_4hnj8"]
 [ext_resource type="Shader" path="res://Scenes/UI/TitleScreen/Assets/TitleFont.gdshader" id="11_ht0dv"]
 [ext_resource type="PackedScene" uid="uid://bi5iqbwpsd381" path="res://Scenes/Puppets/Enemies/BossBlood/Boss1.tscn" id="12_lng3a"]
 [ext_resource type="PackedScene" uid="uid://uvlux4t6h5de" path="res://Scenes/Puppets/Enemies/Parasifly/Parasifly.tscn" id="13_j3xa4"]

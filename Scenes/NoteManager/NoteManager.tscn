@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://bn8txx53xlguw"]
 
 [ext_resource type="Script" path="res://Scenes/NoteManager/Scripts/InputHandler.cs" id="1_2oeuf"]
-[ext_resource type="Texture2D" uid="uid://hfxynr5jdgsp" path="res://Scenes/NoteManager/Assets/new_arrow.png" id="2_pb1qk"]
+[ext_resource type="Texture2D" uid="uid://hfxynr5jdgsp" path="res://Scenes/NoteManager/Assets/New_Arrow.png" id="2_pb1qk"]
 [ext_resource type="Script" path="res://Scenes/NoteManager/Scripts/NoteChecker.cs" id="3_0cioe"]
-[ext_resource type="Texture2D" uid="uid://cgq2ar3pdmkac" path="res://Scenes/NoteManager/Assets/arrow_outline.png" id="4_3mttx"]
+[ext_resource type="Texture2D" uid="uid://cgq2ar3pdmkac" path="res://Scenes/NoteManager/Assets/Arrow_Outline.png" id="4_3mttx"]
 [ext_resource type="Texture2D" uid="uid://b0tvsewgnf2x7" path="res://icon.svg" id="4_foklt"]
 [ext_resource type="PackedScene" uid="uid://bcf6vs4aqoxr5" path="res://Scenes/ChartViewport/HitParticles.tscn" id="5_jv1tr"]
 

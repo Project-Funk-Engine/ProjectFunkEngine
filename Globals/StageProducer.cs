@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using FunkEngine;
 using Godot;
 
@@ -106,7 +107,7 @@ public partial class StageProducer : Node
         TransitionStage(Map.GetRooms()[nextRoomIdx].Type, nextRoomIdx);
     }
 
-    private Thread _loadThread;
+    private Task _loadTask;
 
     /**
      * <summary>To be used from Cartographer. Preloads the scene during transition animation.
@@ -120,7 +121,7 @@ public partial class StageProducer : Node
         {
             case Stages.Battle:
             case Stages.Boss:
-                _loadThread = new Thread(() =>
+                _loadTask = Task.Run(() =>
                 {
                     _preloadStage = GD.Load<PackedScene>(
                             "res://Scenes/BattleDirector/BattleScene.tscn"
@@ -129,7 +130,7 @@ public partial class StageProducer : Node
                 });
                 break;
             case Stages.Chest:
-                _loadThread = new Thread(() =>
+                _loadTask = Task.Run(() =>
                 {
                     _preloadStage = GD.Load<PackedScene>("res://Scenes/ChestScene/ChestScene.tscn")
                         .Instantiate<Node>();
@@ -139,7 +140,6 @@ public partial class StageProducer : Node
                 GD.PushError($"Error Scene Transition is {nextStage}");
                 break;
         }
-        _loadThread?.Start();
     }
 
     public void TransitionStage(Stages nextStage, int nextRoomIdx = -1)
@@ -154,7 +154,7 @@ public partial class StageProducer : Node
             case Stages.Battle: //Currently these are only ever entered from map. Be aware if we change
             case Stages.Boss: //this, scenes either need to be preloaded first, or a different setup is needed.
             case Stages.Chest:
-                _loadThread.Join(); //Should always finish by the time it gets here, this guarantees it.
+                _loadTask.Wait(); //Should always finish by the time it gets here, this guarantees it.
                 GetTree().GetCurrentScene().Free();
                 GetTree().Root.AddChild(_preloadStage);
                 GetTree().SetCurrentScene(_preloadStage);
