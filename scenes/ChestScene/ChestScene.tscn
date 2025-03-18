@@ -24,8 +24,9 @@ ChestButton = NodePath("ChestButton")
 stream = ExtResource("2_x78jo")
 autoplay = true
 
-[node name="UILayer" type="CanvasLayer" parent="."]
+[node name="UILayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("CurSceneNode")]
 script = ExtResource("3_5uvci")
+CurSceneNode = NodePath("..")
 
 [node name="BackGround" type="TextureRect" parent="."]
 z_index = -1

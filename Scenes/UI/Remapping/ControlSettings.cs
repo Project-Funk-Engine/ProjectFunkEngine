@@ -1,7 +1,8 @@
 using System;
+using FunkEngine;
 using Godot;
 
-public partial class ControlSettings : Node2D
+public partial class ControlSettings : Node2D, IFocusableMenu
 {
     [Export]
     public Sprite2D leftKey;
@@ -15,8 +16,7 @@ public partial class ControlSettings : Node2D
     [Export]
     public Sprite2D downKey;
 
-    private Node _previousScene;
-    private ProcessModeEnum _previousProcessMode;
+    public IFocusableMenu Prev { get; set; }
 
     [Export]
     private Button _closeButton;
@@ -36,6 +36,36 @@ public partial class ControlSettings : Node2D
         ControllerConnectionChanged(-1, false);
         Input.JoyConnectionChanged += ControllerConnectionChanged;
 
+        _closeButton.Pressed += ReturnToPrev;
+    }
+
+    public void ResumeFocus()
+    {
+        ProcessMode = ProcessModeEnum.Inherit;
+        GetCurrentSelection();
+    }
+
+    public void PauseFocus()
+    {
+        ProcessMode = ProcessModeEnum.Disabled;
+    }
+
+    public void OpenMenu(IFocusableMenu prev)
+    {
+        Prev = prev;
+        Prev.PauseFocus();
+
+        GetCurrentSelection();
+    }
+
+    public void ReturnToPrev()
+    {
+        Prev.ResumeFocus();
+        QueueFree();
+    }
+
+    private void GetCurrentSelection()
+    {
         string scheme = SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.InputKey).As<string>();
         switch (scheme)
         {
@@ -56,28 +86,13 @@ public partial class ControlSettings : Node2D
                 GetNode<Button>("Panel/ControllerButton").GrabFocus();
                 break;
         }
-
-        _closeButton.Pressed += CloseMenu;
-    }
-
-    public void OpenMenu(Node prevScene)
-    {
-        _previousScene = prevScene;
-        _previousProcessMode = _previousScene.GetProcessMode();
-        prevScene.ProcessMode = ProcessModeEnum.Disabled;
-    }
-
-    private void CloseMenu()
-    {
-        _previousScene.ProcessMode = _previousProcessMode;
-        QueueFree();
     }
 
     public override void _Input(InputEvent @event)
     {
         if (@event.IsActionPressed("ui_cancel"))
         {
-            CloseMenu();
+            ReturnToPrev();
             GetViewport().SetInputAsHandled();
         }
     }

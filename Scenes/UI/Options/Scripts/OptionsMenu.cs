@@ -1,9 +1,10 @@
 using System;
+using FunkEngine;
 using Godot;
 
-public partial class OptionsMenu : CanvasLayer
+public partial class OptionsMenu : CanvasLayer, IFocusableMenu
 {
-    private Node _previousScene;
+    public IFocusableMenu Prev { get; set; }
 
     [Export]
     private Control _focused;
@@ -28,8 +29,6 @@ public partial class OptionsMenu : CanvasLayer
 
     public override void _Ready()
     {
-        _focused.GrabFocus();
-
         _volumeSlider.MinValue = MinVolumeVal;
         _volumeSlider.Value = AudioServer.GetBusVolumeDb(AudioServer.GetBusIndex("Master")) + 80;
 
@@ -40,46 +39,52 @@ public partial class OptionsMenu : CanvasLayer
         _volumeSlider.DragEnded += VolumeChanged;
         _volumeSlider.ValueChanged += ChangeVolume;
 
-        _closeButton.Pressed += CloseMenu;
+        _closeButton.Pressed += ReturnToPrev;
         _controlsButton.Pressed += OpenControls;
         _highContrastToggle.Toggled += HighContrastChanged;
         _howToPlayButton.Pressed += OpenHowToPlay;
-    }
-
-    //TODO: Menu subclass/interface
-    public override void _Process(double delta)
-    {
-        if (GetViewport().GuiGetFocusOwner() == null)
-        {
-            _focused.GrabFocus();
-        }
     }
 
     public override void _Input(InputEvent @event)
     {
         if (@event.IsActionPressed("ui_cancel"))
         {
-            CloseMenu();
+            ReturnToPrev();
             GetViewport().SetInputAsHandled();
         }
     }
 
-    public void OpenMenu(Node prevScene)
+    public void ResumeFocus()
     {
-        _previousScene = prevScene;
-        _previousProcessMode = _previousScene.GetProcessMode();
-        prevScene.ProcessMode = ProcessModeEnum.Disabled;
+        ProcessMode = _previousProcessMode;
+        _focused.GrabFocus();
     }
 
-    private void CloseMenu()
+    public void PauseFocus()
     {
-        _previousScene.ProcessMode = _previousProcessMode;
+        _focused = GetViewport().GuiGetFocusOwner();
+        _previousProcessMode = ProcessMode;
+        ProcessMode = ProcessModeEnum.Disabled;
+    }
+
+    public void OpenMenu(IFocusableMenu prev)
+    {
+        Prev = prev;
+        Prev.PauseFocus();
+        _focused.GrabFocus();
+    }
+
+    public void ReturnToPrev()
+    {
+        Prev.ResumeFocus();
         QueueFree();
     }
 
     private void OpenControls()
     {
-        ControlSettings controlSettings = GD.Load<PackedScene>("res://Scenes/UI/Remapping/Remap.tscn")
+        ControlSettings controlSettings = GD.Load<PackedScene>(
+                "res://Scenes/UI/Remapping/Remap.tscn"
+            )
             .Instantiate<ControlSettings>();
         AddChild(controlSettings);
         controlSettings.OpenMenu(this);

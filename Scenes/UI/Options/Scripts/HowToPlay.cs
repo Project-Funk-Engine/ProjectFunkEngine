@@ -1,32 +1,40 @@
 using System;
+using FunkEngine;
 using Godot;
 
-public partial class HowToPlay : Node2D
+public partial class HowToPlay : Node2D, IFocusableMenu
 {
     [Export]
     private Button _returnButton;
 
-    private Node _previousScene;
-    private ProcessModeEnum _previousProcessMode;
+    public IFocusableMenu Prev { get; set; }
 
     public override void _Ready()
     {
+        _returnButton.Pressed += ReturnToPrev;
+    }
+
+    public void ResumeFocus()
+    {
+        ProcessMode = ProcessModeEnum.Inherit;
         _returnButton.GrabFocus();
-        _returnButton.Pressed += CloseMenu;
     }
 
-    public override void _Process(double delta) { }
-
-    public void OpenMenu(Node prevScene)
+    public void PauseFocus()
     {
-        _previousScene = prevScene;
-        _previousProcessMode = _previousScene.GetProcessMode();
-        prevScene.ProcessMode = ProcessModeEnum.Disabled;
+        ProcessMode = ProcessModeEnum.Disabled;
     }
 
-    private void CloseMenu()
+    public void OpenMenu(IFocusableMenu prev)
     {
-        _previousScene.ProcessMode = _previousProcessMode;
+        Prev = prev;
+        Prev.PauseFocus();
+        _returnButton.GrabFocus();
+    }
+
+    public void ReturnToPrev()
+    {
+        Prev.ResumeFocus();
         QueueFree();
     }
 
@@ -34,7 +42,7 @@ public partial class HowToPlay : Node2D
     {
         if (@event.IsActionPressed("ui_cancel"))
         {
-            CloseMenu();
+            ReturnToPrev();
             GetViewport().SetInputAsHandled();
         }
     }

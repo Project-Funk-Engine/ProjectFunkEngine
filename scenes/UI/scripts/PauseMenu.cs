@@ -2,26 +2,20 @@ using System;
 using FunkEngine;
 using Godot;
 
-public partial class PauseMenu : Control
+public partial class PauseMenu : Control, IFocusableMenu
 {
     [Export]
     public Button[] pauseButtons;
 
+    public IFocusableMenu Prev { get; set; }
+    private Control _lastFocus;
+
     public override void _Ready()
     {
-        pauseButtons[0].Pressed += Resume;
+        pauseButtons[0].Pressed += ReturnToPrev;
         pauseButtons[1].Pressed += OpenOptions;
         pauseButtons[2].Pressed += Quit;
         pauseButtons[3].Pressed += QuitToMainMenu;
-        pauseButtons[0].GrabFocus();
-    }
-
-    public override void _Process(double delta)
-    {
-        if (GetViewport().GuiGetFocusOwner() == null)
-        {
-            pauseButtons[0].GrabFocus();
-        }
     }
 
     private void OpenOptions()
@@ -36,14 +30,33 @@ public partial class PauseMenu : Control
     {
         if (@event.IsActionPressed("ui_cancel"))
         {
-            Resume();
+            ReturnToPrev();
             GetViewport().SetInputAsHandled();
         }
     }
 
-    private void Resume()
+    public void ResumeFocus()
     {
-        GetTree().Paused = false;
+        ProcessMode = ProcessModeEnum.Pausable;
+        _lastFocus.GrabFocus();
+    }
+
+    public void PauseFocus()
+    {
+        _lastFocus = GetViewport().GuiGetFocusOwner();
+        ProcessMode = ProcessModeEnum.Disabled;
+    }
+
+    public void OpenMenu(IFocusableMenu prev)
+    {
+        Prev = prev;
+        Prev.PauseFocus();
+        pauseButtons[0].GrabFocus();
+    }
+
+    public void ReturnToPrev()
+    {
+        Prev.ResumeFocus();
         QueueFree();
     }
 
@@ -54,7 +67,6 @@ public partial class PauseMenu : Control
 
     private void QuitToMainMenu()
     {
-        GetTree().Paused = false;
         GetNode<StageProducer>("/root/StageProducer").TransitionStage(Stages.Title);
     }
 }

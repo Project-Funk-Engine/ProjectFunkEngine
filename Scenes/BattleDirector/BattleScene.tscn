@@ -29,8 +29,9 @@ metadata/_edit_lock_ = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 
-[node name="UILayer" type="CanvasLayer" parent="."]
+[node name="UILayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("CurSceneNode")]
 script = ExtResource("2_ka0ws")
+CurSceneNode = NodePath("..")
 
 [node name="Conductor" type="Node" parent="." node_paths=PackedStringArray("CM")]
 script = ExtResource("3_elcaj")

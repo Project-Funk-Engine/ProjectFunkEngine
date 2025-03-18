@@ -6,7 +6,7 @@
 [node name="OptionsMenu" type="CanvasLayer" node_paths=PackedStringArray("_focused", "_volumeSlider", "_closeButton", "_controlsButton", "_highContrastToggle", "_howToPlayButton")]
 process_mode = 3
 script = ExtResource("1_yjq7i")
-_focused = NodePath("Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/LanguageSelection")
+_focused = NodePath("Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/CheckBox")
 _volumeSlider = NodePath("Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/Container/Volume")
 _closeButton = NodePath("Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/TitleButton")
 _controlsButton = NodePath("Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ControlsButton")

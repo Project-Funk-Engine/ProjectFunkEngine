@@ -1,7 +1,8 @@
 using System;
+using FunkEngine;
 using Godot;
 
-public partial class Inventory : Control
+public partial class Inventory : Control, IFocusableMenu
 {
     [Export]
     private GridContainer Relics;
@@ -15,9 +16,10 @@ public partial class Inventory : Control
     [Export]
     private TabContainer Tabs;
 
+    public IFocusableMenu Prev { get; set; }
     private static readonly string[] TabNames = new[] { "NOTE", "RELIC" };
 
-    public void Display(PlayerStats playerStats)
+    private void Display(PlayerStats playerStats)
     {
         foreach (RelicTemplate relic in playerStats.CurRelics)
         {
@@ -45,23 +47,37 @@ public partial class Inventory : Control
         Tabs.TabChanged += ClearDescription;
     }
 
-    public override void _Ready()
-    {
-        Tabs.GetTabBar().GrabFocus();
-    }
-
     public override void _Input(InputEvent @event)
     {
         if (@event.IsActionPressed("ui_cancel") || @event.IsActionPressed("Inventory"))
         {
-            Resume();
+            ReturnToPrev();
             GetViewport().SetInputAsHandled();
         }
     }
 
-    private void Resume()
+    public void ResumeFocus()
     {
-        GetTree().Paused = false;
+        ProcessMode = ProcessModeEnum.Pausable;
+        Tabs.GetTabBar().GrabFocus();
+    }
+
+    public void PauseFocus()
+    {
+        ProcessMode = ProcessModeEnum.Disabled;
+    }
+
+    public void OpenMenu(IFocusableMenu prev)
+    {
+        Display(StageProducer.PlayerStats ?? new PlayerStats());
+        Prev = prev;
+        Prev.PauseFocus();
+        Tabs.GetTabBar().GrabFocus();
+    }
+
+    public void ReturnToPrev()
+    {
+        Prev.ResumeFocus();
         QueueFree();
     }
 

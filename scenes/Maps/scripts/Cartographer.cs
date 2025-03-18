@@ -13,7 +13,6 @@ public partial class Cartographer : Node2D
 
     private Button[] _validButtons = Array.Empty<Button>();
 
-    [Export]
     private Button _focusedButton = null;
 
     private BgAudioPlayer _bgPlayer;
@@ -21,7 +20,6 @@ public partial class Cartographer : Node2D
     public override void _Ready()
     {
         DrawMap();
-        GetViewport().GuiFocusChanged += UpdateFocus;
         SaveSystem.SaveGame();
         if (
             StageProducer.GetCurRoom().Type == Stages.Boss
@@ -36,20 +34,6 @@ public partial class Cartographer : Node2D
     {
         _bgPlayer = GetNode<BgAudioPlayer>("/root/BgAudioPlayer");
         _bgPlayer.PlayLevelMusic();
-    }
-
-    public override void _Process(double delta)
-    {
-        if (!GetTree().Paused && !_validButtons.Contains(GetViewport().GuiGetFocusOwner()))
-        {
-            _focusedButton?.GrabFocus();
-        }
-    }
-
-    private void UpdateFocus(Control focusOwner)
-    {
-        if (_validButtons.Contains(focusOwner))
-            _focusedButton = focusOwner as Button;
     }
 
     private Vector2 GetPosition(int x, int y)

@@ -217,3 +217,12 @@ public interface IDisplayable
     string Tooltip { get; set; }
     Texture2D Texture { get; set; }
 }
+
+public interface IFocusableMenu
+{
+    IFocusableMenu Prev { get; set; }
+    void OpenMenu(IFocusableMenu parentMenu);
+    void PauseFocus();
+    void ResumeFocus();
+    void ReturnToPrev();
+}

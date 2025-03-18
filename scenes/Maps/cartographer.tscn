@@ -10,8 +10,9 @@ process_mode = 1
 script = ExtResource("1_u4q3n")
 PlayerSprite = NodePath("Player")
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="." node_paths=PackedStringArray("CurSceneNode")]
 script = ExtResource("2_cl7v0")
+CurSceneNode = NodePath("..")
 
 [node name="BG" type="Sprite2D" parent="."]
 modulate = Color(0.462, 0.462, 0.66, 1)

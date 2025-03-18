@@ -1,7 +1,8 @@
 using System;
+using FunkEngine;
 using Godot;
 
-public partial class TitleScreen : Control
+public partial class TitleScreen : Control, IFocusableMenu
 {
     [Export]
     public PointLight2D TextLight;
@@ -9,18 +10,35 @@ public partial class TitleScreen : Control
     [Export]
     public Button Options;
 
+    private Control _focused;
+    public IFocusableMenu Prev { get; set; }
+
     public override void _Ready()
     {
         TweenLight();
         Options.Pressed += OpenOptions;
     }
 
-    public override void _Process(double delta)
+    public void ResumeFocus()
     {
-        if (GetViewport().GuiGetFocusOwner() == null)
-        {
-            Options.GrabFocus();
-        }
+        ProcessMode = ProcessModeEnum.Inherit;
+        _focused.GrabFocus();
+    }
+
+    public void PauseFocus()
+    {
+        _focused = GetViewport().GuiGetFocusOwner();
+        ProcessMode = ProcessModeEnum.Disabled;
+    }
+
+    public void OpenMenu(IFocusableMenu prev)
+    {
+        GD.PushWarning("Undefined behaviour, TitleScreen should not be opened!");
+    }
+
+    public void ReturnToPrev()
+    {
+        GD.PushWarning("Undefined behaviour, TitleScreen should not return to previous!");
     }
 
     private void OpenOptions()
