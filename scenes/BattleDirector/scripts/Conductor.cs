@@ -100,8 +100,11 @@ public partial class Conductor : Node
         for (int i = 0; i < _laneData.Length; i++)
         {
             if (
-                !(_laneLastBeat[i] < Math.Floor(realBeat))
-                && (_laneLastBeat[i] != CM.BeatsPerLoop - 1 || Math.Floor(realBeat) != 0)
+                realBeat > CM.BeatsPerLoop
+                || (
+                    _laneLastBeat[i] >= Math.Floor(realBeat)
+                    && (_laneLastBeat[i] < CM.BeatsPerLoop - 1 || Math.Floor(realBeat) != 0)
+                )
             )
                 continue;
             if (_laneData[i][_laneLastBeat[i]] == null || !_laneData[i][_laneLastBeat[i]].IsActive)
