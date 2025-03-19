@@ -25,12 +25,14 @@ public partial class OptionsMenu : CanvasLayer, IFocusableMenu
     [Export]
     private Button _howToPlayButton;
 
-    private const float MinVolumeVal = 50f;
+    private const float MinVolumeVal = 0f;
 
     public override void _Ready()
     {
         _volumeSlider.MinValue = MinVolumeVal;
-        _volumeSlider.Value = AudioServer.GetBusVolumeDb(AudioServer.GetBusIndex("Master")) + 80;
+        _volumeSlider.Value = Mathf.DbToLinear(
+            AudioServer.GetBusVolumeDb(AudioServer.GetBusIndex("Master"))
+        );
 
         _highContrastToggle.ButtonPressed = SaveSystem
             .GetConfigValue(SaveSystem.ConfigSettings.HighContrast)
@@ -100,10 +102,9 @@ public partial class OptionsMenu : CanvasLayer, IFocusableMenu
 
     public static void ChangeVolume(double value)
     {
-        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"), (float)value - 80);
-        AudioServer.SetBusMute(
+        AudioServer.SetBusVolumeDb(
             AudioServer.GetBusIndex("Master"),
-            Math.Abs(value - MinVolumeVal) < .1
+            (float)Mathf.LinearToDb(value)
         );
     }
 

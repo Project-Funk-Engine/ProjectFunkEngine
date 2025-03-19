@@ -96,9 +96,9 @@ horizontal_alignment = 1
 [node name="Volume" type="HSlider" parent="Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/Container"]
 layout_mode = 2
 tooltip_text = "OPTIONS_VOLUME_LABEL"
-min_value = 50.0
-max_value = 80.0
-value = 80.0
+max_value = 1.0
+step = 0.01
+value = 1.0
 
 [node name="LanguageSelection" type="OptionButton" parent="Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true

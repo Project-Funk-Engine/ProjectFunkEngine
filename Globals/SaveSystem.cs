@@ -15,7 +15,7 @@ public static class SaveSystem
     private const string UserConfigPath = "user://Options.cfg";
     private static ConfigFile _curConfigData;
 
-    private const float DefaultVolume = 80f;
+    private const float DefaultVolume = 1f;
     private const string DefaultInput = "WASD";
     private const string DefaultLanguage = "en";
     private const bool DefaultHighCon = false;
