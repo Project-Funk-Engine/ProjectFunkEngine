@@ -170,6 +170,40 @@ public partial class Scribe : Node
                 ),
             }
         ),
+        new RelicTemplate(
+            4,
+            "Chips",
+            "Hitting an enemy note deals a bit of damage.",
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Chips.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.EnemyNoteHit,
+                    1,
+                    (director, self, val) =>
+                    {
+                        director.Enemy.TakeDamage(val);
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            5,
+            "Paper Cut",
+            "Deals damage each loop.",
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_PaperCut.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnLoop,
+                    5,
+                    (director, self, val) =>
+                    {
+                        director.Enemy.TakeDamage(val);
+                    }
+                ),
+            }
+        ),
     };
 
     public static readonly SongTemplate[] SongDictionary = new[]

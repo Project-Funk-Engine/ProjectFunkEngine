@@ -57,7 +57,7 @@ public struct BattleConfig
 public enum BattleEffectTrigger
 {
     NotePlaced,
-    NoteHit,
+    EnemyNoteHit,
     SelfNoteHit,
     OnPickup,
     OnLoop,

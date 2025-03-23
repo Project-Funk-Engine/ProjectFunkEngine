@@ -171,6 +171,10 @@ public partial class BattleDirector : Node2D
         Timing timed = CheckTiming(beatDif);
 
         note.OnHit(this, timed);
+
+        if (note.Name == "EnemyBase" && timed != Timing.Miss) //TODO: notes have owner field, find a way to determine if the owner is an enemy
+            EnemyNoteHit?.Invoke(this);
+
         if (timed == Timing.Miss)
         {
             NotePlacementBar.MissNote();
@@ -252,6 +256,9 @@ public partial class BattleDirector : Node2D
     private delegate void ChartLoopHandler(BattleDirector BD);
     private event ChartLoopHandler ChartLooped;
 
+    private delegate void EnemyNoteHitHandler(BattleDirector BD);
+    private event EnemyNoteHitHandler EnemyNoteHit;
+
     private void AddEvent(IBattleEvent bEvent)
     {
         switch (bEvent.GetTrigger()) //TODO: Look into a way to get eventhandler from string
@@ -261,6 +268,9 @@ public partial class BattleDirector : Node2D
                 break;
             case BattleEffectTrigger.OnLoop:
                 ChartLooped += bEvent.OnTrigger;
+                break;
+            case BattleEffectTrigger.EnemyNoteHit:
+                EnemyNoteHit += bEvent.OnTrigger;
                 break;
         }
     }
