@@ -3,6 +3,8 @@ using Godot;
 
 public partial class P_TheGWS : EnemyPuppet
 {
+    public static new readonly string LoadPath = "res://Scenes/Puppets/Enemies/TheGWS/GWS.tscn";
+
     public override void _Ready()
     {
         _currentHealth = 75;

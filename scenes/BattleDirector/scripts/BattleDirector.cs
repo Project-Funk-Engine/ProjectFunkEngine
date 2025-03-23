@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using FunkEngine;
 using Godot;
 
@@ -10,6 +6,8 @@ using Godot;
 public partial class BattleDirector : Node2D
 {
     #region Declarations
+
+    public static readonly string LoadPath = "res://Scenes/BattleDirector/BattleScene.tscn";
 
     public PlayerPuppet Player;
     public EnemyPuppet Enemy;
@@ -76,8 +74,7 @@ public partial class BattleDirector : Node2D
         }
         TimeKeeper.Bpm = _curSong.Bpm;
 
-        Player = GD.Load<PackedScene>("res://Scenes/Puppets/PlayerPuppet.tscn")
-            .Instantiate<PlayerPuppet>();
+        Player = GD.Load<PackedScene>(PlayerPuppet.LoadPath).Instantiate<PlayerPuppet>();
         AddChild(Player);
         Player.Defeated += CheckBattleStatus;
         EventizeRelics();
@@ -116,7 +113,7 @@ public partial class BattleDirector : Node2D
     private void EndBattle()
     {
         StageProducer.ChangeCurRoom(StageProducer.Config.BattleRoom.Idx);
-        GetNode<StageProducer>("/root/StageProducer").TransitionStage(Stages.Map);
+        StageProducer.LiveInstance.TransitionStage(Stages.Map);
     }
 
     public override void _Process(double delta)
@@ -231,7 +228,7 @@ public partial class BattleDirector : Node2D
     {
         Audio.StreamPaused = true;
         SaveSystem.ClearSave();
-        AddChild(GD.Load<PackedScene>("res://Scenes/UI/EndScreen.tscn").Instantiate());
+        AddChild(GD.Load<PackedScene>(EndScreen.LoadPath).Instantiate());
         GetTree().Paused = true;
     }
 

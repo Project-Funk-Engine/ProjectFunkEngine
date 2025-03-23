@@ -195,7 +195,7 @@ public partial class Scribe : Node
             "Song2",
             "Audio/Song2.ogg",
             "Audio/Midi/Song2.mid",
-            "res://Scenes/Puppets/Enemies/Parasifly/Parasifly.tscn"
+            P_Parasifly.LoadPath
         ),
         new SongTemplate(
             new SongData
@@ -207,7 +207,7 @@ public partial class Scribe : Node
             "Song3",
             "Audio/Song3.ogg",
             "Audio/Midi/Song3.mid",
-            "res://Scenes/Puppets/Enemies/TheGWS/GWS.tscn"
+            P_TheGWS.LoadPath
         ),
     };
 

@@ -4,6 +4,8 @@ using Godot;
 
 public partial class HowToPlay : Node2D, IFocusableMenu
 {
+    public static readonly string LoadPath = "res://Scenes/UI/Options/HowToPlay.tscn";
+
     [Export]
     private Button _returnButton;
 

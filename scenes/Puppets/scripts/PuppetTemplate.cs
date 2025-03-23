@@ -6,6 +6,7 @@ using Godot;
  */
 public partial class PuppetTemplate : Node2D
 {
+    public static readonly string LoadPath = "";
     public delegate void DefeatedHandler(PuppetTemplate self);
     public event DefeatedHandler Defeated;
 

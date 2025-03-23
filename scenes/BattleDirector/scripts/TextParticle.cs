@@ -1,4 +1,3 @@
-using System;
 using Godot;
 
 /**<summary>Bouncing, self-cleaning text for timing and damage information.</summary>

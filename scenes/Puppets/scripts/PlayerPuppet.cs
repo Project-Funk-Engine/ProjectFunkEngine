@@ -3,6 +3,7 @@ using Godot;
 
 public partial class PlayerPuppet : PuppetTemplate
 {
+    public static new readonly string LoadPath = "res://Scenes/Puppets/PlayerPuppet.tscn";
     public PlayerStats Stats;
 
     public override void _Ready()

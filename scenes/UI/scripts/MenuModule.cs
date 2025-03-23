@@ -40,15 +40,13 @@ public partial class MenuModule : CanvasLayer, IFocusableMenu
     {
         if (@event.IsActionPressed("Pause"))
         {
-            var pauseMenu = GD.Load<PackedScene>("res://Scenes/UI/Pause.tscn")
-                .Instantiate<PauseMenu>();
+            var pauseMenu = GD.Load<PackedScene>(PauseMenu.LoadPath).Instantiate<PauseMenu>();
             AddChild(pauseMenu);
             pauseMenu.OpenMenu(this);
         }
         if (@event.IsActionPressed("Inventory"))
         {
-            var invenMenu = GD.Load<PackedScene>("res://Scenes/UI/Inventory.tscn")
-                .Instantiate<Inventory>();
+            var invenMenu = GD.Load<PackedScene>(Inventory.LoadPath).Instantiate<Inventory>();
             AddChild(invenMenu);
             invenMenu.OpenMenu(this);
         }

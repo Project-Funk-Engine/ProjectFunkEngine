@@ -3,7 +3,7 @@ namespace FunkEngine.Classes.MidiMaestro;
 /**
  * <summary>SongTemplate: Generic class to represent a rhythm battle.</summary>
  */
-public partial class SongTemplate
+public partial struct SongTemplate
 {
     public string Name;
     public string AudioLocation;

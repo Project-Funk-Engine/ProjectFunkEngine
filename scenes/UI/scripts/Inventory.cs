@@ -4,6 +4,8 @@ using Godot;
 
 public partial class Inventory : Control, IFocusableMenu
 {
+    public static readonly string LoadPath = "res://Scenes/UI/Inventory.tscn";
+
     [Export]
     private GridContainer Relics;
 
@@ -21,30 +23,25 @@ public partial class Inventory : Control, IFocusableMenu
 
     private void Display(PlayerStats playerStats)
     {
-        foreach (RelicTemplate relic in playerStats.CurRelics)
-        {
-            var newButton = GD.Load<PackedScene>("res://Scenes/UI/DisplayButton.tscn")
-                .Instantiate<DisplayButton>();
-            newButton.Display(relic.Texture, relic.Tooltip, relic.Name);
-            newButton.Pressed += () =>
-            {
-                DoDescription(newButton);
-            };
-            Relics.AddChild(newButton);
-        }
-        foreach (Note note in playerStats.CurNotes)
-        {
-            var newButton = GD.Load<PackedScene>("res://Scenes/UI/DisplayButton.tscn")
-                .Instantiate<DisplayButton>();
-            newButton.Display(note.Texture, note.Tooltip, note.Name);
-            newButton.Pressed += () =>
-            {
-                DoDescription(newButton);
-            };
-            Notes.AddChild(newButton);
-        }
+        AddDisplayButtons(playerStats.CurRelics, Relics);
+        AddDisplayButtons(playerStats.CurNotes, Notes);
 
         Tabs.TabChanged += ClearDescription;
+    }
+
+    private void AddDisplayButtons(IDisplayable[] displayables, Node parentNode)
+    {
+        foreach (IDisplayable item in displayables)
+        {
+            var newButton = GD.Load<PackedScene>(DisplayButton.LoadPath)
+                .Instantiate<DisplayButton>();
+            newButton.Display(item.Texture, item.Tooltip, item.Name);
+            newButton.Pressed += () =>
+            {
+                DoDescription(newButton);
+            };
+            parentNode.AddChild(newButton);
+        }
     }
 
     public override void _Input(InputEvent @event)

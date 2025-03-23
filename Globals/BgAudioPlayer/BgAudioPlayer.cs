@@ -5,8 +5,16 @@ using Godot;
  */
 public partial class BgAudioPlayer : AudioStreamPlayer
 {
-    private readonly AudioStream _levelMusic = (AudioStream)
-        ResourceLoader.Load("res://Scenes/UI/TitleScreen/Assets/TitleSong.ogg");
+    private readonly AudioStream _levelMusic = ResourceLoader.Load<AudioStream>(
+        "res://Scenes/UI/TitleScreen/Assets/TitleSong.ogg"
+    );
+
+    public static BgAudioPlayer LiveInstance { get; private set; }
+
+    public override void _EnterTree()
+    {
+        LiveInstance = this;
+    }
 
     private void PlayMusic(AudioStream music, float volume)
     {

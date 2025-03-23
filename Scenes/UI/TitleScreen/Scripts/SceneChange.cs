@@ -24,6 +24,6 @@ public partial class SceneChange : Button
 
     private void OnButtonPressed()
     {
-        GetNode<StageProducer>("/root/StageProducer").TransitionStage(ScenePath);
+        StageProducer.LiveInstance.TransitionStage(ScenePath);
     }
 }

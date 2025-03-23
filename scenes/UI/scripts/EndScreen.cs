@@ -4,10 +4,13 @@ using Godot;
 
 public partial class EndScreen : CanvasLayer
 {
+    public static readonly string LoadPath = "res://Scenes/UI/EndScreen.tscn";
+
     [Export]
     private Button[] buttons;
 
-    [Export] public Label TopLabel;
+    [Export]
+    public Label TopLabel;
 
     public override void _Ready()
     {
@@ -21,17 +24,17 @@ public partial class EndScreen : CanvasLayer
     {
         GetTree().Paused = false;
         StageProducer.IsInitialized = false;
-        GetNode<StageProducer>("/root/StageProducer").TransitionStage(Stages.Map);
+        StageProducer.LiveInstance.TransitionStage(Stages.Map);
     }
 
     private void Quit()
     {
-        GetNode<StageProducer>("/root/StageProducer").TransitionStage(Stages.Quit);
+        StageProducer.LiveInstance.TransitionStage(Stages.Quit);
     }
 
     private void QuitToMainMenu()
     {
         GetTree().Paused = false;
-        GetNode<StageProducer>("/root/StageProducer").TransitionStage(Stages.Title);
+        StageProducer.LiveInstance.TransitionStage(Stages.Title);
     }
 }

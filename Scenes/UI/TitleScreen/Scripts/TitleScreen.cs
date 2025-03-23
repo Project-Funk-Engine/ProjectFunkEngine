@@ -4,6 +4,8 @@ using Godot;
 
 public partial class TitleScreen : Control, IFocusableMenu
 {
+    public static readonly string LoadPath = "res://Scenes/UI/TitleScreen/TitleScreen.tscn";
+
     [Export]
     public PointLight2D TextLight;
 
@@ -43,7 +45,7 @@ public partial class TitleScreen : Control, IFocusableMenu
 
     private void OpenOptions()
     {
-        OptionsMenu optionsMenu = GD.Load<PackedScene>("res://Scenes/UI/Options/OptionsMenu.tscn")
+        OptionsMenu optionsMenu = GD.Load<PackedScene>(OptionsMenu.LoadPath)
             .Instantiate<OptionsMenu>();
         AddChild(optionsMenu);
         optionsMenu.OpenMenu(this);
@@ -61,6 +63,6 @@ public partial class TitleScreen : Control, IFocusableMenu
 
     public override void _EnterTree()
     {
-        GetNode<BgAudioPlayer>("/root/BgAudioPlayer").PlayLevelMusic();
+        BgAudioPlayer.LiveInstance.PlayLevelMusic();
     }
 }

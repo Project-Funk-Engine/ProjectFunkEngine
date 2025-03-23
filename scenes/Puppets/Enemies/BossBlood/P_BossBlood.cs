@@ -1,10 +1,11 @@
-using System;
-using System.Linq;
 using FunkEngine;
 using Godot;
 
 public partial class P_BossBlood : EnemyPuppet
 {
+    public static new readonly string LoadPath =
+        "res://Scenes/Puppets/Enemies/BossBlood/Boss1.tscn";
+
     public override void _Ready()
     {
         _currentHealth = 100;

@@ -1,4 +1,3 @@
-using System;
 using Godot;
 
 /**<summary>Particle effects on placing a note.</summary>

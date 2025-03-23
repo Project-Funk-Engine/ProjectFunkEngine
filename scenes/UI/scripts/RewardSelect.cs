@@ -1,9 +1,9 @@
-using System;
-using System.Linq;
 using Godot;
 
 public partial class RewardSelect : CanvasLayer
 {
+    public static readonly string LoadPath = "res://Scenes/UI/RewardSelectionUI.tscn";
+
     [Export]
     public HBoxContainer ButtonContainer;
 
@@ -26,7 +26,7 @@ public partial class RewardSelect : CanvasLayer
     private Note[] _nChoices;
     private Note _nSelection;
 
-    public void Initialize(PlayerStats player, int amount, string type)
+    private void Initialize(PlayerStats player, int amount, string type)
     {
         _player = player;
         if (type == "Relic")
@@ -86,8 +86,7 @@ public partial class RewardSelect : CanvasLayer
         string type
     )
     {
-        var rewardUI = GD.Load<PackedScene>("res://Scenes/UI/RewardSelectionUI.tscn")
-            .Instantiate<RewardSelect>();
+        var rewardUI = GD.Load<PackedScene>(RewardSelect.LoadPath).Instantiate<RewardSelect>();
         parent.AddChild(rewardUI);
         rewardUI.Initialize(playerStats, amount, type);
         parent.GetTree().Paused = true;
@@ -98,18 +97,18 @@ public partial class RewardSelect : CanvasLayer
     private void OnNoteSelected(Note choiceNote)
     {
         _nSelection = choiceNote;
-        string notename = choiceNote.Name.ToUpper();
+        string noteName = choiceNote.Name.ToUpper();
         _description.Text =
-            Tr("NOTE_" + notename + "_NAME") + ": " + Tr("NOTE_" + notename + "_TOOLTIP");
+            Tr("NOTE_" + noteName + "_NAME") + ": " + Tr("NOTE_" + noteName + "_TOOLTIP");
     }
 
     private void OnRelicSelected(RelicTemplate choiceRelic)
     {
         _rSelection = choiceRelic;
-        string relicname = choiceRelic.Name.ToUpper();
-        relicname = relicname.Replace(" ", "");
+        string relicName = choiceRelic.Name.ToUpper();
+        relicName = relicName.Replace(" ", "");
         _description.Text =
-            Tr("RELIC_" + relicname + "_NAME") + ": " + Tr("RELIC_" + relicname + "_TOOLTIP");
+            Tr("RELIC_" + relicName + "_NAME") + ": " + Tr("RELIC_" + relicName + "_TOOLTIP");
     }
 
     private void OnSelect()

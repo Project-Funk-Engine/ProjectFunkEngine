@@ -1,6 +1,4 @@
 using System;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using FunkEngine;
 using Godot;
@@ -27,9 +25,16 @@ public partial class StageProducer : Node
 
     public static CanvasLayer ContrastFilter;
 
+    public static StageProducer LiveInstance;
+
     public override void _EnterTree()
     {
         InitFromCfg();
+    }
+
+    public override void _Ready()
+    {
+        LiveInstance = this;
     }
 
     private void InitFromCfg()
@@ -123,17 +128,14 @@ public partial class StageProducer : Node
             case Stages.Boss:
                 _loadTask = Task.Run(() =>
                 {
-                    _preloadStage = GD.Load<PackedScene>(
-                            "res://Scenes/BattleDirector/BattleScene.tscn"
-                        )
+                    _preloadStage = GD.Load<PackedScene>(BattleDirector.LoadPath)
                         .Instantiate<Node>();
                 });
                 break;
             case Stages.Chest:
                 _loadTask = Task.Run(() =>
                 {
-                    _preloadStage = GD.Load<PackedScene>("res://Scenes/ChestScene/ChestScene.tscn")
-                        .Instantiate<Node>();
+                    _preloadStage = GD.Load<PackedScene>(ChestScene.LoadPath).Instantiate<Node>();
                 });
                 break;
             default:
@@ -149,7 +151,7 @@ public partial class StageProducer : Node
         {
             case Stages.Title:
                 IsInitialized = false;
-                GetTree().ChangeSceneToFile("res://Scenes/UI/TitleScreen/TitleScreen.tscn");
+                GetTree().ChangeSceneToFile(TitleScreen.LoadPath);
                 break;
             case Stages.Battle: //Currently these are only ever entered from map. Be aware if we change
             case Stages.Boss: //this, scenes either need to be preloaded first, or a different setup is needed.
@@ -160,7 +162,7 @@ public partial class StageProducer : Node
                 GetTree().SetCurrentScene(_preloadStage);
                 break;
             case Stages.Map:
-                GetTree().ChangeSceneToFile("res://Scenes/Maps/Cartographer.tscn");
+                GetTree().ChangeSceneToFile(Cartographer.LoadPath);
                 if (!IsInitialized)
                 {
                     StartGame();
@@ -169,7 +171,7 @@ public partial class StageProducer : Node
             case Stages.Load:
                 if (!LoadGame())
                     StartGame();
-                GetTree().ChangeSceneToFile("res://Scenes/Maps/Cartographer.tscn");
+                GetTree().ChangeSceneToFile(Cartographer.LoadPath);
                 break;
             case Stages.Quit:
                 GetTree().Quit();
@@ -200,7 +202,7 @@ public partial class StageProducer : Node
                 result.EnemyScenePath = Scribe.SongDictionary[songIdx].EnemyScenePath;
                 break;
             case Stages.Boss:
-                result.EnemyScenePath = "res://Scenes/Puppets/Enemies/BossBlood/Boss1.tscn";
+                result.EnemyScenePath = P_BossBlood.LoadPath;
                 result.CurSong = Scribe.SongDictionary[0];
                 break;
             case Stages.Chest:

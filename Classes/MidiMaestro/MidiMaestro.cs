@@ -4,7 +4,6 @@ using FunkEngine;
 using Godot;
 using Melanchall.DryWetMidi.Core;
 using Melanchall.DryWetMidi.Interaction;
-using Melanchall.DryWetMidi.Multimedia;
 
 /**
  <summary> MidiMaestro: Manages reading midi file into lane note information.</summary>

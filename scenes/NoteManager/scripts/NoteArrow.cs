@@ -6,6 +6,7 @@ using Godot;
  */
 public partial class NoteArrow : Sprite2D
 { //TextRect caused issues later :)
+    public static readonly string LoadPath = "res://Scenes/NoteManager/NoteArrow.tscn";
     public ArrowType Type;
     public int Beat;
     public float Bounds;

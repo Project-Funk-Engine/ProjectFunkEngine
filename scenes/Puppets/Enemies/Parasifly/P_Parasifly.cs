@@ -3,6 +3,9 @@ using Godot;
 
 public partial class P_Parasifly : EnemyPuppet
 {
+    public static new readonly string LoadPath =
+        "res://Scenes/Puppets/Enemies/Parasifly/Parasifly.tscn";
+
     public override void _Ready()
     {
         _currentHealth = 50;

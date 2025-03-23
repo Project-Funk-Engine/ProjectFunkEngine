@@ -4,6 +4,8 @@ using Godot;
 
 public partial class PauseMenu : Control, IFocusableMenu
 {
+    public static readonly string LoadPath = "res://Scenes/UI/Pause.tscn";
+
     [Export]
     public Button[] pauseButtons;
 
@@ -20,7 +22,7 @@ public partial class PauseMenu : Control, IFocusableMenu
 
     private void OpenOptions()
     {
-        OptionsMenu optionsMenu = GD.Load<PackedScene>("res://Scenes/UI/Options/OptionsMenu.tscn")
+        OptionsMenu optionsMenu = GD.Load<PackedScene>(OptionsMenu.LoadPath)
             .Instantiate<OptionsMenu>();
         AddChild(optionsMenu);
         optionsMenu.OpenMenu(this);
@@ -62,11 +64,11 @@ public partial class PauseMenu : Control, IFocusableMenu
 
     private void Quit()
     {
-        GetNode<StageProducer>("/root/StageProducer").TransitionStage(Stages.Quit);
+        StageProducer.LiveInstance.TransitionStage(Stages.Quit);
     }
 
     private void QuitToMainMenu()
     {
-        GetNode<StageProducer>("/root/StageProducer").TransitionStage(Stages.Title);
+        StageProducer.LiveInstance.TransitionStage(Stages.Title);
     }
 }

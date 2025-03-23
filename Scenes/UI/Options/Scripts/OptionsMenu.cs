@@ -4,6 +4,8 @@ using Godot;
 
 public partial class OptionsMenu : CanvasLayer, IFocusableMenu
 {
+    public static readonly string LoadPath = "res://Scenes/UI/Options/OptionsMenu.tscn";
+
     public IFocusableMenu Prev { get; set; }
 
     [Export]
@@ -84,9 +86,7 @@ public partial class OptionsMenu : CanvasLayer, IFocusableMenu
 
     private void OpenControls()
     {
-        ControlSettings controlSettings = GD.Load<PackedScene>(
-                "res://Scenes/UI/Remapping/Remap.tscn"
-            )
+        ControlSettings controlSettings = GD.Load<PackedScene>(ControlSettings.LoadPath)
             .Instantiate<ControlSettings>();
         AddChild(controlSettings);
         controlSettings.OpenMenu(this);
@@ -116,8 +116,7 @@ public partial class OptionsMenu : CanvasLayer, IFocusableMenu
 
     private void OpenHowToPlay()
     {
-        HowToPlay howtoPlay = GD.Load<PackedScene>("res://Scenes/UI/Options/HowToPlay.tscn")
-            .Instantiate<HowToPlay>();
+        HowToPlay howtoPlay = GD.Load<PackedScene>(HowToPlay.LoadPath).Instantiate<HowToPlay>();
         AddChild(howtoPlay);
         howtoPlay.OpenMenu(this);
     }

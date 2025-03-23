@@ -7,6 +7,7 @@ using Godot;
  */
 public partial class ChestScene : Node2D
 {
+    public static readonly string LoadPath = "res://Scenes/ChestScene/ChestScene.tscn";
     public PlayerPuppet Player;
 
     [Export]
@@ -14,8 +15,7 @@ public partial class ChestScene : Node2D
 
     public override void _Ready()
     {
-        Player = GD.Load<PackedScene>("res://Scenes/Puppets/PlayerPuppet.tscn")
-            .Instantiate<PlayerPuppet>();
+        Player = GD.Load<PackedScene>(PlayerPuppet.LoadPath).Instantiate<PlayerPuppet>();
         AddChild(Player);
 
         ChestButton.Pressed += GetLoot;
@@ -38,6 +38,6 @@ public partial class ChestScene : Node2D
     private void EndBattle()
     {
         StageProducer.ChangeCurRoom(StageProducer.Config.BattleRoom.Idx);
-        GetNode<StageProducer>("/root/StageProducer").TransitionStage(Stages.Map);
+        StageProducer.LiveInstance.TransitionStage(Stages.Map);
     }
 }
