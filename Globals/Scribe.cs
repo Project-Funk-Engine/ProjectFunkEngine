@@ -95,6 +95,20 @@ public partial class Scribe : Node
             },
             0.25f
         ),
+        new Note(
+            6,
+            "PlayerBlock",
+            "Gives player one charge of block.",
+            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerBlock.png"),
+            null,
+            1,
+            (director, note, timing) =>
+            {
+                if (timing == Timing.Miss)
+                    return;
+                director.Player.GainShield(note.GetBaseVal()); //todo: should scale with timing????
+            }
+        ),
     };
 
     public static readonly RelicTemplate[] RelicDictionary = new[]

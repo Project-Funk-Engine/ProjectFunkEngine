@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b8pluqlha2bdn"
-path="res://.godot/imported/Relic_Chips.png-07f9cdab7fe18d0afca88a4403c4bdc6.ctex"
+uid="uid://dhfeoc3nd6t4a"
+path="res://.godot/imported/Note_PlayerBlock.png-9b2b822fe3c56ce932bb38c394998018.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Classes/Relics/Assets/Relic_Chips.png"
-dest_files=["res://.godot/imported/Relic_Chips.png-07f9cdab7fe18d0afca88a4403c4bdc6.ctex"]
+source_file="res://Classes/Notes/Assets/Note_PlayerBlock.png"
+dest_files=["res://.godot/imported/Note_PlayerBlock.png-9b2b822fe3c56ce932bb38c394998018.ctex"]
 
 [params]
 

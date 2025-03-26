@@ -29,6 +29,13 @@ public partial class PuppetTemplate : Node2D
     protected int _currentHealth = 100;
 
     //Stats would go here.
+    protected int _numShield = 0; //todo: shield mechanic to block / dodge damage
+
+    [Export]
+    public Sprite2D _shieldLogo;
+
+    [Export]
+    public Label _shieldText;
 
     protected string UniqName = ""; //Eventually make subclasses/scenes/real stuff
 
@@ -39,6 +46,9 @@ public partial class PuppetTemplate : Node2D
         Sprite.Scale = InitScale;
 
         _healthBar.Visible = !hideHealth;
+
+        if (_numShield == 0)
+            _shieldLogo.Visible = false;
     }
 
     public override void _Process(double delta)
@@ -111,6 +121,22 @@ public partial class PuppetTemplate : Node2D
 
     public virtual void TakeDamage(int amount)
     {
+        GD.Print($"Taking Damage: {amount}, with shield count: {_numShield}");
+        if (_numShield > 0 && amount > 0)
+        {
+            _numShield--;
+            _shieldText.Text = $"{_numShield}";
+            if (_numShield == 0)
+                _shieldLogo.Visible = false;
+
+            TextParticle blockText = new TextParticle();
+            blockText.Modulate = Colors.White; //white text for blocked damage
+            Sprite.AddChild(blockText);
+            blockText.Text = "-0"; //blocked damage is 0
+
+            return;
+        }
+
         amount = Math.Max(0, amount); //Should not be able to heal from damage.
         if (_currentHealth <= 0 || amount == 0)
             return; //Only check if hp would change
@@ -120,6 +146,7 @@ public partial class PuppetTemplate : Node2D
         {
             Defeated?.Invoke(this);
         }
+
         TextParticle newText = new TextParticle();
         newText.Modulate = Colors.Red;
         Sprite.AddChild(newText);
@@ -142,5 +169,12 @@ public partial class PuppetTemplate : Node2D
     public int GetCurrentHealth()
     {
         return _currentHealth;
+    }
+
+    public virtual void GainShield(int amount)
+    {
+        _shieldLogo.Visible = true;
+        _numShield += amount;
+        _shieldText.Text = $"{_numShield}";
     }
 }

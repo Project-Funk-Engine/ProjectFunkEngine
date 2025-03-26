@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cwm0n2wu851nx"]
+[gd_scene load_steps=4 format=3 uid="uid://cwm0n2wu851nx"]
 
 [ext_resource type="Script" path="res://Scenes/Puppets/Scripts/PuppetTemplate.cs" id="1_kgmh0"]
 [ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://Scenes/Puppets/HealthBar.tscn" id="1_sxlrs"]
+[ext_resource type="Texture2D" uid="uid://bsg8b14xbddb6" path="res://SharedAssets/Shield.png" id="2_xx60o"]
 
 [node name="EnemPuppet" type="Node2D" node_paths=PackedStringArray("_healthBar", "Sprite")]
 script = ExtResource("1_kgmh0")
@@ -9,6 +10,18 @@ _healthBar = NodePath("ProgressBar")
 Sprite = NodePath("Sprite")
 
 [node name="Sprite" type="Sprite2D" parent="."]
+
+[node name="Shield" type="Sprite2D" parent="Sprite"]
+position = Vector2(56, 20)
+texture = ExtResource("2_xx60o")
+
+[node name="ShieldText" type="Label" parent="Sprite/Shield"]
+offset_left = -13.0
+offset_top = -10.0
+offset_right = 13.0
+offset_bottom = 13.0
+text = "XX"
+horizontal_alignment = 1
 
 [node name="ProgressBar" parent="." instance=ExtResource("1_sxlrs")]
 offset_left = -75.0
