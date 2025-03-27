@@ -51,22 +51,22 @@ public partial class InputHandler : Node2D
         }
     }
 
-    public void FeedbackEffect(ArrowType arrow, string text)
+    public void FeedbackEffect(ArrowType arrow, Timing timed)
     {
         // Get the particle node for this arrow
         var particles = Arrows[(int)arrow].Node.Particles;
 
         // Set the particle amount based on timing
         int particleAmount;
-        switch (text)
+        switch (timed)
         {
-            case "Perfect":
+            case Timing.Perfect:
                 particleAmount = 10;
                 break;
-            case "Great":
+            case Timing.Good:
                 particleAmount = 7;
                 break;
-            case "Good":
+            case Timing.Okay:
                 particleAmount = 4;
                 break;
             default:

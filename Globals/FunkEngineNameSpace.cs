@@ -26,6 +26,66 @@ public struct ArrowData
     public ArrowType Type;
 }
 
+/**
+ * <summary>Beat: Data representing a beat and its loop num.</summary>
+ */
+public struct Beat
+{
+    public int Loop = 0;
+    public double BeatPos = 0;
+    public static readonly Beat One = new Beat(1);
+
+    public Beat(double beat)
+    {
+        Loop = (int)(beat / TimeKeeper.BeatsPerLoop);
+        BeatPos = beat % TimeKeeper.BeatsPerLoop;
+    }
+
+    public Beat(double beat, int loop)
+    {
+        Loop = loop;
+        BeatPos = beat % TimeKeeper.BeatsPerLoop;
+    }
+
+    public Beat IncDecLoop(int amount)
+    {
+        Loop += amount;
+        return this;
+    }
+
+    public override string ToString()
+    {
+        return $"Beat: {BeatPos}, Loop: {Loop}";
+    }
+
+    public static bool operator >(Beat beat1, Beat beat2)
+    {
+        return beat1.Loop > beat2.Loop
+            || (beat1.Loop == beat2.Loop && beat1.BeatPos > beat2.BeatPos);
+    }
+
+    public static bool operator <(Beat beat1, Beat beat2)
+    {
+        return beat1.Loop < beat2.Loop
+            || (beat1.Loop == beat2.Loop && beat1.BeatPos < beat2.BeatPos);
+    }
+
+    public static Beat operator +(Beat beat1, double beatInc)
+    {
+        return new Beat(beat1.BeatPos + beatInc).IncDecLoop(beat1.Loop);
+    }
+
+    public static Beat operator -(Beat beat1, double beatDec)
+    {
+        return new Beat(beat1.BeatPos - beatDec).IncDecLoop(beat1.Loop);
+    }
+
+    public static Beat operator -(Beat beat1, Beat beat2)
+    {
+        return new Beat(beat1.BeatPos - beat2.BeatPos).IncDecLoop(beat1.Loop - beat2.Loop);
+    }
+}
+
 public enum ArrowType
 {
     Up = 0,

@@ -8,8 +8,9 @@ public partial class NoteArrow : Sprite2D
 { //TextRect caused issues later :)
     public static readonly string LoadPath = "res://Scenes/NoteManager/NoteArrow.tscn";
     private const float LeftBound = -200f;
+
+    public Beat Beat;
     public ArrowType Type;
-    public int Beat;
     public float LoopOffset;
     public float BeatTime;
     public bool IsActive = true;
@@ -21,14 +22,17 @@ public partial class NoteArrow : Sprite2D
     [Export]
     public Sprite2D IconSprite;
 
-    public void Init(ArrowData parentArrowData, int beat, Note note)
+    public override void _Ready()
     {
         ZIndex = 1;
+    }
 
-        Type = parentArrowData.Type;
+    public void Init(ArrowData parentArrowData, Beat beat, Note note)
+    {
         Beat = beat;
+        Type = parentArrowData.Type;
 
-        Position = new Vector2(GetNewPos(), parentArrowData.Node.GlobalPosition.Y);
+        Position = new Vector2(GetNewPosX(), parentArrowData.Node.GlobalPosition.Y);
         RotationDegrees = parentArrowData.Node.RotationDegrees;
         IconSprite.Texture = note.Texture;
         IconSprite.Rotation = -Rotation;
@@ -36,17 +40,35 @@ public partial class NoteArrow : Sprite2D
 
     public override void _Process(double delta)
     {
+        CheckMissed();
         Vector2 newPos = Position;
-        newPos.X = GetNewPos();
-        if (newPos.X > Position.X)
-            OnLoop();
+        newPos.X = GetNewPosX();
         if (!float.IsNaN(newPos.X))
             Position = newPos;
         if (Position.X < LeftBound)
             ReEnterPool();
     }
 
-    private float GetNewPos()
+    public void NoteHit()
+    {
+        if (!IsActive)
+            return;
+        Modulate *= .7f;
+        IsActive = false;
+    }
+
+    public delegate void MissedEventHandler(NoteArrow note);
+    public event MissedEventHandler Missed;
+
+    private void CheckMissed()
+    {
+        if (!IsActive || !(TimeKeeper.LastBeat - Beat > Beat.One))
+            return;
+        NoteHit();
+        Missed?.Invoke(this);
+    }
+
+    private float GetNewPosX()
     {
         float interval = TimeKeeper.ChartLength;
         double relativePosition =
@@ -67,23 +89,10 @@ public partial class NoteArrow : Sprite2D
     {
         Visible = true;
         ProcessMode = ProcessModeEnum.Inherit;
-        OnLoop();
-    }
-
-    private void OnLoop()
-    {
         if (!IsActive)
         {
             Modulate /= .7f;
         }
         IsActive = true;
-    }
-
-    public void NoteHit()
-    {
-        if (!IsActive)
-            return;
-        Modulate *= .7f;
-        IsActive = false;
     }
 }

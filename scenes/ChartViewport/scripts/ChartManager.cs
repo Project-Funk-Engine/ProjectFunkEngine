@@ -21,7 +21,7 @@ public partial class ChartManager : SubViewportContainer
     public delegate void NoteReleasedEventHandler(ArrowType arrowType);
 
     //Might move this to be song specific?
-    private double ChartLength = 1;
+    private double _chartLength = 1;
 
     private double _loopLen; //secs
     public double TrueBeatsPerLoop;
@@ -44,16 +44,17 @@ public partial class ChartManager : SubViewportContainer
 
         TrueBeatsPerLoop = (_loopLen / (60f / songData.Bpm));
         BeatsPerLoop = (int)TrueBeatsPerLoop;
+        TimeKeeper.BeatsPerLoop = TrueBeatsPerLoop;
 
         //99% sure chart length can never be less than (chart viewport width) * 2,
         //otherwise there isn't room for things to loop from off and on screen
-        ChartLength = Math.Max(
+        _chartLength = Math.Max(
             (float)_loopLen * (float)Math.Ceiling(Size.X * 2 / _loopLen),
             //Also minimize rounding point imprecision, improvement is qualitative
-            (float)_loopLen * (float)Math.Floor(ChartLength / _loopLen)
+            (float)_loopLen * (float)Math.Floor(_chartLength / _loopLen)
         );
 
-        TimeKeeper.ChartLength = (float)ChartLength;
+        TimeKeeper.ChartLength = (float)_chartLength;
         TimeKeeper.Bpm = songData.Bpm;
 
         _arrowGroup = ChartLoopables.GetNode<Node>("ArrowGroup");
@@ -93,9 +94,18 @@ public partial class ChartManager : SubViewportContainer
         }
     }
 
+    public delegate void MissedEventHandler(NoteArrow note);
+    public event MissedEventHandler Missed;
+
+    //Bubble up for validation and handling
+    private void OnNoteMissedEvent(NoteArrow note)
+    {
+        Missed?.Invoke(note);
+    }
+
     public NoteArrow AddArrowToLane(
         ArrowType type,
-        int beat,
+        Beat beat,
         Note note,
         Color colorOverride = default,
         NoteArrow pooledArrow = null
@@ -108,13 +118,14 @@ public partial class ChartManager : SubViewportContainer
         return newNote;
     }
 
-    private NoteArrow CreateNote(ArrowType arrow, Note note, int beat, NoteArrow pooledArrow)
+    private NoteArrow CreateNote(ArrowType arrow, Note note, Beat beat, NoteArrow pooledArrow)
     {
         NoteArrow newArrow;
         if (pooledArrow == null)
         {
             var noteScene = ResourceLoader.Load<PackedScene>(NoteArrow.LoadPath);
             newArrow = noteScene.Instantiate<NoteArrow>();
+            newArrow.Missed += OnNoteMissedEvent;
             _arrowGroup.AddChild(newArrow);
         }
         else
@@ -122,7 +133,7 @@ public partial class ChartManager : SubViewportContainer
             newArrow = pooledArrow;
             newArrow.Recycle();
         }
-        newArrow.BeatTime = (float)(beat / TrueBeatsPerLoop * _loopLen);
+        newArrow.BeatTime = (float)(beat.BeatPos / TrueBeatsPerLoop * _loopLen);
 
         newArrow.Init(IH.Arrows[(int)arrow], beat, note);
         newArrow.OutlineSprite.Modulate = IH.Arrows[(int)arrow].Color;
@@ -130,12 +141,12 @@ public partial class ChartManager : SubViewportContainer
         return newArrow;
     }
 
-    public void ComboText(string text, ArrowType arrow, int currentCombo)
+    public void ComboText(Timing timed, ArrowType arrow, int currentCombo)
     {
         TextParticle newText = new TextParticle();
         AddChild(newText);
         newText.Position = IH.Arrows[(int)arrow].Node.Position - newText.Size / 2;
-        IH.FeedbackEffect(arrow, text);
-        newText.Text = text + $" {currentCombo}";
+        IH.FeedbackEffect(arrow, timed);
+        newText.Text = Tr("BATTLE_ROOM_" + timed.ToString().ToUpper()) + $" {currentCombo}";
     }
 }

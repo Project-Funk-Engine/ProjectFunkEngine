@@ -29,25 +29,17 @@ public partial class BattleDirector : Node2D
     private Button _focusedButton; //Initially start button
 
     private double _timingInterval = .1; //in beats, maybe make note dependent
-    private double _lastBeat;
 
     private SongData _curSong;
 
     #endregion
 
     #region Note Handling
-    private bool PlayerAddNote(ArrowType type, int beat)
+    private bool PlayerAddNote(ArrowType type, Beat beat)
     {
         if (!NotePlacementBar.CanPlaceNote())
             return false;
-        if (
-            !CD.AddNoteToLane(
-                type,
-                beat % CM.BeatsPerLoop,
-                NotePlacementBar.PlacedNote(this),
-                false
-            )
-        ) //TODO: Remove passing BD into NPB
+        if (!CD.AddNoteToLane(type, (int)beat.BeatPos, NotePlacementBar.PlacedNote(this), false)) //TODO: Remove passing BD into NPB
             return false;
         NotePlaced?.Invoke(this);
         return true;
@@ -73,7 +65,7 @@ public partial class BattleDirector : Node2D
         {
             _curSong.SongLength = Audio.Stream.GetLength();
         }
-        TimeKeeper.Bpm = _curSong.Bpm;
+        TimeKeeper.InitVals(_curSong.Bpm);
 
         Player = GD.Load<PackedScene>(PlayerPuppet.LoadPath).Instantiate<PlayerPuppet>();
         AddChild(Player);
@@ -120,25 +112,23 @@ public partial class BattleDirector : Node2D
     public override void _Process(double delta)
     {
         TimeKeeper.CurrentTime = Audio.GetPlaybackPosition();
-        double realBeat =
-            TimeKeeper.CurrentTime / (60 / (double)TimeKeeper.Bpm) % CM.TrueBeatsPerLoop;
+        Beat realBeat = TimeKeeper.GetBeatFromTime(Audio.GetPlaybackPosition());
 
         UpdateBeat(realBeat);
     }
 
-    private void UpdateBeat(double beat)
+    private void UpdateBeat(Beat beat)
     {
         //Still iffy, but approximately once per beat check, happens at start of new beat
-        if (Math.Floor(beat) >= (Math.Floor(_lastBeat) + 1) % CM.TrueBeatsPerLoop)
+        if (Math.Floor(beat.BeatPos) >= Math.Floor((TimeKeeper.LastBeat + 1).BeatPos))
         {
             CD.ProgressiveAddNotes(beat);
         }
-        CD.CheckMiss(beat);
-        if (beat < _lastBeat)
+        if (beat.Loop > TimeKeeper.LastBeat.Loop)
         {
             ChartLooped?.Invoke(this);
         }
-        _lastBeat = beat;
+        TimeKeeper.LastBeat = beat;
     }
     #endregion
 
@@ -163,18 +153,14 @@ public partial class BattleDirector : Node2D
 
     private void OnNoteReleased(ArrowType arrowType) { }
 
-    private void OnTimedInput(Note note, ArrowType arrowType, int beat, double beatDif)
+    private void OnTimedInput(Note note, ArrowType arrowType, Beat beat, double beatDif)
     {
         if (note == null)
         {
             if (PlayerAddNote(arrowType, beat))
                 return; //Miss on empty note. This does not apply to inactive existing notes as a balance decision for now.
             NotePlacementBar.MissNote();
-            CM.ComboText(
-                Tr("BATTLE_ROOM_" + Timing.Miss.ToString().ToUpper()),
-                arrowType,
-                NotePlacementBar.GetCurrentCombo()
-            );
+            CM.ComboText(Timing.Miss, arrowType, NotePlacementBar.GetCurrentCombo());
             Player.TakeDamage(4);
             return;
         }
@@ -190,11 +176,7 @@ public partial class BattleDirector : Node2D
         {
             NotePlacementBar.HitNote();
         }
-        CM.ComboText(
-            Tr("BATTLE_ROOM_" + timed.ToString().ToUpper()),
-            arrowType,
-            NotePlacementBar.GetCurrentCombo()
-        );
+        CM.ComboText(timed, arrowType, NotePlacementBar.GetCurrentCombo());
     }
 
     private Timing CheckTiming(double beatDif)
