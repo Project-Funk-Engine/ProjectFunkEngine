@@ -9,7 +9,8 @@ public partial class NoteArrow : Sprite2D
     public static readonly string LoadPath = "res://Scenes/NoteManager/NoteArrow.tscn";
     public ArrowType Type;
     public int Beat;
-    public float Bounds;
+    public float LoopOffset;
+    public float BeatTime;
     public bool IsActive = true;
     public Note NoteRef;
 
@@ -37,19 +38,20 @@ public partial class NoteArrow : Sprite2D
         Vector2 newPos = Position;
         newPos.X = GetNewPos();
         if (newPos.X > Position.X)
-        {
             OnLoop();
-        }
-        Position = newPos;
+        if (!float.IsNaN(newPos.X))
+            Position = newPos;
     }
 
     private float GetNewPos()
     {
-        return (float)(
-                (-TimeKeeper.CurrentTime / TimeKeeper.LoopLength * TimeKeeper.ChartLength)
-                % TimeKeeper.ChartLength
-                / 2
-            ) + Bounds;
+        float interval = TimeKeeper.ChartLength;
+        double relativePosition =
+            (TimeKeeper.CurrentTime - BeatTime) / TimeKeeper.LoopLength * TimeKeeper.ChartLength;
+
+        return (float)TimeKeeper.PosMod(-relativePosition - interval / 2, interval)
+            - interval / 2
+            + LoopOffset;
     }
 
     private void OnLoop()

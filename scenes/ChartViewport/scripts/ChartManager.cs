@@ -6,7 +6,6 @@ using Godot;
  */
 public partial class ChartManager : SubViewportContainer
 {
-    //Nodes from scene
     [Export]
     public InputHandler IH;
 
@@ -21,9 +20,9 @@ public partial class ChartManager : SubViewportContainer
     [Signal]
     public delegate void NoteReleasedEventHandler(ArrowType arrowType);
 
-    //Arbitrary vars, play with these
-    //Might move this to be song specific? For now, should never go below ~2000, else visual break because there isn't enough room to loop.
-    private double ChartLength = 5000;
+    //Might move this to be song specific?
+    private double ChartLength = 2500;
+
     private double _loopLen; //secs
     public double TrueBeatsPerLoop;
     public int BeatsPerLoop;
@@ -42,9 +41,18 @@ public partial class ChartManager : SubViewportContainer
     {
         _loopLen = songData.SongLength / songData.NumLoops;
         TimeKeeper.LoopLength = (float)_loopLen;
+
         TrueBeatsPerLoop = (_loopLen / (60f / songData.Bpm));
         BeatsPerLoop = (int)TrueBeatsPerLoop;
-        ChartLength = (float)_loopLen * (float)Math.Floor(ChartLength / _loopLen);
+
+        //Minimize rounding point imprecision, improvement is qualitative
+        //99% sure chart length can never be less than (chart viewport width) * 2,
+        //otherwise there isn't room for things to loop properly
+        ChartLength = Math.Max(
+            (float)_loopLen * (float)Math.Ceiling(Size.X * 2 / _loopLen),
+            (float)_loopLen * (float)Math.Floor(ChartLength / _loopLen)
+        );
+
         TimeKeeper.ChartLength = (float)ChartLength;
         TimeKeeper.Bpm = songData.Bpm;
 
@@ -93,23 +101,18 @@ public partial class ChartManager : SubViewportContainer
     )
     {
         var newNote = CreateNote(type, note, beat);
-        var loopArrow = CreateNote(type, note, beat, 1); //Create a dummy arrow for looping visuals
         if (colorOverride != default)
-        {
             newNote.SelfModulate = colorOverride;
-            loopArrow.SelfModulate = colorOverride;
-        }
         newNote.NoteRef = note;
         return newNote;
     }
 
-    private NoteArrow CreateNote(ArrowType arrow, Note note, int beat = 0, int loopOffset = 0)
+    private NoteArrow CreateNote(ArrowType arrow, Note note, int beat = 0)
     {
         var noteScene = ResourceLoader.Load<PackedScene>(NoteArrow.LoadPath);
         NoteArrow newArrow = noteScene.Instantiate<NoteArrow>();
-        newArrow.Bounds = (float)(
-            beat / TrueBeatsPerLoop * (ChartLength / 2) + loopOffset * (ChartLength / 2)
-        );
+        newArrow.BeatTime = (float)(beat / TrueBeatsPerLoop * _loopLen);
+
         newArrow.Init(IH.Arrows[(int)arrow], beat, note);
         newArrow.OutlineSprite.Modulate = IH.Arrows[(int)arrow].Color;
 
