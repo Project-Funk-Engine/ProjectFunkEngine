@@ -21,7 +21,7 @@ public partial class ChartManager : SubViewportContainer
     public delegate void NoteReleasedEventHandler(ArrowType arrowType);
 
     //Might move this to be song specific?
-    private double ChartLength = 2500;
+    private double ChartLength = 1;
 
     private double _loopLen; //secs
     public double TrueBeatsPerLoop;
@@ -45,11 +45,11 @@ public partial class ChartManager : SubViewportContainer
         TrueBeatsPerLoop = (_loopLen / (60f / songData.Bpm));
         BeatsPerLoop = (int)TrueBeatsPerLoop;
 
-        //Minimize rounding point imprecision, improvement is qualitative
         //99% sure chart length can never be less than (chart viewport width) * 2,
-        //otherwise there isn't room for things to loop properly
+        //otherwise there isn't room for things to loop from off and on screen
         ChartLength = Math.Max(
             (float)_loopLen * (float)Math.Ceiling(Size.X * 2 / _loopLen),
+            //Also minimize rounding point imprecision, improvement is qualitative
             (float)_loopLen * (float)Math.Floor(ChartLength / _loopLen)
         );
 
@@ -97,26 +97,36 @@ public partial class ChartManager : SubViewportContainer
         ArrowType type,
         int beat,
         Note note,
-        Color colorOverride = default
+        Color colorOverride = default,
+        NoteArrow pooledArrow = null
     )
     {
-        var newNote = CreateNote(type, note, beat);
+        var newNote = CreateNote(type, note, beat, pooledArrow);
         if (colorOverride != default)
             newNote.SelfModulate = colorOverride;
         newNote.NoteRef = note;
         return newNote;
     }
 
-    private NoteArrow CreateNote(ArrowType arrow, Note note, int beat = 0)
+    private NoteArrow CreateNote(ArrowType arrow, Note note, int beat, NoteArrow pooledArrow)
     {
-        var noteScene = ResourceLoader.Load<PackedScene>(NoteArrow.LoadPath);
-        NoteArrow newArrow = noteScene.Instantiate<NoteArrow>();
+        NoteArrow newArrow;
+        if (pooledArrow == null)
+        {
+            var noteScene = ResourceLoader.Load<PackedScene>(NoteArrow.LoadPath);
+            newArrow = noteScene.Instantiate<NoteArrow>();
+            _arrowGroup.AddChild(newArrow);
+        }
+        else
+        {
+            newArrow = pooledArrow;
+            newArrow.Recycle();
+        }
         newArrow.BeatTime = (float)(beat / TrueBeatsPerLoop * _loopLen);
 
         newArrow.Init(IH.Arrows[(int)arrow], beat, note);
         newArrow.OutlineSprite.Modulate = IH.Arrows[(int)arrow].Color;
 
-        _arrowGroup.AddChild(newArrow);
         return newArrow;
     }
 

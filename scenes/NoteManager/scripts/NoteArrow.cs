@@ -7,6 +7,7 @@ using Godot;
 public partial class NoteArrow : Sprite2D
 { //TextRect caused issues later :)
     public static readonly string LoadPath = "res://Scenes/NoteManager/NoteArrow.tscn";
+    private const float LeftBound = -200f;
     public ArrowType Type;
     public int Beat;
     public float LoopOffset;
@@ -41,6 +42,8 @@ public partial class NoteArrow : Sprite2D
             OnLoop();
         if (!float.IsNaN(newPos.X))
             Position = newPos;
+        if (Position.X < LeftBound)
+            ReEnterPool();
     }
 
     private float GetNewPos()
@@ -54,6 +57,19 @@ public partial class NoteArrow : Sprite2D
             + LoopOffset;
     }
 
+    private void ReEnterPool()
+    {
+        Visible = false;
+        ProcessMode = ProcessModeEnum.Disabled;
+    }
+
+    public void Recycle()
+    {
+        Visible = true;
+        ProcessMode = ProcessModeEnum.Inherit;
+        OnLoop();
+    }
+
     private void OnLoop()
     {
         if (!IsActive)
@@ -65,6 +81,8 @@ public partial class NoteArrow : Sprite2D
 
     public void NoteHit()
     {
+        if (!IsActive)
+            return;
         Modulate *= .7f;
         IsActive = false;
     }

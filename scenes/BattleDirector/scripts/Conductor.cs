@@ -13,6 +13,8 @@ public partial class Conductor : Node
     public delegate void TimedInputHandler(Note note, ArrowType type, int beat, double beatDif);
     public event TimedInputHandler TimedInput;
 
+    private double _beatSpawnOffset;
+
     //Assume queue structure for notes in each lane.
     //Can eventually make this its own structure
     private NoteArrow[][] _laneData = Array.Empty<NoteArrow[]>();
@@ -43,7 +45,13 @@ public partial class Conductor : Node
         return _laneData[(int)type][beat] != null && _laneData[(int)type][beat].IsActive;
     }
 
-    public bool AddNoteToLane(ArrowType type, int beat, Note note, bool isActive = true)
+    public bool AddNoteToLane(
+        ArrowType type,
+        int beat,
+        Note note,
+        bool isActive = true,
+        NoteArrow pooledArrow = null
+    )
     {
         beat %= CM.BeatsPerLoop;
         Note newNote = note.Clone();
@@ -53,11 +61,11 @@ public partial class Conductor : Node
         NoteArrow arrow;
         if (isActive) //Currently isActive means an enemy note.
         {
-            arrow = CM.AddArrowToLane(type, beat, newNote);
+            arrow = CM.AddArrowToLane(type, beat, newNote, default, pooledArrow);
         }
         else
         {
-            arrow = CM.AddArrowToLane(type, beat, newNote, new Color(1, 0.43f, 0.26f));
+            arrow = CM.AddArrowToLane(type, beat, newNote, new Color(1, 0.43f, 0.26f), pooledArrow);
             NoteQueueParticlesFactory.NoteParticles(arrow, note.Texture, .5f);
         }
 
@@ -74,6 +82,7 @@ public partial class Conductor : Node
 
     public void Prep()
     {
+        _beatSpawnOffset = CM.Size.X / TimeKeeper.ChartLength * CM.TrueBeatsPerLoop - 1;
         _laneData = new NoteArrow[][]
         {
             new NoteArrow[CM.BeatsPerLoop],
@@ -91,6 +100,24 @@ public partial class Conductor : Node
             foreach (midiNoteInfo mNote in MM.GetNotes(type))
             {
                 AddNoteToLane(type, (int)mNote.GetStartTimeBeat(), Scribe.NoteDictionary[0]);
+            }
+        }
+    }
+
+    public void ProgressiveAddNotes(double beat)
+    {
+        int spawnBeat = (int)((beat + _beatSpawnOffset) % CM.BeatsPerLoop);
+        foreach (ArrowType type in Enum.GetValues(typeof(ArrowType)))
+        {
+            if (_laneData[(int)type][spawnBeat] != null)
+            {
+                CM.AddArrowToLane(
+                    type,
+                    spawnBeat,
+                    _laneData[(int)type][spawnBeat].NoteRef,
+                    default,
+                    _laneData[(int)type][spawnBeat]
+                );
             }
         }
     }

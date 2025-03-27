@@ -1,3 +1,4 @@
+using System;
 using FunkEngine;
 using Godot;
 
@@ -27,7 +28,7 @@ public partial class BattleDirector : Node2D
     [Export]
     private Button _focusedButton; //Initially start button
 
-    private double _timingInterval = .1; //secs, maybe make somewhat note dependent
+    private double _timingInterval = .1; //in beats, maybe make note dependent
     private double _lastBeat;
 
     private SongData _curSong;
@@ -118,16 +119,26 @@ public partial class BattleDirector : Node2D
 
     public override void _Process(double delta)
     {
-        _focusedButton?.GrabFocus();
         TimeKeeper.CurrentTime = Audio.GetPlaybackPosition();
         double realBeat =
             TimeKeeper.CurrentTime / (60 / (double)TimeKeeper.Bpm) % CM.TrueBeatsPerLoop;
-        CD.CheckMiss(realBeat);
-        if (realBeat < _lastBeat)
+
+        UpdateBeat(realBeat);
+    }
+
+    private void UpdateBeat(double beat)
+    {
+        //Still iffy, but approximately once per beat check, happens at start of new beat
+        if (Math.Floor(beat) >= (Math.Floor(_lastBeat) + 1) % CM.TrueBeatsPerLoop)
+        {
+            CD.ProgressiveAddNotes(beat);
+        }
+        CD.CheckMiss(beat);
+        if (beat < _lastBeat)
         {
             ChartLooped?.Invoke(this);
         }
-        _lastBeat = realBeat;
+        _lastBeat = beat;
     }
     #endregion
 
