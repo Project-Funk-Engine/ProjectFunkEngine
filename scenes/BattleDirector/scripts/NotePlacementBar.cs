@@ -154,8 +154,20 @@ public partial class NotePlacementBar : Node
         return result;
     }
 
+    public void HandleTiming(Timing timed)
+    {
+        if (timed == Timing.Miss)
+        {
+            MissNote();
+        }
+        else
+        {
+            HitNote();
+        }
+    }
+
     // Hitting a note increases combo, combo mult, and note placement bar
-    public void HitNote()
+    private void HitNote()
     {
         _currentCombo++;
         DetermineComboMult();
@@ -165,7 +177,7 @@ public partial class NotePlacementBar : Node
     }
 
     // Missing a note resets combo
-    public void MissNote()
+    private void MissNote()
     {
         _currentCombo = 0;
         bonusMult = 0;

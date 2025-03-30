@@ -6,6 +6,8 @@ public partial class PlayerPuppet : PuppetTemplate
     public static new readonly string LoadPath = "res://Scenes/Puppets/PlayerPuppet.tscn";
     public PlayerStats Stats;
 
+    public static Color NoteColor = new Color(1, 0.43f, 0.26f);
+
     public override void _Ready()
     {
         Stats = StageProducer.PlayerStats ?? new PlayerStats();
@@ -14,6 +16,7 @@ public partial class PlayerPuppet : PuppetTemplate
         _maxHealth = Stats.MaxHealth;
 
         UniqName = "Player";
+
         base._Ready();
     }
 

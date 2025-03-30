@@ -5,6 +5,7 @@ using Godot;
 
 namespace FunkEngine;
 
+#region Structs
 /**
  * <summary>SongData: Basic information defining the statistics of an in-battle song.</summary>
  */
@@ -27,13 +28,73 @@ public struct ArrowData
 }
 
 /**
+ * <summary>BattleConfig: Necessary data for a battle.</summary>
+ */
+public struct BattleConfig
+{
+    public Stages RoomType;
+    public MapGrid.Room BattleRoom;
+    public string EnemyScenePath;
+    public SongTemplate CurSong;
+}
+
+/**
+ * <summary>NoteArrowData: Data To be stored and transmitted to represent a NoteArrow.</summary>
+ */
+public struct NoteArrowData : IEquatable<NoteArrowData>, IComparable<NoteArrowData>
+{
+    public NoteArrowData(ArrowType type, Beat beat, Note note)
+    {
+        Beat = beat;
+        Type = type;
+        NoteRef = note;
+    }
+
+    public Beat Beat;
+    public readonly ArrowType Type;
+    public readonly Note NoteRef = null;
+
+    public static NoteArrowData Placeholder = new(default, default, new Note(-1, "", ""));
+
+    public bool Equals(NoteArrowData other)
+    {
+        return Beat.Equals(other.Beat) && Type == other.Type;
+    }
+
+    public override bool Equals(object obj)
+    {
+        return obj is NoteArrowData other && Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Beat, (int)Type);
+    }
+
+    public int CompareTo(NoteArrowData data) //Only care about beat for comparison
+    {
+        if ((int)Beat.BeatPos == (int)data.Beat.BeatPos && Beat.Loop == data.Beat.Loop)
+        {
+            if (Type == data.Type)
+            {
+                return Beat.CompareTo(data.Beat);
+            }
+            return Type.CompareTo(data.Type);
+        }
+        ;
+        return Beat.CompareTo(data.Beat);
+    }
+}
+
+/**
  * <summary>Beat: Data representing a beat and its loop num.</summary>
  */
-public struct Beat
+public struct Beat : IEquatable<Beat>, IComparable<Beat>
 {
     public int Loop = 0;
     public double BeatPos = 0;
     public static readonly Beat One = new Beat(1);
+    public static readonly Beat Zero = new Beat(0);
 
     public Beat(double beat)
     {
@@ -50,6 +111,12 @@ public struct Beat
     public Beat IncDecLoop(int amount)
     {
         Loop += amount;
+        return this;
+    }
+
+    public Beat RoundBeat()
+    {
+        BeatPos = (int)Math.Round(BeatPos);
         return this;
     }
 
@@ -70,6 +137,16 @@ public struct Beat
             || (beat1.Loop == beat2.Loop && beat1.BeatPos < beat2.BeatPos);
     }
 
+    public static bool operator <=(Beat beat1, Beat beat2)
+    {
+        return beat1.Equals(beat2) || beat1 < beat2;
+    }
+
+    public static bool operator >=(Beat beat1, Beat beat2)
+    {
+        return beat1.Equals(beat2) || beat1 > beat2;
+    }
+
     public static Beat operator +(Beat beat1, double beatInc)
     {
         return new Beat(beat1.BeatPos + beatInc).IncDecLoop(beat1.Loop);
@@ -84,8 +161,26 @@ public struct Beat
     {
         return new Beat(beat1.BeatPos - beat2.BeatPos).IncDecLoop(beat1.Loop - beat2.Loop);
     }
-}
 
+    public bool Equals(Beat other)
+    {
+        return Loop == other.Loop && BeatPos.Equals(other.BeatPos);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Loop, BeatPos);
+    }
+
+    public int CompareTo(Beat other)
+    {
+        var loopComparison = Loop.CompareTo(other.Loop);
+        return loopComparison != 0 ? loopComparison : BeatPos.CompareTo(other.BeatPos);
+    }
+}
+#endregion
+
+#region Enums
 public enum ArrowType
 {
     Up = 0,
@@ -101,17 +196,6 @@ public enum Timing
     Okay = 2,
     Good = 3,
     Perfect = 4,
-}
-
-/**
- * <summary>BattleConfig: Necessary data for a battle.</summary>
- */
-public struct BattleConfig
-{
-    public Stages RoomType;
-    public MapGrid.Room BattleRoom;
-    public string EnemyScenePath;
-    public SongTemplate CurSong;
 }
 
 public enum BattleEffectTrigger
@@ -133,6 +217,7 @@ public enum Stages
     Map,
     Load,
 }
+#endregion
 
 /**
  * <summary>MapGrid: Map as data.
@@ -262,6 +347,7 @@ public class MapGrid
     }
 }
 
+#region Interfaces
 /**
  * <summary>A BattleDirector driven battle event. Needs an enum defined trigger.</summary>
  */
@@ -286,3 +372,4 @@ public interface IFocusableMenu
     void ResumeFocus();
     void ReturnToPrev();
 }
+#endregion

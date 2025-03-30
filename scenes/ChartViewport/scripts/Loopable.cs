@@ -19,7 +19,7 @@ public partial class Loopable : Sprite2D
     private void UpdatePos()
     {
         Vector2 newPos = Position;
-        float interval = TimeKeeper.ChartLength;
+        float interval = (float)TimeKeeper.ChartLength;
         double relativePosition =
             TimeKeeper.CurrentTime / TimeKeeper.LoopLength * TimeKeeper.ChartLength;
         newPos.X =

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using FunkEngine;
 using Godot;
 
@@ -10,86 +11,50 @@ public partial class Conductor : Node
     private ChartManager CM;
     public MidiMaestro MM;
 
-    public delegate void TimedInputHandler(Note note, ArrowType type, Beat beat, double beatDif);
-    public event TimedInputHandler TimedInput;
+    public delegate void InputHandler(NoteArrowData data, double beatDif);
+    public event InputHandler NoteInputEvent;
 
+    private readonly List<NoteArrowData> _noteData = new List<NoteArrowData>();
     private double _beatSpawnOffset;
-
-    //Assume queue structure for notes in each lane.
-    //Can eventually make this its own structure
-    private NoteArrow[][] _laneData = Array.Empty<NoteArrow[]>();
-
-    //Returns first note of lane without modifying lane data
-    private Note GetNoteAt(ArrowType dir, int beat)
-    {
-        return GetNote(_laneData[(int)dir][beat]);
-    }
-
-    //Get note of a note arrow
-    private Note GetNote(NoteArrow arrow)
-    {
-        return arrow.NoteRef;
-    }
-
-    private bool IsNoteActive(ArrowType type, int beat)
-    {
-        return _laneData[(int)type][beat] != null && _laneData[(int)type][beat].IsActive;
-    }
-
-    public bool AddNoteToLane(
-        ArrowType type,
-        int beat,
-        Note note,
-        bool isActive = true,
-        NoteArrow pooledArrow = null
-    )
-    {
-        beat %= CM.BeatsPerLoop;
-        Note newNote = note.Clone();
-        if (beat == 0 || _laneData[(int)type][beat] != null) //TODO: Double check if this is still necessary, doesn't seem to matter for player placed notes
-            return false;
-
-        NoteArrow arrow;
-        if (isActive) //Currently isActive means an enemy note.
-        {
-            arrow = CM.AddArrowToLane(type, new Beat(beat), newNote, default, pooledArrow);
-        }
-        else
-        {
-            arrow = CM.AddArrowToLane(
-                type,
-                new Beat(beat),
-                newNote,
-                new Color(1, 0.43f, 0.26f),
-                pooledArrow
-            );
-            NoteQueueParticlesFactory.NoteParticles(arrow, note.Texture, .5f);
-        }
-
-        if (!isActive)
-            arrow.NoteHit();
-        _laneData[(int)type][beat] = arrow;
-        return true;
-    }
 
     public override void _Ready()
     {
         MM = new MidiMaestro(StageProducer.Config.CurSong.MIDILocation);
-        CM.Missed += OnEventCheckMiss;
+        CM.ArrowFromInput += HandleNote;
     }
 
-    public void Prep()
+    private bool _initialized = false;
+
+    public void Initialize()
     {
-        //-1 is slightly arbitrary, there were strange results without it.
-        _beatSpawnOffset = Math.Round(CM.Size.X / TimeKeeper.ChartLength * CM.TrueBeatsPerLoop - 1);
-        _laneData = new NoteArrow[][]
-        {
-            new NoteArrow[CM.BeatsPerLoop],
-            new NoteArrow[CM.BeatsPerLoop],
-            new NoteArrow[CM.BeatsPerLoop],
-            new NoteArrow[CM.BeatsPerLoop],
-        };
+        if (_initialized)
+            return;
+
+        //Approximately the first note offscreen
+        _beatSpawnOffset = Math.Floor(CM.Size.X / TimeKeeper.ChartLength * CM.TrueBeatsPerLoop);
         AddInitialNotes();
+        SpawnInitialNotes();
+
+        _initialized = true;
+    }
+
+    private int AddNoteData(Note noteRef, ArrowType type, Beat beat)
+    {
+        NoteArrowData result = new NoteArrowData(type, beat, noteRef);
+        if (_noteData.Count == 0)
+        {
+            _noteData.Add(result);
+            return 0;
+        }
+
+        int index = _noteData.BinarySearch(result); //TODO: This sorts correctly, but we don't take advantage yet.
+        if (index > 0)
+        {
+            GD.PushWarning("Duplicate note attempted add " + type + " " + beat);
+            return -1;
+        }
+        _noteData.Insert(~index, result);
+        return ~index;
     }
 
     private void AddInitialNotes()
@@ -98,53 +63,74 @@ public partial class Conductor : Node
         {
             foreach (midiNoteInfo mNote in MM.GetNotes(type))
             {
-                AddNoteToLane(type, (int)mNote.GetStartTimeBeat(), Scribe.NoteDictionary[0]);
-            }
-        }
-    }
-
-    public void ProgressiveAddNotes(Beat beat)
-    {
-        Beat spawnBeat = beat + _beatSpawnOffset;
-        int beatIdx = (int)spawnBeat.BeatPos % CM.BeatsPerLoop;
-        foreach (ArrowType type in Enum.GetValues(typeof(ArrowType)))
-        {
-            if (_laneData[(int)type][beatIdx] != null)
-            {
-                CM.AddArrowToLane(
+                AddNoteData(
+                    Scribe.NoteDictionary[0],
                     type,
-                    new Beat(beatIdx, spawnBeat.Loop),
-                    _laneData[(int)type][beatIdx].NoteRef,
-                    default,
-                    _laneData[(int)type][beatIdx]
+                    new Beat((int)mNote.GetStartTimeBeat())
                 );
             }
         }
     }
 
-    //Check all lanes for misses from missed inputs
-    private void OnEventCheckMiss(NoteArrow arrow)
+    private void SpawnInitialNotes()
     {
-        TimedInput?.Invoke(arrow.NoteRef, arrow.Type, arrow.Beat, 1);
+        for (int i = 1; i <= _beatSpawnOffset; i++)
+        {
+            SpawnNotesAtBeat(new Beat(i));
+        }
     }
 
-    public void CheckNoteTiming(ArrowType type)
+    public void AddPlayerNote(Note noteRef, ArrowType type, Beat beat)
     {
-        double realBeat = TimeKeeper.LastBeat.BeatPos;
-        int curBeat = (int)Math.Round(realBeat);
+        int index = AddNoteData(noteRef, type, beat); //Currently player notes aren't sorted correctly
+        if (index != -1)
+            SpawnNote(index, true);
+        else
+            GD.PushError("Duplicate player note was attempted. (This should be stopped by CM)");
+    }
 
-        if (curBeat % CM.BeatsPerLoop == 0)
-            return; //Ignore note 0 //TODO: Double check this works as intended.
-        if (_laneData[(int)type][curBeat % CM.BeatsPerLoop] == null)
+    public void ProgressiveAddNotes(Beat beat)
+    {
+        Beat spawnBeat = beat + _beatSpawnOffset;
+        SpawnNotesAtBeat(spawnBeat);
+    }
+
+    //TODO: Beat spawn redundancy checking, efficiency
+    private void SpawnNotesAtBeat(Beat beat)
+    {
+        //List<int> indexes = new List<int>();
+        for (int i = 0; i < _noteData.Count; i++)
         {
-            TimedInput?.Invoke(null, type, new Beat(curBeat), Math.Abs(realBeat - curBeat));
-            return;
+            if (
+                _noteData[i].Beat.Loop != beat.Loop
+                || (int)_noteData[i].Beat.BeatPos != (int)beat.BeatPos
+            )
+                continue;
+            //indexes.Add(i);
+            SpawnNote(i);
         }
-        if (!_laneData[(int)type][curBeat % CM.BeatsPerLoop].IsActive)
-            return;
+    }
 
-        double beatDif = Math.Abs(realBeat - curBeat);
-        _laneData[(int)type][curBeat % CM.BeatsPerLoop].NoteHit();
-        TimedInput?.Invoke(GetNoteAt(type, curBeat), type, new Beat(curBeat), beatDif);
+    private void SpawnNote(int index, bool newPlayerNote = false)
+    {
+        CM.AddNoteArrow(_noteData[index], newPlayerNote);
+        _noteData[index] = new NoteArrowData(
+            _noteData[index].Type,
+            _noteData[index].Beat.IncDecLoop(1),
+            _noteData[index].NoteRef
+        ); //Structs make me sad sometimes
+    }
+
+    private void HandleNote(NoteArrowData data)
+    {
+        NoteInputEvent?.Invoke(data, GetTimingDif(data.Beat));
+    }
+
+    private double GetTimingDif(Beat beat)
+    {
+        //Hmm, this is only ever an issue with possibly reaching beat 1 from just under beat 0
+        if (beat.Loop != TimeKeeper.LastBeat.Loop)
+            return 1;
+        return Math.Abs(beat.BeatPos - TimeKeeper.LastBeat.BeatPos);
     }
 }

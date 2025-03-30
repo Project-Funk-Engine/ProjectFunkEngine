@@ -14,6 +14,8 @@ public partial class Note : Resource, IDisplayable
     public float CostModifier { get; private set; }
     private Action<BattleDirector, Note, Timing> NoteEffect;
 
+    public const double TimingMax = 0.5d; //The max range for a note to be timed is its beat +/- this const
+
     public string Tooltip { get; set; }
     public Texture2D Texture { get; set; }
 
@@ -65,6 +67,11 @@ public partial class Note : Resource, IDisplayable
             CostModifier
         );
         return newNote;
+    }
+
+    public bool IsPlayerNote()
+    {
+        return Name.Contains("Player");
     }
 
     public int GetBaseVal()

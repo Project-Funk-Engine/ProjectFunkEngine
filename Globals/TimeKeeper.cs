@@ -7,8 +7,8 @@ using Godot;
 public partial class TimeKeeper : Node
 {
     public static double CurrentTime = 0;
-    public static float ChartLength;
-    public static float LoopLength;
+    public static double ChartLength;
+    public static double LoopLength;
     public static float Bpm;
     public static Beat LastBeat { get; set; }
     public static double BeatsPerLoop;

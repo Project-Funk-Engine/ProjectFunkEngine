@@ -17,7 +17,7 @@ public partial class BattleDirector : Node2D
     private ChartManager CM;
 
     [Export]
-    public NotePlacementBar NotePlacementBar;
+    public NotePlacementBar NPB;
 
     [Export]
     private Conductor CD;
@@ -32,15 +32,16 @@ public partial class BattleDirector : Node2D
 
     private SongData _curSong;
 
+    private bool _isPlaying;
+
     #endregion
 
     #region Note Handling
     private bool PlayerAddNote(ArrowType type, Beat beat)
     {
-        if (!NotePlacementBar.CanPlaceNote())
+        if (!NPB.CanPlaceNote())
             return false;
-        if (!CD.AddNoteToLane(type, (int)beat.BeatPos, NotePlacementBar.PlacedNote(this), false)) //TODO: Remove passing BD into NPB
-            return false;
+        CD.AddPlayerNote(NPB.PlacedNote(this), type, beat);
         NotePlaced?.Invoke(this);
         return true;
     }
@@ -71,7 +72,7 @@ public partial class BattleDirector : Node2D
         AddChild(Player);
         Player.Defeated += CheckBattleStatus;
         EventizeRelics();
-        NotePlacementBar.Setup(StageProducer.PlayerStats);
+        NPB.Setup(StageProducer.PlayerStats);
 
         //TODO: Refine
         Enemy = GD.Load<PackedScene>(StageProducer.Config.EnemyScenePath)
@@ -80,12 +81,9 @@ public partial class BattleDirector : Node2D
         Enemy.Defeated += CheckBattleStatus;
         AddEnemyEffects();
 
-        CM.PrepChart(_curSong);
-        CD.Prep();
-        CD.TimedInput += OnTimedInput;
-
-        CM.Connect(nameof(InputHandler.NotePressed), new Callable(this, nameof(OnNotePressed)));
-        CM.Connect(nameof(InputHandler.NoteReleased), new Callable(this, nameof(OnNoteReleased)));
+        CM.Initialize(_curSong);
+        CD.Initialize();
+        CD.NoteInputEvent += OnTimedInput;
 
         _focusedButton.GrabFocus();
         _focusedButton.Pressed += () =>
@@ -101,6 +99,7 @@ public partial class BattleDirector : Node2D
     {
         CM.BeginTweens();
         Audio.Play();
+        _isPlaying = true;
     }
 
     private void EndBattle()
@@ -146,37 +145,32 @@ public partial class BattleDirector : Node2D
         }
     }
 
-    private void OnNotePressed(ArrowType type)
+    private void OnTimedInput(NoteArrowData data, double beatDif)
     {
-        CD.CheckNoteTiming(type);
-    }
-
-    private void OnNoteReleased(ArrowType arrowType) { }
-
-    private void OnTimedInput(Note note, ArrowType arrowType, Beat beat, double beatDif)
-    {
-        if (note == null)
+        if (data.NoteRef == NoteArrowData.Placeholder.NoteRef)
+            return; //Hit an inactive note, for now do nothing
+        if (data.NoteRef == null)
         {
-            if (PlayerAddNote(arrowType, beat))
+            if ((int)data.Beat.BeatPos % (int)TimeKeeper.BeatsPerLoop == 0)
+                return; //We never ever try to place at 0
+            if (PlayerAddNote(data.Type, data.Beat))
                 return; //Miss on empty note. This does not apply to inactive existing notes as a balance decision for now.
-            NotePlacementBar.MissNote();
-            CM.ComboText(Timing.Miss, arrowType, NotePlacementBar.GetCurrentCombo());
-            Player.TakeDamage(4);
+            ForceMiss(data.Type);
             return;
         }
 
         Timing timed = CheckTiming(beatDif);
 
-        note.OnHit(this, timed);
-        if (timed == Timing.Miss)
-        {
-            NotePlacementBar.MissNote();
-        }
-        else
-        {
-            NotePlacementBar.HitNote();
-        }
-        CM.ComboText(timed, arrowType, NotePlacementBar.GetCurrentCombo());
+        data.NoteRef.OnHit(this, timed);
+        NPB.HandleTiming(timed);
+        CM.ComboText(timed, data.Type, NPB.GetCurrentCombo());
+    }
+
+    private void ForceMiss(ArrowType type)
+    {
+        NPB.HandleTiming(Timing.Miss);
+        CM.ComboText(Timing.Miss, type, NPB.GetCurrentCombo());
+        Player.TakeDamage(4);
     }
 
     private Timing CheckTiming(double beatDif)
@@ -206,7 +200,7 @@ public partial class BattleDirector : Node2D
             BattleLost();
             return;
         }
-        else if (puppet == Enemy)
+        if (puppet == Enemy)
             BattleWon(); //will have to adjust this to account for when we have multiple enemies at once
     }
 
@@ -227,10 +221,12 @@ public partial class BattleDirector : Node2D
 
     private void ShowRewardSelection(int amount)
     {
-        string type = "Note";
-        if (StageProducer.Config.RoomType == Stages.Boss)
-            type = "Relic";
-        var rewardSelect = RewardSelect.CreateSelection(this, Player.Stats, amount, type);
+        var rewardSelect = RewardSelect.CreateSelection(
+            this,
+            Player.Stats,
+            amount,
+            StageProducer.Config.RoomType
+        );
         rewardSelect.GetNode<Label>("%TopLabel").Text = Tr("BATTLE_ROOM_WIN");
         rewardSelect.Selected += EndBattle;
     }

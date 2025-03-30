@@ -57,6 +57,7 @@ public partial class StageProducer : Node
     {
         GlobalRng.Randomize();
         GenerateMapConsistent();
+
         PlayerStats = new PlayerStats();
 
         CurRoom = Map.GetRooms()[0].Idx;

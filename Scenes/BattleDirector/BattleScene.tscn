@@ -17,11 +17,11 @@ gradient = SubResource("Gradient_8uy3a")
 fill_from = Vector2(1, 0)
 fill_to = Vector2(0.738532, 1)
 
-[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM", "NotePlacementBar", "CD", "Audio", "_focusedButton")]
+[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CM", "NPB", "CD", "Audio", "_focusedButton")]
 process_mode = 1
 script = ExtResource("1_jmdo1")
 CM = NodePath("SubViewport")
-NotePlacementBar = NodePath("NotePlacementBar")
+NPB = NodePath("NotePlacementBar")
 CD = NodePath("Conductor")
 Audio = NodePath("AudioStreamPlayer")
 _focusedButton = NodePath("StartButton")

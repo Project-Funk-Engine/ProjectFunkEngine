@@ -146,7 +146,7 @@ public partial class Scribe : Node
                     1,
                     (director, self, val) =>
                     {
-                        director.NotePlacementBar.IncreaseBonusMult(val);
+                        director.NPB.IncreaseBonusMult(val);
                         self.Value++;
                     }
                 ),
@@ -164,7 +164,7 @@ public partial class Scribe : Node
                     20,
                     (director, self, val) =>
                     {
-                        director.NotePlacementBar.IncreaseCharge(val);
+                        director.NPB.IncreaseCharge(val);
                         self.Value++;
                     }
                 ),
