@@ -43,18 +43,26 @@ public struct BattleConfig
  */
 public struct NoteArrowData : IEquatable<NoteArrowData>, IComparable<NoteArrowData>
 {
-    public NoteArrowData(ArrowType type, Beat beat, Note note)
+    public NoteArrowData(ArrowType type, Beat beat, Note note, double length = 0)
     {
         Beat = beat;
         Type = type;
         NoteRef = note;
+        Length = length;
     }
 
     public Beat Beat;
+    public double Length; //in beats, should never be >= loop
     public readonly ArrowType Type;
     public readonly Note NoteRef = null;
 
     public static NoteArrowData Placeholder = new(default, default, new Note(-1, "", ""));
+
+    public NoteArrowData BeatFromLength()
+    {
+        Beat += Length;
+        return this;
+    }
 
     public bool Equals(NoteArrowData other)
     {

@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=3 uid="uid://b3owchvgq1l87"]
+
+[ext_resource type="Texture2D" uid="uid://hfxynr5jdgsp" path="res://Scenes/NoteManager/Assets/New_Arrow.png" id="1_nn8ao"]
+[ext_resource type="Script" path="res://Scenes/NoteManager/Scripts/HoldArrow.cs" id="2_hehcu"]
+[ext_resource type="Texture2D" uid="uid://cgq2ar3pdmkac" path="res://Scenes/NoteManager/Assets/Arrow_Outline.png" id="3_pvvea"]
+[ext_resource type="Texture2D" uid="uid://dbnvl0gbhl5b4" path="res://Scenes/NoteManager/Assets/Arrow_Trail.png" id="4_xgcwb"]
+
+[node name="Right-arrow" type="Sprite2D" node_paths=PackedStringArray("_trail", "OutlineSprite", "IconSprite")]
+z_index = 2
+rotation = 3.14159
+texture = ExtResource("1_nn8ao")
+script = ExtResource("2_hehcu")
+_trail = NodePath("CometTail/TrailRemote/Trail")
+OutlineSprite = NodePath("Outline")
+IconSprite = NodePath("Icon")
+
+[node name="Outline" type="Sprite2D" parent="."]
+texture = ExtResource("3_pvvea")
+
+[node name="Icon" type="Sprite2D" parent="."]
+
+[node name="TrailTransform2D" type="RemoteTransform2D" parent="."]
+remote_path = NodePath("../CometTail/TrailRemote")
+update_rotation = false
+update_scale = false
+
+[node name="CometTail" type="Node" parent="."]
+
+[node name="TrailRemote" type="Node2D" parent="CometTail"]
+rotation = 3.14159
+
+[node name="Trail" type="NinePatchRect" parent="CometTail/TrailRemote"]
+z_index = 1
+offset_left = -5.0
+offset_top = -4.0
+offset_right = 5.0
+offset_bottom = 4.0
+rotation = -3.14159
+pivot_offset = Vector2(5, 4)
+texture = ExtResource("4_xgcwb")
+patch_margin_right = 9
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2

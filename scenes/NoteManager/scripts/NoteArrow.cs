@@ -7,7 +7,7 @@ using Godot;
 public partial class NoteArrow : Sprite2D
 { //TextRect caused issues later :)
     public static readonly string LoadPath = "res://Scenes/NoteManager/NoteArrow.tscn";
-    private const float LeftBound = -200f;
+    protected const float LeftBound = -200f;
 
     [Export]
     public Sprite2D OutlineSprite;
@@ -25,7 +25,12 @@ public partial class NoteArrow : Sprite2D
 
     public override void _Ready()
     {
-        ZIndex = 1;
+        ZIndex = 2;
+    }
+
+    public virtual bool IsInRange(Beat incomingBeat)
+    {
+        return (int)Math.Round(Beat.BeatPos) == (int)Math.Round(incomingBeat.BeatPos);
     }
 
     private float GetNewPosX()
@@ -39,7 +44,11 @@ public partial class NoteArrow : Sprite2D
         );
     }
 
-    public void Init(ArrowData parentArrowData, NoteArrowData noteArrowData, double beatTime)
+    public virtual void Init(
+        ArrowData parentArrowData,
+        NoteArrowData noteArrowData,
+        double beatTime
+    )
     {
         Data = noteArrowData;
         _beatTime = beatTime;
@@ -59,14 +68,12 @@ public partial class NoteArrow : Sprite2D
         IsHit = true;
     }
 
-    public void Recycle()
+    public virtual void Recycle()
     {
         Visible = true;
         ProcessMode = ProcessModeEnum.Inherit;
         if (IsHit)
-        {
             Modulate /= .7f;
-        }
         IsHit = false;
         IsQueued = false;
     }
@@ -85,15 +92,25 @@ public partial class NoteArrow : Sprite2D
     public delegate void MissedEventHandler(NoteArrow note);
     public event MissedEventHandler Missed;
 
-    private void CheckMissed()
+    protected void RaiseMissed(NoteArrow note)
+    {
+        Missed?.Invoke(note);
+    }
+
+    protected virtual void CheckMissed()
     {
         if (IsHit || !(TimeKeeper.LastBeat - Beat > Beat.One))
             return;
-        Missed?.Invoke(this);
+        RaiseMissed(this);
     }
 
     public delegate void KillEventHandler(NoteArrow note);
     public event KillEventHandler QueueForPool;
+
+    protected void RaiseKill(NoteArrow note)
+    {
+        QueueForPool?.Invoke(note);
+    }
 
     private void BeatChecks()
     {
@@ -101,18 +118,23 @@ public partial class NoteArrow : Sprite2D
         CheckHittable();
     }
 
+    protected virtual void PosChecks()
+    {
+        if (Position.X < LeftBound)
+        {
+            if (!IsHit)
+                RaiseMissed(this);
+            RaiseKill(this);
+        }
+    }
+
     public override void _Process(double delta)
     {
-        BeatChecks(); //Process happens down the tree, beat checks should happen first, so as close to beat update
+        BeatChecks(); //beat checks first
         Vector2 newPos = Position;
         newPos.X = GetNewPosX();
         if (!float.IsNaN(newPos.X))
             Position = newPos;
-        if (Position.X < LeftBound)
-        {
-            if (!IsHit)
-                Missed?.Invoke(this);
-            QueueForPool?.Invoke(this);
-        }
+        PosChecks();
     }
 }

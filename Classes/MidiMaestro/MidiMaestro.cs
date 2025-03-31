@@ -110,7 +110,16 @@ public class midiNoteInfo
         _note.TimeAs<MetricTimeSpan>(MidiMaestro.TempoMap).Milliseconds / 1000f
         + _note.TimeAs<MetricTimeSpan>(MidiMaestro.TempoMap).Seconds;
 
-    public long GetEndTime() => _note.EndTime;
+    public long GetEndTime() => _note.EndTime; //ticks
 
-    public long GetDuration() => _note.Length;
+    public long GetDuration() => _note.Length; //ticks
+
+    public long GetDurationBeats()
+    {
+        var beatsBar = TimeConverter.ConvertTo<BarBeatTicksTimeSpan>(
+            _note.Length,
+            MidiMaestro.TempoMap
+        );
+        return beatsBar.Bars * MidiMaestro.TimeSignature.Numerator + beatsBar.Beats;
+    }
 }

@@ -19,15 +19,12 @@ public partial class ChartManager : SubViewportContainer
     public delegate void InputEventHandler(NoteArrowData noteData);
     public event InputEventHandler ArrowFromInput;
 
-    private readonly List<NoteArrow> _arrowPool = new List<NoteArrow>();
+    private readonly List<NoteArrow> _arrowPool = new();
+    private readonly List<HoldArrow> _holdPool = new();
 
-    private readonly List<NoteArrow>[] _queuedArrows = new List<NoteArrow>[]
-    {
-        new(),
-        new(),
-        new(),
-        new(),
-    };
+    private readonly HoldArrow[] _currentHolds = new HoldArrow[4];
+
+    private readonly List<NoteArrow>[] _queuedArrows = { new(), new(), new(), new() };
 
     private double _loopLen; //secs
     public double TrueBeatsPerLoop;
@@ -36,9 +33,26 @@ public partial class ChartManager : SubViewportContainer
 
     public void OnNotePressed(ArrowType type)
     {
-        if (TimeKeeper.LastBeat.CompareTo(Beat.Zero) == 0)
+        //No beat zero, also if there is a current hold, don't handle a re input
+        if (TimeKeeper.LastBeat.CompareTo(Beat.Zero) == 0 || _currentHolds[(int)type] != null)
             return;
         ArrowFromInput?.Invoke(NextArrowFrom(type));
+    }
+
+    public void OnNoteReleased(ArrowType type)
+    {
+        if (_currentHolds[(int)type] == null)
+            return;
+        HandleRelease(type);
+    }
+
+    private void HandleRelease(ArrowType type)
+    {
+        HoldArrow hold = _currentHolds[(int)type];
+        hold.NoteRelease();
+        _currentHolds[(int)type] = null;
+        NoteArrowData incrData = hold.Data;
+        ArrowFromInput?.Invoke(incrData.BeatFromLength());
     }
 
     public override void _Ready()
@@ -46,10 +60,10 @@ public partial class ChartManager : SubViewportContainer
         _arrowGroup = ChartLoopables.GetNode<Node>("ArrowGroup");
 
         IH.Connect(nameof(InputHandler.NotePressed), new Callable(this, nameof(OnNotePressed)));
-        //IH.Connect(nameof(InputHandler.NoteReleased), new Callable(this, nameof(OnNoteReleased)));
+        IH.Connect(nameof(InputHandler.NoteReleased), new Callable(this, nameof(OnNoteReleased)));
     }
 
-    private bool _initialized = false;
+    private bool _initialized;
 
     public void Initialize(SongData songData)
     {
@@ -108,7 +122,13 @@ public partial class ChartManager : SubViewportContainer
 
     public void AddNoteArrow(NoteArrowData noteArrowData, bool preHit = false)
     {
-        NoteArrow noteArrow = _arrowPool.Count == 0 ? InstatiateNewArrow() : DePoolArrow();
+        bool isHold = noteArrowData.Length > 0;
+        NoteArrow noteArrow;
+        if (isHold)
+            noteArrow = _holdPool.Count == 0 ? InstatiateNewArrow(true) : DePoolArrow(true);
+        else
+            noteArrow = _arrowPool.Count == 0 ? InstatiateNewArrow() : DePoolArrow();
+
         noteArrow.Init(
             IH.Arrows[(int)noteArrowData.Type],
             noteArrowData,
@@ -120,11 +140,10 @@ public partial class ChartManager : SubViewportContainer
             noteArrow.NoteHit();
     }
 
-    private NoteArrow InstatiateNewArrow()
+    private NoteArrow InstatiateNewArrow(bool isHold = false)
     {
-        NoteArrow result = ResourceLoader
-            .Load<PackedScene>(NoteArrow.LoadPath)
-            .Instantiate<NoteArrow>();
+        string path = isHold ? HoldArrow.LoadPath : NoteArrow.LoadPath;
+        NoteArrow result = ResourceLoader.Load<PackedScene>(path).Instantiate<NoteArrow>();
         result.Missed += OnArrowMissed;
         result.QueueForHit += OnArrowHittable;
         result.QueueForPool += PoolArrow;
@@ -140,6 +159,8 @@ public partial class ChartManager : SubViewportContainer
     private void OnArrowMissed(NoteArrow noteArrow)
     {
         noteArrow.NoteHit();
+        if (noteArrow is HoldArrow)
+            _currentHolds[(int)noteArrow.Type] = null;
         ArrowFromInput?.Invoke(noteArrow.Data);
     }
 
@@ -150,13 +171,26 @@ public partial class ChartManager : SubViewportContainer
             _queuedArrows[(int)noteArrow.Type].RemoveAt(index);
         noteArrow.ProcessMode = ProcessModeEnum.Disabled;
         noteArrow.Visible = false;
-        _arrowPool.Add(noteArrow);
+        if (noteArrow is HoldArrow holdArrow)
+            _holdPool.Add(holdArrow);
+        else
+            _arrowPool.Add(noteArrow);
     }
 
-    private NoteArrow DePoolArrow()
+    private NoteArrow DePoolArrow(bool isHold = false)
     {
-        NoteArrow res = _arrowPool[0];
-        _arrowPool.RemoveAt(0);
+        NoteArrow res;
+        if (isHold)
+        {
+            res = _holdPool[0];
+            _holdPool.RemoveAt(0);
+        }
+        else
+        {
+            res = _arrowPool[0];
+            _arrowPool.RemoveAt(0);
+        }
+
         res.Recycle();
         res.SelfModulate = Colors.White;
         return res;
@@ -182,18 +216,18 @@ public partial class ChartManager : SubViewportContainer
                 !arrow.IsHit
                 && Math.Abs((arrow.Beat - TimeKeeper.LastBeat).BeatPos) <= Note.TimingMax
             )
-            .OrderBy(arrow => Math.Abs((arrow.Beat - TimeKeeper.LastBeat).BeatPos))
+            .OrderBy(arrow => Math.Abs((arrow.Beat - TimeKeeper.LastBeat).BeatPos)) //Sort by closest to cur beat
             .ToList();
         if (activeArrows.Count != 0) //There is an active note in hittable range activate it and pass it
         {
             activeArrows[0].NoteHit();
+            if (activeArrows[0] is HoldArrow holdArrow) //Best active arrow is hold
+                _currentHolds[(int)type] = holdArrow;
             return activeArrows[0].Data;
         }
 
         int index = _queuedArrows[(int)type]
-            .FindIndex(arrow =>
-                (int)Math.Round(arrow.Beat.BeatPos) == (int)Math.Round(TimeKeeper.LastBeat.BeatPos)
-            );
+            .FindIndex(arrow => arrow.IsInRange(TimeKeeper.LastBeat));
         if (index != -1) //There is an inactive note in the whole beat, pass it something so no new note is placed
             return NoteArrowData.Placeholder;
         return placeableNote; //No truly hittable notes, and no notes in current beat

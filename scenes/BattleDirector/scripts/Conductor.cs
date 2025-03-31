@@ -15,6 +15,7 @@ public partial class Conductor : Node
     public event InputHandler NoteInputEvent;
 
     private readonly List<NoteArrowData> _noteData = new List<NoteArrowData>();
+
     private double _beatSpawnOffset;
 
     public override void _Ready()
@@ -38,9 +39,9 @@ public partial class Conductor : Node
         _initialized = true;
     }
 
-    private int AddNoteData(Note noteRef, ArrowType type, Beat beat)
+    private int AddNoteData(Note noteRef, ArrowType type, Beat beat, double length = 0)
     {
-        NoteArrowData result = new NoteArrowData(type, beat, noteRef);
+        NoteArrowData result = new NoteArrowData(type, beat, noteRef, length);
         if (_noteData.Count == 0)
         {
             _noteData.Add(result);
@@ -66,7 +67,8 @@ public partial class Conductor : Node
                 AddNoteData(
                     Scribe.NoteDictionary[0],
                     type,
-                    new Beat((int)mNote.GetStartTimeBeat())
+                    new Beat((int)mNote.GetStartTimeBeat()),
+                    mNote.GetDurationBeats()
                 );
             }
         }
@@ -117,7 +119,8 @@ public partial class Conductor : Node
         _noteData[index] = new NoteArrowData(
             _noteData[index].Type,
             _noteData[index].Beat.IncDecLoop(1),
-            _noteData[index].NoteRef
+            _noteData[index].NoteRef,
+            _noteData[index].Length
         ); //Structs make me sad sometimes
     }
 
