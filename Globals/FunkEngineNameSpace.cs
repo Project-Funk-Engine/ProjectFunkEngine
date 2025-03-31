@@ -19,7 +19,7 @@ public struct SongData
 /**
  * <summary>ArrowData: Data representing the necessary information for each arrow checker.</summary>
  */
-public struct ArrowData
+public struct CheckerData
 {
     public Color Color;
     public string Key;
@@ -41,9 +41,9 @@ public struct BattleConfig
 /**
  * <summary>NoteArrowData: Data To be stored and transmitted to represent a NoteArrow.</summary>
  */
-public struct NoteArrowData : IEquatable<NoteArrowData>, IComparable<NoteArrowData>
+public struct ArrowData : IEquatable<ArrowData>, IComparable<ArrowData>
 {
-    public NoteArrowData(ArrowType type, Beat beat, Note note, double length = 0)
+    public ArrowData(ArrowType type, Beat beat, Note note, double length = 0)
     {
         Beat = beat;
         Type = type;
@@ -52,26 +52,37 @@ public struct NoteArrowData : IEquatable<NoteArrowData>, IComparable<NoteArrowDa
     }
 
     public Beat Beat;
-    public double Length; //in beats, should never be >= loop
+    public readonly double Length; //in beats, should never be >= loop
     public readonly ArrowType Type;
     public readonly Note NoteRef = null;
 
-    public static NoteArrowData Placeholder = new(default, default, new Note(-1, "", ""));
+    public static ArrowData Placeholder { get; private set; } =
+        new(default, default, new Note(-1, "", ""));
 
-    public NoteArrowData BeatFromLength()
+    public ArrowData BeatFromLength()
     {
         Beat += Length;
         return this;
     }
 
-    public bool Equals(NoteArrowData other)
+    public bool Equals(ArrowData other)
     {
         return Beat.Equals(other.Beat) && Type == other.Type;
     }
 
     public override bool Equals(object obj)
     {
-        return obj is NoteArrowData other && Equals(other);
+        return obj is ArrowData other && Equals(other);
+    }
+
+    public static bool operator ==(ArrowData left, ArrowData right)
+    {
+        return left.Equals(right);
+    }
+
+    public static bool operator !=(ArrowData left, ArrowData right)
+    {
+        return !(left == right);
     }
 
     public override int GetHashCode()
@@ -79,7 +90,7 @@ public struct NoteArrowData : IEquatable<NoteArrowData>, IComparable<NoteArrowDa
         return HashCode.Combine(Beat, (int)Type);
     }
 
-    public int CompareTo(NoteArrowData data) //Only care about beat for comparison
+    public int CompareTo(ArrowData data) //Only care about beat for comparison
     {
         if ((int)Beat.BeatPos == (int)data.Beat.BeatPos && Beat.Loop == data.Beat.Loop)
         {
@@ -89,7 +100,7 @@ public struct NoteArrowData : IEquatable<NoteArrowData>, IComparable<NoteArrowDa
             }
             return Type.CompareTo(data.Type);
         }
-        ;
+
         return Beat.CompareTo(data.Beat);
     }
 }
@@ -236,7 +247,7 @@ public class MapGrid
 {
     private int[,] _map;
     private Room[] _rooms;
-    private int _curIdx = 0;
+    private int _curIdx;
 
     public Room[] GetRooms()
     {

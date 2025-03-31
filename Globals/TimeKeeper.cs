@@ -6,7 +6,7 @@ using Godot;
  */
 public partial class TimeKeeper : Node
 {
-    public static double CurrentTime = 0;
+    public static double CurrentTime;
     public static double ChartLength;
     public static double LoopLength;
     public static float Bpm;
@@ -24,7 +24,7 @@ public partial class TimeKeeper : Node
     {
         double beatPos = timeSecs / (60 / (double)Bpm);
         Beat result = new Beat(beatPos, LastBeat.Loop);
-        //If beatPos has returned to effectively < last beat pos, a loop has happened. Idk if there's a better way to handle this
+        //If beatPos has returned to effectively < last beat pos, a loop has happened. IDK if there's a better way to handle this
         return result.BeatPos < LastBeat.BeatPos ? result.IncDecLoop(1) : result;
     }
 

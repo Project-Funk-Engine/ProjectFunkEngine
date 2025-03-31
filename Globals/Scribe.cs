@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using FunkEngine;
 using FunkEngine.Classes.MidiMaestro;

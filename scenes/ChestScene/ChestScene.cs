@@ -1,4 +1,3 @@
-using System;
 using FunkEngine;
 using Godot;
 
@@ -8,15 +7,15 @@ using Godot;
 public partial class ChestScene : Node2D
 {
     public static readonly string LoadPath = "res://Scenes/ChestScene/ChestScene.tscn";
-    public PlayerPuppet Player;
+    private PlayerPuppet _player;
 
     [Export]
     public Button ChestButton;
 
     public override void _Ready()
     {
-        Player = GD.Load<PackedScene>(PlayerPuppet.LoadPath).Instantiate<PlayerPuppet>();
-        AddChild(Player);
+        _player = GD.Load<PackedScene>(PlayerPuppet.LoadPath).Instantiate<PlayerPuppet>();
+        AddChild(_player);
 
         ChestButton.Pressed += GetLoot;
     }
@@ -32,7 +31,7 @@ public partial class ChestScene : Node2D
     private void GetLoot()
     {
         ChestButton.Disabled = true;
-        RewardSelect.CreateSelection(this, Player.Stats, 3, Stages.Chest).Selected += EndBattle;
+        RewardSelect.CreateSelection(this, _player.Stats, 3, Stages.Chest).Selected += EndBattle;
     }
 
     private void EndBattle()

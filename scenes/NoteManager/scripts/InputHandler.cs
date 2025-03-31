@@ -1,4 +1,3 @@
-using System;
 using FunkEngine;
 using Godot;
 
@@ -13,27 +12,27 @@ public partial class InputHandler : Node2D
     [Signal]
     public delegate void NoteReleasedEventHandler(ArrowType arrowType);
 
-    public ArrowData[] Arrows = new ArrowData[]
+    public CheckerData[] Arrows = new CheckerData[]
     {
-        new ArrowData()
+        new CheckerData()
         {
             Color = Colors.Green,
             Key = "arrowUp",
             Type = ArrowType.Up,
         },
-        new ArrowData()
+        new CheckerData()
         {
             Color = Colors.Aqua,
             Key = "arrowDown",
             Type = ArrowType.Down,
         },
-        new ArrowData()
+        new CheckerData()
         {
             Color = Colors.HotPink,
             Key = "arrowLeft",
             Type = ArrowType.Left,
         },
-        new ArrowData()
+        new CheckerData()
         {
             Color = Colors.Red,
             Key = "arrowRight",
@@ -91,7 +90,7 @@ public partial class InputHandler : Node2D
 
     public override void _Process(double delta)
     {
-        //TODO: Add chamge control scheme signal, so we don't query each frame.
+        //TODO: Add change control scheme signal, so we don't query each frame.
         string scheme = SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.InputKey).As<string>();
         if (Input.GetConnectedJoypads().Count <= 0 && scheme == "CONTROLLER")
         {

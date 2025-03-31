@@ -4,9 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://b6fkei0i83vte" path="res://SharedAssets/Character1.png" id="2_affso"]
 [ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://Scenes/Puppets/HealthBar.tscn" id="3_rechw"]
 
-[node name="PlayerPuppet" type="Node2D" node_paths=PackedStringArray("_healthBar", "Sprite")]
+[node name="PlayerPuppet" type="Node2D" node_paths=PackedStringArray("HealthBar", "Sprite")]
 script = ExtResource("1_f4rea")
-_healthBar = NodePath("ProgressBar")
+HealthBar = NodePath("ProgressBar")
 Sprite = NodePath("Sprite")
 StartPos = Vector2(158, 125)
 

@@ -15,19 +15,20 @@ public partial class NoteArrow : Sprite2D
     [Export]
     public Sprite2D IconSprite;
 
-    public NoteArrowData Data;
+    public ArrowData Data;
     public Beat Beat => Data.Beat;
     public ArrowType Type => Data.Type;
 
     private double _beatTime;
-    public bool IsHit = false;
-    public bool IsQueued = false;
+    public bool IsHit;
+    private bool _isQueued;
 
     public override void _Ready()
     {
         ZIndex = 2;
     }
 
+    //Is the passed in beat within range of this arrow's beat, for checking if player can place near this note
     public virtual bool IsInRange(Beat incomingBeat)
     {
         return (int)Math.Round(Beat.BeatPos) == (int)Math.Round(incomingBeat.BeatPos);
@@ -44,20 +45,16 @@ public partial class NoteArrow : Sprite2D
         );
     }
 
-    public virtual void Init(
-        ArrowData parentArrowData,
-        NoteArrowData noteArrowData,
-        double beatTime
-    )
+    public virtual void Init(CheckerData parentChecker, ArrowData arrowData, double beatTime)
     {
-        Data = noteArrowData;
+        Data = arrowData;
         _beatTime = beatTime;
 
-        Position = new Vector2(GetNewPosX(), parentArrowData.Node.GlobalPosition.Y);
-        RotationDegrees = parentArrowData.Node.RotationDegrees;
-        IconSprite.Texture = noteArrowData.NoteRef.Texture;
+        Position = new Vector2(GetNewPosX(), parentChecker.Node.GlobalPosition.Y);
+        RotationDegrees = parentChecker.Node.RotationDegrees;
+        IconSprite.Texture = arrowData.NoteRef.Texture;
         IconSprite.Rotation = -Rotation;
-        OutlineSprite.Modulate = parentArrowData.Color;
+        OutlineSprite.Modulate = parentChecker.Color;
     }
 
     public void NoteHit()
@@ -75,7 +72,7 @@ public partial class NoteArrow : Sprite2D
         if (IsHit)
             Modulate /= .7f;
         IsHit = false;
-        IsQueued = false;
+        _isQueued = false;
     }
 
     public delegate void HittableEventHandler(NoteArrow note);
@@ -83,19 +80,16 @@ public partial class NoteArrow : Sprite2D
 
     private void CheckHittable()
     {
-        if (IsQueued || !(Beat - TimeKeeper.LastBeat <= Beat.One))
+        if (_isQueued || !(Beat - TimeKeeper.LastBeat <= Beat.One))
             return;
-        IsQueued = true;
+        _isQueued = true;
         QueueForHit?.Invoke(this);
     }
 
     public delegate void MissedEventHandler(NoteArrow note);
     public event MissedEventHandler Missed;
 
-    protected void RaiseMissed(NoteArrow note)
-    {
-        Missed?.Invoke(note);
-    }
+    protected void RaiseMissed(NoteArrow note) => Missed?.Invoke(note);
 
     protected virtual void CheckMissed()
     {
@@ -107,10 +101,7 @@ public partial class NoteArrow : Sprite2D
     public delegate void KillEventHandler(NoteArrow note);
     public event KillEventHandler QueueForPool;
 
-    protected void RaiseKill(NoteArrow note)
-    {
-        QueueForPool?.Invoke(note);
-    }
+    protected void RaiseKill(NoteArrow note) => QueueForPool?.Invoke(note);
 
     private void BeatChecks()
     {
@@ -130,7 +121,7 @@ public partial class NoteArrow : Sprite2D
 
     public override void _Process(double delta)
     {
-        BeatChecks(); //beat checks first
+        BeatChecks(); //beat checks first, why? Because
         Vector2 newPos = Position;
         newPos.X = GetNewPosX();
         if (!float.IsNaN(newPos.X))

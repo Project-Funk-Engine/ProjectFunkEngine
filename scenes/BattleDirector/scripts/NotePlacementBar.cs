@@ -6,19 +6,19 @@ using Godot;
 /**<summary>Current charge bar amount and note queue.</summary>
  */
 public partial class NotePlacementBar : Node
-{
+{ //TODO: More effectively integrate with player
     const int MaxValue = 80;
     private int _currentBarValue;
     private int _currentCombo;
-    int comboMult;
-    int bonusMult;
-    int notesToIncreaseCombo;
+    private int _comboMult;
+    private int _bonusMult;
+    private int _notesToIncreaseCombo;
 
     [Export]
-    TextureProgressBar notePlacementBar;
+    private TextureProgressBar _notePlacementBar;
 
     [Export]
-    TextEdit currentComboMultText;
+    private TextEdit _currentComboMultText;
 
     [Export]
     private GpuParticles2D _particles;
@@ -31,7 +31,7 @@ public partial class NotePlacementBar : Node
     private Sprite2D _nextNote;
 
     [Export]
-    private CpuParticles2D fullBarParticles;
+    private CpuParticles2D _fullBarParticles;
 
     private Note[] _noteDeck;
     private Queue<Note> _noteQueue = new Queue<Note>();
@@ -57,7 +57,7 @@ public partial class NotePlacementBar : Node
         {
             _shakeStrength = (float)Mathf.Lerp(_shakeStrength, 0, _shakeFade * delta);
         }
-        notePlacementBar.Position =
+        _notePlacementBar.Position =
             _barInitPosition
             + new Vector2(
                 _rng.RandfRange(-_shakeStrength, _shakeStrength),
@@ -68,13 +68,13 @@ public partial class NotePlacementBar : Node
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        notePlacementBar.MaxValue = MaxValue;
+        _notePlacementBar.MaxValue = MaxValue;
         _currentBarValue = 0;
         _currentCombo = 0;
-        comboMult = 1;
-        notesToIncreaseCombo = 4;
+        _comboMult = 1;
+        _notesToIncreaseCombo = 4;
 
-        _barInitPosition = notePlacementBar.Position;
+        _barInitPosition = _notePlacementBar.Position;
     }
 
     public override void _Process(double delta)
@@ -171,7 +171,7 @@ public partial class NotePlacementBar : Node
     {
         _currentCombo++;
         DetermineComboMult();
-        _currentBarValue = Math.Min(_currentBarValue + comboMult, MaxValue);
+        _currentBarValue = Math.Min(_currentBarValue + _comboMult, MaxValue);
         UpdateNotePlacementBar(_currentBarValue);
         UpdateComboMultText();
     }
@@ -180,14 +180,14 @@ public partial class NotePlacementBar : Node
     private void MissNote()
     {
         _currentCombo = 0;
-        bonusMult = 0;
+        _bonusMult = 0;
         DetermineComboMult();
         UpdateComboMultText();
     }
 
     public void IncreaseBonusMult(int amount = 1)
     {
-        bonusMult += amount;
+        _bonusMult += amount;
         DetermineComboMult();
         UpdateComboMultText();
     }
@@ -218,7 +218,7 @@ public partial class NotePlacementBar : Node
 
     private void DetermineComboMult()
     {
-        comboMult = _currentCombo / notesToIncreaseCombo + 1 + bonusMult;
+        _comboMult = _currentCombo / _notesToIncreaseCombo + 1 + _bonusMult;
     }
 
     public int GetCurrentCombo()
@@ -228,12 +228,12 @@ public partial class NotePlacementBar : Node
 
     private void UpdateNotePlacementBar(int newValue)
     {
-        notePlacementBar.Value = newValue;
+        _notePlacementBar.Value = newValue;
         _particles.Emitting = _currentBarValue >= MaxValue;
     }
 
     private void UpdateComboMultText()
     {
-        currentComboMultText.Text = $"    x{comboMult.ToString()}";
+        _currentComboMultText.Text = $"    x{_comboMult.ToString()}";
     }
 }

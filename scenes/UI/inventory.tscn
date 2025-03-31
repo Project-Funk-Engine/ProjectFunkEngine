@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scenes/UI/Scripts/Inventory.cs" id="1_8rcwd"]
 
-[node name="Inventory" type="Control" node_paths=PackedStringArray("Relics", "Notes", "Description", "Tabs")]
+[node name="Inventory" type="Control" node_paths=PackedStringArray("_relics", "_notes", "_description", "_tabs")]
 process_mode = 1
 layout_mode = 3
 anchors_preset = 15
@@ -11,10 +11,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_8rcwd")
-Relics = NodePath("InvenVBox/Tabs/INVENTORY_TAB_RELICS/RelicBox/RelicGrid")
-Notes = NodePath("InvenVBox/Tabs/INVENTORY_TAB_NOTES/NotesBox/NotesGrid")
-Description = NodePath("InvenVBox/DescBox/Description")
-Tabs = NodePath("InvenVBox/Tabs")
+_relics = NodePath("InvenVBox/Tabs/INVENTORY_TAB_RELICS/RelicBox/RelicGrid")
+_notes = NodePath("InvenVBox/Tabs/INVENTORY_TAB_NOTES/NotesBox/NotesGrid")
+_description = NodePath("InvenVBox/DescBox/Description")
+_tabs = NodePath("InvenVBox/Tabs")
 
 [node name="BG" type="ColorRect" parent="."]
 layout_mode = 1

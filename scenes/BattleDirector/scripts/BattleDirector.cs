@@ -145,9 +145,9 @@ public partial class BattleDirector : Node2D
         }
     }
 
-    private void OnTimedInput(NoteArrowData data, double beatDif)
+    private void OnTimedInput(ArrowData data, double beatDif)
     {
-        if (data.NoteRef == NoteArrowData.Placeholder.NoteRef)
+        if (data.NoteRef == ArrowData.Placeholder.NoteRef)
             return; //Hit an inactive note, for now do nothing
         if (data.NoteRef == null)
         {

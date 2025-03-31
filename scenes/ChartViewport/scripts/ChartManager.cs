@@ -16,7 +16,7 @@ public partial class ChartManager : SubViewportContainer
 
     private Node _arrowGroup;
 
-    public delegate void InputEventHandler(NoteArrowData noteData);
+    public delegate void InputEventHandler(ArrowData data);
     public event InputEventHandler ArrowFromInput;
 
     private readonly List<NoteArrow> _arrowPool = new();
@@ -51,7 +51,7 @@ public partial class ChartManager : SubViewportContainer
         HoldArrow hold = _currentHolds[(int)type];
         hold.NoteRelease();
         _currentHolds[(int)type] = null;
-        NoteArrowData incrData = hold.Data;
+        ArrowData incrData = hold.Data;
         ArrowFromInput?.Invoke(incrData.BeatFromLength());
     }
 
@@ -120,27 +120,23 @@ public partial class ChartManager : SubViewportContainer
         }
     }
 
-    public void AddNoteArrow(NoteArrowData noteArrowData, bool preHit = false)
+    public void AddNoteArrow(ArrowData arrowData, bool preHit = false)
     {
-        bool isHold = noteArrowData.Length > 0;
+        bool isHold = arrowData.Length > 0;
         NoteArrow noteArrow;
         if (isHold)
-            noteArrow = _holdPool.Count == 0 ? InstatiateNewArrow(true) : DePoolArrow(true);
+            noteArrow = _holdPool.Count == 0 ? InstantiateNewArrow(true) : DePoolArrow(true);
         else
-            noteArrow = _arrowPool.Count == 0 ? InstatiateNewArrow() : DePoolArrow();
+            noteArrow = _arrowPool.Count == 0 ? InstantiateNewArrow() : DePoolArrow();
 
-        noteArrow.Init(
-            IH.Arrows[(int)noteArrowData.Type],
-            noteArrowData,
-            TimeFromBeat(noteArrowData.Beat)
-        );
-        if (noteArrowData.NoteRef.IsPlayerNote())
+        noteArrow.Init(IH.Arrows[(int)arrowData.Type], arrowData, TimeFromBeat(arrowData.Beat));
+        if (arrowData.NoteRef.IsPlayerNote())
             noteArrow.SelfModulate = PlayerPuppet.NoteColor;
         if (preHit)
             noteArrow.NoteHit();
     }
 
-    private NoteArrow InstatiateNewArrow(bool isHold = false)
+    private NoteArrow InstantiateNewArrow(bool isHold = false)
     {
         string path = isHold ? HoldArrow.LoadPath : NoteArrow.LoadPath;
         NoteArrow result = ResourceLoader.Load<PackedScene>(path).Instantiate<NoteArrow>();
@@ -201,16 +197,12 @@ public partial class ChartManager : SubViewportContainer
         return (beat.BeatPos / TrueBeatsPerLoop * _loopLen);
     }
 
-    //TODO
-    private NoteArrowData NextArrowFrom(ArrowType type)
+    //TODO: Breakup and simplify where possible
+    private ArrowData NextArrowFrom(ArrowType type)
     {
-        NoteArrowData placeableNote = new NoteArrowData(
-            type,
-            TimeKeeper.LastBeat.RoundBeat(),
-            null
-        );
+        ArrowData placeable = new ArrowData(type, TimeKeeper.LastBeat.RoundBeat(), null);
         if (_queuedArrows[(int)type].Count == 0)
-            return placeableNote; //Empty return null, place note action
+            return placeable; //Empty return null, place note action
         List<NoteArrow> activeArrows = _queuedArrows[(int)type]
             .Where(arrow =>
                 !arrow.IsHit
@@ -229,8 +221,8 @@ public partial class ChartManager : SubViewportContainer
         int index = _queuedArrows[(int)type]
             .FindIndex(arrow => arrow.IsInRange(TimeKeeper.LastBeat));
         if (index != -1) //There is an inactive note in the whole beat, pass it something so no new note is placed
-            return NoteArrowData.Placeholder;
-        return placeableNote; //No truly hittable notes, and no notes in current beat
+            return ArrowData.Placeholder;
+        return placeable; //No truly hittable notes, and no notes in current beat
     }
 
     public void ComboText(Timing timed, ArrowType arrow, int currentCombo)

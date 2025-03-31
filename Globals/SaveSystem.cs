@@ -137,13 +137,13 @@ public static class SaveSystem
 
     public class SaveFile
     {
-        public ulong RngSeed { get; set; }
-        public ulong RngState { get; set; }
-        public int LastRoomIdx { get; set; }
+        public ulong RngSeed { get; init; }
+        public ulong RngState { get; init; }
+        public int LastRoomIdx { get; init; }
 
-        public int[] NoteIds { get; set; }
-        public int[] RelicIds { get; set; }
-        public int PlayerHealth { get; set; }
+        public int[] NoteIds { get; init; }
+        public int[] RelicIds { get; init; }
+        public int PlayerHealth { get; init; }
 
         public SaveFile(
             ulong rngSeed,

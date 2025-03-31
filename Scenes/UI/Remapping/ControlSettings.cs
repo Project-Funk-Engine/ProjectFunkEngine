@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using FunkEngine;
 using Godot;
@@ -8,16 +7,16 @@ public partial class ControlSettings : Node2D, IFocusableMenu
     public static readonly string LoadPath = "res://Scenes/UI/Remapping/Remap.tscn";
 
     [Export]
-    public Sprite2D leftKey;
+    public Sprite2D LeftKey;
 
     [Export]
-    public Sprite2D rightKey;
+    public Sprite2D RightKey;
 
     [Export]
-    public Sprite2D upKey;
+    public Sprite2D UpKey;
 
     [Export]
-    public Sprite2D downKey;
+    public Sprite2D DownKey;
 
     public IFocusableMenu Prev { get; set; }
 
@@ -190,9 +189,9 @@ public partial class ControlSettings : Node2D, IFocusableMenu
     private void ChangeKeySprites(string scheme)
     {
         var selectedScheme = SpriteMappings[scheme];
-        leftKey.Texture = GD.Load<Texture2D>(selectedScheme["left"]);
-        rightKey.Texture = GD.Load<Texture2D>(selectedScheme["right"]);
-        upKey.Texture = GD.Load<Texture2D>(selectedScheme["up"]);
-        downKey.Texture = GD.Load<Texture2D>(selectedScheme["down"]);
+        LeftKey.Texture = GD.Load<Texture2D>(selectedScheme["left"]);
+        RightKey.Texture = GD.Load<Texture2D>(selectedScheme["right"]);
+        UpKey.Texture = GD.Load<Texture2D>(selectedScheme["up"]);
+        DownKey.Texture = GD.Load<Texture2D>(selectedScheme["down"]);
     }
 }

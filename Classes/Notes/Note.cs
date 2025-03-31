@@ -36,9 +36,9 @@ public partial class Note : Resource, IDisplayable
         NoteEffect =
             noteEffect
             ?? (
-                (BD, source, Timing) =>
+                (BD, source, timing) =>
                 {
-                    BD.GetTarget(this).TakeDamage((int)Timing * source._baseVal);
+                    BD.GetTarget(this).TakeDamage((int)timing * source._baseVal);
                 }
             );
         _baseVal = baseVal;

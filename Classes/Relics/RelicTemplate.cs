@@ -1,4 +1,3 @@
-using System;
 using FunkEngine;
 using Godot;
 
@@ -7,7 +6,7 @@ using Godot;
  */
 public partial class RelicTemplate : Resource, IDisplayable
 {
-    public RelicEffect[] Effects;
+    public readonly RelicEffect[] Effects;
     public int Id;
     public string Name { get; set; }
 

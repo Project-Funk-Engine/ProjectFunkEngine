@@ -1,4 +1,3 @@
-using System;
 using FunkEngine;
 using Godot;
 
@@ -11,7 +10,7 @@ public partial class SceneChange : Button
     public Stages ScenePath;
 
     [Export]
-    private bool _startFocused = false;
+    private bool _startFocused;
 
     public override void _Ready()
     {

@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" path="res://Scenes/UI/Scripts/EndScreen.cs" id="1_37m3y"]
 
-[node name="CanvasLayer" type="CanvasLayer" node_paths=PackedStringArray("buttons", "TopLabel")]
+[node name="CanvasLayer" type="CanvasLayer" node_paths=PackedStringArray("_buttons", "TopLabel")]
 process_mode = 2
 script = ExtResource("1_37m3y")
-buttons = [NodePath("MarginContainer2/VBoxContainer/MarginContainer/Restart"), NodePath("MarginContainer2/VBoxContainer/MarginContainer2/Title"), NodePath("MarginContainer2/VBoxContainer/MarginContainer3/Quit")]
+_buttons = [NodePath("MarginContainer2/VBoxContainer/MarginContainer/Restart"), NodePath("MarginContainer2/VBoxContainer/MarginContainer2/Title"), NodePath("MarginContainer2/VBoxContainer/MarginContainer3/Quit")]
 TopLabel = NodePath("MarginContainer2/VBoxContainer/TopLabel")
 
 [node name="ColorRect" type="ColorRect" parent="."]

@@ -9,12 +9,12 @@ public partial class Conductor : Node
 {
     [Export]
     private ChartManager CM;
-    public MidiMaestro MM;
+    private MidiMaestro MM;
 
-    public delegate void InputHandler(NoteArrowData data, double beatDif);
+    public delegate void InputHandler(ArrowData data, double beatDif);
     public event InputHandler NoteInputEvent;
 
-    private readonly List<NoteArrowData> _noteData = new List<NoteArrowData>();
+    private readonly List<ArrowData> _noteData = new List<ArrowData>();
 
     private double _beatSpawnOffset;
 
@@ -24,7 +24,7 @@ public partial class Conductor : Node
         CM.ArrowFromInput += HandleNote;
     }
 
-    private bool _initialized = false;
+    private bool _initialized;
 
     public void Initialize()
     {
@@ -41,7 +41,7 @@ public partial class Conductor : Node
 
     private int AddNoteData(Note noteRef, ArrowType type, Beat beat, double length = 0)
     {
-        NoteArrowData result = new NoteArrowData(type, beat, noteRef, length);
+        ArrowData result = new ArrowData(type, beat, noteRef, length);
         if (_noteData.Count == 0)
         {
             _noteData.Add(result);
@@ -62,7 +62,7 @@ public partial class Conductor : Node
     {
         foreach (ArrowType type in Enum.GetValues(typeof(ArrowType)))
         {
-            foreach (midiNoteInfo mNote in MM.GetNotes(type))
+            foreach (MidiNoteInfo mNote in MM.GetNotes(type))
             {
                 AddNoteData(
                     Scribe.NoteDictionary[0],
@@ -100,7 +100,6 @@ public partial class Conductor : Node
     //TODO: Beat spawn redundancy checking, efficiency
     private void SpawnNotesAtBeat(Beat beat)
     {
-        //List<int> indexes = new List<int>();
         for (int i = 0; i < _noteData.Count; i++)
         {
             if (
@@ -108,7 +107,6 @@ public partial class Conductor : Node
                 || (int)_noteData[i].Beat.BeatPos != (int)beat.BeatPos
             )
                 continue;
-            //indexes.Add(i);
             SpawnNote(i);
         }
     }
@@ -116,7 +114,7 @@ public partial class Conductor : Node
     private void SpawnNote(int index, bool newPlayerNote = false)
     {
         CM.AddNoteArrow(_noteData[index], newPlayerNote);
-        _noteData[index] = new NoteArrowData(
+        _noteData[index] = new ArrowData(
             _noteData[index].Type,
             _noteData[index].Beat.IncDecLoop(1),
             _noteData[index].NoteRef,
@@ -124,14 +122,14 @@ public partial class Conductor : Node
         ); //Structs make me sad sometimes
     }
 
-    private void HandleNote(NoteArrowData data)
+    private void HandleNote(ArrowData data)
     {
         NoteInputEvent?.Invoke(data, GetTimingDif(data.Beat));
     }
 
     private double GetTimingDif(Beat beat)
     {
-        //Hmm, this is only ever an issue with possibly reaching beat 1 from just under beat 0
+        //Hmm, this is only ever an issue with possibly reaching beat 1 from just under beat 0, not sure if that'd happen
         if (beat.Loop != TimeKeeper.LastBeat.Loop)
             return 1;
         return Math.Abs(beat.BeatPos - TimeKeeper.LastBeat.BeatPos);

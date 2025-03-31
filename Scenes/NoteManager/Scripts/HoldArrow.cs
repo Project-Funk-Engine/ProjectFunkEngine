@@ -11,7 +11,7 @@ public partial class HoldArrow : NoteArrow
 
     private double Length => Data.Length;
     public Beat EndBeat => Data.Beat + Data.Length;
-    private bool _isReleased = false;
+    private bool _isReleased;
 
     public override bool IsInRange(Beat incomingBeat)
     {
@@ -19,18 +19,14 @@ public partial class HoldArrow : NoteArrow
             && (int)Math.Round(incomingBeat.BeatPos) <= (int)Math.Round(EndBeat.BeatPos);
     }
 
-    public override void Init(
-        ArrowData parentArrowData,
-        NoteArrowData noteArrowData,
-        double beatTime
-    )
+    public override void Init(CheckerData parentChecker, ArrowData arrowData, double beatTime)
     {
-        base.Init(parentArrowData, noteArrowData, beatTime);
+        base.Init(parentChecker, arrowData, beatTime);
         _trail.Size = new Vector2(
             (float)(Length / TimeKeeper.BeatsPerLoop * TimeKeeper.ChartLength),
             _trail.Size.Y
         );
-        _trail.Modulate = parentArrowData.Color;
+        _trail.Modulate = parentChecker.Color;
     }
 
     public override void Recycle()

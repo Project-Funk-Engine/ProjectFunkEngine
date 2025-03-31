@@ -16,9 +16,12 @@ public partial class Cartographer : Node2D
 
     private Button[] _validButtons = Array.Empty<Button>();
 
-    private Button _focusedButton = null;
+    private Button _focusedButton;
 
-    private static Dictionary<Stages, Texture2D> StageIcons = new Dictionary<Stages, Texture2D>
+    private static readonly Dictionary<Stages, Texture2D> StageIcons = new Dictionary<
+        Stages,
+        Texture2D
+    >
     {
         { Stages.Battle, GD.Load<Texture2D>("res://Scenes/Maps/Assets/BattleIcon.png") },
         { Stages.Boss, GD.Load<Texture2D>("res://Scenes/Maps/Assets/BossIcon.png") },

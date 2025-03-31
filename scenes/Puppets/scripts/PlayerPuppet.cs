@@ -1,4 +1,3 @@
-using System;
 using Godot;
 
 public partial class PlayerPuppet : PuppetTemplate
@@ -12,8 +11,8 @@ public partial class PlayerPuppet : PuppetTemplate
     {
         Stats = StageProducer.PlayerStats ?? new PlayerStats();
 
-        _currentHealth = Stats.CurrentHealth;
-        _maxHealth = Stats.MaxHealth;
+        CurrentHealth = Stats.CurrentHealth;
+        MaxHealth = Stats.MaxHealth;
 
         UniqName = "Player";
 
@@ -23,12 +22,12 @@ public partial class PlayerPuppet : PuppetTemplate
     public override void TakeDamage(int amount)
     {
         base.TakeDamage(amount);
-        Stats.CurrentHealth = _currentHealth;
+        Stats.CurrentHealth = CurrentHealth;
     }
 
     public override void Heal(int amount)
     {
         base.Heal(amount);
-        Stats.CurrentHealth = _currentHealth;
+        Stats.CurrentHealth = CurrentHealth;
     }
 }
