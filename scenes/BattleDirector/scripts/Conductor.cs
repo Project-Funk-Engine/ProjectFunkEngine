@@ -11,35 +11,63 @@ public partial class Conductor : Node
     private ChartManager CM;
     private MidiMaestro MM;
 
-    public delegate void InputHandler(ArrowData data, double beatDif);
-    public event InputHandler NoteInputEvent;
-
     private readonly List<ArrowData> _noteData = new List<ArrowData>();
 
     private double _beatSpawnOffset;
 
-    public override void _Ready()
-    {
-        MM = new MidiMaestro(StageProducer.Config.CurSong.MIDILocation);
-        CM.ArrowFromInput += HandleNote;
-    }
-
     private bool _initialized;
 
+    #region Initialization
     public void Initialize(SongData curSong)
     {
         if (_initialized)
             return;
+
+        MM = new MidiMaestro(StageProducer.Config.CurSong.MIDILocation);
+        CM.ArrowFromInput += ReceiveNoteInput;
 
         CM.Initialize(curSong);
 
         //Approximately the first note offscreen
         _beatSpawnOffset = Math.Floor(CM.Size.X / TimeKeeper.ChartLength * CM.TrueBeatsPerLoop);
         AddInitialNotes();
-        SpawnInitialNotes();
 
         _initialized = true;
     }
+
+    private void AddInitialNotes()
+    {
+        foreach (ArrowType type in Enum.GetValues(typeof(ArrowType)))
+        {
+            foreach (MidiNoteInfo mNote in MM.GetNotes(type))
+            {
+                AddNoteData(
+                    Scribe.NoteDictionary[0],
+                    type,
+                    new Beat((int)mNote.GetStartTimeBeat()),
+                    mNote.GetDurationBeats()
+                );
+            }
+        }
+        SpawnInitialNotes();
+    }
+
+    private void SpawnInitialNotes()
+    {
+        for (int i = 1; i <= _beatSpawnOffset; i++)
+        {
+            SpawnNotesAtBeat(new Beat(i));
+        }
+    }
+
+    public delegate void InputHandler(ArrowData data, double beatDif);
+    public event InputHandler NoteInputEvent;
+
+    private void ReceiveNoteInput(ArrowData data)
+    {
+        NoteInputEvent?.Invoke(data, GetTimingDif(data.Beat));
+    }
+    #endregion
 
     private int AddNoteData(Note noteRef, ArrowType type, Beat beat, double length = 0)
     {
@@ -58,45 +86,6 @@ public partial class Conductor : Node
         }
         _noteData.Insert(~index, result);
         return ~index;
-    }
-
-    private void AddInitialNotes()
-    {
-        foreach (ArrowType type in Enum.GetValues(typeof(ArrowType)))
-        {
-            foreach (MidiNoteInfo mNote in MM.GetNotes(type))
-            {
-                AddNoteData(
-                    Scribe.NoteDictionary[0],
-                    type,
-                    new Beat((int)mNote.GetStartTimeBeat()),
-                    mNote.GetDurationBeats()
-                );
-            }
-        }
-    }
-
-    private void SpawnInitialNotes()
-    {
-        for (int i = 1; i <= _beatSpawnOffset; i++)
-        {
-            SpawnNotesAtBeat(new Beat(i));
-        }
-    }
-
-    public void AddPlayerNote(Note noteRef, ArrowType type, Beat beat)
-    {
-        int index = AddNoteData(noteRef, type, beat); //Currently player notes aren't sorted correctly
-        if (index != -1)
-            SpawnNote(index, true);
-        else
-            GD.PushError("Duplicate player note was attempted. (This should be stopped by CM)");
-    }
-
-    public void ProgressiveAddNotes(Beat beat)
-    {
-        Beat spawnBeat = beat + _beatSpawnOffset;
-        SpawnNotesAtBeat(spawnBeat);
     }
 
     //TODO: Beat spawn redundancy checking, efficiency
@@ -124,9 +113,19 @@ public partial class Conductor : Node
         ); //Structs make me sad sometimes
     }
 
-    private void HandleNote(ArrowData data)
+    public void AddPlayerNote(Note noteRef, ArrowType type, Beat beat)
     {
-        NoteInputEvent?.Invoke(data, GetTimingDif(data.Beat));
+        int index = AddNoteData(noteRef, type, beat); //Currently player notes aren't sorted correctly
+        if (index != -1)
+            SpawnNote(index, true);
+        else
+            GD.PushError("Duplicate player note was attempted. (This should be stopped by CM)");
+    }
+
+    public void ProgressiveSpawnNotes(Beat beat)
+    {
+        Beat spawnBeat = beat + _beatSpawnOffset;
+        SpawnNotesAtBeat(spawnBeat);
     }
 
     private double GetTimingDif(Beat beat)

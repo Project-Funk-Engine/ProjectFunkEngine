@@ -124,7 +124,7 @@ public partial class BattleDirector : Node2D
         //Still iffy, but approximately once per beat check, happens at start of new beat
         if (Math.Floor(beat.BeatPos) >= Math.Floor((TimeKeeper.LastBeat + 1).BeatPos))
         {
-            CD.ProgressiveAddNotes(beat);
+            CD.ProgressiveSpawnNotes(beat);
         }
         if (beat.Loop > TimeKeeper.LastBeat.Loop)
         {
@@ -237,7 +237,6 @@ public partial class BattleDirector : Node2D
 
     private void TransitionOutOfBattle()
     {
-        StageProducer.ChangeCurRoom(StageProducer.Config.BattleRoom.Idx);
         StageProducer.LiveInstance.TransitionStage(Stages.Map);
     }
     #endregion

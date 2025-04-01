@@ -13,12 +13,6 @@ public partial class HoldArrow : NoteArrow
     public Beat EndBeat => Data.Beat + Data.Length;
     private bool _isReleased;
 
-    public override bool IsInRange(Beat incomingBeat)
-    {
-        return (int)Math.Round(incomingBeat.BeatPos) >= (int)Math.Round(Beat.BeatPos)
-            && (int)Math.Round(incomingBeat.BeatPos) <= (int)Math.Round(EndBeat.BeatPos);
-    }
-
     public override void Init(CheckerData parentChecker, ArrowData arrowData, double beatTime)
     {
         base.Init(parentChecker, arrowData, beatTime);
@@ -70,5 +64,11 @@ public partial class HoldArrow : NoteArrow
             NoteRelease();
             RaiseKill(this);
         }
+    }
+
+    public override bool IsInRange(Beat incomingBeat)
+    {
+        return (int)Math.Round(incomingBeat.BeatPos) >= (int)Math.Round(Beat.BeatPos)
+            && (int)Math.Round(incomingBeat.BeatPos) <= (int)Math.Round(EndBeat.BeatPos);
     }
 }

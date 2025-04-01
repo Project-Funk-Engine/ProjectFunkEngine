@@ -28,23 +28,6 @@ public partial class NoteArrow : Sprite2D
         ZIndex = 2;
     }
 
-    //Is the passed in beat within range of this arrow's beat, for checking if player can place near this note
-    public virtual bool IsInRange(Beat incomingBeat)
-    {
-        return (int)Math.Round(Beat.BeatPos) == (int)Math.Round(incomingBeat.BeatPos);
-    }
-
-    private float GetNewPosX()
-    {
-        double interval = TimeKeeper.ChartLength;
-        double relativePosition =
-            (TimeKeeper.CurrentTime - _beatTime) / TimeKeeper.LoopLength * TimeKeeper.ChartLength;
-
-        return (float)(
-            TimeKeeper.PosMod(-relativePosition - interval / 2, interval) - interval / 2
-        );
-    }
-
     public virtual void Init(CheckerData parentChecker, ArrowData arrowData, double beatTime)
     {
         Data = arrowData;
@@ -63,16 +46,6 @@ public partial class NoteArrow : Sprite2D
             return;
         Modulate *= .7f;
         IsHit = true;
-    }
-
-    public virtual void Recycle()
-    {
-        Visible = true;
-        ProcessMode = ProcessModeEnum.Inherit;
-        if (IsHit)
-            Modulate /= .7f;
-        IsHit = false;
-        _isQueued = false;
     }
 
     public delegate void HittableEventHandler(NoteArrow note);
@@ -103,6 +76,16 @@ public partial class NoteArrow : Sprite2D
 
     protected void RaiseKill(NoteArrow note) => QueueForPool?.Invoke(note);
 
+    public virtual void Recycle()
+    {
+        Visible = true;
+        ProcessMode = ProcessModeEnum.Inherit;
+        if (IsHit)
+            Modulate /= .7f;
+        IsHit = false;
+        _isQueued = false;
+    }
+
     private void BeatChecks()
     {
         CheckMissed();
@@ -127,5 +110,22 @@ public partial class NoteArrow : Sprite2D
         if (!float.IsNaN(newPos.X))
             Position = newPos;
         PosChecks();
+    }
+
+    private float GetNewPosX()
+    {
+        double interval = TimeKeeper.ChartLength;
+        double relativePosition =
+            (TimeKeeper.CurrentTime - _beatTime) / TimeKeeper.LoopLength * TimeKeeper.ChartLength;
+
+        return (float)(
+            TimeKeeper.PosMod(-relativePosition - interval / 2, interval) - interval / 2
+        );
+    }
+
+    //Is the passed in beat within range of this arrow's beat, for checking if player can place near this note
+    public virtual bool IsInRange(Beat incomingBeat)
+    {
+        return (int)Math.Round(Beat.BeatPos) == (int)Math.Round(incomingBeat.BeatPos);
     }
 }

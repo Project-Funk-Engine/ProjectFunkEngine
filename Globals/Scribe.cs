@@ -218,8 +218,11 @@ public partial class Scribe : Node
             .RelicDictionary.Where(r => excludedRelics.All(o => o.Name != r.Name))
             .ToArray();
 
+        RandomNumberGenerator lootRng = new RandomNumberGenerator();
+        lootRng.SetSeed(StageProducer.GlobalRng.Seed + (ulong)StageProducer.CurRoom);
+
         availableRelics = availableRelics
-            .OrderBy(_ => StageProducer.GlobalRng.Randi())
+            .OrderBy(_ => lootRng.Randi())
             .Take(count)
             .Select(r => r.Clone())
             .ToArray();
@@ -237,8 +240,11 @@ public partial class Scribe : Node
             .NoteDictionary.Where(r => r.Name.Contains("Player")) //TODO: Classifications/pools
             .ToArray();
 
+        RandomNumberGenerator lootRng = new RandomNumberGenerator();
+        lootRng.SetSeed(StageProducer.GlobalRng.Seed + (ulong)StageProducer.CurRoom);
+
         availableNotes = availableNotes
-            .OrderBy(_ => StageProducer.GlobalRng.Randi())
+            .OrderBy(_ => lootRng.Randi())
             .Take(count)
             .Select(r => r.Clone())
             .ToArray();

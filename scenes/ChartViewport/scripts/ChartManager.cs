@@ -16,9 +16,6 @@ public partial class ChartManager : SubViewportContainer
 
     private Node _arrowGroup;
 
-    public delegate void InputEventHandler(ArrowData data);
-    public event InputEventHandler ArrowFromInput;
-
     private readonly List<NoteArrow> _arrowPool = new();
     private readonly List<HoldArrow> _holdPool = new();
 
@@ -30,31 +27,7 @@ public partial class ChartManager : SubViewportContainer
     public double TrueBeatsPerLoop;
 
     private double _chartLength = 2500; //Play with this
-
-    public void OnNotePressed(ArrowType type)
-    {
-        //No beat zero, also if there is a current hold, don't handle a re input
-        if (TimeKeeper.LastBeat.CompareTo(Beat.Zero) == 0 || _currentHolds[(int)type] != null)
-            return;
-        ArrowFromInput?.Invoke(NextArrowFrom(type));
-    }
-
-    public void OnNoteReleased(ArrowType type)
-    {
-        if (_currentHolds[(int)type] == null)
-            return;
-        HandleRelease(type);
-    }
-
-    private void HandleRelease(ArrowType type)
-    {
-        HoldArrow hold = _currentHolds[(int)type];
-        hold.NoteRelease();
-        _currentHolds[(int)type] = null;
-        ArrowData incrData = hold.Data;
-        ArrowFromInput?.Invoke(incrData.BeatFromLength());
-    }
-
+    #region Initialization
     public override void _Ready()
     {
         _arrowGroup = ChartLoopables.GetNode<Node>("ArrowGroup");
@@ -119,7 +92,9 @@ public partial class ChartManager : SubViewportContainer
             arrow.Scale = scale;
         }
     }
+    #endregion
 
+    #region NoteArrow Creation
     public void AddNoteArrow(ArrowData arrowData, bool preHit = false)
     {
         bool isHold = arrowData.Length > 0;
@@ -147,32 +122,6 @@ public partial class ChartManager : SubViewportContainer
         return result;
     }
 
-    private void OnArrowHittable(NoteArrow noteArrow)
-    {
-        _queuedArrows[(int)noteArrow.Type].Add(noteArrow);
-    }
-
-    private void OnArrowMissed(NoteArrow noteArrow)
-    {
-        noteArrow.NoteHit();
-        if (noteArrow is HoldArrow)
-            _currentHolds[(int)noteArrow.Type] = null;
-        ArrowFromInput?.Invoke(noteArrow.Data);
-    }
-
-    private void PoolArrow(NoteArrow noteArrow)
-    {
-        int index = _queuedArrows[(int)noteArrow.Type].IndexOf(noteArrow);
-        if (index != -1)
-            _queuedArrows[(int)noteArrow.Type].RemoveAt(index);
-        noteArrow.ProcessMode = ProcessModeEnum.Disabled;
-        noteArrow.Visible = false;
-        if (noteArrow is HoldArrow holdArrow)
-            _holdPool.Add(holdArrow);
-        else
-            _arrowPool.Add(noteArrow);
-    }
-
     private NoteArrow DePoolArrow(bool isHold = false)
     {
         NoteArrow res;
@@ -192,13 +141,65 @@ public partial class ChartManager : SubViewportContainer
         return res;
     }
 
-    public double TimeFromBeat(Beat beat)
+    private void PoolArrow(NoteArrow noteArrow)
     {
-        return (beat.BeatPos / TrueBeatsPerLoop * _loopLen);
+        int index = _queuedArrows[(int)noteArrow.Type].IndexOf(noteArrow);
+        if (index != -1)
+            _queuedArrows[(int)noteArrow.Type].RemoveAt(index);
+        noteArrow.ProcessMode = ProcessModeEnum.Disabled;
+        noteArrow.Visible = false;
+        if (noteArrow is HoldArrow holdArrow)
+            _holdPool.Add(holdArrow);
+        else
+            _arrowPool.Add(noteArrow);
+    }
+    #endregion
+
+    #region Input Handling
+    public delegate void InputEventHandler(ArrowData data);
+    public event InputEventHandler ArrowFromInput;
+
+    public void OnNotePressed(ArrowType type)
+    {
+        //No beat zero, also if there is a current hold, don't handle a re input
+        if (TimeKeeper.LastBeat.CompareTo(Beat.Zero) == 0 || _currentHolds[(int)type] != null)
+            return;
+        ArrowFromInput?.Invoke(GetArrowFromInput(type));
     }
 
+    public void OnNoteReleased(ArrowType type)
+    {
+        if (_currentHolds[(int)type] == null)
+            return;
+        HandleRelease(type);
+    }
+
+    private void HandleRelease(ArrowType type)
+    {
+        HoldArrow hold = _currentHolds[(int)type];
+        hold.NoteRelease();
+        _currentHolds[(int)type] = null;
+        ArrowData incrData = hold.Data;
+        ArrowFromInput?.Invoke(incrData.BeatFromLength());
+    }
+
+    private void OnArrowHittable(NoteArrow noteArrow)
+    {
+        _queuedArrows[(int)noteArrow.Type].Add(noteArrow);
+    }
+
+    private void OnArrowMissed(NoteArrow noteArrow)
+    {
+        noteArrow.NoteHit();
+        if (noteArrow is HoldArrow)
+            _currentHolds[(int)noteArrow.Type] = null;
+        ArrowFromInput?.Invoke(noteArrow.Data);
+    }
+    #endregion
+
+    #region Determine Arrow From Input
     //TODO: Breakup and simplify where possible
-    private ArrowData NextArrowFrom(ArrowType type)
+    private ArrowData GetArrowFromInput(ArrowType type)
     {
         ArrowData placeable = new ArrowData(type, TimeKeeper.LastBeat.RoundBeat(), null);
 
@@ -227,6 +228,13 @@ public partial class ChartManager : SubViewportContainer
             return ArrowData.Placeholder;
 
         return placeable; //No truly hittable notes, and no notes in current beat
+    }
+    #endregion
+
+
+    public double TimeFromBeat(Beat beat)
+    {
+        return (beat.BeatPos / TrueBeatsPerLoop * _loopLen);
     }
 
     public void ComboText(Timing timed, ArrowType arrow, int currentCombo)

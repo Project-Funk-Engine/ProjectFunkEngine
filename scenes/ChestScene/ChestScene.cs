@@ -36,7 +36,6 @@ public partial class ChestScene : Node2D
 
     private void EndBattle()
     {
-        StageProducer.ChangeCurRoom(StageProducer.Config.BattleRoom.Idx);
         StageProducer.LiveInstance.TransitionStage(Stages.Map);
     }
 }

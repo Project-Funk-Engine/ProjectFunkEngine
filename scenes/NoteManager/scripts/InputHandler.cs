@@ -12,7 +12,7 @@ public partial class InputHandler : Node2D
     [Signal]
     public delegate void NoteReleasedEventHandler(ArrowType arrowType);
 
-    public CheckerData[] Arrows = new CheckerData[]
+    public readonly CheckerData[] Arrows = new CheckerData[]
     {
         new CheckerData()
         {
@@ -50,42 +50,9 @@ public partial class InputHandler : Node2D
         }
     }
 
-    public void FeedbackEffect(ArrowType arrow, Timing timed)
-    {
-        // Get the particle node for this arrow
-        var particles = Arrows[(int)arrow].Node.Particles;
-
-        // Set the particle amount based on timing
-        int particleAmount;
-        switch (timed)
-        {
-            case Timing.Perfect:
-                particleAmount = 10;
-                break;
-            case Timing.Good:
-                particleAmount = 7;
-                break;
-            case Timing.Okay:
-                particleAmount = 4;
-                break;
-            default:
-                return;
-        }
-
-        particles.Emit(particleAmount);
-    }
-
     public override void _Ready()
     {
         InitializeArrowCheckers();
-    }
-
-    public override void _UnhandledInput(InputEvent @event)
-    {
-        if (@event is InputEventJoypadButton)
-        { //Force Controller if controller was pressed
-            SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKey, "CONTROLLER");
-        }
     }
 
     public override void _Process(double delta)
@@ -110,5 +77,38 @@ public partial class InputHandler : Node2D
                 arrow.Node.SetPressed(false);
             }
         }
+    }
+
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (@event is InputEventJoypadButton)
+        { //Force Controller if controller was pressed
+            SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKey, "CONTROLLER");
+        }
+    }
+
+    public void FeedbackEffect(ArrowType arrow, Timing timed)
+    {
+        // Get the particle node for this arrow
+        var particles = Arrows[(int)arrow].Node.Particles;
+
+        // Set the particle amount based on timing
+        int particleAmount;
+        switch (timed)
+        {
+            case Timing.Perfect:
+                particleAmount = 10;
+                break;
+            case Timing.Good:
+                particleAmount = 7;
+                break;
+            case Timing.Okay:
+                particleAmount = 4;
+                break;
+            default:
+                return;
+        }
+
+        particles.Emit(particleAmount);
     }
 }

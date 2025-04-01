@@ -8,32 +8,29 @@ using Godot;
  */
 public partial class StageProducer : Node
 {
-    public static readonly RandomNumberGenerator GlobalRng = new();
+    public static StageProducer LiveInstance { get; private set; }
     public static bool IsInitialized;
 
-    private Stages _curStage = Stages.Title;
-    private Node _curScene;
-    private Node _preloadStage;
-    public static int CurRoom { get; private set; }
+    public static readonly RandomNumberGenerator GlobalRng = new();
 
     public static Vector2I MapSize { get; } = new(7, 6); //For now, make width an odd number
     public static MapGrid Map { get; } = new();
+    private Stages _curStage = Stages.Title;
+    public static int CurRoom { get; private set; }
 
-    public static BattleConfig Config;
+    private Node _curScene;
+    private Node _preloadStage;
 
-    public static PlayerStats PlayerStats; //Hold here to persist between changes
+    public static BattleConfig Config { get; private set; }
 
-    public static CanvasLayer ContrastFilter;
+    public static PlayerStats PlayerStats { get; private set; } //Hold here to persist between changes
 
-    public static StageProducer LiveInstance;
+    public static CanvasLayer ContrastFilter { get; private set; }
 
+    #region Initialization
     public override void _EnterTree()
     {
         InitFromCfg();
-    }
-
-    public override void _Ready()
-    {
         LiveInstance = this;
     }
 
@@ -53,7 +50,13 @@ public partial class StageProducer : Node
         GetTree().Root.CallDeferred("add_child", ContrastFilter);
     }
 
-    private void StartGame()
+    private void GenerateMapConsistent()
+    {
+        GlobalRng.State = GlobalRng.Seed << 5 / 2; //Fudge seed state, to get consistent maps across new/loaded games
+        Map.InitMapGrid(MapSize.X, MapSize.Y, 3);
+    }
+
+    private void StartNewGame()
     {
         GlobalRng.Randomize();
         GenerateMapConsistent();
@@ -91,23 +94,14 @@ public partial class StageProducer : Node
         IsInitialized = true;
         return true;
     }
-
-    private void GenerateMapConsistent()
-    {
-        GlobalRng.State = GlobalRng.Seed << 5 / 2; //Fudge seed state, to get consistent maps across new/loaded games
-        Map.InitMapGrid(MapSize.X, MapSize.Y, 3);
-    }
+    #endregion
 
     public static MapGrid.Room GetCurRoom()
     {
         return Map.GetRooms()[CurRoom];
     }
 
-    public static void ChangeCurRoom(int room)
-    {
-        CurRoom = room;
-    }
-
+    #region Transitions
     public void TransitionFromRoom(int nextRoomIdx)
     {
         TransitionStage(Map.GetRooms()[nextRoomIdx].Type, nextRoomIdx);
@@ -122,7 +116,7 @@ public partial class StageProducer : Node
     public void PreloadScene(int nextRoomIdx)
     {
         Stages nextStage = Map.GetRooms()[nextRoomIdx].Type;
-        Config = MakeConfig(nextStage, nextRoomIdx);
+        Config = MakeBattleConfig(nextStage, nextRoomIdx);
         switch (nextStage)
         {
             case Stages.Battle:
@@ -166,12 +160,12 @@ public partial class StageProducer : Node
                 GetTree().ChangeSceneToFile(Cartographer.LoadPath);
                 if (!IsInitialized)
                 {
-                    StartGame();
+                    StartNewGame();
                 }
                 break;
             case Stages.Load:
                 if (!LoadGame())
-                    StartGame();
+                    StartNewGame();
                 GetTree().ChangeSceneToFile(Cartographer.LoadPath);
                 break;
             case Stages.Quit:
@@ -187,18 +181,21 @@ public partial class StageProducer : Node
         GetTree().Root.AddChild(ContrastFilter);
         _curStage = nextStage;
     }
+    #endregion
 
-    private BattleConfig MakeConfig(Stages nextRoom, int nextRoomIdx)
+    private BattleConfig MakeBattleConfig(Stages nextRoom, int nextRoomIdx)
     {
         BattleConfig result = new BattleConfig
         {
             BattleRoom = Map.GetRooms()[nextRoomIdx],
             RoomType = nextRoom,
         };
+        RandomNumberGenerator stageRng = new RandomNumberGenerator();
+        stageRng.SetSeed(GlobalRng.Seed + (ulong)nextRoomIdx);
         switch (nextRoom)
         {
             case Stages.Battle:
-                int songIdx = GlobalRng.RandiRange(1, 2);
+                int songIdx = stageRng.RandiRange(1, 2);
                 result.CurSong = Scribe.SongDictionary[songIdx];
                 result.EnemyScenePath = Scribe.SongDictionary[songIdx].EnemyScenePath;
                 break;
@@ -209,10 +206,10 @@ public partial class StageProducer : Node
             case Stages.Chest:
                 break;
             default:
-                GD.PushError($"Error making Config for invalid room type: {nextRoom}");
+                GD.PushError($"Error making Battle Config for invalid room type: {nextRoom}");
                 break;
         }
-
+        CurRoom = nextRoomIdx;
         return result;
     }
 }
