@@ -160,11 +160,11 @@ public partial class Scribe : Node
             {
                 new RelicEffect(
                     BattleEffectTrigger.OnLoop,
-                    20,
+                    10,
                     (director, self, val) =>
                     {
                         director.NPB.IncreaseCharge(val);
-                        self.Value++;
+                        self.Value += 5;
                     }
                 ),
             }

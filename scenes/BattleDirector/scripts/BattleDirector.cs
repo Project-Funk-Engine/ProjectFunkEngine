@@ -14,13 +14,13 @@ public partial class BattleDirector : Node2D
     public EnemyPuppet Enemy;
 
     [Export]
+    private Conductor CD;
+
+    [Export]
     private ChartManager CM;
 
     [Export]
     public NotePlacementBar NPB;
-
-    [Export]
-    private Conductor CD;
 
     [Export]
     private AudioStreamPlayer Audio;
@@ -41,7 +41,10 @@ public partial class BattleDirector : Node2D
     {
         if (!NPB.CanPlaceNote())
             return false;
-        CD.AddPlayerNote(NPB.PlacedNote(this), type, beat);
+
+        Note noteToPlace = NPB.NotePlaced();
+        noteToPlace.OnHit(this, Timing.Okay);
+        CD.AddPlayerNote(noteToPlace, type, beat);
         NotePlaced?.Invoke(this);
         return true;
     }
@@ -81,8 +84,7 @@ public partial class BattleDirector : Node2D
         Enemy.Defeated += CheckBattleStatus;
         AddEnemyEffects();
 
-        CM.Initialize(_curSong);
-        CD.Initialize();
+        CD.Initialize(_curSong);
         CD.NoteInputEvent += OnTimedInput;
 
         _focusedButton.GrabFocus();

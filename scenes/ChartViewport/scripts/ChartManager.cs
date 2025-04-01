@@ -201,8 +201,10 @@ public partial class ChartManager : SubViewportContainer
     private ArrowData NextArrowFrom(ArrowType type)
     {
         ArrowData placeable = new ArrowData(type, TimeKeeper.LastBeat.RoundBeat(), null);
+
         if (_queuedArrows[(int)type].Count == 0)
             return placeable; //Empty return null, place note action
+
         List<NoteArrow> activeArrows = _queuedArrows[(int)type]
             .Where(arrow =>
                 !arrow.IsHit
@@ -210,6 +212,7 @@ public partial class ChartManager : SubViewportContainer
             )
             .OrderBy(arrow => Math.Abs((arrow.Beat - TimeKeeper.LastBeat).BeatPos)) //Sort by closest to cur beat
             .ToList();
+
         if (activeArrows.Count != 0) //There is an active note in hittable range activate it and pass it
         {
             activeArrows[0].NoteHit();
@@ -222,6 +225,7 @@ public partial class ChartManager : SubViewportContainer
             .FindIndex(arrow => arrow.IsInRange(TimeKeeper.LastBeat));
         if (index != -1) //There is an inactive note in the whole beat, pass it something so no new note is placed
             return ArrowData.Placeholder;
+
         return placeable; //No truly hittable notes, and no notes in current beat
     }
 

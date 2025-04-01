@@ -26,10 +26,12 @@ public partial class Conductor : Node
 
     private bool _initialized;
 
-    public void Initialize()
+    public void Initialize(SongData curSong)
     {
         if (_initialized)
             return;
+
+        CM.Initialize(curSong);
 
         //Approximately the first note offscreen
         _beatSpawnOffset = Math.Floor(CM.Size.X / TimeKeeper.ChartLength * CM.TrueBeatsPerLoop);
