@@ -4,10 +4,12 @@
 [ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://Scenes/Puppets/HealthBar.tscn" id="1_sxlrs"]
 [ext_resource type="Texture2D" uid="uid://bsg8b14xbddb6" path="res://SharedAssets/Shield.png" id="2_xx60o"]
 
-[node name="EnemPuppet" type="Node2D" node_paths=PackedStringArray("_healthBar", "Sprite")]
+[node name="EnemPuppet" type="Node2D" node_paths=PackedStringArray("HealthBar", "Sprite", "ShieldLogo", "ShieldText")]
 script = ExtResource("1_kgmh0")
-_healthBar = NodePath("ProgressBar")
+HealthBar = NodePath("ProgressBar")
 Sprite = NodePath("Sprite")
+ShieldLogo = NodePath("Sprite/Shield")
+ShieldText = NodePath("Sprite/Shield/ShieldText")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 

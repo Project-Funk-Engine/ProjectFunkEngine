@@ -23,14 +23,14 @@ colors = PackedColorArray(0.641048, 0.0406094, 0.0473231, 1)
 gradient = SubResource("Gradient_s7p55")
 width = 1
 
-[node name="EnemPuppet" type="Node2D" node_paths=PackedStringArray("_healthBar", "Sprite", "_shieldLogo", "_shieldText")]
+[node name="EnemPuppet" type="Node2D" node_paths=PackedStringArray("HealthBar", "Sprite", "ShieldLogo", "ShieldText")]
 script = ExtResource("1_qj2oj")
 HealthBar = NodePath("ProgressBar")
 Sprite = NodePath("Sprite")
 StartPos = Vector2(500, 125)
 InitScale = Vector2(2, 2)
-_shieldLogo = NodePath("Shield")
-_shieldText = NodePath("Shield/ShieldText")
+ShieldLogo = NodePath("Shield")
+ShieldText = NodePath("Shield/ShieldText")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 position = Vector2(0, -32)

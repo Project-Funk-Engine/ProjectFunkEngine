@@ -32,10 +32,10 @@ public partial class PuppetTemplate : Node2D
     protected int _numShield = 0; //todo: shield mechanic to block / dodge damage
 
     [Export]
-    public Sprite2D _shieldLogo;
+    public Sprite2D ShieldLogo;
 
     [Export]
-    public Label _shieldText;
+    public Label ShieldText;
 
     protected string UniqName = ""; //Eventually make subclasses/scenes/real stuff
 
@@ -45,10 +45,10 @@ public partial class PuppetTemplate : Node2D
         Position = StartPos;
         Sprite.Scale = InitScale;
 
-        _healthBar.Visible = !hideHealth;
+        HealthBar.Visible = !HideHealth;
 
         if (_numShield == 0)
-            _shieldLogo.Visible = false;
+            ShieldLogo.Visible = false;
     }
 
     public override void _Process(double delta)
@@ -125,9 +125,9 @@ public partial class PuppetTemplate : Node2D
         if (_numShield > 0 && amount > 0)
         {
             _numShield--;
-            _shieldText.Text = $"{_numShield}";
+            ShieldText.Text = $"{_numShield}";
             if (_numShield == 0)
-                _shieldLogo.Visible = false;
+                ShieldLogo.Visible = false;
 
             TextParticle blockText = new TextParticle();
             blockText.Modulate = Colors.White; //white text for blocked damage
@@ -173,8 +173,8 @@ public partial class PuppetTemplate : Node2D
 
     public virtual void GainShield(int amount)
     {
-        _shieldLogo.Visible = true;
+        ShieldLogo.Visible = true;
         _numShield += amount;
-        _shieldText.Text = $"{_numShield}";
+        ShieldText.Text = $"{_numShield}";
     }
 }
