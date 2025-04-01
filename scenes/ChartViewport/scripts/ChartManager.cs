@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using FunkEngine;
 using Godot;
 
@@ -6,7 +8,6 @@ using Godot;
  */
 public partial class ChartManager : SubViewportContainer
 {
-    //Nodes from scene
     [Export]
     public InputHandler IH;
 
@@ -15,43 +16,50 @@ public partial class ChartManager : SubViewportContainer
 
     private Node _arrowGroup;
 
-    [Signal]
-    public delegate void NotePressedEventHandler(ArrowType arrowType);
+    private readonly List<NoteArrow> _arrowPool = new();
+    private readonly List<HoldArrow> _holdPool = new();
 
-    [Signal]
-    public delegate void NoteReleasedEventHandler(ArrowType arrowType);
+    private readonly HoldArrow[] _currentHolds = new HoldArrow[4];
 
-    //Arbitrary vars, play with these
-    //Might move this to be song specific? For now, should never go below ~2000, else visual break because there isn't enough room to loop.
-    private double ChartLength = 5000;
+    private readonly List<NoteArrow>[] _queuedArrows = { new(), new(), new(), new() };
+
     private double _loopLen; //secs
     public double TrueBeatsPerLoop;
-    public int BeatsPerLoop;
 
-    public void OnNotePressed(ArrowType type)
+    private double _chartLength = 2500; //Play with this
+    #region Initialization
+    public override void _Ready()
     {
-        EmitSignal(nameof(NotePressed), (int)type);
-    }
-
-    public void OnNoteReleased(ArrowType type)
-    {
-        EmitSignal(nameof(NoteReleased), (int)type);
-    }
-
-    public void PrepChart(SongData songData)
-    {
-        _loopLen = songData.SongLength / songData.NumLoops;
-        TimeKeeper.LoopLength = (float)_loopLen;
-        TrueBeatsPerLoop = (_loopLen / (60f / songData.Bpm));
-        BeatsPerLoop = (int)TrueBeatsPerLoop;
-        ChartLength = (float)_loopLen * (float)Math.Floor(ChartLength / _loopLen);
-        TimeKeeper.ChartLength = (float)ChartLength;
-        TimeKeeper.Bpm = songData.Bpm;
-
         _arrowGroup = ChartLoopables.GetNode<Node>("ArrowGroup");
 
         IH.Connect(nameof(InputHandler.NotePressed), new Callable(this, nameof(OnNotePressed)));
         IH.Connect(nameof(InputHandler.NoteReleased), new Callable(this, nameof(OnNoteReleased)));
+    }
+
+    private bool _initialized;
+
+    public void Initialize(SongData songData)
+    {
+        if (_initialized)
+            return;
+        _loopLen = songData.SongLength / songData.NumLoops;
+        TimeKeeper.LoopLength = _loopLen;
+
+        TrueBeatsPerLoop = (_loopLen / (60f / songData.Bpm));
+        TimeKeeper.BeatsPerLoop = TrueBeatsPerLoop;
+
+        //99% sure chart length can never be less than (chart viewport width) * 2,
+        //otherwise there isn't room for things to loop from off and on screen
+        _chartLength = Math.Max(
+            _loopLen * Math.Ceiling(Size.X * 2 / _loopLen),
+            //Also minimize rounding point imprecision, improvement is qualitative
+            _loopLen * Math.Floor(_chartLength / _loopLen)
+        );
+
+        TimeKeeper.ChartLength = _chartLength;
+        TimeKeeper.Bpm = songData.Bpm;
+
+        _initialized = true;
     }
 
     public void BeginTweens()
@@ -84,45 +92,157 @@ public partial class ChartManager : SubViewportContainer
             arrow.Scale = scale;
         }
     }
+    #endregion
 
-    public NoteArrow AddArrowToLane(
-        ArrowType type,
-        int beat,
-        Note note,
-        Color colorOverride = default
-    )
+    #region NoteArrow Creation
+    public void AddNoteArrow(ArrowData arrowData, bool preHit = false)
     {
-        var newNote = CreateNote(type, note, beat);
-        var loopArrow = CreateNote(type, note, beat, 1); //Create a dummy arrow for looping visuals
-        if (colorOverride != default)
+        bool isHold = arrowData.Length > 0;
+        NoteArrow noteArrow;
+        if (isHold)
+            noteArrow = _holdPool.Count == 0 ? InstantiateNewArrow(true) : DePoolArrow(true);
+        else
+            noteArrow = _arrowPool.Count == 0 ? InstantiateNewArrow() : DePoolArrow();
+
+        noteArrow.Init(IH.Arrows[(int)arrowData.Type], arrowData, TimeFromBeat(arrowData.Beat));
+        if (arrowData.NoteRef.IsPlayerNote())
+            noteArrow.SelfModulate = PlayerPuppet.NoteColor;
+        if (preHit)
+            noteArrow.NoteHit();
+    }
+
+    private NoteArrow InstantiateNewArrow(bool isHold = false)
+    {
+        string path = isHold ? HoldArrow.LoadPath : NoteArrow.LoadPath;
+        NoteArrow result = ResourceLoader.Load<PackedScene>(path).Instantiate<NoteArrow>();
+        result.Missed += OnArrowMissed;
+        result.QueueForHit += OnArrowHittable;
+        result.QueueForPool += PoolArrow;
+        _arrowGroup.AddChild(result);
+        return result;
+    }
+
+    private NoteArrow DePoolArrow(bool isHold = false)
+    {
+        NoteArrow res;
+        if (isHold)
         {
-            newNote.SelfModulate = colorOverride;
-            loopArrow.SelfModulate = colorOverride;
+            res = _holdPool[0];
+            _holdPool.RemoveAt(0);
         }
-        newNote.NoteRef = note;
-        return newNote;
+        else
+        {
+            res = _arrowPool[0];
+            _arrowPool.RemoveAt(0);
+        }
+
+        res.Recycle();
+        res.SelfModulate = Colors.White;
+        return res;
     }
 
-    private NoteArrow CreateNote(ArrowType arrow, Note note, int beat = 0, int loopOffset = 0)
+    private void PoolArrow(NoteArrow noteArrow)
     {
-        var noteScene = ResourceLoader.Load<PackedScene>(NoteArrow.LoadPath);
-        NoteArrow newArrow = noteScene.Instantiate<NoteArrow>();
-        newArrow.Bounds = (float)(
-            beat / TrueBeatsPerLoop * (ChartLength / 2) + loopOffset * (ChartLength / 2)
-        );
-        newArrow.Init(IH.Arrows[(int)arrow], beat, note);
-        newArrow.OutlineSprite.Modulate = IH.Arrows[(int)arrow].Color;
+        int index = _queuedArrows[(int)noteArrow.Type].IndexOf(noteArrow);
+        if (index != -1)
+            _queuedArrows[(int)noteArrow.Type].RemoveAt(index);
+        noteArrow.ProcessMode = ProcessModeEnum.Disabled;
+        noteArrow.Visible = false;
+        if (noteArrow is HoldArrow holdArrow)
+            _holdPool.Add(holdArrow);
+        else
+            _arrowPool.Add(noteArrow);
+    }
+    #endregion
 
-        _arrowGroup.AddChild(newArrow);
-        return newArrow;
+    #region Input Handling
+    public delegate void InputEventHandler(ArrowData data);
+    public event InputEventHandler ArrowFromInput;
+
+    public void OnNotePressed(ArrowType type)
+    {
+        //No beat zero, also if there is a current hold, don't handle a re input
+        if (TimeKeeper.LastBeat.CompareTo(Beat.Zero) == 0 || _currentHolds[(int)type] != null)
+            return;
+        ArrowFromInput?.Invoke(GetArrowFromInput(type));
     }
 
-    public void ComboText(string text, ArrowType arrow, int currentCombo)
+    public void OnNoteReleased(ArrowType type)
+    {
+        if (_currentHolds[(int)type] == null)
+            return;
+        HandleRelease(type);
+    }
+
+    private void HandleRelease(ArrowType type)
+    {
+        HoldArrow hold = _currentHolds[(int)type];
+        hold.NoteRelease();
+        _currentHolds[(int)type] = null;
+        ArrowData incrData = hold.Data;
+        ArrowFromInput?.Invoke(incrData.BeatFromLength());
+    }
+
+    private void OnArrowHittable(NoteArrow noteArrow)
+    {
+        _queuedArrows[(int)noteArrow.Type].Add(noteArrow);
+    }
+
+    private void OnArrowMissed(NoteArrow noteArrow)
+    {
+        noteArrow.NoteHit();
+        if (noteArrow is HoldArrow)
+            _currentHolds[(int)noteArrow.Type] = null;
+        ArrowFromInput?.Invoke(noteArrow.Data);
+    }
+    #endregion
+
+    #region Determine Arrow From Input
+    //TODO: Breakup and simplify where possible
+    private ArrowData GetArrowFromInput(ArrowType type)
+    {
+        ArrowData placeable = new ArrowData(type, TimeKeeper.LastBeat.RoundBeat(), null);
+
+        if (_queuedArrows[(int)type].Count == 0)
+            return placeable; //Empty return null, place note action
+
+        List<NoteArrow> activeArrows = _queuedArrows[(int)type]
+            .Where(arrow =>
+                !arrow.IsHit
+                && Math.Abs((arrow.Beat - TimeKeeper.LastBeat).BeatPos) <= Note.TimingMax
+            )
+            .OrderBy(arrow => Math.Abs((arrow.Beat - TimeKeeper.LastBeat).BeatPos)) //Sort by closest to cur beat
+            .ToList();
+
+        if (activeArrows.Count != 0) //There is an active note in hittable range activate it and pass it
+        {
+            activeArrows[0].NoteHit();
+            if (activeArrows[0] is HoldArrow holdArrow) //Best active arrow is hold
+                _currentHolds[(int)type] = holdArrow;
+            return activeArrows[0].Data;
+        }
+
+        int index = _queuedArrows[(int)type]
+            .FindIndex(arrow => arrow.IsInRange(TimeKeeper.LastBeat));
+        if (index != -1) //There is an inactive note in the whole beat, pass it something so no new note is placed
+            return ArrowData.Placeholder;
+
+        return placeable; //No truly hittable notes, and no notes in current beat
+    }
+    #endregion
+
+
+    public double TimeFromBeat(Beat beat)
+    {
+        return (beat.BeatPos / TrueBeatsPerLoop * _loopLen);
+    }
+
+    public void ComboText(Timing timed, ArrowType arrow, int currentCombo)
     {
         TextParticle newText = new TextParticle();
         AddChild(newText);
         newText.Position = IH.Arrows[(int)arrow].Node.Position - newText.Size / 2;
-        IH.FeedbackEffect(arrow, text);
-        newText.Text = text + $" {currentCombo}";
+        IH.FeedbackEffect(arrow, timed);
+        newText.Text = Tr("BATTLE_ROOM_" + timed.ToString().ToUpper()) + $" {currentCombo}";
     }
 }

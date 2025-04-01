@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using FunkEngine;
 using FunkEngine.Classes.MidiMaestro;
@@ -160,7 +159,7 @@ public partial class Scribe : Node
                     1,
                     (director, self, val) =>
                     {
-                        director.NotePlacementBar.IncreaseBonusMult(val);
+                        director.NPB.IncreaseBonusMult(val);
                         self.Value++;
                     }
                 ),
@@ -175,11 +174,11 @@ public partial class Scribe : Node
             {
                 new RelicEffect(
                     BattleEffectTrigger.OnLoop,
-                    20,
+                    10,
                     (director, self, val) =>
                     {
-                        director.NotePlacementBar.IncreaseCharge(val);
-                        self.Value++;
+                        director.NPB.IncreaseCharge(val);
+                        self.Value += 5;
                     }
                 ),
             }
@@ -267,8 +266,11 @@ public partial class Scribe : Node
             .RelicDictionary.Where(r => excludedRelics.All(o => o.Name != r.Name))
             .ToArray();
 
+        RandomNumberGenerator lootRng = new RandomNumberGenerator();
+        lootRng.SetSeed(StageProducer.GlobalRng.Seed + (ulong)StageProducer.CurRoom);
+
         availableRelics = availableRelics
-            .OrderBy(_ => StageProducer.GlobalRng.Randi())
+            .OrderBy(_ => lootRng.Randi())
             .Take(count)
             .Select(r => r.Clone())
             .ToArray();
@@ -286,8 +288,11 @@ public partial class Scribe : Node
             .NoteDictionary.Where(r => r.Name.Contains("Player")) //TODO: Classifications/pools
             .ToArray();
 
+        RandomNumberGenerator lootRng = new RandomNumberGenerator();
+        lootRng.SetSeed(StageProducer.GlobalRng.Seed + (ulong)StageProducer.CurRoom);
+
         availableNotes = availableNotes
-            .OrderBy(_ => StageProducer.GlobalRng.Randi())
+            .OrderBy(_ => lootRng.Randi())
             .Take(count)
             .Select(r => r.Clone())
             .ToArray();

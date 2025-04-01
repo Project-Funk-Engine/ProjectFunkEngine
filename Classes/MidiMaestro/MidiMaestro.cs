@@ -13,20 +13,18 @@ public partial class MidiMaestro : Resource
 {
     private MidiFile _midiFile;
 
-    public static TempoMap TempoMap;
-    public static TimeSignature TimeSignature;
+    public static TempoMap TempoMap { get; private set; }
+    public static TimeSignature TimeSignature { get; private set; }
 
     //The four note rows that we care about
-    private midiNoteInfo[] _upNotes;
-    private midiNoteInfo[] _downNotes;
-    private midiNoteInfo[] _leftNotes;
-    private midiNoteInfo[] _rightNotes;
+    private readonly MidiNoteInfo[] _upNotes;
+    private readonly MidiNoteInfo[] _downNotes;
+    private readonly MidiNoteInfo[] _leftNotes;
+    private readonly MidiNoteInfo[] _rightNotes;
 
     //private MidiFile strippedSong;
-
-    //The path relative to the Audio folder. Will change later
     /**
-     * <summary>Constrctor loads midi file and populates lane note arrays with midiNoteInfo</summary>
+     * <summary>Constructor loads midi file and populates lane note arrays with midiNoteInfo</summary>
      * <param name="filePath">A string file path to a valid midi file</param>
      */
     public MidiMaestro(string filePath)
@@ -49,9 +47,9 @@ public partial class MidiMaestro : Resource
         foreach (var track in _midiFile.GetTrackChunks())
         {
             string trackName = track.Events.OfType<SequenceTrackNameEvent>().FirstOrDefault()?.Text;
-            midiNoteInfo[] noteEvents = track
+            MidiNoteInfo[] noteEvents = track
                 .GetNotes()
-                .Select(note => new midiNoteInfo(note))
+                .Select(note => new MidiNoteInfo(note))
                 .ToArray();
 
             switch (trackName)
@@ -75,7 +73,7 @@ public partial class MidiMaestro : Resource
     /**
      * <summary>Gets midiNoteInfo by lane. </summary>
      */
-    public midiNoteInfo[] GetNotes(ArrowType arrowType)
+    public MidiNoteInfo[] GetNotes(ArrowType arrowType)
     {
         return arrowType switch
         {
@@ -89,11 +87,11 @@ public partial class MidiMaestro : Resource
 }
 
 //A facade to wrap the midi notes. This is a simple class that wraps a Note object from the DryWetMidi library.
-public class midiNoteInfo
+public class MidiNoteInfo
 {
     private readonly Melanchall.DryWetMidi.Interaction.Note _note;
 
-    public midiNoteInfo(Melanchall.DryWetMidi.Interaction.Note note)
+    public MidiNoteInfo(Melanchall.DryWetMidi.Interaction.Note note)
     {
         _note = note;
     }
@@ -110,7 +108,16 @@ public class midiNoteInfo
         _note.TimeAs<MetricTimeSpan>(MidiMaestro.TempoMap).Milliseconds / 1000f
         + _note.TimeAs<MetricTimeSpan>(MidiMaestro.TempoMap).Seconds;
 
-    public long GetEndTime() => _note.EndTime;
+    public long GetEndTime() => _note.EndTime; //ticks
 
-    public long GetDuration() => _note.Length;
+    public long GetDuration() => _note.Length; //ticks
+
+    public long GetDurationBeats()
+    {
+        var beatsBar = TimeConverter.ConvertTo<BarBeatTicksTimeSpan>(
+            _note.Length,
+            MidiMaestro.TempoMap
+        );
+        return beatsBar.Bars * MidiMaestro.TimeSignature.Numerator + beatsBar.Beats;
+    }
 }

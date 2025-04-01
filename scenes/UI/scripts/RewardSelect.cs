@@ -1,3 +1,4 @@
+using FunkEngine;
 using Godot;
 
 public partial class RewardSelect : CanvasLayer
@@ -26,16 +27,16 @@ public partial class RewardSelect : CanvasLayer
     private Note[] _nChoices;
     private Note _nSelection;
 
-    private void Initialize(PlayerStats player, int amount, string type)
+    private void Initialize(PlayerStats player, int amount, Stages type)
     {
         _player = player;
-        if (type == "Relic")
+        if (type == Stages.Battle)
         {
-            GenerateRelicChoices(amount);
+            GenerateNoteChoices(amount);
         }
         else
         {
-            GenerateNoteChoices(amount);
+            GenerateRelicChoices(amount);
         }
 
         _acceptButton.Pressed += OnSelect;
@@ -83,10 +84,10 @@ public partial class RewardSelect : CanvasLayer
         Node2D parent,
         PlayerStats playerStats,
         int amount,
-        string type
+        Stages type
     )
     {
-        var rewardUI = GD.Load<PackedScene>(RewardSelect.LoadPath).Instantiate<RewardSelect>();
+        var rewardUI = GD.Load<PackedScene>(LoadPath).Instantiate<RewardSelect>();
         parent.AddChild(rewardUI);
         rewardUI.Initialize(playerStats, amount, type);
         parent.GetTree().Paused = true;

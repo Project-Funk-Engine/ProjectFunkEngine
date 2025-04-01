@@ -25,7 +25,7 @@ width = 1
 
 [node name="EnemPuppet" type="Node2D" node_paths=PackedStringArray("_healthBar", "Sprite", "_shieldLogo", "_shieldText")]
 script = ExtResource("1_qj2oj")
-_healthBar = NodePath("ProgressBar")
+HealthBar = NodePath("ProgressBar")
 Sprite = NodePath("Sprite")
 StartPos = Vector2(500, 125)
 InitScale = Vector2(2, 2)

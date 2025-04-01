@@ -1,4 +1,3 @@
-using System;
 using FunkEngine;
 using Godot;
 
@@ -7,26 +6,26 @@ public partial class Inventory : Control, IFocusableMenu
     public static readonly string LoadPath = "res://Scenes/UI/Inventory.tscn";
 
     [Export]
-    private GridContainer Relics;
+    private GridContainer _relics;
 
     [Export]
-    private GridContainer Notes;
+    private GridContainer _notes;
 
     [Export]
-    private Label Description;
+    private Label _description;
 
     [Export]
-    private TabContainer Tabs;
+    private TabContainer _tabs;
 
     public IFocusableMenu Prev { get; set; }
     private static readonly string[] TabNames = new[] { "NOTE", "RELIC" };
 
     private void Display(PlayerStats playerStats)
     {
-        AddDisplayButtons(playerStats.CurRelics, Relics);
-        AddDisplayButtons(playerStats.CurNotes, Notes);
+        AddDisplayButtons(playerStats.CurRelics, _relics);
+        AddDisplayButtons(playerStats.CurNotes, _notes);
 
-        Tabs.TabChanged += ClearDescription;
+        _tabs.TabChanged += ClearDescription;
     }
 
     private void AddDisplayButtons(IDisplayable[] displayables, Node parentNode)
@@ -56,7 +55,7 @@ public partial class Inventory : Control, IFocusableMenu
     public void ResumeFocus()
     {
         ProcessMode = ProcessModeEnum.Pausable;
-        Tabs.GetTabBar().GrabFocus();
+        _tabs.GetTabBar().GrabFocus();
     }
 
     public void PauseFocus()
@@ -69,7 +68,7 @@ public partial class Inventory : Control, IFocusableMenu
         Display(StageProducer.PlayerStats ?? new PlayerStats());
         Prev = prev;
         Prev.PauseFocus();
-        Tabs.GetTabBar().GrabFocus();
+        _tabs.GetTabBar().GrabFocus();
     }
 
     public void ReturnToPrev()
@@ -82,14 +81,14 @@ public partial class Inventory : Control, IFocusableMenu
     {
         string itemName = dispButton.DisplayName.ToUpper();
         itemName = itemName.Replace(" ", "");
-        Description.Text =
-            Tr(TabNames[Tabs.CurrentTab] + "_" + itemName + "_NAME")
+        _description.Text =
+            Tr(TabNames[_tabs.CurrentTab] + "_" + itemName + "_NAME")
             + ": "
-            + Tr(TabNames[Tabs.CurrentTab] + "_" + itemName + "_TOOLTIP");
+            + Tr(TabNames[_tabs.CurrentTab] + "_" + itemName + "_TOOLTIP");
     }
 
     private void ClearDescription(long newTab)
     {
-        Description.Text = "";
+        _description.Text = "";
     }
 }

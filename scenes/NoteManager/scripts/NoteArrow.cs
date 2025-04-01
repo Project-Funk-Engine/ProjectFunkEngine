@@ -1,17 +1,13 @@
-using FunkEngine;
+using System;
+
+namespace FunkEngine;
+
 using Godot;
 
-/**
-*<summary>This class represents a visual note that scrolls across the screen to be played by the player.</summary>
- */
 public partial class NoteArrow : Sprite2D
 { //TextRect caused issues later :)
     public static readonly string LoadPath = "res://Scenes/NoteManager/NoteArrow.tscn";
-    public ArrowType Type;
-    public int Beat;
-    public float Bounds;
-    public bool IsActive = true;
-    public Note NoteRef;
+    protected const float LeftBound = -200f;
 
     [Export]
     public Sprite2D OutlineSprite;
@@ -19,51 +15,117 @@ public partial class NoteArrow : Sprite2D
     [Export]
     public Sprite2D IconSprite;
 
-    public void Init(ArrowData parentArrowData, int beat, Note note)
+    public ArrowData Data;
+    public Beat Beat => Data.Beat;
+    public ArrowType Type => Data.Type;
+
+    private double _beatTime;
+    public bool IsHit;
+    private bool _isQueued;
+
+    public override void _Ready()
     {
-        ZIndex = 1;
+        ZIndex = 2;
+    }
 
-        Type = parentArrowData.Type;
-        Beat = beat;
+    public virtual void Init(CheckerData parentChecker, ArrowData arrowData, double beatTime)
+    {
+        Data = arrowData;
+        _beatTime = beatTime;
 
-        Position = new Vector2(GetNewPos(), parentArrowData.Node.GlobalPosition.Y);
-        RotationDegrees = parentArrowData.Node.RotationDegrees;
-        IconSprite.Texture = note.Texture;
+        Position = new Vector2(GetNewPosX(), parentChecker.Node.GlobalPosition.Y);
+        RotationDegrees = parentChecker.Node.RotationDegrees;
+        IconSprite.Texture = arrowData.NoteRef.Texture;
         IconSprite.Rotation = -Rotation;
-    }
-
-    public override void _Process(double delta)
-    {
-        Vector2 newPos = Position;
-        newPos.X = GetNewPos();
-        if (newPos.X > Position.X)
-        {
-            OnLoop();
-        }
-        Position = newPos;
-    }
-
-    private float GetNewPos()
-    {
-        return (float)(
-                (-TimeKeeper.CurrentTime / TimeKeeper.LoopLength * TimeKeeper.ChartLength)
-                % TimeKeeper.ChartLength
-                / 2
-            ) + Bounds;
-    }
-
-    private void OnLoop()
-    {
-        if (!IsActive)
-        {
-            Modulate /= .7f;
-        }
-        IsActive = true;
+        OutlineSprite.Modulate = parentChecker.Color;
     }
 
     public void NoteHit()
     {
+        if (IsHit)
+            return;
         Modulate *= .7f;
-        IsActive = false;
+        IsHit = true;
+    }
+
+    public delegate void HittableEventHandler(NoteArrow note);
+    public event HittableEventHandler QueueForHit;
+
+    private void CheckHittable()
+    {
+        if (_isQueued || !(Beat - TimeKeeper.LastBeat <= Beat.One))
+            return;
+        _isQueued = true;
+        QueueForHit?.Invoke(this);
+    }
+
+    public delegate void MissedEventHandler(NoteArrow note);
+    public event MissedEventHandler Missed;
+
+    protected void RaiseMissed(NoteArrow note) => Missed?.Invoke(note);
+
+    protected virtual void CheckMissed()
+    {
+        if (IsHit || !(TimeKeeper.LastBeat - Beat > Beat.One))
+            return;
+        RaiseMissed(this);
+    }
+
+    public delegate void KillEventHandler(NoteArrow note);
+    public event KillEventHandler QueueForPool;
+
+    protected void RaiseKill(NoteArrow note) => QueueForPool?.Invoke(note);
+
+    public virtual void Recycle()
+    {
+        Visible = true;
+        ProcessMode = ProcessModeEnum.Inherit;
+        if (IsHit)
+            Modulate /= .7f;
+        IsHit = false;
+        _isQueued = false;
+    }
+
+    private void BeatChecks()
+    {
+        CheckMissed();
+        CheckHittable();
+    }
+
+    protected virtual void PosChecks()
+    {
+        if (Position.X < LeftBound)
+        {
+            if (!IsHit)
+                RaiseMissed(this);
+            RaiseKill(this);
+        }
+    }
+
+    public override void _Process(double delta)
+    {
+        BeatChecks(); //beat checks first, why? Because
+        Vector2 newPos = Position;
+        newPos.X = GetNewPosX();
+        if (!float.IsNaN(newPos.X))
+            Position = newPos;
+        PosChecks();
+    }
+
+    private float GetNewPosX()
+    {
+        double interval = TimeKeeper.ChartLength;
+        double relativePosition =
+            (TimeKeeper.CurrentTime - _beatTime) / TimeKeeper.LoopLength * TimeKeeper.ChartLength;
+
+        return (float)(
+            TimeKeeper.PosMod(-relativePosition - interval / 2, interval) - interval / 2
+        );
+    }
+
+    //Is the passed in beat within range of this arrow's beat, for checking if player can place near this note
+    public virtual bool IsInRange(Beat incomingBeat)
+    {
+        return (int)Math.Round(Beat.BeatPos) == (int)Math.Round(incomingBeat.BeatPos);
     }
 }

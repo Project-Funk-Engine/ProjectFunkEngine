@@ -1,4 +1,3 @@
-using System;
 using FunkEngine;
 using Godot;
 
@@ -10,7 +9,7 @@ public partial class MenuModule : CanvasLayer, IFocusableMenu
     [Export]
     private Node CurSceneNode { get; set; }
 
-    private Control _lastFocused { get; set; } = null;
+    private Control _lastFocused { get; set; }
 
     public void ResumeFocus()
     {

@@ -7,7 +7,7 @@
 
 [node name="PlayerPuppet" type="Node2D" node_paths=PackedStringArray("_healthBar", "Sprite", "_shieldLogo", "_shieldText")]
 script = ExtResource("1_f4rea")
-_healthBar = NodePath("ProgressBar")
+HealthBar = NodePath("ProgressBar")
 Sprite = NodePath("Sprite")
 StartPos = Vector2(158, 125)
 _shieldLogo = NodePath("Shield")

@@ -11,7 +11,7 @@ public partial class PuppetTemplate : Node2D
     public event DefeatedHandler Defeated;
 
     [Export]
-    protected HealthBar _healthBar;
+    protected HealthBar HealthBar;
 
     [Export]
     public Sprite2D Sprite;
@@ -23,10 +23,10 @@ public partial class PuppetTemplate : Node2D
     public Vector2 InitScale = Vector2.One;
 
     [Export]
-    public bool hideHealth = false;
+    public bool HideHealth;
 
-    protected int _maxHealth = 100;
-    protected int _currentHealth = 100;
+    protected int MaxHealth = 100;
+    protected int CurrentHealth = 100;
 
     //Stats would go here.
     protected int _numShield = 0; //todo: shield mechanic to block / dodge damage
@@ -41,7 +41,7 @@ public partial class PuppetTemplate : Node2D
 
     public override void _Ready()
     {
-        _healthBar.SetHealth(_maxHealth, _currentHealth);
+        HealthBar.SetHealth(MaxHealth, CurrentHealth);
         Position = StartPos;
         Sprite.Scale = InitScale;
 
@@ -91,7 +91,7 @@ public partial class PuppetTemplate : Node2D
     protected virtual void DamageAnimate(int amount)
     { //TODO: Make animate in time with bpm
         float damageAnimDir = (GetViewportRect().Size / 2 - Position).Normalized().X;
-        float scalar = (float)amount / _maxHealth;
+        float scalar = (float)amount / MaxHealth;
         _shakeStrength = (scalar * BaseShake);
 
         Color flashColor = Colors.White * 99; //White = neutral modulate, very white is higher contrast white
@@ -138,11 +138,11 @@ public partial class PuppetTemplate : Node2D
         }
 
         amount = Math.Max(0, amount); //Should not be able to heal from damage.
-        if (_currentHealth <= 0 || amount == 0)
+        if (CurrentHealth <= 0 || amount == 0)
             return; //Only check if hp would change
-        _currentHealth = _healthBar.ChangeHP(-amount);
+        CurrentHealth = HealthBar.ChangeHP(-amount);
         DamageAnimate(amount);
-        if (_currentHealth <= 0)
+        if (CurrentHealth <= 0)
         {
             Defeated?.Invoke(this);
         }
@@ -155,7 +155,7 @@ public partial class PuppetTemplate : Node2D
 
     public virtual void Heal(int amount)
     {
-        _currentHealth = _healthBar.ChangeHP(amount);
+        CurrentHealth = HealthBar.ChangeHP(amount);
         amount = Math.Max(0, amount);
         if (amount == 0)
             return;
@@ -168,7 +168,7 @@ public partial class PuppetTemplate : Node2D
 
     public int GetCurrentHealth()
     {
-        return _currentHealth;
+        return CurrentHealth;
     }
 
     public virtual void GainShield(int amount)

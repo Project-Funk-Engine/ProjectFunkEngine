@@ -1,4 +1,3 @@
-using System;
 using FunkEngine;
 using Godot;
 
@@ -7,17 +6,17 @@ public partial class PauseMenu : Control, IFocusableMenu
     public static readonly string LoadPath = "res://Scenes/UI/Pause.tscn";
 
     [Export]
-    public Button[] pauseButtons;
+    public Button[] PauseButtons;
 
     public IFocusableMenu Prev { get; set; }
     private Control _lastFocus;
 
     public override void _Ready()
     {
-        pauseButtons[0].Pressed += ReturnToPrev;
-        pauseButtons[1].Pressed += OpenOptions;
-        pauseButtons[2].Pressed += Quit;
-        pauseButtons[3].Pressed += QuitToMainMenu;
+        PauseButtons[0].Pressed += ReturnToPrev;
+        PauseButtons[1].Pressed += OpenOptions;
+        PauseButtons[2].Pressed += Quit;
+        PauseButtons[3].Pressed += QuitToMainMenu;
     }
 
     private void OpenOptions()
@@ -53,7 +52,7 @@ public partial class PauseMenu : Control, IFocusableMenu
     {
         Prev = prev;
         Prev.PauseFocus();
-        pauseButtons[0].GrabFocus();
+        PauseButtons[0].GrabFocus();
     }
 
     public void ReturnToPrev()

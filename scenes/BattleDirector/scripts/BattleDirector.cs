@@ -1,3 +1,4 @@
+using System;
 using FunkEngine;
 using Godot;
 
@@ -13,41 +14,35 @@ public partial class BattleDirector : Node2D
     public EnemyPuppet Enemy;
 
     [Export]
+    private Conductor CD;
+
+    [Export]
     private ChartManager CM;
 
     [Export]
-    public NotePlacementBar NotePlacementBar;
-
-    [Export]
-    private Conductor CD;
+    public NotePlacementBar NPB;
 
     [Export]
     private AudioStreamPlayer Audio;
 
     [Export]
-    private Button _focusedButton; //Initially start button
+    private Button _focusedButton; //Initial start button
 
-    private double _timingInterval = .1; //secs, maybe make somewhat note dependent
-    private double _lastBeat;
+    private double _timingInterval = .1; //in beats, maybe make note/bpm dependent
 
-    private SongData _curSong;
+    private bool _initializedPlaying;
 
     #endregion
 
     #region Note Handling
-    private bool PlayerAddNote(ArrowType type, int beat)
+    private bool PlayerAddNote(ArrowType type, Beat beat)
     {
-        if (!NotePlacementBar.CanPlaceNote())
+        if (!NPB.CanPlaceNote())
             return false;
-        if (
-            !CD.AddNoteToLane(
-                type,
-                beat % CM.BeatsPerLoop,
-                NotePlacementBar.PlacedNote(this),
-                false
-            )
-        ) //TODO: Remove passing BD into NPB
-            return false;
+
+        Note noteToPlace = NPB.NotePlaced();
+        noteToPlace.OnHit(this, Timing.Okay);
+        CD.AddPlayerNote(noteToPlace, type, beat);
         NotePlaced?.Invoke(this);
         return true;
     }
@@ -64,78 +59,84 @@ public partial class BattleDirector : Node2D
     #endregion
 
     #region Initialization
+    private void SyncStartWithMix()
+    {
+        var timer = GetTree().CreateTimer(AudioServer.GetTimeToNextMix());
+        timer.Timeout += BeginPlayback;
+        _focusedButton.QueueFree();
+        _focusedButton = null;
+    }
+
+    private void BeginPlayback()
+    {
+        CM.BeginTweens();
+        Audio.Play();
+        _initializedPlaying = true;
+    }
+
     public override void _Ready()
     {
-        _curSong = StageProducer.Config.CurSong.SongData;
+        SongData curSong = StageProducer.Config.CurSong.SongData;
         Audio.SetStream(GD.Load<AudioStream>(StageProducer.Config.CurSong.AudioLocation));
-        if (_curSong.SongLength <= 0)
+        if (curSong.SongLength <= 0)
         {
-            _curSong.SongLength = Audio.Stream.GetLength();
+            curSong.SongLength = Audio.Stream.GetLength();
         }
-        TimeKeeper.Bpm = _curSong.Bpm;
 
+        TimeKeeper.InitVals(curSong.Bpm);
+        InitPlayer();
+        InitEnemies();
+        CD.Initialize(curSong);
+        CD.NoteInputEvent += OnTimedInput;
+
+        _focusedButton.GrabFocus();
+        _focusedButton.Pressed += SyncStartWithMix;
+    }
+
+    private void InitPlayer()
+    {
         Player = GD.Load<PackedScene>(PlayerPuppet.LoadPath).Instantiate<PlayerPuppet>();
         AddChild(Player);
         Player.Defeated += CheckBattleStatus;
         EventizeRelics();
-        NotePlacementBar.Setup(StageProducer.PlayerStats);
+        NPB.Setup(StageProducer.PlayerStats);
+    }
 
+    private void InitEnemies()
+    {
         //TODO: Refine
         Enemy = GD.Load<PackedScene>(StageProducer.Config.EnemyScenePath)
             .Instantiate<EnemyPuppet>();
         AddChild(Enemy);
         Enemy.Defeated += CheckBattleStatus;
         AddEnemyEffects();
-
-        CM.PrepChart(_curSong);
-        CD.Prep();
-        CD.TimedInput += OnTimedInput;
-
-        CM.Connect(nameof(InputHandler.NotePressed), new Callable(this, nameof(OnNotePressed)));
-        CM.Connect(nameof(InputHandler.NoteReleased), new Callable(this, nameof(OnNoteReleased)));
-
-        _focusedButton.GrabFocus();
-        _focusedButton.Pressed += () =>
-        {
-            var timer = GetTree().CreateTimer(AudioServer.GetTimeToNextMix());
-            timer.Timeout += Begin;
-            _focusedButton.QueueFree();
-            _focusedButton = null;
-        };
-    }
-
-    private void Begin()
-    {
-        CM.BeginTweens();
-        Audio.Play();
-    }
-
-    private void EndBattle()
-    {
-        StageProducer.ChangeCurRoom(StageProducer.Config.BattleRoom.Idx);
-        StageProducer.LiveInstance.TransitionStage(Stages.Map);
     }
 
     public override void _Process(double delta)
     {
-        _focusedButton?.GrabFocus();
         TimeKeeper.CurrentTime = Audio.GetPlaybackPosition();
-        double realBeat =
-            TimeKeeper.CurrentTime / (60 / (double)TimeKeeper.Bpm) % CM.TrueBeatsPerLoop;
-        CD.CheckMiss(realBeat);
-        if (realBeat < _lastBeat)
+        Beat realBeat = TimeKeeper.GetBeatFromTime(Audio.GetPlaybackPosition());
+        UpdateBeat(realBeat);
+    }
+
+    private void UpdateBeat(Beat beat)
+    {
+        //Still iffy, but approximately once per beat check, happens at start of new beat
+        if (Math.Floor(beat.BeatPos) >= Math.Floor((TimeKeeper.LastBeat + 1).BeatPos))
+        {
+            CD.ProgressiveSpawnNotes(beat);
+        }
+        if (beat.Loop > TimeKeeper.LastBeat.Loop)
         {
             ChartLooped?.Invoke(this);
         }
-        _lastBeat = realBeat;
+        TimeKeeper.LastBeat = beat;
     }
     #endregion
 
     #region Input&Timing
-
     public override void _UnhandledInput(InputEvent @event)
     {
-        //this one is for calling a debug key to insta-kill the enemy
         if (@event is InputEventKey eventKey && eventKey.Pressed && !eventKey.Echo)
         {
             if (eventKey.Keycode == Key.Key0)
@@ -145,49 +146,33 @@ public partial class BattleDirector : Node2D
         }
     }
 
-    private void OnNotePressed(ArrowType type)
+    //Only called from CD signal when a note is processed
+    private void OnTimedInput(ArrowData data, double beatDif)
     {
-        CD.CheckNoteTiming(type);
-    }
-
-    private void OnNoteReleased(ArrowType arrowType) { }
-
-    private void OnTimedInput(Note note, ArrowType arrowType, int beat, double beatDif)
-    {
-        if (note == null)
+        if (data.NoteRef == ArrowData.Placeholder.NoteRef)
+            return; //An inactive note was passed, for now do nothing, could force miss.
+        if (data.NoteRef == null) //An empty beat
         {
-            if (PlayerAddNote(arrowType, beat))
-                return; //Miss on empty note. This does not apply to inactive existing notes as a balance decision for now.
-            NotePlacementBar.MissNote();
-            CM.ComboText(
-                Tr("BATTLE_ROOM_" + Timing.Miss.ToString().ToUpper()),
-                arrowType,
-                NotePlacementBar.GetCurrentCombo()
-            );
-            Player.TakeDamage(4);
+            if ((int)data.Beat.BeatPos % (int)TimeKeeper.BeatsPerLoop == 0)
+                return; //We never ever try to place at 0
+            if (PlayerAddNote(data.Type, data.Beat))
+                return; //Exit handling for a placed note
+            ForceMiss(data.Type); //Else force miss when a note can't be placed.
             return;
         }
 
         Timing timed = CheckTiming(beatDif);
 
-        note.OnHit(this, timed);
+        data.NoteRef.OnHit(this, timed);
+        NPB.HandleTiming(timed);
+        CM.ComboText(timed, data.Type, NPB.GetCurrentCombo());
+    }
 
-        if (note.Name == "EnemyBase" && timed != Timing.Miss) //TODO: notes have owner field, find a way to determine if the owner is an enemy
-            EnemyNoteHit?.Invoke(this);
-
-        if (timed == Timing.Miss)
-        {
-            NotePlacementBar.MissNote();
-        }
-        else
-        {
-            NotePlacementBar.HitNote();
-        }
-        CM.ComboText(
-            Tr("BATTLE_ROOM_" + timed.ToString().ToUpper()),
-            arrowType,
-            NotePlacementBar.GetCurrentCombo()
-        );
+    private void ForceMiss(ArrowType type)
+    {
+        NPB.HandleTiming(Timing.Miss);
+        CM.ComboText(Timing.Miss, type, NPB.GetCurrentCombo());
+        Player.TakeDamage(4);
     }
 
     private Timing CheckTiming(double beatDif)
@@ -209,26 +194,28 @@ public partial class BattleDirector : Node2D
 
         return Timing.Miss;
     }
+    #endregion
 
-    private void CheckBattleStatus(PuppetTemplate puppet)
+    #region Battle End
+    private void CheckBattleStatus(PuppetTemplate puppet) //Called when a puppet dies
     {
         if (puppet == Player)
         {
-            BattleLost();
+            OnBattleLost();
             return;
         }
-        else if (puppet == Enemy)
-            BattleWon(); //will have to adjust this to account for when we have multiple enemies at once
+        if (puppet == Enemy)
+            OnBattleWon(); //will have to adjust this to account for when we have multiple enemies at once
     }
 
-    private void BattleWon()
+    private void OnBattleWon()
     {
         Audio.StreamPaused = true;
         CleanUpRelics();
         ShowRewardSelection(3);
     }
 
-    private void BattleLost()
+    private void OnBattleLost()
     {
         Audio.StreamPaused = true;
         SaveSystem.ClearSave();
@@ -238,14 +225,20 @@ public partial class BattleDirector : Node2D
 
     private void ShowRewardSelection(int amount)
     {
-        string type = "Note";
-        if (StageProducer.Config.RoomType == Stages.Boss)
-            type = "Relic";
-        var rewardSelect = RewardSelect.CreateSelection(this, Player.Stats, amount, type);
+        var rewardSelect = RewardSelect.CreateSelection(
+            this,
+            Player.Stats,
+            amount,
+            StageProducer.Config.RoomType
+        );
         rewardSelect.GetNode<Label>("%TopLabel").Text = Tr("BATTLE_ROOM_WIN");
-        rewardSelect.Selected += EndBattle;
+        rewardSelect.Selected += TransitionOutOfBattle;
     }
 
+    private void TransitionOutOfBattle()
+    {
+        StageProducer.LiveInstance.TransitionStage(Stages.Map);
+    }
     #endregion
 
     #region BattleEffect Handling

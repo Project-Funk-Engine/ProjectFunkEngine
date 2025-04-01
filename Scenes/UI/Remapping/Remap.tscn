@@ -8,13 +8,13 @@
 [ext_resource type="Texture2D" uid="uid://p06451gq2ujc" path="res://Scenes/UI/Remapping/Assets/Arrow_Up_Key_Light.png" id="7_1a2jy"]
 [ext_resource type="Texture2D" uid="uid://dvlekute37smy" path="res://Scenes/UI/Remapping/Assets/Arrow_Right_Key_Light.png" id="8_o7swo"]
 
-[node name="Remap" type="Node2D" node_paths=PackedStringArray("leftKey", "rightKey", "upKey", "downKey", "_closeButton")]
+[node name="Remap" type="Node2D" node_paths=PackedStringArray("LeftKey", "RightKey", "UpKey", "DownKey", "_closeButton")]
 process_mode = 3
 script = ExtResource("1_ir12b")
-leftKey = NodePath("Panel/Control/LeftRemap")
-rightKey = NodePath("Panel/Control/RightRemap")
-upKey = NodePath("Panel/Control/UpRemap")
-downKey = NodePath("Panel/Control/DownRemap")
+LeftKey = NodePath("Panel/Control/LeftRemap")
+RightKey = NodePath("Panel/Control/RightRemap")
+UpKey = NodePath("Panel/Control/UpRemap")
+DownKey = NodePath("Panel/Control/DownRemap")
 _closeButton = NodePath("Panel/TitleButton")
 
 [node name="ColorRect" type="ColorRect" parent="."]

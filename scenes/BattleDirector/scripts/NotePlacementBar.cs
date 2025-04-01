@@ -6,75 +6,59 @@ using Godot;
 /**<summary>Current charge bar amount and note queue.</summary>
  */
 public partial class NotePlacementBar : Node
-{
-    const int MaxValue = 80;
-    private int _currentBarValue;
-    private int _currentCombo;
-    int comboMult;
-    int bonusMult;
-    int notesToIncreaseCombo;
+{ //TODO: More effectively integrate with player
+    private double MaxValue
+    {
+        get => _notePlacementBar.MaxValue;
+        set
+        {
+            _notePlacementBar.MaxValue = value;
+            _particles.Emitting = CurrentBarValue >= MaxValue;
+        }
+    }
+    private double CurrentBarValue
+    {
+        get => _notePlacementBar.Value;
+        set
+        {
+            _notePlacementBar.Value = value;
+            _particles.Emitting = CurrentBarValue >= MaxValue; //This is so goated
+        }
+    }
 
     [Export]
-    TextureProgressBar notePlacementBar;
-
-    [Export]
-    TextEdit currentComboMultText;
+    private TextureProgressBar _notePlacementBar;
 
     [Export]
     private GpuParticles2D _particles;
 
     [Export]
-    private Sprite2D _currentNote;
-    private Note _currentNoteInstance;
-
-    [Export]
-    private Sprite2D _nextNote;
-
-    [Export]
-    private CpuParticles2D fullBarParticles;
+    private CpuParticles2D _fullBarParticles;
 
     private Note[] _noteDeck;
-    private Queue<Note> _noteQueue = new Queue<Note>();
 
-    //Juice - https://www.youtube.com/watch?v=LGt-jjVf-ZU
-    private int _limiter;
-    private Vector2 _barInitPosition;
-    private float _baseShake = 1f;
-    private float _shakeFade = 10f;
-    private RandomNumberGenerator _rng = new();
-    private float _shakeStrength;
+    #region Combo&Mult
+    [Export]
+    private TextEdit _currentComboMultText;
 
-    private void ProcessShake(double delta)
+    private int _currentCombo;
+    private int ComboMult => _currentCombo / _notesToIncreaseCombo + 1 + _bonusMult;
+    private int _bonusMult;
+    private int _notesToIncreaseCombo;
+
+    private void UpdateComboMultText()
     {
-        _limiter = (_limiter + 1) % 3;
-        if (_limiter != 1)
-            return;
-        if (_currentBarValue >= MaxValue)
-        {
-            _shakeStrength = _baseShake;
-        }
-        if (_shakeStrength > 0)
-        {
-            _shakeStrength = (float)Mathf.Lerp(_shakeStrength, 0, _shakeFade * delta);
-        }
-        notePlacementBar.Position =
-            _barInitPosition
-            + new Vector2(
-                _rng.RandfRange(-_shakeStrength, _shakeStrength),
-                _rng.RandfRange(-_shakeStrength, _shakeStrength)
-            );
+        _currentComboMultText.Text = $"    x{ComboMult.ToString()}";
     }
+    #endregion
 
-    // Called when the node enters the scene tree for the first time.
+    #region Initialization
     public override void _Ready()
     {
-        notePlacementBar.MaxValue = MaxValue;
-        _currentBarValue = 0;
-        _currentCombo = 0;
-        comboMult = 1;
-        notesToIncreaseCombo = 4;
+        MaxValue = 80;
+        _notesToIncreaseCombo = 4;
 
-        _barInitPosition = notePlacementBar.Position;
+        _barInitPosition = _notePlacementBar.Position;
     }
 
     public override void _Process(double delta)
@@ -94,6 +78,17 @@ public partial class NotePlacementBar : Node
         ShuffleNoteQueue();
         ProgressQueue();
     }
+    #endregion
+
+    #region NoteQueue
+    [Export]
+    private Sprite2D _currentNote; //Sprite for current note
+    private Note _currentNoteInstance; //First note in queue, store outside of queue to maintain first and second
+
+    [Export]
+    private Sprite2D _nextNote; //Secondary note, stored as the first in teh queue
+
+    private Queue<Note> _noteQueue = new Queue<Note>();
 
     // Fisher-Yates shuffle from: https://stackoverflow.com/a/1262619
     private void ShuffleNoteQueue()
@@ -111,6 +106,7 @@ public partial class NotePlacementBar : Node
         _noteQueue = new Queue<Note>(tempList);
     }
 
+    //Progress the queue by one, and handle shuffling and setting current instances
     private void ProgressQueue()
     {
         if (_noteQueue.Count == 0)
@@ -153,75 +149,98 @@ public partial class NotePlacementBar : Node
         ProgressQueue();
         return result;
     }
+    #endregion
 
-    // Hitting a note increases combo, combo mult, and note placement bar
-    public void HitNote()
-    {
-        _currentCombo++;
-        DetermineComboMult();
-        _currentBarValue = Math.Min(_currentBarValue + comboMult, MaxValue);
-        UpdateNotePlacementBar(_currentBarValue);
-        UpdateComboMultText();
-    }
-
-    // Missing a note resets combo
-    public void MissNote()
-    {
-        _currentCombo = 0;
-        bonusMult = 0;
-        DetermineComboMult();
-        UpdateComboMultText();
-    }
-
-    public void IncreaseBonusMult(int amount = 1)
-    {
-        bonusMult += amount;
-        DetermineComboMult();
-        UpdateComboMultText();
-    }
-
-    public void IncreaseCharge(int amount = 1)
-    {
-        _currentBarValue = Math.Min(_currentBarValue + amount, MaxValue);
-        UpdateNotePlacementBar(_currentBarValue);
-        UpdateComboMultText();
-    }
-
-    // Placing a note resets the note placement bar
-    public Note PlacedNote(BattleDirector BD)
-    {
-        Note placedNote = GetNote(Input.IsActionPressed("Secondary"));
-
-        _currentBarValue -= (int)(placedNote.CostModifier * MaxValue);
-        UpdateNotePlacementBar(_currentBarValue);
-
-        placedNote.OnHit(BD, Timing.Okay); //Hardcode for now, eventually the note itself could have its default
-        return placedNote;
-    }
-
-    public bool CanPlaceNote()
-    {
-        return _currentBarValue >= MaxValue;
-    }
-
-    private void DetermineComboMult()
-    {
-        comboMult = _currentCombo / notesToIncreaseCombo + 1 + bonusMult;
-    }
-
+    #region Public Functions
     public int GetCurrentCombo()
     {
         return _currentCombo;
     }
 
-    private void UpdateNotePlacementBar(int newValue)
+    //For external events to directly change mult
+    public void IncreaseBonusMult(int amount = 1)
     {
-        notePlacementBar.Value = newValue;
-        _particles.Emitting = _currentBarValue >= MaxValue;
+        _bonusMult += amount;
+        UpdateComboMultText();
     }
 
-    private void UpdateComboMultText()
+    public void IncreaseCharge(int amount = 1)
     {
-        currentComboMultText.Text = $"    x{comboMult.ToString()}";
+        CurrentBarValue += amount;
     }
+
+    public bool CanPlaceNote()
+    {
+        return CurrentBarValue >= MaxValue;
+    }
+
+    // Placing a note resets the note placement bar, should only be called if CanPlaceNote was already checked true
+    public Note NotePlaced()
+    {
+        if (!CanPlaceNote())
+            GD.PushWarning("Note is attempting placement without a full bar!");
+        Note placedNote = GetNote(Input.IsActionPressed("Secondary"));
+        CurrentBarValue -= placedNote.CostModifier * MaxValue;
+        return placedNote;
+    }
+
+    public void HandleTiming(Timing timed)
+    {
+        if (timed == Timing.Miss)
+        {
+            MissNote();
+        }
+        else
+        {
+            HitNote();
+        }
+    }
+
+    // Hitting a note increases combo, combo mult, and note placement bar
+    private void HitNote()
+    {
+        _currentCombo++;
+        CurrentBarValue += ComboMult;
+        UpdateComboMultText();
+    }
+
+    // Missing a note resets combo
+    private void MissNote()
+    {
+        _currentCombo = 0;
+        _bonusMult = 0;
+        UpdateComboMultText();
+    }
+    #endregion
+
+    #region Shake
+    //Juice - https://www.youtube.com/watch?v=LGt-jjVf-ZU
+    private int _limiter;
+    private Vector2 _barInitPosition;
+    private float _baseShake = 1f;
+    private float _shakeFade = 10f;
+    private RandomNumberGenerator _rng = new();
+    private float _shakeStrength;
+
+    private void ProcessShake(double delta)
+    {
+        _limiter = (_limiter + 1) % 3;
+        if (_limiter != 1)
+            return;
+        if (CurrentBarValue >= MaxValue)
+        {
+            _shakeStrength = _baseShake;
+        }
+        if (_shakeStrength > 0)
+        {
+            _shakeStrength = (float)Mathf.Lerp(_shakeStrength, 0, _shakeFade * delta);
+        }
+        _notePlacementBar.Position =
+            _barInitPosition
+            + new Vector2(
+                _rng.RandfRange(-_shakeStrength, _shakeStrength),
+                _rng.RandfRange(-_shakeStrength, _shakeStrength)
+            );
+    }
+    #endregion
 }

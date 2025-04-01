@@ -1,8 +1,7 @@
 using System;
 using FunkEngine;
-using Godot;
 
-public partial class EnemyEffect : IBattleEvent
+public class EnemyEffect : IBattleEvent
 {
     private BattleEffectTrigger Trigger { get; set; }
     public EnemyPuppet Owner;
