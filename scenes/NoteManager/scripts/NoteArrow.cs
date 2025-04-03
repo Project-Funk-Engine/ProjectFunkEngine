@@ -8,6 +8,7 @@ public partial class NoteArrow : Sprite2D
 { //TextRect caused issues later :)
     public static readonly string LoadPath = "res://Scenes/NoteManager/NoteArrow.tscn";
     protected const float LeftBound = -200f;
+    protected static readonly Beat BeatBound = new Beat(8);
 
     [Export]
     public Sprite2D OutlineSprite;
@@ -81,7 +82,7 @@ public partial class NoteArrow : Sprite2D
         Visible = true;
         ProcessMode = ProcessModeEnum.Inherit;
         if (IsHit)
-            Modulate /= .7f;
+            Modulate = Colors.White;
         IsHit = false;
         _isQueued = false;
     }
@@ -94,7 +95,7 @@ public partial class NoteArrow : Sprite2D
 
     protected virtual void PosChecks()
     {
-        if (Position.X < LeftBound)
+        if (Position.X < LeftBound || TimeKeeper.LastBeat - Data.Beat > BeatBound)
         {
             if (!IsHit)
                 RaiseMissed(this);

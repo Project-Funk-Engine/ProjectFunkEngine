@@ -57,7 +57,7 @@ public partial class HoldArrow : NoteArrow
 
     protected override void PosChecks()
     {
-        if (Position.X < LeftBound - _trail.Size.X)
+        if (Position.X < LeftBound - _trail.Size.X || TimeKeeper.LastBeat - EndBeat > BeatBound) //i hate that we have to do this for now
         {
             if (!IsHit)
                 RaiseMissed(this);
