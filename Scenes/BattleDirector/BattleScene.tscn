@@ -1,0 +1,76 @@
+[gd_scene load_steps=10 format=3 uid="uid://b0mrgr7h0ty1y"]
+
+[ext_resource type="Script" path="res://Scenes/BattleDirector/Scripts/BattleDirector.cs" id="1_jmdo1"]
+[ext_resource type="Script" path="res://Scenes/UI/Scripts/MenuModule.cs" id="2_ka0ws"]
+[ext_resource type="Script" path="res://Scenes/BattleDirector/Scripts/Conductor.cs" id="3_elcaj"]
+[ext_resource type="PackedScene" uid="uid://duhiilcv4tat3" path="res://Scenes/BattleDirector/NotePlacementBar.tscn" id="4_qk7om"]
+[ext_resource type="PackedScene" uid="uid://dfevfib11kou1" path="res://Scenes/ChartViewport/ChartViewport.tscn" id="5_r2xh0"]
+[ext_resource type="Texture2D" uid="uid://qhwve7fik4do" path="res://SharedAssets/BackGround_Full.png" id="6_0jtpx"]
+[ext_resource type="Texture2D" uid="uid://dbjotl0v1ymia" path="res://SharedAssets/BattleFrame1.png" id="7_klvil"]
+
+[sub_resource type="Gradient" id="Gradient_8uy3a"]
+offsets = PackedFloat32Array(0, 0.766234, 1)
+colors = PackedColorArray(0.0823529, 0, 0.0784314, 1, 0.305882, 0.247059, 0.321569, 1, 0.27451, 0.243137, 0.403922, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bajwn"]
+gradient = SubResource("Gradient_8uy3a")
+fill_from = Vector2(1, 0)
+fill_to = Vector2(0.738532, 1)
+
+[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("CD", "CM", "NPB", "Audio", "_focusedButton")]
+process_mode = 1
+script = ExtResource("1_jmdo1")
+CD = NodePath("Conductor")
+CM = NodePath("SubViewport")
+NPB = NodePath("NotePlacementBar")
+Audio = NodePath("AudioStreamPlayer")
+_focusedButton = NodePath("StartButton")
+metadata/_edit_lock_ = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="UILayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("CurSceneNode")]
+script = ExtResource("2_ka0ws")
+CurSceneNode = NodePath("..")
+
+[node name="Conductor" type="Node" parent="." node_paths=PackedStringArray("CM")]
+script = ExtResource("3_elcaj")
+CM = NodePath("../SubViewport")
+
+[node name="NotePlacementBar" parent="." instance=ExtResource("4_qk7om")]
+offset_top = 183.0
+offset_bottom = 183.0
+
+[node name="NPBBacking" type="TextureRect" parent="NotePlacementBar"]
+z_index = -1
+layout_mode = 0
+offset_right = 81.0
+offset_bottom = 175.0
+texture = SubResource("GradientTexture2D_bajwn")
+
+[node name="SubViewport" parent="." instance=ExtResource("5_r2xh0")]
+offset_left = 80.0
+offset_top = 180.0
+offset_right = 560.0
+offset_bottom = 360.0
+
+[node name="BackGround" type="TextureRect" parent="."]
+z_index = -1
+offset_right = 640.0
+offset_bottom = 178.0
+texture = ExtResource("6_0jtpx")
+
+[node name="BattleFrame" type="TextureRect" parent="."]
+z_index = 1
+offset_top = 178.0
+offset_right = 640.0
+offset_bottom = 360.0
+texture = ExtResource("7_klvil")
+
+[node name="StartButton" type="Button" parent="."]
+modulate = Color(5, 5, 5, 1)
+offset_left = 241.0
+offset_top = 234.0
+offset_right = 399.0
+offset_bottom = 265.0
+text = "BATTLE_ROOM_BEGIN_BUTTON"

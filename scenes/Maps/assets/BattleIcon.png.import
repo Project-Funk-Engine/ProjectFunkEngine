@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://7ius17ox1e70"
-path="res://.godot/imported/BattleIcon.png-7774ff140253fc7228adca1e1cc84da5.ctex"
+path="res://.godot/imported/BattleIcon.png-7f2aaf8e14988b8f2fe2d26908d82e0b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/Maps/assets/BattleIcon.png"
-dest_files=["res://.godot/imported/BattleIcon.png-7774ff140253fc7228adca1e1cc84da5.ctex"]
+source_file="res://Scenes/Maps/Assets/BattleIcon.png"
+dest_files=["res://.godot/imported/BattleIcon.png-7f2aaf8e14988b8f2fe2d26908d82e0b.ctex"]
 
 [params]
 

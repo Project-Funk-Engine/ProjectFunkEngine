@@ -1,19 +1,21 @@
-using System;
 using FunkEngine;
 using Godot;
 
+/**
+ * <summary>Scene for handling rooms with random loot.</summary>
+ */
 public partial class ChestScene : Node2D
 {
-    public PlayerPuppet Player;
+    public static readonly string LoadPath = "res://Scenes/ChestScene/ChestScene.tscn";
+    private PlayerPuppet _player;
 
     [Export]
     public Button ChestButton;
 
     public override void _Ready()
     {
-        Player = GD.Load<PackedScene>("res://scenes/Puppets/PlayerPuppet.tscn")
-            .Instantiate<PlayerPuppet>();
-        AddChild(Player);
+        _player = GD.Load<PackedScene>(PlayerPuppet.LoadPath).Instantiate<PlayerPuppet>();
+        AddChild(_player);
 
         ChestButton.Pressed += GetLoot;
     }
@@ -29,12 +31,11 @@ public partial class ChestScene : Node2D
     private void GetLoot()
     {
         ChestButton.Disabled = true;
-        RewardSelect.CreateSelection(this, Player.Stats, 3, "Relic").Selected += EndBattle;
+        RewardSelect.CreateSelection(this, _player.Stats, 3, Stages.Chest).Selected += EndBattle;
     }
 
     private void EndBattle()
     {
-        StageProducer.ChangeCurRoom(StageProducer.Config.BattleRoom.Idx);
-        GetNode<StageProducer>("/root/StageProducer").TransitionStage(Stages.Map);
+        StageProducer.LiveInstance.TransitionStage(Stages.Map);
     }
 }

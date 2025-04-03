@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://bi5iqbwpsd381"]
 
-[ext_resource type="Script" path="res://scenes/Puppets/Enemies/BossBlood/P_BossBlood.cs" id="1_qj2oj"]
-[ext_resource type="Texture2D" uid="uid://veedngaorx3l" path="res://scenes/BattleDirector/assets/Enemy1.png" id="2_mul30"]
-[ext_resource type="Texture2D" uid="uid://b2iptr3o8rg4t" path="res://scenes/Puppets/Enemies/BossBlood/assets/Boss1EmissionShape.tres" id="3_yxnso"]
-[ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://scenes/Puppets/HealthBar.tscn" id="4_ffkxf"]
+[ext_resource type="Script" path="res://Scenes/Puppets/Enemies/BossBlood/P_BossBlood.cs" id="1_qj2oj"]
+[ext_resource type="Texture2D" uid="uid://veedngaorx3l" path="res://Scenes/Puppets/Enemies/BossBlood/Assets/Boss1.png" id="2_mul30"]
+[ext_resource type="Texture2D" uid="uid://b2iptr3o8rg4t" path="res://Scenes/Puppets/Enemies/BossBlood/Assets/Boss1EmissionShape.tres" id="3_yxnso"]
+[ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://Scenes/Puppets/HealthBar.tscn" id="4_ffkxf"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3jiu6"]
 emission_shape = 4
@@ -22,9 +22,9 @@ colors = PackedColorArray(0.641048, 0.0406094, 0.0473231, 1)
 gradient = SubResource("Gradient_s7p55")
 width = 1
 
-[node name="EnemPuppet" type="Node2D" node_paths=PackedStringArray("_healthBar", "Sprite")]
+[node name="EnemPuppet" type="Node2D" node_paths=PackedStringArray("HealthBar", "Sprite")]
 script = ExtResource("1_qj2oj")
-_healthBar = NodePath("ProgressBar")
+HealthBar = NodePath("ProgressBar")
 Sprite = NodePath("Sprite")
 StartPos = Vector2(500, 125)
 InitScale = Vector2(2, 2)

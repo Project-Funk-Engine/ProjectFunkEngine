@@ -1,24 +1,36 @@
-using System;
 using System.Linq;
 using FunkEngine;
 using Godot;
+using Godot.Collections;
+using Array = System.Array;
 
+/**
+ * <summary>Handles drawing a map from a MapGrid and scene transitions from player input. Currently, this also handles overarching win/lose conditions.</summary>
+ */
 public partial class Cartographer : Node2D
 {
+    public static readonly string LoadPath = "res://Scenes/Maps/Cartographer.tscn";
+
     [Export]
     public Sprite2D PlayerSprite;
 
     private Button[] _validButtons = Array.Empty<Button>();
 
-    [Export]
-    private Button _focusedButton = null;
+    private Button _focusedButton;
 
-    private BgAudioPlayer _bgPlayer;
+    private static readonly Dictionary<Stages, Texture2D> StageIcons = new Dictionary<
+        Stages,
+        Texture2D
+    >
+    {
+        { Stages.Battle, GD.Load<Texture2D>("res://Scenes/Maps/Assets/BattleIcon.png") },
+        { Stages.Boss, GD.Load<Texture2D>("res://Scenes/Maps/Assets/BossIcon.png") },
+        { Stages.Chest, GD.Load<Texture2D>("res://Scenes/Maps/Assets/ChestIcon.png") },
+    };
 
     public override void _Ready()
     {
         DrawMap();
-        GetViewport().GuiFocusChanged += UpdateFocus;
         SaveSystem.SaveGame();
         if (
             StageProducer.GetCurRoom().Type == Stages.Boss
@@ -31,22 +43,7 @@ public partial class Cartographer : Node2D
 
     public override void _EnterTree()
     {
-        _bgPlayer = GetNode<BgAudioPlayer>("/root/BgAudioPlayer");
-        _bgPlayer.PlayLevelMusic();
-    }
-
-    public override void _Process(double delta)
-    {
-        if (!GetTree().Paused && !_validButtons.Contains(GetViewport().GuiGetFocusOwner()))
-        {
-            _focusedButton?.GrabFocus();
-        }
-    }
-
-    private void UpdateFocus(Control focusOwner)
-    {
-        if (_validButtons.Contains(focusOwner))
-            _focusedButton = focusOwner as Button;
+        BgAudioPlayer.LiveInstance.PlayLevelMusic();
     }
 
     private Vector2 GetPosition(int x, int y)
@@ -94,18 +91,8 @@ public partial class Cartographer : Node2D
             _validButtons = _validButtons.Append(newButton).ToArray();
         }
 
-        switch (room.Type)
-        {
-            case Stages.Battle:
-                newButton.Icon = (Texture2D)GD.Load("res://scenes/Maps/assets/BattleIcon.png");
-                break;
-            case Stages.Boss:
-                newButton.Icon = (Texture2D)GD.Load("res://scenes/Maps/assets/BossIcon.png");
-                break;
-            case Stages.Chest:
-                newButton.Icon = (Texture2D)GD.Load("res://scenes/Maps/assets/ChestIcon.png");
-                break;
-        }
+        newButton.Icon = StageIcons[room.Type];
+
         newButton.ZIndex = 1;
         newButton.Position = GetPosition(room.X, room.Y) - newButton.Size * 2;
         if (room == StageProducer.GetCurRoom())
@@ -125,6 +112,7 @@ public partial class Cartographer : Node2D
 
     private void EnterStage(int roomIdx, Button button)
     {
+        StageProducer.LiveInstance.PreloadScene(roomIdx);
         foreach (Button btn in _validButtons)
         {
             btn.Disabled = true;
@@ -138,15 +126,14 @@ public partial class Cartographer : Node2D
         tween.SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.InOut);
         tween.Finished += () =>
         {
-            _bgPlayer.StopMusic();
-            GetNode<StageProducer>("/root/StageProducer").TransitionFromRoom(roomIdx);
+            BgAudioPlayer.LiveInstance.StopMusic();
+            StageProducer.LiveInstance.TransitionFromRoom(roomIdx);
         };
     }
 
     private void WinStage()
     {
-        EndScreen es = GD.Load<PackedScene>("res://scenes/UI/EndScreen.tscn")
-            .Instantiate<EndScreen>();
+        EndScreen es = GD.Load<PackedScene>(EndScreen.LoadPath).Instantiate<EndScreen>();
         AddChild(es);
         es.TopLabel.Text = Tr("BATTLE_ROOM_WIN");
         GetTree().Paused = true;

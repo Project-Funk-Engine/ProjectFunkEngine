@@ -1,6 +1,7 @@
-using System;
 using Godot;
 
+/**<summary>Bouncing, self-cleaning text for timing and damage information.</summary>
+ */
 public partial class TextParticle : Label
 {
     // Called when the node enters the scene tree for the first time.

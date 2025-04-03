@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://k21psn7b5sxf"]
 
-[ext_resource type="Texture2D" uid="uid://cdf3g3174du4r" path="res://Classes/Notes/assets/heal_note.png" id="1_hjrch"]
+[ext_resource type="Texture2D" uid="uid://cdf3g3174du4r" path="res://Classes/Notes/Assets/Note_PlayerHeal.png" id="1_hjrch"]
 
 [sub_resource type="Curve" id="Curve_xix4e"]
 _data = [Vector2(0, 1), 0.0, 1.4, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]

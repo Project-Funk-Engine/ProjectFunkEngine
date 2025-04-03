@@ -1,14 +1,15 @@
-using System;
-using System.Linq;
 using FunkEngine;
 using Godot;
 
 public partial class P_BossBlood : EnemyPuppet
 {
+    public static new readonly string LoadPath =
+        "res://Scenes/Puppets/Enemies/BossBlood/Boss1.tscn";
+
     public override void _Ready()
     {
-        _currentHealth = 100;
-        _maxHealth = 100;
+        CurrentHealth = 100;
+        MaxHealth = 100;
         base._Ready();
         var enemTween = CreateTween();
         enemTween.TweenProperty(Sprite, "position", Vector2.Down * 5, 1f).AsRelative();
@@ -18,7 +19,7 @@ public partial class P_BossBlood : EnemyPuppet
         enemTween.SetLoops();
         enemTween.Play();
 
-        _battleEvents = new EnemyEffect[]
+        BattleEvents = new EnemyEffect[]
         {
             new EnemyEffect(
                 this,

@@ -1,9 +1,20 @@
 using Godot;
 
+/**
+ * <summary>BgAudioPlayer: Autoload to play scene persistant music.</summary>
+ */
 public partial class BgAudioPlayer : AudioStreamPlayer
 {
-    private readonly AudioStream _levelMusic = (AudioStream)
-        ResourceLoader.Load("res://scenes/SceneTransitions/assets/titleSong.ogg");
+    private readonly AudioStream _levelMusic = ResourceLoader.Load<AudioStream>(
+        "res://Scenes/UI/TitleScreen/Assets/TitleSong.ogg"
+    );
+
+    public static BgAudioPlayer LiveInstance { get; private set; }
+
+    public override void _EnterTree()
+    {
+        LiveInstance = this;
+    }
 
     private void PlayMusic(AudioStream music, float volume)
     {

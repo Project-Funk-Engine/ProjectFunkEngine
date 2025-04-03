@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dg4tnp7plxmp7"
-path="res://.godot/imported/relic_GoodVibes.png-cd102b29bb163411bb7ce8cf724ef0c0.ctex"
+path="res://.godot/imported/Relic_GoodVibes.png-01d38d3d6a79fe959565a2bfe43c64ca.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Classes/Relics/assets/relic_GoodVibes.png"
-dest_files=["res://.godot/imported/relic_GoodVibes.png-cd102b29bb163411bb7ce8cf724ef0c0.ctex"]
+source_file="res://Classes/Relics/Assets/Relic_GoodVibes.png"
+dest_files=["res://.godot/imported/Relic_GoodVibes.png-01d38d3d6a79fe959565a2bfe43c64ca.ctex"]
 
 [params]
 

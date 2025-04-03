@@ -3,10 +3,12 @@ using Godot;
 
 public partial class P_TheGWS : EnemyPuppet
 {
+    public static new readonly string LoadPath = "res://Scenes/Puppets/Enemies/TheGWS/GWS.tscn";
+
     public override void _Ready()
     {
-        _currentHealth = 75;
-        _maxHealth = 75;
+        CurrentHealth = 75;
+        MaxHealth = 75;
         base._Ready();
         var enemTween = CreateTween();
         enemTween.TweenProperty(Sprite, "position", Vector2.Down * 10, 3f).AsRelative();

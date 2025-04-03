@@ -1,32 +1,37 @@
 using System;
-using System.Linq;
+using System.Threading.Tasks;
 using FunkEngine;
 using Godot;
 
+/**
+ * <summary>StageProducer: Handles scene transitions and persistent gameplay data.</summary>
+ */
 public partial class StageProducer : Node
 {
-    //Generate a map, starting as a width x height grid, pick a starting spot and do (path) paths from that to the last
-    //row, connecting the path, then connect all at the end to the boss room.
-    public static RandomNumberGenerator GlobalRng = new RandomNumberGenerator();
+    public static StageProducer LiveInstance { get; private set; }
     public static bool IsInitialized;
 
+    public static readonly RandomNumberGenerator GlobalRng = new();
+
+    public static Vector2I MapSize { get; } = new(7, 6); //For now, make width an odd number
+    public static MapGrid Map { get; } = new();
     private Stages _curStage = Stages.Title;
-    private Node _curScene;
     public static int CurRoom { get; private set; }
 
-    public static Vector2I MapSize { get; private set; } = new Vector2I(7, 6); //For now, make width an odd number
-    public static MapGrid Map { get; } = new MapGrid();
+    private Node _curScene;
+    private Node _preloadStage;
 
-    public static BattleConfig Config;
+    public static BattleConfig Config { get; private set; }
 
-    //Hold here to persist between changes
-    public static PlayerStats PlayerStats;
+    public static PlayerStats PlayerStats { get; private set; } //Hold here to persist between changes
 
-    public static CanvasLayer ContrastFilter;
+    public static CanvasLayer ContrastFilter { get; private set; }
 
+    #region Initialization
     public override void _EnterTree()
     {
         InitFromCfg();
+        LiveInstance = this;
     }
 
     private void InitFromCfg()
@@ -45,17 +50,24 @@ public partial class StageProducer : Node
         GetTree().Root.CallDeferred("add_child", ContrastFilter);
     }
 
-    public void StartGame()
+    private void GenerateMapConsistent()
+    {
+        GlobalRng.State = GlobalRng.Seed << 5 / 2; //Fudge seed state, to get consistent maps across new/loaded games
+        Map.InitMapGrid(MapSize.X, MapSize.Y, 3);
+    }
+
+    private void StartNewGame()
     {
         GlobalRng.Randomize();
         GenerateMapConsistent();
+
         PlayerStats = new PlayerStats();
 
         CurRoom = Map.GetRooms()[0].Idx;
         IsInitialized = true;
     }
 
-    public bool LoadGame()
+    private bool LoadGame()
     {
         SaveSystem.SaveFile sv = SaveSystem.LoadGame();
         if (sv == null)
@@ -82,26 +94,49 @@ public partial class StageProducer : Node
         IsInitialized = true;
         return true;
     }
-
-    private void GenerateMapConsistent()
-    {
-        GlobalRng.State = GlobalRng.Seed << 5 / 2;
-        Map.InitMapGrid(MapSize.X, MapSize.Y, 3);
-    }
+    #endregion
 
     public static MapGrid.Room GetCurRoom()
     {
         return Map.GetRooms()[CurRoom];
     }
 
-    public static void ChangeCurRoom(int room)
-    {
-        CurRoom = room;
-    }
-
+    #region Transitions
     public void TransitionFromRoom(int nextRoomIdx)
     {
         TransitionStage(Map.GetRooms()[nextRoomIdx].Type, nextRoomIdx);
+    }
+
+    private Task _loadTask;
+
+    /**
+     * <summary>To be used from Cartographer. Preloads the scene during transition animation.
+     * This removes the occasionally noticeable load time for the scene change.</summary>
+     */
+    public void PreloadScene(int nextRoomIdx)
+    {
+        Stages nextStage = Map.GetRooms()[nextRoomIdx].Type;
+        Config = MakeBattleConfig(nextStage, nextRoomIdx);
+        switch (nextStage)
+        {
+            case Stages.Battle:
+            case Stages.Boss:
+                _loadTask = Task.Run(() =>
+                {
+                    _preloadStage = GD.Load<PackedScene>(BattleDirector.LoadPath)
+                        .Instantiate<Node>();
+                });
+                break;
+            case Stages.Chest:
+                _loadTask = Task.Run(() =>
+                {
+                    _preloadStage = GD.Load<PackedScene>(ChestScene.LoadPath).Instantiate<Node>();
+                });
+                break;
+            default:
+                GD.PushError($"Error Scene Transition is {nextStage}");
+                break;
+        }
     }
 
     public void TransitionStage(Stages nextStage, int nextRoomIdx = -1)
@@ -111,31 +146,27 @@ public partial class StageProducer : Node
         {
             case Stages.Title:
                 IsInitialized = false;
-                GetTree().ChangeSceneToFile("res://scenes/SceneTransitions/TitleScreen.tscn");
+                GetTree().ChangeSceneToFile(TitleScreen.LoadPath);
                 break;
-            case Stages.Battle:
-                Config = MakeConfig(nextStage, nextRoomIdx);
-                GetTree().ChangeSceneToFile("res://scenes/BattleDirector/test_battle_scene.tscn");
-                break;
-            case Stages.Boss:
-                Config = MakeConfig(nextStage, nextRoomIdx);
-                GetTree().ChangeSceneToFile("res://scenes/BattleDirector/test_battle_scene.tscn");
-                break;
+            case Stages.Battle: //Currently these are only ever entered from map. Be aware if we change
+            case Stages.Boss: //this, scenes either need to be preloaded first, or a different setup is needed.
             case Stages.Chest:
-                Config = MakeConfig(nextStage, nextRoomIdx);
-                GetTree().ChangeSceneToFile("res://scenes/ChestScene/ChestScene.tscn");
+                _loadTask.Wait(); //Should always finish by the time it gets here, this guarantees it.
+                GetTree().GetCurrentScene().Free();
+                GetTree().Root.AddChild(_preloadStage);
+                GetTree().SetCurrentScene(_preloadStage);
                 break;
             case Stages.Map:
-                GetTree().ChangeSceneToFile("res://scenes/Maps/cartographer.tscn");
+                GetTree().ChangeSceneToFile(Cartographer.LoadPath);
                 if (!IsInitialized)
                 {
-                    StartGame();
+                    StartNewGame();
                 }
                 break;
             case Stages.Load:
                 if (!LoadGame())
-                    StartGame();
-                GetTree().ChangeSceneToFile("res://scenes/Maps/cartographer.tscn");
+                    StartNewGame();
+                GetTree().ChangeSceneToFile(Cartographer.LoadPath);
                 break;
             case Stages.Quit:
                 GetTree().Quit();
@@ -145,29 +176,40 @@ public partial class StageProducer : Node
                 break;
         }
 
+        _preloadStage = null;
         //Apply grayscale shader to all scenes
         GetTree().Root.AddChild(ContrastFilter);
         _curStage = nextStage;
     }
+    #endregion
 
-    private BattleConfig MakeConfig(Stages nextRoom, int nextRoomIdx)
+    private BattleConfig MakeBattleConfig(Stages nextRoom, int nextRoomIdx)
     {
-        BattleConfig result = new BattleConfig();
-        result.BattleRoom = Map.GetRooms()[nextRoomIdx];
-        result.RoomType = nextRoom;
+        BattleConfig result = new BattleConfig
+        {
+            BattleRoom = Map.GetRooms()[nextRoomIdx],
+            RoomType = nextRoom,
+        };
+        RandomNumberGenerator stageRng = new RandomNumberGenerator();
+        stageRng.SetSeed(GlobalRng.Seed + (ulong)nextRoomIdx);
         switch (nextRoom)
         {
             case Stages.Battle:
-                int songIdx = GlobalRng.RandiRange(1, 2);
+                int songIdx = stageRng.RandiRange(1, 2);
                 result.CurSong = Scribe.SongDictionary[songIdx];
                 result.EnemyScenePath = Scribe.SongDictionary[songIdx].EnemyScenePath;
                 break;
             case Stages.Boss:
-                result.EnemyScenePath = "res://scenes/Puppets/Enemies/BossBlood/Boss1.tscn";
+                result.EnemyScenePath = P_BossBlood.LoadPath;
                 result.CurSong = Scribe.SongDictionary[0];
                 break;
+            case Stages.Chest:
+                break;
+            default:
+                GD.PushError($"Error making Battle Config for invalid room type: {nextRoom}");
+                break;
         }
-
+        CurRoom = nextRoomIdx;
         return result;
     }
 }

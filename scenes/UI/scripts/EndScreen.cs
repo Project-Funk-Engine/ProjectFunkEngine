@@ -1,37 +1,39 @@
-using System;
 using FunkEngine;
 using Godot;
 
 public partial class EndScreen : CanvasLayer
 {
-    [Export]
-    private Button[] buttons;
+    public static readonly string LoadPath = "res://Scenes/UI/EndScreen.tscn";
 
-    [Export] public Label TopLabel;
+    [Export]
+    private Button[] _buttons;
+
+    [Export]
+    public Label TopLabel;
 
     public override void _Ready()
     {
-        buttons[0].Pressed += Restart;
-        buttons[1].Pressed += QuitToMainMenu;
-        buttons[2].Pressed += Quit;
-        buttons[0].GrabFocus();
+        _buttons[0].Pressed += Restart;
+        _buttons[1].Pressed += QuitToMainMenu;
+        _buttons[2].Pressed += Quit;
+        _buttons[0].GrabFocus();
     }
 
     private void Restart()
     {
         GetTree().Paused = false;
         StageProducer.IsInitialized = false;
-        GetNode<StageProducer>("/root/StageProducer").TransitionStage(Stages.Map);
+        StageProducer.LiveInstance.TransitionStage(Stages.Map);
     }
 
     private void Quit()
     {
-        GetNode<StageProducer>("/root/StageProducer").TransitionStage(Stages.Quit);
+        StageProducer.LiveInstance.TransitionStage(Stages.Quit);
     }
 
     private void QuitToMainMenu()
     {
         GetTree().Paused = false;
-        GetNode<StageProducer>("/root/StageProducer").TransitionStage(Stages.Title);
+        StageProducer.LiveInstance.TransitionStage(Stages.Title);
     }
 }

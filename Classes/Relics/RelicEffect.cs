@@ -2,6 +2,9 @@ using System;
 using FunkEngine;
 using Godot;
 
+/**
+ * <summary>RelicEffect: BattleDirector effect as handled by a player passive relic.</summary>
+ */
 public partial class RelicEffect : IBattleEvent
 {
     private BattleEffectTrigger Trigger { get; set; }

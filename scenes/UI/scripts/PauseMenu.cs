@@ -1,32 +1,27 @@
-using System;
 using FunkEngine;
 using Godot;
 
-public partial class PauseMenu : Control
+public partial class PauseMenu : Control, IFocusableMenu
 {
+    public static readonly string LoadPath = "res://Scenes/UI/Pause.tscn";
+
     [Export]
-    public Button[] pauseButtons;
+    public Button[] PauseButtons;
+
+    public IFocusableMenu Prev { get; set; }
+    private Control _lastFocus;
 
     public override void _Ready()
     {
-        pauseButtons[0].Pressed += Resume;
-        pauseButtons[1].Pressed += OpenOptions;
-        pauseButtons[2].Pressed += Quit;
-        pauseButtons[3].Pressed += QuitToMainMenu;
-        pauseButtons[0].GrabFocus();
-    }
-
-    public override void _Process(double delta)
-    {
-        if (GetViewport().GuiGetFocusOwner() == null)
-        {
-            pauseButtons[0].GrabFocus();
-        }
+        PauseButtons[0].Pressed += ReturnToPrev;
+        PauseButtons[1].Pressed += OpenOptions;
+        PauseButtons[2].Pressed += Quit;
+        PauseButtons[3].Pressed += QuitToMainMenu;
     }
 
     private void OpenOptions()
     {
-        OptionsMenu optionsMenu = GD.Load<PackedScene>("res://scenes/Options/OptionsMenu.tscn")
+        OptionsMenu optionsMenu = GD.Load<PackedScene>(OptionsMenu.LoadPath)
             .Instantiate<OptionsMenu>();
         AddChild(optionsMenu);
         optionsMenu.OpenMenu(this);
@@ -36,25 +31,43 @@ public partial class PauseMenu : Control
     {
         if (@event.IsActionPressed("ui_cancel"))
         {
-            Resume();
+            ReturnToPrev();
             GetViewport().SetInputAsHandled();
         }
     }
 
-    private void Resume()
+    public void ResumeFocus()
     {
-        GetTree().Paused = false;
+        ProcessMode = ProcessModeEnum.Pausable;
+        _lastFocus.GrabFocus();
+    }
+
+    public void PauseFocus()
+    {
+        _lastFocus = GetViewport().GuiGetFocusOwner();
+        ProcessMode = ProcessModeEnum.Disabled;
+    }
+
+    public void OpenMenu(IFocusableMenu prev)
+    {
+        Prev = prev;
+        Prev.PauseFocus();
+        PauseButtons[0].GrabFocus();
+    }
+
+    public void ReturnToPrev()
+    {
+        Prev.ResumeFocus();
         QueueFree();
     }
 
     private void Quit()
     {
-        GetNode<StageProducer>("/root/StageProducer").TransitionStage(Stages.Quit);
+        StageProducer.LiveInstance.TransitionStage(Stages.Quit);
     }
 
     private void QuitToMainMenu()
     {
-        GetTree().Paused = false;
-        GetNode<StageProducer>("/root/StageProducer").TransitionStage(Stages.Title);
+        StageProducer.LiveInstance.TransitionStage(Stages.Title);
     }
 }

@@ -1,11 +1,14 @@
 namespace FunkEngine.Classes.MidiMaestro;
 
-public partial class SongTemplate
+/**
+ * <summary>SongTemplate: Generic class to represent a rhythm battle.</summary>
+ */
+public struct SongTemplate
 {
     public string Name;
-    public string AudioLocation;
+    public readonly string AudioLocation;
     public string MIDILocation;
-    public string EnemyScenePath;
+    public readonly string EnemyScenePath;
     public SongData SongData;
 
     public SongTemplate(

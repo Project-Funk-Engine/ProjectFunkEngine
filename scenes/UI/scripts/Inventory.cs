@@ -1,67 +1,79 @@
-using System;
+using FunkEngine;
 using Godot;
 
-public partial class Inventory : Control
+public partial class Inventory : Control, IFocusableMenu
 {
-    [Export]
-    private GridContainer Relics;
+    public static readonly string LoadPath = "res://Scenes/UI/Inventory.tscn";
 
     [Export]
-    private GridContainer Notes;
+    private GridContainer _relics;
 
     [Export]
-    private Label Description;
+    private GridContainer _notes;
 
     [Export]
-    private TabContainer Tabs;
+    private Label _description;
 
+    [Export]
+    private TabContainer _tabs;
+
+    public IFocusableMenu Prev { get; set; }
     private static readonly string[] TabNames = new[] { "NOTE", "RELIC" };
 
-    public void Display(PlayerStats playerStats)
+    private void Display(PlayerStats playerStats)
     {
-        foreach (RelicTemplate relic in playerStats.CurRelics)
-        {
-            var newButton = GD.Load<PackedScene>("res://scenes/UI/display_button.tscn")
-                .Instantiate<DisplayButton>();
-            newButton.Display(relic.Texture, relic.Tooltip, relic.Name);
-            newButton.Pressed += () =>
-            {
-                DoDescription(newButton);
-            };
-            Relics.AddChild(newButton);
-        }
-        foreach (Note note in playerStats.CurNotes)
-        {
-            var newButton = GD.Load<PackedScene>("res://scenes/UI/display_button.tscn")
-                .Instantiate<DisplayButton>();
-            newButton.Display(note.Texture, note.Tooltip, note.Name);
-            newButton.Pressed += () =>
-            {
-                DoDescription(newButton);
-            };
-            Notes.AddChild(newButton);
-        }
+        AddDisplayButtons(playerStats.CurRelics, _relics);
+        AddDisplayButtons(playerStats.CurNotes, _notes);
 
-        Tabs.TabChanged += ClearDescription;
+        _tabs.TabChanged += ClearDescription;
     }
 
-    public override void _Ready()
+    private void AddDisplayButtons(IDisplayable[] displayables, Node parentNode)
     {
-        Tabs.GetTabBar().GrabFocus();
+        foreach (IDisplayable item in displayables)
+        {
+            var newButton = GD.Load<PackedScene>(DisplayButton.LoadPath)
+                .Instantiate<DisplayButton>();
+            newButton.Display(item.Texture, item.Tooltip, item.Name);
+            newButton.Pressed += () =>
+            {
+                DoDescription(newButton);
+            };
+            parentNode.AddChild(newButton);
+        }
     }
 
     public override void _Input(InputEvent @event)
     {
         if (@event.IsActionPressed("ui_cancel") || @event.IsActionPressed("Inventory"))
         {
-            Resume();
+            ReturnToPrev();
             GetViewport().SetInputAsHandled();
         }
     }
 
-    private void Resume()
+    public void ResumeFocus()
     {
-        GetTree().Paused = false;
+        ProcessMode = ProcessModeEnum.Pausable;
+        _tabs.GetTabBar().GrabFocus();
+    }
+
+    public void PauseFocus()
+    {
+        ProcessMode = ProcessModeEnum.Disabled;
+    }
+
+    public void OpenMenu(IFocusableMenu prev)
+    {
+        Display(StageProducer.PlayerStats ?? new PlayerStats());
+        Prev = prev;
+        Prev.PauseFocus();
+        _tabs.GetTabBar().GrabFocus();
+    }
+
+    public void ReturnToPrev()
+    {
+        Prev.ResumeFocus();
         QueueFree();
     }
 
@@ -69,14 +81,14 @@ public partial class Inventory : Control
     {
         string itemName = dispButton.DisplayName.ToUpper();
         itemName = itemName.Replace(" ", "");
-        Description.Text =
-            Tr(TabNames[Tabs.CurrentTab] + "_" + itemName + "_NAME")
+        _description.Text =
+            Tr(TabNames[_tabs.CurrentTab] + "_" + itemName + "_NAME")
             + ": "
-            + Tr(TabNames[Tabs.CurrentTab] + "_" + itemName + "_TOOLTIP");
+            + Tr(TabNames[_tabs.CurrentTab] + "_" + itemName + "_TOOLTIP");
     }
 
     private void ClearDescription(long newTab)
     {
-        Description.Text = "";
+        _description.Text = "";
     }
 }

@@ -3,8 +3,7 @@ using FunkEngine;
 using Godot;
 
 /**
- * @class Note
- * @brief Data structure class for holding data and methods for a battle time note. WIP
+ * <summary>Note: Data structure class for holding data and methods for a battle time note.</summary>
  */
 public partial class Note : Resource, IDisplayable
 {
@@ -14,6 +13,8 @@ public partial class Note : Resource, IDisplayable
     private int _baseVal;
     public float CostModifier { get; private set; }
     private Action<BattleDirector, Note, Timing> NoteEffect;
+
+    public const double TimingMax = 0.5d; //The max range for a note to be timed is its beat +/- this const
 
     public string Tooltip { get; set; }
     public Texture2D Texture { get; set; }
@@ -35,9 +36,9 @@ public partial class Note : Resource, IDisplayable
         NoteEffect =
             noteEffect
             ?? (
-                (BD, source, Timing) =>
+                (BD, source, timing) =>
                 {
-                    BD.GetTarget(this).TakeDamage((int)Timing * source._baseVal);
+                    BD.GetTarget(this).TakeDamage((int)timing * source._baseVal);
                 }
             );
         _baseVal = baseVal;
@@ -66,6 +67,11 @@ public partial class Note : Resource, IDisplayable
             CostModifier
         );
         return newNote;
+    }
+
+    public bool IsPlayerNote()
+    {
+        return Name.Contains("Player");
     }
 
     public int GetBaseVal()

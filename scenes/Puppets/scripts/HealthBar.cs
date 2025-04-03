@@ -1,6 +1,8 @@
-using System;
 using Godot;
 
+/**
+ * <summary>Generic health bar, instantiate from scene.</summary>
+ */
 public partial class HealthBar : TextureProgressBar
 {
     public override void _Ready()
