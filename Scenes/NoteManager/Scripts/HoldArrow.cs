@@ -17,7 +17,7 @@ public partial class HoldArrow : NoteArrow
     {
         base.Init(parentChecker, arrowData, beatTime);
         _trail.Size = new Vector2(
-            (float)(Length / TimeKeeper.BeatsPerLoop * TimeKeeper.ChartLength),
+            (float)(Length / TimeKeeper.BeatsPerLoop * TimeKeeper.ChartWidth),
             _trail.Size.Y
         );
         _trail.Modulate = parentChecker.Color;
@@ -57,7 +57,7 @@ public partial class HoldArrow : NoteArrow
 
     protected override void PosChecks()
     {
-        if (Position.X < LeftBound)
+        if (Position.X < LeftBound - _trail.Size.X)
         {
             if (!IsHit)
                 RaiseMissed(this);

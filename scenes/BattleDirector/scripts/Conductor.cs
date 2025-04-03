@@ -29,7 +29,9 @@ public partial class Conductor : Node
         CM.Initialize(curSong);
 
         //Approximately the first note offscreen
-        _beatSpawnOffset = Math.Floor(CM.Size.X / TimeKeeper.ChartLength * CM.TrueBeatsPerLoop);
+        _beatSpawnOffset = Math.Ceiling(
+            CM.Size.X / TimeKeeper.ChartWidth * TimeKeeper.BeatsPerLoop
+        );
         AddInitialNotes();
 
         _initialized = true;
@@ -125,7 +127,7 @@ public partial class Conductor : Node
     public void ProgressiveSpawnNotes(Beat beat)
     {
         Beat spawnBeat = beat + _beatSpawnOffset;
-        SpawnNotesAtBeat(spawnBeat);
+        SpawnNotesAtBeat(spawnBeat.RoundBeat());
     }
 
     private double GetTimingDif(Beat beat)

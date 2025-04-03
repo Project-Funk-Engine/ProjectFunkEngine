@@ -18,9 +18,9 @@ public partial class Loopable : Sprite2D
     private void UpdatePos()
     {
         Vector2 newPos = Position;
-        float interval = (float)TimeKeeper.ChartLength;
+        float interval = (float)TimeKeeper.ChartWidth;
         double relativePosition =
-            TimeKeeper.CurrentTime / TimeKeeper.LoopLength * TimeKeeper.ChartLength;
+            TimeKeeper.CurrentTime / TimeKeeper.LoopLength * TimeKeeper.ChartWidth;
         newPos.X =
             //Yes I know. Hard to parse math. https://www.desmos.com/calculator/fkmoqi50ee
             //(velocity*Pos - (horizontal shift)) % interval - (vertical shift)

@@ -23,9 +23,6 @@ public partial class ChartManager : SubViewportContainer
 
     private readonly List<NoteArrow>[] _queuedArrows = { new(), new(), new(), new() };
 
-    private double _loopLen; //secs
-    public double TrueBeatsPerLoop;
-
     private double _chartLength = 2500; //Play with this
     #region Initialization
     public override void _Ready()
@@ -42,11 +39,10 @@ public partial class ChartManager : SubViewportContainer
     {
         if (_initialized)
             return;
-        _loopLen = songData.SongLength / songData.NumLoops;
-        TimeKeeper.LoopLength = _loopLen;
+        TimeKeeper.LoopsPerSong = songData.NumLoops;
+        TimeKeeper.SongLength = songData.SongLength;
 
-        TrueBeatsPerLoop = (_loopLen / (60f / songData.Bpm));
-        TimeKeeper.BeatsPerLoop = TrueBeatsPerLoop;
+        double _loopLen = songData.SongLength / songData.NumLoops;
 
         //99% sure chart length can never be less than (chart viewport width) * 2,
         //otherwise there isn't room for things to loop from off and on screen
@@ -56,7 +52,7 @@ public partial class ChartManager : SubViewportContainer
             _loopLen * Math.Floor(_chartLength / _loopLen)
         );
 
-        TimeKeeper.ChartLength = _chartLength;
+        TimeKeeper.ChartWidth = _chartLength;
         TimeKeeper.Bpm = songData.Bpm;
 
         _initialized = true;
@@ -104,7 +100,11 @@ public partial class ChartManager : SubViewportContainer
         else
             noteArrow = _arrowPool.Count == 0 ? InstantiateNewArrow() : DePoolArrow();
 
-        noteArrow.Init(IH.Arrows[(int)arrowData.Type], arrowData, TimeFromBeat(arrowData.Beat));
+        noteArrow.Init(
+            IH.Arrows[(int)arrowData.Type],
+            arrowData,
+            TimeKeeper.GetTimeOfBeat(arrowData.Beat)
+        );
         if (arrowData.NoteRef.IsPlayerNote())
             noteArrow.SelfModulate = PlayerPuppet.NoteColor;
         if (preHit)
@@ -230,12 +230,6 @@ public partial class ChartManager : SubViewportContainer
         return placeable; //No truly hittable notes, and no notes in current beat
     }
     #endregion
-
-
-    public double TimeFromBeat(Beat beat)
-    {
-        return (beat.BeatPos / TrueBeatsPerLoop * _loopLen);
-    }
 
     public void ComboText(Timing timed, ArrowType arrow, int currentCombo)
     {

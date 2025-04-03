@@ -114,13 +114,20 @@ public partial class NoteArrow : Sprite2D
 
     private float GetNewPosX()
     {
-        double interval = TimeKeeper.ChartLength;
         double relativePosition =
-            (TimeKeeper.CurrentTime - _beatTime) / TimeKeeper.LoopLength * TimeKeeper.ChartLength;
+            (TimeKeeper.CurrentTime - _beatTime)
+            / (TimeKeeper.SongLength)
+            * (TimeKeeper.ChartWidth * TimeKeeper.LoopsPerSong);
+        //If this should be placed for the next song replay, offset
+        double posOffset =
+            (
+                (Beat.Loop / TimeKeeper.LoopsPerSong)
+                > TimeKeeper.LastBeat.Loop / TimeKeeper.LoopsPerSong
+            )
+                ? TimeKeeper.ChartWidth * TimeKeeper.LoopsPerSong
+                : 0;
 
-        return (float)(
-            TimeKeeper.PosMod(-relativePosition - interval / 2, interval) - interval / 2
-        );
+        return (float)(-relativePosition + posOffset);
     }
 
     //Is the passed in beat within range of this arrow's beat, for checking if player can place near this note

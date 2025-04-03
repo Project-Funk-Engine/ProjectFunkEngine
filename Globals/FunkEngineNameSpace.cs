@@ -127,6 +127,11 @@ public struct Beat : IEquatable<Beat>, IComparable<Beat>
         BeatPos = beat % TimeKeeper.BeatsPerLoop;
     }
 
+    public double GetBeatInSong()
+    {
+        return BeatPos + Loop * TimeKeeper.BeatsPerLoop % TimeKeeper.BeatsPerSong;
+    }
+
     public Beat IncDecLoop(int amount)
     {
         Loop += amount;
@@ -135,7 +140,7 @@ public struct Beat : IEquatable<Beat>, IComparable<Beat>
 
     public Beat RoundBeat()
     {
-        BeatPos = (int)Math.Round(BeatPos);
+        BeatPos = (int)Math.Round(BeatPos); //This can technically overflow, but causes no bugs yet.
         return this;
     }
 
