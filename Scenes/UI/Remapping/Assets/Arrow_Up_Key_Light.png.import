@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://p06451gq2ujc"
-path="res://.godot/imported/Arrow_Up_Key_Light.png-79a4f7cad3b102d463ad42f32589fc98.ctex"
+path="res://.godot/imported/Arrow_Up_Key_Light.png-3ff666ddcdd00c6fba116634264307ae.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/UI/Remapping/Assets/Arrow_Up_Key_Light.png"
-dest_files=["res://.godot/imported/Arrow_Up_Key_Light.png-79a4f7cad3b102d463ad42f32589fc98.ctex"]
+source_file="res://scenes/UI/Remapping/Assets/Arrow_Up_Key_Light.png"
+dest_files=["res://.godot/imported/Arrow_Up_Key_Light.png-3ff666ddcdd00c6fba116634264307ae.ctex"]
 
 [params]
 

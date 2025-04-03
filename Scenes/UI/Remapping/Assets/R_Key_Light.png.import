@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d3sdo7e5n6qkn"
-path="res://.godot/imported/R_Key_Light.png-5f8abebbfccbe9a5417f1ebed1e3a199.ctex"
+path="res://.godot/imported/R_Key_Light.png-28626cf003b7ce27375c9702c793fb5e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/UI/Remapping/Assets/R_Key_Light.png"
-dest_files=["res://.godot/imported/R_Key_Light.png-5f8abebbfccbe9a5417f1ebed1e3a199.ctex"]
+source_file="res://scenes/UI/Remapping/Assets/R_Key_Light.png"
+dest_files=["res://.godot/imported/R_Key_Light.png-28626cf003b7ce27375c9702c793fb5e.ctex"]
 
 [params]
 
