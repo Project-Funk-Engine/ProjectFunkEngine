@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://csjx2hb4tdlw8"
-path="res://.godot/imported/relic_Breakfast.png-f8a4431e13fa24c484b0e0643d5cccc6.ctex"
+uid="uid://dg4tnp7plxmp7"
+path="res://.godot/imported/Relic_GoodVibes.png-01d38d3d6a79fe959565a2bfe43c64ca.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Classes/Relics/Assets/relic_Breakfast.png"
-dest_files=["res://.godot/imported/relic_Breakfast.png-f8a4431e13fa24c484b0e0643d5cccc6.ctex"]
+source_file="res://Classes/Relics/Assets/Relic_GoodVibes.png"
+dest_files=["res://.godot/imported/Relic_GoodVibes.png-01d38d3d6a79fe959565a2bfe43c64ca.ctex"]
 
 [params]
 
