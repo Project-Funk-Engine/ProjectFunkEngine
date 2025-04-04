@@ -10,7 +10,7 @@
     <PackageReference Include="Melanchall.DryWetMidi" Version="7.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Globals\Translations\translations.csv" />
+    <Content Include="Globals\Translations\Translations.csv" />
   </ItemGroup>
   <Target Name="Husky" BeforeTargets="Restore;CollectPackageReferences" Condition="'$(HUSKY)' != 0">
     <Exec Command="dotnet tool restore" StandardOutputImportance="Low" StandardErrorImportance="High" />
