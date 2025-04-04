@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dat1eoyl3do4e"
-path="res://.godot/imported/Background_FrontTree.png-8d79aa3822050dff901610a1ec3ce667.ctex"
+path="res://.godot/imported/Background_FrontTree.png-e3154c7490a9bd01245c1f64710b66a0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/UI/TitleScreen/Assets/Background_FrontTree.png"
-dest_files=["res://.godot/imported/Background_FrontTree.png-8d79aa3822050dff901610a1ec3ce667.ctex"]
+source_file="res://Scenes/UI/TitleScreen/Assets/Background_FrontTree.png"
+dest_files=["res://.godot/imported/Background_FrontTree.png-e3154c7490a9bd01245c1f64710b66a0.ctex"]
 
 [params]
 

@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://dlwfb7kb7pd76"
-path="res://.godot/imported/TitleScreenFont.TTF-1694c91bf8df4824f32c5bdd3ccbb7ca.fontdata"
+path="res://.godot/imported/TitleScreenFont.TTF-03d6a62f30e72d635244aa6624ad94aa.fontdata"
 
 [deps]
 
-source_file="res://scenes/UI/TitleScreen/Assets/TitleScreenFont.TTF"
-dest_files=["res://.godot/imported/TitleScreenFont.TTF-1694c91bf8df4824f32c5bdd3ccbb7ca.fontdata"]
+source_file="res://Scenes/UI/TitleScreen/Assets/TitleScreenFont.TTF"
+dest_files=["res://.godot/imported/TitleScreenFont.TTF-03d6a62f30e72d635244aa6624ad94aa.fontdata"]
 
 [params]
 

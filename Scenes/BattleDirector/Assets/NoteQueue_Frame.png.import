@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cnyr5usjdv0ni"
-path="res://.godot/imported/NoteQueue_Frame.png-5c4f811346c3ca52f321c86996bc15ff.ctex"
+path="res://.godot/imported/NoteQueue_Frame.png-e9e1fc727e2cde6812934bdfe5d051a7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/BattleDirector/Assets/NoteQueue_Frame.png"
-dest_files=["res://.godot/imported/NoteQueue_Frame.png-5c4f811346c3ca52f321c86996bc15ff.ctex"]
+source_file="res://Scenes/BattleDirector/Assets/NoteQueue_Frame.png"
+dest_files=["res://.godot/imported/NoteQueue_Frame.png-e9e1fc727e2cde6812934bdfe5d051a7.ctex"]
 
 [params]
 

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dbnvl0gbhl5b4"
-path="res://.godot/imported/Arrow_Trail.png-2853d40e9a193ef5d28b14c207bdbdbd.ctex"
+path="res://.godot/imported/Arrow_Trail.png-384f0409031c318aa6fa51abecfd35b2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/NoteManager/assets/Arrow_Trail.png"
-dest_files=["res://.godot/imported/Arrow_Trail.png-2853d40e9a193ef5d28b14c207bdbdbd.ctex"]
+source_file="res://Scenes/NoteManager/Assets/Arrow_Trail.png"
+dest_files=["res://.godot/imported/Arrow_Trail.png-384f0409031c318aa6fa51abecfd35b2.ctex"]
 
 [params]
 

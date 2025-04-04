@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dlj21le4bp7cw"
-path="res://.godot/imported/Positional_Prompts_Up.png-1c098350c48e85be7badcb8cb0a0e44e.ctex"
+path="res://.godot/imported/Positional_Prompts_Up.png-239e554233dd2fd0b22ef9ebefbc3b5d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/UI/Remapping/Assets/Positional_Prompts_Up.png"
-dest_files=["res://.godot/imported/Positional_Prompts_Up.png-1c098350c48e85be7badcb8cb0a0e44e.ctex"]
+source_file="res://Scenes/UI/Remapping/Assets/Positional_Prompts_Up.png"
+dest_files=["res://.godot/imported/Positional_Prompts_Up.png-239e554233dd2fd0b22ef9ebefbc3b5d.ctex"]
 
 [params]
 
