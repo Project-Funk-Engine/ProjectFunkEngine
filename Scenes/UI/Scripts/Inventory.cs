@@ -45,6 +45,21 @@ public partial class Inventory : Control, IFocusableMenu
 
     public override void _Input(InputEvent @event)
     {
+        if (_tabs.CurrentTab == 0) //Godot 4.4 changed neighbor behaviour
+        {
+            if (_notes.GetChildCount() > 0)
+                _tabs.GetTabBar().FocusNeighborBottom = _notes.GetChild(0).GetPath();
+            else
+                _tabs.GetTabBar().FocusNeighborBottom = null;
+        }
+        else if (_tabs.CurrentTab == 1)
+        {
+            if (_relics.GetChildCount() > 0)
+                _tabs.GetTabBar().FocusNeighborBottom = _relics.GetChild(0).GetPath();
+            else
+                _tabs.GetTabBar().FocusNeighborBottom = null;
+        }
+
         if (@event.IsActionPressed("ui_cancel") || @event.IsActionPressed("Inventory"))
         {
             ReturnToPrev();
