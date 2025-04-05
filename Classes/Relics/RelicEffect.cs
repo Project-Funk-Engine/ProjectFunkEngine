@@ -10,19 +10,21 @@ public partial class RelicEffect : IBattleEvent
     private BattleEffectTrigger Trigger { get; set; }
     private int _baseValue;
     public int Value;
-    private Action<BattleDirector, RelicEffect, int> _onRelicEffect;
+    private Action<BattleEventArgs, RelicEffect, int> _onRelicEffect;
     private bool _effectPersists = false;
 
     public RelicEffect(
         BattleEffectTrigger trigger,
         int val,
-        Action<BattleDirector, RelicEffect, int> onRelicEffect
+        Action<BattleEventArgs, RelicEffect, int> onRelicEffect,
+        bool persists = false
     )
     {
         _baseValue = val;
         Value = _baseValue;
         Trigger = trigger;
         _onRelicEffect = onRelicEffect;
+        _effectPersists = persists;
     }
 
     public void OnBattleEnd()
@@ -31,9 +33,9 @@ public partial class RelicEffect : IBattleEvent
             Value = _baseValue;
     }
 
-    public void OnTrigger(BattleDirector battleDirector)
+    public void OnTrigger(BattleEventArgs e)
     {
-        _onRelicEffect(battleDirector, this, Value);
+        _onRelicEffect(e, this, Value);
     }
 
     public BattleEffectTrigger GetTrigger()

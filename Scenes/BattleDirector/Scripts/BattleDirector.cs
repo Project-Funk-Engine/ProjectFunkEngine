@@ -1,6 +1,7 @@
 using System;
 using FunkEngine;
 using Godot;
+using Melanchall.DryWetMidi.Interaction;
 
 /**<summary>BattleDirector: Higher priority director to manage battle effects. Can directly access managers, which should signal up to Director WIP</summary>
  */
@@ -42,8 +43,9 @@ public partial class BattleDirector : Node2D
 
         Note noteToPlace = NPB.NotePlaced();
         noteToPlace.OnHit(this, Timing.Okay);
+
         CD.AddPlayerNote(noteToPlace, type, beat);
-        NotePlaced?.Invoke(this);
+        Harbinger.Instance.InvokeNotePlaced(new ArrowData(type, beat, noteToPlace));
         return true;
     }
 
@@ -84,6 +86,7 @@ public partial class BattleDirector : Node2D
         }
 
         TimeKeeper.InitVals(curSong.Bpm);
+        Harbinger.Init(this);
         InitPlayer();
         InitEnemies();
         CD.Initialize(curSong);
@@ -128,7 +131,7 @@ public partial class BattleDirector : Node2D
         }
         if (beat.Loop > TimeKeeper.LastBeat.Loop)
         {
-            ChartLooped?.Invoke(this);
+            Harbinger.Instance.InvokeChartLoop(beat.Loop);
         }
         TimeKeeper.LastBeat = beat;
     }
@@ -243,21 +246,21 @@ public partial class BattleDirector : Node2D
 
     #region BattleEffect Handling
 
-    private delegate void NotePlacedHandler(BattleDirector BD);
+    /*private delegate void NotePlacedHandler(BattleDirector BD);
     private event NotePlacedHandler NotePlaced;
 
     private delegate void ChartLoopHandler(BattleDirector BD);
-    private event ChartLoopHandler ChartLooped;
+    private event ChartLoopHandler ChartLooped;*/
 
     private void AddEvent(IBattleEvent bEvent)
     {
         switch (bEvent.GetTrigger()) //TODO: Look into a way to get eventhandler from string
         {
             case BattleEffectTrigger.NotePlaced:
-                NotePlaced += bEvent.OnTrigger;
+                Harbinger.Instance.NotePlaced += bEvent.OnTrigger;
                 break;
             case BattleEffectTrigger.OnLoop:
-                ChartLooped += bEvent.OnTrigger;
+                Harbinger.Instance.ChartLooped += bEvent.OnTrigger;
                 break;
         }
     }
@@ -293,8 +296,64 @@ public partial class BattleDirector : Node2D
     }
     #endregion
 
+    public partial class Harbinger : Resource
+    {
+        private static Harbinger _instance;
+        public static Harbinger Instance => _instance;
+
+        private BattleDirector _curDirector;
+
+        static Harbinger() { }
+
+        private Harbinger(BattleDirector BD)
+        {
+            _curDirector = BD;
+        }
+
+        internal static void Init(BattleDirector BD)
+        {
+            _instance = new Harbinger(BD);
+        }
+
+        /// <summary>
+        /// Event Args to handle event types triggering from the action of a note, without timing.
+        /// </summary>
+        /// <param name="bd">The BattleDirector calling the event.</param>
+        /// <param name="data">The note data of the passing note.</param>
+        public class NoteEventArgs(BattleDirector bd, ArrowData data) : BattleEventArgs(bd)
+        {
+            public ArrowData Data = data;
+        }
+
+        /// <summary>
+        /// Event Args to handle event types triggering from the start of a new loop.
+        /// </summary>
+        /// <param name="bd">The BattleDirector calling the event.</param>
+        /// <param name="incomingLoop">The loop starting.</param>
+        public class LoopEventArgs(BattleDirector bd, int incomingLoop) : BattleEventArgs(bd)
+        {
+            public int Loop = incomingLoop;
+        }
+
+        internal delegate void NotePlacedHandler(BattleEventArgs e);
+        internal event NotePlacedHandler NotePlaced;
+
+        public void InvokeNotePlaced(ArrowData data)
+        {
+            NotePlaced?.Invoke(new NoteEventArgs(_curDirector, data));
+        }
+
+        internal delegate void ChartLoopHandler(BattleEventArgs e);
+        internal event ChartLoopHandler ChartLooped;
+
+        public void InvokeChartLoop(int incLoop)
+        {
+            ChartLooped?.Invoke(new LoopEventArgs(_curDirector, incLoop));
+        }
+    }
+
     private void DebugKillEnemy()
     {
-        //Enemy.TakeDamage(1000);
+        Enemy.TakeDamage(1000);
     }
 }
