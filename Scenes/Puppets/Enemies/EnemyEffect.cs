@@ -7,13 +7,13 @@ public class EnemyEffect : IBattleEvent
     public EnemyPuppet Owner;
     private int _baseValue;
     public int Value;
-    private Action<BattleDirector, EnemyEffect, int> _onEnemyEffect;
+    private Action<BattleEventArgs, EnemyEffect, int> _onEnemyEffect;
 
     public EnemyEffect(
         EnemyPuppet owner,
         BattleEffectTrigger trigger,
         int val,
-        Action<BattleDirector, EnemyEffect, int> onEnemyEffect
+        Action<BattleEventArgs, EnemyEffect, int> onEnemyEffect
     )
     {
         Owner = owner;
@@ -23,9 +23,9 @@ public class EnemyEffect : IBattleEvent
         _onEnemyEffect = onEnemyEffect;
     }
 
-    public void OnTrigger(BattleDirector battleDirector)
+    public void OnTrigger(BattleEventArgs e)
     {
-        _onEnemyEffect(battleDirector, this, Value);
+        _onEnemyEffect(e, this, Value);
     }
 
     public BattleEffectTrigger GetTrigger()

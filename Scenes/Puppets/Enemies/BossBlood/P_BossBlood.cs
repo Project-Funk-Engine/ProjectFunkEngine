@@ -25,7 +25,7 @@ public partial class P_BossBlood : EnemyPuppet
                 this,
                 BattleEffectTrigger.OnLoop,
                 5,
-                (director, eff, val) =>
+                (e, eff, val) =>
                 {
                     eff.Owner.Heal(val);
                 }
