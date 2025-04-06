@@ -28,6 +28,7 @@ public partial class NotePlacementBar : Node
 
     [Export]
     private TextureProgressBar _notePlacementBar;
+    private Gradient _gradTex;
 
     [Export]
     private GpuParticles2D _particles;
@@ -59,6 +60,10 @@ public partial class NotePlacementBar : Node
         _notesToIncreaseCombo = 4;
 
         _barInitPosition = _notePlacementBar.Position;
+
+        if (_notePlacementBar.TextureProgress is GradientTexture2D gradientTexture)
+            _gradTex = gradientTexture.Gradient;
+        GD.Print(_gradTex);
     }
 
     public override void _Process(double delta)
@@ -151,6 +156,30 @@ public partial class NotePlacementBar : Node
     }
     #endregion
 
+    #region Helpers
+    private Color[] _fillColors = [Colors.Green, Colors.Aqua, Colors.Pink, Colors.Red];
+
+    private void FillWithColor(ArrowType type, Color overrideCol = default)
+    {
+        // ReSharper disable once CompareOfFloatsByEqualityOperator
+        if (CurrentBarValue == MaxValue)
+            return;
+        Color color = overrideCol == default ? _fillColors[(int)type] : overrideCol;
+
+        if (_gradTex.GetPointCount() == 1)
+            _gradTex.SetColor(0, color);
+
+        float offset = (float)((CurrentBarValue) / MaxValue);
+        _gradTex.AddPoint(offset, color);
+    }
+
+    private void ClearColors()
+    {
+        for (int i = _gradTex.GetPointCount() - 1; i > 0; i--)
+            _gradTex.RemovePoint(i);
+    }
+    #endregion
+
     #region Public Functions
     public int GetCurrentCombo()
     {
@@ -166,6 +195,7 @@ public partial class NotePlacementBar : Node
 
     public void IncreaseCharge(int amount = 1)
     {
+        FillWithColor(default, Colors.DarkViolet);
         CurrentBarValue += amount;
     }
 
@@ -181,10 +211,11 @@ public partial class NotePlacementBar : Node
             GD.PushWarning("Note is attempting placement without a full bar!");
         Note placedNote = GetNote(Input.IsActionPressed("Secondary"));
         CurrentBarValue -= placedNote.CostModifier * MaxValue;
+        ClearColors();
         return placedNote;
     }
 
-    public void HandleTiming(Timing timed)
+    public void HandleTiming(Timing timed, ArrowType type)
     {
         if (timed == Timing.Miss)
         {
@@ -192,14 +223,15 @@ public partial class NotePlacementBar : Node
         }
         else
         {
-            HitNote();
+            HitNote(type);
         }
     }
 
     // Hitting a note increases combo, combo mult, and note placement bar
-    private void HitNote()
+    private void HitNote(ArrowType type)
     {
         _currentCombo++;
+        FillWithColor(type);
         CurrentBarValue += ComboMult;
         UpdateComboMultText();
     }
