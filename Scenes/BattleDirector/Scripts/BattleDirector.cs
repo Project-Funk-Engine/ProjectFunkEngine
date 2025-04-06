@@ -167,13 +167,13 @@ public partial class BattleDirector : Node2D
         Timing timed = CheckTiming(beatDif);
 
         data.NoteRef.OnHit(this, timed);
-        NPB.HandleTiming(timed);
+        NPB.HandleTiming(timed, data.Type);
         CM.ComboText(timed, data.Type, NPB.GetCurrentCombo());
     }
 
     private void ForceMiss(ArrowType type)
     {
-        NPB.HandleTiming(Timing.Miss);
+        NPB.HandleTiming(Timing.Miss, type);
         CM.ComboText(Timing.Miss, type, NPB.GetCurrentCombo());
         Player.TakeDamage(4);
     }
