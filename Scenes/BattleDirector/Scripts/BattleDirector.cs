@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using FunkEngine;
 using Godot;
 using Melanchall.DryWetMidi.Interaction;
@@ -12,7 +13,10 @@ public partial class BattleDirector : Node2D
     public static readonly string LoadPath = "res://Scenes/BattleDirector/BattleScene.tscn";
 
     public PlayerPuppet Player;
-    public EnemyPuppet Enemy;
+    private EnemyPuppet[] _enemies;
+
+    [Export]
+    public Marker2D[] PuppetMarkers = new Marker2D[4]; //[0] is always player
 
     [Export]
     private Conductor CD;
@@ -49,14 +53,31 @@ public partial class BattleDirector : Node2D
         return true;
     }
 
-    public PuppetTemplate GetTarget(Note note)
+    public PuppetTemplate[] GetTargets(Note note)
     {
-        if (note.Owner == Player)
+        if (!note.IsPlayerNote())
+            return [Player];
+        switch (note.TargetType)
         {
-            return Enemy;
+            case Targetting.First:
+                if (GetFirstEnemy() != null)
+                    return [GetFirstEnemy()];
+                return [];
+            case Targetting.All:
+                return _enemies.Where(x => x.GetCurrentHealth() > 0).ToArray();
+        }
+        return null;
+    }
+
+    public PuppetTemplate GetFirstEnemy()
+    {
+        foreach (var enemy in _enemies)
+        {
+            if (enemy.GetCurrentHealth() > 0)
+                return enemy;
         }
 
-        return Player;
+        return null;
     }
     #endregion
 
@@ -99,7 +120,7 @@ public partial class BattleDirector : Node2D
     private void InitPlayer()
     {
         Player = GD.Load<PackedScene>(PlayerPuppet.LoadPath).Instantiate<PlayerPuppet>();
-        AddChild(Player);
+        PuppetMarkers[0].AddChild(Player);
         Player.Defeated += CheckBattleStatus;
         EventizeRelics();
         NPB.Setup(StageProducer.PlayerStats);
@@ -108,11 +129,19 @@ public partial class BattleDirector : Node2D
     private void InitEnemies()
     {
         //TODO: Refine
-        Enemy = GD.Load<PackedScene>(StageProducer.Config.EnemyScenePath)
-            .Instantiate<EnemyPuppet>();
-        AddChild(Enemy);
-        Enemy.Defeated += CheckBattleStatus;
-        AddEnemyEffects();
+        _enemies = new EnemyPuppet[StageProducer.Config.EnemyScenePath.Length];
+        for (int i = 0; i < StageProducer.Config.EnemyScenePath.Length; i++)
+        {
+            EnemyPuppet enemy = GD.Load<PackedScene>(StageProducer.Config.EnemyScenePath[0])
+                .Instantiate<EnemyPuppet>();
+            if (_enemies.Length == 1)
+                PuppetMarkers[2].AddChild(enemy);
+            else
+                PuppetMarkers[i + 1].AddChild(enemy);
+            enemy.Defeated += CheckBattleStatus;
+            _enemies[i] = enemy;
+            AddEnemyEffects(enemy);
+        }
     }
 
     public override void _Process(double delta)
@@ -207,8 +236,13 @@ public partial class BattleDirector : Node2D
             OnBattleLost();
             return;
         }
-        if (puppet == Enemy)
+        if (puppet is EnemyPuppet && IsBattleWon())
             OnBattleWon(); //will have to adjust this to account for when we have multiple enemies at once
+    }
+
+    private bool IsBattleWon()
+    {
+        return GetFirstEnemy() == null;
     }
 
     private void OnBattleWon()
@@ -258,9 +292,9 @@ public partial class BattleDirector : Node2D
         }
     }
 
-    private void AddEnemyEffects()
+    private void AddEnemyEffects(EnemyPuppet enemy)
     {
-        foreach (var effect in Enemy.GetBattleEvents())
+        foreach (var effect in enemy.GetBattleEvents())
         {
             AddEvent(effect);
         }
@@ -347,6 +381,9 @@ public partial class BattleDirector : Node2D
 
     private void DebugKillEnemy()
     {
-        Enemy.TakeDamage(1000);
+        foreach (EnemyPuppet enemy in _enemies)
+        {
+            enemy.TakeDamage(1000);
+        }
     }
 }

@@ -34,7 +34,7 @@ public struct BattleConfig
 {
     public Stages RoomType;
     public MapGrid.Room BattleRoom;
-    public string EnemyScenePath;
+    public string[] EnemyScenePath;
     public SongTemplate CurSong;
 }
 
@@ -222,6 +222,12 @@ public enum Timing
     Perfect = 4,
 }
 
+public enum Targetting
+{
+    First,
+    All,
+}
+
 public enum BattleEffectTrigger
 {
     NotePlaced,
@@ -262,7 +268,7 @@ public class MapGrid
     public class Room
     {
         public int Idx { get; private set; }
-        public int[] Children { get; private set; } = Array.Empty<int>();
+        public int[] Children { get; private set; } = [];
         public int X { get; private set; }
         public int Y { get; private set; }
         public Stages Type { get; private set; }
