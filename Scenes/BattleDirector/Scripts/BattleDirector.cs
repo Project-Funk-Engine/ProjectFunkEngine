@@ -245,13 +245,6 @@ public partial class BattleDirector : Node2D
     #endregion
 
     #region BattleEffect Handling
-
-    /*private delegate void NotePlacedHandler(BattleDirector BD);
-    private event NotePlacedHandler NotePlaced;
-
-    private delegate void ChartLoopHandler(BattleDirector BD);
-    private event ChartLoopHandler ChartLooped;*/
-
     private void AddEvent(IBattleEvent bEvent)
     {
         switch (bEvent.GetTrigger()) //TODO: Look into a way to get eventhandler from string
