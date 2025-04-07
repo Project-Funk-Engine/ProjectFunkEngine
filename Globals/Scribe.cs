@@ -186,16 +186,16 @@ public partial class Scribe : Node
         new RelicTemplate(
             4,
             "Chips",
-            "Hitting an enemy note deals a bit of damage.",
+            "Hitting a note deals a bit of damage.",
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Chips.png"),
             new RelicEffect[]
             {
                 new RelicEffect(
-                    BattleEffectTrigger.EnemyNoteHit,
+                    BattleEffectTrigger.NoteHit,
                     1,
-                    (director, self, val) =>
+                    (e, self, val) =>
                     {
-                        director.Enemy.TakeDamage(val);
+                        e.BD.Enemy.TakeDamage(val);
                     }
                 ),
             }
@@ -210,9 +210,9 @@ public partial class Scribe : Node
                 new RelicEffect(
                     BattleEffectTrigger.OnLoop,
                     5,
-                    (director, self, val) =>
+                    (e, self, val) =>
                     {
-                        director.Enemy.TakeDamage(val);
+                        e.BD.Enemy.TakeDamage(val);
                     }
                 ),
             }

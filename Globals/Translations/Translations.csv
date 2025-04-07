@@ -53,7 +53,7 @@ RELIC_AUROBOROS_TOOLTIP,"Bigger number, better person. Increases combo multiplie
 RELIC_COLORBOROS_NAME,Colorboros,彩蛇轮回
 RELIC_COLORBOROS_TOOLTIP,"Taste the rainbow. Charges the freestyle bar every riff.","品尝临岛，每次现场充值自由格条"
 RELIC_CHIPS_NAME,"Chips",薯片
-RELIC_CHIPS_TOOLTIP,"Hitting an enemy note deals a bit of damage.","击中敌方音符会造成少量伤害"
+RELIC_CHIPS_TOOLTIP,"Hitting a note deals a bit of damage.","击中音符会造成少量伤害。"
 RELIC_PAPERCUT_NAME,Paper Cut,纸割伤
 RELIC_PAPERCUT_TOOLTIP,"Deals damage each loop.","每轮造成伤害"
 INVENTORY_TAB_NOTES,Notes,乐谱

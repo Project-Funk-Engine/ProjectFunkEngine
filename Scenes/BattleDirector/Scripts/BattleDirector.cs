@@ -167,6 +167,7 @@ public partial class BattleDirector : Node2D
         Timing timed = CheckTiming(beatDif);
 
         data.NoteRef.OnHit(this, timed);
+        Harbinger.Instance.InvokeNoteHit(data.NoteRef);
         NPB.HandleTiming(timed, data.Type);
         CM.ComboText(timed, data.Type, NPB.GetCurrentCombo());
     }
@@ -255,8 +256,8 @@ public partial class BattleDirector : Node2D
             case BattleEffectTrigger.OnLoop:
                 Harbinger.Instance.ChartLooped += bEvent.OnTrigger;
                 break;
-            case BattleEffectTrigger.EnemyNoteHit:
-                EnemyNoteHit += bEvent.OnTrigger;
+            case BattleEffectTrigger.NoteHit:
+                Harbinger.Instance.NoteHit += bEvent.OnTrigger;
                 break;
         }
     }
@@ -331,6 +332,16 @@ public partial class BattleDirector : Node2D
             public int Loop = incomingLoop;
         }
 
+        /// <summary>
+        /// Event Args to handle notes being hit
+        /// </summary>
+        /// <param name="bd">The BattleDirector calling the event.</param>
+        /// <param name="note">The Note being hit.</param>
+        public class NotHitArgs(BattleDirector bd, Note note) : BattleEventArgs(bd)
+        {
+            public Note Note = note;
+        }
+
         internal delegate void NotePlacedHandler(BattleEventArgs e);
         internal event NotePlacedHandler NotePlaced;
 
@@ -345,6 +356,14 @@ public partial class BattleDirector : Node2D
         public void InvokeChartLoop(int incLoop)
         {
             ChartLooped?.Invoke(new LoopEventArgs(_curDirector, incLoop));
+        }
+
+        internal delegate void NoteHitHandler(BattleEventArgs e);
+        internal event NoteHitHandler NoteHit;
+
+        public void InvokeNoteHit(Note note)
+        {
+            NoteHit?.Invoke(new NotHitArgs(_curDirector, note));
         }
     }
 

@@ -225,7 +225,7 @@ public enum Timing
 public enum BattleEffectTrigger
 {
     NotePlaced,
-    EnemyNoteHit,
+    NoteHit,
     SelfNoteHit,
     OnPickup,
     OnLoop,
