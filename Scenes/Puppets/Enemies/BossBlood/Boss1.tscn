@@ -1,9 +1,17 @@
 [gd_scene load_steps=8 format=3 uid="uid://bi5iqbwpsd381"]
 
-[ext_resource type="Script" path="res://Scenes/Puppets/Enemies/BossBlood/P_BossBlood.cs" id="1_qj2oj"]
+[ext_resource type="Script" uid="uid://bpyrrnhvisxgv" path="res://Scenes/Puppets/Enemies/BossBlood/P_BossBlood.cs" id="1_qj2oj"]
 [ext_resource type="Texture2D" uid="uid://veedngaorx3l" path="res://Scenes/Puppets/Enemies/BossBlood/Assets/Boss1.png" id="2_mul30"]
 [ext_resource type="Texture2D" uid="uid://b2iptr3o8rg4t" path="res://Scenes/Puppets/Enemies/BossBlood/Assets/Boss1EmissionShape.tres" id="3_yxnso"]
 [ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://Scenes/Puppets/HealthBar.tscn" id="4_ffkxf"]
+
+[sub_resource type="Gradient" id="Gradient_s7p55"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.641048, 0.0406094, 0.0473231, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_16sp0"]
+gradient = SubResource("Gradient_s7p55")
+width = 1
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3jiu6"]
 emission_shape = 4
@@ -14,19 +22,10 @@ scale_min = 4.0
 scale_max = 4.0
 turbulence_noise_strength = 14.2
 
-[sub_resource type="Gradient" id="Gradient_s7p55"]
-offsets = PackedFloat32Array(0)
-colors = PackedColorArray(0.641048, 0.0406094, 0.0473231, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_16sp0"]
-gradient = SubResource("Gradient_s7p55")
-width = 1
-
 [node name="EnemPuppet" type="Node2D" node_paths=PackedStringArray("HealthBar", "Sprite")]
 script = ExtResource("1_qj2oj")
 HealthBar = NodePath("ProgressBar")
 Sprite = NodePath("Sprite")
-StartPos = Vector2(500, 125)
 InitScale = Vector2(2, 2)
 
 [node name="Sprite" type="Sprite2D" parent="."]
@@ -37,10 +36,10 @@ texture = ExtResource("2_mul30")
 z_index = -1
 position = Vector2(-32, -32)
 amount = 4
-process_material = SubResource("ParticleProcessMaterial_3jiu6")
 texture = SubResource("GradientTexture1D_16sp0")
 lifetime = 2.0
 trail_lifetime = 10.0
+process_material = SubResource("ParticleProcessMaterial_3jiu6")
 
 [node name="ProgressBar" parent="." instance=ExtResource("4_ffkxf")]
 offset_left = -75.0

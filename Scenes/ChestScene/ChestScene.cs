@@ -12,10 +12,13 @@ public partial class ChestScene : Node2D
     [Export]
     public Button ChestButton;
 
+    [Export]
+    public Marker2D PlayerMarker;
+
     public override void _Ready()
     {
         _player = GD.Load<PackedScene>(PlayerPuppet.LoadPath).Instantiate<PlayerPuppet>();
-        AddChild(_player);
+        PlayerMarker.AddChild(_player);
 
         ChestButton.Pressed += GetLoot;
     }
