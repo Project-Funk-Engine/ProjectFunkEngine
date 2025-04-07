@@ -1,0 +1,133 @@
+[gd_scene load_steps=12 format=3 uid="uid://duhiilcv4tat3"]
+
+[ext_resource type="Script" uid="uid://gj666xe815py" path="res://Scenes/BattleDirector/Scripts/NotePlacementBar.cs" id="1_456es"]
+[ext_resource type="Texture2D" uid="uid://cnyr5usjdv0ni" path="res://Scenes/BattleDirector/Assets/NoteQueue_Frame.png" id="2_3tw16"]
+[ext_resource type="Texture2D" uid="uid://c3chrsxrulapd" path="res://Classes/Notes/Assets/Note_PlayerBasic.png" id="3_6ylx6"]
+[ext_resource type="Texture2D" uid="uid://caw70lr5e1yiq" path="res://Classes/Notes/Assets/Note_PlayerDouble.png" id="4_6w8ha"]
+
+[sub_resource type="Gradient" id="Gradient_0u6yv"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hhds4"]
+gradient = SubResource("Gradient_0u6yv")
+width = 34
+height = 100
+
+[sub_resource type="Gradient" id="Gradient_xvck1"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_0bqho"]
+gradient = SubResource("Gradient_xvck1")
+width = 32
+height = 98
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="Gradient" id="Gradient_2uknl"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.46, 0.2162, 0.39905, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_d62c7"]
+gradient = SubResource("Gradient_2uknl")
+width = 1
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fy2uu"]
+lifetime_randomness = 0.32
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(40, 5, 1)
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, 1, 0)
+spread = 13.548
+initial_velocity_min = 124.08
+initial_velocity_max = 176.41
+gravity = Vector3(0, 98, 0)
+scale_min = 2.0
+scale_max = 3.0
+turbulence_noise_strength = 0.1
+turbulence_noise_scale = 5.0
+turbulence_influence_min = 0.0
+turbulence_influence_max = 0.018
+
+[node name="NotePlacementBar" type="Control" node_paths=PackedStringArray("_notePlacementBar", "_particles", "_fullBarParticles", "_currentComboMultText", "_currentNote", "_nextNote")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_456es")
+_notePlacementBar = NodePath("PlacementBar")
+_particles = NodePath("PlacementBar/Rock")
+_fullBarParticles = NodePath("PlacementBar/FullBarParticles")
+_currentComboMultText = NodePath("CurrentCombo")
+_currentNote = NodePath("NoteQueueSprite/CurrentNote")
+_nextNote = NodePath("NoteQueueSprite/NextNote")
+
+[node name="PlacementBar" type="TextureProgressBar" parent="."]
+layout_mode = 0
+offset_left = 41.0
+offset_top = 33.0
+offset_right = 75.0
+offset_bottom = 133.0
+fill_mode = 3
+texture_under = SubResource("GradientTexture2D_hhds4")
+texture_progress = SubResource("GradientTexture2D_0bqho")
+texture_progress_offset = Vector2(1, 1)
+
+[node name="Rock" type="GPUParticles2D" parent="PlacementBar"]
+z_index = 1
+position = Vector2(-1, -32)
+emitting = false
+amount = 22
+texture = SubResource("GradientTexture1D_d62c7")
+lifetime = 2.0
+preprocess = 0.1
+explosiveness = 0.3
+randomness = 0.05
+process_material = SubResource("ParticleProcessMaterial_fy2uu")
+
+[node name="FullBarParticles" type="CPUParticles2D" parent="PlacementBar"]
+position = Vector2(14, 98)
+emitting = false
+amount = 10
+lifetime = 1.5
+direction = Vector2(0, -1)
+spread = 15.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 25.0
+initial_velocity_max = 50.0
+scale_amount_max = 2.0
+color = Color(1, 1, 0.0745098, 1)
+
+[node name="CurrentCombo" type="TextEdit" parent="."]
+z_as_relative = false
+custom_minimum_size = Vector2(80, 35)
+layout_mode = 0
+offset_right = 80.0
+offset_bottom = 35.0
+mouse_filter = 2
+text = "    x1"
+context_menu_enabled = false
+shortcut_keys_enabled = false
+selecting_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+virtual_keyboard_enabled = false
+middle_mouse_paste_enabled = false
+
+[node name="NoteQueueSprite" type="Sprite2D" parent="."]
+position = Vector2(23, 66)
+rotation = -1.5708
+texture = ExtResource("2_3tw16")
+
+[node name="NextNote" type="Sprite2D" parent="NoteQueueSprite"]
+position = Vector2(-16, 0)
+rotation = 1.5708
+texture = ExtResource("3_6ylx6")
+
+[node name="CurrentNote" type="Sprite2D" parent="NoteQueueSprite"]
+position = Vector2(16, 0)
+rotation = 1.5708
+texture = ExtResource("4_6w8ha")

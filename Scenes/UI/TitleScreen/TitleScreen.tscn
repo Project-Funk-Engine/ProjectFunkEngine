@@ -1,19 +1,19 @@
 [gd_scene load_steps=21 format=3 uid="uid://bm41yti6ij2j"]
 
 [ext_resource type="Texture2D" uid="uid://b0tvsewgnf2x7" path="res://icon.svg" id="1_r5xy8"]
-[ext_resource type="Script" path="res://Scenes/UI/TitleScreen/Scripts/TitleScreen.cs" id="1_r22ha"]
+[ext_resource type="Script" uid="uid://ce7anmo6cerw3" path="res://Scenes/UI/TitleScreen/Scripts/TitleScreen.cs" id="1_r22ha"]
 [ext_resource type="Texture2D" uid="uid://ruxgynq6bc1m" path="res://Scenes/UI/TitleScreen/Assets/Background_Sky.png" id="1_txix1"]
 [ext_resource type="Texture2D" uid="uid://de2j543j83hmh" path="res://Scenes/UI/TitleScreen/Assets/Background_BackTree.png" id="2_4luva"]
-[ext_resource type="Script" path="res://Scenes/UI/TitleScreen/Scripts/SceneChange.cs" id="2_7f3m6"]
+[ext_resource type="Script" uid="uid://cahjluc6v7ked" path="res://Scenes/UI/TitleScreen/Scripts/SceneChange.cs" id="2_7f3m6"]
 [ext_resource type="Texture2D" uid="uid://b6fkei0i83vte" path="res://SharedAssets/Character1.png" id="2_cf582"]
 [ext_resource type="Texture2D" uid="uid://iqbqsiyjd3uq" path="res://Scenes/UI/TitleScreen/Assets/2D_Shadow_Map.webp" id="2_kw6qk"]
 [ext_resource type="Texture2D" uid="uid://dat1eoyl3do4e" path="res://Scenes/UI/TitleScreen/Assets/Background_FrontTree.png" id="3_hvvt6"]
 [ext_resource type="Texture2D" uid="uid://d3rxic3mi8jwb" path="res://Scenes/UI/TitleScreen/Assets/Background_MidTree.png" id="4_ui8kj"]
 [ext_resource type="Texture2D" uid="uid://bj8dxrlwuwrv4" path="res://Scenes/UI/TitleScreen/Assets/Background_Moon.png" id="5_squvs"]
-[ext_resource type="Shader" path="res://Scenes/UI/TitleScreen/Assets/TransparentStars.gdshader" id="5_x5dhk"]
+[ext_resource type="Shader" uid="uid://carejaurqw2we" path="res://Scenes/UI/TitleScreen/Assets/TransparentStars.gdshader" id="5_x5dhk"]
 [ext_resource type="FontFile" uid="uid://dlwfb7kb7pd76" path="res://Scenes/UI/TitleScreen/Assets/TitleScreenFont.TTF" id="8_gkfev"]
 [ext_resource type="Texture2D" uid="uid://hfxynr5jdgsp" path="res://Scenes/NoteManager/Assets/New_Arrow.png" id="10_4hnj8"]
-[ext_resource type="Shader" path="res://Scenes/UI/TitleScreen/Assets/TitleFont.gdshader" id="11_ht0dv"]
+[ext_resource type="Shader" uid="uid://bxvlpwylcbfvm" path="res://Scenes/UI/TitleScreen/Assets/TitleFont.gdshader" id="11_ht0dv"]
 [ext_resource type="PackedScene" uid="uid://bi5iqbwpsd381" path="res://Scenes/Puppets/Enemies/BossBlood/Boss1.tscn" id="12_lng3a"]
 [ext_resource type="PackedScene" uid="uid://uvlux4t6h5de" path="res://Scenes/Puppets/Enemies/Parasifly/Parasifly.tscn" id="13_j3xa4"]
 
@@ -171,9 +171,11 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer/MarginContainer"]
+[node name="Start" type="Button" parent="VBoxContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+focus_neighbor_right = NodePath("../../MarginContainer3/Continue")
+focus_neighbor_bottom = NodePath("../../../Options")
 text = "TITLE_START"
 script = ExtResource("2_7f3m6")
 ScenePath = 5
@@ -188,9 +190,12 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer/MarginContainer3"]
+[node name="Continue" type="Button" parent="VBoxContainer/HBoxContainer/MarginContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../../MarginContainer/Start")
+focus_neighbor_right = NodePath("../../MarginContainer2/Quit")
+focus_neighbor_bottom = NodePath("../../../Options")
 text = "TITLE_CONTINUE"
 script = ExtResource("2_7f3m6")
 ScenePath = 6
@@ -204,22 +209,20 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer/MarginContainer2"]
+[node name="Quit" type="Button" parent="VBoxContainer/HBoxContainer/MarginContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../../MarginContainer3/Continue")
+focus_neighbor_bottom = NodePath("../../../Options")
 text = "TITLE_QUIT"
 script = ExtResource("2_7f3m6")
 ScenePath = 4
 
-[node name="Button" type="Button" parent="VBoxContainer"]
-visible = false
-layout_mode = 2
-text = "TITLE_CONTROLS"
-script = ExtResource("2_7f3m6")
-ScenePath = 6
-
 [node name="Options" type="Button" parent="VBoxContainer"]
 layout_mode = 2
+focus_neighbor_left = NodePath("../HBoxContainer/MarginContainer/Start")
+focus_neighbor_top = NodePath("../HBoxContainer/MarginContainer3/Continue")
+focus_neighbor_right = NodePath("../HBoxContainer/MarginContainer2/Quit")
 text = "TITLE_OPTIONS"
 
 [node name="EnemPuppet" parent="." instance=ExtResource("12_lng3a")]
@@ -234,7 +237,7 @@ position = Vector2(572, 167)
 z_index = -1
 z_as_relative = false
 position = Vector2(643, 154)
-process_material = SubResource("ParticleProcessMaterial_4croe")
 texture = ExtResource("10_4hnj8")
 lifetime = 15.0
 randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_4croe")
