@@ -63,7 +63,6 @@ public partial class NotePlacementBar : Node
 
         if (_notePlacementBar.TextureProgress is GradientTexture2D gradientTexture)
             _gradTex = gradientTexture.Gradient;
-        GD.Print(_gradTex);
     }
 
     public override void _Process(double delta)

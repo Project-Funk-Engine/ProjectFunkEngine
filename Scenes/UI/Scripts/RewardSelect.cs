@@ -17,19 +17,21 @@ public partial class RewardSelect : CanvasLayer
     [Export]
     private Button _skipButton;
 
+    private ButtonGroup _rewardGroup;
+
     public delegate void SelectionMadeHandler();
     public event SelectionMadeHandler Selected;
 
     private PlayerStats _player;
 
-    private RelicTemplate[] _rChoices; //TODO: look into typed functions
-    private RelicTemplate _rSelection;
+    private RelicTemplate[] _rChoices;
     private Note[] _nChoices;
-    private Note _nSelection;
+    private IDisplayable _selection;
 
     private void Initialize(PlayerStats player, int amount, Stages type)
     {
         _player = player;
+        _rewardGroup = new ButtonGroup();
         if (type == Stages.Battle)
         {
             GenerateNoteChoices(amount);
@@ -40,12 +42,24 @@ public partial class RewardSelect : CanvasLayer
         }
 
         _acceptButton.Pressed += OnSelect;
+        _acceptButton.FocusEntered += () => ChangeDescription(_selection);
         _skipButton.Pressed += OnSkip;
     }
 
     public override void _Process(double delta)
     {
-        _acceptButton.Visible = (_nSelection != null) || (_rSelection != null);
+        _acceptButton.Visible = (_selection != null);
+    }
+
+    private void AddButton(IDisplayable displayable)
+    {
+        var button = new DisplayButton();
+        button.SetButtonGroup(_rewardGroup);
+        button.ToggleMode = true;
+        button.Display(displayable.Texture, displayable.Tooltip, displayable.Name);
+        button.Pressed += () => SetSelection(displayable);
+        button.FocusEntered += () => ChangeDescription(displayable);
+        ButtonContainer.AddChild(button);
     }
 
     private void GenerateRelicChoices(int amount = 1)
@@ -56,10 +70,7 @@ public partial class RewardSelect : CanvasLayer
 
         foreach (var relic in _rChoices)
         {
-            var button = new DisplayButton();
-            button.Display(relic.Texture, relic.Tooltip, relic.Name);
-            button.Pressed += () => OnRelicSelected(relic);
-            ButtonContainer.AddChild(button);
+            AddButton(relic);
         }
         ButtonContainer.GetChild<Button>(0).GrabFocus();
     }
@@ -72,10 +83,7 @@ public partial class RewardSelect : CanvasLayer
 
         foreach (var note in _nChoices)
         {
-            var button = new DisplayButton();
-            button.Display(note.Texture, note.Tooltip, note.Name);
-            button.Pressed += () => OnNoteSelected(note);
-            ButtonContainer.AddChild(button);
+            AddButton(note);
         }
         ButtonContainer.GetChild<Button>(0).GrabFocus();
     }
@@ -95,35 +103,44 @@ public partial class RewardSelect : CanvasLayer
         return rewardUI;
     }
 
-    private void OnNoteSelected(Note choiceNote)
+    private void ChangeDescription(IDisplayable displayable)
     {
-        _nSelection = choiceNote;
-        string noteName = choiceNote.Name.ToUpper();
-        _description.Text =
-            Tr("NOTE_" + noteName + "_NAME") + ": " + Tr("NOTE_" + noteName + "_TOOLTIP");
+        if (displayable == null)
+        {
+            _description.Text = "";
+            return;
+        }
+        string name = displayable.Name.ToUpper();
+        name = name.Replace(" ", "");
+        string type = displayable switch
+        {
+            Note => "NOTE_",
+            RelicTemplate => "RELIC_",
+            _ => "UNKNOWN_",
+        };
+        _description.Text = Tr(type + name + "_NAME") + ": " + Tr(type + name + "_TOOLTIP");
     }
 
-    private void OnRelicSelected(RelicTemplate choiceRelic)
+    private void SetSelection(IDisplayable reward)
     {
-        _rSelection = choiceRelic;
-        string relicName = choiceRelic.Name.ToUpper();
-        relicName = relicName.Replace(" ", "");
-        _description.Text =
-            Tr("RELIC_" + relicName + "_NAME") + ": " + Tr("RELIC_" + relicName + "_TOOLTIP");
+        _selection = reward;
+        ChangeDescription(reward);
     }
 
     private void OnSelect()
     {
-        if (_nSelection == null && _rSelection == null)
-            return;
-        if (_nSelection != null)
+        switch (_selection)
         {
-            _player.AddNote(_nSelection);
+            case Note note:
+                _player.AddNote(note);
+                break;
+            case RelicTemplate relic:
+                _player.AddRelic(relic);
+                break;
+            default:
+                return;
         }
-        else if (_rSelection != null)
-        {
-            _player.AddRelic(_rSelection);
-        }
+
         GetTree().Paused = false;
         Selected?.Invoke();
         QueueFree();

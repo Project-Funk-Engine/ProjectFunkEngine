@@ -17,7 +17,7 @@ CONTROLS_RETURN_BUTTON,Return,返回
 ESCAPE_MENU_RESUME,Resume,继续
 ESCAPE_MENU_QUIT,Quit,退出
 ESCAPE_MENU_TITLE,Quit to Title,返回标题
-CHEST_ROOM_REWARDS,Rewards!,奖励!
+CHEST_ROOM_REWARDS,Reward Selection!,奖励!
 CHEST_ROOM_SKIP,Skip,跳过
 CHEST_ROOM_ACCEPT,Accept,接受
 BATTLE_ROOM_BEGIN_BUTTON,"Begin Battle [Enter]","开始战斗 [Enter]"
