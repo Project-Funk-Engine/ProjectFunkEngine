@@ -34,7 +34,7 @@ public partial class Inventory : Control, IFocusableMenu
         {
             var newButton = GD.Load<PackedScene>(DisplayButton.LoadPath)
                 .Instantiate<DisplayButton>();
-            newButton.Display(item.Texture, item.Tooltip, item.Name);
+            newButton.Display(item.Texture, item.Tooltip, item.Name, true);
             newButton.Pressed += () =>
             {
                 DoDescription(newButton);
