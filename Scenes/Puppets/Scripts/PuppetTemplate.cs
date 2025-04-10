@@ -127,7 +127,6 @@ public partial class PuppetTemplate : Node2D
 
     public virtual void TakeDamage(int amount)
     {
-        GD.Print($"Taking Damage: {amount}, with shield count: {_numShield}");
         if (_numShield > 0 && amount > 0)
         {
             _numShield--;
