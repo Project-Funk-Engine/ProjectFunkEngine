@@ -1,0 +1,114 @@
+[gd_scene load_steps=2 format=3 uid="uid://dgjmb0wllsj41"]
+
+[ext_resource type="Script" uid="uid://drt21hext7pm2" path="res://Scenes/UI/Options/Scripts/CreditsMenu.cs" id="1_n36fd"]
+
+[node name="Control" type="Control" node_paths=PackedStringArray("_returnButton")]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_n36fd")
+_returnButton = NodePath("CenterContainer/MarginContainer/ColorRect/MarginContainer/ColorRect/HBoxContainer4/Return Button")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 358.0
+color = Color(0.241156, 0.241156, 0.241156, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="CenterContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/ColorRect"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = -1.0
+offset_right = 48.0
+offset_bottom = 39.0
+scale = Vector2(14.6, 7.88)
+
+[node name="ColorRect" type="ColorRect" parent="CenterContainer/MarginContainer/ColorRect/MarginContainer"]
+layout_mode = 2
+color = Color(0.306923, 0.306923, 0.306923, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MarginContainer/ColorRect/MarginContainer/ColorRect"]
+layout_mode = 0
+offset_left = 15.5479
+offset_top = 2.28426
+offset_right = 70.5479
+offset_bottom = 42.2843
+scale = Vector2(0.150685, 0.248731)
+
+[node name="Title" type="Label" parent="CenterContainer/MarginContainer/ColorRect/MarginContainer/ColorRect/VBoxContainer"]
+layout_mode = 2
+text = "Credits"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/MarginContainer/ColorRect/MarginContainer/ColorRect"]
+layout_mode = 0
+offset_left = 2.32877
+offset_top = 11.6751
+offset_right = 219.329
+offset_bottom = 164.675
+scale = Vector2(0.0566447, 0.0947541)
+
+[node name="Label" type="Label" parent="CenterContainer/MarginContainer/ColorRect/MarginContainer/ColorRect/HBoxContainer"]
+layout_mode = 2
+text = "Programmers
+ Jarod Spanger: Project Lead
+Connor Lowe
+Raul Mojarro
+Thomas Wessel
+Michael Quinn"
+horizontal_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CenterContainer/MarginContainer/ColorRect/MarginContainer/ColorRect"]
+layout_mode = 0
+offset_left = 18.0137
+offset_top = 12.3096
+offset_right = 99.0137
+offset_bottom = 113.31
+scale = Vector2(0.0602738, 0.102849)
+
+[node name="Label" type="Label" parent="CenterContainer/MarginContainer/ColorRect/MarginContainer/ColorRect/HBoxContainer2"]
+layout_mode = 2
+text = "Artists
+Ares Atlas
+Evelyn Fu
+Emily Wen"
+horizontal_alignment = 1
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="CenterContainer/MarginContainer/ColorRect/MarginContainer/ColorRect"]
+layout_mode = 0
+offset_left = 26.1644
+offset_top = 11.802
+offset_right = 200.164
+offset_bottom = 86.802
+scale = Vector2(0.0544615, 0.10085)
+
+[node name="Label" type="Label" parent="CenterContainer/MarginContainer/ColorRect/MarginContainer/ColorRect/HBoxContainer3"]
+layout_mode = 2
+text = "Sound
+Sam Meyer: Composer
+"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="CenterContainer/MarginContainer/ColorRect/MarginContainer/ColorRect"]
+layout_mode = 0
+offset_left = 14.3836
+offset_top = 30.7107
+offset_right = 133.384
+offset_bottom = 70.7107
+scale = Vector2(0.101568, 0.177799)
+
+[node name="Return Button" type="Button" parent="CenterContainer/MarginContainer/ColorRect/MarginContainer/ColorRect/HBoxContainer4"]
+layout_mode = 2
+text = "Return Button"
+flat = true
