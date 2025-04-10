@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://uvlux4t6h5de"]
 
-[ext_resource type="Script" path="res://Scenes/Puppets/Enemies/Parasifly/P_Parasifly.cs" id="1_ci2ca"]
+[ext_resource type="Script" uid="uid://btaqgieybx0ep" path="res://Scenes/Puppets/Enemies/Parasifly/P_Parasifly.cs" id="1_ci2ca"]
 [ext_resource type="Texture2D" uid="uid://pngu3pw1pu4o" path="res://Scenes/Puppets/Enemies/Parasifly/Assets/Parasifly.png" id="2_g4o48"]
 [ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://Scenes/Puppets/HealthBar.tscn" id="3_f74ri"]
 [ext_resource type="Texture2D" uid="uid://bsg8b14xbddb6" path="res://SharedAssets/Shield.png" id="4_eemg7"]

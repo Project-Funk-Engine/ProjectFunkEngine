@@ -17,13 +17,12 @@ public partial class PuppetTemplate : Node2D
     public Sprite2D Sprite;
 
     [Export]
-    public Vector2 StartPos; //158, 126
-
-    [Export]
     public Vector2 InitScale = Vector2.One;
 
     [Export]
     public bool HideHealth;
+
+    private Vector2 _startPos;
 
     protected int MaxHealth = 100;
     protected int CurrentHealth = 100;
@@ -42,7 +41,7 @@ public partial class PuppetTemplate : Node2D
     public override void _Ready()
     {
         HealthBar.SetHealth(MaxHealth, CurrentHealth);
-        Position = StartPos;
+        _startPos = Position;
         Sprite.Scale = InitScale;
 
         HealthBar.Visible = !HideHealth;
@@ -81,14 +80,14 @@ public partial class PuppetTemplate : Node2D
             _shakeStrength = (float)Mathf.Lerp(_shakeStrength, 0, _shakeFade * delta);
         }
         Position =
-            StartPos
+            _startPos
             + new Vector2(
                 (float)GD.RandRange(-_shakeStrength, _shakeStrength),
                 (float)GD.RandRange(-_shakeStrength, _shakeStrength)
             );
     }
 
-    protected virtual void DamageAnimate(int amount)
+    protected virtual Tween DamageAnimate(int amount)
     { //TODO: Make animate in time with bpm
         float damageAnimDir = (GetViewportRect().Size / 2 - Position).Normalized().X;
         float scalar = (float)amount / MaxHealth;
@@ -115,7 +114,14 @@ public partial class PuppetTemplate : Node2D
                 _baseAnimDuration
             )
             .AsRelative();
-        tween.Chain().TweenProperty(this, "position", StartPos, 2 * _baseAnimDuration);
+        tween.Chain().TweenProperty(this, "position", _startPos, 2 * _baseAnimDuration);
+        return tween;
+    }
+
+    protected virtual void Kill()
+    {
+        Defeated?.Invoke(this);
+        Visible = false;
     }
     #endregion
 
@@ -141,10 +147,10 @@ public partial class PuppetTemplate : Node2D
         if (CurrentHealth <= 0 || amount == 0)
             return; //Only check if hp would change
         CurrentHealth = HealthBar.ChangeHP(-amount);
-        DamageAnimate(amount);
+        Tween deathTween = DamageAnimate(amount);
         if (CurrentHealth <= 0)
         {
-            Defeated?.Invoke(this);
+            deathTween.TweenCallback(Callable.From(Kill));
         }
 
         TextParticle newText = new TextParticle();

@@ -33,7 +33,7 @@ public partial class Scribe : Node
             {
                 if (timing == Timing.Miss)
                     return;
-                director.Enemy.TakeDamage((int)timing * note.GetBaseVal());
+                director.GetFirstEnemy()?.TakeDamage((int)timing * note.GetBaseVal());
             }
         ),
         new Note(
@@ -47,7 +47,7 @@ public partial class Scribe : Node
             {
                 if (timing == Timing.Miss)
                     return;
-                director.Enemy.TakeDamage(note.GetBaseVal() * (int)timing);
+                director.GetFirstEnemy()?.TakeDamage(note.GetBaseVal() * (int)timing);
             }
         ),
         new Note(
@@ -76,7 +76,7 @@ public partial class Scribe : Node
                 if (timing == Timing.Miss)
                     return;
                 director.Player.Heal((int)timing * note.GetBaseVal());
-                director.Enemy.TakeDamage((int)timing * note.GetBaseVal());
+                director.GetFirstEnemy()?.TakeDamage((int)timing * note.GetBaseVal());
             }
         ),
         new Note(
@@ -90,7 +90,7 @@ public partial class Scribe : Node
             {
                 if (timing == Timing.Miss)
                     return;
-                director.Enemy.TakeDamage((int)timing + note.GetBaseVal());
+                director.GetFirstEnemy()?.TakeDamage((int)timing + note.GetBaseVal());
             },
             0.25f
         ),
@@ -301,7 +301,7 @@ public partial class Scribe : Node
         ),
     };
 
-    public static readonly SongTemplate[] SongDictionary = new[]
+    public static readonly SongTemplate[] SongDictionary = new[] //Generalize and make pools for areas/room types
     {
         new SongTemplate(
             new SongData
@@ -312,7 +312,8 @@ public partial class Scribe : Node
             },
             "Song1",
             "Audio/Song1.ogg",
-            "Audio/Midi/Song1.mid"
+            "Audio/Midi/Song1.mid",
+            [P_BossBlood.LoadPath]
         ),
         new SongTemplate(
             new SongData
@@ -324,7 +325,19 @@ public partial class Scribe : Node
             "Song2",
             "Audio/Song2.ogg",
             "Audio/Midi/Song2.mid",
-            P_Parasifly.LoadPath
+            [P_Parasifly.LoadPath]
+        ),
+        new SongTemplate(
+            new SongData
+            {
+                Bpm = 60,
+                SongLength = -1,
+                NumLoops = 1,
+            },
+            "Song2",
+            "Audio/Song2.ogg",
+            "Audio/Midi/Song2.mid",
+            [P_Parasifly.LoadPath, P_Parasifly.LoadPath]
         ),
         new SongTemplate(
             new SongData
@@ -336,7 +349,7 @@ public partial class Scribe : Node
             "Song3",
             "Audio/Song3.ogg",
             "Audio/Midi/Song3.mid",
-            P_TheGWS.LoadPath
+            [P_TheGWS.LoadPath]
         ),
     };
 

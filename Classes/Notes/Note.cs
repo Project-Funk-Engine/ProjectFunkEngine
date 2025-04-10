@@ -12,6 +12,7 @@ public partial class Note : Resource, IDisplayable
     public string Name { get; set; }
     private int _baseVal;
     public float CostModifier { get; private set; }
+    public Targetting TargetType { get; private set; }
     private Action<BattleDirector, Note, Timing> NoteEffect;
 
     public const double TimingMax = 0.5d; //The max range for a note to be timed is its beat +/- this const
@@ -27,7 +28,8 @@ public partial class Note : Resource, IDisplayable
         PuppetTemplate owner = null,
         int baseVal = 1,
         Action<BattleDirector, Note, Timing> noteEffect = null,
-        float costModifier = 1.0f
+        float costModifier = 1.0f,
+        Targetting targetType = Targetting.First
     )
     {
         Id = id;
@@ -38,13 +40,17 @@ public partial class Note : Resource, IDisplayable
             ?? (
                 (BD, source, timing) =>
                 {
-                    BD.GetTarget(this).TakeDamage((int)timing * source._baseVal);
+                    Array.ForEach(
+                        BD.GetTargets(source), //Ok, sure
+                        enemy => enemy.TakeDamage((int)timing * source._baseVal)
+                    );
                 }
             );
         _baseVal = baseVal;
         Texture = texture;
         Tooltip = tooltip;
         CostModifier = costModifier;
+        TargetType = targetType;
     }
 
     public void OnHit(BattleDirector BD, Timing timing)
