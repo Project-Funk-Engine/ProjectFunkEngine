@@ -241,6 +241,16 @@ public enum Stages
     Map,
     Load,
 }
+
+public enum Rarity
+{
+    Common,
+    Uncommon,
+    Rare,
+    Epic,
+    Legendary,
+    Breakfast,
+}
 #endregion
 
 /**

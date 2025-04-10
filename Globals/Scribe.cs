@@ -116,6 +116,7 @@ public partial class Scribe : Node
             0,
             "Breakfast", //Reference ha ha, Item to give when relic pool is empty.
             "Increases max hp.", //TODO: Description can include the relics values?
+            Rarity.Breakfast,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Breakfast.png"),
             new RelicEffect[]
             {
@@ -134,6 +135,7 @@ public partial class Scribe : Node
             1,
             "Good Vibes",
             "Heals the player whenever they place a note.",
+            Rarity.Common,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_GoodVibes.png"),
             new RelicEffect[]
             {
@@ -151,6 +153,7 @@ public partial class Scribe : Node
             2,
             "Auroboros",
             "Bigger number, better person. Increases combo multiplier every riff.",
+            Rarity.Common,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Auroboros.png"),
             new RelicEffect[]
             {
@@ -169,6 +172,7 @@ public partial class Scribe : Node
             3,
             "Colorboros",
             "Taste the rainbow. Charges the freestyle bar every riff.",
+            Rarity.Common,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Colorboros.png"),
             new RelicEffect[]
             {
@@ -187,6 +191,7 @@ public partial class Scribe : Node
             4,
             "Chips",
             "Hitting a note deals a bit of damage.",
+            Rarity.Common,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Chips.png"),
             new RelicEffect[]
             {
@@ -204,6 +209,7 @@ public partial class Scribe : Node
             5,
             "Paper Cut",
             "Deals damage each loop.",
+            Rarity.Common,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_PaperCut.png"),
             new RelicEffect[]
             {
