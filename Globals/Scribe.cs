@@ -200,7 +200,7 @@ public partial class Scribe : Node
                     1,
                     (e, self, val) =>
                     {
-                        e.BD.Enemy.TakeDamage(val);
+                        e.BD.GetFirstEnemy().TakeDamage(val);
                     }
                 ),
             }
@@ -218,7 +218,7 @@ public partial class Scribe : Node
                     5,
                     (e, self, val) =>
                     {
-                        e.BD.Enemy.TakeDamage(val);
+                        e.BD.GetFirstEnemy().TakeDamage(val);
                     }
                 ),
             }
