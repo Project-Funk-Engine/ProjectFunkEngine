@@ -81,6 +81,7 @@ public partial class NotePlacementBar : Node
         }
         ShuffleNoteQueue();
         ProgressQueue();
+        MaxValue = playerStats.MaxComboBar;
     }
     #endregion
 

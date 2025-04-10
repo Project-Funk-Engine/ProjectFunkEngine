@@ -28,6 +28,13 @@ public partial class PuppetTemplate : Node2D
     protected int CurrentHealth = 100;
 
     //Stats would go here.
+    protected int _numShield = 0; //todo: shield mechanic to block / dodge damage
+
+    [Export]
+    public Sprite2D ShieldLogo;
+
+    [Export]
+    public Label ShieldText;
 
     protected string UniqName = ""; //Eventually make subclasses/scenes/real stuff
 
@@ -38,6 +45,9 @@ public partial class PuppetTemplate : Node2D
         Sprite.Scale = InitScale;
 
         HealthBar.Visible = !HideHealth;
+
+        if (_numShield == 0)
+            ShieldLogo.Visible = false;
     }
 
     public override void _Process(double delta)
@@ -117,6 +127,21 @@ public partial class PuppetTemplate : Node2D
 
     public virtual void TakeDamage(int amount)
     {
+        if (_numShield > 0 && amount > 0)
+        {
+            _numShield--;
+            ShieldText.Text = $"{_numShield}";
+            if (_numShield == 0)
+                ShieldLogo.Visible = false;
+
+            TextParticle blockText = new TextParticle();
+            blockText.Modulate = Colors.White; //white text for blocked damage
+            Sprite.AddChild(blockText);
+            blockText.Text = "-0"; //blocked damage is 0
+
+            return;
+        }
+
         amount = Math.Max(0, amount); //Should not be able to heal from damage.
         if (CurrentHealth <= 0 || amount == 0)
             return; //Only check if hp would change
@@ -126,6 +151,7 @@ public partial class PuppetTemplate : Node2D
         {
             deathTween.TweenCallback(Callable.From(Kill));
         }
+
         TextParticle newText = new TextParticle();
         newText.Modulate = Colors.Red;
         Sprite.AddChild(newText);
@@ -148,5 +174,12 @@ public partial class PuppetTemplate : Node2D
     public int GetCurrentHealth()
     {
         return CurrentHealth;
+    }
+
+    public virtual void GainShield(int amount)
+    {
+        ShieldLogo.Visible = true;
+        _numShield += amount;
+        ShieldText.Text = $"{_numShield}";
     }
 }
