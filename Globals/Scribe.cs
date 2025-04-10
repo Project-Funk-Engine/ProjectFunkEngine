@@ -169,6 +169,95 @@ public partial class Scribe : Node
                 ),
             }
         ),
+        new RelicTemplate(
+            4,
+            "Energy Drink",
+            "Take a chance to chillax and take a drink to increase your max energy bar.",
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_GoodVibes.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnLoop,
+                    10,
+                    (e, self, val) =>
+                    {
+                        e.BD.NPB.DecreaseMaxEnergy(5);
+                        self.Value++;
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            5,
+            "Bandage",
+            "A clean strip of cloth. Use it after a fight to patch up and feel better.",
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_GoodVibes.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnPickup,
+                    25,
+                    (e, self, val) =>
+                    {
+                        StageProducer.PlayerStats.CurrentHealth += val;
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            6,
+            "Medkit",
+            "A small kit with medical supplies. Heals you a bit after each loop.",
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_GoodVibes.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnLoop,
+                    5,
+                    (e, self, val) =>
+                    {
+                        e.BD.Player.Heal(val);
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            7,
+            "Vinyl Record",
+            "Plays the same move on repeat. Triggers the last effect again on loop.",
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Auroboros.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnLoop,
+                    10,
+                    (e, self, val) =>
+                    {
+                        foreach (RelicTemplate template in RelicDictionary)
+                        {
+                            switch (template.Name)
+                            {
+                                case "Auroboros":
+                                    e.BD.NPB.IncreaseBonusMult(val);
+                                    self.Value++;
+                                    break;
+                                case "Colorboros":
+                                    e.BD.NPB.IncreaseCharge(val);
+                                    self.Value += 5;
+                                    break;
+                                case "Energy Drink":
+                                    e.BD.NPB.DecreaseMaxEnergy(5);
+                                    self.Value++;
+                                    break;
+                                case "Medkit":
+                                    e.BD.Player.Heal(5);
+                                    break;
+                            }
+                        }
+                    }
+                ),
+            }
+        ),
     };
 
     public static readonly SongTemplate[] SongDictionary = new[] //Generalize and make pools for areas/room types

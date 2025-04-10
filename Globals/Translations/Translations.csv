@@ -50,6 +50,14 @@ RELIC_AUROBOROS_NAME,Auroboros,无尾蛇
 RELIC_AUROBOROS_TOOLTIP,"Bigger number, better person. Increases combo multiplier every riff.","进一步增加综合倍数，每次现场提升"
 RELIC_COLORBOROS_NAME,Colorboros,彩蛇轮回
 RELIC_COLORBOROS_TOOLTIP,"Taste the rainbow. Charges the freestyle bar every riff.","品尝临岛，每次现场充值自由格条"
+RELIC_ENERGYDRINK_NAME,Energy Drink,
+RELIC_ENERGYDRINK_TOOLTIP,"Take a chance to chillax and take a drink to increase your max energy bar.",""
+RELIC_BANDAGE_NAME,Bandage,
+RELIC_BANDAGE_TOOLTIP,"A clean strip of cloth. Use it after a fight to patch up and feel better.",""
+RELIC_MEDKIT_NAME,Medkit,
+RELIC_MEDKIT_TOOLTIP,"A small kit with medical supplies. Heals you a bit after each loop.",""
+RELIC_VINYLRECORD_NAME,Vinyl Record,
+RELIC_VINYLRECORD_TOOLTIP,"Plays the same move on repeat. Triggers the last effect again on loop.",""
 INVENTORY_TAB_NOTES,Notes,乐谱
 INVENTORY_TAB_RELICS,Relics,遗物
 OPTIONS_VOLUME_LABEL,Master Volume,最终音量设置

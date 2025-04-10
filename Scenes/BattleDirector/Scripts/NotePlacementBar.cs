@@ -198,6 +198,11 @@ public partial class NotePlacementBar : Node
         CurrentBarValue += amount;
     }
 
+    public void DecreaseMaxEnergy(int amount = 1)
+    {
+        MaxValue -= amount;
+    }
+
     public bool CanPlaceNote()
     {
         return CurrentBarValue >= MaxValue;
