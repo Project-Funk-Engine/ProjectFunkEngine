@@ -223,6 +223,82 @@ public partial class Scribe : Node
                 ),
             }
         ),
+        new RelicTemplate(
+            6,
+            "Energy Drink",
+            "Take a chance to cool down and sip an energy drink to increase your max energy bar.",
+            Rarity.Common,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_EnergyDrink.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnPickup,
+                    10,
+                    (e, self, val) =>
+                    {
+                        StageProducer.PlayerStats.MaxComboBar -= val;
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            7,
+            "Bandage",
+            "A clean strip of cloth. Use it after a fight to patch up and feel better.",
+            Rarity.Common,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Bandage.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnBattleEnd,
+                    10,
+                    (e, self, val) =>
+                    {
+                        StageProducer.PlayerStats.CurrentHealth += val;
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            8,
+            "Medkit",
+            "A small kit with medical supplies. Heals you a bit after each loop.",
+            Rarity.Common,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Medkit.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnLoop,
+                    5,
+                    (e, self, val) =>
+                    {
+                        e.BD.Player.Heal(val);
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            9,
+            "Vinyl Record",
+            "Right round, right round. All loop effects trigger twice.",
+            Rarity.Legendary,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_VinylRecord.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnLoop,
+                    0,
+                    (e, self, val) =>
+                    {
+                        if (
+                            (e is BattleDirector.Harbinger.LoopEventArgs eLoop)
+                            && !eLoop.ArtificialLoop
+                        )
+                            BattleDirector.Harbinger.Instance.InvokeChartLoop(eLoop.Loop);
+                    }
+                ),
+            }
+        ),
     };
 
     public static readonly SongTemplate[] SongDictionary = new[]
@@ -285,6 +361,7 @@ public partial class Scribe : Node
         {
             availableRelics = availableRelics.Append(RelicDictionary[0].Clone()).ToArray();
         }
+
         return availableRelics;
     }
 

@@ -229,6 +229,8 @@ public enum BattleEffectTrigger
     SelfNoteHit,
     OnPickup,
     OnLoop,
+    OnBattleStart,
+    OnBattleEnd,
 }
 
 public enum Stages

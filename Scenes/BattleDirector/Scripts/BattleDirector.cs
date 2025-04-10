@@ -46,6 +46,7 @@ public partial class BattleDirector : Node2D
 
         CD.AddPlayerNote(noteToPlace, type, beat);
         Harbinger.Instance.InvokeNotePlaced(new ArrowData(type, beat, noteToPlace));
+        Harbinger.Instance.InvokeNoteHit(noteToPlace, Timing.Okay); //TODO: test how this feels? maybe take it out later
         return true;
     }
 
@@ -131,7 +132,7 @@ public partial class BattleDirector : Node2D
         }
         if (beat.Loop > TimeKeeper.LastBeat.Loop)
         {
-            Harbinger.Instance.InvokeChartLoop(beat.Loop);
+            Harbinger.Instance.InvokeChartLoop(beat.Loop, false);
         }
         TimeKeeper.LastBeat = beat;
     }
@@ -167,7 +168,7 @@ public partial class BattleDirector : Node2D
         Timing timed = CheckTiming(beatDif);
 
         data.NoteRef.OnHit(this, timed);
-        Harbinger.Instance.InvokeNoteHit(data.NoteRef);
+        Harbinger.Instance.InvokeNoteHit(data.NoteRef, timed);
         NPB.HandleTiming(timed, data.Type);
         CM.ComboText(timed, data.Type, NPB.GetCurrentCombo());
     }
@@ -259,6 +260,9 @@ public partial class BattleDirector : Node2D
             case BattleEffectTrigger.NoteHit:
                 Harbinger.Instance.NoteHit += bEvent.OnTrigger;
                 break;
+            case BattleEffectTrigger.OnBattleEnd:
+                Harbinger.Instance.BattleEnded += bEvent.OnTrigger;
+                break;
         }
     }
 
@@ -327,9 +331,11 @@ public partial class BattleDirector : Node2D
         /// </summary>
         /// <param name="bd">The BattleDirector calling the event.</param>
         /// <param name="incomingLoop">The loop starting.</param>
-        public class LoopEventArgs(BattleDirector bd, int incomingLoop) : BattleEventArgs(bd)
+        public class LoopEventArgs(BattleDirector bd, int incomingLoop, bool artificialLoop = true)
+            : BattleEventArgs(bd)
         {
             public int Loop = incomingLoop;
+            public bool ArtificialLoop = artificialLoop;
         }
 
         /// <summary>
@@ -337,9 +343,10 @@ public partial class BattleDirector : Node2D
         /// </summary>
         /// <param name="bd">The BattleDirector calling the event.</param>
         /// <param name="note">The Note being hit.</param>
-        public class NotHitArgs(BattleDirector bd, Note note) : BattleEventArgs(bd)
+        public class NoteHitArgs(BattleDirector bd, Note note, Timing timing) : BattleEventArgs(bd)
         {
             public Note Note = note;
+            public Timing Timing = timing;
         }
 
         internal delegate void NotePlacedHandler(BattleEventArgs e);
@@ -353,17 +360,25 @@ public partial class BattleDirector : Node2D
         internal delegate void ChartLoopHandler(BattleEventArgs e);
         internal event ChartLoopHandler ChartLooped;
 
-        public void InvokeChartLoop(int incLoop)
+        public void InvokeChartLoop(int incLoop, bool artificialLoop = true)
         {
-            ChartLooped?.Invoke(new LoopEventArgs(_curDirector, incLoop));
+            ChartLooped?.Invoke(new LoopEventArgs(_curDirector, incLoop, artificialLoop));
         }
 
         internal delegate void NoteHitHandler(BattleEventArgs e);
         internal event NoteHitHandler NoteHit;
 
-        public void InvokeNoteHit(Note note)
+        public void InvokeNoteHit(Note note, Timing timing)
         {
-            NoteHit?.Invoke(new NotHitArgs(_curDirector, note));
+            NoteHit?.Invoke(new NoteHitArgs(_curDirector, note, timing));
+        }
+
+        internal delegate void BattleEndedHandler(BattleEventArgs e);
+        internal event BattleEndedHandler BattleEnded;
+
+        public void InvokeBattleEnded()
+        {
+            BattleEnded?.Invoke(new BattleEventArgs(_curDirector));
         }
     }
 

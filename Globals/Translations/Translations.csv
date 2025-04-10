@@ -56,6 +56,14 @@ RELIC_CHIPS_NAME,"Chips",薯片
 RELIC_CHIPS_TOOLTIP,"Hitting a note deals a bit of damage.","击中音符会造成少量伤害。"
 RELIC_PAPERCUT_NAME,Paper Cut,纸割伤
 RELIC_PAPERCUT_TOOLTIP,"Deals damage each loop.","每轮造成伤害"
+RELIC_ENERGYDRINK_NAME,Energy Drink,"能量饮料"
+RELIC_ENERGYDRINK_TOOLTIP,"Take a chance to cool down and sip an energy drink to increase your max energy bar.","碰碰运气，喝一口能量饮料来冷静下来并增加你的最大能量条。"
+RELIC_BANDAGE_NAME,Bandage,"绷带"
+RELIC_BANDAGE_TOOLTIP,"A clean strip of cloth. Use it after a fight to patch up and feel better.","一块干净的布条，战斗后使用来包扎并恢复一些健康。"
+RELIC_MEDKIT_NAME,Medkit,"急救包"
+RELIC_MEDKIT_TOOLTIP,"A small kit with medical supplies. Heals you a bit after each loop.","包含一些医疗用品的小包，每次循环后恢复少量生命。"
+RELIC_VINYLRECORD_NAME,Vinyl Record,"黑胶唱片"
+RELIC_VINYLRECORD_TOOLTIP,"Right round, right round. All loop effects trigger twice.","把我转起来，把我转起来。所有循环效果触发两次。"
 INVENTORY_TAB_NOTES,Notes,乐谱
 INVENTORY_TAB_RELICS,Relics,遗物
 OPTIONS_VOLUME_LABEL,Master Volume,最终音量设置
