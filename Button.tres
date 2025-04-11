@@ -1,6 +1,6 @@
-[gd_resource type="Theme" load_steps=10 format=4 uid="uid://d37e3tpsbxwak"]
+[gd_resource type="Theme" load_steps=9 format=4 uid="uid://d37e3tpsbxwak"]
 
-[ext_resource type="Texture2D" uid="uid://8u3xvcma81d" path="res://Scenes/UI/Assets/button_crystal_2.png" id="1_eys3j"]
+[ext_resource type="Texture2D" uid="uid://cwhw70s8iixk0" path="res://Scenes/UI/Assets/button_3d.png" id="1_crcjn"]
 
 [sub_resource type="Image" id="Image_rwyx4"]
 data = {
@@ -1195,40 +1195,37 @@ cache/0/20/0/glyphs/134217782/size = Vector2(12, 16)
 cache/0/20/0/glyphs/134217782/uv_rect = Rect2(186, 19, 12, 16)
 cache/0/20/0/glyphs/134217782/texture_idx = 0
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_umafu"]
-load_path = "res://.godot/imported/button_crystal_2.png-606310e5efb36a1694266e3b7a8004aa.ctex"
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_eys3j"]
+texture = ExtResource("1_crcjn")
+texture_margin_left = 12.0
+texture_margin_top = 9.0
+texture_margin_right = 12.0
+texture_margin_bottom = 18.0
+modulate_color = Color(0.478565, 3.77826e-06, 0.315994, 0.8)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hr0ed"]
-texture = SubResource("CompressedTexture2D_umafu")
-texture_margin_left = 6.0
-texture_margin_top = 6.0
-texture_margin_right = 6.0
-texture_margin_bottom = 7.0
-modulate_color = Color(0.5, 0.5, 0.5, 1)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_crcjn"]
+texture = ExtResource("1_crcjn")
+texture_margin_left = 12.0
+texture_margin_top = 9.0
+texture_margin_right = 12.0
+texture_margin_bottom = 18.0
+modulate_color = Color(0.858824, 0, 0.580392, 1)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ofhgo"]
-texture = ExtResource("1_eys3j")
-texture_margin_left = 6.0
-texture_margin_top = 6.0
-texture_margin_right = 6.0
-texture_margin_bottom = 7.0
-modulate_color = Color(1.1, 1.1, 1.1, 0.9)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gxcar"]
+texture = ExtResource("1_crcjn")
+texture_margin_left = 12.0
+texture_margin_top = 9.0
+texture_margin_right = 12.0
+texture_margin_bottom = 18.0
+modulate_color = Color(0.858987, 1.50168e-05, 0.580586, 0.75)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_h7yuw"]
-texture = ExtResource("1_eys3j")
-texture_margin_left = 6.0
-texture_margin_top = 6.0
-texture_margin_right = 6.0
-texture_margin_bottom = 7.0
-modulate_color = Color(1, 1, 1, 0.9)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wow46"]
-texture = ExtResource("1_eys3j")
-texture_margin_left = 6.0
-texture_margin_top = 6.0
-texture_margin_right = 6.0
-texture_margin_bottom = 7.0
-modulate_color = Color(0.7, 0.7, 0.7, 1)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_agpvv"]
+texture = ExtResource("1_crcjn")
+texture_margin_left = 12.0
+texture_margin_top = 9.0
+texture_margin_right = 12.0
+texture_margin_bottom = 18.0
+modulate_color = Color(0.729412, 0, 0.490196, 0.823529)
 
 [resource]
 Button/colors/font_color = Color(0.875, 0.875, 0.875, 1)
@@ -1250,7 +1247,7 @@ Button/constants/icon_max_width = 0
 Button/constants/outline_size = 0
 Button/font_sizes/font_size = 16
 Button/fonts/font = SubResource("FontFile_hr0ed")
-Button/styles/disabled = SubResource("StyleBoxTexture_hr0ed")
-Button/styles/hover = SubResource("StyleBoxTexture_ofhgo")
-Button/styles/normal = SubResource("StyleBoxTexture_h7yuw")
-Button/styles/pressed = SubResource("StyleBoxTexture_wow46")
+Button/styles/disabled = SubResource("StyleBoxTexture_eys3j")
+Button/styles/hover = SubResource("StyleBoxTexture_crcjn")
+Button/styles/normal = SubResource("StyleBoxTexture_gxcar")
+Button/styles/pressed = SubResource("StyleBoxTexture_agpvv")
