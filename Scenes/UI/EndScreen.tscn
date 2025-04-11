@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://hjho5n2f8rkf"]
+[gd_scene load_steps=4 format=3 uid="uid://hjho5n2f8rkf"]
 
-[ext_resource type="Script" path="res://Scenes/UI/Scripts/EndScreen.cs" id="1_37m3y"]
+[ext_resource type="Script" uid="uid://cj4bmpwdwg4qy" path="res://Scenes/UI/Scripts/EndScreen.cs" id="1_37m3y"]
+[ext_resource type="Texture2D" uid="uid://xbfsns3duyxl" path="res://Scenes/UI/Assets/button_glowy_1.png" id="2_tqft0"]
+[ext_resource type="Texture2D" uid="uid://8u3xvcma81d" path="res://Scenes/UI/Assets/button_crystal_2.png" id="3_aiuvw"]
 
 [node name="CanvasLayer" type="CanvasLayer" node_paths=PackedStringArray("_buttons", "TopLabel")]
 process_mode = 2
@@ -8,10 +10,15 @@ script = ExtResource("1_37m3y")
 _buttons = [NodePath("MarginContainer2/VBoxContainer/MarginContainer/Restart"), NodePath("MarginContainer2/VBoxContainer/MarginContainer2/Title"), NodePath("MarginContainer2/VBoxContainer/MarginContainer3/Quit")]
 TopLabel = NodePath("MarginContainer2/VBoxContainer/TopLabel")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="Background" type="NinePatchRect" parent="."]
+self_modulate = Color(1, 1, 1, 0.5)
 offset_right = 640.0
 offset_bottom = 360.0
-color = Color(0.24, 0.24, 0.24, 0.854902)
+texture = ExtResource("2_tqft0")
+patch_margin_left = 30
+patch_margin_top = 7
+patch_margin_right = 20
+patch_margin_bottom = 28
 
 [node name="MarginContainer2" type="MarginContainer" parent="."]
 anchors_preset = 15
@@ -24,9 +31,11 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 200
 theme_override_constants/margin_bottom = 20
 
-[node name="ColorRect" type="ColorRect" parent="MarginContainer2"]
+[node name="OptionsBackground" type="NinePatchRect" parent="MarginContainer2"]
+self_modulate = Color(1, 1, 1, 0.1)
 layout_mode = 2
-color = Color(0.172833, 0.172833, 0.172833, 0.945)
+texture = ExtResource("3_aiuvw")
+region_rect = Rect2(6, 6, 76, 22)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2"]
 layout_mode = 2

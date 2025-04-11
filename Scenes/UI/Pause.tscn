@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dmfk0csl7cd27"]
+[gd_scene load_steps=3 format=3 uid="uid://dmfk0csl7cd27"]
 
-[ext_resource type="Script" path="res://Scenes/UI/Scripts/PauseMenu.cs" id="1_6jc8n"]
+[ext_resource type="Script" uid="uid://cepl3x0eyvr00" path="res://Scenes/UI/Scripts/PauseMenu.cs" id="1_6jc8n"]
+[ext_resource type="Texture2D" uid="uid://xbfsns3duyxl" path="res://Scenes/UI/Assets/button_glowy_1.png" id="2_hcn70"]
 
 [node name="PauseMenu" type="Control" node_paths=PackedStringArray("PauseButtons")]
 process_mode = 1
@@ -13,11 +14,15 @@ grow_vertical = 2
 script = ExtResource("1_6jc8n")
 PauseButtons = [NodePath("MarginContainer/VBoxContainer/MarginContainer/ResumeButton"), NodePath("MarginContainer/VBoxContainer/MarginContainer4/OptionsButton"), NodePath("MarginContainer/VBoxContainer/MarginContainer2/QuitButton"), NodePath("MarginContainer/VBoxContainer/MarginContainer3/PlaceHolderButton")]
 
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 2
+[node name="Background" type="NinePatchRect" parent="."]
+self_modulate = Color(1, 1, 1, 0.75)
 offset_right = 640.0
 offset_bottom = 360.0
-color = Color(0.24, 0.24, 0.24, 0.854902)
+texture = ExtResource("2_hcn70")
+patch_margin_left = 30
+patch_margin_top = 7
+patch_margin_right = 20
+patch_margin_bottom = 28
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1

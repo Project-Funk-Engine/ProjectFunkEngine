@@ -1,7 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://cavxn51vwbew3"]
+[gd_scene load_steps=10 format=3 uid="uid://cavxn51vwbew3"]
 
-[ext_resource type="Script" path="res://Scenes/UI/Options/Scripts/HowToPlay.cs" id="1_kqayr"]
+[ext_resource type="Script" uid="uid://chu2uvshtv2vv" path="res://Scenes/UI/Options/Scripts/HowToPlay.cs" id="1_kqayr"]
 [ext_resource type="Texture2D" uid="uid://xtygvpk7s8e4" path="res://SharedAssets/NoteArrow_Black_Outline.png" id="2_4i384"]
+[ext_resource type="Texture2D" uid="uid://xbfsns3duyxl" path="res://Scenes/UI/Assets/button_glowy_1.png" id="2_ma418"]
+[ext_resource type="Texture2D" uid="uid://8u3xvcma81d" path="res://Scenes/UI/Assets/button_crystal_2.png" id="3_4vscx"]
 [ext_resource type="Texture2D" uid="uid://dp3vkn65j4o3s" path="res://Scenes/UI/Assets/HowToPlay_Combo_Bar.png" id="3_7006y"]
 [ext_resource type="Texture2D" uid="uid://caw70lr5e1yiq" path="res://Classes/Notes/Assets/Note_PlayerDouble.png" id="4_m6low"]
 [ext_resource type="Texture2D" uid="uid://cdf3g3174du4r" path="res://Classes/Notes/Assets/Note_PlayerHeal.png" id="5_8kiq2"]
@@ -19,11 +21,15 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="ColorRect" type="ColorRect" parent="Control"]
+[node name="Background" type="NinePatchRect" parent="Control"]
 layout_mode = 0
 offset_right = 640.0
 offset_bottom = 360.0
-color = Color(0.133333, 0.133333, 0.133333, 1)
+texture = ExtResource("2_ma418")
+patch_margin_left = 30
+patch_margin_top = 7
+patch_margin_right = 20
+patch_margin_bottom = 28
 
 [node name="Label" type="Label" parent="Control"]
 layout_mode = 0
@@ -48,11 +54,16 @@ offset_top = 60.0
 offset_right = 210.0
 offset_bottom = 310.0
 
-[node name="ColorRect" type="ColorRect" parent="Control/MarginContainer"]
-layout_mode = 2
-offset_right = 200.0
-offset_bottom = 250.0
-color = Color(0.239216, 0.239216, 0.239216, 0.854902)
+[node name="OptionsBackground" type="NinePatchRect" parent="Control/MarginContainer"]
+self_modulate = Color(1, 1, 1, 0.1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_4vscx")
+region_rect = Rect2(6, 6, 76, 22)
 
 [node name="Left" type="Sprite2D" parent="Control/MarginContainer"]
 position = Vector2(27.0001, 62)
@@ -88,11 +99,16 @@ offset_top = 60.0
 offset_right = 420.0
 offset_bottom = 310.0
 
-[node name="ColorRect" type="ColorRect" parent="Control/MarginContainer2"]
-layout_mode = 2
-offset_right = 200.0
-offset_bottom = 250.0
-color = Color(0.239216, 0.239216, 0.239216, 0.854902)
+[node name="OptionsBackground" type="NinePatchRect" parent="Control/MarginContainer2"]
+self_modulate = Color(1, 1, 1, 0.1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_4vscx")
+region_rect = Rect2(6, 6, 76, 22)
 
 [node name="Label" type="Label" parent="Control/MarginContainer2"]
 layout_mode = 2
@@ -114,11 +130,16 @@ offset_top = 60.0
 offset_right = 630.0
 offset_bottom = 310.0
 
-[node name="ColorRect" type="ColorRect" parent="Control/MarginContainer3"]
-layout_mode = 2
-offset_right = 200.0
-offset_bottom = 250.0
-color = Color(0.239216, 0.239216, 0.239216, 0.854902)
+[node name="OptionsBackground" type="NinePatchRect" parent="Control/MarginContainer3"]
+self_modulate = Color(1, 1, 1, 0.1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_4vscx")
+region_rect = Rect2(6, 6, 76, 22)
 
 [node name="Label" type="Label" parent="Control/MarginContainer3"]
 layout_mode = 2

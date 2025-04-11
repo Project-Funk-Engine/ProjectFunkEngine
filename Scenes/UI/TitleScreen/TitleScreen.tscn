@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bm41yti6ij2j"]
+[gd_scene load_steps=22 format=3 uid="uid://bm41yti6ij2j"]
 
 [ext_resource type="Texture2D" uid="uid://b0tvsewgnf2x7" path="res://icon.svg" id="1_r5xy8"]
 [ext_resource type="Script" uid="uid://ce7anmo6cerw3" path="res://Scenes/UI/TitleScreen/Scripts/TitleScreen.cs" id="1_r22ha"]
@@ -16,6 +16,7 @@
 [ext_resource type="Shader" uid="uid://bxvlpwylcbfvm" path="res://Scenes/UI/TitleScreen/Assets/TitleFont.gdshader" id="11_ht0dv"]
 [ext_resource type="PackedScene" uid="uid://bi5iqbwpsd381" path="res://Scenes/Puppets/Enemies/BossBlood/Boss1.tscn" id="12_lng3a"]
 [ext_resource type="PackedScene" uid="uid://uvlux4t6h5de" path="res://Scenes/Puppets/Enemies/Parasifly/Parasifly.tscn" id="13_j3xa4"]
+[ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Button.tres" id="13_v0au1"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xhbhh"]
 
@@ -176,6 +177,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 focus_neighbor_right = NodePath("../../MarginContainer3/Continue")
 focus_neighbor_bottom = NodePath("../../../Options")
+theme = ExtResource("13_v0au1")
 text = "TITLE_START"
 script = ExtResource("2_7f3m6")
 ScenePath = 5
@@ -196,6 +198,7 @@ size_flags_horizontal = 3
 focus_neighbor_left = NodePath("../../MarginContainer/Start")
 focus_neighbor_right = NodePath("../../MarginContainer2/Quit")
 focus_neighbor_bottom = NodePath("../../../Options")
+theme = ExtResource("13_v0au1")
 text = "TITLE_CONTINUE"
 script = ExtResource("2_7f3m6")
 ScenePath = 6
@@ -214,6 +217,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 focus_neighbor_left = NodePath("../../MarginContainer3/Continue")
 focus_neighbor_bottom = NodePath("../../../Options")
+theme = ExtResource("13_v0au1")
 text = "TITLE_QUIT"
 script = ExtResource("2_7f3m6")
 ScenePath = 4
@@ -223,6 +227,7 @@ layout_mode = 2
 focus_neighbor_left = NodePath("../HBoxContainer/MarginContainer/Start")
 focus_neighbor_top = NodePath("../HBoxContainer/MarginContainer3/Continue")
 focus_neighbor_right = NodePath("../HBoxContainer/MarginContainer2/Quit")
+theme = ExtResource("13_v0au1")
 text = "TITLE_OPTIONS"
 
 [node name="EnemPuppet" parent="." instance=ExtResource("12_lng3a")]

@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://buejv62lwtymc"]
+[gd_scene load_steps=5 format=3 uid="uid://buejv62lwtymc"]
 
-[ext_resource type="Script" path="res://Scenes/UI/Options/Scripts/LanguageSelection.cs" id="1_qyvkw"]
-[ext_resource type="Script" path="res://Scenes/UI/Options/Scripts/OptionsMenu.cs" id="1_yjq7i"]
+[ext_resource type="Script" uid="uid://cery6g5ojnl16" path="res://Scenes/UI/Options/Scripts/LanguageSelection.cs" id="1_qyvkw"]
+[ext_resource type="Script" uid="uid://dkuui4eib1q3e" path="res://Scenes/UI/Options/Scripts/OptionsMenu.cs" id="1_yjq7i"]
+[ext_resource type="Texture2D" uid="uid://xbfsns3duyxl" path="res://Scenes/UI/Assets/button_glowy_1.png" id="2_xm6ds"]
+[ext_resource type="Texture2D" uid="uid://8u3xvcma81d" path="res://Scenes/UI/Assets/button_crystal_2.png" id="3_6ryhd"]
 
 [node name="OptionsMenu" type="CanvasLayer" node_paths=PackedStringArray("_focused", "_volumeSlider", "_closeButton", "_controlsButton", "_highContrastToggle", "_howToPlayButton")]
 process_mode = 3
@@ -13,6 +15,13 @@ _controlsButton = NodePath("Control/CenterContainer/MarginContainer/MarginContai
 _highContrastToggle = NodePath("Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/CheckBox")
 _howToPlayButton = NodePath("Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/HowToPlayButton")
 
+[node name="BlockBehind" type="ColorRect" parent="."]
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 671.0
+offset_bottom = 381.0
+color = Color(0, 0, 0, 1)
+
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
@@ -23,14 +32,18 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ColorRect" type="ColorRect" parent="Control"]
+[node name="Background" type="NinePatchRect" parent="Control"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.133, 0.133, 0.133, 1)
+texture = ExtResource("2_xm6ds")
+patch_margin_left = 30
+patch_margin_top = 7
+patch_margin_right = 20
+patch_margin_bottom = 28
 
 [node name="CenterContainer" type="CenterContainer" parent="Control"]
 layout_mode = 1
@@ -42,12 +55,12 @@ grow_vertical = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/CenterContainer"]
 layout_mode = 2
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_bottom = 5
 
-[node name="ColorRect" type="ColorRect" parent="Control/CenterContainer/MarginContainer"]
+[node name="OptionsBackground" type="NinePatchRect" parent="Control/CenterContainer/MarginContainer"]
+self_modulate = Color(1, 1, 1, 0.1)
 layout_mode = 2
-color = Color(0.24, 0.24, 0.24, 0.854902)
+texture = ExtResource("3_6ryhd")
+region_rect = Rect2(6, 6, 76, 22)
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/CenterContainer/MarginContainer"]
 layout_mode = 2
@@ -59,8 +72,7 @@ theme_override_constants/margin_bottom = 10
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer/MarginContainer/MarginContainer"]
 custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/separation = 18
+theme_override_constants/separation = 16
 alignment = 1
 
 [node name="Title" type="Label" parent="Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer"]
@@ -105,6 +117,7 @@ unique_name_in_owner = true
 layout_mode = 2
 item_count = 2
 popup/item_0/text = "English"
+popup/item_0/id = 0
 popup/item_1/text = "中文"
 popup/item_1/id = 1
 script = ExtResource("1_qyvkw")
