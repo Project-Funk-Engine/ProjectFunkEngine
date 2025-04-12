@@ -16,7 +16,7 @@
 [ext_resource type="Shader" uid="uid://bxvlpwylcbfvm" path="res://Scenes/UI/TitleScreen/Assets/TitleFont.gdshader" id="11_ht0dv"]
 [ext_resource type="PackedScene" uid="uid://bi5iqbwpsd381" path="res://Scenes/Puppets/Enemies/BossBlood/Boss1.tscn" id="12_lng3a"]
 [ext_resource type="PackedScene" uid="uid://uvlux4t6h5de" path="res://Scenes/Puppets/Enemies/Parasifly/Parasifly.tscn" id="13_j3xa4"]
-[ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Button.tres" id="13_v0au1"]
+[ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="13_v0au1"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xhbhh"]
 

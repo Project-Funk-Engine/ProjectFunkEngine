@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://cavxn51vwbew3"]
+[gd_scene load_steps=11 format=3 uid="uid://cavxn51vwbew3"]
 
 [ext_resource type="Script" uid="uid://chu2uvshtv2vv" path="res://Scenes/UI/Options/Scripts/HowToPlay.cs" id="1_kqayr"]
 [ext_resource type="Texture2D" uid="uid://xtygvpk7s8e4" path="res://SharedAssets/NoteArrow_Black_Outline.png" id="2_4i384"]
-[ext_resource type="Texture2D" uid="uid://xbfsns3duyxl" path="res://Scenes/UI/Assets/button_glowy_1.png" id="2_ma418"]
-[ext_resource type="Texture2D" uid="uid://8u3xvcma81d" path="res://Scenes/UI/Assets/button_crystal_2.png" id="3_4vscx"]
+[ext_resource type="Texture2D" uid="uid://ck16vyh1q68ri" path="res://Scenes/UI/Assets/UI_ForestBackground.png" id="2_ma418"]
 [ext_resource type="Texture2D" uid="uid://dp3vkn65j4o3s" path="res://Scenes/UI/Assets/HowToPlay_Combo_Bar.png" id="3_7006y"]
+[ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="3_xqve7"]
+[ext_resource type="Texture2D" uid="uid://cr82n7aojboaw" path="res://Scenes/UI/Assets/UI_CenterFrameLight.png" id="4_4vscx"]
 [ext_resource type="Texture2D" uid="uid://caw70lr5e1yiq" path="res://Classes/Notes/Assets/Note_PlayerDouble.png" id="4_m6low"]
 [ext_resource type="Texture2D" uid="uid://cdf3g3174du4r" path="res://Classes/Notes/Assets/Note_PlayerHeal.png" id="5_8kiq2"]
 [ext_resource type="Texture2D" uid="uid://c3chrsxrulapd" path="res://Classes/Notes/Assets/Note_PlayerBasic.png" id="6_uonw3"]
@@ -15,21 +16,21 @@ process_mode = 3
 script = ExtResource("1_kqayr")
 _returnButton = NodePath("Control/ReturnButton")
 
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Background" type="NinePatchRect" parent="Control"]
-layout_mode = 0
+[node name="Background" type="NinePatchRect" parent="."]
 offset_right = 640.0
 offset_bottom = 360.0
 texture = ExtResource("2_ma418")
-patch_margin_left = 30
-patch_margin_top = 7
-patch_margin_right = 20
-patch_margin_bottom = 28
+patch_margin_left = 100
+patch_margin_top = 100
+patch_margin_right = 102
+patch_margin_bottom = 100
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_top = -9.0
+offset_right = 40.0
+offset_bottom = 31.0
 
 [node name="Label" type="Label" parent="Control"]
 layout_mode = 0
@@ -45,6 +46,7 @@ offset_left = 202.5
 offset_top = 314.0
 offset_right = 437.5
 offset_bottom = 345.0
+theme = ExtResource("3_xqve7")
 text = "CONTROLS_RETURN_BUTTON"
 
 [node name="MarginContainer" type="Control" parent="Control"]
@@ -55,15 +57,17 @@ offset_right = 210.0
 offset_bottom = 310.0
 
 [node name="OptionsBackground" type="NinePatchRect" parent="Control/MarginContainer"]
-self_modulate = Color(1, 1, 1, 0.1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_4vscx")
-region_rect = Rect2(6, 6, 76, 22)
+texture = ExtResource("4_4vscx")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
 
 [node name="Left" type="Sprite2D" parent="Control/MarginContainer"]
 position = Vector2(27.0001, 62)
@@ -100,15 +104,17 @@ offset_right = 420.0
 offset_bottom = 310.0
 
 [node name="OptionsBackground" type="NinePatchRect" parent="Control/MarginContainer2"]
-self_modulate = Color(1, 1, 1, 0.1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_4vscx")
-region_rect = Rect2(6, 6, 76, 22)
+texture = ExtResource("4_4vscx")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
 
 [node name="Label" type="Label" parent="Control/MarginContainer2"]
 layout_mode = 2
@@ -131,15 +137,17 @@ offset_right = 630.0
 offset_bottom = 310.0
 
 [node name="OptionsBackground" type="NinePatchRect" parent="Control/MarginContainer3"]
-self_modulate = Color(1, 1, 1, 0.1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_4vscx")
-region_rect = Rect2(6, 6, 76, 22)
+texture = ExtResource("4_4vscx")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
 
 [node name="Label" type="Label" parent="Control/MarginContainer3"]
 layout_mode = 2
