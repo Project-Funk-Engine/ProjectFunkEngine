@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Text.Json;
 using Godot;
@@ -13,7 +14,15 @@ public static class SaveSystem
     private static ConfigFile _curConfigData;
 
     private const float DefaultVolume = 1f;
-    private const string DefaultInput = "WASD";
+    private const string DefaultInputKey = "WASD";
+    private const string DefaultInputKeyboardUp = "W";
+    private const string DefaultInputKeyboardLeft = "A";
+    private const string DefaultInputKeyboardDown = "S";
+    private const string DefaultInputKeyboardRight = "D";
+    private const string DefaultInputControllerUp = "0";
+    private const string DefaultInputControllerLeft = "0";
+    private const string DefaultInputControllerDown = "0";
+    private const string DefaultInputControllerRight = "0";
     private const string DefaultLanguage = "en";
     private const bool DefaultHighCon = false;
 
@@ -21,6 +30,14 @@ public static class SaveSystem
     {
         Volume,
         InputKey,
+        InputKeyboardUp,
+        InputKeyboardLeft,
+        InputKeyboardDown,
+        InputKeyboardRight,
+        InputControllerUp,
+        InputControllerLeft,
+        InputControllerDown,
+        InputControllerRight,
         LanguageKey,
         HighContrast,
     }
@@ -32,7 +49,15 @@ public static class SaveSystem
     {
         _curConfigData = new ConfigFile();
         UpdateConfig(ConfigSettings.Volume, DefaultVolume);
-        UpdateConfig(ConfigSettings.InputKey, DefaultInput);
+        UpdateConfig(ConfigSettings.InputKey, DefaultInputKey);
+        UpdateConfig(ConfigSettings.InputKeyboardUp, DefaultInputKeyboardUp);
+        UpdateConfig(ConfigSettings.InputKeyboardLeft, DefaultInputKeyboardLeft);
+        UpdateConfig(ConfigSettings.InputKeyboardDown, DefaultInputKeyboardDown);
+        UpdateConfig(ConfigSettings.InputKeyboardRight, DefaultInputKeyboardRight);
+        UpdateConfig(ConfigSettings.InputControllerUp, DefaultInputControllerUp);
+        UpdateConfig(ConfigSettings.InputControllerLeft, DefaultInputControllerLeft);
+        UpdateConfig(ConfigSettings.InputControllerDown, DefaultInputControllerDown);
+        UpdateConfig(ConfigSettings.InputControllerRight, DefaultInputControllerRight);
         UpdateConfig(ConfigSettings.LanguageKey, DefaultLanguage);
         UpdateConfig(ConfigSettings.HighContrast, DefaultHighCon);
     }
@@ -54,6 +79,30 @@ public static class SaveSystem
             case ConfigSettings.InputKey:
                 _curConfigData.SetValue("Options", "InputKey", value);
                 break;
+            case ConfigSettings.InputKeyboardUp:
+                _curConfigData.SetValue("Options", "InputKeyboardUp", value);
+                break;
+            case ConfigSettings.InputKeyboardLeft:
+                _curConfigData.SetValue("Options", "InputKeyboardLeft", value);
+                break;
+            case ConfigSettings.InputKeyboardDown:
+                _curConfigData.SetValue("Options", "InputKeyboardDown", value);
+                break;
+            case ConfigSettings.InputKeyboardRight:
+                _curConfigData.SetValue("Options", "InputKeyboardRight", value);
+                break;
+            case ConfigSettings.InputControllerUp:
+                _curConfigData.SetValue("Options", "InputControllerUp", value);
+                break;
+            case ConfigSettings.InputControllerLeft:
+                _curConfigData.SetValue("Options", "InputControllerLeft", value);
+                break;
+            case ConfigSettings.InputControllerDown:
+                _curConfigData.SetValue("Options", "InputControllerDown", value);
+                break;
+            case ConfigSettings.InputControllerRight:
+                _curConfigData.SetValue("Options", "InputControllerRight", value);
+                break;
             case ConfigSettings.LanguageKey:
                 _curConfigData.SetValue("Options", "LanguageKey", value);
                 break;
@@ -74,6 +123,7 @@ public static class SaveSystem
         if (_curConfigData == null)
         {
             LoadConfigData();
+            ApplySavedInputBindings();
         }
     }
 
@@ -104,6 +154,7 @@ public static class SaveSystem
     {
         _curConfigData = new ConfigFile();
         VerifyConfig();
+        GD.Print(ProjectSettings.GlobalizePath("user://Options.cfg"));
         if (_curConfigData.Load(UserConfigPath) == Error.Ok)
             return;
         GD.PushWarning("Safe. No config could be found, creating a new one.");
@@ -119,7 +170,55 @@ public static class SaveSystem
             case ConfigSettings.Volume:
                 return _curConfigData.GetValue("Options", "Volume", DefaultVolume);
             case ConfigSettings.InputKey:
-                return _curConfigData.GetValue("Options", "InputKey", DefaultInput);
+                return _curConfigData.GetValue("Options", "InputKey", DefaultInputKey);
+            case ConfigSettings.InputKeyboardUp:
+                return _curConfigData.GetValue(
+                    "Options",
+                    "InputKeyboardUp",
+                    DefaultInputKeyboardUp
+                );
+            case ConfigSettings.InputKeyboardLeft:
+                return _curConfigData.GetValue(
+                    "Options",
+                    "InputKeyboardLeft",
+                    DefaultInputKeyboardLeft
+                );
+            case ConfigSettings.InputKeyboardDown:
+                return _curConfigData.GetValue(
+                    "Options",
+                    "InputKeyboardDown",
+                    DefaultInputKeyboardDown
+                );
+            case ConfigSettings.InputKeyboardRight:
+                return _curConfigData.GetValue(
+                    "Options",
+                    "InputKeyboardRight",
+                    DefaultInputKeyboardRight
+                );
+            case ConfigSettings.InputControllerUp:
+                return _curConfigData.GetValue(
+                    "Options",
+                    "InputControllerUp",
+                    DefaultInputControllerUp
+                );
+            case ConfigSettings.InputControllerLeft:
+                return _curConfigData.GetValue(
+                    "Options",
+                    "InputControllerLeft",
+                    DefaultInputControllerLeft
+                );
+            case ConfigSettings.InputControllerDown:
+                return _curConfigData.GetValue(
+                    "Options",
+                    "InputControllerDown",
+                    DefaultInputControllerDown
+                );
+            case ConfigSettings.InputControllerRight:
+                return _curConfigData.GetValue(
+                    "Options",
+                    "InputControllerRight",
+                    DefaultInputControllerRight
+                );
             case ConfigSettings.LanguageKey:
                 return _curConfigData.GetValue("Options", "LanguageKey", DefaultLanguage);
             case ConfigSettings.HighContrast:
@@ -210,6 +309,36 @@ public static class SaveSystem
     public static void ClearSave()
     {
         DirAccess.RemoveAbsolute(UserSavePath);
+    }
+
+    public static void ApplySavedInputBindings()
+    {
+        string keyboardUp = GetConfigValue(ConfigSettings.InputKeyboardUp).ToString();
+        string keyboardDown = GetConfigValue(ConfigSettings.InputKeyboardDown).ToString();
+        string keyboardLeft = GetConfigValue(ConfigSettings.InputKeyboardLeft).ToString();
+        string keyboardRight = GetConfigValue(ConfigSettings.InputKeyboardRight).ToString();
+
+        InputMap.ActionEraseEvents("WASD_arrowUp");
+        InputMap.ActionEraseEvents("WASD_arrowDown");
+        InputMap.ActionEraseEvents("WASD_arrowLeft");
+        InputMap.ActionEraseEvents("WASD_arrowRight");
+
+        InputMap.ActionAddEvent(
+            "WASD_arrowUp",
+            new InputEventKey { Keycode = (Key)Enum.Parse(typeof(Key), keyboardUp) }
+        );
+        InputMap.ActionAddEvent(
+            "WASD_arrowDown",
+            new InputEventKey { Keycode = (Key)Enum.Parse(typeof(Key), keyboardDown) }
+        );
+        InputMap.ActionAddEvent(
+            "WASD_arrowLeft",
+            new InputEventKey { Keycode = (Key)Enum.Parse(typeof(Key), keyboardLeft) }
+        );
+        InputMap.ActionAddEvent(
+            "WASD_arrowRight",
+            new InputEventKey { Keycode = (Key)Enum.Parse(typeof(Key), keyboardRight) }
+        );
     }
 
     #endregion

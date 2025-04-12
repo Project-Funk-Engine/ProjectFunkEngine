@@ -61,11 +61,12 @@ public partial class InputHandler : Node2D
         string scheme = SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.InputKey).As<string>();
         if (Input.GetConnectedJoypads().Count <= 0 && scheme == "CONTROLLER")
         {
-            SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKey, "ARROWS");
+            SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKey, "WASD");
         }
 
         foreach (var arrow in Arrows)
         {
+            GD.Print(scheme + "_" + arrow.Key);
             if (Input.IsActionJustPressed(scheme + "_" + arrow.Key))
             {
                 EmitSignal(nameof(NotePressed), (int)arrow.Type);

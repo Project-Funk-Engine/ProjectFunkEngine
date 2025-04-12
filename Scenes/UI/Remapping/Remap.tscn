@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://p06451gq2ujc" path="res://Scenes/UI/Remapping/Assets/Arrow_Up_Key_Light.png" id="7_1a2jy"]
 [ext_resource type="Texture2D" uid="uid://dvlekute37smy" path="res://Scenes/UI/Remapping/Assets/Arrow_Right_Key_Light.png" id="8_o7swo"]
 
-[node name="Remap" type="Node2D" node_paths=PackedStringArray("LeftKey", "RightKey", "UpKey", "DownKey", "_closeButton")]
+[node name="Remap" type="Node2D" node_paths=PackedStringArray("LeftKey", "RightKey", "UpKey", "DownKey", "_closeButton", "_remapPopup", "_remapLabel", "_remapTimer")]
 process_mode = 3
 script = ExtResource("1_ir12b")
 LeftKey = NodePath("Panel/Control/LeftRemap")
@@ -18,6 +18,9 @@ RightKey = NodePath("Panel/Control/RightRemap")
 UpKey = NodePath("Panel/Control/UpRemap")
 DownKey = NodePath("Panel/Control/DownRemap")
 _closeButton = NodePath("Panel/TitleButton")
+_remapPopup = NodePath("RemapPopup")
+_remapLabel = NodePath("RemapPopup/Label2")
+_remapTimer = NodePath("RemapPopup/Timer")
 
 [node name="Background" type="NinePatchRect" parent="."]
 offset_right = 640.0
@@ -41,43 +44,45 @@ offset_bottom = 32.0
 text = "Choose Control Scheme"
 horizontal_alignment = 1
 
-[node name="WASDButton" type="Button" parent="Panel"]
+[node name="LeftArrowButton" type="Button" parent="Panel"]
 layout_mode = 0
-offset_left = 507.0
-offset_top = 54.0
-offset_right = 515.0
-offset_bottom = 62.0
-focus_neighbor_left = NodePath("../ControllerButton")
+offset_left = 121.0
+offset_top = 64.0
+offset_right = 164.0
+offset_bottom = 107.0
 theme = ExtResource("3_wr01w")
-text = "CONTROLS_WASD_BUTTON"
 
-[node name="ArrowButton" type="Button" parent="Panel"]
+[node name="UpArrowButton" type="Button" parent="Panel"]
 layout_mode = 0
-offset_left = 399.0
-offset_top = 94.0
-offset_right = 495.0
-offset_bottom = 125.0
+offset_left = 123.0
+offset_top = 103.0
+offset_right = 166.0
+offset_bottom = 146.0
 theme = ExtResource("3_wr01w")
-text = "CONTROLS_ARROW_BUTTON"
 
-[node name="QWERTButton" type="Button" parent="Panel"]
+[node name="DownArrowButton" type="Button" parent="Panel"]
 layout_mode = 0
-offset_left = 507.0
-offset_top = 94.0
-offset_right = 603.0
-offset_bottom = 125.0
+offset_left = 122.0
+offset_top = 145.0
+offset_right = 165.0
+offset_bottom = 188.0
 theme = ExtResource("3_wr01w")
-text = "CONTROLS_QWER_BUTTON"
 
-[node name="ControllerButton" type="Button" parent="Panel"]
+[node name="RightArrowButton" type="Button" parent="Panel"]
 layout_mode = 0
-offset_left = 399.0
-offset_top = 57.0
-offset_right = 486.0
-offset_bottom = 88.0
-focus_neighbor_right = NodePath("../WASDButton")
+offset_left = 122.0
+offset_top = 189.0
+offset_right = 165.0
+offset_bottom = 232.0
 theme = ExtResource("3_wr01w")
-text = "CONTROLS_CONTROLLER_BUTTON"
+
+[node name="SecondaryPlacementButton" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 121.0
+offset_top = 233.0
+offset_right = 164.0
+offset_bottom = 276.0
+theme = ExtResource("3_wr01w")
 
 [node name="TitleButton" type="Button" parent="Panel"]
 layout_mode = 0
@@ -95,76 +100,163 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="BG" type="Sprite2D" parent="Panel/Control"]
+visible = false
 position = Vector2(320, 221)
 texture = ExtResource("3_4uyjb")
 
 [node name="Left" type="Sprite2D" parent="Panel/Control"]
-position = Vector2(144, 160)
+position = Vector2(144, 85)
 rotation = -3.14159
 texture = ExtResource("4_se2m3")
 
 [node name="Up" type="Sprite2D" parent="Panel/Control"]
-position = Vector2(144, 200)
+position = Vector2(144, 125)
 rotation = -1.5708
 texture = ExtResource("4_se2m3")
 
 [node name="Down" type="Sprite2D" parent="Panel/Control"]
-position = Vector2(144, 243)
+position = Vector2(144, 168)
 rotation = 1.5708
 texture = ExtResource("4_se2m3")
 
 [node name="Right" type="Sprite2D" parent="Panel/Control"]
-position = Vector2(144, 284)
+position = Vector2(144, 209)
 texture = ExtResource("4_se2m3")
+
+[node name="TEMPSecondaryButtonText" type="Label" parent="Panel/Control"]
+layout_mode = 0
+offset_left = 176.0
+offset_top = 74.0
+offset_right = 189.0
+offset_bottom = 97.0
+text = "="
 
 [node name="Label" type="Label" parent="Panel/Control"]
 layout_mode = 0
-offset_left = 176.0
-offset_top = 149.0
-offset_right = 189.0
-offset_bottom = 172.0
-text = "="
+offset_left = 128.0
+offset_top = 240.0
+offset_right = 158.0
+offset_bottom = 263.0
+text = "2nd"
 
 [node name="Label2" type="Label" parent="Panel/Control"]
 layout_mode = 0
 offset_left = 176.0
-offset_top = 189.0
+offset_top = 114.0
 offset_right = 189.0
-offset_bottom = 212.0
+offset_bottom = 137.0
 text = "="
 
 [node name="Label3" type="Label" parent="Panel/Control"]
 layout_mode = 0
 offset_left = 176.0
-offset_top = 234.0
+offset_top = 159.0
 offset_right = 189.0
-offset_bottom = 257.0
+offset_bottom = 182.0
 text = "="
 
 [node name="Label4" type="Label" parent="Panel/Control"]
 layout_mode = 0
 offset_left = 176.0
-offset_top = 274.0
+offset_top = 199.0
 offset_right = 189.0
-offset_bottom = 297.0
+offset_bottom = 222.0
+text = "="
+
+[node name="Label5" type="Label" parent="Panel/Control"]
+layout_mode = 0
+offset_left = 176.0
+offset_top = 240.0
+offset_right = 189.0
+offset_bottom = 263.0
 text = "="
 
 [node name="LeftRemap" type="Sprite2D" parent="Panel/Control"]
+visible = false
 position = Vector2(225, 160)
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("5_xn13c")
 
 [node name="UpRemap" type="Sprite2D" parent="Panel/Control"]
+visible = false
 position = Vector2(225, 200)
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("7_1a2jy")
 
 [node name="DownRemap" type="Sprite2D" parent="Panel/Control"]
+visible = false
 position = Vector2(225, 243)
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("6_qrl0g")
 
 [node name="RightRemap" type="Sprite2D" parent="Panel/Control"]
+visible = false
 position = Vector2(225, 284)
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("8_o7swo")
+
+[node name="TEMPLeftRemap" type="Label" parent="Panel/Control"]
+layout_mode = 0
+offset_left = 197.0
+offset_top = 70.0
+offset_right = 332.0
+offset_bottom = 102.0
+text = "TEMP"
+
+[node name="TEMPUpRemap" type="Label" parent="Panel/Control"]
+layout_mode = 0
+offset_left = 196.0
+offset_top = 109.0
+offset_right = 331.0
+offset_bottom = 141.0
+text = "TEMP"
+
+[node name="TEMPDownRemap" type="Label" parent="Panel/Control"]
+layout_mode = 0
+offset_left = 195.0
+offset_top = 153.0
+offset_right = 330.0
+offset_bottom = 185.0
+text = "TEMP"
+
+[node name="TEMPRightRemap" type="Label" parent="Panel/Control"]
+layout_mode = 0
+offset_left = 196.0
+offset_top = 196.0
+offset_right = 331.0
+offset_bottom = 228.0
+text = "TEMP"
+
+[node name="TEMPSecondaryRemap" type="Label" parent="Panel/Control"]
+layout_mode = 0
+offset_left = 196.0
+offset_top = 236.0
+offset_right = 331.0
+offset_bottom = 268.0
+text = "TEMP"
+
+[node name="RemapPopup" type="Panel" parent="."]
+visible = false
+offset_left = 136.0
+offset_top = 102.0
+offset_right = 508.0
+offset_bottom = 260.0
+
+[node name="Label" type="Label" parent="RemapPopup"]
+layout_mode = 0
+offset_top = 36.0
+offset_right = 372.0
+offset_bottom = 59.0
+text = "Choose new button"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="RemapPopup"]
+layout_mode = 0
+offset_top = 119.0
+offset_right = 372.0
+offset_bottom = 142.0
+text = "5"
+horizontal_alignment = 1
+
+[node name="Timer" type="Timer" parent="RemapPopup"]
+wait_time = 5.0
