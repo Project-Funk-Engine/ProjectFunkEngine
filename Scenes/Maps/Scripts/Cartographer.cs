@@ -14,6 +14,9 @@ public partial class Cartographer : Node2D
     [Export]
     public Sprite2D PlayerSprite;
 
+    [Export]
+    public Theme ButtonTheme;
+
     private Button[] _validButtons = Array.Empty<Button>();
 
     private Button _focusedButton;
@@ -70,9 +73,14 @@ public partial class Cartographer : Node2D
         AddFocusNeighbors();
     }
 
+    private static readonly Vector2 MapIconSize = new(48, 48);
+
     private void DrawMapSprite(MapGrid.Room room)
     {
         var newButton = new Button();
+        newButton.Theme = ButtonTheme;
+        newButton.CustomMinimumSize = MapIconSize;
+        newButton.IconAlignment = HorizontalAlignment.Center;
         AddChild(newButton);
         //button is disabled if it is not a child of current room.
         if (!StageProducer.GetCurRoom().Children.Contains(room.Idx))
@@ -94,7 +102,7 @@ public partial class Cartographer : Node2D
         newButton.Icon = StageIcons[room.Type];
 
         newButton.ZIndex = 1;
-        newButton.Position = GetPosition(room.X, room.Y) - newButton.Size * 2;
+        newButton.Position = GetPosition(room.X, room.Y) - newButton.Size / 2;
         if (room == StageProducer.GetCurRoom())
             PlayerSprite.Position = newButton.Position + newButton.Size * .5f;
     }
