@@ -1,19 +1,28 @@
-[gd_scene load_steps=2 format=3 uid="uid://c6icx2yriud6y"]
+[gd_scene load_steps=6 format=3 uid="uid://c6icx2yriud6y"]
 
 [ext_resource type="Script" uid="uid://dnex3l6lt3yr4" path="res://Scenes/UI/Scripts/RewardSelect.cs" id="1_1m6an"]
+[ext_resource type="Texture2D" uid="uid://ck16vyh1q68ri" path="res://Scenes/UI/Assets/UI_ForestBackground.png" id="2_gfac6"]
+[ext_resource type="Texture2D" uid="uid://8u3xvcma81d" path="res://Scenes/UI/Assets/UI_CrystalFrame.png" id="3_r5vx5"]
+[ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="4_gfac6"]
+[ext_resource type="Texture2D" uid="uid://burj10os057fx" path="res://Scenes/UI/Assets/UI_CrystalFrameInset.png" id="4_gufce"]
 
 [node name="CanvasLayer" type="CanvasLayer" node_paths=PackedStringArray("ButtonContainer", "_description", "_acceptButton", "_skipButton")]
 process_mode = 2
 script = ExtResource("1_1m6an")
 ButtonContainer = NodePath("MarginContainer/PanelContainer/VBoxContainer/ScrollContainer/CenterContainer/HBoxContainer")
-_description = NodePath("MarginContainer/PanelContainer/VBoxContainer/DescBox/Description")
+_description = NodePath("MarginContainer/PanelContainer/VBoxContainer/DescBox/DescMargin/Description")
 _acceptButton = NodePath("MarginContainer/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/AcceptButton")
 _skipButton = NodePath("MarginContainer/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/SkipButton")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_right = 680.0
+[node name="Background" type="NinePatchRect" parent="."]
+self_modulate = Color(1, 1, 1, 0.75)
+offset_right = 640.0
 offset_bottom = 360.0
-color = Color(0, 0, 0.0745098, 0.611765)
+texture = ExtResource("2_gfac6")
+patch_margin_left = 100
+patch_margin_top = 100
+patch_margin_right = 102
+patch_margin_bottom = 100
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchors_preset = 15
@@ -26,15 +35,31 @@ size_flags_vertical = 3
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 50
-theme_override_constants/margin_bottom = 50
+theme_override_constants/margin_bottom = 20
 
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
 layout_mode = 2
 
+[node name="SelectionBG" type="NinePatchRect" parent="MarginContainer/PanelContainer"]
+self_modulate = Color(1, 1, 1, 0.75)
+custom_minimum_size = Vector2(540, 105)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("3_r5vx5")
+patch_margin_left = 30
+patch_margin_top = 10
+patch_margin_right = 20
+patch_margin_bottom = 27
+
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer"]
 layout_mode = 2
 
-[node name="TopLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer"]
+[node name="TitleMargin" type="MarginContainer" parent="MarginContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 3
+
+[node name="TopLabel" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/TitleMargin"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
@@ -50,12 +75,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="SelectionBG" type="ColorRect" parent="MarginContainer/PanelContainer/VBoxContainer/ScrollContainer/CenterContainer"]
-custom_minimum_size = Vector2(540, 105)
+[node name="SelectionBG" type="NinePatchRect" parent="MarginContainer/PanelContainer/VBoxContainer/ScrollContainer/CenterContainer"]
+self_modulate = Color(1, 1, 1, 0.5)
+custom_minimum_size = Vector2(540, 103)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-color = Color(1, 1, 1, 0.659)
+texture = ExtResource("3_r5vx5")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 7
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer/ScrollContainer/CenterContainer"]
 layout_mode = 2
@@ -64,16 +94,26 @@ size_flags_vertical = 3
 [node name="DescBox" type="MarginContainer" parent="MarginContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
+theme_override_constants/margin_left = 7
+theme_override_constants/margin_top = -6
+theme_override_constants/margin_right = 7
 
-[node name="ColorRect" type="ColorRect" parent="MarginContainer/PanelContainer/VBoxContainer/DescBox"]
+[node name="DescBackground" type="NinePatchRect" parent="MarginContainer/PanelContainer/VBoxContainer/DescBox"]
 layout_mode = 2
-color = Color(0, 0, 0, 0.552941)
+texture = ExtResource("4_gufce")
+patch_margin_left = 7
+patch_margin_top = 7
+patch_margin_right = 7
+patch_margin_bottom = 7
 
-[node name="Description" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/DescBox"]
+[node name="DescMargin" type="MarginContainer" parent="MarginContainer/PanelContainer/VBoxContainer/DescBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 7
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 7
+theme_override_constants/margin_bottom = 1
+
+[node name="Description" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer/DescBox/DescMargin"]
 layout_mode = 2
 size_flags_vertical = 1
 autowrap_mode = 2
@@ -82,10 +122,9 @@ text_overrun_behavior = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
@@ -94,9 +133,11 @@ size_flags_vertical = 3
 [node name="SkipButton" type="Button" parent="MarginContainer/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("4_gfac6")
 text = "CHEST_ROOM_SKIP"
 
 [node name="AcceptButton" type="Button" parent="MarginContainer/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("4_gfac6")
 text = "CHEST_ROOM_ACCEPT"
