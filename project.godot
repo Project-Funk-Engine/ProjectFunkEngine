@@ -38,6 +38,10 @@ window/stretch/scale_mode="integer"
 
 project/assembly_name="Funk Engine"
 
+[gui]
+
+theme/custom_font="uid://c5vy3dbdhcltm"
+
 [input]
 
 ui_accept={
