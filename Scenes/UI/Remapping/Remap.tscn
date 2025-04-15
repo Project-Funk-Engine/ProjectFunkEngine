@@ -35,9 +35,10 @@ offset_bottom = 360.0
 
 [node name="Label" type="Label" parent="Panel"]
 layout_mode = 2
-offset_top = 9.0
+offset_top = 11.0
 offset_right = 642.0
-offset_bottom = 32.0
+offset_bottom = 34.0
+theme_override_font_sizes/font_size = 32
 text = "Choose Control Scheme"
 horizontal_alignment = 1
 

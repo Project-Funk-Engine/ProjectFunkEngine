@@ -180,6 +180,7 @@ layout_mode = 2
 focus_neighbor_right = NodePath("../../MarginContainer3/Continue")
 focus_neighbor_bottom = NodePath("../../../OptionsMargin/Options")
 theme = ExtResource("13_v0au1")
+theme_override_font_sizes/font_size = 24
 text = "TITLE_START"
 script = ExtResource("2_7f3m6")
 ScenePath = 5
@@ -202,6 +203,7 @@ focus_neighbor_left = NodePath("../../MarginContainer/Start")
 focus_neighbor_right = NodePath("../../MarginContainer2/Quit")
 focus_neighbor_bottom = NodePath("../../../OptionsMargin/Options")
 theme = ExtResource("13_v0au1")
+theme_override_font_sizes/font_size = 24
 text = "TITLE_CONTINUE"
 script = ExtResource("2_7f3m6")
 ScenePath = 6
@@ -222,6 +224,7 @@ size_flags_horizontal = 3
 focus_neighbor_left = NodePath("../../MarginContainer3/Continue")
 focus_neighbor_bottom = NodePath("../../../OptionsMargin/Options")
 theme = ExtResource("13_v0au1")
+theme_override_font_sizes/font_size = 24
 text = "TITLE_QUIT"
 script = ExtResource("2_7f3m6")
 ScenePath = 4
@@ -236,11 +239,13 @@ theme_override_constants/margin_bottom = 10
 [node name="Options" type="Button" parent="VBoxContainer/OptionsMargin"]
 light_mask = 0
 z_index = 1
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 focus_neighbor_left = NodePath("../../HBoxContainer/MarginContainer/Start")
 focus_neighbor_top = NodePath("../../HBoxContainer/MarginContainer3/Continue")
 focus_neighbor_right = NodePath("../../HBoxContainer/MarginContainer2/Quit")
 theme = ExtResource("13_v0au1")
+theme_override_font_sizes/font_size = 24
 text = "TITLE_OPTIONS"
 
 [node name="EnemPuppet" parent="." instance=ExtResource("12_lng3a")]
@@ -252,6 +257,7 @@ visible = false
 position = Vector2(572, 167)
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+light_mask = 0
 z_index = -1
 z_as_relative = false
 position = Vector2(643, 154)

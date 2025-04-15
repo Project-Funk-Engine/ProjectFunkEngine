@@ -73,6 +73,7 @@ alignment = 1
 
 [node name="Title" type="Label" parent="Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 32
 text = "TITLE_OPTIONS"
 horizontal_alignment = 1
 
