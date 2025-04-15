@@ -24,5 +24,6 @@ Music:
 
 Images:
 - Input Buttons: [inputKeys - Nicolae (Xelu) Berbece](https://thoseawesomeguys.com/prompts/)
-- Title Screen Font: [04B-30 - Yuji Oshimoto](http://04.jp.org/)
 - Light map texture: [Godot Engine docs - Godot Foundation](https://docs.godotengine.org/en/stable/tutorials/2d/2d_lights_and_shadows.html)
+- Title Screen Font: [04B-30 - Yuji Oshimoto](http://04.jp.org/)
+- Main System Font: [Fibberish  - nathan scott](https://caffinate.itch.io/fibberish/)
