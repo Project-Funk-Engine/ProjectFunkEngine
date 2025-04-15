@@ -14,30 +14,34 @@ public static class SaveSystem
     private static ConfigFile _curConfigData;
 
     private const float DefaultVolume = 1f;
-    private const string DefaultInputKey = "WASD";
-    private const string DefaultInputKeyboardUp = "W";
-    private const string DefaultInputKeyboardLeft = "A";
-    private const string DefaultInputKeyboardDown = "S";
-    private const string DefaultInputKeyboardRight = "D";
-    private const string DefaultInputControllerUp = "0";
-    private const string DefaultInputControllerLeft = "0";
-    private const string DefaultInputControllerDown = "0";
-    private const string DefaultInputControllerRight = "0";
+    private const string DefaultInputType = "WASD";
+    private const int DefaultInputKeyboardUp = 87; //W
+    private const int DefaultInputKeyboardLeft = 65; //A
+    private const int DefaultInputKeyboardDown = 83; //S
+    private const int DefaultInputKeyboardRight = 68; //D
+    private const int DefaultInputKeyboardSecondary = 4194325; //Shift
+    private const int DefaultInputControllerUp = 3; //Y
+    private const int DefaultInputControllerLeft = 2; //X
+    private const int DefaultInputControllerDown = 0; //A
+    private const int DefaultInputControllerRight = 1; //B
+    private const int DefaultInputControllerSecondary = 10; //right bumper
     private const string DefaultLanguage = "en";
     private const bool DefaultHighCon = false;
 
     public enum ConfigSettings
     {
         Volume,
-        InputKey,
+        InputType,
         InputKeyboardUp,
         InputKeyboardLeft,
         InputKeyboardDown,
         InputKeyboardRight,
+        InputKeyboardSecondary,
         InputControllerUp,
         InputControllerLeft,
         InputControllerDown,
         InputControllerRight,
+        InputControllerSecondary,
         LanguageKey,
         HighContrast,
     }
@@ -49,15 +53,17 @@ public static class SaveSystem
     {
         _curConfigData = new ConfigFile();
         UpdateConfig(ConfigSettings.Volume, DefaultVolume);
-        UpdateConfig(ConfigSettings.InputKey, DefaultInputKey);
+        UpdateConfig(ConfigSettings.InputType, DefaultInputType);
         UpdateConfig(ConfigSettings.InputKeyboardUp, DefaultInputKeyboardUp);
         UpdateConfig(ConfigSettings.InputKeyboardLeft, DefaultInputKeyboardLeft);
         UpdateConfig(ConfigSettings.InputKeyboardDown, DefaultInputKeyboardDown);
         UpdateConfig(ConfigSettings.InputKeyboardRight, DefaultInputKeyboardRight);
+        UpdateConfig(ConfigSettings.InputKeyboardSecondary, DefaultInputKeyboardSecondary);
         UpdateConfig(ConfigSettings.InputControllerUp, DefaultInputControllerUp);
         UpdateConfig(ConfigSettings.InputControllerLeft, DefaultInputControllerLeft);
         UpdateConfig(ConfigSettings.InputControllerDown, DefaultInputControllerDown);
         UpdateConfig(ConfigSettings.InputControllerRight, DefaultInputControllerRight);
+        UpdateConfig(ConfigSettings.InputControllerSecondary, DefaultInputControllerSecondary);
         UpdateConfig(ConfigSettings.LanguageKey, DefaultLanguage);
         UpdateConfig(ConfigSettings.HighContrast, DefaultHighCon);
     }
@@ -76,7 +82,7 @@ public static class SaveSystem
             case ConfigSettings.Volume:
                 _curConfigData.SetValue("Options", "Volume", value);
                 break;
-            case ConfigSettings.InputKey:
+            case ConfigSettings.InputType:
                 _curConfigData.SetValue("Options", "InputKey", value);
                 break;
             case ConfigSettings.InputKeyboardUp:
@@ -91,6 +97,9 @@ public static class SaveSystem
             case ConfigSettings.InputKeyboardRight:
                 _curConfigData.SetValue("Options", "InputKeyboardRight", value);
                 break;
+            case ConfigSettings.InputKeyboardSecondary:
+                _curConfigData.SetValue("Options", "InputKeyboardSecondary", value);
+                break;
             case ConfigSettings.InputControllerUp:
                 _curConfigData.SetValue("Options", "InputControllerUp", value);
                 break;
@@ -102,6 +111,9 @@ public static class SaveSystem
                 break;
             case ConfigSettings.InputControllerRight:
                 _curConfigData.SetValue("Options", "InputControllerRight", value);
+                break;
+            case ConfigSettings.InputControllerSecondary:
+                _curConfigData.SetValue("Options", "InputControllerSecondary", value);
                 break;
             case ConfigSettings.LanguageKey:
                 _curConfigData.SetValue("Options", "LanguageKey", value);
@@ -154,7 +166,6 @@ public static class SaveSystem
     {
         _curConfigData = new ConfigFile();
         VerifyConfig();
-        GD.Print(ProjectSettings.GlobalizePath("user://Options.cfg"));
         if (_curConfigData.Load(UserConfigPath) == Error.Ok)
             return;
         GD.PushWarning("Safe. No config could be found, creating a new one.");
@@ -169,8 +180,8 @@ public static class SaveSystem
         {
             case ConfigSettings.Volume:
                 return _curConfigData.GetValue("Options", "Volume", DefaultVolume);
-            case ConfigSettings.InputKey:
-                return _curConfigData.GetValue("Options", "InputKey", DefaultInputKey);
+            case ConfigSettings.InputType:
+                return _curConfigData.GetValue("Options", "InputKey", DefaultInputType);
             case ConfigSettings.InputKeyboardUp:
                 return _curConfigData.GetValue(
                     "Options",
@@ -195,6 +206,12 @@ public static class SaveSystem
                     "InputKeyboardRight",
                     DefaultInputKeyboardRight
                 );
+            case ConfigSettings.InputKeyboardSecondary:
+                return _curConfigData.GetValue(
+                    "Options",
+                    "InputKeyboardSecondary",
+                    DefaultInputKeyboardSecondary
+                );
             case ConfigSettings.InputControllerUp:
                 return _curConfigData.GetValue(
                     "Options",
@@ -218,6 +235,12 @@ public static class SaveSystem
                     "Options",
                     "InputControllerRight",
                     DefaultInputControllerRight
+                );
+            case ConfigSettings.InputControllerSecondary:
+                return _curConfigData.GetValue(
+                    "Options",
+                    "InputControllerSecondary",
+                    DefaultInputControllerSecondary
                 );
             case ConfigSettings.LanguageKey:
                 return _curConfigData.GetValue("Options", "LanguageKey", DefaultLanguage);
@@ -313,32 +336,77 @@ public static class SaveSystem
 
     public static void ApplySavedInputBindings()
     {
-        string keyboardUp = GetConfigValue(ConfigSettings.InputKeyboardUp).ToString();
-        string keyboardDown = GetConfigValue(ConfigSettings.InputKeyboardDown).ToString();
-        string keyboardLeft = GetConfigValue(ConfigSettings.InputKeyboardLeft).ToString();
-        string keyboardRight = GetConfigValue(ConfigSettings.InputKeyboardRight).ToString();
-
         InputMap.ActionEraseEvents("WASD_arrowUp");
         InputMap.ActionEraseEvents("WASD_arrowDown");
-        InputMap.ActionEraseEvents("WASD_arrowLeft");
         InputMap.ActionEraseEvents("WASD_arrowRight");
+        InputMap.ActionEraseEvents("WASD_arrowLeft");
+        InputMap.ActionEraseEvents("WASD_secondaryPlacement");
+        InputMap.ActionEraseEvents("CONTROLLER_arrowUp");
+        InputMap.ActionEraseEvents("CONTROLLER_arrowDown");
+        InputMap.ActionEraseEvents("CONTROLLER_arrowLeft");
+        InputMap.ActionEraseEvents("CONTROLLER_arrowRight");
+        InputMap.ActionEraseEvents("CONTROLLER_secondaryPlacement");
 
-        InputMap.ActionAddEvent(
-            "WASD_arrowUp",
-            new InputEventKey { Keycode = (Key)Enum.Parse(typeof(Key), keyboardUp) }
-        );
-        InputMap.ActionAddEvent(
+        // Keyboard bindings
+        AddKeyBinding("WASD_arrowUp", GetConfigValue(ConfigSettings.InputKeyboardUp).ToString());
+        AddKeyBinding(
             "WASD_arrowDown",
-            new InputEventKey { Keycode = (Key)Enum.Parse(typeof(Key), keyboardDown) }
+            GetConfigValue(ConfigSettings.InputKeyboardDown).ToString()
         );
-        InputMap.ActionAddEvent(
+        AddKeyBinding(
             "WASD_arrowLeft",
-            new InputEventKey { Keycode = (Key)Enum.Parse(typeof(Key), keyboardLeft) }
+            GetConfigValue(ConfigSettings.InputKeyboardLeft).ToString()
         );
-        InputMap.ActionAddEvent(
+        AddKeyBinding(
             "WASD_arrowRight",
-            new InputEventKey { Keycode = (Key)Enum.Parse(typeof(Key), keyboardRight) }
+            GetConfigValue(ConfigSettings.InputKeyboardRight).ToString()
         );
+        AddKeyBinding(
+            "WASD_secondaryPlacement",
+            GetConfigValue(ConfigSettings.InputKeyboardSecondary).ToString()
+        );
+
+        // Controller bindings
+        AddJoypadBinding(
+            "CONTROLLER_arrowUp",
+            GetConfigValue(ConfigSettings.InputControllerUp).ToString()
+        );
+        AddJoypadBinding(
+            "CONTROLLER_arrowDown",
+            GetConfigValue(ConfigSettings.InputControllerDown).ToString()
+        );
+        AddJoypadBinding(
+            "CONTROLLER_arrowLeft",
+            GetConfigValue(ConfigSettings.InputControllerLeft).ToString()
+        );
+        AddJoypadBinding(
+            "CONTROLLER_arrowRight",
+            GetConfigValue(ConfigSettings.InputControllerRight).ToString()
+        );
+        AddJoypadBinding(
+            "CONTROLLER_secondaryPlacement",
+            GetConfigValue(ConfigSettings.InputControllerSecondary).ToString()
+        );
+    }
+
+    private static void AddKeyBinding(string action, string keyString)
+    {
+        Key key = (Key)Enum.Parse(typeof(Key), keyString, ignoreCase: true);
+        InputEventKey inputEvent = new InputEventKey { PhysicalKeycode = key };
+        InputMap.ActionAddEvent(action, inputEvent);
+    }
+
+    private static void AddJoypadBinding(string action, string buttonString)
+    {
+        if (Enum.TryParse<JoyButton>(buttonString, true, out JoyButton button))
+        {
+            InputEventJoypadButton inputEvent = new InputEventJoypadButton { ButtonIndex = button };
+            InputMap.ActionAddEvent(action, inputEvent);
+        }
+        else
+        {
+            GD.PushWarning($"Could not parse joypad button: {buttonString}");
+        }
     }
 
     #endregion

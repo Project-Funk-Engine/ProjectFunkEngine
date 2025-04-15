@@ -32,29 +32,56 @@ public partial class ControlSettings : Node2D, IFocusableMenu
     [Export]
     private Timer _remapTimer;
 
-    private Label _leftLabel;
-    private Label _rightLabel;
-    private Label _upLabel;
-    private Label _downLabel;
-    private Label _secondaryPlacementLabel;
+    private Label _keyboardLeftLabel;
+    private Label _keyboardRightLabel;
+    private Label _keyboardUpLabel;
+    private Label _keyboardDownLabel;
+    private Label _keyboardSecondaryLabel;
 
+    private Label _controllerLeftLabel;
+    private Label _controllerRightLabel;
+    private Label _controllerUpLabel;
+    private Label _controllerDownLabel;
+    private Label _controllerSecondaryLabel;
+
+    private TabContainer _remapTabs;
     private Key _tempKeyboardKey;
     private JoyButton _tempJoyButton;
     private string _chosenKey = "";
 
     public override void _Ready()
     {
-        GetNode<Button>("Panel/LeftArrowButton")
+        GetNode<Button>("Panel/TabContainer/Keyboard/LeftArrowButton")
             .Connect("pressed", Callable.From(OnLeftButtonPressed));
-        GetNode<Button>("Panel/UpArrowButton").Connect("pressed", Callable.From(OnUpButtonPressed));
-        GetNode<Button>("Panel/DownArrowButton")
+        GetNode<Button>("Panel/TabContainer/Keyboard/UpArrowButton")
+            .Connect("pressed", Callable.From(OnUpButtonPressed));
+        GetNode<Button>("Panel/TabContainer/Keyboard/DownArrowButton")
             .Connect("pressed", Callable.From(OnDownButtonPressed));
-        GetNode<Button>("Panel/RightArrowButton")
+        GetNode<Button>("Panel/TabContainer/Keyboard/RightArrowButton")
             .Connect("pressed", Callable.From(OnRightButtonPressed));
-        GetNode<Button>("Panel/SecondaryPlacementButton")
+        GetNode<Button>("Panel/TabContainer/Keyboard/SecondaryPlacementButton")
+            .Connect("pressed", Callable.From(OnSecondaryPlacementButtonPressed));
+
+        GetNode<Button>("Panel/TabContainer/Controller/LeftArrowButton")
+            .Connect("pressed", Callable.From(OnLeftButtonPressed));
+        GetNode<Button>("Panel/TabContainer/Controller/UpArrowButton")
+            .Connect("pressed", Callable.From(OnUpButtonPressed));
+        GetNode<Button>("Panel/TabContainer/Controller/DownArrowButton")
+            .Connect("pressed", Callable.From(OnDownButtonPressed));
+        GetNode<Button>("Panel/TabContainer/Controller/RightArrowButton")
+            .Connect("pressed", Callable.From(OnRightButtonPressed));
+        GetNode<Button>("Panel/TabContainer/Controller/SecondaryPlacementButton")
             .Connect("pressed", Callable.From(OnSecondaryPlacementButtonPressed));
 
         GetNode<Timer>("RemapPopup/Timer").Connect("timeout", Callable.From(OnTimerEnd));
+
+        //TODO: redo implementation? currently the selected tab chooses keyboard or controller
+        _remapTabs = GetNode<TabContainer>("Panel/TabContainer");
+        _remapTabs.CurrentTab =
+            SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.InputType).ToString() == "WASD"
+                ? 0
+                : 1;
+        _remapTabs.Connect("tab_changed", Callable.From((int _) => ChangeInputType(0)));
 
         InitLabels();
 
@@ -91,49 +118,45 @@ public partial class ControlSettings : Node2D, IFocusableMenu
 
     private void InitLabels()
     {
-        _leftLabel = GetNode<Label>("Panel/Control/TEMPLeftRemap");
-        _rightLabel = GetNode<Label>("Panel/Control/TEMPRightRemap");
-        _upLabel = GetNode<Label>("Panel/Control/TEMPUpRemap");
-        _downLabel = GetNode<Label>("Panel/Control/TEMPDownRemap");
-        _secondaryPlacementLabel = GetNode<Label>("Panel/Control/TEMPSecondaryRemap");
+        //TODO: revamp this function to incorporate art assets (maybe stretch goal)
+        _keyboardLeftLabel = GetNode<Label>("Panel/TabContainer/Keyboard/TEMPLeftRemap");
+        _keyboardRightLabel = GetNode<Label>("Panel/TabContainer/Keyboard/TEMPRightRemap");
+        _keyboardUpLabel = GetNode<Label>("Panel/TabContainer/Keyboard/TEMPUpRemap");
+        _keyboardDownLabel = GetNode<Label>("Panel/TabContainer/Keyboard/TEMPDownRemap");
+        _keyboardSecondaryLabel = GetNode<Label>("Panel/TabContainer/Keyboard/TEMPSecondaryRemap");
+        _controllerLeftLabel = GetNode<Label>("Panel/TabContainer/Controller/TEMPLeftRemap");
+        _controllerRightLabel = GetNode<Label>("Panel/TabContainer/Controller/TEMPRightRemap");
+        _controllerUpLabel = GetNode<Label>("Panel/TabContainer/Controller/TEMPUpRemap");
+        _controllerDownLabel = GetNode<Label>("Panel/TabContainer/Controller/TEMPDownRemap");
+        _controllerSecondaryLabel = GetNode<Label>(
+            "Panel/TabContainer/Controller/TEMPSecondaryRemap"
+        );
 
-        _leftLabel.Text = SaveSystem
-            .GetConfigValue(SaveSystem.ConfigSettings.InputKeyboardLeft)
-            .ToString();
-        _rightLabel.Text = SaveSystem
-            .GetConfigValue(SaveSystem.ConfigSettings.InputKeyboardRight)
-            .ToString();
-        _upLabel.Text = SaveSystem
-            .GetConfigValue(SaveSystem.ConfigSettings.InputKeyboardUp)
-            .ToString();
-        _downLabel.Text = SaveSystem
-            .GetConfigValue(SaveSystem.ConfigSettings.InputKeyboardDown)
-            .ToString();
-        _secondaryPlacementLabel.Text = InputMap
-            .ActionGetEvents("WASD_secondaryPlacement")[0]
-            .AsText();
+        UpdateKeyLabels();
     }
 
     public override void _Input(InputEvent @event)
     {
-        if (_remapPopup.Visible)
+        if (_remapPopup.Visible && ValidInputEvent(@event.AsText()))
         {
-            if (@event is InputEventKey eventKeyboardKey)
+            switch (@event)
             {
-                _tempKeyboardKey = eventKeyboardKey.Keycode;
-                InputMap.ActionEraseEvents(_chosenKey);
-                InputMap.ActionAddEvent(_chosenKey, @event);
-                SaveKeyInput(_chosenKey, @event.AsText());
-                UpdateKeyLabels();
-                _remapPopup.Visible = false;
-            }
-            if (@event is InputEventJoypadButton eventControllerKey)
-            {
-                _tempJoyButton = eventControllerKey.ButtonIndex;
-                InputMap.ActionEraseEvents(_chosenKey);
-                InputMap.ActionAddEvent(_chosenKey, @event);
-                UpdateKeyLabels();
-                _remapPopup.Visible = false;
+                case InputEventKey eventKeyboardKey when _remapTabs.CurrentTab == 0:
+                    _tempKeyboardKey = eventKeyboardKey.Keycode;
+                    InputMap.ActionEraseEvents("WASD" + _chosenKey);
+                    InputMap.ActionAddEvent("WASD" + _chosenKey, @event);
+                    SaveKeyInput(_chosenKey, @event);
+                    UpdateKeyLabels();
+                    _remapPopup.Visible = false;
+                    break;
+                case InputEventJoypadButton eventControllerKey when _remapTabs.CurrentTab == 1:
+                    _tempJoyButton = eventControllerKey.ButtonIndex;
+                    InputMap.ActionEraseEvents("CONTROLLER" + _chosenKey);
+                    InputMap.ActionAddEvent("CONTROLLER" + _chosenKey, @event);
+                    SaveKeyInput(_chosenKey, @event);
+                    UpdateKeyLabels();
+                    _remapPopup.Visible = false;
+                    break;
             }
         }
         else if (@event.IsActionPressed("ui_cancel"))
@@ -145,16 +168,16 @@ public partial class ControlSettings : Node2D, IFocusableMenu
 
     private void AnyButtonsPressed()
     {
-        BeginTimer();
+        BeginTimer(5);
         _tempJoyButton = JoyButton.Invalid;
         _tempKeyboardKey = Key.None;
         _remapPopup.Visible = true;
     }
 
-    private void BeginTimer()
+    private void BeginTimer(float time)
     {
-        _remapLabel.Text = "5";
-        _remapTimer.Start(5.0f);
+        _remapLabel.Text = time.ToString();
+        _remapTimer.Start(time);
     }
 
     private void OnTimerEnd()
@@ -164,61 +187,174 @@ public partial class ControlSettings : Node2D, IFocusableMenu
 
     private void UpdateKeyLabels()
     {
-        _upLabel.Text = InputMap.ActionGetEvents("WASD_arrowUp")[0].AsText();
-        _downLabel.Text = InputMap.ActionGetEvents("WASD_arrowDown")[0].AsText();
-        _leftLabel.Text = InputMap.ActionGetEvents("WASD_arrowLeft")[0].AsText();
-        _rightLabel.Text = InputMap.ActionGetEvents("WASD_arrowRight")[0].AsText();
-        _secondaryPlacementLabel.Text = InputMap
-            .ActionGetEvents("WASD_secondaryPlacement")[0]
+        _keyboardUpLabel.Text = CleanKeyboardText(
+            InputMap.ActionGetEvents("WASD_arrowUp")[0].AsText()
+        );
+        _keyboardDownLabel.Text = CleanKeyboardText(
+            InputMap.ActionGetEvents("WASD_arrowDown")[0].AsText()
+        );
+        _keyboardLeftLabel.Text = CleanKeyboardText(
+            InputMap.ActionGetEvents("WASD_arrowLeft")[0].AsText()
+        );
+        _keyboardRightLabel.Text = CleanKeyboardText(
+            InputMap.ActionGetEvents("WASD_arrowRight")[0].AsText()
+        );
+        _keyboardSecondaryLabel.Text = CleanKeyboardText(
+            InputMap.ActionGetEvents("WASD_secondaryPlacement")[0].AsText()
+        );
+        _controllerUpLabel.Text = InputMap.ActionGetEvents("CONTROLLER_arrowUp")[0].AsText();
+        _controllerDownLabel.Text = InputMap.ActionGetEvents("CONTROLLER_arrowDown")[0].AsText();
+        _controllerLeftLabel.Text = InputMap.ActionGetEvents("CONTROLLER_arrowLeft")[0].AsText();
+        _controllerRightLabel.Text = InputMap.ActionGetEvents("CONTROLLER_arrowRight")[0].AsText();
+        _controllerSecondaryLabel.Text = InputMap
+            .ActionGetEvents("CONTROLLER_secondaryPlacement")[0]
             .AsText();
+    }
+
+    string CleanKeyboardText(string text)
+    {
+        return text.Replace(" (Physical)", "");
     }
 
     private void OnUpButtonPressed()
     {
-        _chosenKey = "WASD_arrowUp";
+        _chosenKey = "_arrowUp";
         AnyButtonsPressed();
     }
 
     private void OnLeftButtonPressed()
     {
-        _chosenKey = "WASD_arrowLeft";
+        _chosenKey = "_arrowLeft";
         AnyButtonsPressed();
     }
 
     private void OnRightButtonPressed()
     {
-        _chosenKey = "WASD_arrowRight";
+        _chosenKey = "_arrowRight";
         AnyButtonsPressed();
     }
 
     private void OnDownButtonPressed()
     {
-        _chosenKey = "WASD_arrowDown";
+        _chosenKey = "_arrowDown";
         AnyButtonsPressed();
     }
 
     private void OnSecondaryPlacementButtonPressed()
     {
-        _chosenKey = "WASD_secondaryPlacement";
+        _chosenKey = "_secondaryPlacement";
         AnyButtonsPressed();
     }
 
-    private void SaveKeyInput(string button, string key)
+    private void SaveKeyInput(string button, InputEvent key)
     {
-        switch (button[10])
+        switch (button[6])
         {
             case 'U':
-                SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKeyboardUp, key);
+                if (key is InputEventKey key1)
+                {
+                    int keycode = (int)key1.PhysicalKeycode;
+                    SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKeyboardUp, keycode);
+                }
+                else if (key is InputEventJoypadButton key2)
+                {
+                    int keycode = (int)key2.ButtonIndex;
+                    SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputControllerUp, keycode);
+                }
                 break;
             case 'L':
-                SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKeyboardLeft, key);
+                if (key is InputEventKey key3)
+                {
+                    int keycode = (int)key3.PhysicalKeycode;
+                    SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKeyboardLeft, keycode);
+                }
+                else if (key is InputEventJoypadButton key4)
+                {
+                    int keycode = (int)key4.ButtonIndex;
+                    SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputControllerLeft, keycode);
+                }
                 break;
             case 'D':
-                SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKeyboardDown, key);
+                if (key is InputEventKey key5)
+                {
+                    int keycode = (int)key5.PhysicalKeycode;
+                    SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKeyboardDown, keycode);
+                }
+                else if (key is InputEventJoypadButton key6)
+                {
+                    int keycode = (int)key6.ButtonIndex;
+                    SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputControllerDown, keycode);
+                }
                 break;
             case 'R':
-                SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKeyboardRight, key);
+                if (key is InputEventKey key7)
+                {
+                    int keycode = (int)key7.PhysicalKeycode;
+                    SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKeyboardRight, keycode);
+                }
+                else if (key is InputEventJoypadButton key8)
+                {
+                    int keycode = (int)key8.ButtonIndex;
+                    SaveSystem.UpdateConfig(
+                        SaveSystem.ConfigSettings.InputControllerRight,
+                        keycode
+                    );
+                }
+                break;
+            case 'd':
+                if (key is InputEventKey key9)
+                {
+                    int keycode = (int)key9.PhysicalKeycode;
+                    SaveSystem.UpdateConfig(
+                        SaveSystem.ConfigSettings.InputKeyboardSecondary,
+                        keycode
+                    );
+                }
+                else if (key is InputEventJoypadButton key10)
+                {
+                    int keycode = (int)key10.ButtonIndex;
+                    SaveSystem.UpdateConfig(
+                        SaveSystem.ConfigSettings.InputControllerSecondary,
+                        keycode
+                    );
+                }
                 break;
         }
+    }
+
+    private void ChangeInputType(int tabIndex)
+    {
+        SaveSystem.UpdateConfig(
+            SaveSystem.ConfigSettings.InputType,
+            _remapTabs.CurrentTab == 0 ? "WASD" : "CONTROLLER"
+        );
+    }
+
+    //TODO: this should work? godot editor mode doesn't properly update
+    //TODO: the inputmap during runtime. also faces the issue of not allowing
+    //TODO: user to remap to ANY buttons already mapped to, which may or may
+    //TODO: not be necessary. (e.g. user mapping an arrow to "I" which would
+    //TODO: play the note along with opening inventory
+    private bool ValidInputEvent(string keyText)
+    {
+        //nested loops bad, but theoretically this should act as a single loop
+        //since each action only has 1 event (keybinding)
+        foreach (string action in InputMap.GetActions())
+        {
+            foreach (InputEvent evt in InputMap.ActionGetEvents(action))
+            {
+                if (
+                    (
+                        evt is InputEventKey keyEvent
+                        && CleanKeyboardText(keyEvent.AsText()) == keyText
+                    )
+                    || evt is InputEventJoypadButton padEvent && padEvent.AsText() == keyText
+                )
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

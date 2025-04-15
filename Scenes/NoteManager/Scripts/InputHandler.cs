@@ -58,15 +58,14 @@ public partial class InputHandler : Node2D
     public override void _Process(double delta)
     {
         //TODO: Add change control scheme signal, so we don't query each frame.
-        string scheme = SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.InputKey).As<string>();
+        string scheme = SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.InputType).As<string>();
         if (Input.GetConnectedJoypads().Count <= 0 && scheme == "CONTROLLER")
         {
-            SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKey, "WASD");
+            SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputType, "WASD");
         }
 
         foreach (var arrow in Arrows)
         {
-            GD.Print(scheme + "_" + arrow.Key);
             if (Input.IsActionJustPressed(scheme + "_" + arrow.Key))
             {
                 EmitSignal(nameof(NotePressed), (int)arrow.Type);
@@ -84,7 +83,7 @@ public partial class InputHandler : Node2D
     {
         if (@event is InputEventJoypadButton)
         { //Force Controller if controller was pressed
-            SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKey, "CONTROLLER");
+            SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputType, "CONTROLLER");
         }
     }
 
