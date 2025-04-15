@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b0mrgr7h0ty1y"]
+[gd_scene load_steps=11 format=3 uid="uid://b0mrgr7h0ty1y"]
 
 [ext_resource type="Script" uid="uid://bttu0wmy2fp64" path="res://Scenes/BattleDirector/Scripts/BattleDirector.cs" id="1_jmdo1"]
 [ext_resource type="Script" uid="uid://pl57giqyhckb" path="res://Scenes/UI/Scripts/MenuModule.cs" id="2_ka0ws"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dfevfib11kou1" path="res://Scenes/ChartViewport/ChartViewport.tscn" id="5_r2xh0"]
 [ext_resource type="Texture2D" uid="uid://qhwve7fik4do" path="res://SharedAssets/BackGround_Full.png" id="6_0jtpx"]
 [ext_resource type="Texture2D" uid="uid://dbjotl0v1ymia" path="res://SharedAssets/BattleFrame1.png" id="7_klvil"]
+[ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="8_62qim"]
 
 [sub_resource type="Gradient" id="Gradient_8uy3a"]
 offsets = PackedFloat32Array(0, 0.766234, 1)
@@ -81,9 +82,9 @@ offset_bottom = 360.0
 texture = ExtResource("7_klvil")
 
 [node name="StartButton" type="Button" parent="."]
-modulate = Color(5, 5, 5, 1)
 offset_left = 241.0
-offset_top = 234.0
-offset_right = 399.0
-offset_bottom = 265.0
+offset_top = 230.0
+offset_right = 443.0
+offset_bottom = 267.0
+theme = ExtResource("8_62qim")
 text = "BATTLE_ROOM_BEGIN_BUTTON"
