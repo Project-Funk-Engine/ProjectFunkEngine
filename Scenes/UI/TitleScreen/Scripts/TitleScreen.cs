@@ -14,6 +14,11 @@ public partial class TitleScreen : Control, IFocusableMenu
     private Control _focused;
     public IFocusableMenu Prev { get; set; }
 
+    public override void _EnterTree()
+    {
+        BgAudioPlayer.LiveInstance.PlayLevelMusic();
+    }
+
     public override void _Ready()
     {
         TweenLight();
@@ -58,10 +63,5 @@ public partial class TitleScreen : Control, IFocusableMenu
         tween.TweenProperty(TextLight, "energy", 2, 5f);
         tween.SetLoops(-1);
         tween.Play();
-    }
-
-    public override void _EnterTree()
-    {
-        BgAudioPlayer.LiveInstance.PlayLevelMusic();
     }
 }

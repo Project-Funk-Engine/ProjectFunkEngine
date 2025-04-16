@@ -47,6 +47,11 @@ public partial class MenuModule : CanvasLayer, IFocusableMenu
 
     public override void _Input(InputEvent @event)
     {
+        if (!GetWindow().HasFocus())
+        {
+            GetViewport().SetInputAsHandled();
+            return;
+        }
         if (@event.IsActionPressed("Pause"))
         {
             OpenPauseMenu();
