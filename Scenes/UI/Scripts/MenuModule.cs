@@ -11,6 +11,16 @@ public partial class MenuModule : CanvasLayer, IFocusableMenu
 
     private Control _lastFocused { get; set; }
 
+    public override void _Ready()
+    {
+        Input.JoyConnectionChanged += (device, connected) =>
+        {
+            if (!connected)
+                OpenPauseMenu(); //Pause on disconnection
+        };
+        GetTree().GetRoot().FocusExited += OpenPauseMenu;
+    }
+
     public void ResumeFocus()
     {
         CurSceneNode.ProcessMode = ProcessModeEnum.Inherit;
@@ -37,11 +47,14 @@ public partial class MenuModule : CanvasLayer, IFocusableMenu
 
     public override void _Input(InputEvent @event)
     {
+        if (!GetWindow().HasFocus())
+        {
+            GetViewport().SetInputAsHandled();
+            return;
+        }
         if (@event.IsActionPressed("Pause"))
         {
-            var pauseMenu = GD.Load<PackedScene>(PauseMenu.LoadPath).Instantiate<PauseMenu>();
-            AddChild(pauseMenu);
-            pauseMenu.OpenMenu(this);
+            OpenPauseMenu();
         }
         if (@event.IsActionPressed("Inventory"))
         {
@@ -49,5 +62,14 @@ public partial class MenuModule : CanvasLayer, IFocusableMenu
             AddChild(invenMenu);
             invenMenu.OpenMenu(this);
         }
+    }
+
+    private void OpenPauseMenu()
+    {
+        if (CurSceneNode.ProcessMode == ProcessModeEnum.Disabled)
+            return;
+        var pauseMenu = GD.Load<PackedScene>(PauseMenu.LoadPath).Instantiate<PauseMenu>();
+        AddChild(pauseMenu);
+        pauseMenu.OpenMenu(this);
     }
 }

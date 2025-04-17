@@ -49,7 +49,7 @@ public partial class NotePlacementBar : Node
 
     private void UpdateComboMultText()
     {
-        _currentComboMultText.Text = $"    x{ComboMult.ToString()}";
+        _currentComboMultText.Text = $" x{ComboMult.ToString()}";
     }
     #endregion
 

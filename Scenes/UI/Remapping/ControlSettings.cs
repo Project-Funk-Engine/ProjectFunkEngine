@@ -131,11 +131,19 @@ public partial class ControlSettings : Node2D, IFocusableMenu
                 OnControllerButtonPressed();
                 GetNode<Button>("Panel/ControllerButton").GrabFocus();
                 break;
+            default:
+                _closeButton.GrabFocus();
+                break;
         }
     }
 
     public override void _Input(InputEvent @event)
     {
+        if (!GetWindow().HasFocus())
+        {
+            GetViewport().SetInputAsHandled();
+            return;
+        }
         if (@event.IsActionPressed("ui_cancel"))
         {
             ReturnToPrev();
@@ -179,7 +187,7 @@ public partial class ControlSettings : Node2D, IFocusableMenu
         _controllerButton.Visible = Input.GetConnectedJoypads().Count > 0;
         if (
             (string)SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.InputKey) == "CONTROLLER"
-            && !_closeButton.Visible
+            && !_controllerButton.Visible
         )
         {
             OnArrowButtonPressed();

@@ -45,6 +45,11 @@ public partial class Inventory : Control, IFocusableMenu
 
     public override void _Input(InputEvent @event)
     {
+        if (!GetWindow().HasFocus())
+        {
+            GetViewport().SetInputAsHandled();
+            return;
+        }
         if (_tabs.CurrentTab == 0) //Godot 4.4 changed neighbor behaviour
         {
             if (_notes.GetChildCount() > 0)

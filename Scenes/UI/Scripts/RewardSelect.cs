@@ -53,7 +53,7 @@ public partial class RewardSelect : CanvasLayer
 
     private void AddButton(IDisplayable displayable)
     {
-        var button = new DisplayButton();
+        var button = GD.Load<PackedScene>(DisplayButton.LoadPath).Instantiate<DisplayButton>();
         button.SetButtonGroup(_rewardGroup);
         button.ToggleMode = true;
         button.Display(displayable.Texture, displayable.Tooltip, displayable.Name);
@@ -98,7 +98,7 @@ public partial class RewardSelect : CanvasLayer
         var rewardUI = GD.Load<PackedScene>(LoadPath).Instantiate<RewardSelect>();
         parent.AddChild(rewardUI);
         rewardUI.Initialize(playerStats, amount, type);
-        parent.GetTree().Paused = true;
+        parent.ProcessMode = ProcessModeEnum.Disabled;
 
         return rewardUI;
     }
