@@ -212,4 +212,16 @@ public partial class StageProducer : Node
         CurRoom = nextRoomIdx;
         return result;
     }
+
+    //Putting this here in an autoload.
+    public override void _Input(InputEvent @event)
+    {
+        //Consume controller input, if window out of focus.
+        //This handles ui_input, other scenes need to consume their own.
+        if (!GetWindow().HasFocus())
+        {
+            GetViewport().SetInputAsHandled();
+            return;
+        }
+    }
 }

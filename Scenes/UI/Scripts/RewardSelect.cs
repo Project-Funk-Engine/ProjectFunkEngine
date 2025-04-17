@@ -98,7 +98,7 @@ public partial class RewardSelect : CanvasLayer
         var rewardUI = GD.Load<PackedScene>(LoadPath).Instantiate<RewardSelect>();
         parent.AddChild(rewardUI);
         rewardUI.Initialize(playerStats, amount, type);
-        parent.GetTree().Paused = true;
+        parent.ProcessMode = ProcessModeEnum.Disabled;
 
         return rewardUI;
     }

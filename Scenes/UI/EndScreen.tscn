@@ -6,7 +6,7 @@
 [ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="4_1vt77"]
 
 [node name="CanvasLayer" type="CanvasLayer" node_paths=PackedStringArray("_buttons", "TopLabel")]
-process_mode = 2
+process_mode = 3
 script = ExtResource("1_37m3y")
 _buttons = [NodePath("MarginContainer2/MarginContainer/VBoxContainer/MarginContainer/Restart"), NodePath("MarginContainer2/MarginContainer/VBoxContainer/MarginContainer2/Title"), NodePath("MarginContainer2/MarginContainer/VBoxContainer/MarginContainer3/Quit")]
 TopLabel = NodePath("MarginContainer2/MarginContainer/VBoxContainer/TopLabel")

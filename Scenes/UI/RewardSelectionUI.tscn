@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://burj10os057fx" path="res://Scenes/UI/Assets/UI_CrystalFrameInset.png" id="4_gufce"]
 
 [node name="CanvasLayer" type="CanvasLayer" node_paths=PackedStringArray("ButtonContainer", "_description", "_acceptButton", "_skipButton")]
-process_mode = 2
+process_mode = 3
 script = ExtResource("1_1m6an")
 ButtonContainer = NodePath("MarginContainer/PanelContainer/VBoxContainer/ScrollContainer/CenterContainer/HBoxContainer")
 _description = NodePath("MarginContainer/PanelContainer/VBoxContainer/DescBox/DescMargin/Description")
