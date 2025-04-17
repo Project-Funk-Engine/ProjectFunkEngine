@@ -42,6 +42,8 @@ NOTE_PLAYERVAMPIRE_NAME,PlayerVampire,玩家吸血
 NOTE_PLAYERVAMPIRE_TOOLTIP,"Steals health from enemy.","从敌人吸取生命值"
 NOTE_PLAYERQUARTER_NAME,PlayerQuarter,玩家一分之一
 NOTE_PLAYERQUARTER_TOOLTIP,"Basic note at a quarter of the cost.","以四分之一的耗费时间量发出基础音符"
+NOTE_PLAYERBLOCK_NAME,PlayerBlock,玩家格挡
+NOTE_PLAYERBLOCK_TOOLTIP,"Gives player one charge of block.","给予玩家一层格挡充能。"
 RELIC_BREAKFAST_NAME,Breakfast,早餐
 RELIC_BREAKFAST_TOOLTIP,"Increases max hp.",提高最大生命值
 RELIC_GOODVIBES_NAME,Good Vibes,良好消息
@@ -50,6 +52,18 @@ RELIC_AUROBOROS_NAME,Auroboros,无尾蛇
 RELIC_AUROBOROS_TOOLTIP,"Bigger number, better person. Increases combo multiplier every riff.","进一步增加综合倍数，每次现场提升"
 RELIC_COLORBOROS_NAME,Colorboros,彩蛇轮回
 RELIC_COLORBOROS_TOOLTIP,"Taste the rainbow. Charges the freestyle bar every riff.","品尝临岛，每次现场充值自由格条"
+RELIC_CHIPS_NAME,"Chips",薯片
+RELIC_CHIPS_TOOLTIP,"Hitting a note deals a bit of damage.","击中音符会造成少量伤害。"
+RELIC_PAPERCUT_NAME,Paper Cut,纸割伤
+RELIC_PAPERCUT_TOOLTIP,"Deals damage each loop.","每轮造成伤害"
+RELIC_ENERGYDRINK_NAME,Energy Drink,"能量饮料"
+RELIC_ENERGYDRINK_TOOLTIP,"Take a chance to cool down and sip an energy drink to increase your max energy bar.","碰碰运气，喝一口能量饮料来冷静下来并增加你的最大能量条。"
+RELIC_BANDAGE_NAME,Bandage,"绷带"
+RELIC_BANDAGE_TOOLTIP,"A clean strip of cloth. Use it after a fight to patch up and feel better.","一块干净的布条，战斗后使用来包扎并恢复一些健康。"
+RELIC_MEDKIT_NAME,Medkit,"急救包"
+RELIC_MEDKIT_TOOLTIP,"A small kit with medical supplies. Heals you a bit after each loop.","包含一些医疗用品的小包，每次循环后恢复少量生命。"
+RELIC_VINYLRECORD_NAME,Vinyl Record,"黑胶唱片"
+RELIC_VINYLRECORD_TOOLTIP,"Right round, right round. All loop effects trigger twice.","把我转起来，把我转起来。所有循环效果触发两次。"
 INVENTORY_TAB_NOTES,Notes,乐谱
 INVENTORY_TAB_RELICS,Relics,遗物
 OPTIONS_VOLUME_LABEL,Master Volume,最终音量设置

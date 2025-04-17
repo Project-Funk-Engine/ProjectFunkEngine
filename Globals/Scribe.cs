@@ -94,6 +94,20 @@ public partial class Scribe : Node
             },
             0.25f
         ),
+        new Note(
+            6,
+            "Play-c-HoldBlock",
+            "Gives player one charge of block.",
+            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerBlock.png"),
+            null,
+            1,
+            (director, note, timing) =>
+            {
+                if (timing == Timing.Miss)
+                    return;
+                //director.Player.GainShield(note.GetBaseVal()); //todo: should scale with timing????
+            }
+        ),
     };
 
     public static readonly RelicTemplate[] RelicDictionary = new[]
@@ -102,6 +116,7 @@ public partial class Scribe : Node
             0,
             "Breakfast", //Reference ha ha, Item to give when relic pool is empty.
             "Increases max hp.", //TODO: Description can include the relics values?
+            Rarity.Breakfast,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Breakfast.png"),
             new RelicEffect[]
             {
@@ -120,6 +135,7 @@ public partial class Scribe : Node
             1,
             "Good Vibes",
             "Heals the player whenever they place a note.",
+            Rarity.Common,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_GoodVibes.png"),
             new RelicEffect[]
             {
@@ -137,6 +153,7 @@ public partial class Scribe : Node
             2,
             "Auroboros",
             "Bigger number, better person. Increases combo multiplier every riff.",
+            Rarity.Common,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Auroboros.png"),
             new RelicEffect[]
             {
@@ -155,6 +172,7 @@ public partial class Scribe : Node
             3,
             "Colorboros",
             "Taste the rainbow. Charges the freestyle bar every riff.",
+            Rarity.Common,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Colorboros.png"),
             new RelicEffect[]
             {
@@ -165,6 +183,118 @@ public partial class Scribe : Node
                     {
                         e.BD.NPB.IncreaseCharge(val);
                         self.Value += 5;
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            4,
+            "Chips",
+            "Hitting a note deals a bit of damage.",
+            Rarity.Common,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Chips.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.NoteHit,
+                    1,
+                    (e, self, val) =>
+                    {
+                        e.BD.GetFirstEnemy().TakeDamage(val);
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            5,
+            "Paper Cut",
+            "Deals damage each loop.",
+            Rarity.Common,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_PaperCut.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnLoop,
+                    5,
+                    (e, self, val) =>
+                    {
+                        e.BD.GetFirstEnemy().TakeDamage(val);
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            6,
+            "Energy Drink",
+            "Take a chance to cool down and sip an energy drink to increase your max energy bar.",
+            Rarity.Common,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_EnergyDrink.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnPickup,
+                    10,
+                    (e, self, val) =>
+                    {
+                        StageProducer.PlayerStats.MaxComboBar -= val;
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            7,
+            "Bandage",
+            "A clean strip of cloth. Use it after a fight to patch up and feel better.",
+            Rarity.Common,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Bandage.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnBattleEnd,
+                    10,
+                    (e, self, val) =>
+                    {
+                        StageProducer.PlayerStats.CurrentHealth += val;
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            8,
+            "Medkit",
+            "A small kit with medical supplies. Heals you a bit after each loop.",
+            Rarity.Common,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Medkit.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnLoop,
+                    5,
+                    (e, self, val) =>
+                    {
+                        e.BD.Player.Heal(val);
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            9,
+            "Vinyl Record",
+            "Right round, right round. All loop effects trigger twice.",
+            Rarity.Legendary,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_VinylRecord.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnLoop,
+                    0,
+                    (e, self, val) =>
+                    {
+                        if (
+                            (e is BattleDirector.Harbinger.LoopEventArgs eLoop)
+                            && !eLoop.ArtificialLoop
+                        )
+                            BattleDirector.Harbinger.Instance.InvokeChartLoop(eLoop.Loop);
                     }
                 ),
             }
@@ -244,6 +374,7 @@ public partial class Scribe : Node
         {
             availableRelics = availableRelics.Append(RelicDictionary[0].Clone()).ToArray();
         }
+
         return availableRelics;
     }
 

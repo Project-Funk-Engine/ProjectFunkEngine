@@ -27,8 +27,6 @@ public partial class PuppetTemplate : Node2D
     protected int MaxHealth = 100;
     protected int CurrentHealth = 100;
 
-    //Stats would go here.
-
     protected string UniqName = ""; //Eventually make subclasses/scenes/real stuff
 
     public override void _Ready()
@@ -126,6 +124,7 @@ public partial class PuppetTemplate : Node2D
         {
             deathTween.TweenCallback(Callable.From(Kill));
         }
+
         TextParticle newText = new TextParticle();
         newText.Modulate = Colors.Red;
         Sprite.AddChild(newText);

@@ -235,6 +235,8 @@ public enum BattleEffectTrigger
     SelfNoteHit,
     OnPickup,
     OnLoop,
+    OnBattleStart,
+    OnBattleEnd,
 }
 
 public enum Stages
@@ -246,6 +248,16 @@ public enum Stages
     Quit,
     Map,
     Load,
+}
+
+public enum Rarity
+{
+    Common,
+    Uncommon,
+    Rare,
+    Epic,
+    Legendary,
+    Breakfast,
 }
 #endregion
 
