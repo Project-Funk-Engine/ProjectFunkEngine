@@ -1,10 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://bi5iqbwpsd381"]
+[gd_scene load_steps=8 format=3 uid="uid://bi5iqbwpsd381"]
 
 [ext_resource type="Script" uid="uid://bpyrrnhvisxgv" path="res://Scenes/Puppets/Enemies/BossBlood/P_BossBlood.cs" id="1_qj2oj"]
 [ext_resource type="Texture2D" uid="uid://veedngaorx3l" path="res://Scenes/Puppets/Enemies/BossBlood/Assets/Boss1.png" id="2_mul30"]
 [ext_resource type="Texture2D" uid="uid://b2iptr3o8rg4t" path="res://Scenes/Puppets/Enemies/BossBlood/Assets/Boss1EmissionShape.tres" id="3_yxnso"]
 [ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://Scenes/Puppets/HealthBar.tscn" id="4_ffkxf"]
-[ext_resource type="Texture2D" uid="uid://bsg8b14xbddb6" path="res://SharedAssets/Shield.png" id="5_pa2dv"]
 
 [sub_resource type="Gradient" id="Gradient_s7p55"]
 offsets = PackedFloat32Array(0)
@@ -23,21 +22,11 @@ scale_min = 4.0
 scale_max = 4.0
 turbulence_noise_strength = 14.2
 
-[sub_resource type="Gradient" id="Gradient_s7p55"]
-offsets = PackedFloat32Array(0)
-colors = PackedColorArray(0.641048, 0.0406094, 0.0473231, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_16sp0"]
-gradient = SubResource("Gradient_s7p55")
-width = 1
-
-[node name="EnemPuppet" type="Node2D" node_paths=PackedStringArray("HealthBar", "Sprite", "ShieldLogo", "ShieldText")]
+[node name="EnemPuppet" type="Node2D" node_paths=PackedStringArray("HealthBar", "Sprite")]
 script = ExtResource("1_qj2oj")
 HealthBar = NodePath("ProgressBar")
 Sprite = NodePath("Sprite")
 InitScale = Vector2(2, 2)
-ShieldLogo = NodePath("Shield")
-ShieldText = NodePath("Shield/ShieldText")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 position = Vector2(0, -32)
@@ -57,15 +46,3 @@ offset_left = -75.0
 offset_top = 32.0
 offset_right = 75.0
 offset_bottom = 52.0
-
-[node name="Shield" type="Sprite2D" parent="."]
-position = Vector2(56, 20)
-texture = ExtResource("5_pa2dv")
-
-[node name="ShieldText" type="Label" parent="Shield"]
-offset_left = -13.0
-offset_top = -10.0
-offset_right = 13.0
-offset_bottom = 13.0
-text = "XX"
-horizontal_alignment = 1

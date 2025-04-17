@@ -1,17 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://eus17omen6yk"]
+[gd_scene load_steps=4 format=3 uid="uid://eus17omen6yk"]
 
 [ext_resource type="Script" uid="uid://kkb4qp3s86n3" path="res://Scenes/Puppets/Scripts/PlayerPuppet.cs" id="1_f4rea"]
 [ext_resource type="Texture2D" uid="uid://b6fkei0i83vte" path="res://SharedAssets/Character1.png" id="2_affso"]
 [ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://Scenes/Puppets/HealthBar.tscn" id="3_rechw"]
-[ext_resource type="Texture2D" uid="uid://bsg8b14xbddb6" path="res://SharedAssets/Shield.png" id="4_5uc4u"]
 
-[node name="PlayerPuppet" type="Node2D" node_paths=PackedStringArray("HealthBar", "Sprite", "ShieldLogo", "ShieldText")]
+[node name="PlayerPuppet" type="Node2D" node_paths=PackedStringArray("HealthBar", "Sprite")]
 script = ExtResource("1_f4rea")
 HealthBar = NodePath("ProgressBar")
 Sprite = NodePath("Sprite")
-StartPos = Vector2(158, 125)
-ShieldLogo = NodePath("Shield")
-ShieldText = NodePath("Shield/ShieldText")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_affso")
@@ -21,15 +17,3 @@ offset_left = -75.0
 offset_top = 32.0
 offset_right = 75.0
 offset_bottom = 52.0
-
-[node name="Shield" type="Sprite2D" parent="."]
-position = Vector2(56, 20)
-texture = ExtResource("4_5uc4u")
-
-[node name="ShieldText" type="Label" parent="Shield"]
-offset_left = -13.0
-offset_top = -10.0
-offset_right = 13.0
-offset_bottom = 13.0
-text = "XX"
-horizontal_alignment = 1

@@ -96,7 +96,7 @@ public partial class Scribe : Node
         ),
         new Note(
             6,
-            "PlayerBlock",
+            "Play-c-HoldBlock",
             "Gives player one charge of block.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerBlock.png"),
             null,
@@ -105,7 +105,7 @@ public partial class Scribe : Node
             {
                 if (timing == Timing.Miss)
                     return;
-                director.Player.GainShield(note.GetBaseVal()); //todo: should scale with timing????
+                //director.Player.GainShield(note.GetBaseVal()); //todo: should scale with timing????
             }
         ),
     };
