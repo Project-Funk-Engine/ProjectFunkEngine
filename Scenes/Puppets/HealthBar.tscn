@@ -7,7 +7,7 @@ colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_ti0cv"]
 gradient = SubResource("Gradient_ve5ki")
-width = 150
+width = 100
 height = 20
 
 [sub_resource type="Gradient" id="Gradient_soqhm"]
@@ -15,11 +15,11 @@ colors = PackedColorArray(0, 1, 0.0999999, 1, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_r4hau"]
 gradient = SubResource("Gradient_soqhm")
-width = 146
+width = 96
 height = 16
 
 [node name="ProgressBar" type="TextureProgressBar"]
-offset_right = 150.0
+offset_right = 100.0
 offset_bottom = 20.0
 texture_under = SubResource("GradientTexture2D_ti0cv")
 texture_progress = SubResource("GradientTexture2D_r4hau")

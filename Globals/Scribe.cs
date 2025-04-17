@@ -191,7 +191,7 @@ public partial class Scribe : Node
             4,
             "Chips",
             "Hitting a note deals a bit of damage.",
-            Rarity.Common,
+            Rarity.Rare, //This thing is really good imo.
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Chips.png"),
             new RelicEffect[]
             {
@@ -200,7 +200,7 @@ public partial class Scribe : Node
                     1,
                     (e, self, val) =>
                     {
-                        e.BD.GetFirstEnemy().TakeDamage(val);
+                        e.BD.GetFirstEnemy()?.TakeDamage(val);
                     }
                 ),
             }
@@ -218,7 +218,7 @@ public partial class Scribe : Node
                     5,
                     (e, self, val) =>
                     {
-                        e.BD.GetFirstEnemy().TakeDamage(val);
+                        e.BD.GetFirstEnemy()?.TakeDamage(val);
                     }
                 ),
             }
