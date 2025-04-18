@@ -252,12 +252,12 @@ public enum Stages
 
 public enum Rarity
 {
-    Common,
-    Uncommon,
-    Rare,
-    Epic,
-    Legendary,
-    Breakfast,
+    Breakfast = 5,
+    Common = 4,
+    Uncommon = 3,
+    Rare = 2,
+    Epic = 1,
+    Legendary = 0,
 }
 #endregion
 

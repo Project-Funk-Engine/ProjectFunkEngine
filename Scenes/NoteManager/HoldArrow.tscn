@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://b3owchvgq1l87"]
 
 [ext_resource type="Texture2D" uid="uid://hfxynr5jdgsp" path="res://Scenes/NoteManager/Assets/New_Arrow.png" id="1_nn8ao"]
-[ext_resource type="Script" path="res://Scenes/NoteManager/Scripts/HoldArrow.cs" id="2_hehcu"]
+[ext_resource type="Script" uid="uid://ci5tt447bivmk" path="res://Scenes/NoteManager/Scripts/HoldArrow.cs" id="2_hehcu"]
 [ext_resource type="Texture2D" uid="uid://cgq2ar3pdmkac" path="res://Scenes/NoteManager/Assets/Arrow_Outline.png" id="3_pvvea"]
 [ext_resource type="Texture2D" uid="uid://dbnvl0gbhl5b4" path="res://Scenes/NoteManager/Assets/Arrow_Trail.png" id="4_xgcwb"]
 
