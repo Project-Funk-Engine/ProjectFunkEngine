@@ -64,6 +64,7 @@ public partial class StageProducer : Node
         PlayerStats = new PlayerStats();
 
         CurRoom = Map.GetRooms()[0].Idx;
+        Scribe.InitRelicPools();
         IsInitialized = true;
     }
 
@@ -80,8 +81,10 @@ public partial class StageProducer : Node
         GlobalRng.State = sv.RngState;
         CurRoom = sv.LastRoomIdx;
 
+        Scribe.InitRelicPools();
+
         PlayerStats = new PlayerStats();
-        PlayerStats.CurNotes = Array.Empty<Note>();
+        PlayerStats.CurNotes = [];
         foreach (int noteId in sv.NoteIds)
         {
             PlayerStats.AddNote(Scribe.NoteDictionary[noteId]);

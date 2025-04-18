@@ -86,9 +86,9 @@ public partial class RewardSelect : CanvasLayer
         if (amount < 1)
             GD.PushError("Error: In RewardSelect: amount < 1");
         _rChoices = Scribe.GetRandomRelics(
-            _player.CurRelics,
             amount,
-            StageProducer.CurRoom + 10 * _curRerolls
+            StageProducer.CurRoom + 10 * _curRerolls,
+            _player.RarityOdds
         );
         int numChildren = ButtonContainer.GetChildCount();
         foreach (var relic in _rChoices)
@@ -151,6 +151,7 @@ public partial class RewardSelect : CanvasLayer
     private void Reroll()
     {
         _curRerolls--;
+        _selection = null;
         foreach (Node child in ButtonContainer.GetChildren())
         {
             child.QueueFree();
