@@ -49,6 +49,22 @@ public partial class ControlSettings : Node2D, IFocusableMenu
     private JoyButton _tempJoyButton;
     private string _chosenKey = "";
 
+    private string[] inputMapKeys =
+    {
+        "Pause",
+        "Inventory",
+        "CONTROLLER_arrowUp",
+        "CONTROLLER_arrowDown",
+        "CONTROLLER_arrowLeft",
+        "CONTROLLER_arrowRight",
+        "CONTROLLER_secondaryPlacement",
+        "WASD_arrowUp",
+        "WASD_arrowDown",
+        "WASD_arrowLeft",
+        "WASD_arrowRight",
+        "WASD_secondaryPlacement",
+    };
+
     public override void _Ready()
     {
         GetNode<Button>("Panel/TabContainer/Keyboard/LeftArrowButton")
@@ -330,16 +346,11 @@ public partial class ControlSettings : Node2D, IFocusableMenu
         );
     }
 
-    //TODO: this should work? godot editor mode doesn't properly update
-    //TODO: the inputmap during runtime. also faces the issue of not allowing
-    //TODO: user to remap to ANY buttons already mapped to, which may or may
-    //TODO: not be necessary. (e.g. user mapping an arrow to "I" which would
-    //TODO: play the note along with opening inventory
     private bool ValidInputEvent(string keyText)
     {
         //nested loops bad, but theoretically this should act as a single loop
         //since each action only has 1 event (keybinding)
-        foreach (string action in InputMap.GetActions())
+        foreach (string action in inputMapKeys)
         {
             foreach (InputEvent evt in InputMap.ActionGetEvents(action))
             {
@@ -347,8 +358,7 @@ public partial class ControlSettings : Node2D, IFocusableMenu
                     (
                         evt is InputEventKey keyEvent
                         && CleanKeyboardText(keyEvent.AsText()) == keyText
-                    )
-                    || evt is InputEventJoypadButton padEvent && padEvent.AsText() == keyText
+                    ) || (evt is InputEventJoypadButton padEvent && padEvent.AsText() == keyText)
                 )
                 {
                     return false;
