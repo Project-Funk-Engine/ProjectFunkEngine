@@ -355,14 +355,18 @@ public partial class Scribe : Node
 
     //TODO: Item pool(s)
 
-    public static RelicTemplate[] GetRandomRelics(RelicTemplate[] excludedRelics, int count)
+    public static RelicTemplate[] GetRandomRelics(
+        RelicTemplate[] excludedRelics,
+        int count,
+        int lootOffset
+    )
     {
         var availableRelics = Scribe
             .RelicDictionary.Where(r => excludedRelics.All(o => o.Name != r.Name))
             .ToArray();
 
         RandomNumberGenerator lootRng = new RandomNumberGenerator();
-        lootRng.SetSeed(StageProducer.GlobalRng.Seed + (ulong)StageProducer.CurRoom);
+        lootRng.SetSeed(StageProducer.GlobalRng.Seed + (ulong)lootOffset);
 
         availableRelics = availableRelics
             .OrderBy(_ => lootRng.Randi())
@@ -378,14 +382,14 @@ public partial class Scribe : Node
         return availableRelics;
     }
 
-    public static Note[] GetRandomRewardNotes(int count)
+    public static Note[] GetRandomRewardNotes(int count, int lootOffset)
     {
         var availableNotes = Scribe
             .NoteDictionary.Where(r => r.Name.Contains("Player")) //TODO: Classifications/pools
             .ToArray();
 
         RandomNumberGenerator lootRng = new RandomNumberGenerator();
-        lootRng.SetSeed(StageProducer.GlobalRng.Seed + (ulong)StageProducer.CurRoom);
+        lootRng.SetSeed(StageProducer.GlobalRng.Seed + (ulong)lootOffset);
 
         availableNotes = availableNotes
             .OrderBy(_ => lootRng.Randi())

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bcf6vs4aqoxr5"]
 
-[ext_resource type="Script" path="res://Scenes/ChartViewport/Scripts/HitParticles.cs" id="1_7gkj5"]
+[ext_resource type="Script" uid="uid://bjj3132iu8lrc" path="res://Scenes/ChartViewport/Scripts/HitParticles.cs" id="1_7gkj5"]
 
 [node name="HitParticles" type="CPUParticles2D"]
 z_index = -1

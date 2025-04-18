@@ -6,13 +6,14 @@
 [ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="4_gfac6"]
 [ext_resource type="Texture2D" uid="uid://burj10os057fx" path="res://Scenes/UI/Assets/UI_CrystalFrameInset.png" id="4_gufce"]
 
-[node name="CanvasLayer" type="CanvasLayer" node_paths=PackedStringArray("ButtonContainer", "_description", "_acceptButton", "_skipButton")]
+[node name="CanvasLayer" type="CanvasLayer" node_paths=PackedStringArray("ButtonContainer", "_description", "_acceptButton", "_skipButton", "_rerollButton")]
 process_mode = 3
 script = ExtResource("1_1m6an")
-ButtonContainer = NodePath("MarginContainer/PanelContainer/VBoxContainer/ScrollContainer/CenterContainer/HBoxContainer")
+ButtonContainer = NodePath("MarginContainer/PanelContainer/VBoxContainer/ScrollContainer/CenterContainer/SelectionButtonContainer")
 _description = NodePath("MarginContainer/PanelContainer/VBoxContainer/DescBox/DescMargin/Description")
 _acceptButton = NodePath("MarginContainer/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/AcceptButton")
 _skipButton = NodePath("MarginContainer/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/SkipButton")
+_rerollButton = NodePath("MarginContainer/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/RerollButton")
 
 [node name="Background" type="NinePatchRect" parent="."]
 self_modulate = Color(1, 1, 1, 0.75)
@@ -70,6 +71,7 @@ horizontal_alignment = 1
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+follow_focus = true
 
 [node name="CenterContainer" type="CenterContainer" parent="MarginContainer/PanelContainer/VBoxContainer/ScrollContainer"]
 layout_mode = 2
@@ -88,7 +90,7 @@ patch_margin_top = 6
 patch_margin_right = 6
 patch_margin_bottom = 7
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer/ScrollContainer/CenterContainer"]
+[node name="SelectionButtonContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer/ScrollContainer/CenterContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
@@ -130,6 +132,13 @@ theme_override_constants/margin_bottom = 8
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="RerollButton" type="Button" parent="MarginContainer/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("4_gfac6")
+text = "CHEST_ROOM_REROLL"
 
 [node name="SkipButton" type="Button" parent="MarginContainer/PanelContainer/VBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
