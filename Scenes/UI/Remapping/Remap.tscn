@@ -56,49 +56,51 @@ offset_left = 101.0
 offset_top = 62.0
 offset_right = 553.0
 offset_bottom = 311.0
-current_tab = 0
+current_tab = 1
 
 [node name="Keyboard" type="Control" parent="Panel/TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
 [node name="LeftArrowButton" type="Button" parent="Panel/TabContainer/Keyboard"]
 layout_mode = 0
-offset_left = 15.0
-offset_right = 58.0
-offset_bottom = 43.0
+offset_left = 18.0
+offset_top = 28.0
+offset_right = 61.0
+offset_bottom = 71.0
 theme = ExtResource("3_wr01w")
 
 [node name="UpArrowButton" type="Button" parent="Panel/TabContainer/Keyboard"]
 layout_mode = 0
-offset_left = 15.0
-offset_top = 39.0
-offset_right = 58.0
-offset_bottom = 82.0
+offset_left = 18.0
+offset_top = 67.0
+offset_right = 61.0
+offset_bottom = 110.0
 theme = ExtResource("3_wr01w")
 
 [node name="DownArrowButton" type="Button" parent="Panel/TabContainer/Keyboard"]
 layout_mode = 0
-offset_left = 15.0
-offset_top = 81.0
-offset_right = 58.0
-offset_bottom = 124.0
+offset_left = 18.0
+offset_top = 109.0
+offset_right = 61.0
+offset_bottom = 152.0
 theme = ExtResource("3_wr01w")
 
 [node name="RightArrowButton" type="Button" parent="Panel/TabContainer/Keyboard"]
 layout_mode = 0
-offset_left = 15.0
-offset_top = 125.0
-offset_right = 58.0
-offset_bottom = 168.0
+offset_left = 18.0
+offset_top = 153.0
+offset_right = 61.0
+offset_bottom = 196.0
 theme = ExtResource("3_wr01w")
 
 [node name="SecondaryPlacementButton" type="Button" parent="Panel/TabContainer/Keyboard"]
 layout_mode = 0
-offset_left = 15.0
-offset_top = 169.0
-offset_right = 58.0
-offset_bottom = 212.0
+offset_left = 233.0
+offset_top = 26.0
+offset_right = 276.0
+offset_bottom = 69.0
 theme = ExtResource("3_wr01w")
 
 [node name="BG" type="Sprite2D" parent="Panel/TabContainer/Keyboard"]
@@ -107,154 +109,198 @@ position = Vector2(320, 221)
 texture = ExtResource("3_4uyjb")
 
 [node name="Left" type="Sprite2D" parent="Panel/TabContainer/Keyboard"]
-position = Vector2(36, 21)
+position = Vector2(39, 49)
 rotation = -3.14159
 texture = ExtResource("4_se2m3")
 
 [node name="Up" type="Sprite2D" parent="Panel/TabContainer/Keyboard"]
-position = Vector2(36, 61)
+position = Vector2(39, 89)
 rotation = -1.5708
 texture = ExtResource("4_se2m3")
 
 [node name="Down" type="Sprite2D" parent="Panel/TabContainer/Keyboard"]
-position = Vector2(36, 104)
+position = Vector2(39, 132)
 rotation = 1.5708
 texture = ExtResource("4_se2m3")
 
 [node name="Right" type="Sprite2D" parent="Panel/TabContainer/Keyboard"]
-position = Vector2(36, 145)
+position = Vector2(39, 173)
 texture = ExtResource("4_se2m3")
 
 [node name="TEMPSecondaryButtonText" type="Label" parent="Panel/TabContainer/Keyboard"]
 layout_mode = 0
-offset_left = 68.0
-offset_top = 10.0
-offset_right = 81.0
-offset_bottom = 33.0
+offset_left = 71.0
+offset_top = 38.0
+offset_right = 84.0
+offset_bottom = 61.0
 text = "="
+vertical_alignment = 1
 
 [node name="Label" type="Label" parent="Panel/TabContainer/Keyboard"]
 layout_mode = 0
-offset_left = 20.0
-offset_top = 176.0
-offset_right = 50.0
-offset_bottom = 199.0
+offset_left = 242.0
+offset_top = 37.0
+offset_right = 272.0
+offset_bottom = 60.0
 text = "2nd"
 
 [node name="Label2" type="Label" parent="Panel/TabContainer/Keyboard"]
 layout_mode = 0
-offset_left = 68.0
-offset_top = 50.0
-offset_right = 81.0
-offset_bottom = 73.0
+offset_left = 71.0
+offset_top = 78.0
+offset_right = 84.0
+offset_bottom = 101.0
 text = "="
+vertical_alignment = 1
 
 [node name="Label3" type="Label" parent="Panel/TabContainer/Keyboard"]
 layout_mode = 0
-offset_left = 68.0
-offset_top = 95.0
-offset_right = 81.0
-offset_bottom = 118.0
+offset_left = 71.0
+offset_top = 123.0
+offset_right = 84.0
+offset_bottom = 146.0
 text = "="
+vertical_alignment = 1
 
 [node name="Label4" type="Label" parent="Panel/TabContainer/Keyboard"]
 layout_mode = 0
-offset_left = 68.0
-offset_top = 135.0
-offset_right = 81.0
-offset_bottom = 158.0
+offset_left = 71.0
+offset_top = 163.0
+offset_right = 84.0
+offset_bottom = 186.0
 text = "="
+vertical_alignment = 1
 
 [node name="Label5" type="Label" parent="Panel/TabContainer/Keyboard"]
 layout_mode = 0
-offset_left = 68.0
-offset_top = 176.0
-offset_right = 81.0
-offset_bottom = 199.0
+offset_left = 286.0
+offset_top = 33.0
+offset_right = 299.0
+offset_bottom = 56.0
 text = "="
+vertical_alignment = 1
 
 [node name="TEMPLeftRemap" type="Label" parent="Panel/TabContainer/Keyboard"]
 layout_mode = 0
-offset_left = 89.0
-offset_top = 6.0
-offset_right = 224.0
-offset_bottom = 38.0
+offset_left = 92.0
+offset_top = 34.0
+offset_right = 227.0
+offset_bottom = 66.0
 text = "TEMP"
+vertical_alignment = 1
 
 [node name="TEMPUpRemap" type="Label" parent="Panel/TabContainer/Keyboard"]
 layout_mode = 0
-offset_left = 88.0
-offset_top = 45.0
-offset_right = 223.0
-offset_bottom = 77.0
+offset_left = 91.0
+offset_top = 73.0
+offset_right = 226.0
+offset_bottom = 105.0
 text = "TEMP"
+vertical_alignment = 1
 
 [node name="TEMPDownRemap" type="Label" parent="Panel/TabContainer/Keyboard"]
 layout_mode = 0
-offset_left = 87.0
-offset_top = 89.0
-offset_right = 222.0
-offset_bottom = 121.0
+offset_left = 90.0
+offset_top = 117.0
+offset_right = 225.0
+offset_bottom = 149.0
 text = "TEMP"
+vertical_alignment = 1
 
 [node name="TEMPRightRemap" type="Label" parent="Panel/TabContainer/Keyboard"]
 layout_mode = 0
-offset_left = 88.0
-offset_top = 132.0
-offset_right = 223.0
-offset_bottom = 164.0
+offset_left = 91.0
+offset_top = 160.0
+offset_right = 226.0
+offset_bottom = 192.0
 text = "TEMP"
+vertical_alignment = 1
 
 [node name="TEMPSecondaryRemap" type="Label" parent="Panel/TabContainer/Keyboard"]
 layout_mode = 0
-offset_left = 88.0
-offset_top = 172.0
-offset_right = 223.0
-offset_bottom = 204.0
+offset_left = 306.0
+offset_top = 29.0
+offset_right = 441.0
+offset_bottom = 61.0
 text = "TEMP"
+vertical_alignment = 1
+
+[node name="InventoryButton" type="Button" parent="Panel/TabContainer/Keyboard"]
+layout_mode = 0
+offset_left = 230.0
+offset_top = 68.0
+offset_right = 273.0
+offset_bottom = 111.0
+theme = ExtResource("3_wr01w")
+
+[node name="Label6" type="Label" parent="Panel/TabContainer/Keyboard"]
+layout_mode = 0
+offset_left = 239.0
+offset_top = 80.0
+offset_right = 269.0
+offset_bottom = 103.0
+text = "Inv"
+
+[node name="Label7" type="Label" parent="Panel/TabContainer/Keyboard"]
+layout_mode = 0
+offset_left = 283.0
+offset_top = 75.0
+offset_right = 296.0
+offset_bottom = 98.0
+text = "="
+vertical_alignment = 1
+
+[node name="TEMPInventoryRemap" type="Label" parent="Panel/TabContainer/Keyboard"]
+layout_mode = 0
+offset_left = 303.0
+offset_top = 71.0
+offset_right = 438.0
+offset_bottom = 103.0
+text = "TEMP"
+vertical_alignment = 1
 
 [node name="Controller" type="Control" parent="Panel/TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
 [node name="LeftArrowButton" type="Button" parent="Panel/TabContainer/Controller"]
 layout_mode = 0
-offset_left = 15.0
-offset_right = 58.0
-offset_bottom = 43.0
+offset_left = 17.0
+offset_top = 27.0
+offset_right = 60.0
+offset_bottom = 70.0
 theme = ExtResource("3_wr01w")
 
 [node name="UpArrowButton" type="Button" parent="Panel/TabContainer/Controller"]
 layout_mode = 0
-offset_left = 15.0
-offset_top = 39.0
-offset_right = 58.0
-offset_bottom = 82.0
+offset_left = 17.0
+offset_top = 66.0
+offset_right = 60.0
+offset_bottom = 109.0
 theme = ExtResource("3_wr01w")
 
 [node name="DownArrowButton" type="Button" parent="Panel/TabContainer/Controller"]
 layout_mode = 0
-offset_left = 15.0
-offset_top = 81.0
-offset_right = 58.0
-offset_bottom = 124.0
+offset_left = 17.0
+offset_top = 108.0
+offset_right = 60.0
+offset_bottom = 151.0
 theme = ExtResource("3_wr01w")
 
 [node name="RightArrowButton" type="Button" parent="Panel/TabContainer/Controller"]
 layout_mode = 0
-offset_left = 15.0
-offset_top = 125.0
-offset_right = 58.0
-offset_bottom = 168.0
+offset_left = 17.0
+offset_top = 152.0
+offset_right = 60.0
+offset_bottom = 195.0
 theme = ExtResource("3_wr01w")
 
 [node name="SecondaryPlacementButton" type="Button" parent="Panel/TabContainer/Controller"]
 layout_mode = 0
-offset_left = 15.0
-offset_top = 169.0
-offset_right = 58.0
-offset_bottom = 212.0
+offset_left = 232.0
+offset_top = 24.0
+offset_right = 275.0
+offset_bottom = 67.0
 theme = ExtResource("3_wr01w")
 
 [node name="BG" type="Sprite2D" parent="Panel/TabContainer/Controller"]
@@ -263,111 +309,155 @@ position = Vector2(320, 221)
 texture = ExtResource("3_4uyjb")
 
 [node name="Left" type="Sprite2D" parent="Panel/TabContainer/Controller"]
-position = Vector2(36, 21)
+position = Vector2(38, 48)
 rotation = -3.14159
 texture = ExtResource("4_se2m3")
 
 [node name="Up" type="Sprite2D" parent="Panel/TabContainer/Controller"]
-position = Vector2(36, 61)
+position = Vector2(38, 88)
 rotation = -1.5708
 texture = ExtResource("4_se2m3")
 
 [node name="Down" type="Sprite2D" parent="Panel/TabContainer/Controller"]
-position = Vector2(36, 104)
+position = Vector2(38, 131)
 rotation = 1.5708
 texture = ExtResource("4_se2m3")
 
 [node name="Right" type="Sprite2D" parent="Panel/TabContainer/Controller"]
-position = Vector2(36, 145)
+position = Vector2(38, 172)
 texture = ExtResource("4_se2m3")
 
 [node name="TEMPSecondaryButtonText" type="Label" parent="Panel/TabContainer/Controller"]
 layout_mode = 0
-offset_left = 68.0
-offset_top = 10.0
-offset_right = 81.0
-offset_bottom = 33.0
+offset_left = 70.0
+offset_top = 37.0
+offset_right = 83.0
+offset_bottom = 60.0
 text = "="
+vertical_alignment = 1
 
 [node name="Label" type="Label" parent="Panel/TabContainer/Controller"]
 layout_mode = 0
-offset_left = 20.0
-offset_top = 176.0
-offset_right = 50.0
-offset_bottom = 199.0
+offset_left = 242.0
+offset_top = 36.0
+offset_right = 272.0
+offset_bottom = 59.0
 text = "2nd"
 
 [node name="Label2" type="Label" parent="Panel/TabContainer/Controller"]
 layout_mode = 0
-offset_left = 68.0
-offset_top = 50.0
-offset_right = 81.0
-offset_bottom = 73.0
+offset_left = 70.0
+offset_top = 77.0
+offset_right = 83.0
+offset_bottom = 100.0
 text = "="
+vertical_alignment = 1
 
 [node name="Label3" type="Label" parent="Panel/TabContainer/Controller"]
 layout_mode = 0
-offset_left = 68.0
-offset_top = 95.0
-offset_right = 81.0
-offset_bottom = 118.0
+offset_left = 70.0
+offset_top = 122.0
+offset_right = 83.0
+offset_bottom = 145.0
 text = "="
+vertical_alignment = 1
 
 [node name="Label4" type="Label" parent="Panel/TabContainer/Controller"]
 layout_mode = 0
-offset_left = 68.0
-offset_top = 135.0
-offset_right = 81.0
-offset_bottom = 158.0
+offset_left = 70.0
+offset_top = 162.0
+offset_right = 83.0
+offset_bottom = 185.0
 text = "="
+vertical_alignment = 1
 
 [node name="Label5" type="Label" parent="Panel/TabContainer/Controller"]
 layout_mode = 0
-offset_left = 68.0
-offset_top = 176.0
-offset_right = 81.0
-offset_bottom = 199.0
+offset_left = 285.0
+offset_top = 31.0
+offset_right = 298.0
+offset_bottom = 54.0
 text = "="
+vertical_alignment = 1
 
 [node name="TEMPLeftRemap" type="Label" parent="Panel/TabContainer/Controller"]
 layout_mode = 0
-offset_left = 89.0
-offset_top = 6.0
-offset_right = 224.0
-offset_bottom = 38.0
+offset_left = 91.0
+offset_top = 33.0
+offset_right = 226.0
+offset_bottom = 65.0
 text = "TEMP"
+vertical_alignment = 1
 
 [node name="TEMPUpRemap" type="Label" parent="Panel/TabContainer/Controller"]
 layout_mode = 0
-offset_left = 88.0
-offset_top = 45.0
-offset_right = 223.0
-offset_bottom = 77.0
+offset_left = 90.0
+offset_top = 72.0
+offset_right = 225.0
+offset_bottom = 104.0
 text = "TEMP"
+vertical_alignment = 1
 
 [node name="TEMPDownRemap" type="Label" parent="Panel/TabContainer/Controller"]
 layout_mode = 0
-offset_left = 87.0
-offset_top = 89.0
-offset_right = 222.0
-offset_bottom = 121.0
+offset_left = 89.0
+offset_top = 116.0
+offset_right = 224.0
+offset_bottom = 148.0
 text = "TEMP"
+vertical_alignment = 1
 
 [node name="TEMPRightRemap" type="Label" parent="Panel/TabContainer/Controller"]
 layout_mode = 0
-offset_left = 88.0
-offset_top = 132.0
-offset_right = 223.0
-offset_bottom = 164.0
+offset_left = 90.0
+offset_top = 159.0
+offset_right = 225.0
+offset_bottom = 191.0
 text = "TEMP"
+vertical_alignment = 1
 
 [node name="TEMPSecondaryRemap" type="Label" parent="Panel/TabContainer/Controller"]
 layout_mode = 0
-offset_left = 88.0
-offset_top = 172.0
-offset_right = 223.0
-offset_bottom = 204.0
+offset_left = 305.0
+offset_top = 27.0
+offset_right = 440.0
+offset_bottom = 59.0
 text = "TEMP"
+vertical_alignment = 1
+
+[node name="InventoryButton" type="Button" parent="Panel/TabContainer/Controller"]
+layout_mode = 0
+offset_left = 231.0
+offset_top = 68.0
+offset_right = 274.0
+offset_bottom = 111.0
+theme = ExtResource("3_wr01w")
+
+[node name="Label6" type="Label" parent="Panel/TabContainer/Controller"]
+layout_mode = 0
+offset_left = 242.0
+offset_top = 79.0
+offset_right = 272.0
+offset_bottom = 102.0
+text = "Inv"
+
+[node name="Label7" type="Label" parent="Panel/TabContainer/Controller"]
+layout_mode = 0
+offset_left = 284.0
+offset_top = 75.0
+offset_right = 297.0
+offset_bottom = 98.0
+text = "="
+vertical_alignment = 1
+
+[node name="TEMPInventoryRemap" type="Label" parent="Panel/TabContainer/Controller"]
+layout_mode = 0
+offset_left = 304.0
+offset_top = 71.0
+offset_right = 439.0
+offset_bottom = 103.0
+text = "TEMP"
+vertical_alignment = 1
 
 [node name="RemapPopup" type="Panel" parent="."]
 visible = false

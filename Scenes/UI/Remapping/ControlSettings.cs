@@ -38,12 +38,14 @@ public partial class ControlSettings : Node2D, IFocusableMenu
     private Label _keyboardUpLabel;
     private Label _keyboardDownLabel;
     private Label _keyboardSecondaryLabel;
+    private Label _keyboardInventoryLabel;
 
     private Label _controllerLeftLabel;
     private Label _controllerRightLabel;
     private Label _controllerUpLabel;
     private Label _controllerDownLabel;
     private Label _controllerSecondaryLabel;
+    private Label _controllerInventoryLabel;
 
     private TabContainer _remapTabs;
     private Key _tempKeyboardKey;
@@ -53,17 +55,18 @@ public partial class ControlSettings : Node2D, IFocusableMenu
     private string[] _inputMapKeys =
     [
         "Pause",
-        "Inventory",
         "CONTROLLER_arrowUp",
         "CONTROLLER_arrowDown",
         "CONTROLLER_arrowLeft",
         "CONTROLLER_arrowRight",
         "CONTROLLER_secondaryPlacement",
+        "CONTROLLER_inventory",
         "WASD_arrowUp",
         "WASD_arrowDown",
         "WASD_arrowLeft",
         "WASD_arrowRight",
         "WASD_secondaryPlacement",
+        "WASD_inventory",
     ];
 
     public override void _Ready()
@@ -86,6 +89,8 @@ public partial class ControlSettings : Node2D, IFocusableMenu
             .Connect("pressed", Callable.From(OnRightButtonPressed));
         GetNode<Button>("Panel/TabContainer/Keyboard/SecondaryPlacementButton")
             .Connect("pressed", Callable.From(OnSecondaryPlacementButtonPressed));
+        GetNode<Button>("Panel/TabContainer/Keyboard/InventoryButton")
+            .Connect("pressed", Callable.From(OnInventoryButtonPressed));
 
         GetNode<Button>("Panel/TabContainer/Controller/LeftArrowButton")
             .Connect("pressed", Callable.From(OnLeftButtonPressed));
@@ -97,6 +102,8 @@ public partial class ControlSettings : Node2D, IFocusableMenu
             .Connect("pressed", Callable.From(OnRightButtonPressed));
         GetNode<Button>("Panel/TabContainer/Controller/SecondaryPlacementButton")
             .Connect("pressed", Callable.From(OnSecondaryPlacementButtonPressed));
+        GetNode<Button>("Panel/TabContainer/Controller/InventoryButton")
+            .Connect("pressed", Callable.From(OnInventoryButtonPressed));
 
         GetNode<Timer>("RemapPopup/Timer").Connect("timeout", Callable.From(OnTimerEnd));
 
@@ -160,12 +167,16 @@ public partial class ControlSettings : Node2D, IFocusableMenu
         _keyboardUpLabel = GetNode<Label>("Panel/TabContainer/Keyboard/TEMPUpRemap");
         _keyboardDownLabel = GetNode<Label>("Panel/TabContainer/Keyboard/TEMPDownRemap");
         _keyboardSecondaryLabel = GetNode<Label>("Panel/TabContainer/Keyboard/TEMPSecondaryRemap");
+        _keyboardInventoryLabel = GetNode<Label>("Panel/TabContainer/Keyboard/TEMPInventoryRemap");
         _controllerLeftLabel = GetNode<Label>("Panel/TabContainer/Controller/TEMPLeftRemap");
         _controllerRightLabel = GetNode<Label>("Panel/TabContainer/Controller/TEMPRightRemap");
         _controllerUpLabel = GetNode<Label>("Panel/TabContainer/Controller/TEMPUpRemap");
         _controllerDownLabel = GetNode<Label>("Panel/TabContainer/Controller/TEMPDownRemap");
         _controllerSecondaryLabel = GetNode<Label>(
             "Panel/TabContainer/Controller/TEMPSecondaryRemap"
+        );
+        _controllerInventoryLabel = GetNode<Label>(
+            "Panel/TabContainer/Controller/TEMPInventoryRemap"
         );
 
         UpdateKeyLabels();
@@ -244,12 +255,18 @@ public partial class ControlSettings : Node2D, IFocusableMenu
         _keyboardSecondaryLabel.Text = CleanKeyboardText(
             InputMap.ActionGetEvents("WASD_secondaryPlacement")[0].AsText()
         );
+        _keyboardInventoryLabel.Text = CleanKeyboardText(
+            InputMap.ActionGetEvents("WASD_inventory")[0].AsText()
+        );
         _controllerUpLabel.Text = InputMap.ActionGetEvents("CONTROLLER_arrowUp")[0].AsText();
         _controllerDownLabel.Text = InputMap.ActionGetEvents("CONTROLLER_arrowDown")[0].AsText();
         _controllerLeftLabel.Text = InputMap.ActionGetEvents("CONTROLLER_arrowLeft")[0].AsText();
         _controllerRightLabel.Text = InputMap.ActionGetEvents("CONTROLLER_arrowRight")[0].AsText();
         _controllerSecondaryLabel.Text = InputMap
             .ActionGetEvents("CONTROLLER_secondaryPlacement")[0]
+            .AsText();
+        _controllerInventoryLabel.Text = InputMap
+            .ActionGetEvents("CONTROLLER_inventory")[0]
             .AsText();
     }
 
@@ -285,6 +302,12 @@ public partial class ControlSettings : Node2D, IFocusableMenu
     private void OnSecondaryPlacementButtonPressed()
     {
         _chosenKey = "_secondaryPlacement";
+        AnyButtonsPressed();
+    }
+
+    private void OnInventoryButtonPressed()
+    {
+        _chosenKey = "_inventory";
         AnyButtonsPressed();
     }
 
@@ -357,6 +380,24 @@ public partial class ControlSettings : Node2D, IFocusableMenu
                     int keycode = (int)key10.ButtonIndex;
                     SaveSystem.UpdateConfig(
                         SaveSystem.ConfigSettings.InputControllerSecondary,
+                        keycode
+                    );
+                }
+                break;
+            case 't':
+                if (key is InputEventKey key11)
+                {
+                    int keycode = (int)key11.PhysicalKeycode;
+                    SaveSystem.UpdateConfig(
+                        SaveSystem.ConfigSettings.InputKeyboardInventory,
+                        keycode
+                    );
+                }
+                else if (key is InputEventJoypadButton key12)
+                {
+                    int keycode = (int)key12.ButtonIndex;
+                    SaveSystem.UpdateConfig(
+                        SaveSystem.ConfigSettings.InputControllerInventory,
                         keycode
                     );
                 }
