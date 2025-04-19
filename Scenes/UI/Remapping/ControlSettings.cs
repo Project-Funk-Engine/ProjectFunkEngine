@@ -68,6 +68,14 @@ public partial class ControlSettings : Node2D, IFocusableMenu
 
     public override void _Ready()
     {
+        var joypads = Input.GetConnectedJoypads();
+
+        foreach (int deviceId in joypads)
+        {
+            string name = Input.GetJoyName(deviceId);
+            GD.Print($"Device ID: {deviceId}, Name: {name}");
+        }
+
         GetNode<Button>("Panel/TabContainer/Keyboard/LeftArrowButton")
             .Connect("pressed", Callable.From(OnLeftButtonPressed));
         GetNode<Button>("Panel/TabContainer/Keyboard/UpArrowButton")
@@ -102,13 +110,6 @@ public partial class ControlSettings : Node2D, IFocusableMenu
 
         InitLabels();
 
-        _focused = GetNode<Button>(
-            _remapTabs.CurrentTab == 0
-                ? "Panel/TabContainer/Keyboard/LeftArrowButton"
-                : "Panel/TabContainer/Controller/LeftArrowButton"
-        );
-        _focused.GrabFocus();
-
         _remapPopup.ProcessMode = ProcessModeEnum.Always;
         _remapLabel.ProcessMode = ProcessModeEnum.Always;
         _remapTimer.ProcessMode = ProcessModeEnum.Always;
@@ -136,6 +137,13 @@ public partial class ControlSettings : Node2D, IFocusableMenu
     {
         Prev = prev;
         Prev.PauseFocus();
+
+        _focused = GetNode<Button>(
+            _remapTabs.CurrentTab == 0
+                ? "Panel/TabContainer/Keyboard/LeftArrowButton"
+                : "Panel/TabContainer/Controller/LeftArrowButton"
+        );
+        _focused.GrabFocus();
     }
 
     public void ReturnToPrev()
