@@ -22,7 +22,8 @@ public partial class Scribe : Node
             1,
             (director, note, timing) =>
             {
-                director.Player.TakeDamage((3 - (int)timing) * note.GetBaseVal());
+                int dmg = (3 - (int)timing) * note.GetBaseVal();
+                director.Player.TakeDamage(new DamageInstance(dmg, null, director.Player));
             }
         ),
         new Note(
@@ -36,7 +37,7 @@ public partial class Scribe : Node
             {
                 if (timing == Timing.Miss)
                     return;
-                director.GetFirstEnemy()?.TakeDamage((int)timing * note.GetBaseVal());
+                director.DealDamage(note, (int)timing * note.GetBaseVal(), director.Player);
             }
         ),
         new Note(
@@ -50,7 +51,7 @@ public partial class Scribe : Node
             {
                 if (timing == Timing.Miss)
                     return;
-                director.GetFirstEnemy()?.TakeDamage(note.GetBaseVal() * (int)timing);
+                director.DealDamage(note, (int)timing * note.GetBaseVal(), director.Player);
             }
         ),
         new Note(
@@ -78,8 +79,9 @@ public partial class Scribe : Node
             {
                 if (timing == Timing.Miss)
                     return;
-                director.Player.Heal((int)timing * note.GetBaseVal());
-                director.GetFirstEnemy()?.TakeDamage((int)timing * note.GetBaseVal());
+                int dmg = (int)timing * note.GetBaseVal();
+                director.Player.Heal(dmg);
+                director.DealDamage(note, dmg, director.Player);
             }
         ),
         new Note(
@@ -93,13 +95,13 @@ public partial class Scribe : Node
             {
                 if (timing == Timing.Miss)
                     return;
-                director.GetFirstEnemy()?.TakeDamage((int)timing + note.GetBaseVal());
+                director.DealDamage(note, (int)timing * note.GetBaseVal(), director.Player);
             },
             0.25f
         ),
         new Note(
             6,
-            "Play-c-HoldBlock",
+            "PlayerBlock",
             "Gives player one charge of block.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerBlock.png"),
             null,
@@ -108,7 +110,7 @@ public partial class Scribe : Node
             {
                 if (timing == Timing.Miss)
                     return;
-                //director.Player.GainShield(note.GetBaseVal()); //todo: should scale with timing????
+                director.AddStatus(Targetting.First, StatusEffect.Block.GetInstance(), true); //todo: should scale with timing????
             }
         ),
     };
@@ -203,7 +205,10 @@ public partial class Scribe : Node
                     1,
                     (e, self, val) =>
                     {
-                        e.BD.GetFirstEnemy()?.TakeDamage(val);
+                        if (e is not BattleDirector.Harbinger.NoteHitArgs noteHitArgs)
+                            return;
+                        if (noteHitArgs.Timing != Timing.Miss)
+                            e.BD.DealDamage(Targetting.First, val, null);
                     }
                 ),
             }
@@ -221,7 +226,7 @@ public partial class Scribe : Node
                     5,
                     (e, self, val) =>
                     {
-                        e.BD.GetFirstEnemy()?.TakeDamage(val);
+                        e.BD.DealDamage(Targetting.First, val, null);
                     }
                 ),
             }

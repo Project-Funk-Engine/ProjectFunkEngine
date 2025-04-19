@@ -39,49 +39,6 @@ public partial class BattleDirector : Node2D
 
     #endregion
 
-    #region Note Handling
-    private bool PlayerAddNote(ArrowType type, Beat beat)
-    {
-        if (!NPB.CanPlaceNote())
-            return false;
-
-        Note noteToPlace = NPB.NotePlaced();
-        noteToPlace.OnHit(this, Timing.Okay);
-
-        CD.AddPlayerNote(noteToPlace, type, beat);
-        Harbinger.Instance.InvokeNotePlaced(new ArrowData(type, beat, noteToPlace));
-        Harbinger.Instance.InvokeNoteHit(noteToPlace, Timing.Okay); //TODO: test how this feels? maybe take it out later
-        return true;
-    }
-
-    public PuppetTemplate[] GetTargets(Note note)
-    {
-        if (!note.IsPlayerNote())
-            return [Player];
-        switch (note.TargetType)
-        {
-            case Targetting.First:
-                if (GetFirstEnemy() != null)
-                    return [GetFirstEnemy()];
-                return [];
-            case Targetting.All:
-                return _enemies.Where(x => x.GetCurrentHealth() > 0).ToArray();
-        }
-        return null;
-    }
-
-    public PuppetTemplate GetFirstEnemy()
-    {
-        foreach (var enemy in _enemies)
-        {
-            if (enemy.GetCurrentHealth() > 0)
-                return enemy;
-        }
-
-        return null;
-    }
-    #endregion
-
     #region Initialization
     private void SyncStartWithMix()
     {
@@ -179,6 +136,20 @@ public partial class BattleDirector : Node2D
         }
     }
 
+    private bool PlayerAddNote(ArrowType type, Beat beat)
+    {
+        if (!NPB.CanPlaceNote())
+            return false;
+
+        Note noteToPlace = NPB.NotePlaced();
+        noteToPlace.OnHit(this, Timing.Okay);
+
+        CD.AddPlayerNote(noteToPlace, type, beat);
+        Harbinger.Instance.InvokeNotePlaced(new ArrowData(type, beat, noteToPlace));
+        Harbinger.Instance.InvokeNoteHit(noteToPlace, Timing.Okay); //TODO: test how this feels? maybe take it out later
+        return true;
+    }
+
     //Only called from CD signal when a note is processed
     private void OnTimedInput(ArrowData data, double beatDif)
     {
@@ -206,7 +177,7 @@ public partial class BattleDirector : Node2D
     {
         NPB.HandleTiming(Timing.Miss, type);
         CM.ComboText(Timing.Miss, type, NPB.GetCurrentCombo());
-        Player.TakeDamage(4);
+        Player.TakeDamage(new DamageInstance(4, null, Player));
     }
 
     private Timing CheckTiming(double beatDif)
@@ -280,10 +251,81 @@ public partial class BattleDirector : Node2D
     }
     #endregion
 
+    #region Battles
+    public void DealDamage(Note note, int damage, PuppetTemplate source)
+    {
+        PuppetTemplate[] targets = GetTargets(note.TargetType, !note.IsPlayerNote());
+        foreach (PuppetTemplate target in targets)
+        {
+            target.TakeDamage(new DamageInstance(damage, source, target));
+        }
+    }
+
+    public void DealDamage(
+        Targetting targetting,
+        int damage,
+        PuppetTemplate source,
+        bool targetPlayer = false
+    )
+    {
+        PuppetTemplate[] targets = GetTargets(targetting, targetPlayer);
+        foreach (PuppetTemplate target in targets)
+        {
+            target.TakeDamage(new DamageInstance(damage, source, target));
+        }
+    }
+
+    public void AddStatus(Targetting targetting, StatusEffect status, bool targetPlayer = false)
+    {
+        PuppetTemplate[] targets = GetTargets(targetting, targetPlayer);
+        foreach (PuppetTemplate target in targets)
+        {
+            target.AddStatusEffect(status);
+        }
+
+        status.StatusEnd += RemoveStatus;
+        AddEvent(status);
+    }
+
+    public void RemoveStatus(StatusEffect status)
+    {
+        status.Sufferer.RemoveStatusEffect(status);
+        status.StatusEnd -= RemoveStatus;
+        RemoveEvent(status);
+    }
+
+    private PuppetTemplate[] GetTargets(Targetting targetting, bool targetPlayer = false)
+    {
+        if (targetPlayer)
+            return [Player];
+        switch (targetting)
+        {
+            case Targetting.First:
+                if (GetFirstEnemy() != null)
+                    return [GetFirstEnemy()];
+                return [];
+            case Targetting.All:
+                return _enemies.Where(x => x.GetCurrentHealth() > 0).ToArray<PuppetTemplate>();
+        }
+        return null;
+    }
+
+    private PuppetTemplate GetFirstEnemy()
+    {
+        foreach (var enemy in _enemies)
+        {
+            if (enemy.GetCurrentHealth() > 0)
+                return enemy;
+        }
+
+        return null;
+    }
+    #endregion
+
     #region BattleEffect Handling
     private void AddEvent(IBattleEvent bEvent)
     {
-        switch (bEvent.GetTrigger()) //TODO: Look into a way to get eventhandler from string
+        switch (bEvent.GetTrigger())
         {
             case BattleEffectTrigger.NotePlaced:
                 Harbinger.Instance.NotePlaced += bEvent.OnTrigger;
@@ -296,6 +338,31 @@ public partial class BattleDirector : Node2D
                 break;
             case BattleEffectTrigger.OnBattleEnd:
                 Harbinger.Instance.BattleEnded += bEvent.OnTrigger;
+                break;
+            case BattleEffectTrigger.OnDamageInstance:
+                Harbinger.Instance.OnDamageInstance += bEvent.OnTrigger;
+                break;
+        }
+    }
+
+    private void RemoveEvent(IBattleEvent bEvent)
+    {
+        switch (bEvent.GetTrigger())
+        {
+            case BattleEffectTrigger.NotePlaced:
+                Harbinger.Instance.NotePlaced -= bEvent.OnTrigger;
+                break;
+            case BattleEffectTrigger.OnLoop:
+                Harbinger.Instance.ChartLooped -= bEvent.OnTrigger;
+                break;
+            case BattleEffectTrigger.NoteHit:
+                Harbinger.Instance.NoteHit -= bEvent.OnTrigger;
+                break;
+            case BattleEffectTrigger.OnBattleEnd:
+                Harbinger.Instance.BattleEnded -= bEvent.OnTrigger;
+                break;
+            case BattleEffectTrigger.OnDamageInstance:
+                Harbinger.Instance.OnDamageInstance -= bEvent.OnTrigger;
                 break;
         }
     }
@@ -414,13 +481,33 @@ public partial class BattleDirector : Node2D
         {
             BattleEnded?.Invoke(new BattleEventArgs(_curDirector));
         }
+
+        /// <summary>
+        /// Event Args to handle a damage instance being dealt. Happens before taking damage.
+        /// This allows damage to be intercepted, to be reduced/increased, to counter, or heal based on incoming damage.
+        /// </summary>
+        /// <param name="bd">The BattleDirector calling the event.</param>
+        /// <param name="dmg">The damage instance being thrown.</param>
+        public class OnDamageInstanceArgs(BattleDirector bd, DamageInstance dmg)
+            : BattleEventArgs(bd)
+        {
+            public DamageInstance Dmg = dmg;
+        }
+
+        internal delegate void OnDamageInstanceHandler(OnDamageInstanceArgs e);
+        internal event OnDamageInstanceHandler OnDamageInstance;
+
+        public void InvokeOnDamageInstance(DamageInstance dmg)
+        {
+            OnDamageInstance?.Invoke(new OnDamageInstanceArgs(_curDirector, dmg));
+        }
     }
 
     private void DebugKillEnemy()
     {
         foreach (EnemyPuppet enemy in _enemies)
         {
-            enemy.TakeDamage(1000);
+            enemy.TakeDamage(new DamageInstance(1000, null, enemy));
         }
     }
 }

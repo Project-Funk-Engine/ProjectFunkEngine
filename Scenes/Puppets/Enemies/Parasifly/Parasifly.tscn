@@ -1,13 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://uvlux4t6h5de"]
+[gd_scene load_steps=5 format=3 uid="uid://uvlux4t6h5de"]
 
 [ext_resource type="Script" uid="uid://btaqgieybx0ep" path="res://Scenes/Puppets/Enemies/Parasifly/P_Parasifly.cs" id="1_ci2ca"]
+[ext_resource type="PackedScene" uid="uid://cdoguwlxehbpg" path="res://Scenes/Puppets/StatusContainer.tscn" id="2_dq3sr"]
 [ext_resource type="Texture2D" uid="uid://pngu3pw1pu4o" path="res://Scenes/Puppets/Enemies/Parasifly/Assets/Parasifly.png" id="2_g4o48"]
 [ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://Scenes/Puppets/HealthBar.tscn" id="3_f74ri"]
 
-[node name="EnemPuppet" type="Node2D" node_paths=PackedStringArray("HealthBar", "Sprite")]
+[node name="EnemPuppet" type="Node2D" node_paths=PackedStringArray("HealthBar", "Sprite", "_statusContainer")]
 script = ExtResource("1_ci2ca")
 HealthBar = NodePath("ProgressBar")
 Sprite = NodePath("Sprite")
+_statusContainer = NodePath("StatusContainer")
+
+[node name="StatusContainer" parent="." instance=ExtResource("2_dq3sr")]
 
 [node name="Sprite" type="Sprite2D" parent="."]
 position = Vector2(0, -12)

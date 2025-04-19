@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://cdoguwlxehbpg"]
+
+[node name="StatusContainer" type="GridContainer"]
+offset_left = -38.0
+offset_top = -69.0
+offset_right = 38.0
+offset_bottom = -33.0
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+columns = 4

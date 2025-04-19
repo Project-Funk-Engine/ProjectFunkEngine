@@ -1,13 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://eus17omen6yk"]
+[gd_scene load_steps=5 format=3 uid="uid://eus17omen6yk"]
 
 [ext_resource type="Script" uid="uid://kkb4qp3s86n3" path="res://Scenes/Puppets/Scripts/PlayerPuppet.cs" id="1_f4rea"]
 [ext_resource type="Texture2D" uid="uid://b6fkei0i83vte" path="res://SharedAssets/Character1.png" id="2_affso"]
 [ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://Scenes/Puppets/HealthBar.tscn" id="3_rechw"]
+[ext_resource type="PackedScene" uid="uid://cdoguwlxehbpg" path="res://Scenes/Puppets/StatusContainer.tscn" id="4_o8yrn"]
 
-[node name="PlayerPuppet" type="Node2D" node_paths=PackedStringArray("HealthBar", "Sprite")]
+[node name="PlayerPuppet" type="Node2D" node_paths=PackedStringArray("HealthBar", "Sprite", "_statusContainer")]
 script = ExtResource("1_f4rea")
 HealthBar = NodePath("ProgressBar")
 Sprite = NodePath("Sprite")
+_statusContainer = NodePath("StatusContainer")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_affso")
@@ -17,3 +19,5 @@ offset_left = -50.0
 offset_top = 32.0
 offset_right = 50.0
 offset_bottom = 52.0
+
+[node name="StatusContainer" parent="." instance=ExtResource("4_o8yrn")]

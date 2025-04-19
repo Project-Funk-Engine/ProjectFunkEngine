@@ -35,17 +35,7 @@ public partial class Note : Resource, IDisplayable
         Id = id;
         Name = name;
         Owner = owner;
-        NoteEffect =
-            noteEffect
-            ?? (
-                (BD, source, timing) =>
-                {
-                    Array.ForEach(
-                        BD.GetTargets(source), //Ok, sure
-                        enemy => enemy.TakeDamage((int)timing * source._baseVal)
-                    );
-                }
-            );
+        NoteEffect = noteEffect;
         _baseVal = baseVal;
         Texture = texture;
         Tooltip = tooltip;
