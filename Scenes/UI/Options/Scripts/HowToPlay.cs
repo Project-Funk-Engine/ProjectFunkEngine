@@ -41,6 +41,11 @@ public partial class HowToPlay : Node2D, IFocusableMenu
 
     public override void _Input(InputEvent @event)
     {
+        if (!GetWindow().HasFocus())
+        {
+            GetViewport().SetInputAsHandled();
+            return;
+        }
         if (@event.IsActionPressed("ui_cancel"))
         {
             ReturnToPrev();

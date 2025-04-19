@@ -259,7 +259,7 @@ public partial class BattleDirector : Node2D
         Audio.StreamPaused = true;
         SaveSystem.ClearSave();
         AddChild(GD.Load<PackedScene>(EndScreen.LoadPath).Instantiate());
-        GetTree().Paused = true;
+        ProcessMode = ProcessModeEnum.Disabled;
     }
 
     private void ShowRewardSelection(int amount)

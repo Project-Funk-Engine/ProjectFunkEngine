@@ -29,6 +29,11 @@ public partial class PauseMenu : Control, IFocusableMenu
 
     public override void _Input(InputEvent @event)
     {
+        if (!GetWindow().HasFocus())
+        {
+            GetViewport().SetInputAsHandled();
+            return;
+        }
         if (@event.IsActionPressed("ui_cancel"))
         {
             ReturnToPrev();

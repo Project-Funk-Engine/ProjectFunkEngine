@@ -34,9 +34,10 @@ offset_bottom = 31.0
 
 [node name="Label" type="Label" parent="Control"]
 layout_mode = 0
-offset_top = 16.0
+offset_top = 18.0
 offset_right = 642.0
-offset_bottom = 39.0
+offset_bottom = 41.0
+theme_override_font_sizes/font_size = 32
 text = "HOW_TO_PLAY"
 horizontal_alignment = 1
 

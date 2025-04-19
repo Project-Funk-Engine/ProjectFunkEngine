@@ -25,9 +25,9 @@ scale_curve = SubResource("CurveTexture_h7u0t")
 [node name="NotePoof" type="GPUParticles2D"]
 emitting = false
 amount = 10
-process_material = SubResource("ParticleProcessMaterial_k0qar")
 texture = ExtResource("1_hjrch")
 lifetime = 0.75
 one_shot = true
 preprocess = 0.1
 explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_k0qar")

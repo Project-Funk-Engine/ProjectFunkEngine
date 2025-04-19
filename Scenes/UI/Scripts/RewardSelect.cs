@@ -17,6 +17,9 @@ public partial class RewardSelect : CanvasLayer
     [Export]
     private Button _skipButton;
 
+    [Export]
+    private Button _rerollButton;
+
     private ButtonGroup _rewardGroup;
 
     public delegate void SelectionMadeHandler();
@@ -32,14 +35,18 @@ public partial class RewardSelect : CanvasLayer
     {
         _player = player;
         _rewardGroup = new ButtonGroup();
-        if (type == Stages.Battle)
+
+        _roomType = type;
+        _amount = amount + player.RewardAmountModifier;
+        if (player.Rerolls > 0)
         {
-            GenerateNoteChoices(amount);
+            _curRerolls = player.Rerolls;
+            _rerollButton.Visible = true;
+            _rerollButton.Text = Tr("CHEST_ROOM_REROLL") + _curRerolls;
+            _rerollButton.Pressed += Reroll;
         }
-        else
-        {
-            GenerateRelicChoices(amount);
-        }
+
+        GenerateSelection();
 
         _acceptButton.Pressed += OnSelect;
         _acceptButton.FocusEntered += () => ChangeDescription(_selection);
@@ -62,30 +69,46 @@ public partial class RewardSelect : CanvasLayer
         ButtonContainer.AddChild(button);
     }
 
+    private void GenerateSelection()
+    {
+        if (_roomType == Stages.Battle)
+        {
+            GenerateNoteChoices(_amount);
+        }
+        else
+        {
+            GenerateRelicChoices(_amount);
+        }
+    }
+
     private void GenerateRelicChoices(int amount = 1)
     {
         if (amount < 1)
             GD.PushError("Error: In RewardSelect: amount < 1");
-        _rChoices = Scribe.GetRandomRelics(_player.CurRelics, amount);
-
+        _rChoices = Scribe.GetRandomRelics(
+            amount,
+            StageProducer.CurRoom + 10 * _curRerolls,
+            _player.RarityOdds
+        );
+        int numChildren = ButtonContainer.GetChildCount();
         foreach (var relic in _rChoices)
         {
             AddButton(relic);
         }
-        ButtonContainer.GetChild<Button>(0).GrabFocus();
+        ButtonContainer.GetChild<Button>(numChildren).GrabFocus();
     }
 
     private void GenerateNoteChoices(int amount = 1)
     {
         if (amount < 1)
             GD.PushError("Error: In RewardSelect: amount < 1");
-        _nChoices = Scribe.GetRandomRewardNotes(amount);
-
+        _nChoices = Scribe.GetRandomRewardNotes(amount, StageProducer.CurRoom + 10 * _curRerolls);
+        int numChildren = ButtonContainer.GetChildCount();
         foreach (var note in _nChoices)
         {
             AddButton(note);
         }
-        ButtonContainer.GetChild<Button>(0).GrabFocus();
+        ButtonContainer.GetChild<Button>(numChildren).GrabFocus();
     }
 
     public static RewardSelect CreateSelection(
@@ -98,7 +121,7 @@ public partial class RewardSelect : CanvasLayer
         var rewardUI = GD.Load<PackedScene>(LoadPath).Instantiate<RewardSelect>();
         parent.AddChild(rewardUI);
         rewardUI.Initialize(playerStats, amount, type);
-        parent.GetTree().Paused = true;
+        parent.ProcessMode = ProcessModeEnum.Disabled;
 
         return rewardUI;
     }
@@ -119,6 +142,27 @@ public partial class RewardSelect : CanvasLayer
             _ => "UNKNOWN_",
         };
         _description.Text = Tr(type + name + "_NAME") + ": " + Tr(type + name + "_TOOLTIP");
+    }
+
+    private int _curRerolls;
+    private Stages _roomType;
+    private int _amount; //The UI can accomodate an effectively infinite amount, but preferably this should be <=11
+
+    private void Reroll()
+    {
+        _curRerolls--;
+        _selection = null;
+        foreach (Node child in ButtonContainer.GetChildren())
+        {
+            child.QueueFree();
+        }
+        GenerateSelection();
+        if (_curRerolls < 1)
+        {
+            _rerollButton.Visible = false;
+            return;
+        }
+        _rerollButton.Text = Tr("CHEST_ROOM_REROLL") + _curRerolls;
     }
 
     private void SetSelection(IDisplayable reward)
