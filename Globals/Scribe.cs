@@ -110,7 +110,7 @@ public partial class Scribe : Node
             {
                 if (timing == Timing.Miss)
                     return;
-                director.AddStatus(Targetting.First, StatusEffect.Block.GetInstance(), true); //todo: should scale with timing????
+                director.AddStatus(Targetting.Player, StatusEffect.Block.GetInstance()); //todo: should scale with timing????
             }
         ),
     };

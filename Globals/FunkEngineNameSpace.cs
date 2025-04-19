@@ -224,6 +224,7 @@ public enum Timing
 
 public enum Targetting
 {
+    Player,
     First,
     All,
 }

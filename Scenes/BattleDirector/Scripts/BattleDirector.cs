@@ -254,7 +254,7 @@ public partial class BattleDirector : Node2D
     #region Battles
     public void DealDamage(Note note, int damage, PuppetTemplate source)
     {
-        PuppetTemplate[] targets = GetTargets(note.TargetType, !note.IsPlayerNote());
+        PuppetTemplate[] targets = GetTargets(note.TargetType);
         foreach (PuppetTemplate target in targets)
         {
             target.TakeDamage(new DamageInstance(damage, source, target));
@@ -268,16 +268,16 @@ public partial class BattleDirector : Node2D
         bool targetPlayer = false
     )
     {
-        PuppetTemplate[] targets = GetTargets(targetting, targetPlayer);
+        PuppetTemplate[] targets = GetTargets(targetting);
         foreach (PuppetTemplate target in targets)
         {
             target.TakeDamage(new DamageInstance(damage, source, target));
         }
     }
 
-    public void AddStatus(Targetting targetting, StatusEffect status, bool targetPlayer = false)
+    public void AddStatus(Targetting targetting, StatusEffect status)
     {
-        PuppetTemplate[] targets = GetTargets(targetting, targetPlayer);
+        PuppetTemplate[] targets = GetTargets(targetting);
         foreach (PuppetTemplate target in targets)
         {
             target.AddStatusEffect(status);
@@ -294,20 +294,21 @@ public partial class BattleDirector : Node2D
         RemoveEvent(status);
     }
 
-    private PuppetTemplate[] GetTargets(Targetting targetting, bool targetPlayer = false)
+    private PuppetTemplate[] GetTargets(Targetting targetting)
     {
-        if (targetPlayer)
-            return [Player];
         switch (targetting)
         {
+            case Targetting.Player:
+                return [Player];
             case Targetting.First:
                 if (GetFirstEnemy() != null)
                     return [GetFirstEnemy()];
                 return [];
             case Targetting.All:
                 return _enemies.Where(x => x.GetCurrentHealth() > 0).ToArray<PuppetTemplate>();
+            default:
+                return null;
         }
-        return null;
     }
 
     private PuppetTemplate GetFirstEnemy()

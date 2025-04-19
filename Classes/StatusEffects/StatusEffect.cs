@@ -9,7 +9,7 @@ using Godot;
 /// Invoke StatusEnd to remove status.
 /// </summary>
 public partial class StatusEffect : TextureRect, IBattleEvent
-{
+{ //TODO: Status effects that are permanent, and status effects that don't take up a slot/are invisible
     public static readonly string LoadPath = "res://Classes/StatusEffects/StatusIcon.tscn";
     public PuppetTemplate Sufferer { get; private set; }
     public int Count { get; private set; }
