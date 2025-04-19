@@ -46,6 +46,25 @@ public partial class StatusEffect : TextureRect, IBattleEvent
         )
         .SetTags(true);
 
+    private static readonly Action<BattleEventArgs, StatusEffect> MulliganEffect = (e, self) =>
+    {
+        if (e is not BattleDirector.Harbinger.NoteHitArgs { Timing: Timing.Miss })
+            return;
+        e.BD.NPB.SetIgnoreMiss(true); //Intercept the miss
+        self.DecCount();
+    };
+
+    /// <summary>
+    /// If the player missed, take damage, but don't receive combo penalty.
+    /// </summary>
+    public static readonly StatusEffect Mulligan = new StatusEffect()
+        .InitStatus(
+            "Mulligan",
+            MulliganEffect,
+            BattleEffectTrigger.NoteHit,
+            GD.Load<Texture2D>("res://Classes/StatusEffects/Assets/Status_Mulligan.png")
+        )
+        .SetTags(true);
     #endregion
 
     private BattleEffectTrigger _trigger;

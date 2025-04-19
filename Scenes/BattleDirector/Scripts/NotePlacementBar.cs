@@ -186,6 +186,12 @@ public partial class NotePlacementBar : Node
         return _currentCombo;
     }
 
+    public void ResetCurrentCombo()
+    {
+        _currentCombo = 0;
+        _bonusMult = 0;
+    }
+
     //For external events to directly change mult
     public void IncreaseBonusMult(int amount = 1)
     {
@@ -236,12 +242,23 @@ public partial class NotePlacementBar : Node
         UpdateComboMultText();
     }
 
+    public bool IgnoreMiss; //a one time safe miss
+
     // Missing a note resets combo
     private void MissNote()
     {
-        _currentCombo = 0;
-        _bonusMult = 0;
+        if (IgnoreMiss)
+        {
+            IgnoreMiss = false;
+            return;
+        }
+        ResetCurrentCombo();
         UpdateComboMultText();
+    }
+
+    public void SetIgnoreMiss(bool ignore)
+    {
+        IgnoreMiss = ignore;
     }
     #endregion
 
