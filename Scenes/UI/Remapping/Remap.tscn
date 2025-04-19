@@ -63,8 +63,8 @@ metadata/_tab_index = 0
 
 [node name="LeftArrowButton" type="Button" parent="Panel/TabContainer/Keyboard"]
 layout_mode = 0
-offset_left = 13.0
-offset_right = 56.0
+offset_left = 15.0
+offset_right = 58.0
 offset_bottom = 43.0
 theme = ExtResource("3_wr01w")
 
@@ -78,25 +78,25 @@ theme = ExtResource("3_wr01w")
 
 [node name="DownArrowButton" type="Button" parent="Panel/TabContainer/Keyboard"]
 layout_mode = 0
-offset_left = 14.0
+offset_left = 15.0
 offset_top = 81.0
-offset_right = 57.0
+offset_right = 58.0
 offset_bottom = 124.0
 theme = ExtResource("3_wr01w")
 
 [node name="RightArrowButton" type="Button" parent="Panel/TabContainer/Keyboard"]
 layout_mode = 0
-offset_left = 14.0
+offset_left = 15.0
 offset_top = 125.0
-offset_right = 57.0
+offset_right = 58.0
 offset_bottom = 168.0
 theme = ExtResource("3_wr01w")
 
 [node name="SecondaryPlacementButton" type="Button" parent="Panel/TabContainer/Keyboard"]
 layout_mode = 0
-offset_left = 13.0
+offset_left = 15.0
 offset_top = 169.0
-offset_right = 56.0
+offset_right = 58.0
 offset_bottom = 212.0
 theme = ExtResource("3_wr01w")
 
@@ -219,8 +219,8 @@ metadata/_tab_index = 1
 
 [node name="LeftArrowButton" type="Button" parent="Panel/TabContainer/Controller"]
 layout_mode = 0
-offset_left = 13.0
-offset_right = 56.0
+offset_left = 15.0
+offset_right = 58.0
 offset_bottom = 43.0
 theme = ExtResource("3_wr01w")
 
@@ -234,25 +234,25 @@ theme = ExtResource("3_wr01w")
 
 [node name="DownArrowButton" type="Button" parent="Panel/TabContainer/Controller"]
 layout_mode = 0
-offset_left = 14.0
+offset_left = 15.0
 offset_top = 81.0
-offset_right = 57.0
+offset_right = 58.0
 offset_bottom = 124.0
 theme = ExtResource("3_wr01w")
 
 [node name="RightArrowButton" type="Button" parent="Panel/TabContainer/Controller"]
 layout_mode = 0
-offset_left = 14.0
+offset_left = 15.0
 offset_top = 125.0
-offset_right = 57.0
+offset_right = 58.0
 offset_bottom = 168.0
 theme = ExtResource("3_wr01w")
 
 [node name="SecondaryPlacementButton" type="Button" parent="Panel/TabContainer/Controller"]
 layout_mode = 0
-offset_left = 13.0
+offset_left = 15.0
 offset_top = 169.0
-offset_right = 56.0
+offset_right = 58.0
 offset_bottom = 212.0
 theme = ExtResource("3_wr01w")
 

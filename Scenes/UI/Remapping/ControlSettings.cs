@@ -19,6 +19,7 @@ public partial class ControlSettings : Node2D, IFocusableMenu
     public Sprite2D DownKey;
 
     public IFocusableMenu Prev { get; set; }
+    private Control _focused;
 
     [Export]
     private Button _closeButton;
@@ -49,8 +50,8 @@ public partial class ControlSettings : Node2D, IFocusableMenu
     private JoyButton _tempJoyButton;
     private string _chosenKey = "";
 
-    private string[] inputMapKeys =
-    {
+    private string[] _inputMapKeys =
+    [
         "Pause",
         "Inventory",
         "CONTROLLER_arrowUp",
@@ -63,7 +64,7 @@ public partial class ControlSettings : Node2D, IFocusableMenu
         "WASD_arrowLeft",
         "WASD_arrowRight",
         "WASD_secondaryPlacement",
-    };
+    ];
 
     public override void _Ready()
     {
@@ -100,6 +101,17 @@ public partial class ControlSettings : Node2D, IFocusableMenu
         _remapTabs.Connect("tab_changed", Callable.From((int _) => ChangeInputType(0)));
 
         InitLabels();
+
+        _focused = GetNode<Button>(
+            _remapTabs.CurrentTab == 0
+                ? "Panel/TabContainer/Keyboard/LeftArrowButton"
+                : "Panel/TabContainer/Controller/LeftArrowButton"
+        );
+        _focused.GrabFocus();
+
+        _remapPopup.ProcessMode = ProcessModeEnum.Always;
+        _remapLabel.ProcessMode = ProcessModeEnum.Always;
+        _remapTimer.ProcessMode = ProcessModeEnum.Always;
 
         _closeButton.Pressed += ReturnToPrev;
     }
@@ -153,27 +165,33 @@ public partial class ControlSettings : Node2D, IFocusableMenu
 
     public override void _Input(InputEvent @event)
     {
-        if (_remapPopup.Visible && ValidInputEvent(@event.AsText()))
+        if (_remapPopup.Visible)
         {
-            switch (@event)
+            if (ValidInputEvent(@event.AsText()))
             {
-                case InputEventKey eventKeyboardKey when _remapTabs.CurrentTab == 0:
-                    _tempKeyboardKey = eventKeyboardKey.Keycode;
-                    InputMap.ActionEraseEvents("WASD" + _chosenKey);
-                    InputMap.ActionAddEvent("WASD" + _chosenKey, @event);
-                    SaveKeyInput(_chosenKey, @event);
-                    UpdateKeyLabels();
-                    _remapPopup.Visible = false;
-                    break;
-                case InputEventJoypadButton eventControllerKey when _remapTabs.CurrentTab == 1:
-                    _tempJoyButton = eventControllerKey.ButtonIndex;
-                    InputMap.ActionEraseEvents("CONTROLLER" + _chosenKey);
-                    InputMap.ActionAddEvent("CONTROLLER" + _chosenKey, @event);
-                    SaveKeyInput(_chosenKey, @event);
-                    UpdateKeyLabels();
-                    _remapPopup.Visible = false;
-                    break;
+                switch (@event)
+                {
+                    case InputEventKey eventKeyboardKey when _remapTabs.CurrentTab == 0:
+                        _tempKeyboardKey = eventKeyboardKey.Keycode;
+                        InputMap.ActionEraseEvents("WASD" + _chosenKey);
+                        InputMap.ActionAddEvent("WASD" + _chosenKey, @event);
+                        SaveKeyInput(_chosenKey, @event);
+                        UpdateKeyLabels();
+                        _remapPopup.Visible = false;
+                        break;
+                    case InputEventJoypadButton eventControllerKey when _remapTabs.CurrentTab == 1:
+                        _tempJoyButton = eventControllerKey.ButtonIndex;
+                        InputMap.ActionEraseEvents("CONTROLLER" + _chosenKey);
+                        InputMap.ActionAddEvent("CONTROLLER" + _chosenKey, @event);
+                        SaveKeyInput(_chosenKey, @event);
+                        UpdateKeyLabels();
+                        _remapPopup.Visible = false;
+                        break;
+                }
+
+                GetViewport().SetInputAsHandled();
             }
+            GetViewport().SetInputAsHandled();
         }
         else if (@event.IsActionPressed("ui_cancel"))
         {
@@ -350,7 +368,7 @@ public partial class ControlSettings : Node2D, IFocusableMenu
     {
         //nested loops bad, but theoretically this should act as a single loop
         //since each action only has 1 event (keybinding)
-        foreach (string action in inputMapKeys)
+        foreach (string action in _inputMapKeys)
         {
             foreach (InputEvent evt in InputMap.ActionGetEvents(action))
             {
