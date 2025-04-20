@@ -6,18 +6,6 @@ public partial class ControlSettings : Node2D, IFocusableMenu
 {
     public static readonly string LoadPath = "res://Scenes/UI/Remapping/Remap.tscn";
 
-    [Export]
-    public Sprite2D LeftKey;
-
-    [Export]
-    public Sprite2D RightKey;
-
-    [Export]
-    public Sprite2D UpKey;
-
-    [Export]
-    public Sprite2D DownKey;
-
     public IFocusableMenu Prev { get; set; }
     private Control _focused;
 
@@ -33,19 +21,21 @@ public partial class ControlSettings : Node2D, IFocusableMenu
     [Export]
     private Timer _remapTimer;
 
-    private Label _keyboardLeftLabel;
-    private Label _keyboardRightLabel;
-    private Label _keyboardUpLabel;
-    private Label _keyboardDownLabel;
-    private Label _keyboardSecondaryLabel;
-    private Label _keyboardInventoryLabel;
+    private static readonly string IconPath = "res://Scenes/UI/Remapping/Assets/";
 
-    private Label _controllerLeftLabel;
-    private Label _controllerRightLabel;
-    private Label _controllerUpLabel;
-    private Label _controllerDownLabel;
-    private Label _controllerSecondaryLabel;
-    private Label _controllerInventoryLabel;
+    private Sprite2D _keyboardLeftIcon;
+    private Sprite2D _keyboardRightIcon;
+    private Sprite2D _keyboardUpIcon;
+    private Sprite2D _keyboardDownIcon;
+    private Sprite2D _keyboardSecondaryIcon;
+    private Sprite2D _keyboardInventoryIcon;
+
+    private Sprite2D _controllerLeftLabel;
+    private Sprite2D _controllerRightLabel;
+    private Sprite2D _controllerUpLabel;
+    private Sprite2D _controllerDownLabel;
+    private Sprite2D _controllerSecondaryLabel;
+    private Sprite2D _controllerInventoryLabel;
 
     private TabContainer _remapTabs;
     private Key _tempKeyboardKey;
@@ -69,16 +59,26 @@ public partial class ControlSettings : Node2D, IFocusableMenu
         "WASD_inventory",
     ];
 
+    private HashSet<Key> _invalidKeys = new HashSet<Key>
+    {
+        Key.Ctrl,
+        Key.Meta,
+        Key.Alt,
+        Key.Insert,
+        Key.Home,
+        Key.End,
+        Key.Delete,
+        Key.Pagedown,
+        Key.Pageup,
+        Key.Print,
+        Key.Scrolllock,
+        Key.Pause,
+        Key.Escape,
+        Key.Numlock,
+    };
+
     public override void _Ready()
     {
-        var joypads = Input.GetConnectedJoypads();
-
-        foreach (int deviceId in joypads)
-        {
-            string name = Input.GetJoyName(deviceId);
-            GD.Print($"Device ID: {deviceId}, Name: {name}");
-        }
-
         GetNode<Button>("Panel/TabContainer/Keyboard/LeftArrowButton")
             .Connect("pressed", Callable.From(OnLeftButtonPressed));
         GetNode<Button>("Panel/TabContainer/Keyboard/UpArrowButton")
@@ -162,22 +162,18 @@ public partial class ControlSettings : Node2D, IFocusableMenu
     private void InitLabels()
     {
         //TODO: revamp this function to incorporate art assets (maybe stretch goal)
-        _keyboardLeftLabel = GetNode<Label>("Panel/TabContainer/Keyboard/TEMPLeftRemap");
-        _keyboardRightLabel = GetNode<Label>("Panel/TabContainer/Keyboard/TEMPRightRemap");
-        _keyboardUpLabel = GetNode<Label>("Panel/TabContainer/Keyboard/TEMPUpRemap");
-        _keyboardDownLabel = GetNode<Label>("Panel/TabContainer/Keyboard/TEMPDownRemap");
-        _keyboardSecondaryLabel = GetNode<Label>("Panel/TabContainer/Keyboard/TEMPSecondaryRemap");
-        _keyboardInventoryLabel = GetNode<Label>("Panel/TabContainer/Keyboard/TEMPInventoryRemap");
-        _controllerLeftLabel = GetNode<Label>("Panel/TabContainer/Controller/TEMPLeftRemap");
-        _controllerRightLabel = GetNode<Label>("Panel/TabContainer/Controller/TEMPRightRemap");
-        _controllerUpLabel = GetNode<Label>("Panel/TabContainer/Controller/TEMPUpRemap");
-        _controllerDownLabel = GetNode<Label>("Panel/TabContainer/Controller/TEMPDownRemap");
-        _controllerSecondaryLabel = GetNode<Label>(
-            "Panel/TabContainer/Controller/TEMPSecondaryRemap"
-        );
-        _controllerInventoryLabel = GetNode<Label>(
-            "Panel/TabContainer/Controller/TEMPInventoryRemap"
-        );
+        _keyboardLeftIcon = GetNode<Sprite2D>("Panel/TabContainer/Keyboard/LeftArrowKey");
+        _keyboardRightIcon = GetNode<Sprite2D>("Panel/TabContainer/Keyboard/RightArrowKey");
+        _keyboardUpIcon = GetNode<Sprite2D>("Panel/TabContainer/Keyboard/UpArrowKey");
+        _keyboardDownIcon = GetNode<Sprite2D>("Panel/TabContainer/Keyboard/DownArrowKey");
+        _keyboardSecondaryIcon = GetNode<Sprite2D>("Panel/TabContainer/Keyboard/SecondaryKey");
+        _keyboardInventoryIcon = GetNode<Sprite2D>("Panel/TabContainer/Keyboard/InventoryKey");
+        _controllerLeftLabel = GetNode<Sprite2D>("Panel/TabContainer/Controller/LeftArrowKey");
+        _controllerRightLabel = GetNode<Sprite2D>("Panel/TabContainer/Controller/RightArrowKey");
+        _controllerUpLabel = GetNode<Sprite2D>("Panel/TabContainer/Controller/UpArrowKey");
+        _controllerDownLabel = GetNode<Sprite2D>("Panel/TabContainer/Controller/DownArrowKey");
+        _controllerSecondaryLabel = GetNode<Sprite2D>("Panel/TabContainer/Controller/SecondaryKey");
+        _controllerInventoryLabel = GetNode<Sprite2D>("Panel/TabContainer/Controller/InventoryKey");
 
         UpdateKeyLabels();
     }
@@ -191,6 +187,9 @@ public partial class ControlSettings : Node2D, IFocusableMenu
                 switch (@event)
                 {
                     case InputEventKey eventKeyboardKey when _remapTabs.CurrentTab == 0:
+                        if (_invalidKeys.Contains(eventKeyboardKey.Keycode))
+                            break;
+
                         _tempKeyboardKey = eventKeyboardKey.Keycode;
                         InputMap.ActionEraseEvents("WASD" + _chosenKey);
                         InputMap.ActionAddEvent("WASD" + _chosenKey, @event);
@@ -240,34 +239,69 @@ public partial class ControlSettings : Node2D, IFocusableMenu
 
     private void UpdateKeyLabels()
     {
-        _keyboardUpLabel.Text = CleanKeyboardText(
-            InputMap.ActionGetEvents("WASD_arrowUp")[0].AsText()
+        _keyboardUpIcon.Texture = GD.Load<Texture2D>(
+            IconPath
+                + CleanKeyboardText(InputMap.ActionGetEvents("WASD_arrowUp")[0].AsText())
+                + ".png"
         );
-        _keyboardDownLabel.Text = CleanKeyboardText(
-            InputMap.ActionGetEvents("WASD_arrowDown")[0].AsText()
+        _keyboardDownIcon.Texture = GD.Load<Texture2D>(
+            IconPath
+                + CleanKeyboardText(InputMap.ActionGetEvents("WASD_arrowDown")[0].AsText())
+                + ".png"
         );
-        _keyboardLeftLabel.Text = CleanKeyboardText(
-            InputMap.ActionGetEvents("WASD_arrowLeft")[0].AsText()
+        _keyboardLeftIcon.Texture = GD.Load<Texture2D>(
+            IconPath
+                + CleanKeyboardText(InputMap.ActionGetEvents("WASD_arrowLeft")[0].AsText())
+                + ".png"
         );
-        _keyboardRightLabel.Text = CleanKeyboardText(
-            InputMap.ActionGetEvents("WASD_arrowRight")[0].AsText()
+        _keyboardRightIcon.Texture = GD.Load<Texture2D>(
+            IconPath
+                + CleanKeyboardText(InputMap.ActionGetEvents("WASD_arrowRight")[0].AsText())
+                + ".png"
         );
-        _keyboardSecondaryLabel.Text = CleanKeyboardText(
-            InputMap.ActionGetEvents("WASD_secondaryPlacement")[0].AsText()
+        _keyboardSecondaryIcon.Texture = GD.Load<Texture2D>(
+            IconPath
+                + CleanKeyboardText(InputMap.ActionGetEvents("WASD_secondaryPlacement")[0].AsText())
+                + ".png"
         );
-        _keyboardInventoryLabel.Text = CleanKeyboardText(
-            InputMap.ActionGetEvents("WASD_inventory")[0].AsText()
+        _keyboardInventoryIcon.Texture = GD.Load<Texture2D>(
+            IconPath
+                + CleanKeyboardText(InputMap.ActionGetEvents("WASD_inventory")[0].AsText())
+                + ".png"
         );
-        _controllerUpLabel.Text = InputMap.ActionGetEvents("CONTROLLER_arrowUp")[0].AsText();
-        _controllerDownLabel.Text = InputMap.ActionGetEvents("CONTROLLER_arrowDown")[0].AsText();
-        _controllerLeftLabel.Text = InputMap.ActionGetEvents("CONTROLLER_arrowLeft")[0].AsText();
-        _controllerRightLabel.Text = InputMap.ActionGetEvents("CONTROLLER_arrowRight")[0].AsText();
-        _controllerSecondaryLabel.Text = InputMap
-            .ActionGetEvents("CONTROLLER_secondaryPlacement")[0]
-            .AsText();
-        _controllerInventoryLabel.Text = InputMap
-            .ActionGetEvents("CONTROLLER_inventory")[0]
-            .AsText();
+        _controllerUpLabel.Texture = GD.Load<Texture2D>(
+            IconPath
+                + InputMap.ActionGetEvents("CONTROLLER_arrowUp")[0].AsText().Replace("/", "")
+                + ".png"
+        );
+        _controllerDownLabel.Texture = GD.Load<Texture2D>(
+            IconPath
+                + InputMap.ActionGetEvents("CONTROLLER_arrowDown")[0].AsText().Replace("/", "")
+                + ".png"
+        );
+        _controllerLeftLabel.Texture = GD.Load<Texture2D>(
+            IconPath
+                + InputMap.ActionGetEvents("CONTROLLER_arrowLeft")[0].AsText().Replace("/", "")
+                + ".png"
+        );
+        _controllerRightLabel.Texture = GD.Load<Texture2D>(
+            IconPath
+                + InputMap.ActionGetEvents("CONTROLLER_arrowRight")[0].AsText().Replace("/", "")
+                + ".png"
+        );
+        _controllerSecondaryLabel.Texture = GD.Load<Texture2D>(
+            IconPath
+                + InputMap
+                    .ActionGetEvents("CONTROLLER_secondaryPlacement")[0]
+                    .AsText()
+                    .Replace("/", "")
+                + ".png"
+        );
+        _controllerInventoryLabel.Texture = GD.Load<Texture2D>(
+            IconPath
+                + InputMap.ActionGetEvents("CONTROLLER_inventory")[0].AsText().Replace("/", "")
+                + ".png"
+        );
     }
 
     string CleanKeyboardText(string text)
@@ -427,9 +461,7 @@ public partial class ControlSettings : Node2D, IFocusableMenu
                         && CleanKeyboardText(keyEvent.AsText()) == keyText
                     ) || (evt is InputEventJoypadButton padEvent && padEvent.AsText() == keyText)
                 )
-                {
                     return false;
-                }
             }
         }
         return true;
