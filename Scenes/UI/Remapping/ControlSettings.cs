@@ -79,30 +79,30 @@ public partial class ControlSettings : Node2D, IFocusableMenu
 
     public override void _Ready()
     {
-        GetNode<Button>("Panel/TabContainer/Keyboard/LeftArrowButton")
+        GetNode<Button>("Panel/TabContainer/CONTROLS_KEYBOARD/LeftArrowButton")
             .Connect("pressed", Callable.From(OnLeftButtonPressed));
-        GetNode<Button>("Panel/TabContainer/Keyboard/UpArrowButton")
+        GetNode<Button>("Panel/TabContainer/CONTROLS_KEYBOARD/UpArrowButton")
             .Connect("pressed", Callable.From(OnUpButtonPressed));
-        GetNode<Button>("Panel/TabContainer/Keyboard/DownArrowButton")
+        GetNode<Button>("Panel/TabContainer/CONTROLS_KEYBOARD/DownArrowButton")
             .Connect("pressed", Callable.From(OnDownButtonPressed));
-        GetNode<Button>("Panel/TabContainer/Keyboard/RightArrowButton")
+        GetNode<Button>("Panel/TabContainer/CONTROLS_KEYBOARD/RightArrowButton")
             .Connect("pressed", Callable.From(OnRightButtonPressed));
-        GetNode<Button>("Panel/TabContainer/Keyboard/SecondaryPlacementButton")
+        GetNode<Button>("Panel/TabContainer/CONTROLS_KEYBOARD/SecondaryPlacementButton")
             .Connect("pressed", Callable.From(OnSecondaryPlacementButtonPressed));
-        GetNode<Button>("Panel/TabContainer/Keyboard/InventoryButton")
+        GetNode<Button>("Panel/TabContainer/CONTROLS_KEYBOARD/InventoryButton")
             .Connect("pressed", Callable.From(OnInventoryButtonPressed));
 
-        GetNode<Button>("Panel/TabContainer/Controller/LeftArrowButton")
+        GetNode<Button>("Panel/TabContainer/CONTROLS_CONTROLLER/LeftArrowButton")
             .Connect("pressed", Callable.From(OnLeftButtonPressed));
-        GetNode<Button>("Panel/TabContainer/Controller/UpArrowButton")
+        GetNode<Button>("Panel/TabContainer/CONTROLS_CONTROLLER/UpArrowButton")
             .Connect("pressed", Callable.From(OnUpButtonPressed));
-        GetNode<Button>("Panel/TabContainer/Controller/DownArrowButton")
+        GetNode<Button>("Panel/TabContainer/CONTROLS_CONTROLLER/DownArrowButton")
             .Connect("pressed", Callable.From(OnDownButtonPressed));
-        GetNode<Button>("Panel/TabContainer/Controller/RightArrowButton")
+        GetNode<Button>("Panel/TabContainer/CONTROLS_CONTROLLER/RightArrowButton")
             .Connect("pressed", Callable.From(OnRightButtonPressed));
-        GetNode<Button>("Panel/TabContainer/Controller/SecondaryPlacementButton")
+        GetNode<Button>("Panel/TabContainer/CONTROLS_CONTROLLER/SecondaryPlacementButton")
             .Connect("pressed", Callable.From(OnSecondaryPlacementButtonPressed));
-        GetNode<Button>("Panel/TabContainer/Controller/InventoryButton")
+        GetNode<Button>("Panel/TabContainer/CONTROLS_CONTROLLER/InventoryButton")
             .Connect("pressed", Callable.From(OnInventoryButtonPressed));
 
         GetNode<Timer>("RemapPopup/Timer").Connect("timeout", Callable.From(OnTimerEnd));
@@ -147,8 +147,8 @@ public partial class ControlSettings : Node2D, IFocusableMenu
 
         _focused = GetNode<Button>(
             _remapTabs.CurrentTab == 0
-                ? "Panel/TabContainer/Keyboard/LeftArrowButton"
-                : "Panel/TabContainer/Controller/LeftArrowButton"
+                ? "Panel/TabContainer/CONTROLS_KEYBOARD/LeftArrowButton"
+                : "Panel/TabContainer/CONTROLS_CONTROLLER/LeftArrowButton"
         );
         _focused.GrabFocus();
     }
@@ -162,18 +162,34 @@ public partial class ControlSettings : Node2D, IFocusableMenu
     private void InitLabels()
     {
         //TODO: revamp this function to incorporate art assets (maybe stretch goal)
-        _keyboardLeftIcon = GetNode<Sprite2D>("Panel/TabContainer/Keyboard/LeftArrowKey");
-        _keyboardRightIcon = GetNode<Sprite2D>("Panel/TabContainer/Keyboard/RightArrowKey");
-        _keyboardUpIcon = GetNode<Sprite2D>("Panel/TabContainer/Keyboard/UpArrowKey");
-        _keyboardDownIcon = GetNode<Sprite2D>("Panel/TabContainer/Keyboard/DownArrowKey");
-        _keyboardSecondaryIcon = GetNode<Sprite2D>("Panel/TabContainer/Keyboard/SecondaryKey");
-        _keyboardInventoryIcon = GetNode<Sprite2D>("Panel/TabContainer/Keyboard/InventoryKey");
-        _controllerLeftLabel = GetNode<Sprite2D>("Panel/TabContainer/Controller/LeftArrowKey");
-        _controllerRightLabel = GetNode<Sprite2D>("Panel/TabContainer/Controller/RightArrowKey");
-        _controllerUpLabel = GetNode<Sprite2D>("Panel/TabContainer/Controller/UpArrowKey");
-        _controllerDownLabel = GetNode<Sprite2D>("Panel/TabContainer/Controller/DownArrowKey");
-        _controllerSecondaryLabel = GetNode<Sprite2D>("Panel/TabContainer/Controller/SecondaryKey");
-        _controllerInventoryLabel = GetNode<Sprite2D>("Panel/TabContainer/Controller/InventoryKey");
+        _keyboardLeftIcon = GetNode<Sprite2D>("Panel/TabContainer/CONTROLS_KEYBOARD/LeftArrowKey");
+        _keyboardRightIcon = GetNode<Sprite2D>(
+            "Panel/TabContainer/CONTROLS_KEYBOARD/RightArrowKey"
+        );
+        _keyboardUpIcon = GetNode<Sprite2D>("Panel/TabContainer/CONTROLS_KEYBOARD/UpArrowKey");
+        _keyboardDownIcon = GetNode<Sprite2D>("Panel/TabContainer/CONTROLS_KEYBOARD/DownArrowKey");
+        _keyboardSecondaryIcon = GetNode<Sprite2D>(
+            "Panel/TabContainer/CONTROLS_KEYBOARD/SecondaryKey"
+        );
+        _keyboardInventoryIcon = GetNode<Sprite2D>(
+            "Panel/TabContainer/CONTROLS_KEYBOARD/InventoryKey"
+        );
+        _controllerLeftLabel = GetNode<Sprite2D>(
+            "Panel/TabContainer/CONTROLS_CONTROLLER/LeftArrowKey"
+        );
+        _controllerRightLabel = GetNode<Sprite2D>(
+            "Panel/TabContainer/CONTROLS_CONTROLLER/RightArrowKey"
+        );
+        _controllerUpLabel = GetNode<Sprite2D>("Panel/TabContainer/CONTROLS_CONTROLLER/UpArrowKey");
+        _controllerDownLabel = GetNode<Sprite2D>(
+            "Panel/TabContainer/CONTROLS_CONTROLLER/DownArrowKey"
+        );
+        _controllerSecondaryLabel = GetNode<Sprite2D>(
+            "Panel/TabContainer/CONTROLS_CONTROLLER/SecondaryKey"
+        );
+        _controllerInventoryLabel = GetNode<Sprite2D>(
+            "Panel/TabContainer/CONTROLS_CONTROLLER/InventoryKey"
+        );
 
         UpdateKeyLabels();
     }
