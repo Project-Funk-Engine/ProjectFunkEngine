@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cbgeddockm6s1"]
+
+[node name="MapCreator" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 12.0
+text = "Yes, there's stuff here (probably)"
