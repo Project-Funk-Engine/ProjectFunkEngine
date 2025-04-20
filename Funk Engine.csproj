@@ -5,6 +5,9 @@
     <RootNamespace>FunkEngine</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="NAudio" Version="2.2.1" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Globals\Translations\Translations.csv" />
   </ItemGroup>
   <Target Name="Husky" BeforeTargets="Restore;CollectPackageReferences" Condition="'$(HUSKY)' != 0">
