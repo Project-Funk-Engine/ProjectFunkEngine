@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using FunkEngine;
 using Godot;
@@ -79,35 +80,27 @@ public partial class ControlSettings : Node2D, IFocusableMenu
 
     public override void _Ready()
     {
-        GetNode<Button>("Panel/TabContainer/CONTROLS_KEYBOARD/LeftArrowButton")
-            .Connect("pressed", Callable.From(OnLeftButtonPressed));
-        GetNode<Button>("Panel/TabContainer/CONTROLS_KEYBOARD/UpArrowButton")
-            .Connect("pressed", Callable.From(OnUpButtonPressed));
-        GetNode<Button>("Panel/TabContainer/CONTROLS_KEYBOARD/DownArrowButton")
-            .Connect("pressed", Callable.From(OnDownButtonPressed));
-        GetNode<Button>("Panel/TabContainer/CONTROLS_KEYBOARD/RightArrowButton")
-            .Connect("pressed", Callable.From(OnRightButtonPressed));
-        GetNode<Button>("Panel/TabContainer/CONTROLS_KEYBOARD/SecondaryPlacementButton")
-            .Connect("pressed", Callable.From(OnSecondaryPlacementButtonPressed));
-        GetNode<Button>("Panel/TabContainer/CONTROLS_KEYBOARD/InventoryButton")
-            .Connect("pressed", Callable.From(OnInventoryButtonPressed));
+        var remapButtons = new Dictionary<string, string>
+        {
+            { "LeftArrowButton", "_arrowLeft" },
+            { "RightArrowButton", "_arrowRight" },
+            { "UpArrowButton", "_arrowUp" },
+            { "DownArrowButton", "_arrowDown" },
+            { "SecondaryPlacementButton", "_secondaryPlacement" },
+            { "InventoryButton", "_inventory" },
+        };
 
-        GetNode<Button>("Panel/TabContainer/CONTROLS_CONTROLLER/LeftArrowButton")
-            .Connect("pressed", Callable.From(OnLeftButtonPressed));
-        GetNode<Button>("Panel/TabContainer/CONTROLS_CONTROLLER/UpArrowButton")
-            .Connect("pressed", Callable.From(OnUpButtonPressed));
-        GetNode<Button>("Panel/TabContainer/CONTROLS_CONTROLLER/DownArrowButton")
-            .Connect("pressed", Callable.From(OnDownButtonPressed));
-        GetNode<Button>("Panel/TabContainer/CONTROLS_CONTROLLER/RightArrowButton")
-            .Connect("pressed", Callable.From(OnRightButtonPressed));
-        GetNode<Button>("Panel/TabContainer/CONTROLS_CONTROLLER/SecondaryPlacementButton")
-            .Connect("pressed", Callable.From(OnSecondaryPlacementButtonPressed));
-        GetNode<Button>("Panel/TabContainer/CONTROLS_CONTROLLER/InventoryButton")
-            .Connect("pressed", Callable.From(OnInventoryButtonPressed));
+        foreach (var pair in remapButtons)
+        {
+            string keyboardPath = "Panel/TabContainer/CONTROLS_KEYBOARD/" + pair.Key;
+            GetNode<Button>(keyboardPath).Pressed += () => OnRemapButtonPressed(pair.Value);
+
+            string controllerPath = "Panel/TabContainer/CONTROLS_CONTROLLER/" + pair.Key;
+            GetNode<Button>(controllerPath).Pressed += () => OnRemapButtonPressed(pair.Value);
+        }
 
         GetNode<Timer>("RemapPopup/Timer").Connect("timeout", Callable.From(OnTimerEnd));
 
-        //TODO: redo implementation? currently the selected tab chooses keyboard or controller
         _remapTabs = GetNode<TabContainer>("Panel/TabContainer");
         _remapTabs.CurrentTab =
             SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.InputType).ToString() == "WASD"
@@ -116,10 +109,6 @@ public partial class ControlSettings : Node2D, IFocusableMenu
         _remapTabs.Connect("tab_changed", Callable.From((int _) => ChangeInputType(0)));
 
         InitLabels();
-
-        _remapPopup.ProcessMode = ProcessModeEnum.Always;
-        _remapLabel.ProcessMode = ProcessModeEnum.Always;
-        _remapTimer.ProcessMode = ProcessModeEnum.Always;
 
         _closeButton.Pressed += ReturnToPrev;
     }
@@ -161,35 +150,39 @@ public partial class ControlSettings : Node2D, IFocusableMenu
 
     private void InitLabels()
     {
-        //TODO: revamp this function to incorporate art assets (maybe stretch goal)
-        _keyboardLeftIcon = GetNode<Sprite2D>("Panel/TabContainer/CONTROLS_KEYBOARD/LeftArrowKey");
-        _keyboardRightIcon = GetNode<Sprite2D>(
-            "Panel/TabContainer/CONTROLS_KEYBOARD/RightArrowKey"
-        );
-        _keyboardUpIcon = GetNode<Sprite2D>("Panel/TabContainer/CONTROLS_KEYBOARD/UpArrowKey");
-        _keyboardDownIcon = GetNode<Sprite2D>("Panel/TabContainer/CONTROLS_KEYBOARD/DownArrowKey");
-        _keyboardSecondaryIcon = GetNode<Sprite2D>(
-            "Panel/TabContainer/CONTROLS_KEYBOARD/SecondaryKey"
-        );
-        _keyboardInventoryIcon = GetNode<Sprite2D>(
-            "Panel/TabContainer/CONTROLS_KEYBOARD/InventoryKey"
-        );
-        _controllerLeftLabel = GetNode<Sprite2D>(
-            "Panel/TabContainer/CONTROLS_CONTROLLER/LeftArrowKey"
-        );
-        _controllerRightLabel = GetNode<Sprite2D>(
-            "Panel/TabContainer/CONTROLS_CONTROLLER/RightArrowKey"
-        );
-        _controllerUpLabel = GetNode<Sprite2D>("Panel/TabContainer/CONTROLS_CONTROLLER/UpArrowKey");
-        _controllerDownLabel = GetNode<Sprite2D>(
-            "Panel/TabContainer/CONTROLS_CONTROLLER/DownArrowKey"
-        );
-        _controllerSecondaryLabel = GetNode<Sprite2D>(
-            "Panel/TabContainer/CONTROLS_CONTROLLER/SecondaryKey"
-        );
-        _controllerInventoryLabel = GetNode<Sprite2D>(
-            "Panel/TabContainer/CONTROLS_CONTROLLER/InventoryKey"
-        );
+        var keyboardPaths = new Dictionary<string, Action<Sprite2D>>
+        {
+            { "LeftArrowKey", node => _keyboardLeftIcon = node },
+            { "RightArrowKey", node => _keyboardRightIcon = node },
+            { "UpArrowKey", node => _keyboardUpIcon = node },
+            { "DownArrowKey", node => _keyboardDownIcon = node },
+            { "SecondaryKey", node => _keyboardSecondaryIcon = node },
+            { "InventoryKey", node => _keyboardInventoryIcon = node },
+        };
+
+        var controllerPaths = new Dictionary<string, Action<Sprite2D>>
+        {
+            { "LeftArrowKey", node => _controllerLeftLabel = node },
+            { "RightArrowKey", node => _controllerRightLabel = node },
+            { "UpArrowKey", node => _controllerUpLabel = node },
+            { "DownArrowKey", node => _controllerDownLabel = node },
+            { "SecondaryKey", node => _controllerSecondaryLabel = node },
+            { "InventoryKey", node => _controllerInventoryLabel = node },
+        };
+
+        foreach (var pair in keyboardPaths)
+        {
+            var path = "Panel/TabContainer/CONTROLS_KEYBOARD/" + pair.Key;
+            var sprite = GetNode<Sprite2D>(path);
+            pair.Value(sprite);
+        }
+
+        foreach (var pair in controllerPaths)
+        {
+            var path = "Panel/TabContainer/CONTROLS_CONTROLLER/" + pair.Key;
+            var sprite = GetNode<Sprite2D>(path);
+            pair.Value(sprite);
+        }
 
         UpdateKeyLabels();
     }
@@ -198,40 +191,60 @@ public partial class ControlSettings : Node2D, IFocusableMenu
     {
         if (_remapPopup.Visible)
         {
-            if (ValidInputEvent(@event.AsText()))
+            if (
+                (@event is InputEventKey || @event is InputEventJoypadButton)
+                && ValidInputEvent(@event.AsText())
+            )
             {
-                switch (@event)
-                {
-                    case InputEventKey eventKeyboardKey when _remapTabs.CurrentTab == 0:
-                        if (_invalidKeys.Contains(eventKeyboardKey.Keycode))
-                            break;
-
-                        _tempKeyboardKey = eventKeyboardKey.Keycode;
-                        InputMap.ActionEraseEvents("WASD" + _chosenKey);
-                        InputMap.ActionAddEvent("WASD" + _chosenKey, @event);
-                        SaveKeyInput(_chosenKey, @event);
-                        UpdateKeyLabels();
-                        _remapPopup.Visible = false;
-                        break;
-                    case InputEventJoypadButton eventControllerKey when _remapTabs.CurrentTab == 1:
-                        _tempJoyButton = eventControllerKey.ButtonIndex;
-                        InputMap.ActionEraseEvents("CONTROLLER" + _chosenKey);
-                        InputMap.ActionAddEvent("CONTROLLER" + _chosenKey, @event);
-                        SaveKeyInput(_chosenKey, @event);
-                        UpdateKeyLabels();
-                        _remapPopup.Visible = false;
-                        break;
-                }
-
+                HandleRemapInput(@event);
                 GetViewport().SetInputAsHandled();
             }
-            GetViewport().SetInputAsHandled();
+            else
+            {
+                // when popup is visible we ignore everything except valid remaps
+                GetViewport().SetInputAsHandled();
+            }
         }
         else if (@event.IsActionPressed("ui_cancel"))
         {
             ReturnToPrev();
             GetViewport().SetInputAsHandled();
         }
+    }
+
+    private void HandleRemapInput(InputEvent @event)
+    {
+        bool isKeyboard = _remapTabs.CurrentTab == 0;
+
+        switch (isKeyboard)
+        {
+            case true when @event is InputEventKey keyEvent:
+            {
+                if (_invalidKeys.Contains(keyEvent.Keycode))
+                    return;
+
+                string action = "WASD" + _chosenKey;
+                InputMap.ActionEraseEvents(action);
+                InputMap.ActionAddEvent(action, keyEvent);
+
+                SaveKeyInput(_chosenKey, keyEvent);
+                break;
+            }
+            case false when @event is InputEventJoypadButton joyEvent:
+            {
+                string action = "CONTROLLER" + _chosenKey;
+                InputMap.ActionEraseEvents(action);
+                InputMap.ActionAddEvent(action, joyEvent);
+
+                SaveKeyInput(_chosenKey, joyEvent);
+                break;
+            }
+            default:
+                return;
+        }
+
+        UpdateKeyLabels();
+        _remapPopup.Visible = false;
     }
 
     private void AnyButtonsPressed()
@@ -255,69 +268,38 @@ public partial class ControlSettings : Node2D, IFocusableMenu
 
     private void UpdateKeyLabels()
     {
-        _keyboardUpIcon.Texture = GD.Load<Texture2D>(
-            IconPath
-                + CleanKeyboardText(InputMap.ActionGetEvents("WASD_arrowUp")[0].AsText())
-                + ".png"
-        );
-        _keyboardDownIcon.Texture = GD.Load<Texture2D>(
-            IconPath
-                + CleanKeyboardText(InputMap.ActionGetEvents("WASD_arrowDown")[0].AsText())
-                + ".png"
-        );
-        _keyboardLeftIcon.Texture = GD.Load<Texture2D>(
-            IconPath
-                + CleanKeyboardText(InputMap.ActionGetEvents("WASD_arrowLeft")[0].AsText())
-                + ".png"
-        );
-        _keyboardRightIcon.Texture = GD.Load<Texture2D>(
-            IconPath
-                + CleanKeyboardText(InputMap.ActionGetEvents("WASD_arrowRight")[0].AsText())
-                + ".png"
-        );
-        _keyboardSecondaryIcon.Texture = GD.Load<Texture2D>(
-            IconPath
-                + CleanKeyboardText(InputMap.ActionGetEvents("WASD_secondaryPlacement")[0].AsText())
-                + ".png"
-        );
-        _keyboardInventoryIcon.Texture = GD.Load<Texture2D>(
-            IconPath
-                + CleanKeyboardText(InputMap.ActionGetEvents("WASD_inventory")[0].AsText())
-                + ".png"
-        );
-        _controllerUpLabel.Texture = GD.Load<Texture2D>(
-            IconPath
-                + InputMap.ActionGetEvents("CONTROLLER_arrowUp")[0].AsText().Replace("/", "")
-                + ".png"
-        );
-        _controllerDownLabel.Texture = GD.Load<Texture2D>(
-            IconPath
-                + InputMap.ActionGetEvents("CONTROLLER_arrowDown")[0].AsText().Replace("/", "")
-                + ".png"
-        );
-        _controllerLeftLabel.Texture = GD.Load<Texture2D>(
-            IconPath
-                + InputMap.ActionGetEvents("CONTROLLER_arrowLeft")[0].AsText().Replace("/", "")
-                + ".png"
-        );
-        _controllerRightLabel.Texture = GD.Load<Texture2D>(
-            IconPath
-                + InputMap.ActionGetEvents("CONTROLLER_arrowRight")[0].AsText().Replace("/", "")
-                + ".png"
-        );
-        _controllerSecondaryLabel.Texture = GD.Load<Texture2D>(
-            IconPath
-                + InputMap
-                    .ActionGetEvents("CONTROLLER_secondaryPlacement")[0]
-                    .AsText()
-                    .Replace("/", "")
-                + ".png"
-        );
-        _controllerInventoryLabel.Texture = GD.Load<Texture2D>(
-            IconPath
-                + InputMap.ActionGetEvents("CONTROLLER_inventory")[0].AsText().Replace("/", "")
-                + ".png"
-        );
+        var keyMappings = new Dictionary<Sprite2D, string>
+        {
+            { _keyboardUpIcon, "WASD_arrowUp" },
+            { _keyboardDownIcon, "WASD_arrowDown" },
+            { _keyboardLeftIcon, "WASD_arrowLeft" },
+            { _keyboardRightIcon, "WASD_arrowRight" },
+            { _keyboardSecondaryIcon, "WASD_secondaryPlacement" },
+            { _keyboardInventoryIcon, "WASD_inventory" },
+            { _controllerUpLabel, "CONTROLLER_arrowUp" },
+            { _controllerDownLabel, "CONTROLLER_arrowDown" },
+            { _controllerLeftLabel, "CONTROLLER_arrowLeft" },
+            { _controllerRightLabel, "CONTROLLER_arrowRight" },
+            { _controllerSecondaryLabel, "CONTROLLER_secondaryPlacement" },
+            { _controllerInventoryLabel, "CONTROLLER_inventory" },
+        };
+
+        foreach (var (sprite, actionName) in keyMappings)
+        {
+            var events = InputMap.ActionGetEvents(actionName);
+            if (events.Count > 0)
+            {
+                string textureName = events[0].AsText();
+
+                // Clean up the texture name
+                if (actionName.StartsWith("WASD"))
+                    textureName = CleanKeyboardText(textureName);
+                else
+                    textureName = textureName.Replace("/", "");
+
+                sprite.Texture = GD.Load<Texture2D>($"{IconPath}{textureName}.png");
+            }
+        }
     }
 
     string CleanKeyboardText(string text)
@@ -325,134 +307,78 @@ public partial class ControlSettings : Node2D, IFocusableMenu
         return text.Replace(" (Physical)", "");
     }
 
-    private void OnUpButtonPressed()
+    private void OnRemapButtonPressed(string keyName)
     {
-        _chosenKey = "_arrowUp";
-        AnyButtonsPressed();
-    }
-
-    private void OnLeftButtonPressed()
-    {
-        _chosenKey = "_arrowLeft";
-        AnyButtonsPressed();
-    }
-
-    private void OnRightButtonPressed()
-    {
-        _chosenKey = "_arrowRight";
-        AnyButtonsPressed();
-    }
-
-    private void OnDownButtonPressed()
-    {
-        _chosenKey = "_arrowDown";
-        AnyButtonsPressed();
-    }
-
-    private void OnSecondaryPlacementButtonPressed()
-    {
-        _chosenKey = "_secondaryPlacement";
-        AnyButtonsPressed();
-    }
-
-    private void OnInventoryButtonPressed()
-    {
-        _chosenKey = "_inventory";
+        _chosenKey = keyName;
         AnyButtonsPressed();
     }
 
     private void SaveKeyInput(string button, InputEvent key)
     {
-        switch (button[6])
+        var configMap = new Dictionary<
+            string,
+            (SaveSystem.ConfigSettings keyboard, SaveSystem.ConfigSettings controller)
+        >
         {
-            case 'U':
-                if (key is InputEventKey key1)
-                {
-                    int keycode = (int)key1.PhysicalKeycode;
-                    SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKeyboardUp, keycode);
-                }
-                else if (key is InputEventJoypadButton key2)
-                {
-                    int keycode = (int)key2.ButtonIndex;
-                    SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputControllerUp, keycode);
-                }
-                break;
-            case 'L':
-                if (key is InputEventKey key3)
-                {
-                    int keycode = (int)key3.PhysicalKeycode;
-                    SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKeyboardLeft, keycode);
-                }
-                else if (key is InputEventJoypadButton key4)
-                {
-                    int keycode = (int)key4.ButtonIndex;
-                    SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputControllerLeft, keycode);
-                }
-                break;
-            case 'D':
-                if (key is InputEventKey key5)
-                {
-                    int keycode = (int)key5.PhysicalKeycode;
-                    SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKeyboardDown, keycode);
-                }
-                else if (key is InputEventJoypadButton key6)
-                {
-                    int keycode = (int)key6.ButtonIndex;
-                    SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputControllerDown, keycode);
-                }
-                break;
-            case 'R':
-                if (key is InputEventKey key7)
-                {
-                    int keycode = (int)key7.PhysicalKeycode;
-                    SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKeyboardRight, keycode);
-                }
-                else if (key is InputEventJoypadButton key8)
-                {
-                    int keycode = (int)key8.ButtonIndex;
-                    SaveSystem.UpdateConfig(
-                        SaveSystem.ConfigSettings.InputControllerRight,
-                        keycode
-                    );
-                }
-                break;
-            case 'd':
-                if (key is InputEventKey key9)
-                {
-                    int keycode = (int)key9.PhysicalKeycode;
-                    SaveSystem.UpdateConfig(
-                        SaveSystem.ConfigSettings.InputKeyboardSecondary,
-                        keycode
-                    );
-                }
-                else if (key is InputEventJoypadButton key10)
-                {
-                    int keycode = (int)key10.ButtonIndex;
-                    SaveSystem.UpdateConfig(
-                        SaveSystem.ConfigSettings.InputControllerSecondary,
-                        keycode
-                    );
-                }
-                break;
-            case 't':
-                if (key is InputEventKey key11)
-                {
-                    int keycode = (int)key11.PhysicalKeycode;
-                    SaveSystem.UpdateConfig(
-                        SaveSystem.ConfigSettings.InputKeyboardInventory,
-                        keycode
-                    );
-                }
-                else if (key is InputEventJoypadButton key12)
-                {
-                    int keycode = (int)key12.ButtonIndex;
-                    SaveSystem.UpdateConfig(
-                        SaveSystem.ConfigSettings.InputControllerInventory,
-                        keycode
-                    );
-                }
-                break;
-        }
+            {
+                "_arrowUp",
+                (
+                    SaveSystem.ConfigSettings.InputKeyboardUp,
+                    SaveSystem.ConfigSettings.InputControllerUp
+                )
+            },
+            {
+                "_arrowDown",
+                (
+                    SaveSystem.ConfigSettings.InputKeyboardDown,
+                    SaveSystem.ConfigSettings.InputControllerDown
+                )
+            },
+            {
+                "_arrowLeft",
+                (
+                    SaveSystem.ConfigSettings.InputKeyboardLeft,
+                    SaveSystem.ConfigSettings.InputControllerLeft
+                )
+            },
+            {
+                "_arrowRight",
+                (
+                    SaveSystem.ConfigSettings.InputKeyboardRight,
+                    SaveSystem.ConfigSettings.InputControllerRight
+                )
+            },
+            {
+                "_secondaryPlacement",
+                (
+                    SaveSystem.ConfigSettings.InputKeyboardSecondary,
+                    SaveSystem.ConfigSettings.InputControllerSecondary
+                )
+            },
+            {
+                "_inventory",
+                (
+                    SaveSystem.ConfigSettings.InputKeyboardInventory,
+                    SaveSystem.ConfigSettings.InputControllerInventory
+                )
+            },
+        };
+
+        if (!configMap.TryGetValue(button, out var configPair))
+            return;
+
+        int keycode = key switch
+        {
+            InputEventKey keyEvent => (int)keyEvent.PhysicalKeycode,
+            InputEventJoypadButton joyEvent => (int)joyEvent.ButtonIndex,
+            _ => -1,
+        };
+
+        if (keycode < 0)
+            return;
+
+        var config = key is InputEventKey ? configPair.keyboard : configPair.controller;
+        SaveSystem.UpdateConfig(config, keycode);
     }
 
     private void ChangeInputType(int tabIndex)
