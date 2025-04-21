@@ -72,7 +72,7 @@ public partial class ControlSettings : Node2D, IFocusableMenu
         "_arrowUp",
         "_arrowDown",
         "_secondaryPlacement",
-        "_inventory",
+        "_inventory", //TODO: Bag icon, since we can't translate Inv similarly in chinese.
     ];
 
     private readonly string[] _inputMapNames =
@@ -208,7 +208,6 @@ public partial class ControlSettings : Node2D, IFocusableMenu
             else
                 textureName = textureName.Replace("/", "");
 
-            GD.Print(textureName);
             _inputSprites[i].Texture = GD.Load<Texture2D>($"{IconPath}{textureName}.png");
         }
     }
