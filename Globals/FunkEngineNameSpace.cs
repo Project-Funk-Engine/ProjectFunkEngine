@@ -224,6 +224,7 @@ public enum Timing
 
 public enum Targetting
 {
+    Player,
     First,
     All,
 }
@@ -237,6 +238,8 @@ public enum BattleEffectTrigger
     OnLoop,
     OnBattleStart,
     OnBattleEnd,
+    OnDamageInstance,
+    OnDamageTaken,
 }
 
 public enum Stages

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 /**
@@ -113,8 +115,11 @@ public partial class PuppetTemplate : Node2D
     }
     #endregion
 
-    public virtual void TakeDamage(int amount)
+    public virtual void TakeDamage(DamageInstance dmg)
     {
+        BattleDirector.Harbinger.Instance.InvokeOnDamageInstance(dmg);
+        int amount = dmg.Damage;
+
         amount = Math.Max(0, amount); //Should not be able to heal from damage.
         if (CurrentHealth <= 0 || amount == 0)
             return; //Only check if hp would change
@@ -148,4 +153,45 @@ public partial class PuppetTemplate : Node2D
     {
         return CurrentHealth;
     }
+
+    #region Status Effects
+    /// <summary>
+    /// The visual indicators for status effects.
+    /// </summary>
+    [Export]
+    protected GridContainer _statusContainer;
+    const int MaxStatuses = 8;
+    protected List<StatusEffect> StatusEffects = new List<StatusEffect>();
+
+    /// <summary>
+    /// Returns true if it could be successfully added as a new status effect. False if it is stacking, or can't add.
+    /// ONLY call this from within BattleDirector's AddStatus
+    /// </summary>
+    /// <param name="effect">The status effect to add.</param>
+    /// <returns></returns>
+    public bool AddStatusEffect(StatusEffect effect)
+    {
+        int index = StatusEffects.FindIndex(sEff => sEff.StatusName == effect.StatusName);
+        if (index != -1) //If status of same name -> stack -> return false
+        {
+            StatusEffects[index].StackEffect(effect);
+            return false;
+        }
+        if (StatusEffects.Count >= MaxStatuses)
+            return false; //Max status effects -> return false
+
+        //Add status effect -> true
+        _statusContainer.AddChild(effect);
+        effect.SetOwner(this);
+        StatusEffects.Add(effect);
+        return true;
+    }
+
+    public void RemoveStatusEffect(StatusEffect effect)
+    {
+        _statusContainer.RemoveChild(effect);
+        StatusEffects.Remove(effect);
+        effect.QueueFree();
+    }
+    #endregion
 }

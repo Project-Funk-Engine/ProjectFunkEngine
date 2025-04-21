@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://bi5iqbwpsd381"]
+[gd_scene load_steps=9 format=3 uid="uid://bi5iqbwpsd381"]
 
 [ext_resource type="Script" uid="uid://bpyrrnhvisxgv" path="res://Scenes/Puppets/Enemies/BossBlood/P_BossBlood.cs" id="1_qj2oj"]
+[ext_resource type="PackedScene" uid="uid://cdoguwlxehbpg" path="res://Scenes/Puppets/StatusContainer.tscn" id="2_b8x7h"]
 [ext_resource type="Texture2D" uid="uid://veedngaorx3l" path="res://Scenes/Puppets/Enemies/BossBlood/Assets/Boss1.png" id="2_mul30"]
 [ext_resource type="Texture2D" uid="uid://b2iptr3o8rg4t" path="res://Scenes/Puppets/Enemies/BossBlood/Assets/Boss1EmissionShape.tres" id="3_yxnso"]
 [ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://Scenes/Puppets/HealthBar.tscn" id="4_ffkxf"]
@@ -22,11 +23,16 @@ scale_min = 4.0
 scale_max = 4.0
 turbulence_noise_strength = 14.2
 
-[node name="EnemPuppet" type="Node2D" node_paths=PackedStringArray("HealthBar", "Sprite")]
+[node name="EnemPuppet" type="Node2D" node_paths=PackedStringArray("HealthBar", "Sprite", "_statusContainer")]
 script = ExtResource("1_qj2oj")
 HealthBar = NodePath("ProgressBar")
 Sprite = NodePath("Sprite")
 InitScale = Vector2(2, 2)
+_statusContainer = NodePath("StatusContainer")
+
+[node name="StatusContainer" parent="." instance=ExtResource("2_b8x7h")]
+offset_top = -105.0
+offset_bottom = -69.0
 
 [node name="Sprite" type="Sprite2D" parent="."]
 position = Vector2(0, -32)
