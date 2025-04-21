@@ -74,4 +74,9 @@ public partial class Note : Resource, IDisplayable
     {
         return _baseVal;
     }
+
+    public void SetBaseVal(int val)
+    {
+        _baseVal = val;
+    }
 }

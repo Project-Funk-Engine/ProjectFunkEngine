@@ -113,6 +113,39 @@ public partial class Scribe : Node
                 director.AddStatus(Targetting.Player, StatusEffect.Block.GetInstance()); //todo: should scale with timing????
             }
         ),
+        new Note(
+            7,
+            "PlayerExplosive",
+            "Deals damage to all enemies.",
+            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerExplosive.png"),
+            null,
+            1,
+            (director, note, timing) =>
+            {
+                if (timing == Timing.Miss)
+                    return;
+                director.DealDamage(Targetting.All, (int)timing * note.GetBaseVal(), null);
+            },
+            1f,
+            Targetting.All
+        ),
+        new Note(
+            8,
+            "PlayerEcho",
+            "Deals more damage with each loop.",
+            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerEcho.png"),
+            null,
+            1,
+            (director, note, timing) =>
+            {
+                if (timing == Timing.Miss)
+                    return;
+                GD.Print($"Dealing {note.GetBaseVal()} damage");
+                director.DealDamage(note, (int)timing * note.GetBaseVal(), director.Player);
+                note.SetBaseVal(note.GetBaseVal() + 1);
+                GD.Print($"Increasing to {note.GetBaseVal()} damage.");
+            }
+        ),
     };
 
     public static readonly RelicTemplate[] RelicDictionary = new[]
