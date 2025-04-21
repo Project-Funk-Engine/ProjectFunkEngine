@@ -65,7 +65,11 @@ public partial class Inventory : Control, IFocusableMenu
                 _tabs.GetTabBar().FocusNeighborBottom = null;
         }
 
-        if (@event.IsActionPressed("ui_cancel") || @event.IsActionPressed("Inventory"))
+        if (
+            @event.IsActionPressed("ui_cancel")
+            || @event.IsActionPressed("WASD_inventory")
+            || @event.IsActionPressed("CONTROLLER_inventory")
+        )
         {
             ReturnToPrev();
             GetViewport().SetInputAsHandled();

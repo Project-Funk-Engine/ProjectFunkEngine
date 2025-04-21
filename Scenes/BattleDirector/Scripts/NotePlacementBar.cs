@@ -215,7 +215,10 @@ public partial class NotePlacementBar : Node
     {
         if (!CanPlaceNote())
             GD.PushWarning("Note is attempting placement without a full bar!");
-        Note placedNote = GetNote(Input.IsActionPressed("Secondary"));
+        string inputType = SaveSystem
+            .GetConfigValue(SaveSystem.ConfigSettings.InputType)
+            .ToString();
+        Note placedNote = GetNote(Input.IsActionPressed(inputType + "_secondaryPlacement"));
         CurrentBarValue -= placedNote.CostModifier * MaxValue;
         ClearColors();
         return placedNote;
