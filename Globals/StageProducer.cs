@@ -13,7 +13,13 @@ public partial class StageProducer : Node
 
     public static readonly RandomNumberGenerator GlobalRng = new();
 
-    public static Vector2I MapSize { get; } = new(7, 6); //For now, make width an odd number
+    private static readonly MapGrid.MapConfig FirstMapConfig = new MapGrid.MapConfig(
+        7,
+        6,
+        3,
+        [10, 1]
+    ).AddSetRoom(3, Stages.Chest);
+
     public static MapGrid Map { get; } = new();
     private Stages _curStage = Stages.Title;
     public static int CurRoom { get; private set; }
@@ -53,7 +59,7 @@ public partial class StageProducer : Node
     private void GenerateMapConsistent()
     {
         GlobalRng.State = GlobalRng.Seed << 5 / 2; //Fudge seed state, to get consistent maps across new/loaded games
-        Map.InitMapGrid(MapSize.X, MapSize.Y, 3);
+        Map.InitMapGrid(FirstMapConfig);
     }
 
     private void StartNewGame()
