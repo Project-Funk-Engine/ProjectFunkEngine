@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FunkEngine.Classes.MidiMaestro;
 using Godot;
@@ -305,6 +306,53 @@ public class MapGrid
             if (Children.Contains(newIdx))
                 return;
             Children = Children.Append(newIdx).ToArray();
+        }
+    }
+
+    public struct MapConfig
+    {
+        public int Width { get; private set; }
+        public int Height { get; private set; }
+        public int Paths { get; private set; }
+
+        /// <summary>
+        /// Rooms that exist at set levels, only one room can be set per y-level.
+        /// </summary>
+        public Dictionary<int, Stages> SetRooms { get; private set; } =
+            new()
+            {
+                { 0, Stages.Battle }, //The first, e.g. y = 0 room, should always be a battle.
+            };
+
+        public const int NumStages = 2;
+
+        public static readonly Stages[] StagsToRoll = new[] { Stages.Battle, Stages.Chest };
+
+        /// <summary>
+        /// The odds for each stage to appear in a non-set room position.
+        /// </summary>
+        public float[] StageOdds = new float[2];
+
+        public MapConfig(int width, int height, int paths, float[] odds)
+        {
+            Width = width;
+            Height = height;
+            Paths = paths;
+            for (int i = 0; i < NumStages; i++)
+            {
+                StageOdds[i] = odds[i];
+            }
+        }
+
+        /// <summary>
+        /// Adds a set room type to be generated guaranteed. Additional entries in the same y-level are ignored.
+        /// </summary>
+        /// <param name="height">The y-level of the rooms</param>
+        /// <param name="roomType">The room type to be set.</param>
+        public MapConfig AddSetRoom(int height, Stages roomType)
+        {
+            SetRooms.TryAdd(height, roomType);
+            return this;
         }
     }
 
