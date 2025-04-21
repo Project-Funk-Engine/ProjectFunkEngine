@@ -56,7 +56,10 @@ public partial class MenuModule : CanvasLayer, IFocusableMenu
         {
             OpenPauseMenu();
         }
-        if (@event.IsActionPressed("Inventory"))
+        if (
+            @event.IsActionPressed("WASD_inventory")
+            || @event.IsActionPressed("CONTROLLER_inventory")
+        )
         {
             var invenMenu = GD.Load<PackedScene>(Inventory.LoadPath).Instantiate<Inventory>();
             AddChild(invenMenu);

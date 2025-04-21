@@ -1,23 +1,32 @@
-[gd_scene load_steps=10 format=3 uid="uid://bew23sumjs0fg"]
+[gd_scene load_steps=19 format=3 uid="uid://bew23sumjs0fg"]
 
 [ext_resource type="Script" uid="uid://lnlfcp1n0mad" path="res://Scenes/UI/Remapping/ControlSettings.cs" id="1_ir12b"]
 [ext_resource type="Texture2D" uid="uid://ck16vyh1q68ri" path="res://Scenes/UI/Assets/UI_ForestBackground.png" id="2_tqdi0"]
-[ext_resource type="Texture2D" uid="uid://dbjotl0v1ymia" path="res://SharedAssets/BattleFrame1.png" id="3_4uyjb"]
 [ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="3_wr01w"]
+[ext_resource type="Texture2D" uid="uid://8u3xvcma81d" path="res://Scenes/UI/Assets/UI_CrystalFrame.png" id="4_8jqfi"]
 [ext_resource type="Texture2D" uid="uid://xtygvpk7s8e4" path="res://SharedAssets/NoteArrow_Black_Outline.png" id="4_se2m3"]
-[ext_resource type="Texture2D" uid="uid://cr6wtf6j6dcfg" path="res://Scenes/UI/Remapping/Assets/Arrow_Left_Key_Light.png" id="5_xn13c"]
-[ext_resource type="Texture2D" uid="uid://q14p8ypgc43t" path="res://Scenes/UI/Remapping/Assets/Arrow_Down_Key_Light.png" id="6_qrl0g"]
-[ext_resource type="Texture2D" uid="uid://p06451gq2ujc" path="res://Scenes/UI/Remapping/Assets/Arrow_Up_Key_Light.png" id="7_1a2jy"]
-[ext_resource type="Texture2D" uid="uid://dvlekute37smy" path="res://Scenes/UI/Remapping/Assets/Arrow_Right_Key_Light.png" id="8_o7swo"]
+[ext_resource type="Texture2D" uid="uid://ucxkeg8mkugt" path="res://Scenes/UI/Remapping/Assets/A.png" id="6_rrvpi"]
+[ext_resource type="Texture2D" uid="uid://e4dr0lk7ll0e" path="res://Scenes/UI/Remapping/Assets/W.png" id="7_kgn1x"]
+[ext_resource type="Texture2D" uid="uid://bhjl3xnuwauu0" path="res://Scenes/UI/Remapping/Assets/S.png" id="8_40ke1"]
+[ext_resource type="Texture2D" uid="uid://bpic7oh05r5fp" path="res://Scenes/UI/Remapping/Assets/D.png" id="9_qhhwk"]
+[ext_resource type="Texture2D" uid="uid://x0lkes1kb2wx" path="res://Scenes/UI/Remapping/Assets/Shift.png" id="10_kjodb"]
+[ext_resource type="Texture2D" uid="uid://dhnaqfw7ev076" path="res://Scenes/UI/Remapping/Assets/Joypad Button 2 (Left Action, Sony Square, Xbox X, Nintendo Y).png" id="11_8jqfi"]
+[ext_resource type="Texture2D" uid="uid://re655u6o4j04" path="res://Scenes/UI/Remapping/Assets/I.png" id="11_khkcs"]
+[ext_resource type="Texture2D" uid="uid://dlj21le4bp7cw" path="res://Scenes/UI/Remapping/Assets/Joypad Button 3 (Top Action, Sony Triangle, Xbox Y, Nintendo X).png" id="12_8iace"]
+[ext_resource type="Texture2D" uid="uid://d2228hw1busi" path="res://Scenes/UI/Remapping/Assets/Joypad Button 0 (Bottom Action, Sony Cross, Xbox A, Nintendo B).png" id="13_4nu1q"]
+[ext_resource type="Texture2D" uid="uid://bm2i63ejobjdb" path="res://Scenes/UI/Remapping/Assets/Joypad Button 1 (Right Action, Sony Circle, Xbox B, Nintendo A).png" id="14_sl0ys"]
+[ext_resource type="Texture2D" uid="uid://qjpltqou5xw2" path="res://Scenes/UI/Remapping/Assets/Joypad Button 10 (Right Shoulder, Sony R1, Xbox RB).png" id="15_06kfn"]
+[ext_resource type="Texture2D" uid="uid://cpxcg12lovxu5" path="res://Scenes/UI/Remapping/Assets/Joypad Button 4 (Back, Sony Select, Xbox Back, Nintendo -).png" id="16_s0mtp"]
+[ext_resource type="Texture2D" uid="uid://djd6iw2g84bba" path="res://Scenes/UI/Assets/UI_CenterFrame.png" id="18_8iace"]
 
-[node name="Remap" type="Node2D" node_paths=PackedStringArray("LeftKey", "RightKey", "UpKey", "DownKey", "_closeButton")]
+[node name="Remap" type="Node2D" node_paths=PackedStringArray("_closeButton", "_remapPopup", "_remapLabel", "_remapTimer", "_remapTabs")]
 process_mode = 3
 script = ExtResource("1_ir12b")
-LeftKey = NodePath("Panel/Control/LeftRemap")
-RightKey = NodePath("Panel/Control/RightRemap")
-UpKey = NodePath("Panel/Control/UpRemap")
-DownKey = NodePath("Panel/Control/DownRemap")
 _closeButton = NodePath("Panel/TitleButton")
+_remapPopup = NodePath("RemapPopup")
+_remapLabel = NodePath("RemapPopup/Label2")
+_remapTimer = NodePath("RemapPopup/Timer")
+_remapTabs = NodePath("Panel/TabContainer")
 
 [node name="Background" type="NinePatchRect" parent="."]
 offset_right = 640.0
@@ -39,133 +48,546 @@ offset_top = 11.0
 offset_right = 642.0
 offset_bottom = 34.0
 theme_override_font_sizes/font_size = 32
-text = "Choose Control Scheme"
+text = "CONTROLS_CHOOSE_SCHEME"
 horizontal_alignment = 1
-
-[node name="WASDButton" type="Button" parent="Panel"]
-layout_mode = 0
-offset_left = 507.0
-offset_top = 54.0
-offset_right = 515.0
-offset_bottom = 62.0
-focus_neighbor_left = NodePath("../ControllerButton")
-theme = ExtResource("3_wr01w")
-text = "CONTROLS_WASD_BUTTON"
-
-[node name="ArrowButton" type="Button" parent="Panel"]
-layout_mode = 0
-offset_left = 399.0
-offset_top = 94.0
-offset_right = 495.0
-offset_bottom = 125.0
-theme = ExtResource("3_wr01w")
-text = "CONTROLS_ARROW_BUTTON"
-
-[node name="QWERTButton" type="Button" parent="Panel"]
-layout_mode = 0
-offset_left = 507.0
-offset_top = 94.0
-offset_right = 603.0
-offset_bottom = 125.0
-theme = ExtResource("3_wr01w")
-text = "CONTROLS_QWER_BUTTON"
-
-[node name="ControllerButton" type="Button" parent="Panel"]
-layout_mode = 0
-offset_left = 399.0
-offset_top = 57.0
-offset_right = 486.0
-offset_bottom = 88.0
-focus_neighbor_right = NodePath("../WASDButton")
-theme = ExtResource("3_wr01w")
-text = "CONTROLS_CONTROLLER_BUTTON"
 
 [node name="TitleButton" type="Button" parent="Panel"]
 layout_mode = 0
 offset_left = 232.0
-offset_top = 320.0
-offset_right = 408.0
-offset_bottom = 351.0
+offset_top = 306.0
+offset_right = 415.0
+offset_bottom = 343.0
 theme = ExtResource("3_wr01w")
 text = "CONTROLS_RETURN_BUTTON"
 
-[node name="Control" type="Control" parent="Panel"]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="TabContainer" type="TabContainer" parent="Panel"]
+layout_mode = 0
+offset_left = 101.0
+offset_top = 52.0
+offset_right = 553.0
+offset_bottom = 301.0
+current_tab = 0
 
-[node name="BG" type="Sprite2D" parent="Panel/Control"]
-position = Vector2(320, 221)
-texture = ExtResource("3_4uyjb")
+[node name="CONTROLS_KEYBOARD" type="Control" parent="Panel/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
 
-[node name="Left" type="Sprite2D" parent="Panel/Control"]
-position = Vector2(144, 160)
+[node name="LeftArrowButton" type="Button" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
+z_index = 1
+layout_mode = 0
+offset_left = 60.0
+offset_top = 21.0
+offset_right = 103.0
+offset_bottom = 64.0
+focus_neighbor_left = NodePath("../RightArrowButton")
+focus_neighbor_right = NodePath("../RightArrowButton")
+focus_neighbor_bottom = NodePath("../UpArrowButton")
+theme = ExtResource("3_wr01w")
+
+[node name="RightArrowButton" type="Button" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
+z_index = 1
+layout_mode = 0
+offset_left = 258.0
+offset_top = 21.0
+offset_right = 301.0
+offset_bottom = 64.0
+focus_neighbor_left = NodePath("../LeftArrowButton")
+focus_neighbor_right = NodePath("../LeftArrowButton")
+focus_neighbor_bottom = NodePath("../DownArrowButton")
+theme = ExtResource("3_wr01w")
+
+[node name="UpArrowButton" type="Button" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
+z_index = 1
+layout_mode = 0
+offset_left = 60.0
+offset_top = 95.0
+offset_right = 103.0
+offset_bottom = 138.0
+focus_neighbor_left = NodePath("../DownArrowButton")
+focus_neighbor_top = NodePath("../LeftArrowButton")
+focus_neighbor_right = NodePath("../DownArrowButton")
+focus_neighbor_bottom = NodePath("../SecondaryPlacementButton")
+theme = ExtResource("3_wr01w")
+
+[node name="DownArrowButton" type="Button" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
+z_index = 1
+layout_mode = 0
+offset_left = 258.0
+offset_top = 95.0
+offset_right = 301.0
+offset_bottom = 138.0
+focus_neighbor_left = NodePath("../UpArrowButton")
+focus_neighbor_top = NodePath("../RightArrowButton")
+focus_neighbor_right = NodePath("../UpArrowButton")
+focus_neighbor_bottom = NodePath("../InventoryButton")
+theme = ExtResource("3_wr01w")
+
+[node name="SecondaryPlacementButton" type="Button" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
+z_index = 1
+layout_mode = 0
+offset_left = 60.0
+offset_top = 169.0
+offset_right = 103.0
+offset_bottom = 212.0
+focus_neighbor_left = NodePath("../InventoryButton")
+focus_neighbor_top = NodePath("../UpArrowButton")
+focus_neighbor_right = NodePath("../InventoryButton")
+focus_neighbor_bottom = NodePath("../../../TitleButton")
+theme = ExtResource("3_wr01w")
+
+[node name="InventoryButton" type="Button" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
+z_index = 1
+layout_mode = 0
+offset_left = 258.0
+offset_top = 169.0
+offset_right = 301.0
+offset_bottom = 212.0
+focus_neighbor_left = NodePath("../SecondaryPlacementButton")
+focus_neighbor_top = NodePath("../DownArrowButton")
+focus_neighbor_right = NodePath("../SecondaryPlacementButton")
+focus_neighbor_bottom = NodePath("../../../TitleButton")
+theme = ExtResource("3_wr01w")
+
+[node name="Left" type="Sprite2D" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
+z_index = 1
+position = Vector2(81, 39)
 rotation = -3.14159
 texture = ExtResource("4_se2m3")
 
-[node name="Up" type="Sprite2D" parent="Panel/Control"]
-position = Vector2(144, 200)
+[node name="Right" type="Sprite2D" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
+z_index = 1
+position = Vector2(279, 39)
+texture = ExtResource("4_se2m3")
+
+[node name="Up" type="Sprite2D" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
+z_index = 1
+position = Vector2(82, 115)
 rotation = -1.5708
 texture = ExtResource("4_se2m3")
 
-[node name="Down" type="Sprite2D" parent="Panel/Control"]
-position = Vector2(144, 243)
+[node name="Down" type="Sprite2D" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
+z_index = 1
+position = Vector2(280, 114)
 rotation = 1.5708
 texture = ExtResource("4_se2m3")
 
-[node name="Right" type="Sprite2D" parent="Panel/Control"]
-position = Vector2(144, 284)
+[node name="TEMPSecondaryButtonText" type="Label" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
+z_index = 1
+layout_mode = 0
+offset_left = 113.0
+offset_top = 31.0
+offset_right = 126.0
+offset_bottom = 54.0
+text = "="
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
+z_index = 1
+layout_mode = 0
+offset_left = 60.0
+offset_top = 169.0
+offset_right = 103.0
+offset_bottom = 205.0
+text = "2nd"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
+z_index = 1
+layout_mode = 0
+offset_left = 113.0
+offset_top = 104.0
+offset_right = 126.0
+offset_bottom = 127.0
+text = "="
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
+z_index = 1
+layout_mode = 0
+offset_left = 311.0
+offset_top = 104.0
+offset_right = 324.0
+offset_bottom = 127.0
+text = "="
+vertical_alignment = 1
+
+[node name="Label4" type="Label" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
+z_index = 1
+layout_mode = 0
+offset_left = 311.0
+offset_top = 31.0
+offset_right = 324.0
+offset_bottom = 54.0
+text = "="
+vertical_alignment = 1
+
+[node name="Label5" type="Label" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
+z_index = 1
+layout_mode = 0
+offset_left = 113.0
+offset_top = 176.0
+offset_right = 126.0
+offset_bottom = 199.0
+text = "="
+vertical_alignment = 1
+
+[node name="Label6" type="Label" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
+z_index = 1
+layout_mode = 0
+offset_left = 258.0
+offset_top = 169.0
+offset_right = 301.0
+offset_bottom = 205.0
+text = "Inv"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label7" type="Label" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
+z_index = 1
+layout_mode = 0
+offset_left = 311.0
+offset_top = 176.0
+offset_right = 324.0
+offset_bottom = 199.0
+text = "="
+vertical_alignment = 1
+
+[node name="LeftArrowKey" type="Sprite2D" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
+z_index = 1
+position = Vector2(155, 42)
+scale = Vector2(0.44, 0.44)
+texture = ExtResource("6_rrvpi")
+
+[node name="UpArrowKey" type="Sprite2D" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
+z_index = 1
+position = Vector2(155, 114)
+scale = Vector2(0.44, 0.44)
+texture = ExtResource("7_kgn1x")
+
+[node name="DownArrowKey" type="Sprite2D" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
+z_index = 1
+position = Vector2(353, 114)
+scale = Vector2(0.44, 0.44)
+texture = ExtResource("8_40ke1")
+
+[node name="RightArrowKey" type="Sprite2D" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
+z_index = 1
+position = Vector2(353, 42)
+scale = Vector2(0.44, 0.44)
+texture = ExtResource("9_qhhwk")
+
+[node name="SecondaryPlacementKey" type="Sprite2D" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
+z_index = 1
+position = Vector2(155, 186)
+scale = Vector2(0.44, 0.44)
+texture = ExtResource("10_kjodb")
+
+[node name="InventoryKey" type="Sprite2D" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
+z_index = 1
+position = Vector2(353, 186)
+scale = Vector2(0.44, 0.44)
+texture = ExtResource("11_khkcs")
+
+[node name="SelectionBG" type="NinePatchRect" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
+self_modulate = Color(1, 1, 1, 0.75)
+custom_minimum_size = Vector2(540, 103)
+layout_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -44.0
+offset_right = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("4_8jqfi")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 7
+
+[node name="CONTROLS_CONTROLLER" type="Control" parent="Panel/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="LeftArrowButton" type="Button" parent="Panel/TabContainer/CONTROLS_CONTROLLER"]
+z_index = 1
+layout_mode = 0
+offset_left = 60.0
+offset_top = 21.0
+offset_right = 103.0
+offset_bottom = 64.0
+focus_neighbor_left = NodePath("../RightArrowButton")
+focus_neighbor_right = NodePath("../RightArrowButton")
+focus_neighbor_bottom = NodePath("../UpArrowButton")
+theme = ExtResource("3_wr01w")
+
+[node name="RightArrowButton" type="Button" parent="Panel/TabContainer/CONTROLS_CONTROLLER"]
+z_index = 1
+layout_mode = 0
+offset_left = 258.0
+offset_top = 21.0
+offset_right = 301.0
+offset_bottom = 64.0
+focus_neighbor_left = NodePath("../LeftArrowButton")
+focus_neighbor_right = NodePath("../LeftArrowButton")
+focus_neighbor_bottom = NodePath("../DownArrowButton")
+theme = ExtResource("3_wr01w")
+
+[node name="UpArrowButton" type="Button" parent="Panel/TabContainer/CONTROLS_CONTROLLER"]
+z_index = 1
+layout_mode = 0
+offset_left = 60.0
+offset_top = 95.0
+offset_right = 103.0
+offset_bottom = 138.0
+focus_neighbor_left = NodePath("../DownArrowButton")
+focus_neighbor_top = NodePath("../LeftArrowButton")
+focus_neighbor_right = NodePath("../DownArrowButton")
+focus_neighbor_bottom = NodePath("../SecondaryPlacementButton")
+theme = ExtResource("3_wr01w")
+
+[node name="DownArrowButton" type="Button" parent="Panel/TabContainer/CONTROLS_CONTROLLER"]
+z_index = 1
+layout_mode = 0
+offset_left = 258.0
+offset_top = 95.0
+offset_right = 301.0
+offset_bottom = 138.0
+focus_neighbor_left = NodePath("../UpArrowButton")
+focus_neighbor_top = NodePath("../RightArrowButton")
+focus_neighbor_right = NodePath("../UpArrowButton")
+focus_neighbor_bottom = NodePath("../InventoryButton")
+theme = ExtResource("3_wr01w")
+
+[node name="SecondaryPlacementButton" type="Button" parent="Panel/TabContainer/CONTROLS_CONTROLLER"]
+z_index = 1
+layout_mode = 0
+offset_left = 60.0
+offset_top = 169.0
+offset_right = 103.0
+offset_bottom = 212.0
+focus_neighbor_left = NodePath("../InventoryButton")
+focus_neighbor_top = NodePath("../UpArrowButton")
+focus_neighbor_right = NodePath("../InventoryButton")
+focus_neighbor_bottom = NodePath("../../../TitleButton")
+theme = ExtResource("3_wr01w")
+
+[node name="InventoryButton" type="Button" parent="Panel/TabContainer/CONTROLS_CONTROLLER"]
+z_index = 1
+layout_mode = 0
+offset_left = 258.0
+offset_top = 169.0
+offset_right = 301.0
+offset_bottom = 212.0
+focus_neighbor_left = NodePath("../SecondaryPlacementButton")
+focus_neighbor_top = NodePath("../DownArrowButton")
+focus_neighbor_right = NodePath("../SecondaryPlacementButton")
+focus_neighbor_bottom = NodePath("../../../TitleButton")
+theme = ExtResource("3_wr01w")
+
+[node name="Left" type="Sprite2D" parent="Panel/TabContainer/CONTROLS_CONTROLLER"]
+z_index = 1
+position = Vector2(81, 39)
+rotation = -3.14159
 texture = ExtResource("4_se2m3")
 
-[node name="Label" type="Label" parent="Panel/Control"]
+[node name="Up" type="Sprite2D" parent="Panel/TabContainer/CONTROLS_CONTROLLER"]
+z_index = 1
+position = Vector2(82, 115)
+rotation = -1.5708
+texture = ExtResource("4_se2m3")
+
+[node name="Right" type="Sprite2D" parent="Panel/TabContainer/CONTROLS_CONTROLLER"]
+z_index = 1
+position = Vector2(279, 39)
+texture = ExtResource("4_se2m3")
+
+[node name="Down" type="Sprite2D" parent="Panel/TabContainer/CONTROLS_CONTROLLER"]
+z_index = 1
+position = Vector2(280, 114)
+rotation = 1.5708
+texture = ExtResource("4_se2m3")
+
+[node name="TEMPSecondaryButtonText" type="Label" parent="Panel/TabContainer/CONTROLS_CONTROLLER"]
+z_index = 1
 layout_mode = 0
-offset_left = 176.0
-offset_top = 149.0
-offset_right = 189.0
-offset_bottom = 172.0
+offset_left = 113.0
+offset_top = 31.0
+offset_right = 126.0
+offset_bottom = 54.0
 text = "="
+vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="Panel/Control"]
+[node name="Label" type="Label" parent="Panel/TabContainer/CONTROLS_CONTROLLER"]
+z_index = 1
 layout_mode = 0
-offset_left = 176.0
-offset_top = 189.0
-offset_right = 189.0
-offset_bottom = 212.0
-text = "="
+offset_left = 60.0
+offset_top = 169.0
+offset_right = 103.0
+offset_bottom = 205.0
+text = "2nd"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Label3" type="Label" parent="Panel/Control"]
+[node name="Label2" type="Label" parent="Panel/TabContainer/CONTROLS_CONTROLLER"]
+z_index = 1
 layout_mode = 0
-offset_left = 176.0
-offset_top = 234.0
-offset_right = 189.0
-offset_bottom = 257.0
+offset_left = 113.0
+offset_top = 104.0
+offset_right = 126.0
+offset_bottom = 127.0
 text = "="
+vertical_alignment = 1
 
-[node name="Label4" type="Label" parent="Panel/Control"]
+[node name="Label3" type="Label" parent="Panel/TabContainer/CONTROLS_CONTROLLER"]
+z_index = 1
 layout_mode = 0
-offset_left = 176.0
-offset_top = 274.0
-offset_right = 189.0
-offset_bottom = 297.0
+offset_left = 311.0
+offset_top = 104.0
+offset_right = 324.0
+offset_bottom = 127.0
 text = "="
+vertical_alignment = 1
 
-[node name="LeftRemap" type="Sprite2D" parent="Panel/Control"]
-position = Vector2(225, 160)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("5_xn13c")
+[node name="Label4" type="Label" parent="Panel/TabContainer/CONTROLS_CONTROLLER"]
+z_index = 1
+layout_mode = 0
+offset_left = 311.0
+offset_top = 31.0
+offset_right = 324.0
+offset_bottom = 54.0
+text = "="
+vertical_alignment = 1
 
-[node name="UpRemap" type="Sprite2D" parent="Panel/Control"]
-position = Vector2(225, 200)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("7_1a2jy")
+[node name="Label5" type="Label" parent="Panel/TabContainer/CONTROLS_CONTROLLER"]
+z_index = 1
+layout_mode = 0
+offset_left = 113.0
+offset_top = 176.0
+offset_right = 126.0
+offset_bottom = 199.0
+text = "="
+vertical_alignment = 1
 
-[node name="DownRemap" type="Sprite2D" parent="Panel/Control"]
-position = Vector2(225, 243)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("6_qrl0g")
+[node name="Label6" type="Label" parent="Panel/TabContainer/CONTROLS_CONTROLLER"]
+z_index = 1
+layout_mode = 0
+offset_left = 258.0
+offset_top = 169.0
+offset_right = 301.0
+offset_bottom = 205.0
+text = "Inv"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="RightRemap" type="Sprite2D" parent="Panel/Control"]
-position = Vector2(225, 284)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("8_o7swo")
+[node name="Label7" type="Label" parent="Panel/TabContainer/CONTROLS_CONTROLLER"]
+z_index = 1
+layout_mode = 0
+offset_left = 311.0
+offset_top = 176.0
+offset_right = 324.0
+offset_bottom = 199.0
+text = "="
+vertical_alignment = 1
+
+[node name="LeftArrowKey" type="Sprite2D" parent="Panel/TabContainer/CONTROLS_CONTROLLER"]
+z_index = 1
+position = Vector2(155, 42)
+scale = Vector2(0.44, 0.44)
+texture = ExtResource("11_8jqfi")
+
+[node name="RightArrowKey" type="Sprite2D" parent="Panel/TabContainer/CONTROLS_CONTROLLER"]
+z_index = 1
+position = Vector2(353, 42)
+scale = Vector2(0.44, 0.44)
+texture = ExtResource("14_sl0ys")
+
+[node name="UpArrowKey" type="Sprite2D" parent="Panel/TabContainer/CONTROLS_CONTROLLER"]
+z_index = 1
+position = Vector2(155, 114)
+scale = Vector2(0.44, 0.44)
+texture = ExtResource("12_8iace")
+
+[node name="DownArrowKey" type="Sprite2D" parent="Panel/TabContainer/CONTROLS_CONTROLLER"]
+z_index = 1
+position = Vector2(353, 114)
+scale = Vector2(0.44, 0.44)
+texture = ExtResource("13_4nu1q")
+
+[node name="SecondaryPlacementKey" type="Sprite2D" parent="Panel/TabContainer/CONTROLS_CONTROLLER"]
+z_index = 1
+position = Vector2(155, 186)
+scale = Vector2(0.44, 0.44)
+texture = ExtResource("15_06kfn")
+
+[node name="InventoryKey" type="Sprite2D" parent="Panel/TabContainer/CONTROLS_CONTROLLER"]
+z_index = 1
+position = Vector2(353, 186)
+scale = Vector2(0.44, 0.44)
+texture = ExtResource("16_s0mtp")
+
+[node name="SelectionBG" type="NinePatchRect" parent="Panel/TabContainer/CONTROLS_CONTROLLER"]
+self_modulate = Color(1, 1, 1, 0.75)
+custom_minimum_size = Vector2(540, 103)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -44.0
+offset_right = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("4_8jqfi")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 7
+
+[node name="RemapPopup" type="Panel" parent="."]
+visible = false
+z_index = 1
+offset_left = 136.0
+offset_top = 102.0
+offset_right = 508.0
+offset_bottom = 260.0
+
+[node name="SelectionBG" type="NinePatchRect" parent="RemapPopup"]
+self_modulate = Color(1, 1, 1, 0.75)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("18_8iace")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 7
+
+[node name="Label" type="Label" parent="RemapPopup"]
+layout_mode = 0
+offset_top = 36.0
+offset_right = 372.0
+offset_bottom = 59.0
+text = "CONTROLS_CHOOSE_BUTTON"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="RemapPopup"]
+layout_mode = 0
+offset_top = 111.0
+offset_right = 372.0
+offset_bottom = 135.0
+theme_override_font_sizes/font_size = 32
+text = "5"
+horizontal_alignment = 1
+
+[node name="Timer" type="Timer" parent="RemapPopup"]
+wait_time = 5.0

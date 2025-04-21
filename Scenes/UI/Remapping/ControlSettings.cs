@@ -1,94 +1,161 @@
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using FunkEngine;
 using Godot;
 
 public partial class ControlSettings : Node2D, IFocusableMenu
-{
+{ //TODO: Add messages when an invalid key is attempted to be set.
     public static readonly string LoadPath = "res://Scenes/UI/Remapping/Remap.tscn";
 
-    [Export]
-    public Sprite2D LeftKey;
-
-    [Export]
-    public Sprite2D RightKey;
-
-    [Export]
-    public Sprite2D UpKey;
-
-    [Export]
-    public Sprite2D DownKey;
-
     public IFocusableMenu Prev { get; set; }
+    private Control _focused;
 
     [Export]
     private Button _closeButton;
 
-    private Button _controllerButton;
+    [Export]
+    private Panel _remapPopup;
 
-    private static readonly Dictionary<string, Dictionary<string, string>> SpriteMappings = new()
+    [Export]
+    private Label _remapLabel;
+
+    [Export]
+    private Timer _remapTimer;
+
+    private static readonly string IconPath = "res://Scenes/UI/Remapping/Assets/";
+
+    [Export]
+    private TabContainer _remapTabs;
+    private Key _tempKeyboardKey;
+    private JoyButton _tempJoyButton;
+    private string _chosenKey = "";
+
+    //These just don't play well with inputs
+    private readonly HashSet<Key> _invalidKeys = new HashSet<Key>
     {
-        {
-            "WASD",
-            new Dictionary<string, string>
-            {
-                { "left", "res://Scenes/UI/Remapping/Assets/A_Key_Light.png" },
-                { "right", "res://Scenes/UI/Remapping/Assets/D_Key_Light.png" },
-                { "up", "res://Scenes/UI/Remapping/Assets/W_Key_Light.png" },
-                { "down", "res://Scenes/UI/Remapping/Assets/S_Key_Light.png" },
-            }
-        },
-        {
-            "ARROWS",
-            new Dictionary<string, string>
-            {
-                { "left", "res://Scenes/UI/Remapping/Assets/Arrow_Left_Key_Light.png" },
-                { "right", "res://Scenes/UI/Remapping/Assets/Arrow_Right_Key_Light.png" },
-                { "up", "res://Scenes/UI/Remapping/Assets/Arrow_Up_Key_Light.png" },
-                { "down", "res://Scenes/UI/Remapping/Assets/Arrow_Down_Key_Light.png" },
-            }
-        },
-        {
-            "QWERT",
-            new Dictionary<string, string>
-            {
-                { "left", "res://Scenes/UI/Remapping/Assets/Q_Key_Light.png" },
-                { "right", "res://Scenes/UI/Remapping/Assets/R_Key_Light.png" },
-                { "up", "res://Scenes/UI/Remapping/Assets/W_Key_Light.png" },
-                { "down", "res://Scenes/UI/Remapping/Assets/E_Key_Light.png" },
-            }
-        },
-        {
-            "CONTROLLER",
-            new Dictionary<string, string>
-            {
-                { "left", "res://Scenes/UI/Remapping/Assets/Positional_Prompts_Left.png" },
-                { "right", "res://Scenes/UI/Remapping/Assets/Positional_Prompts_Right.png" },
-                { "up", "res://Scenes/UI/Remapping/Assets/Positional_Prompts_Up.png" },
-                { "down", "res://Scenes/UI/Remapping/Assets/Positional_Prompts_Down.png" },
-            }
-        },
+        Key.Ctrl,
+        Key.Meta,
+        Key.Alt,
+        Key.Insert,
+        Key.Home,
+        Key.End,
+        Key.Delete,
+        Key.Pagedown,
+        Key.Pageup,
+        Key.Print,
+        Key.Scrolllock,
+        Key.Pause,
+        Key.Escape,
+        Key.Numlock,
     };
 
+    #region String Definition Spam
+    //The below arrays should be aligned, e.g. all things representing left arrow should be at 0
+    private const int InputOptions = 6; //1 for each button on an input tab.
+    private readonly Sprite2D[] _inputSprites = new Sprite2D[InputOptions * 2];
+
+    private readonly string[] _inputNodeNames =
+    [
+        "LeftArrow",
+        "RightArrow",
+        "UpArrow",
+        "DownArrow",
+        "SecondaryPlacement",
+        "Inventory",
+    ];
+
+    private readonly string[] _inputSuffixes =
+    [
+        "_arrowLeft",
+        "_arrowRight",
+        "_arrowUp",
+        "_arrowDown",
+        "_secondaryPlacement",
+        "_inventory", //TODO: Bag icon, since we can't translate Inv similarly in chinese.
+    ];
+
+    private readonly string[] _inputMapNames =
+    [
+        "WASD_arrowLeft",
+        "WASD_arrowRight",
+        "WASD_arrowUp",
+        "WASD_arrowDown",
+        "WASD_secondaryPlacement",
+        "WASD_inventory",
+        "CONTROLLER_arrowLeft",
+        "CONTROLLER_arrowRight",
+        "CONTROLLER_arrowUp",
+        "CONTROLLER_arrowDown",
+        "CONTROLLER_secondaryPlacement",
+        "CONTROLLER_inventory",
+        "Pause",
+    ];
+
+    private const string KeyboardPrefix = "WASD";
+    private const string JoyPrefix = "CONTROLLER";
+    private const string KeyboardTabPath = "Panel/TabContainer/CONTROLS_KEYBOARD/";
+    private const string JoyTabPath = "Panel/TabContainer/CONTROLS_CONTROLLER/";
+    private const string ButtonNameSuffix = "Button";
+    private const string SpriteNameSuffix = "Key";
+    #endregion
+
+    #region Initialization
+    //To think about: Setting things in export arrays.
     public override void _Ready()
     {
-        GetNode<Button>("Panel/WASDButton").Connect("pressed", Callable.From(OnWASDButtonPressed));
-        GetNode<Button>("Panel/ArrowButton")
-            .Connect("pressed", Callable.From(OnArrowButtonPressed));
-        GetNode<Button>("Panel/QWERTButton")
-            .Connect("pressed", Callable.From(OnQWERTButtonPressed));
-        _controllerButton = GetNode<Button>("Panel/ControllerButton");
-        _controllerButton.Connect("pressed", Callable.From(OnControllerButtonPressed));
+        //Sets up buttons in scene, for each button, sets its pressed event
+        for (int i = 0; i < _inputNodeNames.Length; i++)
+        {
+            string keyboardPath = KeyboardTabPath + _inputNodeNames[i] + ButtonNameSuffix;
+            string controllerPath = JoyTabPath + _inputNodeNames[i] + ButtonNameSuffix;
+            var i1 = i; //Lambda functions capture changes to the value of i, use extra vars
+            GetNode<Button>(keyboardPath).Pressed += () => OnRemapButtonPressed(_inputSuffixes[i1]);
+            var i2 = i;
+            GetNode<Button>(controllerPath).Pressed += () =>
+                OnRemapButtonPressed(_inputSuffixes[i2]);
+        }
 
-        ControllerConnectionChanged(-1, false);
-        Input.JoyConnectionChanged += ControllerConnectionChanged;
+        _remapTabs.CurrentTab =
+            SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.InputType).ToString()
+            == KeyboardPrefix
+                ? 0
+                : 1;
 
+        _remapTimer.Timeout += OnTimerEnd;
+        _remapTabs.TabChanged += (_) => ChangeInputType();
         _closeButton.Pressed += ReturnToPrev;
+
+        InitInputSprites();
+    }
+
+    private void InitInputSprites()
+    {
+        for (int i = 0; i < InputOptions; i++)
+        {
+            var path = KeyboardTabPath + _inputNodeNames[i] + SpriteNameSuffix;
+            var sprite = GetNode<Sprite2D>(path);
+            _inputSprites[i] = sprite;
+
+            var jPath = JoyTabPath + _inputNodeNames[i] + SpriteNameSuffix;
+            var jSprite = GetNode<Sprite2D>(jPath);
+            _inputSprites[i + InputOptions] = jSprite;
+        }
+
+        UpdateKeySprites();
+    }
+    #endregion
+
+    #region Focus and Menus
+    public override void _Process(double delta)
+    {
+        if (_remapPopup.Visible)
+            _remapLabel.Text = ((int)_remapTimer.TimeLeft + 1).ToString();
     }
 
     public void ResumeFocus()
     {
         ProcessMode = ProcessModeEnum.Inherit;
-        GetCurrentSelection();
     }
 
     public void PauseFocus()
@@ -101,7 +168,7 @@ public partial class ControlSettings : Node2D, IFocusableMenu
         Prev = prev;
         Prev.PauseFocus();
 
-        GetCurrentSelection();
+        _remapTabs.GetTabControl(_remapTabs.CurrentTab).GetChild<Control>(0).GrabFocus();
     }
 
     public void ReturnToPrev()
@@ -110,96 +177,248 @@ public partial class ControlSettings : Node2D, IFocusableMenu
         QueueFree();
     }
 
-    private void GetCurrentSelection()
+    #endregion
+
+    /// <summary>
+    /// Called from changing tabs, sets correct input type based on selected tab.
+    /// </summary>
+    private void ChangeInputType()
     {
-        string scheme = SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.InputKey).As<string>();
-        switch (scheme)
+        SaveSystem.UpdateConfig(
+            SaveSystem.ConfigSettings.InputType,
+            _remapTabs.CurrentTab == 0 ? KeyboardPrefix : JoyPrefix
+        );
+    }
+
+    /// <summary>
+    /// Updates all the key sprites to the correct sprite, based on what input is set.
+    /// </summary>
+    private void UpdateKeySprites()
+    {
+        for (int i = 0; i < InputOptions * 2; i++)
         {
-            case "ARROWS":
-                OnArrowButtonPressed();
-                GetNode<Button>("Panel/ArrowButton").GrabFocus();
-                break;
-            case "QWERT":
-                OnQWERTButtonPressed();
-                GetNode<Button>("Panel/QWERTButton").GrabFocus();
-                break;
-            case "WASD":
-                OnWASDButtonPressed();
-                GetNode<Button>("Panel/WASDButton").GrabFocus();
-                break;
-            case "CONTROLLER":
-                OnControllerButtonPressed();
-                GetNode<Button>("Panel/ControllerButton").GrabFocus();
-                break;
-            default:
-                _closeButton.GrabFocus();
-                break;
+            var events = InputMap.ActionGetEvents(_inputMapNames[i]);
+            if (events.Count <= 0)
+                continue;
+            string textureName = events[0].AsText();
+
+            // Clean up the texture name
+            if (_inputMapNames[i].StartsWith(KeyboardPrefix))
+                textureName = CleanKeyboardText(textureName);
+            else
+                textureName = textureName.Replace("/", "");
+
+            _inputSprites[i].Texture = GD.Load<Texture2D>($"{IconPath}{textureName}.png");
         }
+    }
+
+    /// <summary>
+    /// Should exclusively be called from pressing a remap button.
+    /// </summary>
+    /// <param name="keyName">The input suffix of the button.</param>
+    private void OnRemapButtonPressed(string keyName)
+    {
+        _chosenKey = keyName;
+        StartInputCountdown();
+    }
+
+    private const int TimeForInput = 5;
+
+    /// <summary>
+    /// Start the input countdown window.
+    /// </summary>
+    private void StartInputCountdown()
+    {
+        _remapLabel.Text = TimeForInput.ToString();
+        _remapTimer.Start(TimeForInput);
+
+        _tempJoyButton = JoyButton.Invalid;
+        _tempKeyboardKey = Key.None;
+        _remapPopup.Visible = true;
+    }
+
+    private void OnTimerEnd()
+    {
+        _remapPopup.Visible = false;
     }
 
     public override void _Input(InputEvent @event)
     {
-        if (!GetWindow().HasFocus())
+        if (_remapPopup.Visible)
         {
-            GetViewport().SetInputAsHandled();
-            return;
+            if (@event.IsActionPressed("ui_cancel"))
+            {
+                _remapTimer.Stop();
+                OnTimerEnd();
+                GetViewport().SetInputAsHandled();
+                return;
+            }
+            if (
+                (@event is InputEventKey || @event is InputEventJoypadButton)
+                && IsUniqueKey(@event.AsText())
+            )
+            {
+                HandleRemapInput(@event);
+                GetViewport().SetInputAsHandled();
+            }
+            else
+            {
+                // when popup is visible we ignore everything except valid remaps
+                GetViewport().SetInputAsHandled();
+            }
         }
-        if (@event.IsActionPressed("ui_cancel"))
+        else if (@event.IsActionPressed("ui_cancel"))
         {
             ReturnToPrev();
             GetViewport().SetInputAsHandled();
         }
     }
 
-    private void OnWASDButtonPressed()
+    /// <summary>
+    /// Parses if the input is a valid button to set, and whether it is a controller input or keyboard.
+    /// </summary>
+    /// <param name="event">The recent input event.</param>
+    private void HandleRemapInput(InputEvent @event)
     {
-        GetNode<Label>("Panel/Label").Text =
-            Tr("CONTROLS_TITLE_TYPE_WASD") + " " + Tr("CONTROLS_TITLE_SELECTED");
-        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKey, "WASD");
-        ChangeKeySprites("WASD");
-    }
+        bool isKeyboard = _remapTabs.CurrentTab == 0;
 
-    private void OnArrowButtonPressed()
-    {
-        GetNode<Label>("Panel/Label").Text =
-            Tr("CONTROLS_TITLE_TYPE_ARROW") + " " + Tr("CONTROLS_TITLE_SELECTED");
-        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKey, "ARROWS");
-        ChangeKeySprites("ARROWS");
-    }
-
-    private void OnQWERTButtonPressed()
-    {
-        GetNode<Label>("Panel/Label").Text =
-            Tr("CONTROLS_TITLE_TYPE_QWER") + " " + Tr("CONTROLS_TITLE_SELECTED");
-        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKey, "QWERT");
-        ChangeKeySprites("QWERT");
-    }
-
-    private void OnControllerButtonPressed()
-    {
-        GetNode<Label>("Panel/Label").Text = "Controller Selected";
-        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputKey, "CONTROLLER");
-        ChangeKeySprites("CONTROLLER");
-    }
-
-    private void ControllerConnectionChanged(long id, bool connected)
-    {
-        _controllerButton.Visible = Input.GetConnectedJoypads().Count > 0;
-        if (
-            (string)SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.InputKey) == "CONTROLLER"
-            && !_controllerButton.Visible
-        )
+        switch (isKeyboard)
         {
-            OnArrowButtonPressed();
+            case true when @event is InputEventKey keyEvent:
+            {
+                if (_invalidKeys.Contains(keyEvent.Keycode))
+                    return;
+
+                string action = KeyboardPrefix + _chosenKey;
+                InputMap.ActionEraseEvents(action);
+                InputMap.ActionAddEvent(action, keyEvent);
+
+                SaveKeyInput(_chosenKey, keyEvent);
+                break;
+            }
+            case false when @event is InputEventJoypadButton joyEvent:
+            {
+                string action = JoyPrefix + _chosenKey;
+                InputMap.ActionEraseEvents(action);
+                InputMap.ActionAddEvent(action, joyEvent);
+
+                SaveKeyInput(_chosenKey, joyEvent);
+                break;
+            }
+            default:
+                return;
         }
+
+        UpdateKeySprites();
+        _remapPopup.Visible = false;
     }
 
-    private void ChangeKeySprites(string scheme)
+    /// <summary>
+    /// Dictionary of button input suffix and the config settings that correspond. This feels fine enough.
+    /// </summary>
+    private static readonly Dictionary<
+        string,
+        (SaveSystem.ConfigSettings keyboard, SaveSystem.ConfigSettings controller)
+    > ConfigMap = new()
     {
-        var selectedScheme = SpriteMappings[scheme];
-        LeftKey.Texture = GD.Load<Texture2D>(selectedScheme["left"]);
-        RightKey.Texture = GD.Load<Texture2D>(selectedScheme["right"]);
-        UpKey.Texture = GD.Load<Texture2D>(selectedScheme["up"]);
-        DownKey.Texture = GD.Load<Texture2D>(selectedScheme["down"]);
+        {
+            "_arrowUp",
+            (SaveSystem.ConfigSettings.InputKeyboardUp, SaveSystem.ConfigSettings.InputControllerUp)
+        },
+        {
+            "_arrowDown",
+            (
+                SaveSystem.ConfigSettings.InputKeyboardDown,
+                SaveSystem.ConfigSettings.InputControllerDown
+            )
+        },
+        {
+            "_arrowLeft",
+            (
+                SaveSystem.ConfigSettings.InputKeyboardLeft,
+                SaveSystem.ConfigSettings.InputControllerLeft
+            )
+        },
+        {
+            "_arrowRight",
+            (
+                SaveSystem.ConfigSettings.InputKeyboardRight,
+                SaveSystem.ConfigSettings.InputControllerRight
+            )
+        },
+        {
+            "_secondaryPlacement",
+            (
+                SaveSystem.ConfigSettings.InputKeyboardSecondary,
+                SaveSystem.ConfigSettings.InputControllerSecondary
+            )
+        },
+        {
+            "_inventory",
+            (
+                SaveSystem.ConfigSettings.InputKeyboardInventory,
+                SaveSystem.ConfigSettings.InputControllerInventory
+            )
+        },
+    };
+
+    /// <summary>
+    /// Saves the key to the input based on its input name into the correct config setting.
+    /// </summary>
+    /// <param name="button">buttone name string.</param>
+    /// <param name="key">The input key to be saved.</param>
+    private void SaveKeyInput(string button, InputEvent key)
+    {
+        //Just checks if the button is a button we account for, and gets the correct config setting
+        if (!ConfigMap.TryGetValue(button, out var configPair))
+            return;
+
+        int keycode = key switch
+        {
+            InputEventKey keyEvent => (int)keyEvent.PhysicalKeycode,
+            InputEventJoypadButton joyEvent => (int)joyEvent.ButtonIndex,
+            _ => -1,
+        };
+
+        if (keycode < 0)
+            return;
+
+        var config = key is InputEventKey ? configPair.keyboard : configPair.controller;
+        SaveSystem.UpdateConfig(config, keycode);
+    }
+
+    /// <summary>
+    /// Keyboard input key as text standardization.
+    /// </summary>
+    /// <param name="text">An input event as text.</param>
+    /// <returns></returns>
+    private static string CleanKeyboardText(string text)
+    {
+        return text.Replace(" (Physical)", "");
+    }
+
+    /// <summary>
+    /// Returns true if the key is not already mapped to one of our concerned input maps. E.g. returns false if this key is already set on the menu
+    /// </summary>
+    /// <param name="keyText">An input event as text.</param>
+    /// <returns></returns>
+    private bool IsUniqueKey(string keyText)
+    {
+        //nested loops bad, but theoretically this should act as a single loop
+        //since each action only has 1 event (keybinding)
+        foreach (string action in _inputMapNames)
+        {
+            foreach (InputEvent evt in InputMap.ActionGetEvents(action))
+            {
+                if (
+                    (
+                        evt is InputEventKey keyEvent
+                        && CleanKeyboardText(keyEvent.AsText()) == keyText
+                    ) || (evt is InputEventJoypadButton padEvent && padEvent.AsText() == keyText)
+                )
+                    return false;
+            }
+        }
+        return true;
     }
 }
