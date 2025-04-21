@@ -1,8 +1,117 @@
-[gd_scene format=3 uid="uid://cbgeddockm6s1"]
+[gd_scene load_steps=5 format=3 uid="uid://cbgeddockm6s1"]
 
-[node name="MapCreator" type="Node2D"]
+[ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="1_8kp4q"]
+[ext_resource type="Script" uid="uid://ca6fgfmp1qrr8" path="res://Scenes/MapCreator/MapCreator.cs" id="1_w6uh4"]
+[ext_resource type="Shader" uid="uid://dp36iuuy414k1" path="res://SharedAssets/StarryNight.gdshader" id="2_1wb8m"]
 
-[node name="Label" type="Label" parent="."]
-offset_right = 40.0
-offset_bottom = 12.0
-text = "Yes, there's stuff here (probably)"
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1wb8m"]
+shader = ExtResource("2_1wb8m")
+shader_parameter/bg_top_color = Vector4(-0.18, 0.4, 0.36, 0.28)
+shader_parameter/bg_bottom_color = Vector4(0.13, 0.18, 0.1, 0.25)
+shader_parameter/gradient_ratio = 0.56
+shader_parameter/time_scale = 0.59
+
+[node name="MapCreator" type="Node2D" node_paths=PackedStringArray("AudioSelectButton", "SelectedSongLabel", "DetectedOnsetsLabel")]
+script = ExtResource("1_w6uh4")
+AudioSelectButton = NodePath("AudioSelectorButton")
+SelectedSongLabel = NodePath("SelectedSongLabel")
+DetectedOnsetsLabel = NodePath("RichTextLabel")
+
+[node name="Background" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_1wb8m")
+offset_left = -24.0
+offset_top = -13.0
+offset_right = 685.0
+offset_bottom = 403.0
+color = Color(0, 0, 0, 1)
+
+[node name="TURTLE" type="Label" parent="."]
+offset_left = 115.0
+offset_top = -9.0
+offset_right = 159.0
+offset_bottom = 19.0
+scale = Vector2(3, 3)
+text = "𓆉"
+
+[node name="AudioSelectorButton" type="Button" parent="."]
+offset_left = 10.0
+offset_top = 100.0
+offset_right = 337.0
+offset_bottom = 137.0
+theme = ExtResource("1_8kp4q")
+text = "Open A Song - MP3/WAV Only PLS :^)"
+
+[node name="SelectedSongLabel" type="Label" parent="."]
+offset_left = 7.0
+offset_top = 157.0
+offset_right = 333.0
+offset_bottom = 172.0
+text = "Currently Selected Song:"
+autowrap_mode = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 355.0
+offset_top = 33.0
+offset_right = 611.0
+offset_bottom = 325.0
+theme = ExtResource("1_8kp4q")
+text = "Detected beats:
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+NONE LOL
+"
+
+[node name="FileDialog" type="FileDialog" parent="."]
+position = Vector2i(0, 36)
+ok_button_text = "Open"
+mode_overrides_title = false
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.mp3", "*.wav")
+use_native_dialog = true
