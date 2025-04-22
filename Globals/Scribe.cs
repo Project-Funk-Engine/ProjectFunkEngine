@@ -140,10 +140,22 @@ public partial class Scribe : Node
             {
                 if (timing == Timing.Miss)
                     return;
-                GD.Print($"Dealing {note.GetBaseVal()} damage");
                 director.DealDamage(note, (int)timing * note.GetBaseVal(), director.Player);
                 note.SetBaseVal(note.GetBaseVal() + 1);
-                GD.Print($"Increasing to {note.GetBaseVal()} damage.");
+            }
+        ),
+        new Note(
+            9,
+            "PlayerPoison",
+            "Applies stacks of poison based on timing.",
+            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerPoison.png"),
+            null,
+            1,
+            (director, note, timing) =>
+            {
+                if (timing == Timing.Miss)
+                    return;
+                director.AddStatus(Targetting.First, StatusEffect.Poison.GetInstance((int)timing));
             }
         ),
     };

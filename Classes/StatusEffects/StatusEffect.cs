@@ -65,6 +65,30 @@ public partial class StatusEffect : TextureRect, IBattleEvent
             GD.Load<Texture2D>("res://Classes/StatusEffects/Assets/Status_Mulligan.png")
         )
         .SetTags(true);
+
+    private static readonly Action<BattleEventArgs, StatusEffect> PoisonEffect = (e, self) =>
+    {
+        if (e is BattleDirector.Harbinger.LoopEventArgs)
+        {
+            if (self.Sufferer != null)
+            {
+                self.Sufferer.TakeDamage(new DamageInstance(self.Count, null, null));
+                self.DecCount();
+            }
+        }
+    };
+
+    /// <summary>
+    /// On loop, the owner takes damage equal to number of stacks, then the count gets decremented.
+    /// </summary>
+    public static readonly StatusEffect Poison = new StatusEffect()
+        .InitStatus(
+            "Poison",
+            PoisonEffect,
+            BattleEffectTrigger.OnLoop,
+            GD.Load<Texture2D>("res://Classes/StatusEffects/Assets/Status_Poison.png")
+        )
+        .SetTags(true);
     #endregion
 
     private BattleEffectTrigger _trigger;
