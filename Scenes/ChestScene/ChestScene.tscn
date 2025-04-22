@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://c4vmb783d3v03"]
+[gd_scene load_steps=11 format=3 uid="uid://c4vmb783d3v03"]
 
 [ext_resource type="Script" uid="uid://cetn71kolbrmg" path="res://Scenes/ChestScene/ChestScene.cs" id="1_ardd2"]
 [ext_resource type="AudioStream" uid="uid://be5ial13ynf3o" path="res://Audio/Song1.ogg" id="2_x78jo"]
 [ext_resource type="Script" uid="uid://pl57giqyhckb" path="res://Scenes/UI/Scripts/MenuModule.cs" id="3_5uvci"]
+[ext_resource type="Script" uid="uid://cp6t6haqyef7o" path="res://Scenes/AreaBasedBackground.cs" id="5_u0wcg"]
 [ext_resource type="Shader" uid="uid://dp36iuuy414k1" path="res://SharedAssets/StarryNight.gdshader" id="5_whthd"]
 [ext_resource type="Texture2D" uid="uid://qhwve7fik4do" path="res://SharedAssets/BackGround_Full.png" id="6_37nar"]
 [ext_resource type="Texture2D" uid="uid://d0ywqw1j1k71v" path="res://Scenes/ChestScene/Assets/Chest.png" id="6_58hf4"]
@@ -39,6 +40,7 @@ z_index = -1
 offset_right = 640.0
 offset_bottom = 178.0
 texture = ExtResource("6_37nar")
+script = ExtResource("5_u0wcg")
 
 [node name="BattleFrame" type="TextureRect" parent="."]
 z_index = 1

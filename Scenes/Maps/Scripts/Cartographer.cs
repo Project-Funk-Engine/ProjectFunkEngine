@@ -12,9 +12,6 @@ public partial class Cartographer : Node2D
     public static readonly string LoadPath = "res://Scenes/Maps/Cartographer.tscn";
 
     [Export]
-    public Sprite2D BackgroundSprite;
-
-    [Export]
     public Sprite2D PlayerSprite;
 
     [Export]
@@ -39,13 +36,6 @@ public partial class Cartographer : Node2D
 
     public override void _Ready()
     {
-        BackgroundSprite.Texture = StageProducer.CurArea switch
-        {
-            Area.Forest => GD.Load<Texture2D>("res://SharedAssets/BackGround_Full.png"),
-            Area.City => GD.Load<Texture2D>("res://icon.svg"),
-            _ => null,
-        };
-
         DrawMap();
         SaveSystem.SaveGame();
         if (
