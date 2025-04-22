@@ -15,8 +15,18 @@ public partial class ChestScene : Node2D
     [Export]
     public Marker2D PlayerMarker;
 
+    [Export]
+    public TextureRect BackgroundRect;
+
     public override void _Ready()
     {
+        BackgroundRect.Texture = StageProducer.CurArea switch //TODO: Standardized BG changing behaviour.
+        {
+            Area.Forest => GD.Load<Texture2D>("res://SharedAssets/BackGround_Full.png"),
+            Area.City => GD.Load<Texture2D>("res://icon.svg"),
+            _ => null,
+        };
+
         _player = GD.Load<PackedScene>(PlayerPuppet.LoadPath).Instantiate<PlayerPuppet>();
         PlayerMarker.AddChild(_player);
 

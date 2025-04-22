@@ -16,11 +16,12 @@ shader_parameter/bg_bottom_color = Vector4(0.028, 0.008, 0.184, 0)
 shader_parameter/gradient_ratio = 1.0
 shader_parameter/time_scale = 1.0
 
-[node name="ChestScene" type="Node2D" node_paths=PackedStringArray("ChestButton", "PlayerMarker")]
+[node name="ChestScene" type="Node2D" node_paths=PackedStringArray("ChestButton", "PlayerMarker", "BackgroundRect")]
 process_mode = 1
 script = ExtResource("1_ardd2")
 ChestButton = NodePath("CenterContainer/VBoxContainer/ChestButton")
 PlayerMarker = NodePath("PlayerMarker")
+BackgroundRect = NodePath("BackGround")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_x78jo")

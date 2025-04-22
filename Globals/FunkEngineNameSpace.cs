@@ -252,6 +252,13 @@ public enum Stages
     Quit,
     Map,
     Load,
+    Continue,
+}
+
+public enum Area
+{
+    Forest = 0,
+    City = 1,
 }
 
 public enum Rarity

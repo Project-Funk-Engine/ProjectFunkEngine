@@ -20,9 +20,25 @@ public partial class StageProducer : Node
         [10, 1]
     ).AddSetRoom(3, Stages.Chest);
 
-    public static MapGrid Map { get; } = new();
+    private static readonly MapGrid.MapConfig TestMapConfig = new MapGrid.MapConfig(
+        10,
+        10,
+        5,
+        [10, 2]
+    )
+        .AddSetRoom(3, Stages.Chest)
+        .AddSetRoom(6, Stages.Chest);
+
+    private static readonly MapGrid.MapConfig[] MapConfigs = new[]
+    {
+        FirstMapConfig,
+        TestMapConfig,
+    };
+
+    public static MapGrid Map { get; private set; } = new();
     private Stages _curStage = Stages.Title;
     public static int CurRoom { get; private set; }
+    public static Area CurArea { get; private set; } = Area.Forest;
 
     private Node _curScene;
     private Node _preloadStage;
@@ -59,12 +75,13 @@ public partial class StageProducer : Node
     private void GenerateMapConsistent()
     {
         GlobalRng.State = GlobalRng.Seed << 5 / 2; //Fudge seed state, to get consistent maps across new/loaded games
-        Map.InitMapGrid(FirstMapConfig);
+        Map.InitMapGrid(MapConfigs[(int)CurArea]);
     }
 
     private void StartNewGame()
     {
         GlobalRng.Randomize();
+        CurArea = Area.Forest;
         GenerateMapConsistent();
 
         PlayerStats = new PlayerStats();
@@ -118,10 +135,10 @@ public partial class StageProducer : Node
 
     private Task _loadTask;
 
-    /**
-     * <summary>To be used from Cartographer. Preloads the scene during transition animation.
-     * This removes the occasionally noticeable load time for the scene change.</summary>
-     */
+    /// <summary>
+    /// To be used from Cartographer. Preloads the scene during transition animation. This removes the occasionally noticeable load time for the scene change.
+    /// </summary>
+    /// <param name="nextRoomIdx">Index of the next room in the map to get the stage from.</param>
     public void PreloadScene(int nextRoomIdx)
     {
         Stages nextStage = Map.GetRooms()[nextRoomIdx].Type;
@@ -180,6 +197,10 @@ public partial class StageProducer : Node
             case Stages.Quit:
                 GetTree().Quit();
                 return;
+            case Stages.Continue:
+                ProgressAreas();
+                GetTree().ChangeSceneToFile("res://Scenes/Maps/InBetween.tscn");
+                break;
             default:
                 GD.PushError($"Error Scene Transition is {nextStage}");
                 break;
@@ -233,4 +254,26 @@ public partial class StageProducer : Node
             return;
         }
     }
+
+    #region Area Management
+
+    /// <summary>
+    /// There should always be a mapconfig for each area. It's preferable to crash later if there isn't even a placeholder config.
+    /// </summary>
+    /// <returns>True if there is another area.</returns>
+    public static bool IsMoreAreas()
+    {
+        return (int)CurArea + 1 < MapConfigs.Length;
+    }
+
+    public void ProgressAreas()
+    {
+        CurArea += 1;
+
+        Map = new();
+        GenerateMapConsistent();
+        CurRoom = Map.GetRooms()[0].Idx;
+    }
+
+    #endregion
 }

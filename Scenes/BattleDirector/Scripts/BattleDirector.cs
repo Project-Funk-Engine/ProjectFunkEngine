@@ -16,6 +16,9 @@ public partial class BattleDirector : Node2D
     private EnemyPuppet[] _enemies;
 
     [Export]
+    public TextureRect BackgroundRect;
+
+    [Export]
     public Marker2D[] PuppetMarkers = new Marker2D[4]; //[0] is always player
 
     [Export]
@@ -57,6 +60,13 @@ public partial class BattleDirector : Node2D
 
     public override void _Ready()
     {
+        BackgroundRect.Texture = StageProducer.CurArea switch
+        {
+            Area.Forest => GD.Load<Texture2D>("res://SharedAssets/BackGround_Full.png"),
+            Area.City => GD.Load<Texture2D>("res://icon.svg"),
+            _ => null,
+        };
+
         SongData curSong = StageProducer.Config.CurSong.SongData;
         Audio.SetStream(GD.Load<AudioStream>(StageProducer.Config.CurSong.AudioLocation));
         if (curSong.SongLength <= 0)
