@@ -39,7 +39,6 @@ public partial class Cartographer : Node2D
 
     public override void _Ready()
     {
-        GD.Print("Cartographer readying");
         BackgroundSprite.Texture = StageProducer.CurArea switch
         {
             Area.Forest => GD.Load<Texture2D>("res://SharedAssets/BackGround_Full.png"),
@@ -48,7 +47,6 @@ public partial class Cartographer : Node2D
         };
 
         DrawMap();
-        GD.Print("Cartographer ready!" + StageProducer.CurArea);
         SaveSystem.SaveGame();
         if (
             StageProducer.GetCurRoom().Type == Stages.Boss
@@ -57,7 +55,6 @@ public partial class Cartographer : Node2D
         {
             WinArea();
         }
-        GD.Print("Cartographer ready!");
     }
 
     public override void _EnterTree()

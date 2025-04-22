@@ -29,11 +29,7 @@ public partial class StageProducer : Node
         .AddSetRoom(3, Stages.Chest)
         .AddSetRoom(6, Stages.Chest);
 
-    private static readonly MapGrid.MapConfig[] MapConfigs = new[]
-    {
-        FirstMapConfig,
-        TestMapConfig,
-    };
+    private static readonly MapGrid.MapConfig[] MapConfigs = new[] { FirstMapConfig };
 
     public static MapGrid Map { get; private set; } = new();
     private Stages _curStage = Stages.Title;
