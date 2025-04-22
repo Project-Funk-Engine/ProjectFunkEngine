@@ -17,6 +17,9 @@ public partial class Cartographer : Node2D
     [Export]
     public Theme ButtonTheme;
 
+    [Export]
+    public Camera2D Camera;
+
     private Button[] _validButtons = Array.Empty<Button>();
 
     private Button _focusedButton;
@@ -40,7 +43,7 @@ public partial class Cartographer : Node2D
             && StageProducer.GetCurRoom().Children.Length == 0
         )
         {
-            WinStage();
+            WinArea();
         }
     }
 
@@ -51,7 +54,7 @@ public partial class Cartographer : Node2D
 
     private Vector2 GetPosition(int x, int y)
     {
-        return new Vector2((float)x * 640 / StageProducer.MapSize.X - 1 + 64, y * 48 + 16);
+        return new Vector2((float)x * 640 / 8 + 32, y * 48 + 16);
     }
 
     private void DrawMap()
@@ -104,7 +107,13 @@ public partial class Cartographer : Node2D
         newButton.ZIndex = 1;
         newButton.Position = GetPosition(room.X, room.Y) - newButton.Size / 2;
         if (room == StageProducer.GetCurRoom())
+        {
             PlayerSprite.Position = newButton.Position + newButton.Size * .5f;
+            Camera.Position -= //TODO: Better camera matching for areas.
+                (
+                    (GetViewportRect().Size / 2) - (newButton.Position + newButton.Size * .5f)
+                ).Normalized() * 20;
+        }
     }
 
     private void AddFocusNeighbors()
@@ -139,8 +148,18 @@ public partial class Cartographer : Node2D
         };
     }
 
-    private void WinStage()
+    private void WinArea()
     {
+        if (StageProducer.IsMoreAreas())
+        {
+            GetTree().Paused = false;
+            //What the living fuck? Can't do this during ready?
+            Callable
+                .From(() => StageProducer.LiveInstance.TransitionStage(Stages.Continue))
+                .CallDeferred();
+            return;
+        }
+
         EndScreen es = GD.Load<PackedScene>(EndScreen.LoadPath).Instantiate<EndScreen>();
         AddChild(es);
         es.TopLabel.Text = Tr("BATTLE_ROOM_WIN");

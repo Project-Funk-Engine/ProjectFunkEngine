@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FunkEngine.Classes.MidiMaestro;
 using Godot;
@@ -251,6 +252,13 @@ public enum Stages
     Quit,
     Map,
     Load,
+    Continue,
+}
+
+public enum Area
+{
+    Forest = 0,
+    City = 1,
 }
 
 public enum Rarity
@@ -308,59 +316,111 @@ public class MapGrid
         }
     }
 
+    //TODO: Make odds for rooms based on y-level, e.g. elites only spawn on y > 3
+    public struct MapConfig
+    {
+        public int Width { get; private set; }
+        public int Height { get; private set; }
+        public int Paths { get; private set; }
+
+        /// <summary>
+        /// Rooms that exist at set levels, only one room can be set per y-level.
+        /// </summary>
+        public Dictionary<int, Stages> SetRooms { get; private set; } =
+            new()
+            {
+                { 0, Stages.Battle }, //The first, e.g. y = 0 room, should always be a battle.
+            };
+
+        public const int NumStages = 2;
+
+        public static readonly Stages[] StagsToRoll = new[] { Stages.Battle, Stages.Chest };
+
+        /// <summary>
+        /// The odds for each stage to appear in a non-set room position.
+        /// </summary>
+        public float[] StageOdds = new float[2];
+
+        public MapConfig(int width, int height, int paths, float[] odds)
+        {
+            Width = width;
+            Height = height;
+            Paths = paths;
+            for (int i = 0; i < NumStages; i++)
+            {
+                StageOdds[i] = odds[i];
+            }
+        }
+
+        /// <summary>
+        /// Adds a set room type to be generated guaranteed. Additional entries in the same y-level are ignored.
+        /// </summary>
+        /// <param name="height">The y-level of the rooms</param>
+        /// <param name="roomType">The room type to be set.</param>
+        public MapConfig AddSetRoom(int height, Stages roomType)
+        {
+            SetRooms.TryAdd(height, roomType);
+            return this;
+        }
+    }
+
     /**
     * <summary>Initializes the map with max <c>width</c>, max <c>height</c>, and with number of <c>paths</c>.</summary>
     */
-    public void InitMapGrid(int width, int height, int paths)
+    public void InitMapGrid(MapConfig curConfig)
     {
         _curIdx = 0;
-        _rooms = Array.Empty<Room>();
-        _map = new int[width, height]; //x,y
+        _rooms = [];
+        _map = new int[curConfig.Width, curConfig.Height]; //x,y
 
-        int startX = (width / 2);
+        int startX = (curConfig.Width / 2);
         _rooms = _rooms.Append(new Room(_curIdx, startX, 0)).ToArray();
         _rooms[0].SetType(Stages.Battle);
         _map[startX, 0] = _curIdx++;
 
-        for (int i = 0; i < paths; i++)
+        for (int i = 0; i < curConfig.Paths; i++)
         {
-            GeneratePath_r(startX, 0, width, height);
+            GeneratePath_r(startX, 0, curConfig);
         }
-        CreateCommonChildren(width, height);
-        AddBossRoom(width, height);
+        CreateCommonChildren(curConfig.Width, curConfig.Height);
+        AddBossRoom(curConfig.Width, curConfig.Height);
     }
 
     /**Start at x, y, assume prev room exists. Picks new x pos within +/- 1, attaches recursively*/
-    private void GeneratePath_r(int x, int y, int width, int height)
+    private void GeneratePath_r(int x, int y, MapConfig curConfig)
     {
         int nextX = StageProducer.GlobalRng.RandiRange(
             Math.Max(x - 1, 0),
-            Math.Min(x + 1, width - 1)
+            Math.Min(x + 1, curConfig.Width - 1)
         );
         if (_map[nextX, y + 1] == 0)
         {
             _rooms = _rooms.Append(new Room(_curIdx, nextX, y + 1)).ToArray();
             _map[nextX, y + 1] = _curIdx;
             _rooms[_map[x, y]].AddChild(_curIdx++);
-            _rooms[^1].SetType(PickRoomType(x, y));
+            _rooms[^1].SetType(PickRoomType(x, y, curConfig));
         }
         else
         {
             _rooms[_map[x, y]].AddChild(_map[nextX, y + 1]);
         }
-        if (y < height - 2)
+        if (y < curConfig.Height - 2)
         {
-            GeneratePath_r(nextX, y + 1, width, height);
+            GeneratePath_r(nextX, y + 1, curConfig);
         }
     }
 
-    private Stages PickRoomType(int x, int y)
+    private Stages PickRoomType(int x, int y, MapConfig curConfig)
     {
-        if (y % 3 == 0)
-            return Stages.Chest;
-        if (StageProducer.GlobalRng.Randf() < .08)
-            return Stages.Chest;
-        return Stages.Battle;
+        //If the y has a set room return it.
+        if (curConfig.SetRooms.TryGetValue(y, out Stages result))
+        {
+            return result;
+        }
+
+        //Random roll for the room type.
+        int idx = (int)StageProducer.GlobalRng.RandWeighted(curConfig.StageOdds);
+        return MapConfig.StagsToRoll[idx];
     }
 
     //Asserts that if there is a room at the same x, but y+1 they are connected
