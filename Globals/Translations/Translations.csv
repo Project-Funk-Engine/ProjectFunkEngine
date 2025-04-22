@@ -48,6 +48,12 @@ NOTE_PLAYERQUARTER_NAME,PlayerQuarter,玩家一分之一
 NOTE_PLAYERQUARTER_TOOLTIP,"Basic note at a quarter of the cost.","以四分之一的耗费时间量发出基础音符"
 NOTE_PLAYERBLOCK_NAME,PlayerBlock,玩家格挡
 NOTE_PLAYERBLOCK_TOOLTIP,"Gives player one charge of block.","给予玩家一层格挡充能。"
+NOTE_PLAYEREXPLOSIVE_NAME,PlayerExplosive,玩家炸药
+NOTE_PLAYEREXPLOSIVE_TOOLTIP,"Deals damage to all enemies.","对所有敌人造成伤害"
+NOTE_PLAYERECHO_NAME,PlayerEcho,玩家回声
+NOTE_PLAYERECHO_TOOLTIP,"Deals more damage with each loop.","每次循环造成更多伤害"
+NOTE_PLAYERPOISON_NAME,PlayerPoison,玩家中毒
+NOTE_PLAYERPOISON_TOOLTIP,"Applies stacks of poison based on timing.","根据时机施加中毒层数"
 RELIC_BREAKFAST_NAME,Breakfast,早餐
 RELIC_BREAKFAST_TOOLTIP,"Increases max hp.",提高最大生命值
 RELIC_GOODVIBES_NAME,Good Vibes,良好消息

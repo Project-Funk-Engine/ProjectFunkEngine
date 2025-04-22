@@ -133,6 +133,11 @@ public partial class BattleDirector : Node2D
             {
                 DebugKillEnemy();
             }
+
+            if (eventKey.Keycode == Key.Key9)
+            {
+                DebugRefillEnergy();
+            }
         }
     }
 
@@ -510,5 +515,10 @@ public partial class BattleDirector : Node2D
         {
             enemy.TakeDamage(new DamageInstance(1000, null, enemy));
         }
+    }
+
+    private void DebugRefillEnergy()
+    {
+        NPB.IncreaseCharge(100);
     }
 }

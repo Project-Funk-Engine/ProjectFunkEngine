@@ -60,7 +60,8 @@ public partial class Note : Resource, IDisplayable
             Owner,
             _baseVal,
             NoteEffect,
-            CostModifier
+            CostModifier,
+            TargetType
         );
         return newNote;
     }
@@ -73,5 +74,10 @@ public partial class Note : Resource, IDisplayable
     public int GetBaseVal()
     {
         return _baseVal;
+    }
+
+    public void SetBaseVal(int val)
+    {
+        _baseVal = val;
     }
 }
