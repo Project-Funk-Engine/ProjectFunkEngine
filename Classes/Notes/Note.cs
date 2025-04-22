@@ -60,7 +60,8 @@ public partial class Note : Resource, IDisplayable
             Owner,
             _baseVal,
             NoteEffect,
-            CostModifier
+            CostModifier,
+            TargetType
         );
         return newNote;
     }

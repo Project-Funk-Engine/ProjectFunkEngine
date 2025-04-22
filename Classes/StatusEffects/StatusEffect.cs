@@ -68,14 +68,12 @@ public partial class StatusEffect : TextureRect, IBattleEvent
 
     private static readonly Action<BattleEventArgs, StatusEffect> PoisonEffect = (e, self) =>
     {
-        if (e is BattleDirector.Harbinger.LoopEventArgs)
-        {
-            if (self.Sufferer != null)
-            {
-                self.Sufferer.TakeDamage(new DamageInstance(self.Count, null, null));
-                self.DecCount();
-            }
-        }
+        if (e is not BattleDirector.Harbinger.LoopEventArgs)
+            return;
+        if (self.Sufferer == null)
+            return;
+        self.Sufferer.TakeDamage(new DamageInstance(self.Count, null, null)); //TODO: More robust damage types
+        self.DecCount();
     };
 
     /// <summary>

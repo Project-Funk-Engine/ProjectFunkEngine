@@ -124,7 +124,7 @@ public partial class Scribe : Node
             {
                 if (timing == Timing.Miss)
                     return;
-                director.DealDamage(Targetting.All, (int)timing * note.GetBaseVal(), null);
+                director.DealDamage(note, (int)timing * note.GetBaseVal(), director.Player);
             },
             1f,
             Targetting.All
