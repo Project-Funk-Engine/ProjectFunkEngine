@@ -96,6 +96,7 @@ public partial class StageProducer : Node
             return false;
         }
         GlobalRng.Seed = sv.RngSeed;
+        CurArea = (Area)sv.Area;
         GenerateMapConsistent();
         GlobalRng.State = sv.RngState;
         CurRoom = sv.LastRoomIdx;

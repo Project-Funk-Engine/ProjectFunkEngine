@@ -275,88 +275,6 @@ public static class SaveSystem
                 return float.MinValue;
         }
     }
-    #endregion
-
-    #region Save
-
-    private const string UserSavePath = "user://MidnighRiff.save";
-
-    public class SaveFile
-    {
-        public ulong RngSeed { get; init; }
-        public ulong RngState { get; init; }
-        public int LastRoomIdx { get; init; }
-
-        public int[] NoteIds { get; init; }
-        public int[] RelicIds { get; init; }
-        public int PlayerHealth { get; init; }
-
-        public SaveFile(
-            ulong rngSeed,
-            ulong rngState,
-            int lastRoomIdx,
-            int[] noteIds,
-            int[] relicIds,
-            int playerHealth
-        )
-        {
-            RngSeed = rngSeed;
-            RngState = rngState;
-            LastRoomIdx = lastRoomIdx;
-            NoteIds = noteIds;
-            RelicIds = relicIds;
-            PlayerHealth = playerHealth;
-        }
-    }
-
-    public static void SaveGame()
-    {
-        int[] relicIds = StageProducer.PlayerStats.CurRelics.Select(r => r.Id).ToArray();
-        int[] noteIds = StageProducer.PlayerStats.CurNotes.Select(r => r.Id).ToArray();
-        SaveFile sv = new SaveFile(
-            StageProducer.GlobalRng.Seed,
-            StageProducer.GlobalRng.State,
-            StageProducer.CurRoom,
-            noteIds,
-            relicIds,
-            StageProducer.PlayerStats.CurrentHealth
-        );
-        string json = JsonSerializer.Serialize(sv);
-
-        FileAccess file = FileAccess.Open(UserSavePath, FileAccess.ModeFlags.Write);
-
-        file.StoreLine(json);
-        file.Close();
-    }
-
-    /**
-     * <remarks>Returns null if invalid save or save 404's.</remarks>
-     */
-    public static SaveFile LoadGame()
-    {
-        if (!FileAccess.FileExists(UserSavePath))
-            return null;
-        FileAccess file = FileAccess.Open(UserSavePath, FileAccess.ModeFlags.Read);
-        string json = file.GetAsText();
-
-        file.Close();
-        SaveFile sv;
-        try
-        {
-            sv = JsonSerializer.Deserialize<SaveFile>(json);
-        }
-        catch (JsonException)
-        {
-            GD.PushWarning("Cannot deserialize save file, returning null.");
-            return null;
-        }
-        return sv;
-    }
-
-    public static void ClearSave()
-    {
-        DirAccess.RemoveAbsolute(UserSavePath);
-    }
 
     public static void ApplySavedInputBindings()
     {
@@ -442,6 +360,91 @@ public static class SaveSystem
             GD.PushWarning($"Could not parse joypad button: {buttonString}");
         }
     }
+    #endregion
 
+    #region Save
+
+    private const string UserSavePath = "user://MidnighRiff.save";
+
+    public class SaveFile
+    {
+        public ulong RngSeed { get; init; }
+        public ulong RngState { get; init; }
+        public int LastRoomIdx { get; init; }
+        public int Area { get; init; }
+
+        public int[] NoteIds { get; init; }
+        public int[] RelicIds { get; init; }
+        public int PlayerHealth { get; init; }
+
+        public SaveFile(
+            ulong rngSeed,
+            ulong rngState,
+            int lastRoomIdx,
+            int[] noteIds,
+            int[] relicIds,
+            int playerHealth,
+            int area
+        )
+        {
+            RngSeed = rngSeed;
+            RngState = rngState;
+            LastRoomIdx = lastRoomIdx;
+            NoteIds = noteIds;
+            RelicIds = relicIds;
+            PlayerHealth = playerHealth;
+            Area = area;
+        }
+    }
+
+    public static void SaveGame()
+    {
+        int[] relicIds = StageProducer.PlayerStats.CurRelics.Select(r => r.Id).ToArray();
+        int[] noteIds = StageProducer.PlayerStats.CurNotes.Select(r => r.Id).ToArray();
+        SaveFile sv = new SaveFile(
+            StageProducer.GlobalRng.Seed,
+            StageProducer.GlobalRng.State,
+            StageProducer.CurRoom,
+            noteIds,
+            relicIds,
+            StageProducer.PlayerStats.CurrentHealth,
+            (int)StageProducer.CurArea
+        );
+        string json = JsonSerializer.Serialize(sv);
+
+        FileAccess file = FileAccess.Open(UserSavePath, FileAccess.ModeFlags.Write);
+
+        file.StoreLine(json);
+        file.Close();
+    }
+
+    /**
+     * <remarks>Returns null if invalid save or save 404's.</remarks>
+     */
+    public static SaveFile LoadGame()
+    {
+        if (!FileAccess.FileExists(UserSavePath))
+            return null;
+        FileAccess file = FileAccess.Open(UserSavePath, FileAccess.ModeFlags.Read);
+        string json = file.GetAsText();
+
+        file.Close();
+        SaveFile sv;
+        try
+        {
+            sv = JsonSerializer.Deserialize<SaveFile>(json);
+        }
+        catch (JsonException)
+        {
+            GD.PushWarning("Cannot deserialize save file, returning null.");
+            return null;
+        }
+        return sv;
+    }
+
+    public static void ClearSave()
+    {
+        DirAccess.RemoveAbsolute(UserSavePath);
+    }
     #endregion
 }
