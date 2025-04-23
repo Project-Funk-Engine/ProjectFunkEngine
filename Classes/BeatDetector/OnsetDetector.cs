@@ -12,7 +12,7 @@ public partial class OnsetDetector : Resource
     private AudioFileReader _pcm;
     private int _sampleSize;
 
-    private float[] Onsets { get; set; }
+    public float[] Onsets { get; private set; }
     private float[] LowOnsets { get; set; }
     private float[] MidOnsets { get; set; }
     private float[] HighOnsets { get; set; }
@@ -51,8 +51,12 @@ public partial class OnsetDetector : Resource
         return true;
     }
 
-    public void FindOnsets(float sensitivity = 1.5f, float thresholdTimeSpan = 0.0f)
+    //TODO: Check thresholdTimeSpan. It was 0.0 but that broke stuff.
+    public void FindOnsets(float sensitivity = 1.5f, float thresholdTimeSpan = 0.1f)
     {
+        //TODO: THIS MIGHT BE THE CAUSE: thresholdAverage is all NaN - is that ok?
+        //Spectrum is also very small. like E-12 small
+        //Kinda fixed by above to do but still not great
         var thresholdAverage = GetThresholdAverage(
             _fluxes,
             _sampleSize,
@@ -175,6 +179,8 @@ public partial class OnsetDetector : Resource
                 }
             }
         }
+
+        GD.Print("Peaks: ", peaks);
 
         return peaks;
     }
