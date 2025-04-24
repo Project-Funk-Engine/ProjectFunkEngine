@@ -23,7 +23,7 @@ public partial class Conductor : Node
         if (_initialized)
             return;
 
-        MM = new MidiMaestro(StageProducer.Config.CurSong.MIDILocation);
+        MM = new MidiMaestro(StageProducer.Config.CurSong.SongMapLocation);
         CM.ArrowFromInput += ReceiveNoteInput;
 
         CM.Initialize(curSong);
@@ -41,14 +41,9 @@ public partial class Conductor : Node
     {
         foreach (ArrowType type in Enum.GetValues(typeof(ArrowType)))
         {
-            foreach (MidiNoteInfo mNote in MM.GetNotes(type))
+            foreach (NoteInfo Note in MM.GetNotes(type))
             {
-                AddNoteData(
-                    Scribe.NoteDictionary[0],
-                    type,
-                    new Beat((int)mNote.GetStartTimeBeat()),
-                    mNote.GetDurationBeats()
-                );
+                AddNoteData(Scribe.NoteDictionary[0], type, new Beat((int)Note.Beat), Note.Length);
             }
         }
         SpawnInitialNotes();
