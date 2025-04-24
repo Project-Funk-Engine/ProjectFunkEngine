@@ -365,7 +365,7 @@ public partial class Scribe : Node
             },
             "Song1",
             "Audio/Song1.ogg",
-            "Audio/Midi/Song1.mid",
+            "Audio/Midi/Song1.tres",
             [P_BossBlood.LoadPath]
         ),
         new SongTemplate(
@@ -377,7 +377,7 @@ public partial class Scribe : Node
             },
             "Song2",
             "Audio/Song2.ogg",
-            "Audio/Midi/Song2.mid",
+            "Audio/Midi/Song2.tres",
             [P_Parasifly.LoadPath]
         ),
         new SongTemplate(
@@ -389,7 +389,7 @@ public partial class Scribe : Node
             },
             "Song2",
             "Audio/Song2.ogg",
-            "Audio/Midi/Song2.mid",
+            "Audio/Midi/Song2.tres",
             [P_Parasifly.LoadPath, P_Parasifly.LoadPath]
         ),
         new SongTemplate(
@@ -401,7 +401,7 @@ public partial class Scribe : Node
             },
             "Song3",
             "Audio/Song3.ogg",
-            "Audio/Midi/Song3.mid",
+            "Audio/Midi/Song3.tres",
             [P_TheGWS.LoadPath]
         ),
     };
