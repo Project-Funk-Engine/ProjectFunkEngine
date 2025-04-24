@@ -4,7 +4,7 @@ using FunkEngine;
 using Godot;
 
 /**
- <summary> MidiMaestro: Manages reading midi file into lane note information.</summary>
+ <summary> MidiMaestro: Manages reading a song map file into lane note information.</summary>
 
  */
 public partial class MidiMaestro : Resource
@@ -17,8 +17,8 @@ public partial class MidiMaestro : Resource
 
     //private MidiFile strippedSong;
     /**
-     * <summary>Constructor loads midi file and populates lane note arrays with midiNoteInfo</summary>
-     * <param name="filePath">A string file path to a valid midi file</param>
+     * <summary>Constructor loads resource file and populates lane note arrays with NoteInfo</summary>
+     * <param name="filePath">A string file path to a valid songMap .tres file</param>
      */
     public MidiMaestro(string filePath)
     {
@@ -29,7 +29,7 @@ public partial class MidiMaestro : Resource
 
         if (!FileAccess.FileExists(filePath))
         {
-            GD.PushError("ERROR: Unable to load level Midi file: " + filePath);
+            GD.PushError("ERROR: Unable to load level songMap resource file: " + filePath);
         }
 
         NoteChart savedChart = ResourceLoader.Load<NoteChart>(filePath);
@@ -43,11 +43,11 @@ public partial class MidiMaestro : Resource
         }
         else
         {
-            GD.PushError("ERROR: Unable to load level Midi file: " + filePath);
-            _upNotes = Array.Empty<NoteInfo>();
-            _downNotes = Array.Empty<NoteInfo>();
-            _leftNotes = Array.Empty<NoteInfo>();
-            _rightNotes = Array.Empty<NoteInfo>();
+            GD.PushError("ERROR: Unable to load songMap resource file: " + filePath);
+            _upNotes = [];
+            _downNotes = [];
+            _leftNotes = [];
+            _rightNotes = [];
         }
     }
 
