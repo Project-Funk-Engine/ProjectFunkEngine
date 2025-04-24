@@ -1,7 +1,7 @@
 [gd_resource type="Resource" load_steps=57 format=3 uid="uid://ekxscjn7ys6v"]
 
-[ext_resource type="Script" uid="uid://dulvm8bb6vths" path="res://Classes/MidiMaestro/NoteInfo.cs" id="1_7kndb"]
-[ext_resource type="Script" uid="uid://c5uwhvgga62i2" path="res://Classes/MidiMaestro/NoteChart.cs" id="2_xg88o"]
+[ext_resource type="Script" path="res://Classes/MidiMaestro/NoteInfo.cs" id="1_7kndb"]
+[ext_resource type="Script" path="res://Classes/MidiMaestro/NoteChart.cs" id="2_xg88o"]
 
 [sub_resource type="Resource" id="Resource_7kndb"]
 script = ExtResource("1_7kndb")
