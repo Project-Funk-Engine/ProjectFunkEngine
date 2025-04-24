@@ -2,8 +2,6 @@ using System;
 using System.Linq;
 using FunkEngine;
 using Godot;
-using Melanchall.DryWetMidi.Core;
-using Melanchall.DryWetMidi.Interaction;
 
 /**
  <summary> MidiMaestro: Manages reading midi file into lane note information.</summary>
@@ -11,8 +9,6 @@ using Melanchall.DryWetMidi.Interaction;
  */
 public partial class MidiMaestro : Resource
 {
-    private MidiFile _midiFile;
-
     //The four note rows that we care about
     private readonly NoteInfo[] _upNotes;
     private readonly NoteInfo[] _downNotes;
@@ -56,7 +52,7 @@ public partial class MidiMaestro : Resource
     }
 
     /**
-     * <summary>Gets midiNoteInfo by lane. </summary>
+     * <summary>Gets NoteInfo by lane. </summary>
      */
     public NoteInfo[] GetNotes(ArrowType arrowType)
     {

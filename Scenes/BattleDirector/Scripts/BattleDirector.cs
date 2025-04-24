@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using FunkEngine;
 using Godot;
-using Melanchall.DryWetMidi.Interaction;
 
 /**<summary>BattleDirector: Higher priority director to manage battle effects. Can directly access managers, which should signal up to Director WIP</summary>
  */

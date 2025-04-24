@@ -23,7 +23,7 @@ public partial class Conductor : Node
         if (_initialized)
             return;
 
-        MM = new MidiMaestro(StageProducer.Config.CurSong.MIDILocation);
+        MM = new MidiMaestro(StageProducer.Config.CurSong.SongMapLocation);
         CM.ArrowFromInput += ReceiveNoteInput;
 
         CM.Initialize(curSong);
