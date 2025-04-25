@@ -117,7 +117,7 @@ theme = ExtResource("4_r616m")
 item_count = 2
 popup/item_0/text = "English"
 popup/item_0/id = 0
-popup/item_1/text = "中文"
+popup/item_1/text = "简体中文"
 popup/item_1/id = 1
 script = ExtResource("1_qyvkw")
 
