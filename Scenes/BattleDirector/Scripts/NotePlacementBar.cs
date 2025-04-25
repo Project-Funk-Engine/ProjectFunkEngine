@@ -43,7 +43,9 @@ public partial class NotePlacementBar : Node
     private TextEdit _currentComboMultText;
 
     private int _currentCombo;
-    private int ComboMult => _currentCombo / _notesToIncreaseCombo + 1 + _bonusMult;
+    private int MaxComboMult;
+    private int ComboMult =>
+        Math.Min(_currentCombo / _notesToIncreaseCombo + 1 + _bonusMult, MaxComboMult);
     private int _bonusMult;
     private int _notesToIncreaseCombo;
 
@@ -56,7 +58,7 @@ public partial class NotePlacementBar : Node
     #region Initialization
     public override void _Ready()
     {
-        MaxValue = 80;
+        MaxValue = 60;
         _notesToIncreaseCombo = 4;
 
         _barInitPosition = _notePlacementBar.Position;
@@ -82,6 +84,8 @@ public partial class NotePlacementBar : Node
         ShuffleNoteQueue();
         ProgressQueue();
         MaxValue = playerStats.MaxComboBar;
+        MaxComboMult = playerStats.MaxComboMult;
+        _notesToIncreaseCombo = playerStats.NotesToIncreaseCombo;
     }
     #endregion
 

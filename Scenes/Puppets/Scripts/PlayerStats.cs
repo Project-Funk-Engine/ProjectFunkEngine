@@ -7,7 +7,9 @@ public partial class PlayerStats : Resource
 {
     public int MaxHealth = 100;
     public int CurrentHealth = 100;
-    public int MaxComboBar = 80;
+    public int MaxComboBar = 60;
+    public int MaxComboMult = 25;
+    public int NotesToIncreaseCombo = 4;
     public int RewardAmountModifier = 0;
     public int Rerolls = 0;
 
