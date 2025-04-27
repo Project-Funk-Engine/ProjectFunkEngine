@@ -151,6 +151,7 @@ public partial class ControlSettings : Node2D, IFocusableMenu
     {
         if (_remapPopup.Visible)
             _remapLabel.Text = ((int)_remapTimer.TimeLeft + 1).ToString();
+        NoNullFocus();
     }
 
     public void ResumeFocus()
@@ -175,6 +176,14 @@ public partial class ControlSettings : Node2D, IFocusableMenu
     {
         Prev.ResumeFocus();
         QueueFree();
+    }
+
+    private void NoNullFocus()
+    {
+        var focusedNode = GetViewport().GuiGetFocusOwner();
+        if (focusedNode != null)
+            return;
+        _remapTabs.GetTabBar().GrabFocus();
     }
 
     #endregion

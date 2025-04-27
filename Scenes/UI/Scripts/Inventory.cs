@@ -43,6 +43,11 @@ public partial class Inventory : Control, IFocusableMenu
         }
     }
 
+    public override void _Process(double delta)
+    {
+        NoNullFocus();
+    }
+
     public override void _Input(InputEvent @event)
     {
         if (!GetWindow().HasFocus())
@@ -99,6 +104,15 @@ public partial class Inventory : Control, IFocusableMenu
     {
         Prev.ResumeFocus();
         QueueFree();
+    }
+
+    private void NoNullFocus()
+    {
+        var focusedNode = GetViewport().GuiGetFocusOwner();
+        if (focusedNode != null)
+            return;
+        _tabs.GetTabBar().GrabFocus();
+        ClearDescription(-1);
     }
 
     private void DoDescription(DisplayButton dispButton)
