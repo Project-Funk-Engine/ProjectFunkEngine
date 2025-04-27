@@ -1,24 +1,37 @@
-[gd_scene load_steps=5 format=3 uid="uid://cydmo2lbnj1de"]
+[gd_scene load_steps=7 format=3 uid="uid://cydmo2lbnj1de"]
 
-[ext_resource type="Script" path="res://Scenes/Maps/Scripts/Cartographer.cs" id="1_u4q3n"]
+[ext_resource type="Script" uid="uid://dtlpiwt4n3pta" path="res://Scenes/Maps/Scripts/Cartographer.cs" id="1_u4q3n"]
 [ext_resource type="Texture2D" uid="uid://qhwve7fik4do" path="res://SharedAssets/BackGround_Full.png" id="2_5g6at"]
-[ext_resource type="Script" path="res://Scenes/UI/Scripts/MenuModule.cs" id="2_cl7v0"]
+[ext_resource type="Script" uid="uid://pl57giqyhckb" path="res://Scenes/UI/Scripts/MenuModule.cs" id="2_cl7v0"]
+[ext_resource type="Theme" uid="uid://bcejp4llrb3m0" path="res://Scenes/UI/Assets/EmptyButton.tres" id="2_rnj1y"]
 [ext_resource type="Texture2D" uid="uid://cmc7gcplqnebx" path="res://SharedAssets/Player.png" id="3_qiprp"]
+[ext_resource type="Script" uid="uid://cp6t6haqyef7o" path="res://Scenes/AreaBasedBackground.cs" id="5_taedj"]
 
-[node name="Cartographer" type="Node2D" node_paths=PackedStringArray("PlayerSprite")]
+[node name="Cartographer" type="Node2D" node_paths=PackedStringArray("PlayerSprite", "Camera")]
 process_mode = 1
 script = ExtResource("1_u4q3n")
 PlayerSprite = NodePath("Player")
+ButtonTheme = ExtResource("2_rnj1y")
+Camera = NodePath("TheView")
+
+[node name="TheView" type="Camera2D" parent="."]
+top_level = true
+anchor_mode = 0
+limit_top = -10
 
 [node name="UI" type="CanvasLayer" parent="." node_paths=PackedStringArray("CurSceneNode")]
 script = ExtResource("2_cl7v0")
 CurSceneNode = NodePath("..")
 
-[node name="BG" type="Sprite2D" parent="."]
+[node name="BG" type="TextureRect" parent="."]
 modulate = Color(0.462, 0.462, 0.66, 1)
-position = Vector2(870, 219)
-scale = Vector2(2.75702, 2.75702)
+offset_left = -557.0
+offset_top = -84.0
+offset_right = 83.0
+offset_bottom = 96.0
+scale = Vector2(3, 3)
 texture = ExtResource("2_5g6at")
+script = ExtResource("5_taedj")
 
 [node name="Player" type="Sprite2D" parent="."]
 z_index = 2

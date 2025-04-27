@@ -36,8 +36,9 @@ We now have a Steam page!
 
 ### Images
 - **Input Buttons**: [inputKeys – Nicolae (Xelu) Berbece](https://thoseawesomeguys.com/prompts/)
-- **Title Screen Font**: [04B-30 – Yuji Oshimoto](http://04.jp.org/)
 - **Light Map Texture**: [Godot Engine Docs – Godot Foundation](https://docs.godotengine.org/en/stable/tutorials/2d/2d_lights_and_shadows.html)
+- **Title Screen Font**: [04B-30 – Yuji Oshimoto](http://04.jp.org/)
+- **Main System Font**: [Fibberish  - nathan scott](https://caffinate.itch.io/fibberish/)
 
 ---
 
@@ -46,3 +47,4 @@ We now have a Steam page!
 The repository license **does not** apply to any music or image files in this repository, including but not limited to `.wav`, `.mp3`, `.ogg`, `.png`, `.jpg`, and other media formats. These assets are **not licensed** for use, private or public, without prior written consent from the team.
 
 All source code and documentation files are licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)**.
+

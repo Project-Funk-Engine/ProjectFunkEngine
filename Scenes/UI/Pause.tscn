@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://dmfk0csl7cd27"]
+[gd_scene load_steps=5 format=3 uid="uid://dmfk0csl7cd27"]
 
-[ext_resource type="Script" path="res://Scenes/UI/Scripts/PauseMenu.cs" id="1_6jc8n"]
+[ext_resource type="Script" uid="uid://cepl3x0eyvr00" path="res://Scenes/UI/Scripts/PauseMenu.cs" id="1_6jc8n"]
+[ext_resource type="Texture2D" uid="uid://ck16vyh1q68ri" path="res://Scenes/UI/Assets/UI_ForestBackground.png" id="2_hcn70"]
+[ext_resource type="Texture2D" uid="uid://djd6iw2g84bba" path="res://Scenes/UI/Assets/UI_CenterFrame.png" id="3_fny3v"]
+[ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="4_lw4m2"]
 
 [node name="PauseMenu" type="Control" node_paths=PackedStringArray("PauseButtons")]
 process_mode = 1
@@ -13,11 +16,16 @@ grow_vertical = 2
 script = ExtResource("1_6jc8n")
 PauseButtons = [NodePath("MarginContainer/VBoxContainer/MarginContainer/ResumeButton"), NodePath("MarginContainer/VBoxContainer/MarginContainer4/OptionsButton"), NodePath("MarginContainer/VBoxContainer/MarginContainer2/QuitButton"), NodePath("MarginContainer/VBoxContainer/MarginContainer3/PlaceHolderButton")]
 
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 2
+[node name="Background" type="NinePatchRect" parent="."]
+self_modulate = Color(1, 1, 1, 0.75)
+layout_mode = 0
 offset_right = 640.0
 offset_bottom = 360.0
-color = Color(0.24, 0.24, 0.24, 0.854902)
+texture = ExtResource("2_hcn70")
+patch_margin_left = 100
+patch_margin_top = 100
+patch_margin_right = 102
+patch_margin_bottom = 100
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -31,8 +39,18 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 200
 theme_override_constants/margin_bottom = 20
 
+[node name="OptionsBackground" type="NinePatchRect" parent="MarginContainer"]
+self_modulate = Color(1, 1, 1, 0.75)
+layout_mode = 2
+texture = ExtResource("3_fny3v")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = -6
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -46,6 +64,7 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 focus_neighbor_top = NodePath("../../MarginContainer3/PlaceHolderButton")
 focus_neighbor_bottom = NodePath("../../MarginContainer4/OptionsButton")
+theme = ExtResource("4_lw4m2")
 text = "ESCAPE_MENU_RESUME"
 
 [node name="MarginContainer4" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
@@ -60,6 +79,7 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 focus_neighbor_top = NodePath("../../MarginContainer/ResumeButton")
 focus_neighbor_bottom = NodePath("../../MarginContainer2/QuitButton")
+theme = ExtResource("4_lw4m2")
 text = "TITLE_OPTIONS"
 
 [node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
@@ -74,6 +94,7 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 focus_neighbor_top = NodePath("../../MarginContainer4/OptionsButton")
 focus_neighbor_bottom = NodePath("../../MarginContainer3/PlaceHolderButton")
+theme = ExtResource("4_lw4m2")
 text = "ESCAPE_MENU_QUIT"
 
 [node name="MarginContainer3" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
@@ -88,4 +109,5 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 focus_neighbor_top = NodePath("../../MarginContainer2/QuitButton")
 focus_neighbor_bottom = NodePath("../../MarginContainer/ResumeButton")
+theme = ExtResource("4_lw4m2")
 text = "ESCAPE_MENU_TITLE"

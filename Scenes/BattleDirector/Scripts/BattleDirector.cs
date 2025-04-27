@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using FunkEngine;
 using Godot;
 
@@ -11,7 +12,10 @@ public partial class BattleDirector : Node2D
     public static readonly string LoadPath = "res://Scenes/BattleDirector/BattleScene.tscn";
 
     public PlayerPuppet Player;
-    public EnemyPuppet Enemy;
+    private EnemyPuppet[] _enemies;
+
+    [Export]
+    public Marker2D[] PuppetMarkers = new Marker2D[4]; //[0] is always player
 
     [Export]
     private Conductor CD;
@@ -32,30 +36,6 @@ public partial class BattleDirector : Node2D
 
     private bool _initializedPlaying;
 
-    #endregion
-
-    #region Note Handling
-    private bool PlayerAddNote(ArrowType type, Beat beat)
-    {
-        if (!NPB.CanPlaceNote())
-            return false;
-
-        Note noteToPlace = NPB.NotePlaced();
-        noteToPlace.OnHit(this, Timing.Okay);
-        CD.AddPlayerNote(noteToPlace, type, beat);
-        NotePlaced?.Invoke(this);
-        return true;
-    }
-
-    public PuppetTemplate GetTarget(Note note)
-    {
-        if (note.Owner == Player)
-        {
-            return Enemy;
-        }
-
-        return Player;
-    }
     #endregion
 
     #region Initialization
@@ -84,6 +64,7 @@ public partial class BattleDirector : Node2D
         }
 
         TimeKeeper.InitVals(curSong.Bpm);
+        Harbinger.Init(this);
         InitPlayer();
         InitEnemies();
         CD.Initialize(curSong);
@@ -96,7 +77,7 @@ public partial class BattleDirector : Node2D
     private void InitPlayer()
     {
         Player = GD.Load<PackedScene>(PlayerPuppet.LoadPath).Instantiate<PlayerPuppet>();
-        AddChild(Player);
+        PuppetMarkers[0].AddChild(Player);
         Player.Defeated += CheckBattleStatus;
         EventizeRelics();
         NPB.Setup(StageProducer.PlayerStats);
@@ -105,11 +86,19 @@ public partial class BattleDirector : Node2D
     private void InitEnemies()
     {
         //TODO: Refine
-        Enemy = GD.Load<PackedScene>(StageProducer.Config.EnemyScenePath)
-            .Instantiate<EnemyPuppet>();
-        AddChild(Enemy);
-        Enemy.Defeated += CheckBattleStatus;
-        AddEnemyEffects();
+        _enemies = new EnemyPuppet[StageProducer.Config.EnemyScenePath.Length];
+        for (int i = 0; i < StageProducer.Config.EnemyScenePath.Length; i++)
+        {
+            EnemyPuppet enemy = GD.Load<PackedScene>(StageProducer.Config.EnemyScenePath[0])
+                .Instantiate<EnemyPuppet>();
+            if (_enemies.Length == 1)
+                PuppetMarkers[2].AddChild(enemy);
+            else
+                PuppetMarkers[i + 1].AddChild(enemy);
+            enemy.Defeated += CheckBattleStatus;
+            _enemies[i] = enemy;
+            AddEnemyEffects(enemy);
+        }
     }
 
     public override void _Process(double delta)
@@ -128,7 +117,7 @@ public partial class BattleDirector : Node2D
         }
         if (beat.Loop > TimeKeeper.LastBeat.Loop)
         {
-            ChartLooped?.Invoke(this);
+            Harbinger.Instance.InvokeChartLoop(beat.Loop, false);
         }
         TimeKeeper.LastBeat = beat;
     }
@@ -143,7 +132,26 @@ public partial class BattleDirector : Node2D
             {
                 DebugKillEnemy();
             }
+
+            if (eventKey.Keycode == Key.Key9)
+            {
+                DebugRefillEnergy();
+            }
         }
+    }
+
+    private bool PlayerAddNote(ArrowType type, Beat beat)
+    {
+        if (!NPB.CanPlaceNote())
+            return false;
+
+        Note noteToPlace = NPB.NotePlaced();
+        noteToPlace.OnHit(this, Timing.Okay);
+
+        CD.AddPlayerNote(noteToPlace, type, beat);
+        Harbinger.Instance.InvokeNotePlaced(new ArrowData(type, beat, noteToPlace));
+        Harbinger.Instance.InvokeNoteHit(noteToPlace, Timing.Okay); //TODO: test how this feels? maybe take it out later
+        return true;
     }
 
     //Only called from CD signal when a note is processed
@@ -164,15 +172,16 @@ public partial class BattleDirector : Node2D
         Timing timed = CheckTiming(beatDif);
 
         data.NoteRef.OnHit(this, timed);
-        NPB.HandleTiming(timed);
+        Harbinger.Instance.InvokeNoteHit(data.NoteRef, timed);
+        NPB.HandleTiming(timed, data.Type);
         CM.ComboText(timed, data.Type, NPB.GetCurrentCombo());
     }
 
     private void ForceMiss(ArrowType type)
     {
-        NPB.HandleTiming(Timing.Miss);
+        NPB.HandleTiming(Timing.Miss, type);
         CM.ComboText(Timing.Miss, type, NPB.GetCurrentCombo());
-        Player.TakeDamage(4);
+        Player.TakeDamage(new DamageInstance(4, null, Player));
     }
 
     private Timing CheckTiming(double beatDif)
@@ -204,8 +213,13 @@ public partial class BattleDirector : Node2D
             OnBattleLost();
             return;
         }
-        if (puppet == Enemy)
+        if (puppet is EnemyPuppet && IsBattleWon())
             OnBattleWon(); //will have to adjust this to account for when we have multiple enemies at once
+    }
+
+    private bool IsBattleWon()
+    {
+        return GetFirstEnemy() == null;
     }
 
     private void OnBattleWon()
@@ -220,7 +234,7 @@ public partial class BattleDirector : Node2D
         Audio.StreamPaused = true;
         SaveSystem.ClearSave();
         AddChild(GD.Load<PackedScene>(EndScreen.LoadPath).Instantiate());
-        GetTree().Paused = true;
+        ProcessMode = ProcessModeEnum.Disabled;
     }
 
     private void ShowRewardSelection(int amount)
@@ -241,30 +255,126 @@ public partial class BattleDirector : Node2D
     }
     #endregion
 
+    #region Battles
+    public void DealDamage(Note note, int damage, PuppetTemplate source)
+    {
+        PuppetTemplate[] targets = GetTargets(note.TargetType);
+        foreach (PuppetTemplate target in targets)
+        {
+            target.TakeDamage(new DamageInstance(damage, source, target));
+        }
+    }
+
+    public void DealDamage(
+        Targetting targetting,
+        int damage,
+        PuppetTemplate source,
+        bool targetPlayer = false
+    )
+    {
+        PuppetTemplate[] targets = GetTargets(targetting);
+        foreach (PuppetTemplate target in targets)
+        {
+            target.TakeDamage(new DamageInstance(damage, source, target));
+        }
+    }
+
+    public void AddStatus(Targetting targetting, StatusEffect status)
+    {
+        PuppetTemplate[] targets = GetTargets(targetting);
+        foreach (PuppetTemplate target in targets)
+        {
+            target.AddStatusEffect(status);
+        }
+
+        status.StatusEnd += RemoveStatus;
+        AddEvent(status);
+    }
+
+    public void RemoveStatus(StatusEffect status)
+    {
+        status.Sufferer.RemoveStatusEffect(status);
+        status.StatusEnd -= RemoveStatus;
+        RemoveEvent(status);
+    }
+
+    private PuppetTemplate[] GetTargets(Targetting targetting)
+    {
+        switch (targetting)
+        {
+            case Targetting.Player:
+                return [Player];
+            case Targetting.First:
+                if (GetFirstEnemy() != null)
+                    return [GetFirstEnemy()];
+                return [];
+            case Targetting.All:
+                return _enemies.Where(x => x.GetCurrentHealth() > 0).ToArray<PuppetTemplate>();
+            default:
+                return null;
+        }
+    }
+
+    private PuppetTemplate GetFirstEnemy()
+    {
+        foreach (var enemy in _enemies)
+        {
+            if (enemy.GetCurrentHealth() > 0)
+                return enemy;
+        }
+
+        return null;
+    }
+    #endregion
+
     #region BattleEffect Handling
-
-    private delegate void NotePlacedHandler(BattleDirector BD);
-    private event NotePlacedHandler NotePlaced;
-
-    private delegate void ChartLoopHandler(BattleDirector BD);
-    private event ChartLoopHandler ChartLooped;
-
     private void AddEvent(IBattleEvent bEvent)
     {
-        switch (bEvent.GetTrigger()) //TODO: Look into a way to get eventhandler from string
+        switch (bEvent.GetTrigger())
         {
             case BattleEffectTrigger.NotePlaced:
-                NotePlaced += bEvent.OnTrigger;
+                Harbinger.Instance.NotePlaced += bEvent.OnTrigger;
                 break;
             case BattleEffectTrigger.OnLoop:
-                ChartLooped += bEvent.OnTrigger;
+                Harbinger.Instance.ChartLooped += bEvent.OnTrigger;
+                break;
+            case BattleEffectTrigger.NoteHit:
+                Harbinger.Instance.NoteHit += bEvent.OnTrigger;
+                break;
+            case BattleEffectTrigger.OnBattleEnd:
+                Harbinger.Instance.BattleEnded += bEvent.OnTrigger;
+                break;
+            case BattleEffectTrigger.OnDamageInstance:
+                Harbinger.Instance.OnDamageInstance += bEvent.OnTrigger;
                 break;
         }
     }
 
-    private void AddEnemyEffects()
+    private void RemoveEvent(IBattleEvent bEvent)
     {
-        foreach (var effect in Enemy.GetBattleEvents())
+        switch (bEvent.GetTrigger())
+        {
+            case BattleEffectTrigger.NotePlaced:
+                Harbinger.Instance.NotePlaced -= bEvent.OnTrigger;
+                break;
+            case BattleEffectTrigger.OnLoop:
+                Harbinger.Instance.ChartLooped -= bEvent.OnTrigger;
+                break;
+            case BattleEffectTrigger.NoteHit:
+                Harbinger.Instance.NoteHit -= bEvent.OnTrigger;
+                break;
+            case BattleEffectTrigger.OnBattleEnd:
+                Harbinger.Instance.BattleEnded -= bEvent.OnTrigger;
+                break;
+            case BattleEffectTrigger.OnDamageInstance:
+                Harbinger.Instance.OnDamageInstance -= bEvent.OnTrigger;
+                break;
+        }
+    }
+
+    private void AddEnemyEffects(EnemyPuppet enemy)
+    {
+        foreach (var effect in enemy.GetBattleEvents())
         {
             AddEvent(effect);
         }
@@ -293,8 +403,121 @@ public partial class BattleDirector : Node2D
     }
     #endregion
 
+    public partial class Harbinger : Resource
+    {
+        private static Harbinger _instance;
+        public static Harbinger Instance => _instance;
+
+        private BattleDirector _curDirector;
+
+        static Harbinger() { }
+
+        private Harbinger(BattleDirector BD)
+        {
+            _curDirector = BD;
+        }
+
+        internal static void Init(BattleDirector BD)
+        {
+            _instance = new Harbinger(BD);
+        }
+
+        /// <summary>
+        /// Event Args to handle event types triggering from the action of a note, without timing.
+        /// </summary>
+        /// <param name="bd">The BattleDirector calling the event.</param>
+        /// <param name="data">The note data of the passing note.</param>
+        public class NoteEventArgs(BattleDirector bd, ArrowData data) : BattleEventArgs(bd)
+        {
+            public ArrowData Data = data;
+        }
+
+        /// <summary>
+        /// Event Args to handle event types triggering from the start of a new loop.
+        /// </summary>
+        /// <param name="bd">The BattleDirector calling the event.</param>
+        /// <param name="incomingLoop">The loop starting.</param>
+        public class LoopEventArgs(BattleDirector bd, int incomingLoop, bool artificialLoop = true)
+            : BattleEventArgs(bd)
+        {
+            public int Loop = incomingLoop;
+            public bool ArtificialLoop = artificialLoop;
+        }
+
+        /// <summary>
+        /// Event Args to handle notes being hit
+        /// </summary>
+        /// <param name="bd">The BattleDirector calling the event.</param>
+        /// <param name="note">The Note being hit.</param>
+        public class NoteHitArgs(BattleDirector bd, Note note, Timing timing) : BattleEventArgs(bd)
+        {
+            public Note Note = note;
+            public Timing Timing = timing;
+        }
+
+        internal delegate void NotePlacedHandler(BattleEventArgs e);
+        internal event NotePlacedHandler NotePlaced;
+
+        public void InvokeNotePlaced(ArrowData data)
+        {
+            NotePlaced?.Invoke(new NoteEventArgs(_curDirector, data));
+        }
+
+        internal delegate void ChartLoopHandler(BattleEventArgs e);
+        internal event ChartLoopHandler ChartLooped;
+
+        public void InvokeChartLoop(int incLoop, bool artificialLoop = true)
+        {
+            ChartLooped?.Invoke(new LoopEventArgs(_curDirector, incLoop, artificialLoop));
+        }
+
+        internal delegate void NoteHitHandler(BattleEventArgs e);
+        internal event NoteHitHandler NoteHit;
+
+        public void InvokeNoteHit(Note note, Timing timing)
+        {
+            NoteHit?.Invoke(new NoteHitArgs(_curDirector, note, timing));
+        }
+
+        internal delegate void BattleEndedHandler(BattleEventArgs e);
+        internal event BattleEndedHandler BattleEnded;
+
+        public void InvokeBattleEnded()
+        {
+            BattleEnded?.Invoke(new BattleEventArgs(_curDirector));
+        }
+
+        /// <summary>
+        /// Event Args to handle a damage instance being dealt. Happens before taking damage.
+        /// This allows damage to be intercepted, to be reduced/increased, to counter, or heal based on incoming damage.
+        /// </summary>
+        /// <param name="bd">The BattleDirector calling the event.</param>
+        /// <param name="dmg">The damage instance being thrown.</param>
+        public class OnDamageInstanceArgs(BattleDirector bd, DamageInstance dmg)
+            : BattleEventArgs(bd)
+        {
+            public DamageInstance Dmg = dmg;
+        }
+
+        internal delegate void OnDamageInstanceHandler(OnDamageInstanceArgs e);
+        internal event OnDamageInstanceHandler OnDamageInstance;
+
+        public void InvokeOnDamageInstance(DamageInstance dmg)
+        {
+            OnDamageInstance?.Invoke(new OnDamageInstanceArgs(_curDirector, dmg));
+        }
+    }
+
     private void DebugKillEnemy()
     {
-        //Enemy.TakeDamage(1000);
+        foreach (EnemyPuppet enemy in _enemies)
+        {
+            enemy.TakeDamage(new DamageInstance(1000, null, enemy));
+        }
+    }
+
+    private void DebugRefillEnergy()
+    {
+        NPB.IncreaseCharge(100);
     }
 }

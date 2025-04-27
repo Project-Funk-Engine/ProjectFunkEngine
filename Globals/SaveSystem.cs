@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Text.Json;
 using Godot;
@@ -13,14 +14,38 @@ public static class SaveSystem
     private static ConfigFile _curConfigData;
 
     private const float DefaultVolume = 1f;
-    private const string DefaultInput = "WASD";
+    private const string DefaultInputType = "WASD";
+    private const int DefaultInputKeyboardUp = 87; //W
+    private const int DefaultInputKeyboardLeft = 65; //A
+    private const int DefaultInputKeyboardDown = 83; //S
+    private const int DefaultInputKeyboardRight = 68; //D
+    private const int DefaultInputKeyboardSecondary = 4194325; //Shift
+    private const int DefaultInputKeyboardInventory = 73; //I
+    private const int DefaultInputControllerUp = 3; //Y
+    private const int DefaultInputControllerLeft = 2; //X
+    private const int DefaultInputControllerDown = 0; //A
+    private const int DefaultInputControllerRight = 1; //B
+    private const int DefaultInputControllerSecondary = 10; //right bumper
+    private const int DefaultInputControllerInventory = 4; //back button
     private const string DefaultLanguage = "en";
     private const bool DefaultHighCon = false;
 
     public enum ConfigSettings
     {
         Volume,
-        InputKey,
+        InputType,
+        InputKeyboardUp,
+        InputKeyboardLeft,
+        InputKeyboardDown,
+        InputKeyboardRight,
+        InputKeyboardSecondary,
+        InputKeyboardInventory,
+        InputControllerUp,
+        InputControllerLeft,
+        InputControllerDown,
+        InputControllerRight,
+        InputControllerSecondary,
+        InputControllerInventory,
         LanguageKey,
         HighContrast,
     }
@@ -32,7 +57,19 @@ public static class SaveSystem
     {
         _curConfigData = new ConfigFile();
         UpdateConfig(ConfigSettings.Volume, DefaultVolume);
-        UpdateConfig(ConfigSettings.InputKey, DefaultInput);
+        UpdateConfig(ConfigSettings.InputType, DefaultInputType);
+        UpdateConfig(ConfigSettings.InputKeyboardUp, DefaultInputKeyboardUp);
+        UpdateConfig(ConfigSettings.InputKeyboardLeft, DefaultInputKeyboardLeft);
+        UpdateConfig(ConfigSettings.InputKeyboardDown, DefaultInputKeyboardDown);
+        UpdateConfig(ConfigSettings.InputKeyboardRight, DefaultInputKeyboardRight);
+        UpdateConfig(ConfigSettings.InputKeyboardSecondary, DefaultInputKeyboardSecondary);
+        UpdateConfig(ConfigSettings.InputKeyboardInventory, DefaultInputKeyboardInventory);
+        UpdateConfig(ConfigSettings.InputControllerUp, DefaultInputControllerUp);
+        UpdateConfig(ConfigSettings.InputControllerLeft, DefaultInputControllerLeft);
+        UpdateConfig(ConfigSettings.InputControllerDown, DefaultInputControllerDown);
+        UpdateConfig(ConfigSettings.InputControllerRight, DefaultInputControllerRight);
+        UpdateConfig(ConfigSettings.InputControllerSecondary, DefaultInputControllerSecondary);
+        UpdateConfig(ConfigSettings.InputControllerInventory, DefaultInputControllerInventory);
         UpdateConfig(ConfigSettings.LanguageKey, DefaultLanguage);
         UpdateConfig(ConfigSettings.HighContrast, DefaultHighCon);
     }
@@ -51,8 +88,44 @@ public static class SaveSystem
             case ConfigSettings.Volume:
                 _curConfigData.SetValue("Options", "Volume", value);
                 break;
-            case ConfigSettings.InputKey:
+            case ConfigSettings.InputType:
                 _curConfigData.SetValue("Options", "InputKey", value);
+                break;
+            case ConfigSettings.InputKeyboardUp:
+                _curConfigData.SetValue("Options", "InputKeyboardUp", value);
+                break;
+            case ConfigSettings.InputKeyboardLeft:
+                _curConfigData.SetValue("Options", "InputKeyboardLeft", value);
+                break;
+            case ConfigSettings.InputKeyboardDown:
+                _curConfigData.SetValue("Options", "InputKeyboardDown", value);
+                break;
+            case ConfigSettings.InputKeyboardRight:
+                _curConfigData.SetValue("Options", "InputKeyboardRight", value);
+                break;
+            case ConfigSettings.InputKeyboardSecondary:
+                _curConfigData.SetValue("Options", "InputKeyboardSecondary", value);
+                break;
+            case ConfigSettings.InputKeyboardInventory:
+                _curConfigData.SetValue("Options", "InputKeyboardInventory", value);
+                break;
+            case ConfigSettings.InputControllerUp:
+                _curConfigData.SetValue("Options", "InputControllerUp", value);
+                break;
+            case ConfigSettings.InputControllerLeft:
+                _curConfigData.SetValue("Options", "InputControllerLeft", value);
+                break;
+            case ConfigSettings.InputControllerDown:
+                _curConfigData.SetValue("Options", "InputControllerDown", value);
+                break;
+            case ConfigSettings.InputControllerRight:
+                _curConfigData.SetValue("Options", "InputControllerRight", value);
+                break;
+            case ConfigSettings.InputControllerSecondary:
+                _curConfigData.SetValue("Options", "InputControllerSecondary", value);
+                break;
+            case ConfigSettings.InputControllerInventory:
+                _curConfigData.SetValue("Options", "InputControllerInventory", value);
                 break;
             case ConfigSettings.LanguageKey:
                 _curConfigData.SetValue("Options", "LanguageKey", value);
@@ -74,6 +147,7 @@ public static class SaveSystem
         if (_curConfigData == null)
         {
             LoadConfigData();
+            ApplySavedInputBindings();
         }
     }
 
@@ -118,8 +192,80 @@ public static class SaveSystem
         {
             case ConfigSettings.Volume:
                 return _curConfigData.GetValue("Options", "Volume", DefaultVolume);
-            case ConfigSettings.InputKey:
-                return _curConfigData.GetValue("Options", "InputKey", DefaultInput);
+            case ConfigSettings.InputType:
+                return _curConfigData.GetValue("Options", "InputKey", DefaultInputType);
+            case ConfigSettings.InputKeyboardUp:
+                return _curConfigData.GetValue(
+                    "Options",
+                    "InputKeyboardUp",
+                    DefaultInputKeyboardUp
+                );
+            case ConfigSettings.InputKeyboardLeft:
+                return _curConfigData.GetValue(
+                    "Options",
+                    "InputKeyboardLeft",
+                    DefaultInputKeyboardLeft
+                );
+            case ConfigSettings.InputKeyboardDown:
+                return _curConfigData.GetValue(
+                    "Options",
+                    "InputKeyboardDown",
+                    DefaultInputKeyboardDown
+                );
+            case ConfigSettings.InputKeyboardRight:
+                return _curConfigData.GetValue(
+                    "Options",
+                    "InputKeyboardRight",
+                    DefaultInputKeyboardRight
+                );
+            case ConfigSettings.InputKeyboardSecondary:
+                return _curConfigData.GetValue(
+                    "Options",
+                    "InputKeyboardSecondary",
+                    DefaultInputKeyboardSecondary
+                );
+            case ConfigSettings.InputKeyboardInventory:
+                return _curConfigData.GetValue(
+                    "Options",
+                    "InputKeyboardInventory",
+                    DefaultInputKeyboardInventory
+                );
+            case ConfigSettings.InputControllerUp:
+                return _curConfigData.GetValue(
+                    "Options",
+                    "InputControllerUp",
+                    DefaultInputControllerUp
+                );
+            case ConfigSettings.InputControllerLeft:
+                return _curConfigData.GetValue(
+                    "Options",
+                    "InputControllerLeft",
+                    DefaultInputControllerLeft
+                );
+            case ConfigSettings.InputControllerDown:
+                return _curConfigData.GetValue(
+                    "Options",
+                    "InputControllerDown",
+                    DefaultInputControllerDown
+                );
+            case ConfigSettings.InputControllerRight:
+                return _curConfigData.GetValue(
+                    "Options",
+                    "InputControllerRight",
+                    DefaultInputControllerRight
+                );
+            case ConfigSettings.InputControllerSecondary:
+                return _curConfigData.GetValue(
+                    "Options",
+                    "InputControllerSecondary",
+                    DefaultInputControllerSecondary
+                );
+            case ConfigSettings.InputControllerInventory:
+                return _curConfigData.GetValue(
+                    "Options",
+                    "InputControllerInventory",
+                    DefaultInputControllerInventory
+                );
             case ConfigSettings.LanguageKey:
                 return _curConfigData.GetValue("Options", "LanguageKey", DefaultLanguage);
             case ConfigSettings.HighContrast:
@@ -127,6 +273,91 @@ public static class SaveSystem
             default:
                 GD.PushError("Invalid config setting passed. " + setting);
                 return float.MinValue;
+        }
+    }
+
+    public static void ApplySavedInputBindings()
+    {
+        InputMap.ActionEraseEvents("WASD_arrowUp");
+        InputMap.ActionEraseEvents("WASD_arrowDown");
+        InputMap.ActionEraseEvents("WASD_arrowRight");
+        InputMap.ActionEraseEvents("WASD_arrowLeft");
+        InputMap.ActionEraseEvents("WASD_secondaryPlacement");
+        InputMap.ActionEraseEvents("WASD_inventory");
+        InputMap.ActionEraseEvents("CONTROLLER_arrowUp");
+        InputMap.ActionEraseEvents("CONTROLLER_arrowDown");
+        InputMap.ActionEraseEvents("CONTROLLER_arrowLeft");
+        InputMap.ActionEraseEvents("CONTROLLER_arrowRight");
+        InputMap.ActionEraseEvents("CONTROLLER_secondaryPlacement");
+        InputMap.ActionEraseEvents("CONTROLLER_inventory");
+
+        // Keyboard bindings
+        AddKeyBinding("WASD_arrowUp", GetConfigValue(ConfigSettings.InputKeyboardUp).ToString());
+        AddKeyBinding(
+            "WASD_arrowDown",
+            GetConfigValue(ConfigSettings.InputKeyboardDown).ToString()
+        );
+        AddKeyBinding(
+            "WASD_arrowLeft",
+            GetConfigValue(ConfigSettings.InputKeyboardLeft).ToString()
+        );
+        AddKeyBinding(
+            "WASD_arrowRight",
+            GetConfigValue(ConfigSettings.InputKeyboardRight).ToString()
+        );
+        AddKeyBinding(
+            "WASD_secondaryPlacement",
+            GetConfigValue(ConfigSettings.InputKeyboardSecondary).ToString()
+        );
+        AddKeyBinding(
+            "WASD_inventory",
+            GetConfigValue(ConfigSettings.InputKeyboardInventory).ToString()
+        );
+
+        // Controller bindings
+        AddJoypadBinding(
+            "CONTROLLER_arrowUp",
+            GetConfigValue(ConfigSettings.InputControllerUp).ToString()
+        );
+        AddJoypadBinding(
+            "CONTROLLER_arrowDown",
+            GetConfigValue(ConfigSettings.InputControllerDown).ToString()
+        );
+        AddJoypadBinding(
+            "CONTROLLER_arrowLeft",
+            GetConfigValue(ConfigSettings.InputControllerLeft).ToString()
+        );
+        AddJoypadBinding(
+            "CONTROLLER_arrowRight",
+            GetConfigValue(ConfigSettings.InputControllerRight).ToString()
+        );
+        AddJoypadBinding(
+            "CONTROLLER_secondaryPlacement",
+            GetConfigValue(ConfigSettings.InputControllerSecondary).ToString()
+        );
+        AddJoypadBinding(
+            "CONTROLLER_inventory",
+            GetConfigValue(ConfigSettings.InputControllerInventory).ToString()
+        );
+    }
+
+    private static void AddKeyBinding(string action, string keyString)
+    {
+        Key key = (Key)Enum.Parse(typeof(Key), keyString, ignoreCase: true);
+        InputEventKey inputEvent = new InputEventKey { PhysicalKeycode = key };
+        InputMap.ActionAddEvent(action, inputEvent);
+    }
+
+    private static void AddJoypadBinding(string action, string buttonString)
+    {
+        if (Enum.TryParse<JoyButton>(buttonString, true, out JoyButton button))
+        {
+            InputEventJoypadButton inputEvent = new InputEventJoypadButton { ButtonIndex = button };
+            InputMap.ActionAddEvent(action, inputEvent);
+        }
+        else
+        {
+            GD.PushWarning($"Could not parse joypad button: {buttonString}");
         }
     }
     #endregion
@@ -140,6 +371,7 @@ public static class SaveSystem
         public ulong RngSeed { get; init; }
         public ulong RngState { get; init; }
         public int LastRoomIdx { get; init; }
+        public int Area { get; init; }
 
         public int[] NoteIds { get; init; }
         public int[] RelicIds { get; init; }
@@ -151,7 +383,8 @@ public static class SaveSystem
             int lastRoomIdx,
             int[] noteIds,
             int[] relicIds,
-            int playerHealth
+            int playerHealth,
+            int area
         )
         {
             RngSeed = rngSeed;
@@ -160,6 +393,7 @@ public static class SaveSystem
             NoteIds = noteIds;
             RelicIds = relicIds;
             PlayerHealth = playerHealth;
+            Area = area;
         }
     }
 
@@ -173,7 +407,8 @@ public static class SaveSystem
             StageProducer.CurRoom,
             noteIds,
             relicIds,
-            StageProducer.PlayerStats.CurrentHealth
+            StageProducer.PlayerStats.CurrentHealth,
+            (int)StageProducer.CurArea
         );
         string json = JsonSerializer.Serialize(sv);
 
@@ -211,6 +446,5 @@ public static class SaveSystem
     {
         DirAccess.RemoveAbsolute(UserSavePath);
     }
-
     #endregion
 }

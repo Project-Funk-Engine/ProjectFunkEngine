@@ -7,21 +7,21 @@ public struct SongTemplate
 {
     public string Name;
     public readonly string AudioLocation;
-    public string MIDILocation;
-    public readonly string EnemyScenePath;
+    public string SongMapLocation;
+    public readonly string[] EnemyScenePath;
     public SongData SongData;
 
     public SongTemplate(
         SongData songData,
         string name = "",
         string audioLocation = "",
-        string midiLocation = "",
-        string enemyScenePath = ""
+        string songMapLocation = "",
+        string[] enemyScenePath = null
     )
     {
         Name = name;
         AudioLocation = audioLocation;
-        MIDILocation = midiLocation;
+        SongMapLocation = songMapLocation;
         SongData = songData;
         EnemyScenePath = enemyScenePath;
     }

@@ -28,6 +28,7 @@ public partial class NotePlacementBar : Node
 
     [Export]
     private TextureProgressBar _notePlacementBar;
+    private Gradient _gradTex;
 
     [Export]
     private GpuParticles2D _particles;
@@ -42,23 +43,28 @@ public partial class NotePlacementBar : Node
     private TextEdit _currentComboMultText;
 
     private int _currentCombo;
-    private int ComboMult => _currentCombo / _notesToIncreaseCombo + 1 + _bonusMult;
+    private int MaxComboMult;
+    private int ComboMult =>
+        Math.Min(_currentCombo / _notesToIncreaseCombo + 1 + _bonusMult, MaxComboMult);
     private int _bonusMult;
     private int _notesToIncreaseCombo;
 
     private void UpdateComboMultText()
     {
-        _currentComboMultText.Text = $"    x{ComboMult.ToString()}";
+        _currentComboMultText.Text = $" x{ComboMult.ToString()}";
     }
     #endregion
 
     #region Initialization
     public override void _Ready()
     {
-        MaxValue = 80;
+        MaxValue = 60;
         _notesToIncreaseCombo = 4;
 
         _barInitPosition = _notePlacementBar.Position;
+
+        if (_notePlacementBar.TextureProgress is GradientTexture2D gradientTexture)
+            _gradTex = gradientTexture.Gradient;
     }
 
     public override void _Process(double delta)
@@ -77,6 +83,9 @@ public partial class NotePlacementBar : Node
         }
         ShuffleNoteQueue();
         ProgressQueue();
+        MaxValue = playerStats.MaxComboBar;
+        MaxComboMult = playerStats.MaxComboMult;
+        _notesToIncreaseCombo = playerStats.NotesToIncreaseCombo;
     }
     #endregion
 
@@ -151,10 +160,40 @@ public partial class NotePlacementBar : Node
     }
     #endregion
 
+    #region Helpers
+    private Color[] _fillColors = [Colors.Green, Colors.Aqua, Colors.Pink, Colors.Red];
+
+    private void FillWithColor(ArrowType type, Color overrideCol = default)
+    {
+        // ReSharper disable once CompareOfFloatsByEqualityOperator
+        if (CurrentBarValue == MaxValue)
+            return;
+        Color color = overrideCol == default ? _fillColors[(int)type] : overrideCol;
+
+        if (_gradTex.GetPointCount() == 1)
+            _gradTex.SetColor(0, color);
+
+        float offset = (float)((CurrentBarValue) / MaxValue);
+        _gradTex.AddPoint(offset, color);
+    }
+
+    private void ClearColors()
+    {
+        for (int i = _gradTex.GetPointCount() - 1; i > 0; i--)
+            _gradTex.RemovePoint(i);
+    }
+    #endregion
+
     #region Public Functions
     public int GetCurrentCombo()
     {
         return _currentCombo;
+    }
+
+    public void ResetCurrentCombo()
+    {
+        _currentCombo = 0;
+        _bonusMult = 0;
     }
 
     //For external events to directly change mult
@@ -166,6 +205,7 @@ public partial class NotePlacementBar : Node
 
     public void IncreaseCharge(int amount = 1)
     {
+        FillWithColor(default, Colors.DarkViolet);
         CurrentBarValue += amount;
     }
 
@@ -179,12 +219,16 @@ public partial class NotePlacementBar : Node
     {
         if (!CanPlaceNote())
             GD.PushWarning("Note is attempting placement without a full bar!");
-        Note placedNote = GetNote(Input.IsActionPressed("Secondary"));
+        string inputType = SaveSystem
+            .GetConfigValue(SaveSystem.ConfigSettings.InputType)
+            .ToString();
+        Note placedNote = GetNote(Input.IsActionPressed(inputType + "_secondaryPlacement"));
         CurrentBarValue -= placedNote.CostModifier * MaxValue;
+        ClearColors();
         return placedNote;
     }
 
-    public void HandleTiming(Timing timed)
+    public void HandleTiming(Timing timed, ArrowType type)
     {
         if (timed == Timing.Miss)
         {
@@ -192,24 +236,36 @@ public partial class NotePlacementBar : Node
         }
         else
         {
-            HitNote();
+            HitNote(type);
         }
     }
 
     // Hitting a note increases combo, combo mult, and note placement bar
-    private void HitNote()
+    private void HitNote(ArrowType type)
     {
         _currentCombo++;
+        FillWithColor(type);
         CurrentBarValue += ComboMult;
         UpdateComboMultText();
     }
 
+    public bool IgnoreMiss; //a one time safe miss
+
     // Missing a note resets combo
     private void MissNote()
     {
-        _currentCombo = 0;
-        _bonusMult = 0;
+        if (IgnoreMiss)
+        {
+            IgnoreMiss = false;
+            return;
+        }
+        ResetCurrentCombo();
         UpdateComboMultText();
+    }
+
+    public void SetIgnoreMiss(bool ignore)
+    {
+        IgnoreMiss = ignore;
     }
     #endregion
 

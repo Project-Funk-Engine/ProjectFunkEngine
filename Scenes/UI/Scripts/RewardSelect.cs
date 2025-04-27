@@ -17,67 +17,98 @@ public partial class RewardSelect : CanvasLayer
     [Export]
     private Button _skipButton;
 
+    [Export]
+    private Button _rerollButton;
+
+    private ButtonGroup _rewardGroup;
+
     public delegate void SelectionMadeHandler();
     public event SelectionMadeHandler Selected;
 
     private PlayerStats _player;
 
-    private RelicTemplate[] _rChoices; //TODO: look into typed functions
-    private RelicTemplate _rSelection;
+    private RelicTemplate[] _rChoices;
     private Note[] _nChoices;
-    private Note _nSelection;
+    private IDisplayable _selection;
 
     private void Initialize(PlayerStats player, int amount, Stages type)
     {
         _player = player;
-        if (type == Stages.Battle)
+        _rewardGroup = new ButtonGroup();
+
+        _roomType = type;
+        _amount = amount + player.RewardAmountModifier;
+        if (player.Rerolls > 0)
         {
-            GenerateNoteChoices(amount);
-        }
-        else
-        {
-            GenerateRelicChoices(amount);
+            _curRerolls = player.Rerolls;
+            _rerollButton.Visible = true;
+            _rerollButton.Text = Tr("CHEST_ROOM_REROLL") + _curRerolls;
+            _rerollButton.Pressed += Reroll;
         }
 
+        GenerateSelection();
+
         _acceptButton.Pressed += OnSelect;
+        _acceptButton.FocusEntered += () => ChangeDescription(_selection);
         _skipButton.Pressed += OnSkip;
     }
 
     public override void _Process(double delta)
     {
-        _acceptButton.Visible = (_nSelection != null) || (_rSelection != null);
+        _acceptButton.Visible = (_selection != null);
+    }
+
+    private void AddButton(IDisplayable displayable)
+    {
+        var button = GD.Load<PackedScene>(DisplayButton.LoadPath).Instantiate<DisplayButton>();
+        button.SetButtonGroup(_rewardGroup);
+        button.ToggleMode = true;
+        button.Display(displayable.Texture, displayable.Tooltip, displayable.Name);
+        button.Pressed += () => SetSelection(displayable);
+        button.FocusEntered += () => ChangeDescription(displayable);
+        ButtonContainer.AddChild(button);
+    }
+
+    private void GenerateSelection()
+    {
+        if (_roomType == Stages.Battle)
+        {
+            GenerateNoteChoices(_amount);
+        }
+        else
+        {
+            GenerateRelicChoices(_amount);
+        }
     }
 
     private void GenerateRelicChoices(int amount = 1)
     {
         if (amount < 1)
             GD.PushError("Error: In RewardSelect: amount < 1");
-        _rChoices = Scribe.GetRandomRelics(_player.CurRelics, amount);
-
+        _rChoices = Scribe.GetRandomRelics(
+            amount,
+            StageProducer.CurRoom + 10 * _curRerolls,
+            _player.RarityOdds
+        );
+        int numChildren = ButtonContainer.GetChildCount();
         foreach (var relic in _rChoices)
         {
-            var button = new DisplayButton();
-            button.Display(relic.Texture, relic.Tooltip, relic.Name);
-            button.Pressed += () => OnRelicSelected(relic);
-            ButtonContainer.AddChild(button);
+            AddButton(relic);
         }
-        ButtonContainer.GetChild<Button>(0).GrabFocus();
+        ButtonContainer.GetChild<Button>(numChildren).GrabFocus();
     }
 
     private void GenerateNoteChoices(int amount = 1)
     {
         if (amount < 1)
             GD.PushError("Error: In RewardSelect: amount < 1");
-        _nChoices = Scribe.GetRandomRewardNotes(amount);
-
+        _nChoices = Scribe.GetRandomRewardNotes(amount, StageProducer.CurRoom + 10 * _curRerolls);
+        int numChildren = ButtonContainer.GetChildCount();
         foreach (var note in _nChoices)
         {
-            var button = new DisplayButton();
-            button.Display(note.Texture, note.Tooltip, note.Name);
-            button.Pressed += () => OnNoteSelected(note);
-            ButtonContainer.AddChild(button);
+            AddButton(note);
         }
-        ButtonContainer.GetChild<Button>(0).GrabFocus();
+        ButtonContainer.GetChild<Button>(numChildren).GrabFocus();
     }
 
     public static RewardSelect CreateSelection(
@@ -90,40 +121,70 @@ public partial class RewardSelect : CanvasLayer
         var rewardUI = GD.Load<PackedScene>(LoadPath).Instantiate<RewardSelect>();
         parent.AddChild(rewardUI);
         rewardUI.Initialize(playerStats, amount, type);
-        parent.GetTree().Paused = true;
+        parent.ProcessMode = ProcessModeEnum.Disabled;
 
         return rewardUI;
     }
 
-    private void OnNoteSelected(Note choiceNote)
+    private void ChangeDescription(IDisplayable displayable)
     {
-        _nSelection = choiceNote;
-        string noteName = choiceNote.Name.ToUpper();
-        _description.Text =
-            Tr("NOTE_" + noteName + "_NAME") + ": " + Tr("NOTE_" + noteName + "_TOOLTIP");
+        if (displayable == null)
+        {
+            _description.Text = "";
+            return;
+        }
+        string name = displayable.Name.ToUpper();
+        name = name.Replace(" ", "");
+        string type = displayable switch
+        {
+            Note => "NOTE_",
+            RelicTemplate => "RELIC_",
+            _ => "UNKNOWN_",
+        };
+        _description.Text = Tr(type + name + "_NAME") + ": " + Tr(type + name + "_TOOLTIP");
     }
 
-    private void OnRelicSelected(RelicTemplate choiceRelic)
+    private int _curRerolls;
+    private Stages _roomType;
+    private int _amount; //The UI can accomodate an effectively infinite amount, but preferably this should be <=11
+
+    private void Reroll()
     {
-        _rSelection = choiceRelic;
-        string relicName = choiceRelic.Name.ToUpper();
-        relicName = relicName.Replace(" ", "");
-        _description.Text =
-            Tr("RELIC_" + relicName + "_NAME") + ": " + Tr("RELIC_" + relicName + "_TOOLTIP");
+        _curRerolls--;
+        _selection = null;
+        foreach (Node child in ButtonContainer.GetChildren())
+        {
+            child.QueueFree();
+        }
+        GenerateSelection();
+        if (_curRerolls < 1)
+        {
+            _rerollButton.Visible = false;
+            return;
+        }
+        _rerollButton.Text = Tr("CHEST_ROOM_REROLL") + _curRerolls;
+    }
+
+    private void SetSelection(IDisplayable reward)
+    {
+        _selection = reward;
+        ChangeDescription(reward);
     }
 
     private void OnSelect()
     {
-        if (_nSelection == null && _rSelection == null)
-            return;
-        if (_nSelection != null)
+        switch (_selection)
         {
-            _player.AddNote(_nSelection);
+            case Note note:
+                _player.AddNote(note);
+                break;
+            case RelicTemplate relic:
+                _player.AddRelic(relic);
+                break;
+            default:
+                return;
         }
-        else if (_rSelection != null)
-        {
-            _player.AddRelic(_rSelection);
-        }
+
         GetTree().Paused = false;
         Selected?.Invoke();
         QueueFree();

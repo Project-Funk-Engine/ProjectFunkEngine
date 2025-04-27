@@ -34,7 +34,7 @@ public partial class Inventory : Control, IFocusableMenu
         {
             var newButton = GD.Load<PackedScene>(DisplayButton.LoadPath)
                 .Instantiate<DisplayButton>();
-            newButton.Display(item.Texture, item.Tooltip, item.Name);
+            newButton.Display(item.Texture, item.Tooltip, item.Name, true);
             newButton.Pressed += () =>
             {
                 DoDescription(newButton);
@@ -43,8 +43,18 @@ public partial class Inventory : Control, IFocusableMenu
         }
     }
 
+    public override void _Process(double delta)
+    {
+        NoNullFocus();
+    }
+
     public override void _Input(InputEvent @event)
     {
+        if (!GetWindow().HasFocus())
+        {
+            GetViewport().SetInputAsHandled();
+            return;
+        }
         if (_tabs.CurrentTab == 0) //Godot 4.4 changed neighbor behaviour
         {
             if (_notes.GetChildCount() > 0)
@@ -60,7 +70,11 @@ public partial class Inventory : Control, IFocusableMenu
                 _tabs.GetTabBar().FocusNeighborBottom = null;
         }
 
-        if (@event.IsActionPressed("ui_cancel") || @event.IsActionPressed("Inventory"))
+        if (
+            @event.IsActionPressed("ui_cancel")
+            || @event.IsActionPressed("WASD_inventory")
+            || @event.IsActionPressed("CONTROLLER_inventory")
+        )
         {
             ReturnToPrev();
             GetViewport().SetInputAsHandled();
@@ -90,6 +104,15 @@ public partial class Inventory : Control, IFocusableMenu
     {
         Prev.ResumeFocus();
         QueueFree();
+    }
+
+    private void NoNullFocus()
+    {
+        var focusedNode = GetViewport().GuiGetFocusOwner();
+        if (focusedNode != null)
+            return;
+        _tabs.GetTabBar().GrabFocus();
+        ClearDescription(-1);
     }
 
     private void DoDescription(DisplayButton dispButton)

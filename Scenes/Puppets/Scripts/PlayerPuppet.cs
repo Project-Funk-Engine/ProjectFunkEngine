@@ -19,9 +19,9 @@ public partial class PlayerPuppet : PuppetTemplate
         base._Ready();
     }
 
-    public override void TakeDamage(int amount)
+    public override void TakeDamage(DamageInstance dmg)
     {
-        base.TakeDamage(amount);
+        base.TakeDamage(dmg);
         Stats.CurrentHealth = CurrentHealth;
     }
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://duhiilcv4tat3"]
 
-[ext_resource type="Script" path="res://Scenes/BattleDirector/Scripts/NotePlacementBar.cs" id="1_456es"]
+[ext_resource type="Script" uid="uid://gj666xe815py" path="res://Scenes/BattleDirector/Scripts/NotePlacementBar.cs" id="1_456es"]
 [ext_resource type="Texture2D" uid="uid://cnyr5usjdv0ni" path="res://Scenes/BattleDirector/Assets/NoteQueue_Frame.png" id="2_3tw16"]
 [ext_resource type="Texture2D" uid="uid://c3chrsxrulapd" path="res://Classes/Notes/Assets/Note_PlayerBasic.png" id="3_6ylx6"]
 [ext_resource type="Texture2D" uid="uid://caw70lr5e1yiq" path="res://Classes/Notes/Assets/Note_PlayerDouble.png" id="4_6w8ha"]
@@ -14,14 +14,23 @@ width = 34
 height = 100
 
 [sub_resource type="Gradient" id="Gradient_xvck1"]
-offsets = PackedFloat32Array(0, 0.373239, 0.690141, 1)
-colors = PackedColorArray(0, 1, 0, 1, 1, 0, 0.4, 1, 0, 1, 0.95, 1, 1, 0, 0, 1)
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_0bqho"]
 gradient = SubResource("Gradient_xvck1")
 width = 32
 height = 98
-fill_to = Vector2(0, 1)
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="Gradient" id="Gradient_2uknl"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.46, 0.2162, 0.39905, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_d62c7"]
+gradient = SubResource("Gradient_2uknl")
+width = 1
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fy2uu"]
 lifetime_randomness = 0.32
@@ -40,14 +49,6 @@ turbulence_noise_strength = 0.1
 turbulence_noise_scale = 5.0
 turbulence_influence_min = 0.0
 turbulence_influence_max = 0.018
-
-[sub_resource type="Gradient" id="Gradient_2uknl"]
-offsets = PackedFloat32Array(0)
-colors = PackedColorArray(0.46, 0.2162, 0.39905, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_d62c7"]
-gradient = SubResource("Gradient_2uknl")
-width = 1
 
 [node name="NotePlacementBar" type="Control" node_paths=PackedStringArray("_notePlacementBar", "_particles", "_fullBarParticles", "_currentComboMultText", "_currentNote", "_nextNote")]
 layout_mode = 3
@@ -80,12 +81,12 @@ z_index = 1
 position = Vector2(-1, -32)
 emitting = false
 amount = 22
-process_material = SubResource("ParticleProcessMaterial_fy2uu")
 texture = SubResource("GradientTexture1D_d62c7")
 lifetime = 2.0
 preprocess = 0.1
 explosiveness = 0.3
 randomness = 0.05
+process_material = SubResource("ParticleProcessMaterial_fy2uu")
 
 [node name="FullBarParticles" type="CPUParticles2D" parent="PlacementBar"]
 position = Vector2(14, 98)
@@ -107,7 +108,8 @@ layout_mode = 0
 offset_right = 80.0
 offset_bottom = 35.0
 mouse_filter = 2
-text = "    x1"
+theme_override_font_sizes/font_size = 32
+text = " x1"
 context_menu_enabled = false
 shortcut_keys_enabled = false
 selecting_enabled = false

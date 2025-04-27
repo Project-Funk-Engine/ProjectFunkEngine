@@ -17,17 +17,24 @@ public partial class DisplayButton : Button
     [Export]
     public string DisplayName;
 
-    public void Display(Texture2D texture, string description, string name)
+    public void Display(
+        Texture2D texture,
+        string description,
+        string name,
+        bool focusHandling = false
+    )
     {
         Texture = texture;
         Description = description;
         DisplayName = name;
         Icon = Texture;
 
-        FocusEntered += Selected;
+        if (focusHandling)
+            FocusEntered += Selected;
     }
 
-    private void Selected() //TODO: Button groups
+    //Signal pressed on focus enter, if changing focus is equivalent to pressing
+    private void Selected()
     {
         EmitSignal(BaseButton.SignalName.Pressed);
         SetPressed(true);

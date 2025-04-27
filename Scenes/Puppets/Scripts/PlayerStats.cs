@@ -7,6 +7,14 @@ public partial class PlayerStats : Resource
 {
     public int MaxHealth = 100;
     public int CurrentHealth = 100;
+    public int MaxComboBar = 60;
+    public int MaxComboMult = 25;
+    public int NotesToIncreaseCombo = 4;
+    public int RewardAmountModifier = 0;
+    public int Rerolls = 0;
+
+    //Array in order of descending rarities, Legendary -> ... Common. Int odds out of 100.
+    public int[] RarityOdds = [1, 5, 10, 20, 100];
     public Note[] CurNotes = new Note[]
     {
         Scribe.NoteDictionary[1].Clone(),
@@ -28,6 +36,7 @@ public partial class PlayerStats : Resource
             }
         }
         CurRelics = CurRelics.Append(relic).ToArray();
+        Scribe.RemoveRelicFromPool(relic);
     }
 
     public void AddNote(Note nSelection)
