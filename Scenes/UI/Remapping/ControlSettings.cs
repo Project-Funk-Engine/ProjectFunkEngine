@@ -183,11 +183,7 @@ public partial class ControlSettings : Node2D, IFocusableMenu
         var focusedNode = GetViewport().GuiGetFocusOwner();
         if (focusedNode != null)
             return;
-        var defaultButton =
-            _remapTabs.CurrentTab == 0
-                ? GetNode<Control>(KeyboardTabPath + _inputNodeNames[0] + ButtonNameSuffix)
-                : GetNode<Control>(JoyTabPath + _inputNodeNames[0] + ButtonNameSuffix);
-        defaultButton.GrabFocus();
+        _remapTabs.GetTabBar().GrabFocus();
     }
 
     #endregion

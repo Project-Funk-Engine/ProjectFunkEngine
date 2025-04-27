@@ -111,13 +111,8 @@ public partial class Inventory : Control, IFocusableMenu
         var focusedNode = GetViewport().GuiGetFocusOwner();
         if (focusedNode != null)
             return;
-
-        Node parentNode = _tabs.CurrentTab == 0 ? _notes : _relics;
-        if (parentNode.GetChildCount() <= 0)
-            return;
-
-        var defaultButton = parentNode.GetChild(0) as Control;
-        defaultButton?.GrabFocus();
+        _tabs.GetTabBar().GrabFocus();
+        ClearDescription(-1);
     }
 
     private void DoDescription(DisplayButton dispButton)
