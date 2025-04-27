@@ -213,8 +213,21 @@ public partial class BattleDirector : Node2D
             OnBattleLost();
             return;
         }
-        if (puppet is EnemyPuppet && IsBattleWon())
-            OnBattleWon(); //will have to adjust this to account for when we have multiple enemies at once
+
+        if (puppet is EnemyPuppet)
+        {
+            if (IsBattleWon())
+            {
+                CM.ProcessMode = ProcessModeEnum.Disabled;
+                var tween = CreateTween();
+                tween.TweenProperty(puppet, "modulate:a", 0, 2f);
+                tween.TweenCallback(Callable.From(OnBattleWon));
+            }
+            else
+            {
+                puppet.Visible = false;
+            }
+        }
     }
 
     private bool IsBattleWon()
@@ -224,7 +237,6 @@ public partial class BattleDirector : Node2D
 
     private void OnBattleWon()
     {
-        Audio.StreamPaused = true;
         CleanUpRelics();
         ShowRewardSelection(3);
     }
@@ -239,6 +251,7 @@ public partial class BattleDirector : Node2D
 
     private void ShowRewardSelection(int amount)
     {
+        Audio.ProcessMode = ProcessModeEnum.Always;
         var rewardSelect = RewardSelect.CreateSelection(
             this,
             Player.Stats,

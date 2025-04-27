@@ -23,7 +23,8 @@ script = ExtResource("1_ardd2")
 ChestButton = NodePath("CenterContainer/VBoxContainer/ChestButton")
 PlayerMarker = NodePath("PlayerMarker")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="Audio" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
 stream = ExtResource("2_x78jo")
 autoplay = true
 

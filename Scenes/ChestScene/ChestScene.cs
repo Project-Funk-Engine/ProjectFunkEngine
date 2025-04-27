@@ -33,6 +33,7 @@ public partial class ChestScene : Node2D
 
     private void GetLoot()
     {
+        GetNode<AudioStreamPlayer>("%Audio").ProcessMode = ProcessModeEnum.Always;
         ChestButton.Disabled = true;
         RewardSelect.CreateSelection(this, _player.Stats, 3, Stages.Chest).Selected += EndBattle;
     }

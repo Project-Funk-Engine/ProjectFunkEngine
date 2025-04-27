@@ -111,7 +111,6 @@ public partial class PuppetTemplate : Node2D
     protected virtual void Kill()
     {
         Defeated?.Invoke(this);
-        Visible = false;
     }
     #endregion
 
@@ -127,7 +126,7 @@ public partial class PuppetTemplate : Node2D
         Tween deathTween = DamageAnimate(amount);
         if (CurrentHealth <= 0)
         {
-            deathTween.TweenCallback(Callable.From(Kill));
+            deathTween.Finished += Kill;
         }
 
         TextParticle newText = new TextParticle();
