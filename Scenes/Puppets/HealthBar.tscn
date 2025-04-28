@@ -17,6 +17,8 @@ colors = PackedColorArray(0, 1, 0.0999999, 1, 1, 1, 1, 1)
 gradient = SubResource("Gradient_soqhm")
 width = 96
 height = 16
+fill_from = Vector2(0.519417, 0.203883)
+fill_to = Vector2(0, 0)
 
 [node name="ProgressBar" type="TextureProgressBar"]
 offset_right = 100.0
