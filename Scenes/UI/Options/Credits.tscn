@@ -1,31 +1,61 @@
-[gd_scene load_steps=2 format=3 uid="uid://dgjmb0wllsj41"]
+[gd_scene load_steps=4 format=3 uid="uid://dgjmb0wllsj41"]
 
 [ext_resource type="Script" uid="uid://drt21hext7pm2" path="res://Scenes/UI/Options/Scripts/CreditsMenu.cs" id="1_n36fd"]
+[ext_resource type="Texture2D" uid="uid://dbjotl0v1ymia" path="res://SharedAssets/BattleFrame1.png" id="2_72li1"]
+[ext_resource type="PackedScene" uid="uid://dfevfib11kou1" path="res://Scenes/ChartViewport/ChartViewport.tscn" id="3_ch0mg"]
 
-[node name="Control" type="Control" node_paths=PackedStringArray("_returnButton")]
+[node name="Control" type="Control" node_paths=PackedStringArray("CreditsText", "_returnButton")]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_n36fd")
-_returnButton = NodePath("CenterContainer/MarginContainer/ColorRect/MarginContainer/ColorRect/HBoxContainer4/Return Button")
+CreditsText = NodePath("Node2D/Label")
+ScrollSpeed = 24.0
+FadeStartY = -120.0
+FadeEndY = -200.0
+RestartPositionY = 400.0
+_returnButton = NodePath("Return Button")
+
+[node name="BattleFrame" type="TextureRect" parent="."]
+visible = false
+z_index = 2
+layout_mode = 0
+offset_left = -2.0
+offset_right = 1225.0
+offset_bottom = 349.0
+texture = ExtResource("2_72li1")
+
+[node name="Node2D2" type="Node2D" parent="."]
+position = Vector2(80, -12.26)
+scale = Vector2(2.255, 2.01)
+
+[node name="SubViewport" parent="Node2D2" instance=ExtResource("3_ch0mg")]
+offset_left = -57.1486
+offset_top = 5.0
+offset_right = 422.851
+offset_bottom = 185.0
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 layout_mode = 0
-offset_right = 640.0
+offset_right = 664.8
 offset_bottom = 358.0
 color = Color(0.241156, 0.241156, 0.241156, 1)
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
+visible = false
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer"]
+visible = false
 layout_mode = 2
 
 [node name="ColorRect" type="ColorRect" parent="CenterContainer/MarginContainer"]
+visible = false
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/ColorRect"]
@@ -55,9 +85,9 @@ text = "Credits"
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/MarginContainer/ColorRect/MarginContainer/ColorRect"]
 layout_mode = 0
 offset_left = 2.32877
-offset_top = 11.6751
+offset_top = 11.0406
 offset_right = 219.329
-offset_bottom = 164.675
+offset_bottom = 164.041
 scale = Vector2(0.0566447, 0.0947541)
 
 [node name="Label" type="Label" parent="CenterContainer/MarginContainer/ColorRect/MarginContainer/ColorRect/HBoxContainer"]
@@ -72,10 +102,10 @@ horizontal_alignment = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="CenterContainer/MarginContainer/ColorRect/MarginContainer/ColorRect"]
 layout_mode = 0
-offset_left = 18.0137
-offset_top = 12.3096
-offset_right = 99.0137
-offset_bottom = 113.31
+offset_left = 17.6027
+offset_top = 11.2944
+offset_right = 98.6027
+offset_bottom = 112.295
 scale = Vector2(0.0602738, 0.102849)
 
 [node name="Label" type="Label" parent="CenterContainer/MarginContainer/ColorRect/MarginContainer/ColorRect/HBoxContainer2"]
@@ -88,11 +118,11 @@ horizontal_alignment = 1
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="CenterContainer/MarginContainer/ColorRect/MarginContainer/ColorRect"]
 layout_mode = 0
-offset_left = 26.1644
-offset_top = 11.802
-offset_right = 200.164
-offset_bottom = 86.802
-scale = Vector2(0.0544615, 0.10085)
+offset_left = 26.2329
+offset_top = 10.533
+offset_right = 200.232
+offset_bottom = 85.533
+scale = Vector2(0.0572012, 0.105926)
 
 [node name="Label" type="Label" parent="CenterContainer/MarginContainer/ColorRect/MarginContainer/ColorRect/HBoxContainer3"]
 layout_mode = 2
@@ -112,3 +142,96 @@ scale = Vector2(0.101568, 0.177799)
 layout_mode = 2
 text = "Return Button"
 flat = true
+
+[node name="MarginContainer2" type="MarginContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="VScrollBar" type="VScrollBar" parent="CenterContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/MarginContainer2/VScrollBar"]
+layout_mode = 2
+offset_left = 52.0
+offset_top = 13.0
+offset_right = 92.0
+offset_bottom = 53.0
+scale = Vector2(12.36, 7.2)
+text = "Credits
+
+Programmers
+ Jarod Spanger: Project Lead
+Connor Lowe
+Raul Mojarro
+Thomas Wessel
+Michael Quinn
+
+Artists
+Ares Atlas
+Evelyn Fu
+Emily Wen
+
+Sound
+Sam Meyer: Composer"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CenterContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="CenterContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Node2D"]
+visible = false
+offset_right = 637.0
+offset_bottom = 356.0
+text = "Credits
+
+Programmers
+ Jarod Spanger: Project Lead
+Connor Lowe
+Raul Mojarro
+Thomas Wessel
+Michael Quinn
+
+Artists
+Ares Atlas
+Evelyn Fu
+Emily Wen
+
+Sound
+Sam Meyer: Composer"
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="Node2D"]
+offset_left = 217.0
+offset_top = -3.0
+offset_right = 467.0
+offset_bottom = 410.0
+text = "Credits
+
+Programmers
+ Jarod Spanger: Project Lead
+Connor Lowe
+Raul Mojarro
+Thomas Wessel
+Michael Quinn
+
+Artists
+Ares Atlas
+Evelyn Fu
+Emily Wen
+
+Sound
+Sam Meyer: Composer"
+horizontal_alignment = 1
+
+[node name="Return Button" type="Button" parent="."]
+layout_mode = 2
+offset_left = 570.0
+offset_top = 321.0
+offset_right = 631.0
+offset_bottom = 355.0
+text = "Return"
+flat = true
+icon_alignment = 1
