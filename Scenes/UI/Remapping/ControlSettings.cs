@@ -21,6 +21,8 @@ public partial class ControlSettings : Node2D, IFocusableMenu
     private Label _remapLabel;
     private string _keyboardRemap = "CONTROLS_CHOOSE_TEXT_KEYBOARD";
     private string _controllerRemap = "CONTROLS_CHOOSE_TEXT_CONTROLLER";
+    private string _invalidMessage = "CONTROLS_CHOOSE_INVALID";
+    private string _duplicateInput = "CONTROLS_CHOOSE_DUPLICATE";
 
     [Export]
     private Label _remapDescription;
@@ -303,8 +305,14 @@ public partial class ControlSettings : Node2D, IFocusableMenu
         {
             case true when @event is InputEventKey keyEvent:
             {
-                if (_invalidKeys.Contains(keyEvent.Keycode))
+                if (
+                    _invalidKeys.Contains(keyEvent.Keycode)
+                    || !FileAccess.FileExists($"{IconPath}{CleanKeyboardText(@event.AsText())}.png")
+                )
+                {
+                    _remapDescription.Text = Tr(_invalidMessage);
                     return;
+                }
 
                 string action = KeyboardPrefix + _chosenKey;
                 InputMap.ActionEraseEvents(action);
@@ -433,7 +441,10 @@ public partial class ControlSettings : Node2D, IFocusableMenu
                         && CleanKeyboardText(keyEvent.AsText()) == keyText
                     ) || (evt is InputEventJoypadButton padEvent && padEvent.AsText() == keyText)
                 )
+                {
+                    _remapDescription.Text = Tr(_duplicateInput);
                     return false;
+                }
             }
         }
         return true;
