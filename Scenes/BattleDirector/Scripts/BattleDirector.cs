@@ -67,11 +67,39 @@ public partial class BattleDirector : Node2D
         Harbinger.Init(this);
         InitPlayer();
         InitEnemies();
+        InitScoringGuide();
         CD.Initialize(curSong);
         CD.NoteInputEvent += OnTimedInput;
 
         _focusedButton.GrabFocus();
         _focusedButton.Pressed += SyncStartWithMix;
+    }
+
+    private ScoringScreen.ScoreGuide _battleScore;
+
+    private void InitScoringGuide()
+    {
+        int baseMoney = 0;
+        foreach (EnemyPuppet enem in _enemies)
+        {
+            baseMoney += enem.BaseMoney;
+        }
+
+        _battleScore = new ScoringScreen.ScoreGuide(baseMoney, Player.GetCurrentHealth());
+        Harbinger.Instance.NotePlaced += (_) =>
+        {
+            _battleScore.IncPlaced();
+        };
+        Harbinger.Instance.NoteHit += (_) =>
+        {
+            _battleScore.IncHits();
+        };
+        Harbinger.Instance.NoteHit += (e) =>
+        {
+            if (e is Harbinger.NoteHitArgs { Timing: Timing.Perfect })
+                _battleScore.IncPerfects();
+            _battleScore.IncHits();
+        };
     }
 
     private void InitPlayer()
@@ -238,7 +266,12 @@ public partial class BattleDirector : Node2D
     private void OnBattleWon()
     {
         CleanUpRelics();
-        ShowRewardSelection(3);
+        _battleScore.SetEndHp(Player.GetCurrentHealth());
+        Audio.ProcessMode = ProcessModeEnum.Always;
+        ScoringScreen.CreateScore(this, _battleScore).Finished += () =>
+        {
+            ShowRewardSelection(3);
+        };
     }
 
     private void OnBattleLost()
@@ -251,7 +284,6 @@ public partial class BattleDirector : Node2D
 
     private void ShowRewardSelection(int amount)
     {
-        Audio.ProcessMode = ProcessModeEnum.Always;
         var rewardSelect = RewardSelect.CreateSelection(
             this,
             Player.Stats,

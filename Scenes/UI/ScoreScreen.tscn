@@ -1,11 +1,23 @@
-[gd_scene load_steps=5 format=3 uid="uid://d3ulgssit1dcv"]
+[gd_scene load_steps=6 format=3 uid="uid://d3ulgssit1dcv"]
 
+[ext_resource type="Script" uid="uid://b5bw86d25uwdd" path="res://Scenes/UI/Scripts/ScoringScreen.cs" id="1_ma4hf"]
 [ext_resource type="Texture2D" uid="uid://ck16vyh1q68ri" path="res://Scenes/UI/Assets/UI_ForestBackground.png" id="1_ws5ov"]
 [ext_resource type="Texture2D" uid="uid://8u3xvcma81d" path="res://Scenes/UI/Assets/UI_CrystalFrame.png" id="2_usavq"]
 [ext_resource type="Texture2D" uid="uid://burj10os057fx" path="res://Scenes/UI/Assets/UI_CrystalFrameInset.png" id="3_usavq"]
 [ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="4_1rsqt"]
 
-[node name="ScoreScreen" type="CanvasLayer"]
+[node name="ScoreScreen" type="CanvasLayer" node_paths=PackedStringArray("_styleLabel", "_styleAmount", "_perfectsLabel", "_perfectsAmount", "_placedLabel", "_placedAmount", "_totalLabel", "_totalAmount", "_acceptButton")]
+process_mode = 3
+script = ExtResource("1_ma4hf")
+_styleLabel = NodePath("Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin/LabelVbox/StyleLabel")
+_styleAmount = NodePath("Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/ScoreMargin/LabelVbox/StyleLabel")
+_perfectsLabel = NodePath("Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin/LabelVbox/PerfectLabel")
+_perfectsAmount = NodePath("Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/ScoreMargin/LabelVbox/PerfectLabel")
+_placedLabel = NodePath("Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin/LabelVbox/PlacedLabel")
+_placedAmount = NodePath("Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/ScoreMargin/LabelVbox/PlacedLabel")
+_totalLabel = NodePath("Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin/LabelVbox/TotalLabel")
+_totalAmount = NodePath("Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/ScoreMargin/LabelVbox/TotalLabel")
+_acceptButton = NodePath("Bg/WindowMargin/PanelBg/VBoxContainer/ButtonMargin/AcceptButton")
 
 [node name="Bg" type="NinePatchRect" parent="."]
 self_modulate = Color(1, 1, 1, 0.75)
@@ -120,6 +132,10 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 11
 alignment = 1
 
+[node name="StyleLabel" type="Label" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin/LabelVbox"]
+layout_mode = 2
+text = "SCORING_STYLE"
+
 [node name="PerfectLabel" type="Label" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin/LabelVbox"]
 layout_mode = 2
 text = "SCORING_PERFECTS"
@@ -128,14 +144,10 @@ text = "SCORING_PERFECTS"
 layout_mode = 2
 text = "SCORING_PLACED"
 
-[node name="StyleLabel" type="Label" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin/LabelVbox"]
-layout_mode = 2
-text = "SCORING_STYLE"
-
 [node name="Placeholder" type="Label" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin/LabelVbox"]
 layout_mode = 2
 
-[node name="RewardLabel" type="Label" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin/LabelVbox"]
+[node name="TotalLabel" type="Label" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin/LabelVbox"]
 layout_mode = 2
 text = "SCORING_TOTAL"
 
@@ -154,17 +166,17 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 11
 alignment = 1
 
+[node name="StyleLabel" type="Label" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/ScoreMargin/LabelVbox"]
+layout_mode = 2
+text = "999"
+horizontal_alignment = 2
+
 [node name="PerfectLabel" type="Label" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/ScoreMargin/LabelVbox"]
 layout_mode = 2
 text = "999"
 horizontal_alignment = 2
 
 [node name="PlacedLabel" type="Label" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/ScoreMargin/LabelVbox"]
-layout_mode = 2
-text = "999"
-horizontal_alignment = 2
-
-[node name="StyleLabel" type="Label" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/ScoreMargin/LabelVbox"]
 layout_mode = 2
 text = "999"
 horizontal_alignment = 2

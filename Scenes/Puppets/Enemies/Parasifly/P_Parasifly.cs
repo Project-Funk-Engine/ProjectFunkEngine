@@ -10,7 +10,7 @@ public partial class P_Parasifly : EnemyPuppet
     {
         CurrentHealth = 50;
         MaxHealth = 50;
-        BaseMoney = 10;
+        BaseMoney = 5;
         base._Ready();
         var enemTween = CreateTween();
         enemTween.TweenProperty(Sprite, "position", Vector2.Down * 2, 2f).AsRelative();
