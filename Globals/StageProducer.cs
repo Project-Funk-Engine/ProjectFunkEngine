@@ -114,6 +114,7 @@ public partial class StageProducer : Node
             PlayerStats.AddRelic(Scribe.RelicDictionary[relicId]);
         }
         PlayerStats.CurrentHealth = sv.PlayerHealth;
+        PlayerStats.Money = sv.Money;
         IsInitialized = true;
         return true;
     }

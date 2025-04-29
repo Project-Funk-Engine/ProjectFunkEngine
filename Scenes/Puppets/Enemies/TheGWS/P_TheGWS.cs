@@ -9,6 +9,7 @@ public partial class P_TheGWS : EnemyPuppet
     {
         CurrentHealth = 75;
         MaxHealth = 75;
+        BaseMoney = 30;
         base._Ready();
         var enemTween = CreateTween();
         enemTween.TweenProperty(Sprite, "position", Vector2.Down * 10, 3f).AsRelative();
