@@ -62,7 +62,7 @@ theme_override_constants/margin_bottom = 20
 
 [node name="ResumeButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
-focus_neighbor_top = NodePath("../../MarginContainer2/PlaceHolderButton")
+focus_neighbor_top = NodePath("../../MarginContainer3/QuitButton")
 focus_neighbor_bottom = NodePath("../../MarginContainer4/OptionsButton")
 theme = ExtResource("4_lw4m2")
 text = "ESCAPE_MENU_RESUME"
@@ -78,7 +78,7 @@ theme_override_constants/margin_bottom = 20
 [node name="OptionsButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer4"]
 layout_mode = 2
 focus_neighbor_top = NodePath("../../MarginContainer/ResumeButton")
-focus_neighbor_bottom = NodePath("../../MarginContainer3/QuitButton")
+focus_neighbor_bottom = NodePath("../../MarginContainer2/PlaceHolderButton")
 theme = ExtResource("4_lw4m2")
 text = "TITLE_OPTIONS"
 
@@ -92,8 +92,8 @@ theme_override_constants/margin_bottom = 20
 
 [node name="PlaceHolderButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer2"]
 layout_mode = 2
-focus_neighbor_top = NodePath("../../MarginContainer3/QuitButton")
-focus_neighbor_bottom = NodePath("../../MarginContainer/ResumeButton")
+focus_neighbor_top = NodePath("../../MarginContainer4/OptionsButton")
+focus_neighbor_bottom = NodePath("../../MarginContainer3/QuitButton")
 theme = ExtResource("4_lw4m2")
 text = "ESCAPE_MENU_TITLE"
 
@@ -107,7 +107,7 @@ theme_override_constants/margin_bottom = 20
 
 [node name="QuitButton" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer3"]
 layout_mode = 2
-focus_neighbor_top = NodePath("../../MarginContainer4/OptionsButton")
-focus_neighbor_bottom = NodePath("../../MarginContainer2/PlaceHolderButton")
+focus_neighbor_top = NodePath("../../MarginContainer2/PlaceHolderButton")
+focus_neighbor_bottom = NodePath("../../MarginContainer/ResumeButton")
 theme = ExtResource("4_lw4m2")
 text = "ESCAPE_MENU_QUIT"
