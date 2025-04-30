@@ -22,7 +22,7 @@ CONTROLS_CHOOSE_TEXT_CONTROLLER,"Press Start to close","按下 Start 键关闭"
 CONTROLS_CHOOSE_INVALID,"System input, can't be used!",预留输入，无法重定向！
 CONTROLS_CHOOSE_DUPLICATE,"Input already set, can't be used again!",输入冲突，无法继续！
 ESCAPE_MENU_RESUME,Resume,继续
-ESCAPE_MENU_QUIT,Quit,退出
+ESCAPE_MENU_QUIT,Quit Game,ゲームをやめる
 ESCAPE_MENU_TITLE,Quit to Title,返回标题
 INBETWEEN_CONTINUE,Continue,继续
 CHEST_ROOM_REWARDS,Reward Selection!,奖励!
