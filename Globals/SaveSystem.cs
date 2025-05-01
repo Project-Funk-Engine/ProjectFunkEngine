@@ -373,6 +373,7 @@ public static class SaveSystem
         public int LastRoomIdx { get; init; }
         public int Area { get; init; }
 
+        public int Money { get; init; }
         public int[] NoteIds { get; init; }
         public int[] RelicIds { get; init; }
         public int PlayerHealth { get; init; }
@@ -384,7 +385,8 @@ public static class SaveSystem
             int[] noteIds,
             int[] relicIds,
             int playerHealth,
-            int area
+            int area,
+            int money
         )
         {
             RngSeed = rngSeed;
@@ -394,6 +396,7 @@ public static class SaveSystem
             RelicIds = relicIds;
             PlayerHealth = playerHealth;
             Area = area;
+            Money = money;
         }
     }
 
@@ -408,7 +411,8 @@ public static class SaveSystem
             noteIds,
             relicIds,
             StageProducer.PlayerStats.CurrentHealth,
-            (int)StageProducer.CurArea
+            (int)StageProducer.CurArea,
+            StageProducer.PlayerStats.Money
         );
         string json = JsonSerializer.Serialize(sv);
 

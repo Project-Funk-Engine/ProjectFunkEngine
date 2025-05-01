@@ -67,11 +67,39 @@ public partial class BattleDirector : Node2D
         Harbinger.Init(this);
         InitPlayer();
         InitEnemies();
+        InitScoringGuide();
         CD.Initialize(curSong);
         CD.NoteInputEvent += OnTimedInput;
 
         _focusedButton.GrabFocus();
         _focusedButton.Pressed += SyncStartWithMix;
+    }
+
+    private ScoringScreen.ScoreGuide _battleScore;
+
+    private void InitScoringGuide()
+    {
+        int baseMoney = 0;
+        foreach (EnemyPuppet enem in _enemies)
+        {
+            baseMoney += enem.BaseMoney;
+        }
+
+        _battleScore = new ScoringScreen.ScoreGuide(baseMoney, Player.GetCurrentHealth());
+        Harbinger.Instance.NotePlaced += (_) =>
+        {
+            _battleScore.IncPlaced();
+        };
+        Harbinger.Instance.NoteHit += (_) =>
+        {
+            _battleScore.IncHits();
+        };
+        Harbinger.Instance.NoteHit += (e) =>
+        {
+            if (e is Harbinger.NoteHitArgs { Timing: Timing.Perfect })
+                _battleScore.IncPerfects();
+            _battleScore.IncHits();
+        };
     }
 
     private void InitPlayer()
@@ -213,8 +241,21 @@ public partial class BattleDirector : Node2D
             OnBattleLost();
             return;
         }
-        if (puppet is EnemyPuppet && IsBattleWon())
-            OnBattleWon(); //will have to adjust this to account for when we have multiple enemies at once
+
+        if (puppet is EnemyPuppet)
+        {
+            if (IsBattleWon())
+            {
+                CM.ProcessMode = ProcessModeEnum.Disabled;
+                var tween = CreateTween();
+                tween.TweenProperty(puppet, "modulate:a", 0, 2f);
+                tween.TweenCallback(Callable.From(OnBattleWon));
+            }
+            else
+            {
+                puppet.Visible = false;
+            }
+        }
     }
 
     private bool IsBattleWon()
@@ -224,9 +265,13 @@ public partial class BattleDirector : Node2D
 
     private void OnBattleWon()
     {
-        Audio.StreamPaused = true;
         CleanUpRelics();
-        ShowRewardSelection(3);
+        _battleScore.SetEndHp(Player.GetCurrentHealth());
+        Audio.ProcessMode = ProcessModeEnum.Always;
+        ScoringScreen.CreateScore(this, _battleScore).Finished += () =>
+        {
+            ShowRewardSelection(3);
+        };
     }
 
     private void OnBattleLost()

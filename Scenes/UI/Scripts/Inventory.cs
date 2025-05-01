@@ -17,6 +17,9 @@ public partial class Inventory : Control, IFocusableMenu
     [Export]
     private TabContainer _tabs;
 
+    [Export]
+    private Label _moneyLabel;
+
     public IFocusableMenu Prev { get; set; }
     private static readonly string[] TabNames = new[] { "NOTE", "RELIC" };
 
@@ -24,6 +27,8 @@ public partial class Inventory : Control, IFocusableMenu
     {
         AddDisplayButtons(playerStats.CurRelics, _relics);
         AddDisplayButtons(playerStats.CurNotes, _notes);
+
+        _moneyLabel.Text = playerStats.Money.ToString();
 
         _tabs.TabChanged += ClearDescription;
     }

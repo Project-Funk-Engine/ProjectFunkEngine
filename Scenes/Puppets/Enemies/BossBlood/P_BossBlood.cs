@@ -10,6 +10,7 @@ public partial class P_BossBlood : EnemyPuppet
     {
         CurrentHealth = 100;
         MaxHealth = 100;
+        BaseMoney = 15;
         base._Ready();
         var enemTween = CreateTween();
         enemTween.TweenProperty(Sprite, "position", Vector2.Down * 5, 1f).AsRelative();

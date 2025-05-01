@@ -5,6 +5,8 @@ using Godot;
 
 public partial class PlayerStats : Resource
 {
+    public int Money = 0;
+
     public int MaxHealth = 100;
     public int CurrentHealth = 100;
     public int MaxComboBar = 60;

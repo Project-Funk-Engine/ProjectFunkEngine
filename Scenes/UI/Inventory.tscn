@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://8u3xvcma81d" path="res://Scenes/UI/Assets/UI_CrystalFrame.png" id="3_s6pj7"]
 [ext_resource type="Texture2D" uid="uid://burj10os057fx" path="res://Scenes/UI/Assets/UI_CrystalFrameInset.png" id="4_b6trj"]
 
-[node name="Inventory" type="Control" node_paths=PackedStringArray("_relics", "_notes", "_description", "_tabs")]
+[node name="Inventory" type="Control" node_paths=PackedStringArray("_relics", "_notes", "_description", "_tabs", "_moneyLabel")]
 process_mode = 1
 layout_mode = 3
 anchors_preset = 15
@@ -18,6 +18,7 @@ _relics = NodePath("MarginContainer/InvenVBox/Tabs/INVENTORY_TAB_RELICS/MarginCo
 _notes = NodePath("MarginContainer/InvenVBox/Tabs/INVENTORY_TAB_NOTES/MarginContainer/NotesBox/NotesGrid")
 _description = NodePath("MarginContainer/InvenVBox/DescBox/DescMargin/MarginContainer/Description")
 _tabs = NodePath("MarginContainer/InvenVBox/Tabs")
+_moneyLabel = NodePath("MoneyContainer/MoneyFrame/MarginContainer/MoneyLabel")
 
 [node name="Background" type="NinePatchRect" parent="."]
 self_modulate = Color(1, 1, 1, 0.75)
@@ -168,3 +169,39 @@ size_flags_vertical = 1
 autowrap_mode = 2
 clip_text = true
 text_overrun_behavior = 1
+
+[node name="MoneyContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -130.0
+offset_bottom = 34.0
+grow_horizontal = 0
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 5
+
+[node name="MoneyFrame" type="NinePatchRect" parent="MoneyContainer"]
+layout_mode = 2
+texture = ExtResource("3_s6pj7")
+patch_margin_left = 7
+patch_margin_top = 7
+patch_margin_right = 7
+patch_margin_bottom = 7
+
+[node name="MarginContainer" type="MarginContainer" parent="MoneyContainer/MoneyFrame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_right = 8
+
+[node name="MoneyLabel" type="Label" parent="MoneyContainer/MoneyFrame/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1

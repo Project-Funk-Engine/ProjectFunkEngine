@@ -1,0 +1,202 @@
+[gd_scene load_steps=6 format=3 uid="uid://d3ulgssit1dcv"]
+
+[ext_resource type="Script" uid="uid://b5bw86d25uwdd" path="res://Scenes/UI/Scripts/ScoringScreen.cs" id="1_ma4hf"]
+[ext_resource type="Texture2D" uid="uid://ck16vyh1q68ri" path="res://Scenes/UI/Assets/UI_ForestBackground.png" id="1_ws5ov"]
+[ext_resource type="Texture2D" uid="uid://8u3xvcma81d" path="res://Scenes/UI/Assets/UI_CrystalFrame.png" id="2_usavq"]
+[ext_resource type="Texture2D" uid="uid://burj10os057fx" path="res://Scenes/UI/Assets/UI_CrystalFrameInset.png" id="3_usavq"]
+[ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="4_1rsqt"]
+
+[node name="ScoreScreen" type="CanvasLayer" node_paths=PackedStringArray("_styleLabel", "_styleAmount", "_perfectsLabel", "_perfectsAmount", "_placedLabel", "_placedAmount", "_totalLabel", "_totalAmount", "_acceptButton")]
+process_mode = 3
+script = ExtResource("1_ma4hf")
+_styleLabel = NodePath("Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin/LabelVbox/StyleLabel")
+_styleAmount = NodePath("Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/ScoreMargin/LabelVbox/StyleLabel")
+_perfectsLabel = NodePath("Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin/LabelVbox/PerfectLabel")
+_perfectsAmount = NodePath("Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/ScoreMargin/LabelVbox/PerfectLabel")
+_placedLabel = NodePath("Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin/LabelVbox/PlacedLabel")
+_placedAmount = NodePath("Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/ScoreMargin/LabelVbox/PlacedLabel")
+_totalLabel = NodePath("Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin/LabelVbox/TotalLabel")
+_totalAmount = NodePath("Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/ScoreMargin/LabelVbox/TotalLabel")
+_acceptButton = NodePath("Bg/WindowMargin/PanelBg/VBoxContainer/ButtonMargin/AcceptButton")
+
+[node name="Bg" type="NinePatchRect" parent="."]
+self_modulate = Color(1, 1, 1, 0.75)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_ws5ov")
+patch_margin_left = 100
+patch_margin_top = 100
+patch_margin_right = 102
+patch_margin_bottom = 100
+
+[node name="WindowMargin" type="MarginContainer" parent="Bg"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 175
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 175
+theme_override_constants/margin_bottom = 50
+
+[node name="PanelBg" type="NinePatchRect" parent="Bg/WindowMargin"]
+self_modulate = Color(1, 1, 1, 0.75)
+layout_mode = 2
+texture = ExtResource("2_usavq")
+patch_margin_left = 30
+patch_margin_top = 10
+patch_margin_right = 20
+patch_margin_bottom = 27
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Bg/WindowMargin/PanelBg"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopPanelBg" type="NinePatchRect" parent="Bg/WindowMargin/PanelBg/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0.5)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.25
+texture = ExtResource("2_usavq")
+patch_margin_left = 30
+patch_margin_top = 10
+patch_margin_right = 20
+patch_margin_bottom = 27
+
+[node name="Title" type="CenterContainer" parent="Bg/WindowMargin/PanelBg/VBoxContainer/TopPanelBg"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleText" type="RichTextLabel" parent="Bg/WindowMargin/PanelBg/VBoxContainer/TopPanelBg/Title"]
+custom_minimum_size = Vector2(400, 47)
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "SCORING_SCENE_TITLE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Bg/WindowMargin/PanelBg/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="BottomPanelBg" type="NinePatchRect" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer"]
+self_modulate = Color(1, 1, 1, 0.5)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("3_usavq")
+patch_margin_left = 30
+patch_margin_top = 10
+patch_margin_right = 20
+patch_margin_bottom = 27
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+
+[node name="LabelMargin" type="MarginContainer" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="LabelVbox" type="VBoxContainer" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 11
+alignment = 1
+
+[node name="StyleLabel" type="Label" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin/LabelVbox"]
+layout_mode = 2
+text = "SCORING_STYLE"
+
+[node name="PerfectLabel" type="Label" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin/LabelVbox"]
+layout_mode = 2
+text = "SCORING_PERFECTS"
+
+[node name="PlacedLabel" type="Label" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin/LabelVbox"]
+layout_mode = 2
+text = "SCORING_PLACED"
+
+[node name="Placeholder" type="Label" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin/LabelVbox"]
+layout_mode = 2
+
+[node name="TotalLabel" type="Label" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin/LabelVbox"]
+layout_mode = 2
+text = "SCORING_TOTAL"
+
+[node name="ScoreMargin" type="MarginContainer" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.25
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="LabelVbox" type="VBoxContainer" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/ScoreMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 11
+alignment = 1
+
+[node name="StyleLabel" type="Label" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/ScoreMargin/LabelVbox"]
+layout_mode = 2
+text = "999"
+horizontal_alignment = 2
+
+[node name="PerfectLabel" type="Label" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/ScoreMargin/LabelVbox"]
+layout_mode = 2
+text = "999"
+horizontal_alignment = 2
+
+[node name="PlacedLabel" type="Label" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/ScoreMargin/LabelVbox"]
+layout_mode = 2
+text = "999"
+horizontal_alignment = 2
+
+[node name="Placeholder" type="Label" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/ScoreMargin/LabelVbox"]
+layout_mode = 2
+horizontal_alignment = 2
+
+[node name="TotalLabel" type="Label" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/ScoreMargin/LabelVbox"]
+layout_mode = 2
+text = "999"
+horizontal_alignment = 2
+
+[node name="ButtonMargin" type="MarginContainer" parent="Bg/WindowMargin/PanelBg/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = -3
+theme_override_constants/margin_bottom = 9
+
+[node name="AcceptButton" type="Button" parent="Bg/WindowMargin/PanelBg/VBoxContainer/ButtonMargin"]
+layout_mode = 2
+size_flags_horizontal = 6
+theme = ExtResource("4_1rsqt")
+text = "CHEST_ROOM_ACCEPT"
