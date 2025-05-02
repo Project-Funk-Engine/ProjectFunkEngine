@@ -122,28 +122,28 @@ position = Vector2(129, 270)
 
 [node name="Up" type="Sprite2D" parent="."]
 visible = false
-self_modulate = Color(1, 1, 1, 0.25)
+self_modulate = Color(1, 1, 1, 0.45)
 position = Vector2(129, 248)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_d6o7n")
 
 [node name="Down" type="Sprite2D" parent="."]
 visible = false
-self_modulate = Color(1, 1, 1, 0.25)
+self_modulate = Color(1, 1, 1, 0.45)
 position = Vector2(129, 292)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_d6o7n")
 
 [node name="Left" type="Sprite2D" parent="."]
 visible = false
-self_modulate = Color(1, 1, 1, 0.25)
+self_modulate = Color(1, 1, 1, 0.45)
 position = Vector2(129, 210)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_d6o7n")
 
 [node name="Right" type="Sprite2D" parent="."]
 visible = false
-self_modulate = Color(1, 1, 1, 0.25)
+self_modulate = Color(1, 1, 1, 0.45)
 position = Vector2(129, 330)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_d6o7n")
