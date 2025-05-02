@@ -1,7 +1,7 @@
-[gd_resource type="Resource" load_steps=24 format=3]
+[gd_resource type="Resource" load_steps=23 format=3 uid="uid://1ag6pnhqf2v1"]
 
-[ext_resource type="Script" path="res://Classes/MidiMaestro/NoteInfo.cs" id="1_roxhp"]
-[ext_resource type="Script" path="res://Classes/MidiMaestro/NoteChart.cs" id="2_bsw0b"]
+[ext_resource type="Script" uid="uid://bhbpcmtr6e6pk" path="res://Classes/MidiMaestro/NoteInfo.cs" id="1_roxhp"]
+[ext_resource type="Script" uid="uid://bnpnavb5lwobj" path="res://Classes/MidiMaestro/NoteChart.cs" id="2_bsw0b"]
 
 [sub_resource type="Resource" id="Resource_a0ovt"]
 script = ExtResource("1_roxhp")
@@ -41,11 +41,6 @@ Length = 0.0
 [sub_resource type="Resource" id="Resource_roxhp"]
 script = ExtResource("1_roxhp")
 Beat = 29.0
-Length = 0.0
-
-[sub_resource type="Resource" id="Resource_ye16i"]
-script = ExtResource("1_roxhp")
-Beat = 31.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_ifw8a"]
@@ -111,6 +106,6 @@ Length = 0.0
 [resource]
 script = ExtResource("2_bsw0b")
 UpLaneData = Array[ExtResource("1_roxhp")]([SubResource("Resource_bnbk2"), SubResource("Resource_t2mc0"), SubResource("Resource_xl4h8"), SubResource("Resource_7i220"), SubResource("Resource_txc3y"), SubResource("Resource_iixj3"), SubResource("Resource_5o1tj"), SubResource("Resource_l3ivu"), SubResource("Resource_d6d5y")])
-DownLaneData = [SubResource("Resource_a0ovt"), SubResource("Resource_ahash"), SubResource("Resource_6gc2p"), SubResource("Resource_tjsh3"), SubResource("Resource_s18ys"), SubResource("Resource_wcsgu"), SubResource("Resource_r81qg"), SubResource("Resource_roxhp"), SubResource("Resource_ye16i")]
+DownLaneData = Array[ExtResource("1_roxhp")]([SubResource("Resource_a0ovt"), SubResource("Resource_ahash"), SubResource("Resource_6gc2p"), SubResource("Resource_tjsh3"), SubResource("Resource_s18ys"), SubResource("Resource_wcsgu"), SubResource("Resource_r81qg"), SubResource("Resource_roxhp")])
 LeftLaneData = Array[ExtResource("1_roxhp")]([SubResource("Resource_ifw8a"), SubResource("Resource_d0m6p"), SubResource("Resource_owwlp")])
 RightLaneData = Array[ExtResource("1_roxhp")]([])

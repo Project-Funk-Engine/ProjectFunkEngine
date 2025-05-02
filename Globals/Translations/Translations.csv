@@ -87,4 +87,22 @@ HOW_TO_PLAY,How to Play,如何游玩
 HOW_TO_PLAY_BLOCK1,"Hit notes to\nbuild combo","点击音符\n以建立连击"
 HOW_TO_PLAY_BLOCK2,"Place notes when\ncombo is full","当连击满\n时放置音符"
 HOW_TO_PLAY_BLOCK3,"Only placed notes\nhave effects","只有已放置\n的音符才有效"
+TUTORIAL_NODYING,"No dying during a tutorial!",(TODO)
 TUTORIAL_DIALOGUE_1,"Hello, welcome to Midnight Riff!",(TODO)
+TUTORIAL_DIALOGUE_2,"This is a rhythm game where notes more right to left.",(TODO)
+TUTORIAL_DIALOGUE_3,"Press the right button as the notes line up to hit the note. The closer they line up, the better your timing, and the better you'll do.",(TODO)
+TUTORIAL_DIALOGUE_4,"What are the right buttons? I'll help you out and show you. And, just so you know, these can be customized later in the menu. Once you press continue we can get started!",(TODO)
+TUTORIAL_LOOP_1,"At set intervals the chart loops! This means all notes on the chart repeat. You know a loop is coming up when this symbol scrolls by.",(TODO)
+TUTORIAL_LOOP_2,"Hopefully by now you've noticed some other things like these on the left side. This is your note queue, don't worry about it too much yet, but keep it in mind.",(TODO)
+TUTORIAL_LOOP_3,"This is the combo multiplier, as you hit notes successfully, your combo rises and as your combo rises, so will your multiplier. If you miss a note, your multiplier gets reset to 1.",(TODO)
+TUTORIAL_LOOP_4,"This is the freestyle bar, as you hit notes successfully, the freestyle bar fills. The higher your multiplier, the more the bar fills. If you miss a note the bar doesn't change. You can know the bar is full when it starts to shake.",(TODO)
+TUTORIAL_LOOP_5,"By now you've probably taken damage, even though this battle isn't very difficult. These aren't just cozy songs, these are battles! You take damage when you miss or hit notes with bad timing, or from enemy effects. How do you deal damage to enemies? Fill up the bar and I'll tell you.",(TODO)
+TUTORIAL_PLACE_1,"Okay, now that the bar is full, you will be able to press this button to place your own notes on the track. All your notes have special effects. These range from dealing damage to applying status effects! Placing notes consumes the freestyle bar.",(TODO)
+TUTORIAL_PLACE_2,"You can check what each note does by checking them in your inventory. You can check how to open your inventory in the controls menu.",(TODO)
+TUTORIAL_PLACE_3,"Your notes can be placed anywhere a note doesn't already exist, and that isn't over the loop marker. But be careful, if you try to place a note while the bar isn't full you may miss a note!",(TODO)
+TUTORIAL_PLACE_4,"The note you'll place is indicated in the top of the note queue. You can place the note in the bottom of the note queue by holding your secondary button while you place a note. I don't want to confuse you, so don't worry about that secondary placement for now.",(TODO)
+TUTORIAL_PLACE_5,"Placed notes are automatically hit when you place them, so you don't need to worry about timing, and they are always placed on the closest beat. Though they come back around when the chart loops, so you need to time hitting them then.",(TODO)
+TUTORIAL_PLACE_6,"Now go ahead, place a note in the bottom lane!",(TODO)
+TUTORIAL_FINAL_1,"Good job, you placed a note! You either healed yourself, or dealt damage. I can't tell I'm just a Strawman.",(TODO)
+TUTORIAL_FINAL_2,"As a refresher: Hit notes to build a combo and fill the bar. When the bar is full, press one of your buttons for a lane that doesn't have a note at the current beat. Notes in the chart will loop around. Keep it up to win.",(TODO)
+TUTORIAL_FINAL_3,"Good luck! I believe in you.",(TODO)

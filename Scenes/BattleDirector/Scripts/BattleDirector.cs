@@ -170,7 +170,7 @@ public partial class BattleDirector : Node2D
         }
     }
 
-    private bool PlayerAddNote(ArrowType type, Beat beat)
+    public bool PlayerAddNote(ArrowType type, Beat beat)
     {
         if (!NPB.CanPlaceNote())
             return false;
