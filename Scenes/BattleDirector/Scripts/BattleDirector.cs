@@ -191,7 +191,10 @@ public partial class BattleDirector : Node2D
             return; //An inactive note was passed, for now do nothing, could force miss.
         if (data.NoteRef == null) //An empty beat
         {
-            if ((int)data.Beat.BeatPos % (int)TimeKeeper.BeatsPerLoop == 0)
+            if (
+                (int)data.Beat.BeatPos % (int)TimeKeeper.BeatsPerLoop == 0
+                || (int)data.Beat.BeatPos > TimeKeeper.BeatsPerLoop
+            )
                 return; //We never ever try to place at 0
             if (PlayerAddNote(data.Type, data.Beat))
                 return; //Exit handling for a placed note
