@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using FunkEngine;
+using FunkEngine.Classes.MidiMaestro;
 using Godot;
 
 /**
@@ -13,28 +14,11 @@ public partial class StageProducer : Node
 
     public static readonly RandomNumberGenerator GlobalRng = new();
 
-    private static readonly MapGrid.MapConfig FirstMapConfig = new MapGrid.MapConfig(
-        7,
-        6,
-        3,
-        [10, 1]
-    ).AddSetRoom(3, Stages.Chest);
-
-    private static readonly MapGrid.MapConfig TestMapConfig = new MapGrid.MapConfig(
-        10,
-        10,
-        5,
-        [10, 2]
-    )
-        .AddSetRoom(3, Stages.Chest)
-        .AddSetRoom(6, Stages.Chest);
-
-    private static readonly MapGrid.MapConfig[] MapConfigs = new[] { FirstMapConfig };
+    public static MapLevels CurLevel { get; private set; }
 
     public static MapGrid Map { get; private set; } = new();
     private Stages _curStage = Stages.Title;
     public static int CurRoom { get; private set; }
-    public static Area CurArea { get; private set; } = Area.Forest;
 
     private Node _curScene;
     private Node _preloadStage;
@@ -70,14 +54,15 @@ public partial class StageProducer : Node
 
     private void GenerateMapConsistent()
     {
-        GlobalRng.State = GlobalRng.Seed << 5 / 2; //Fudge seed state, to get consistent maps across new/loaded games
-        Map.InitMapGrid(MapConfigs[(int)CurArea]);
+        //Fudge seed state, to get consistent maps across new/loaded games, might be bad practice
+        GlobalRng.State = GlobalRng.Seed << 5 / 2;
+        Map.InitMapGrid(CurLevel.GetCurrentConfig());
     }
 
     private void StartNewGame()
     {
         GlobalRng.Randomize();
-        CurArea = Area.Forest;
+        CurLevel = MapLevels.GetLevelFromId(1);
         GenerateMapConsistent();
 
         PlayerStats = new PlayerStats();
@@ -96,7 +81,7 @@ public partial class StageProducer : Node
             return false;
         }
         GlobalRng.Seed = sv.RngSeed;
-        CurArea = (Area)sv.Area;
+        CurLevel = MapLevels.GetLevelFromId(sv.Area);
         GenerateMapConsistent();
         GlobalRng.State = sv.RngState;
         CurRoom = sv.LastRoomIdx;
@@ -196,7 +181,7 @@ public partial class StageProducer : Node
                 GetTree().Quit();
                 return;
             case Stages.Continue:
-                ProgressAreas();
+                ProgressLevels();
                 GetTree().ChangeSceneToFile("res://Scenes/Maps/InBetween.tscn");
                 break;
             default:
@@ -223,13 +208,18 @@ public partial class StageProducer : Node
         switch (nextRoom)
         {
             case Stages.Battle:
-                int songIdx = stageRng.RandiRange(1, 3);
-                result.CurSong = Scribe.SongDictionary[songIdx];
-                result.EnemyScenePath = Scribe.SongDictionary[songIdx].EnemyScenePath;
+                int songIdx = stageRng.RandiRange(0, CurLevel.NormalBattles.Length - 1);
+                result.CurSong = Scribe.SongDictionary[CurLevel.NormalBattles[songIdx]];
+                result.EnemyScenePath = Scribe
+                    .SongDictionary[CurLevel.NormalBattles[songIdx]]
+                    .EnemyScenePath;
                 break;
             case Stages.Boss:
-                result.EnemyScenePath = Scribe.SongDictionary[0].EnemyScenePath;
-                result.CurSong = Scribe.SongDictionary[0];
+                int bossIdx = stageRng.RandiRange(0, CurLevel.BossBattles.Length - 1);
+                result.CurSong = Scribe.SongDictionary[CurLevel.BossBattles[bossIdx]];
+                result.EnemyScenePath = Scribe
+                    .SongDictionary[CurLevel.BossBattles[bossIdx]]
+                    .EnemyScenePath;
                 break;
             case Stages.Chest:
                 break;
@@ -259,14 +249,14 @@ public partial class StageProducer : Node
     /// There should always be a mapconfig for each area. It's preferable to crash later if there isn't even a placeholder config.
     /// </summary>
     /// <returns>True if there is another area.</returns>
-    public static bool IsMoreAreas()
+    public static bool IsMoreLevels()
     {
-        return (int)CurArea + 1 < MapConfigs.Length;
+        return CurLevel.HasMoreMaps();
     }
 
-    public void ProgressAreas()
+    public void ProgressLevels()
     {
-        CurArea += 1;
+        CurLevel = CurLevel.GetNextLevel();
 
         Map = new();
         GenerateMapConsistent();

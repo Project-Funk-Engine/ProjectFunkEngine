@@ -150,7 +150,7 @@ public partial class Cartographer : Node2D
 
     private void WinArea()
     {
-        if (StageProducer.IsMoreAreas())
+        if (StageProducer.IsMoreLevels())
         {
             GetTree().Paused = false;
             //What the living fuck? Can't do this during ready?
