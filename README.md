@@ -33,6 +33,7 @@ We now have a Steam page!
 - **Boss Song 1**: [gameMusic – Magntron](https://freesound.org/people/Magntron/sounds/335571/)
 - **Battle Song 1**: [Piano loops 181 – josefpres](https://freesound.org/people/josefpres/sounds/789998/)
 - **Battle Song 2**: [Dark loops 220 – josefpres](https://freesound.org/people/josefpres/sounds/620230/)
+- **Tutorial Song**: [Mute bass 002 – josefpres](https://freesound.org/people/josefpres/sounds/792389/)
 
 ### Images
 - **Input Buttons**: [inputKeys – Nicolae (Xelu) Berbece](https://thoseawesomeguys.com/prompts/)
