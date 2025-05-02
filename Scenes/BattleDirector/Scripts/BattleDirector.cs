@@ -30,7 +30,7 @@ public partial class BattleDirector : Node2D
     private AudioStreamPlayer Audio;
 
     [Export]
-    private Button _focusedButton; //Initial start button
+    public Button FocusedButton; //Initial start button
 
     private double _timingInterval = .1; //in beats, maybe make note/bpm dependent
 
@@ -43,8 +43,8 @@ public partial class BattleDirector : Node2D
     {
         var timer = GetTree().CreateTimer(AudioServer.GetTimeToNextMix());
         timer.Timeout += BeginPlayback;
-        _focusedButton.QueueFree();
-        _focusedButton = null;
+        FocusedButton.QueueFree();
+        FocusedButton = null;
     }
 
     private void BeginPlayback()
@@ -71,8 +71,10 @@ public partial class BattleDirector : Node2D
         CD.Initialize(curSong);
         CD.NoteInputEvent += OnTimedInput;
 
-        _focusedButton.GrabFocus();
-        _focusedButton.Pressed += SyncStartWithMix;
+        FocusedButton.GrabFocus();
+        FocusedButton.Pressed += SyncStartWithMix;
+
+        Harbinger.Instance.InvokeBattleStarted();
     }
 
     private ScoringScreen.ScoreGuide _battleScore;
@@ -392,6 +394,9 @@ public partial class BattleDirector : Node2D
             case BattleEffectTrigger.OnDamageInstance:
                 Harbinger.Instance.OnDamageInstance += bEvent.OnTrigger;
                 break;
+            case BattleEffectTrigger.OnBattleStart:
+                Harbinger.Instance.BattleStarted += bEvent.OnTrigger;
+                break;
         }
     }
 
@@ -413,6 +418,9 @@ public partial class BattleDirector : Node2D
                 break;
             case BattleEffectTrigger.OnDamageInstance:
                 Harbinger.Instance.OnDamageInstance -= bEvent.OnTrigger;
+                break;
+            case BattleEffectTrigger.OnBattleStart:
+                Harbinger.Instance.BattleStarted -= bEvent.OnTrigger;
                 break;
         }
     }
@@ -530,6 +538,14 @@ public partial class BattleDirector : Node2D
         public void InvokeBattleEnded()
         {
             BattleEnded?.Invoke(new BattleEventArgs(_curDirector));
+        }
+
+        internal delegate void BattleStartedHandler(BattleEventArgs e);
+        internal event BattleStartedHandler BattleStarted;
+
+        public void InvokeBattleStarted()
+        {
+            BattleStarted?.Invoke(new BattleEventArgs(_curDirector));
         }
 
         /// <summary>

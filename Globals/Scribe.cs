@@ -404,6 +404,18 @@ public partial class Scribe : Node
             "Audio/songMaps/Song3.tres",
             [P_TheGWS.LoadPath]
         ),
+        new SongTemplate(
+            new SongData
+            {
+                Bpm = 90,
+                SongLength = -1,
+                NumLoops = 1,
+            },
+            "TutorialSong",
+            "Audio/TutorialSong.ogg",
+            "Audio/songMaps/TutorialSong.tres",
+            [P_Strawman.LoadPath]
+        ),
     };
 
     //Needs to be strictly maintained based on what the player has obtained.

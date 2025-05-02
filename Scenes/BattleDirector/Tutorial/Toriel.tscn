@@ -1,0 +1,142 @@
+[gd_scene load_steps=6 format=3 uid="uid://dv36qdfq1oqna"]
+
+[ext_resource type="Script" uid="uid://bwj1pl3srf8q3" path="res://Scenes/BattleDirector/Tutorial/Toriel.cs" id="1_mf0nq"]
+[ext_resource type="Texture2D" uid="uid://djd6iw2g84bba" path="res://Scenes/UI/Assets/UI_CenterFrame.png" id="2_3a4m1"]
+[ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="3_3a4m1"]
+[ext_resource type="Texture2D" uid="uid://cegasble5d7uw" path="res://Scenes/UI/Assets/UI_Selection.png" id="3_oxyw8"]
+[ext_resource type="Texture2D" uid="uid://6jqhilmyy163" path="res://Scenes/UI/Remapping/Assets/1.png" id="4_d6o7n"]
+
+[node name="Toriel" type="CanvasLayer" node_paths=PackedStringArray("_dialogueLabel", "_dialogueBox", "_nextButton", "_inputSprites", "_noteQueueMarker", "_comboMarker", "_barMarker")]
+layer = 0
+script = ExtResource("1_mf0nq")
+_dialogueLabel = NodePath("Control/CenterContainer/VBoxContainer/NinePatchRect/MarginContainer/TextLabel")
+_dialogueBox = NodePath("Control")
+_nextButton = NodePath("Control/CenterContainer/VBoxContainer/MarginContainer2/NextButton")
+_inputSprites = [NodePath("Up"), NodePath("Down"), NodePath("Left"), NodePath("Right")]
+_noteQueueMarker = NodePath("NoteQueueMarker")
+_comboMarker = NodePath("ComboMarker")
+_barMarker = NodePath("BarMarker")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer"]
+layout_mode = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Control/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 150)
+layout_mode = 2
+texture = ExtResource("2_3a4m1")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/CenterContainer/VBoxContainer/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="TextLabel" type="Label" parent="Control/CenterContainer/VBoxContainer/NinePatchRect/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+autowrap_mode = 2
+clip_text = true
+text_overrun_behavior = 4
+
+[node name="MarginContainer2" type="MarginContainer" parent="Control/CenterContainer/VBoxContainer"]
+process_mode = 3
+layout_mode = 2
+theme_override_constants/margin_left = 35
+theme_override_constants/margin_top = -3
+theme_override_constants/margin_right = 35
+theme_override_constants/margin_bottom = 6
+
+[node name="NextButton" type="Button" parent="Control/CenterContainer/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+theme = ExtResource("3_3a4m1")
+text = "INBETWEEN_CONTINUE"
+
+[node name="Selector" type="NinePatchRect" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -368.0
+offset_top = -228.0
+offset_right = -324.0
+offset_bottom = -184.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(22, 22)
+texture = ExtResource("3_oxyw8")
+patch_margin_left = 22
+patch_margin_top = 22
+patch_margin_right = 22
+patch_margin_bottom = 22
+
+[node name="NoteQueueMarker" type="Marker2D" parent="."]
+position = Vector2(22, 249)
+
+[node name="ComboMarker" type="Marker2D" parent="."]
+position = Vector2(35, 202)
+
+[node name="BarMarker" type="Marker2D" parent="."]
+position = Vector2(59, 266)
+
+[node name="NoteMarker" type="Marker2D" parent="."]
+position = Vector2(364, 294)
+
+[node name="Up" type="Sprite2D" parent="."]
+visible = false
+self_modulate = Color(1, 1, 1, 0.25)
+position = Vector2(129, 248)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_d6o7n")
+
+[node name="Down" type="Sprite2D" parent="."]
+visible = false
+self_modulate = Color(1, 1, 1, 0.25)
+position = Vector2(129, 292)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_d6o7n")
+
+[node name="Left" type="Sprite2D" parent="."]
+visible = false
+self_modulate = Color(1, 1, 1, 0.25)
+position = Vector2(129, 210)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_d6o7n")
+
+[node name="Right" type="Sprite2D" parent="."]
+visible = false
+self_modulate = Color(1, 1, 1, 0.25)
+position = Vector2(129, 330)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_d6o7n")

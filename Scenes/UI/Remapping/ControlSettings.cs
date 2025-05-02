@@ -387,6 +387,22 @@ public partial class ControlSettings : Node2D, IFocusableMenu
         },
     };
 
+    public static string GetTextureForInput(string inputMapName)
+    {
+        var events = InputMap.ActionGetEvents(inputMapName);
+        if (events.Count <= 0)
+            return null;
+        string textureName = events[0].AsText();
+
+        // Clean up the texture name
+        if (inputMapName.StartsWith(KeyboardPrefix))
+            textureName = CleanKeyboardText(textureName);
+        else
+            textureName = textureName.Replace("/", "");
+
+        return $"{IconPath}{textureName}.png";
+    }
+
     /// <summary>
     /// Saves the key to the input based on its input name into the correct config setting.
     /// </summary>

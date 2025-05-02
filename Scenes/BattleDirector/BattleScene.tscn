@@ -19,7 +19,7 @@ gradient = SubResource("Gradient_8uy3a")
 fill_from = Vector2(1, 0)
 fill_to = Vector2(0.738532, 1)
 
-[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("PuppetMarkers", "CD", "CM", "NPB", "Audio", "_focusedButton")]
+[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("PuppetMarkers", "CD", "CM", "NPB", "Audio", "FocusedButton")]
 process_mode = 1
 script = ExtResource("1_jmdo1")
 PuppetMarkers = [NodePath("PlayerMarker"), NodePath("Enemy1Marker"), NodePath("Enemy2Marker"), NodePath("Enemy3Marker")]
@@ -27,7 +27,7 @@ CD = NodePath("Conductor")
 CM = NodePath("SubViewport")
 NPB = NodePath("NotePlacementBar")
 Audio = NodePath("AudioStreamPlayer")
-_focusedButton = NodePath("StartButton")
+FocusedButton = NodePath("StartButton")
 metadata/_edit_lock_ = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
