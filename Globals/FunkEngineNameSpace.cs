@@ -245,20 +245,14 @@ public enum BattleEffectTrigger
 
 public enum Stages
 {
-    Title,
-    Battle,
-    Chest,
+    Battle = 0,
+    Chest = 1,
     Boss,
     Quit,
     Map,
     Load,
     Continue,
-}
-
-public enum Area
-{
-    Forest = 0,
-    City = 1,
+    Title,
 }
 
 public enum Rarity
@@ -316,58 +310,10 @@ public class MapGrid
         }
     }
 
-    //TODO: Make odds for rooms based on y-level, e.g. elites only spawn on y > 3
-    public struct MapConfig
-    {
-        public int Width { get; private set; }
-        public int Height { get; private set; }
-        public int Paths { get; private set; }
-
-        /// <summary>
-        /// Rooms that exist at set levels, only one room can be set per y-level.
-        /// </summary>
-        public Dictionary<int, Stages> SetRooms { get; private set; } =
-            new()
-            {
-                { 0, Stages.Battle }, //The first, e.g. y = 0 room, should always be a battle.
-            };
-
-        public const int NumStages = 2;
-
-        public static readonly Stages[] StagsToRoll = new[] { Stages.Battle, Stages.Chest };
-
-        /// <summary>
-        /// The odds for each stage to appear in a non-set room position.
-        /// </summary>
-        public float[] StageOdds = new float[2];
-
-        public MapConfig(int width, int height, int paths, float[] odds)
-        {
-            Width = width;
-            Height = height;
-            Paths = paths;
-            for (int i = 0; i < NumStages; i++)
-            {
-                StageOdds[i] = odds[i];
-            }
-        }
-
-        /// <summary>
-        /// Adds a set room type to be generated guaranteed. Additional entries in the same y-level are ignored.
-        /// </summary>
-        /// <param name="height">The y-level of the rooms</param>
-        /// <param name="roomType">The room type to be set.</param>
-        public MapConfig AddSetRoom(int height, Stages roomType)
-        {
-            SetRooms.TryAdd(height, roomType);
-            return this;
-        }
-    }
-
     /**
     * <summary>Initializes the map with max <c>width</c>, max <c>height</c>, and with number of <c>paths</c>.</summary>
     */
-    public void InitMapGrid(MapConfig curConfig)
+    public void InitMapGrid(MapLevels.MapConfig curConfig)
     {
         _curIdx = 0;
         _rooms = [];
@@ -387,7 +333,7 @@ public class MapGrid
     }
 
     /**Start at x, y, assume prev room exists. Picks new x pos within +/- 1, attaches recursively*/
-    private void GeneratePath_r(int x, int y, MapConfig curConfig)
+    private void GeneratePath_r(int x, int y, MapLevels.MapConfig curConfig)
     {
         int nextX = StageProducer.GlobalRng.RandiRange(
             Math.Max(x - 1, 0),
@@ -410,7 +356,7 @@ public class MapGrid
         }
     }
 
-    private Stages PickRoomType(int x, int y, MapConfig curConfig)
+    private Stages PickRoomType(int x, int y, MapLevels.MapConfig curConfig)
     {
         //If the y has a set room return it.
         if (curConfig.SetRooms.TryGetValue(y, out Stages result))
@@ -419,8 +365,16 @@ public class MapGrid
         }
 
         //Random roll for the room type.
-        int idx = (int)StageProducer.GlobalRng.RandWeighted(curConfig.StageOdds);
-        return MapConfig.StagsToRoll[idx];
+        float[] validRooms = curConfig.StageOdds;
+        foreach ((Stages stage, int height) in curConfig.MinHeights)
+        {
+            if (y < height)
+            {
+                validRooms[(int)stage] = 0;
+            }
+        }
+        int idx = (int)StageProducer.GlobalRng.RandWeighted(validRooms);
+        return MapLevels.MapConfig.StagsToRoll[idx];
     }
 
     //Asserts that if there is a room at the same x, but y+1 they are connected

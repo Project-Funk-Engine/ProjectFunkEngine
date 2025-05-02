@@ -411,7 +411,7 @@ public static class SaveSystem
             noteIds,
             relicIds,
             StageProducer.PlayerStats.CurrentHealth,
-            (int)StageProducer.CurArea,
+            StageProducer.CurLevel.Id,
             StageProducer.PlayerStats.Money
         );
         string json = JsonSerializer.Serialize(sv);

@@ -183,7 +183,7 @@ theme = ExtResource("13_v0au1")
 theme_override_font_sizes/font_size = 24
 text = "TITLE_START"
 script = ExtResource("2_7f3m6")
-ScenePath = 5
+ScenePath = 4
 _startFocused = true
 
 [node name="MarginContainer3" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
@@ -206,7 +206,7 @@ theme = ExtResource("13_v0au1")
 theme_override_font_sizes/font_size = 24
 text = "TITLE_CONTINUE"
 script = ExtResource("2_7f3m6")
-ScenePath = 6
+ScenePath = 5
 
 [node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -227,7 +227,7 @@ theme = ExtResource("13_v0au1")
 theme_override_font_sizes/font_size = 24
 text = "TITLE_QUIT"
 script = ExtResource("2_7f3m6")
-ScenePath = 4
+ScenePath = 3
 
 [node name="OptionsMargin" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
