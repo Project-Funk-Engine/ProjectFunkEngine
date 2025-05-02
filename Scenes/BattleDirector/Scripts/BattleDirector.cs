@@ -248,6 +248,7 @@ public partial class BattleDirector : Node2D
         {
             if (IsBattleWon())
             {
+                Harbinger.Instance.InvokeBattleEnded();
                 CM.ProcessMode = ProcessModeEnum.Disabled;
                 var tween = CreateTween();
                 tween.TweenProperty(puppet, "modulate:a", 0, 2f);
@@ -312,12 +313,7 @@ public partial class BattleDirector : Node2D
         }
     }
 
-    public void DealDamage(
-        Targetting targetting,
-        int damage,
-        PuppetTemplate source,
-        bool targetPlayer = false
-    )
+    public void DealDamage(Targetting targetting, int damage, PuppetTemplate source)
     {
         PuppetTemplate[] targets = GetTargets(targetting);
         foreach (PuppetTemplate target in targets)

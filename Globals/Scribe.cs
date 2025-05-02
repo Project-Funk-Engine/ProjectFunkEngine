@@ -416,6 +416,18 @@ public partial class Scribe : Node
             "Audio/songMaps/TutorialSong.tres",
             [P_Strawman.LoadPath]
         ),
+        new SongTemplate(
+            new SongData
+            {
+                Bpm = 120,
+                SongLength = -1,
+                NumLoops = 1,
+            },
+            "YouWillDie:)",
+            "",
+            "",
+            [P_Effigy.LoadPath]
+        ),
     };
 
     //Needs to be strictly maintained based on what the player has obtained.

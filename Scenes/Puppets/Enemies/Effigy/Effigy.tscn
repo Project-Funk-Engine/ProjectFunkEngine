@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://djob0b8d65u44"]
+
+[ext_resource type="Script" uid="uid://cd3rrwk2hhkux" path="res://Scenes/Puppets/Enemies/Strawman/P_Strawman.cs" id="1_80cpv"]
+[ext_resource type="Texture2D" uid="uid://1uwfu07p38c6" path="res://Scenes/Puppets/Enemies/Strawman/Strawman.png" id="2_5xvmn"]
+[ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://Scenes/Puppets/HealthBar.tscn" id="3_j2tnq"]
+[ext_resource type="PackedScene" uid="uid://cdoguwlxehbpg" path="res://Scenes/Puppets/StatusContainer.tscn" id="4_akap3"]
+
+[node name="Strawman" type="Node2D" node_paths=PackedStringArray("HealthBar", "Sprite", "_statusContainer")]
+script = ExtResource("1_80cpv")
+HealthBar = NodePath("ProgressBar")
+Sprite = NodePath("Sprite")
+_statusContainer = NodePath("StatusContainer")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+self_modulate = Color(0.190283, 0.000433802, 0.432638, 1)
+texture = ExtResource("2_5xvmn")
+
+[node name="ProgressBar" parent="." instance=ExtResource("3_j2tnq")]
+offset_left = -50.0
+offset_top = 32.0
+offset_right = 50.0
+offset_bottom = 52.0
+
+[node name="StatusContainer" parent="." instance=ExtResource("4_akap3")]
