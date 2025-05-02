@@ -7,8 +7,8 @@ public partial class P_TheGWS : EnemyPuppet
 
     public override void _Ready()
     {
-        CurrentHealth = 75;
         MaxHealth = 75;
+        CurrentHealth = MaxHealth;
         BaseMoney = 10;
         base._Ready();
         var enemTween = CreateTween();
