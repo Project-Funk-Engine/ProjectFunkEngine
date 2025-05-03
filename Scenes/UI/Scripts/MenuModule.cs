@@ -24,6 +24,8 @@ public partial class MenuModule : CanvasLayer, IFocusableMenu
     public void ResumeFocus()
     {
         CurSceneNode.ProcessMode = ProcessModeEnum.Inherit;
+        if (CurSceneNode is BattleDirector { HasPlayed: true } bd)
+            bd.StartCountdown();
         _lastFocused?.GrabFocus();
     }
 

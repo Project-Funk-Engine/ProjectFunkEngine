@@ -8,7 +8,6 @@ using Godot;
 public partial class BattleDirector : Node2D
 {
     #region Declarations
-
     public static readonly string LoadPath = "res://Scenes/BattleDirector/BattleScene.tscn";
 
     public PlayerPuppet Player;
@@ -16,6 +15,9 @@ public partial class BattleDirector : Node2D
 
     [Export]
     public Marker2D[] PuppetMarkers = new Marker2D[4]; //[0] is always player
+
+    [Export]
+    private Label _countdownLabel;
 
     [Export]
     private Conductor CD;
@@ -39,18 +41,44 @@ public partial class BattleDirector : Node2D
     #endregion
 
     #region Initialization
+    Timer _countdownTimer; //TODO: Make in time with bpm
+    public bool HasPlayed; //TODO: Disable input during countdown
+
+    public void StartCountdown()
+    {
+        CM.ArrowTween?.Pause();
+        Audio.SetStreamPaused(true);
+        if (_countdownTimer == null)
+        {
+            _countdownTimer = new Timer();
+            AddChild(_countdownTimer);
+            _countdownTimer.Timeout += SyncStartWithMix;
+        }
+        _countdownTimer.Start(3);
+        _countdownLabel.Visible = true;
+    }
+
     private void SyncStartWithMix()
     {
+        _countdownTimer.Stop();
         var timer = GetTree().CreateTimer(AudioServer.GetTimeToNextMix());
         timer.Timeout += BeginPlayback;
-        FocusedButton.QueueFree();
-        FocusedButton = null;
     }
 
     private void BeginPlayback()
     {
-        CM.BeginTweens();
-        Audio.Play();
+        _countdownLabel.Visible = false;
+        if (HasPlayed)
+        {
+            Audio.SetStreamPaused(false);
+            CM.ArrowTween?.Play();
+        }
+        else
+        {
+            CM.BeginTweens();
+            Audio.Play();
+        }
+        HasPlayed = true;
         _initializedPlaying = true;
     }
 
@@ -72,7 +100,12 @@ public partial class BattleDirector : Node2D
         CD.NoteInputEvent += OnTimedInput;
 
         FocusedButton.GrabFocus();
-        FocusedButton.Pressed += SyncStartWithMix;
+        FocusedButton.Pressed += () =>
+        {
+            FocusedButton.QueueFree();
+            FocusedButton = null;
+            StartCountdown();
+        };
 
         Harbinger.Instance.InvokeBattleStarted();
     }
@@ -86,7 +119,6 @@ public partial class BattleDirector : Node2D
         {
             baseMoney += enem.BaseMoney;
         }
-
         _battleScore = new ScoringScreen.ScoreGuide(baseMoney, Player.GetCurrentHealth());
         Harbinger.Instance.NotePlaced += (_) =>
         {
@@ -133,6 +165,8 @@ public partial class BattleDirector : Node2D
 
     public override void _Process(double delta)
     {
+        if (_countdownTimer != null)
+            _countdownLabel.Text = ((int)_countdownTimer.TimeLeft + 1).ToString();
         TimeKeeper.CurrentTime = Audio.GetPlaybackPosition();
         Beat realBeat = TimeKeeper.GetBeatFromTime(Audio.GetPlaybackPosition());
         UpdateBeat(realBeat);
@@ -147,6 +181,8 @@ public partial class BattleDirector : Node2D
         }
         if (beat.Loop > TimeKeeper.LastBeat.Loop)
         {
+            if (beat.Loop % TimeKeeper.LoopsPerSong == 0)
+                CM.BeginTweens(); //current hack to improve sync arrow tween
             Harbinger.Instance.InvokeChartLoop(beat.Loop, false);
         }
         TimeKeeper.LastBeat = beat;
