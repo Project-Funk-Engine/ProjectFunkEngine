@@ -8,7 +8,7 @@ public partial class P_BossBlood : EnemyPuppet
 
     public override void _Ready()
     {
-        MaxHealth = 500; //set to 500 for now, but we might lower this once proper boss mechanics are added
+        MaxHealth = 225;
         CurrentHealth = MaxHealth;
         BaseMoney = 15;
         base._Ready();

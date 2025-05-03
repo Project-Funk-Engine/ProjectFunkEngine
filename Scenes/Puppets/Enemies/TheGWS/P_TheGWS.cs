@@ -7,7 +7,7 @@ public partial class P_TheGWS : EnemyPuppet
 
     public override void _Ready()
     {
-        MaxHealth = 300;
+        MaxHealth = 150;
         CurrentHealth = MaxHealth;
         BaseMoney = 10;
         base._Ready();

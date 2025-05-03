@@ -90,7 +90,7 @@ public partial class Scribe : Node
             "Basic note at a quarter of the cost.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerQuarter.png"),
             null,
-            2,
+            3,
             (director, note, timing) =>
             {
                 if (timing == Timing.Miss)
