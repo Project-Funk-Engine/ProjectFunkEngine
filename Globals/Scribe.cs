@@ -202,7 +202,7 @@ public partial class Scribe : Node
         new RelicTemplate(
             2,
             "Auroboros",
-            "Bigger number, better person. Increases combo multiplier every riff.",
+            "Bigger number, better person. Increases combo multiplier every loop.",
             Rarity.Common,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Auroboros.png"),
             new RelicEffect[]
@@ -221,7 +221,7 @@ public partial class Scribe : Node
         new RelicTemplate(
             3,
             "Colorboros",
-            "Taste the rainbow. Charges the freestyle bar every riff.",
+            "Taste the rainbow. Charges the freestyle bar every loop.",
             Rarity.Common,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Colorboros.png"),
             new RelicEffect[]
@@ -333,8 +333,8 @@ public partial class Scribe : Node
         new RelicTemplate(
             9,
             "Vinyl Record",
-            "Right round, right round. All loop effects trigger twice.",
-            Rarity.Legendary,
+            "Right round, right round. Player and enemy loop effects trigger twice.",
+            Rarity.Epic,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_VinylRecord.png"),
             new RelicEffect[]
             {
