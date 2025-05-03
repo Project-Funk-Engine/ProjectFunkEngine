@@ -72,7 +72,7 @@ RELIC_CHIPS_TOOLTIP,"Hitting a note deals a bit of damage.","击中音符会造�
 RELIC_PAPERCUT_NAME,Paper Cut,纸割伤
 RELIC_PAPERCUT_TOOLTIP,"Deals damage each riff.","每轮造成伤害"
 RELIC_ENERGYDRINK_NAME,Energy Drink,"能量饮料"
-RELIC_ENERGYDRINK_TOOLTIP,"Take a chance to cool down and sip an energy drink to increase your max energy bar.","碰碰运气，喝一口能量饮料来冷静下来并增加你的最大能量条。"
+RELIC_ENERGYDRINK_TOOLTIP,"Take a chance to cool down and sip an energy drink to decrease energy costs.","抓住机会冷静一下，喝一瓶能量饮料来降低能量消耗。"
 RELIC_BANDAGE_NAME,Bandage,"绷带"
 RELIC_BANDAGE_TOOLTIP,"A clean strip of cloth. Use it after a fight to patch up and feel better.","一块干净的布条，战斗后使用来包扎并恢复一些健康。"
 RELIC_MEDKIT_NAME,Medkit,"急救包"

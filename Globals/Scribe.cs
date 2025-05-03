@@ -268,7 +268,7 @@ public partial class Scribe : Node
             {
                 new RelicEffect(
                     BattleEffectTrigger.OnLoop,
-                    5,
+                    15,
                     (e, self, val) =>
                     {
                         e.BD.DealDamage(Targetting.First, val, null);
@@ -279,7 +279,7 @@ public partial class Scribe : Node
         new RelicTemplate(
             6,
             "Energy Drink",
-            "Take a chance to cool down and sip an energy drink to increase your max energy bar.",
+            "Take a chance to cool down and sip an energy drink to decrease energy costs.",
             Rarity.Common,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_EnergyDrink.png"),
             new RelicEffect[]
