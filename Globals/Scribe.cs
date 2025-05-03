@@ -19,7 +19,7 @@ public partial class Scribe : Node
             "Basic enemy note, deals damage to player.",
             null,
             null,
-            1,
+            4,
             (director, note, timing) =>
             {
                 int dmg = (3 - (int)timing) * note.GetBaseVal();
@@ -32,7 +32,7 @@ public partial class Scribe : Node
             "Basic player note, deals damage to enemy.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerBasic.png"),
             null,
-            1,
+            4,
             (director, note, timing) =>
             {
                 if (timing == Timing.Miss)
@@ -46,7 +46,7 @@ public partial class Scribe : Node
             "Basic player note, deals double damage to enemy.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerDouble.png"),
             null,
-            2,
+            8,
             (director, note, timing) =>
             {
                 if (timing == Timing.Miss)
@@ -60,7 +60,7 @@ public partial class Scribe : Node
             "Basic player note, heals player.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerHeal.png"),
             null,
-            1,
+            4,
             (director, note, timing) =>
             {
                 if (timing == Timing.Miss)
@@ -74,7 +74,7 @@ public partial class Scribe : Node
             "Steals health from enemy.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerVampire.png"),
             null,
-            1,
+            3,
             (director, note, timing) =>
             {
                 if (timing == Timing.Miss)
@@ -90,7 +90,7 @@ public partial class Scribe : Node
             "Basic note at a quarter of the cost.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerQuarter.png"),
             null,
-            1,
+            2,
             (director, note, timing) =>
             {
                 if (timing == Timing.Miss)
@@ -119,7 +119,7 @@ public partial class Scribe : Node
             "Deals damage to all enemies.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerExplosive.png"),
             null,
-            1,
+            4,
             (director, note, timing) =>
             {
                 if (timing == Timing.Miss)
@@ -135,13 +135,13 @@ public partial class Scribe : Node
             "Deals more damage with each loop.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerEcho.png"),
             null,
-            1,
+            4,
             (director, note, timing) =>
             {
                 if (timing == Timing.Miss)
                     return;
                 director.DealDamage(note, (int)timing * note.GetBaseVal(), director.Player);
-                note.SetBaseVal(note.GetBaseVal() + 1);
+                note.SetBaseVal(note.GetBaseVal() + 2);
             }
         ),
         new Note(
