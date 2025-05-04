@@ -80,6 +80,10 @@ RELIC_MEDKIT_NAME,Medkit,"急救包"
 RELIC_MEDKIT_TOOLTIP,"A small kit with medical supplies. Heals you a bit after each loop.","包含一些医疗用品的小包，每次循环后恢复少量生命。"
 RELIC_VINYLRECORD_NAME,Vinyl Record,"黑胶唱片"
 RELIC_VINYLRECORD_TOOLTIP,"Right round, right round. All loop effects trigger twice.","把我转起来，把我转起来。所有循环效果触发两次。"
+RELIC_LOOSECHANGE_NAME,Loose Change,零钱
+RELIC_LOOSECHANGE_TOOLTIP,"Gain extra money after battles.","战斗后获得额外金钱。"
+RELIC_SPIKEDSHIELD_NAME,Spiked Shield,尖刺之盾
+RELIC_SPIKEDSHIELD_TOOLTIP,"Deal damage when you lose a charge of block.","失去格挡层数时造成伤害。"
 INVENTORY_TAB_NOTES,Notes,乐谱
 INVENTORY_TAB_RELICS,Relics,遗物
 OPTIONS_VOLUME_LABEL,Master Volume,最终音量设置
