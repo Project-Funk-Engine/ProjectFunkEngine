@@ -40,6 +40,9 @@ We now have a Steam page!
 - **Light Map Texture**: [Godot Engine Docs – Godot Foundation](https://docs.godotengine.org/en/stable/tutorials/2d/2d_lights_and_shadows.html)
 - **Title Screen Font**: [04B-30 – Yuji Oshimoto](http://04.jp.org/)
 - **Main System Font**: [Fibberish  - nathan scott](https://caffinate.itch.io/fibberish/)
+"District Four" Kevin MacLeod ([incompetech.com](https://incompetech.com/))
+Licensed under Creative Commons: By Attribution 4.0 License
+[http://creativecommons.org/licenses/by/4.0/](http://creativecommons.org/licenses/by/4.0/)
 
 ---
 

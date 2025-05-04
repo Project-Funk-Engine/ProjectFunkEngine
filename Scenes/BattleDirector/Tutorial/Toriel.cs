@@ -275,18 +275,18 @@ public partial class Toriel : CanvasLayer
         _selector.Visible = false;
         GetTree().SetPause(false);
         _currentDirector.PlayerAddNote(ArrowType.Right, TimeKeeper.LastBeat.RoundBeat());
-        finalDialogue = true;
+        _finalDialogue = true;
     }
     #endregion
 
     #region OnPlace Dialogue
-    bool finalDialogue = false;
+    bool _finalDialogue = false;
 
     public void OnPlaceDialogue1()
     {
-        if (!finalDialogue)
+        if (!_finalDialogue)
             return;
-        finalDialogue = false;
+        _finalDialogue = false;
 
         _dialogueBox.Visible = true;
         _nextButton.Visible = true;
@@ -306,11 +306,23 @@ public partial class Toriel : CanvasLayer
         _nextButton.Pressed += OnPlaceDialogue3;
     }
 
+    public bool FromBoss;
+
     public void OnPlaceDialogue3()
     {
-        _nextButton.Pressed -= OnPlaceDialogue3;
+        if (FromBoss)
+        {
+            _dialogueBox.Visible = true;
+            _nextButton.Visible = true;
+            GetTree().SetPause(true);
+            _nextButton.GrabFocus();
+        }
+        else
+        {
+            _nextButton.Pressed -= OnPlaceDialogue3;
+            _selector.Visible = false;
+        }
         _dialogueLabel.Text = Tr("TUTORIAL_FINAL_3");
-        _selector.Visible = false;
         _nextButton.Pressed += OnPlaceDialogue4;
     }
 
@@ -319,6 +331,27 @@ public partial class Toriel : CanvasLayer
         _nextButton.Pressed -= OnPlaceDialogue4;
         _dialogueBox.Visible = false;
         GetTree().SetPause(false);
+    }
+    #endregion
+
+    #region Boss Dialogue
+    public void BossDialogue()
+    {
+        _dialogueBox.Visible = true;
+        GetTree().SetPause(true);
+        _currentDirector.FocusedButton.Visible = false;
+        _dialogueLabel.Text = Tr("TUTORIAL_BOSS");
+        _nextButton.GrabFocus();
+        _nextButton.Pressed += BossDialogueReady;
+    }
+
+    public void BossDialogueReady()
+    {
+        _nextButton.Pressed -= BossDialogueReady;
+        _dialogueBox.Visible = false;
+        GetTree().SetPause(false);
+        _currentDirector.FocusedButton.Visible = true;
+        _currentDirector.FocusedButton.GrabFocus();
     }
     #endregion
 }

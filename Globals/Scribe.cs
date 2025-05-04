@@ -419,13 +419,13 @@ public partial class Scribe : Node
         new SongTemplate(
             new SongData
             {
-                Bpm = 120,
+                Bpm = 176,
                 SongLength = -1,
-                NumLoops = 1,
+                NumLoops = 7,
             },
             "YouWillDie:)",
-            "",
-            "",
+            "Audio/District_Four.ogg",
+            "Audio/songMaps/TutorialBoss176_7.tres",
             [P_Effigy.LoadPath]
         ),
     };

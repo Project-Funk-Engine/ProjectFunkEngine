@@ -107,7 +107,7 @@ public class MapLevels
 
     private static readonly MapLevels[] PresetLevels = new[]
     {
-        new MapLevels(0, TutorialMapConfig, [4], [], [3], 1),
+        new MapLevels(0, TutorialMapConfig, [4], [], [5], 1),
         new MapLevels(1, FirstMapConfig, [1, 2, 3], [], [0], -1),
     };
     #endregion
