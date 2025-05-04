@@ -344,7 +344,7 @@ public partial class Scribe : Node
                     10,
                     (e, self, val) =>
                     {
-                        StageProducer.PlayerStats.Money += val;
+                        e.BD.BattleScore.IncRelicBonus(val);
                     }
                 ),
             }

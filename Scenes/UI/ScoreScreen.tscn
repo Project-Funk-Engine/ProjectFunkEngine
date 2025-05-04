@@ -148,7 +148,7 @@ text = "SCORING_PLACED"
 
 [node name="RelicLabel" type="Label" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin/LabelVbox"]
 layout_mode = 2
-text = "RELIC_PLACED"
+text = "SCORING_RELICS"
 
 [node name="Placeholder" type="Label" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin/LabelVbox"]
 layout_mode = 2
