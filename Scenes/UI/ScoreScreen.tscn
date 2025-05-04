@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://burj10os057fx" path="res://Scenes/UI/Assets/UI_CrystalFrameInset.png" id="3_usavq"]
 [ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="4_1rsqt"]
 
-[node name="ScoreScreen" type="CanvasLayer" node_paths=PackedStringArray("_styleLabel", "_styleAmount", "_perfectsLabel", "_perfectsAmount", "_placedLabel", "_placedAmount", "_totalLabel", "_totalAmount", "_acceptButton")]
+[node name="ScoreScreen" type="CanvasLayer" node_paths=PackedStringArray("_styleLabel", "_styleAmount", "_perfectsLabel", "_perfectsAmount", "_placedLabel", "_placedAmount", "_totalLabel", "_totalAmount", "_relicLabel", "_relicAmount", "_acceptButton")]
 process_mode = 3
 script = ExtResource("1_ma4hf")
 _styleLabel = NodePath("Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin/LabelVbox/StyleLabel")
@@ -17,6 +17,8 @@ _placedLabel = NodePath("Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/B
 _placedAmount = NodePath("Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/ScoreMargin/LabelVbox/PlacedLabel")
 _totalLabel = NodePath("Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin/LabelVbox/TotalLabel")
 _totalAmount = NodePath("Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/ScoreMargin/LabelVbox/TotalLabel")
+_relicLabel = NodePath("Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin/LabelVbox/RelicLabel")
+_relicAmount = NodePath("Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/ScoreMargin/LabelVbox/RelicLabel")
 _acceptButton = NodePath("Bg/WindowMargin/PanelBg/VBoxContainer/ButtonMargin/AcceptButton")
 
 [node name="Bg" type="NinePatchRect" parent="."]
@@ -144,6 +146,10 @@ text = "SCORING_PERFECTS"
 layout_mode = 2
 text = "SCORING_PLACED"
 
+[node name="RelicLabel" type="Label" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin/LabelVbox"]
+layout_mode = 2
+text = "RELIC_PLACED"
+
 [node name="Placeholder" type="Label" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/LabelMargin/LabelVbox"]
 layout_mode = 2
 
@@ -177,6 +183,11 @@ text = "999"
 horizontal_alignment = 2
 
 [node name="PlacedLabel" type="Label" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/ScoreMargin/LabelVbox"]
+layout_mode = 2
+text = "999"
+horizontal_alignment = 2
+
+[node name="RelicLabel" type="Label" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer/BottomPanelBg/HBoxContainer/ScoreMargin/LabelVbox"]
 layout_mode = 2
 text = "999"
 horizontal_alignment = 2

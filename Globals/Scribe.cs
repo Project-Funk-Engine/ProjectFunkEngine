@@ -332,6 +332,23 @@ public partial class Scribe : Node
                 ),
             }
         ),
+        new RelicTemplate(
+            10,
+            "Loose Change",
+            Rarity.Common,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_LooseChange.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnBattleEnd,
+                    10,
+                    (e, self, val) =>
+                    {
+                        StageProducer.PlayerStats.Money += val;
+                    }
+                ),
+            }
+        ),
     };
 
     public static readonly SongTemplate[] SongDictionary = new[] //Generalize and make pools for areas/room types

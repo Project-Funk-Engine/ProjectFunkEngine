@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Godot;
 
 public partial class ScoringScreen : CanvasLayer
@@ -71,12 +72,21 @@ public partial class ScoringScreen : CanvasLayer
     private Label _totalAmount;
 
     [Export]
+    private Label _relicLabel;
+
+    [Export]
+    private Label _relicAmount;
+
+    [Export]
     private Button _acceptButton;
 
     private int _totalBaseMoney;
     private float _perfectMulti;
     private float _placedMulti;
-    private int FinalMoney => (int)(_totalBaseMoney * _perfectMulti * _placedMulti);
+    private bool _hasChange;
+    private int _changeAmount = Scribe.RelicDictionary[10].Effects[0].Value;
+    private int FinalMoney =>
+        (int)(_totalBaseMoney * _perfectMulti * _placedMulti) + (_hasChange ? _changeAmount : 0);
 
     public delegate void FinishedHandler();
     public event FinishedHandler Finished;
@@ -84,6 +94,13 @@ public partial class ScoringScreen : CanvasLayer
     public override void _Ready()
     {
         _acceptButton.Pressed += FinishScoring;
+
+        _hasChange = StageProducer.PlayerStats.CurRelics.Contains(Scribe.RelicDictionary[10]);
+        if (!_hasChange)
+        {
+            _relicLabel.Visible = false;
+            _relicAmount.Visible = false;
+        }
     }
 
     public override void _Process(double delta)
@@ -127,6 +144,7 @@ public partial class ScoringScreen : CanvasLayer
         _styleAmount.Text = $"{_totalBaseMoney}";
         _perfectsAmount.Text = $"X{_perfectMulti:0.00}";
         _placedAmount.Text = $"X{_placedMulti:0.00}";
+        _relicAmount.Text = $"+{_changeAmount}";
         _totalAmount.Text = $"{FinalMoney}";
     }
 

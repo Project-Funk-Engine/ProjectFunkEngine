@@ -108,3 +108,4 @@ TUTORIAL_FINAL_1,"Good job, you placed a note! You either healed yourself, or de
 TUTORIAL_FINAL_2,"As a refresher: Hit notes to build a combo and fill the bar. When the bar is full, press one of your buttons for a lane that doesn't have a note at the current beat. Notes in the chart will loop around. Keep it up to win.",(TODO)
 TUTORIAL_FINAL_3,"Good luck! I believe in you.",(TODO)
 TUTORIAL_BOSS,"This may take some getting used to, but death is ok in the grand scheme of things. Just have some patience with yourself, you'll learn in the end.",(TODO)
+RELIC_PLACED,"Loose Change income:","零钱收入:"
