@@ -349,6 +349,31 @@ public partial class Scribe : Node
                 ),
             }
         ),
+        new RelicTemplate(
+            11,
+            "Spiked Shield",
+            Rarity.Rare,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_SpikedShield.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnDamageInstance,
+                    5,
+                    (e, self, val) =>
+                    {
+                        if (
+                            e is BattleDirector.Harbinger.OnDamageInstanceArgs dmgArgs
+                            && dmgArgs.Dmg.Target == e.BD.Player
+                            && dmgArgs.Dmg.Damage > 0
+                            && e.BD.Player.HasStatus(StatusEffect.Block.GetInstance())
+                        )
+                        {
+                            e.BD.DealDamage(Targetting.First, val, null);
+                        }
+                    }
+                ),
+            }
+        ),
     };
 
     public static readonly SongTemplate[] SongDictionary = new[] //Generalize and make pools for areas/room types

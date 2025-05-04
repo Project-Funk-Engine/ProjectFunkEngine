@@ -192,5 +192,13 @@ public partial class PuppetTemplate : Node2D
         StatusEffects.Remove(effect);
         effect.QueueFree();
     }
+
+    public bool HasStatus(StatusEffect effect)
+    {
+        int index = StatusEffects.FindIndex(sEff => sEff.StatusName == effect.StatusName);
+        if (index != -1)
+            return true;
+        return false;
+    }
     #endregion
 }
