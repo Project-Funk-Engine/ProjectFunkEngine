@@ -58,7 +58,7 @@ public struct ArrowData : IEquatable<ArrowData>, IComparable<ArrowData>
     public readonly Note NoteRef = null;
 
     public static ArrowData Placeholder { get; private set; } =
-        new(default, default, new Note(-1, "", ""));
+        new(default, default, new Note(-1, ""));
 
     public ArrowData BeatFromLength()
     {
@@ -425,7 +425,6 @@ public interface IBattleEvent
 public interface IDisplayable
 {
     string Name { get; set; }
-    string Tooltip { get; set; }
     Texture2D Texture { get; set; }
 }
 

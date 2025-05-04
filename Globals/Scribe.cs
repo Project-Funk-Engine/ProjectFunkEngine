@@ -16,7 +16,6 @@ public partial class Scribe : Node
         new Note(
             0,
             "EnemyBase",
-            "Basic enemy note, deals damage to player.",
             null,
             null,
             1,
@@ -29,7 +28,6 @@ public partial class Scribe : Node
         new Note(
             1,
             "PlayerBase",
-            "Basic player note, deals damage to enemy.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerBasic.png"),
             null,
             4,
@@ -43,7 +41,6 @@ public partial class Scribe : Node
         new Note(
             2,
             "PlayerDouble",
-            "Basic player note, deals double damage to enemy.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerDouble.png"),
             null,
             8,
@@ -57,7 +54,6 @@ public partial class Scribe : Node
         new Note(
             3,
             "PlayerHeal",
-            "Basic player note, heals player.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerHeal.png"),
             null,
             1,
@@ -71,7 +67,6 @@ public partial class Scribe : Node
         new Note(
             4,
             "PlayerVampire",
-            "Steals health from enemy.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerVampire.png"),
             null,
             3,
@@ -87,7 +82,6 @@ public partial class Scribe : Node
         new Note(
             5,
             "PlayerQuarter",
-            "Basic note at a quarter of the cost.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerQuarter.png"),
             null,
             3,
@@ -102,7 +96,6 @@ public partial class Scribe : Node
         new Note(
             6,
             "PlayerBlock",
-            "Gives player one charge of block.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerBlock.png"),
             null,
             1,
@@ -116,7 +109,6 @@ public partial class Scribe : Node
         new Note(
             7,
             "PlayerExplosive",
-            "Deals damage to all enemies.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerExplosive.png"),
             null,
             4,
@@ -132,7 +124,6 @@ public partial class Scribe : Node
         new Note(
             8,
             "PlayerEcho",
-            "Deals more damage with each loop.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerEcho.png"),
             null,
             4,
@@ -147,7 +138,6 @@ public partial class Scribe : Node
         new Note(
             9,
             "PlayerPoison",
-            "Applies stacks of poison based on timing.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerPoison.png"),
             null,
             1,
@@ -165,7 +155,6 @@ public partial class Scribe : Node
         new RelicTemplate(
             0,
             "Breakfast", //Reference ha ha, Item to give when relic pool is empty.
-            "Increases max hp.", //TODO: Description can include the relics values?
             Rarity.Breakfast,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Breakfast.png"),
             new RelicEffect[]
@@ -184,7 +173,6 @@ public partial class Scribe : Node
         new RelicTemplate(
             1,
             "Good Vibes",
-            "Heals the player whenever they place a note.",
             Rarity.Common,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_GoodVibes.png"),
             new RelicEffect[]
@@ -202,7 +190,6 @@ public partial class Scribe : Node
         new RelicTemplate(
             2,
             "Auroboros",
-            "Bigger number, better person. Increases combo multiplier every loop.",
             Rarity.Common,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Auroboros.png"),
             new RelicEffect[]
@@ -221,7 +208,6 @@ public partial class Scribe : Node
         new RelicTemplate(
             3,
             "Colorboros",
-            "Taste the rainbow. Charges the freestyle bar every loop.",
             Rarity.Common,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Colorboros.png"),
             new RelicEffect[]
@@ -240,7 +226,6 @@ public partial class Scribe : Node
         new RelicTemplate(
             4,
             "Chips",
-            "Hitting a note deals a bit of damage.",
             Rarity.Rare, //This thing is really good imo.
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Chips.png"),
             new RelicEffect[]
@@ -261,7 +246,6 @@ public partial class Scribe : Node
         new RelicTemplate(
             5,
             "Paper Cut",
-            "Deals damage each loop.",
             Rarity.Common,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_PaperCut.png"),
             new RelicEffect[]
@@ -279,7 +263,6 @@ public partial class Scribe : Node
         new RelicTemplate(
             6,
             "Energy Drink",
-            "Take a chance to cool down and sip an energy drink to decrease energy costs.",
             Rarity.Common,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_EnergyDrink.png"),
             new RelicEffect[]
@@ -297,7 +280,6 @@ public partial class Scribe : Node
         new RelicTemplate(
             7,
             "Bandage",
-            "A clean strip of cloth. Use it after a fight to patch up and feel better.",
             Rarity.Common,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Bandage.png"),
             new RelicEffect[]
@@ -315,7 +297,6 @@ public partial class Scribe : Node
         new RelicTemplate(
             8,
             "Medkit",
-            "A small kit with medical supplies. Heals you a bit after each loop.",
             Rarity.Common,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Medkit.png"),
             new RelicEffect[]
@@ -333,7 +314,6 @@ public partial class Scribe : Node
         new RelicTemplate(
             9,
             "Vinyl Record",
-            "Right round, right round. All loop effects trigger twice.",
             Rarity.Epic,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_VinylRecord.png"),
             new RelicEffect[]

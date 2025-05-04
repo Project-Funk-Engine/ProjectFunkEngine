@@ -86,7 +86,7 @@ follow_focus = true
 [node name="NotesGrid" type="GridContainer" parent="MarginContainer/InvenVBox/Tabs/INVENTORY_TAB_NOTES/MarginContainer/NotesBox"]
 layout_mode = 2
 size_flags_vertical = 4
-columns = 5
+columns = 10
 
 [node name="INVENTORY_TAB_RELICS" type="MarginContainer" parent="MarginContainer/InvenVBox/Tabs"]
 visible = false
@@ -119,7 +119,7 @@ follow_focus = true
 [node name="RelicGrid" type="GridContainer" parent="MarginContainer/InvenVBox/Tabs/INVENTORY_TAB_RELICS/MarginContainer/RelicBox"]
 layout_mode = 2
 size_flags_vertical = 4
-columns = 5
+columns = 10
 
 [node name="DescBox" type="MarginContainer" parent="MarginContainer/InvenVBox"]
 layout_mode = 2

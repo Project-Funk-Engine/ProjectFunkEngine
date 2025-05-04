@@ -63,7 +63,7 @@ public partial class RewardSelect : CanvasLayer
         var button = GD.Load<PackedScene>(DisplayButton.LoadPath).Instantiate<DisplayButton>();
         button.SetButtonGroup(_rewardGroup);
         button.ToggleMode = true;
-        button.Display(displayable.Texture, displayable.Tooltip, displayable.Name);
+        button.Display(displayable.Texture, displayable.Name);
         button.Pressed += () => SetSelection(displayable);
         button.FocusEntered += () => ChangeDescription(displayable);
         ButtonContainer.AddChild(button);
