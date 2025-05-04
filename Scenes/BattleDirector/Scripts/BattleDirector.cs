@@ -277,26 +277,22 @@ public partial class BattleDirector : Node2D
     #region Battle End
     private void CheckBattleStatus(PuppetTemplate puppet) //Called when a puppet dies
     {
+        var tween = CreateTween();
+        tween.TweenProperty(puppet, "modulate:a", 0, 2f);
         if (puppet == Player)
         {
-            OnBattleLost();
+            CM.ProcessMode = ProcessModeEnum.Disabled;
+            tween.TweenCallback(Callable.From(OnBattleLost));
             return;
         }
 
         if (puppet is EnemyPuppet)
         {
-            if (IsBattleWon())
-            {
-                Harbinger.Instance.InvokeBattleEnded();
-                CM.ProcessMode = ProcessModeEnum.Disabled;
-                var tween = CreateTween();
-                tween.TweenProperty(puppet, "modulate:a", 0, 2f);
-                tween.TweenCallback(Callable.From(OnBattleWon));
-            }
-            else
-            {
-                puppet.Visible = false;
-            }
+            if (!IsBattleWon())
+                return;
+            Harbinger.Instance.InvokeBattleEnded();
+            CM.ProcessMode = ProcessModeEnum.Disabled;
+            tween.TweenCallback(Callable.From(OnBattleWon));
         }
     }
 
