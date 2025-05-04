@@ -20,5 +20,5 @@ offset_bottom = 284.0
 theme = ExtResource("2_dapxv")
 text = "INBETWEEN_CONTINUE"
 script = ExtResource("3_35xdc")
-ScenePath = 6
+ScenePath = 4
 _startFocused = true

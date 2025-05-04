@@ -58,11 +58,15 @@ public partial class ChartManager : SubViewportContainer
         _initialized = true;
     }
 
+    public Tween ArrowTween;
+
     public void BeginTweens()
     {
+        if (ArrowTween != null)
+            this.ArrowTween.Kill();
         //This could be good as a function to call on something, to have many things animated to the beat.
-        var tween = CreateTween();
-        tween
+        ArrowTween = CreateTween();
+        ArrowTween
             .TweenMethod(
                 Callable.From((Vector2 scale) => TweenArrows(scale)),
                 Vector2.One * .8f,
@@ -71,13 +75,13 @@ public partial class ChartManager : SubViewportContainer
             )
             .SetEase(Tween.EaseType.Out)
             .SetTrans(Tween.TransitionType.Elastic);
-        tween.TweenMethod(
+        ArrowTween.TweenMethod(
             Callable.From((Vector2 scale) => TweenArrows(scale)),
             Vector2.One,
             Vector2.One * .8f,
             60f / TimeKeeper.Bpm / 2
         );
-        tween.SetLoops().Play();
+        ArrowTween.SetLoops().Play();
     }
 
     private void TweenArrows(Vector2 scale)

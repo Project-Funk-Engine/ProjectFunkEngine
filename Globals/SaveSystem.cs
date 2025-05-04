@@ -14,7 +14,7 @@ public static class SaveSystem
     private static ConfigFile _curConfigData;
 
     private const float DefaultVolume = 1f;
-    private const string DefaultInputType = "WASD";
+    private const string DefaultInputType = "WASD"; //WASD or CONTROLLER
     private const int DefaultInputKeyboardUp = 87; //W
     private const int DefaultInputKeyboardLeft = 65; //A
     private const int DefaultInputKeyboardDown = 83; //S
@@ -29,6 +29,7 @@ public static class SaveSystem
     private const int DefaultInputControllerInventory = 4; //back button
     private const string DefaultLanguage = "en";
     private const bool DefaultHighCon = false;
+    private const bool DefaultFirstTime = true;
 
     public enum ConfigSettings
     {
@@ -48,6 +49,7 @@ public static class SaveSystem
         InputControllerInventory,
         LanguageKey,
         HighContrast,
+        FirstTime,
     }
 
     /**
@@ -72,6 +74,7 @@ public static class SaveSystem
         UpdateConfig(ConfigSettings.InputControllerInventory, DefaultInputControllerInventory);
         UpdateConfig(ConfigSettings.LanguageKey, DefaultLanguage);
         UpdateConfig(ConfigSettings.HighContrast, DefaultHighCon);
+        UpdateConfig(ConfigSettings.FirstTime, DefaultFirstTime);
     }
 
     private static void SaveConfig()
@@ -132,6 +135,9 @@ public static class SaveSystem
                 break;
             case ConfigSettings.HighContrast:
                 _curConfigData.SetValue("Options", "HighContrast", value);
+                break;
+            case ConfigSettings.FirstTime:
+                _curConfigData.SetValue("Game", "FirstTime", value);
                 break;
             default:
                 GD.PushError("SaveSystem.UpdateConfig: Invalid config setting passed. " + setting);
@@ -270,6 +276,8 @@ public static class SaveSystem
                 return _curConfigData.GetValue("Options", "LanguageKey", DefaultLanguage);
             case ConfigSettings.HighContrast:
                 return _curConfigData.GetValue("Options", "HighContrast", DefaultHighCon);
+            case ConfigSettings.FirstTime:
+                return _curConfigData.GetValue("Game", "FirstTime", DefaultFirstTime);
             default:
                 GD.PushError("Invalid config setting passed. " + setting);
                 return float.MinValue;

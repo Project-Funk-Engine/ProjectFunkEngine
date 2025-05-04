@@ -62,7 +62,10 @@ public partial class StageProducer : Node
     private void StartNewGame()
     {
         GlobalRng.Randomize();
-        CurLevel = MapLevels.GetLevelFromId(1);
+        if ((bool)SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.FirstTime))
+            CurLevel = MapLevels.GetLevelFromId(0);
+        else
+            CurLevel = MapLevels.GetLevelFromId(1);
         GenerateMapConsistent();
 
         PlayerStats = new PlayerStats();
