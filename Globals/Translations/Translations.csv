@@ -84,6 +84,8 @@ RELIC_LOOSECHANGE_NAME,Loose Change,零钱
 RELIC_LOOSECHANGE_TOOLTIP,"Gain extra money after battles.","战斗后获得额外金钱。"
 RELIC_SPIKEDSHIELD_NAME,Spiked Shield,尖刺之盾
 RELIC_SPIKEDSHIELD_TOOLTIP,"Deal damage when you lose a charge of block.","失去格挡层数时造成伤害。"
+RELIC_LUCKYDICE_NAME,Lucky Dice,幸运骰子
+RELIC_LUCKYDICE_TOOLTIP,"Gain one reroll for reward selections.","获得一次奖励重选。"
 INVENTORY_TAB_NOTES,Notes,乐谱
 INVENTORY_TAB_RELICS,Relics,遗物
 OPTIONS_VOLUME_LABEL,Master Volume,最终音量设置

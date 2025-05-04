@@ -374,6 +374,23 @@ public partial class Scribe : Node
                 ),
             }
         ),
+        new RelicTemplate(
+            12,
+            "Lucky Dice",
+            Rarity.Uncommon,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_LuckyDice.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnPickup,
+                    1,
+                    (e, self, val) =>
+                    {
+                        StageProducer.PlayerStats.Rerolls = 1;
+                    }
+                ),
+            }
+        ),
     };
 
     public static readonly SongTemplate[] SongDictionary = new[] //Generalize and make pools for areas/room types
