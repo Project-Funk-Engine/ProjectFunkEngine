@@ -19,7 +19,7 @@ public partial class Scribe : Node
             "Basic enemy note, deals damage to player.",
             null,
             null,
-            1,
+            4,
             (director, note, timing) =>
             {
                 int dmg = (3 - (int)timing) * note.GetBaseVal();
@@ -32,7 +32,7 @@ public partial class Scribe : Node
             "Basic player note, deals damage to enemy.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerBasic.png"),
             null,
-            1,
+            4,
             (director, note, timing) =>
             {
                 if (timing == Timing.Miss)
@@ -46,7 +46,7 @@ public partial class Scribe : Node
             "Basic player note, deals double damage to enemy.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerDouble.png"),
             null,
-            2,
+            8,
             (director, note, timing) =>
             {
                 if (timing == Timing.Miss)
@@ -60,7 +60,7 @@ public partial class Scribe : Node
             "Basic player note, heals player.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerHeal.png"),
             null,
-            1,
+            4,
             (director, note, timing) =>
             {
                 if (timing == Timing.Miss)
@@ -74,7 +74,7 @@ public partial class Scribe : Node
             "Steals health from enemy.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerVampire.png"),
             null,
-            1,
+            3,
             (director, note, timing) =>
             {
                 if (timing == Timing.Miss)
@@ -90,7 +90,7 @@ public partial class Scribe : Node
             "Basic note at a quarter of the cost.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerQuarter.png"),
             null,
-            1,
+            3,
             (director, note, timing) =>
             {
                 if (timing == Timing.Miss)
@@ -119,7 +119,7 @@ public partial class Scribe : Node
             "Deals damage to all enemies.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerExplosive.png"),
             null,
-            1,
+            4,
             (director, note, timing) =>
             {
                 if (timing == Timing.Miss)
@@ -135,13 +135,13 @@ public partial class Scribe : Node
             "Deals more damage with each loop.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerEcho.png"),
             null,
-            1,
+            4,
             (director, note, timing) =>
             {
                 if (timing == Timing.Miss)
                     return;
                 director.DealDamage(note, (int)timing * note.GetBaseVal(), director.Player);
-                note.SetBaseVal(note.GetBaseVal() + 1);
+                note.SetBaseVal(note.GetBaseVal() + 2);
             }
         ),
         new Note(
@@ -202,7 +202,7 @@ public partial class Scribe : Node
         new RelicTemplate(
             2,
             "Auroboros",
-            "Bigger number, better person. Increases combo multiplier every riff.",
+            "Bigger number, better person. Increases combo multiplier every loop.",
             Rarity.Common,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Auroboros.png"),
             new RelicEffect[]
@@ -221,7 +221,7 @@ public partial class Scribe : Node
         new RelicTemplate(
             3,
             "Colorboros",
-            "Taste the rainbow. Charges the freestyle bar every riff.",
+            "Taste the rainbow. Charges the freestyle bar every loop.",
             Rarity.Common,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Colorboros.png"),
             new RelicEffect[]
@@ -268,7 +268,7 @@ public partial class Scribe : Node
             {
                 new RelicEffect(
                     BattleEffectTrigger.OnLoop,
-                    5,
+                    15,
                     (e, self, val) =>
                     {
                         e.BD.DealDamage(Targetting.First, val, null);
@@ -279,7 +279,7 @@ public partial class Scribe : Node
         new RelicTemplate(
             6,
             "Energy Drink",
-            "Take a chance to cool down and sip an energy drink to increase your max energy bar.",
+            "Take a chance to cool down and sip an energy drink to decrease energy costs.",
             Rarity.Common,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_EnergyDrink.png"),
             new RelicEffect[]
@@ -334,7 +334,7 @@ public partial class Scribe : Node
             9,
             "Vinyl Record",
             "Right round, right round. All loop effects trigger twice.",
-            Rarity.Legendary,
+            Rarity.Epic,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_VinylRecord.png"),
             new RelicEffect[]
             {

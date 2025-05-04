@@ -8,8 +8,8 @@ public partial class P_Parasifly : EnemyPuppet
 
     public override void _Ready()
     {
-        CurrentHealth = 50;
-        MaxHealth = 50;
+        MaxHealth = 100;
+        CurrentHealth = MaxHealth;
         BaseMoney = 5;
         base._Ready();
         var enemTween = CreateTween();
