@@ -333,7 +333,7 @@ public partial class Scribe : Node
         new RelicTemplate(
             9,
             "Vinyl Record",
-            "Right round, right round. Player and enemy loop effects trigger twice.",
+            "Right round, right round. All loop effects trigger twice.",
             Rarity.Epic,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_VinylRecord.png"),
             new RelicEffect[]

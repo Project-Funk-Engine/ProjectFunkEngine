@@ -78,7 +78,7 @@ RELIC_BANDAGE_TOOLTIP,"A clean strip of cloth. Use it after a fight to patch up 
 RELIC_MEDKIT_NAME,Medkit,"急救包"
 RELIC_MEDKIT_TOOLTIP,"A small kit with medical supplies. Heals you a bit after each loop.","包含一些医疗用品的小包，每次循环后恢复少量生命。"
 RELIC_VINYLRECORD_NAME,Vinyl Record,"黑胶唱片"
-RELIC_VINYLRECORD_TOOLTIP,"Right round, right round. Player and enemy loop effects trigger twice.","把我转起来，把我转起来。玩家和敌人的循环效果触发两次。"
+RELIC_VINYLRECORD_TOOLTIP,"Right round, right round. All loop effects trigger twice.","把我转起来，把我转起来。所有循环效果触发两次。"
 INVENTORY_TAB_NOTES,Notes,乐谱
 INVENTORY_TAB_RELICS,Relics,遗物
 OPTIONS_VOLUME_LABEL,Master Volume,最终音量设置
