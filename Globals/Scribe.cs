@@ -19,7 +19,7 @@ public partial class Scribe : Node
             "Basic enemy note, deals damage to player.",
             null,
             null,
-            4,
+            1,
             (director, note, timing) =>
             {
                 int dmg = (3 - (int)timing) * note.GetBaseVal();
@@ -60,7 +60,7 @@ public partial class Scribe : Node
             "Basic player note, heals player.",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerHeal.png"),
             null,
-            4,
+            1,
             (director, note, timing) =>
             {
                 if (timing == Timing.Miss)
@@ -79,9 +79,9 @@ public partial class Scribe : Node
             {
                 if (timing == Timing.Miss)
                     return;
-                int dmg = (int)timing * note.GetBaseVal();
+                int dmg = (int)timing;
                 director.Player.Heal(dmg);
-                director.DealDamage(note, dmg, director.Player);
+                director.DealDamage(note, dmg * note.GetBaseVal(), director.Player);
             }
         ),
         new Note(
@@ -172,7 +172,7 @@ public partial class Scribe : Node
             {
                 new RelicEffect(
                     BattleEffectTrigger.OnPickup,
-                    10,
+                    15,
                     (e, self, val) =>
                     {
                         StageProducer.PlayerStats.MaxHealth += val;
@@ -304,10 +304,10 @@ public partial class Scribe : Node
             {
                 new RelicEffect(
                     BattleEffectTrigger.OnBattleEnd,
-                    10,
+                    20,
                     (e, self, val) =>
                     {
-                        StageProducer.PlayerStats.CurrentHealth += val;
+                        e.BD.Player.Heal(val);
                     }
                 ),
             }

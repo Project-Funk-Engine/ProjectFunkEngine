@@ -11,8 +11,8 @@ public partial class P_Strawman : EnemyPuppet
 
     public override void _Ready()
     {
-        CurrentHealth = 15;
-        MaxHealth = 15;
+        CurrentHealth = 40;
+        MaxHealth = 40;
         BaseMoney = 1;
         base._Ready();
 
