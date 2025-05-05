@@ -85,18 +85,33 @@ public partial class Cartographer : Node2D
         newButton.CustomMinimumSize = MapIconSize;
         newButton.IconAlignment = HorizontalAlignment.Center;
         AddChild(newButton);
+        bool isChild = StageProducer.GetCurRoom().Children.Contains(room.Idx);
+
+        // checks if the next room is one below current room, and player has charges of maplanechanges
+        bool isLaneChangeAllowed =
+            room.Y == StageProducer.GetCurRoom().Y + 1
+            && StageProducer.PlayerStats.MapLaneChanges > 0;
+
         //button is disabled if it is not a child of current room.
-        if (!StageProducer.GetCurRoom().Children.Contains(room.Idx))
+        //unless player has charges of lane changing
+        if (!isChild && !isLaneChangeAllowed)
         {
             newButton.Disabled = true;
             newButton.FocusMode = Control.FocusModeEnum.None;
         }
         else
         {
-            newButton.GrabFocus();
-            _focusedButton = newButton;
+            //grab focus on children paths, to really make sure user wants to use a charge of maplanechanges
+            if (isChild)
+            {
+                newButton.GrabFocus();
+                _focusedButton = newButton;
+            }
             newButton.Pressed += () =>
             {
+                if (!isChild)
+                    StageProducer.PlayerStats.MapLaneChanges--;
+
                 EnterStage(room.Idx, newButton);
             };
             _validButtons = _validButtons.Append(newButton).ToArray();

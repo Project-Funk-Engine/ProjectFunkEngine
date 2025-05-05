@@ -86,6 +86,8 @@ RELIC_SPIKEDSHIELD_NAME,Spiked Shield,尖刺之盾
 RELIC_SPIKEDSHIELD_TOOLTIP,"Deal damage when you lose a charge of block.","失去格挡层数时造成伤害。"
 RELIC_LUCKYDICE_NAME,Lucky Dice,幸运骰子
 RELIC_LUCKYDICE_TOOLTIP,"Gain one reroll for reward selections.","获得一次奖励重选。"
+RELIC_SHORTCUT_NAME,Shortcut,捷径
+RELIC_SHORTCUT_TOOLTIP,"Can choose any path regardless of connections, but only once.","可无视路径连接选择任意路线，但仅限一次。"
 INVENTORY_TAB_NOTES,Notes,乐谱
 INVENTORY_TAB_RELICS,Relics,遗物
 OPTIONS_VOLUME_LABEL,Master Volume,最终音量设置

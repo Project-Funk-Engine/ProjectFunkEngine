@@ -14,6 +14,7 @@ public partial class PlayerStats : Resource
     public int NotesToIncreaseCombo = 4;
     public int RewardAmountModifier = 0;
     public int Rerolls = 0;
+    public int MapLaneChanges = 0;
 
     //Array in order of descending rarities, Legendary -> ... Common. Int odds out of 100.
     public int[] RarityOdds = [1, 5, 10, 20, 100];
