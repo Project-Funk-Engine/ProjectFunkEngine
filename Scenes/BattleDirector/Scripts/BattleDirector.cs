@@ -220,6 +220,13 @@ public partial class BattleDirector : Node2D
         return true;
     }
 
+    public bool EnemyAddNote(ArrowType type, Beat beat, Note noteRef, float len, EnemyPuppet enemy)
+    {
+        noteRef.SetOwner(enemy);
+        Beat realBeat = TimeKeeper.GetBeatFromTime(Audio.GetPlaybackPosition());
+        return CD.AddConcurrentNote(realBeat, noteRef, type, beat.IncDecLoop(realBeat.Loop), len);
+    }
+
     //Only called from CD signal when a note is processed
     private void OnTimedInput(ArrowData data, double beatDif)
     {
