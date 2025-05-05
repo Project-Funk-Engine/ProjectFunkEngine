@@ -51,6 +51,7 @@ public partial class Conductor : Node
 
     private void SpawnInitialNotes()
     {
+        _noteData.Sort(); //Isn't inherently necessary, but sort for safety
         for (int i = 1; i <= _beatSpawnOffset; i++)
         {
             SpawnNotesAtBeat(new Beat(i));
@@ -129,24 +130,29 @@ public partial class Conductor : Node
         return ~index;
     }
 
-    //TODO: Beat spawn redundancy checking, efficiency
+    //Assumes beat has beatPos floor'd
     private void SpawnNotesAtBeat(Beat beat)
     {
-        for (int i = 0; i < _noteData.Count; i++)
+        int startIdx = _noteData.BinarySearch(new ArrowData(ArrowType.Up, beat, null)); //first arrow of beat
+        if (startIdx < 0)
+            startIdx = ~startIdx;
+        for (int i = 0; i <= 40 && (int)_noteData[startIdx].Beat.BeatPos == (int)beat.BeatPos; i++)
         {
-            if (
-                _noteData[i].Beat.Loop != beat.Loop
-                || (int)_noteData[i].Beat.BeatPos != (int)beat.BeatPos
-            )
-                continue;
-            SpawnNote(i);
-        }
+            SpawnNote(startIdx); //Spawn pops notes, so stay in same idx
+        } //A tiny bit of defensive programming. I don't like this much more than the old way of looping and checking everything.
+        //Could be a while loop, but just in case have a safety counter, iterations per beat should max at 40, 4 directions * 10 increments per beat (0.1 accuracy for beatPos tracking)
     }
 
     private void SpawnNote(int index, bool newPlayerNote = false)
     {
         CM.AddNoteArrow(_noteData[index], newPlayerNote);
-        _noteData[index] = _noteData[index].IncDecLoop(1);
+        if (newPlayerNote) //Player notes are presorted
+        {
+            _noteData[index] = _noteData[index].IncDecLoop(1);
+            return;
+        }
+        _noteData.Add(_noteData[index].IncDecLoop(1));
+        _noteData.RemoveAt(index);
     }
 
     /// <summary>
@@ -193,7 +199,7 @@ public partial class Conductor : Node
             );
             return false;
         }
-        //Beat should now be guaranteed to be coming up, at some point, from ProgressiveSpawnNote
+        //Beat should now be guaranteed to be coming up, at some point, from ProgressiveSpawnNote, does NOT need manual spawn
         int index = AddNoteData(noteRef, type, beat, length);
         if (index == -1)
             return false; //Assumption: Dupe note.
