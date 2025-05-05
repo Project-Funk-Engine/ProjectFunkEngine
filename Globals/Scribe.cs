@@ -17,7 +17,6 @@ public partial class Scribe : Node
             0,
             "EnemyBase",
             null,
-            null,
             1,
             (director, note, timing) =>
             {
@@ -29,7 +28,6 @@ public partial class Scribe : Node
             1,
             "PlayerBase",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerBasic.png"),
-            null,
             4,
             (director, note, timing) =>
             {
@@ -42,7 +40,6 @@ public partial class Scribe : Node
             2,
             "PlayerDouble",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerDouble.png"),
-            null,
             8,
             (director, note, timing) =>
             {
@@ -55,7 +52,6 @@ public partial class Scribe : Node
             3,
             "PlayerHeal",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerHeal.png"),
-            null,
             1,
             (director, note, timing) =>
             {
@@ -68,7 +64,6 @@ public partial class Scribe : Node
             4,
             "PlayerVampire",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerVampire.png"),
-            null,
             3,
             (director, note, timing) =>
             {
@@ -83,7 +78,6 @@ public partial class Scribe : Node
             5,
             "PlayerQuarter",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerQuarter.png"),
-            null,
             3,
             (director, note, timing) =>
             {
@@ -97,7 +91,6 @@ public partial class Scribe : Node
             6,
             "PlayerBlock",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerBlock.png"),
-            null,
             1,
             (director, note, timing) =>
             {
@@ -110,7 +103,6 @@ public partial class Scribe : Node
             7,
             "PlayerExplosive",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerExplosive.png"),
-            null,
             4,
             (director, note, timing) =>
             {
@@ -125,7 +117,6 @@ public partial class Scribe : Node
             8,
             "PlayerEcho",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerEcho.png"),
-            null,
             4,
             (director, note, timing) =>
             {
@@ -139,7 +130,6 @@ public partial class Scribe : Node
             9,
             "PlayerPoison",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerPoison.png"),
-            null,
             1,
             (director, note, timing) =>
             {
