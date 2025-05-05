@@ -103,6 +103,7 @@ public partial class StageProducer : Node
         }
         PlayerStats.CurrentHealth = sv.PlayerHealth;
         PlayerStats.Money = sv.Money;
+        PlayerStats.usedShortcuts = sv.UsedShortcuts;
         IsInitialized = true;
         return true;
     }

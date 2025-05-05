@@ -401,9 +401,8 @@ public partial class Scribe : Node
                 new RelicEffect(
                     BattleEffectTrigger.OnPickup,
                     1,
-                    (e, self, val) =>
-                    {
-                        StageProducer.PlayerStats.MapLaneChanges = 1;
+                    (e, self, val) => {
+                        // this no longer has an effect, we just check that the player has looted it :)
                     }
                 ),
             }
