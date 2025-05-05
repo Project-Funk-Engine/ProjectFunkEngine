@@ -44,7 +44,7 @@ public partial class P_BossBlood : EnemyPuppet
                         && dArgs.Dmg.Target.GetCurrentHealth() <= dArgs.Dmg.Damage
                     )
                     {
-                        SteamWisperer.PopAchievement("actOneComp");
+                        SteamWhisperer.PopAchievement("actOneComp");
                     }
                 }
             ),

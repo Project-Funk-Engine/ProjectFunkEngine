@@ -469,6 +469,6 @@ public partial class ControlSettings : Node2D, IFocusableMenu
 
     public static bool IsOutOfFocus(Node asker)
     {
-        return !asker.GetWindow().HasFocus() || SteamWisperer.IsOverlayActive;
+        return !asker.GetWindow().HasFocus() || SteamWhisperer.IsOverlayActive;
     }
 }

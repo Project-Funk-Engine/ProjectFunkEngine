@@ -1,7 +1,7 @@
 using Godot;
 using GodotSteam;
 
-public partial class SteamWisperer : Node
+public partial class SteamWhisperer : Node
 {
     private const uint AppId = 3647600;
 
