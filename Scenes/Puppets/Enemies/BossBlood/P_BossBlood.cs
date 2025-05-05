@@ -31,6 +31,23 @@ public partial class P_BossBlood : EnemyPuppet
                     eff.Owner.Heal(val);
                 }
             ),
+            new EnemyEffect(
+                this,
+                BattleEffectTrigger.OnDamageInstance,
+                1,
+                (e, eff, val) =>
+                {
+                    if (e is not BattleDirector.Harbinger.OnDamageInstanceArgs dArgs)
+                        return;
+                    if (
+                        dArgs.Dmg.Target == this
+                        && dArgs.Dmg.Target.GetCurrentHealth() <= dArgs.Dmg.Damage
+                    )
+                    {
+                        SteamWisperer.PopAchievement("actOneComp");
+                    }
+                }
+            ),
         };
     }
 }
