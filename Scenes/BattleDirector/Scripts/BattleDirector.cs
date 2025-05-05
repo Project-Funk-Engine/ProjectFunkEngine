@@ -214,7 +214,7 @@ public partial class BattleDirector : Node2D
         Note noteToPlace = NPB.NotePlaced();
         noteToPlace.OnHit(this, Timing.Okay);
 
-        CD.AddPlayerNote(noteToPlace, type, beat);
+        CD.AddPlayerNote(noteToPlace.SetOwner(Player), type, beat);
         Harbinger.Instance.InvokeNotePlaced(new ArrowData(type, beat, noteToPlace));
         Harbinger.Instance.InvokeNoteHit(noteToPlace, Timing.Okay); //TODO: test how this feels? maybe take it out later
         return true;

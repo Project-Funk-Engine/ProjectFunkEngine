@@ -66,6 +66,12 @@ public struct ArrowData : IEquatable<ArrowData>, IComparable<ArrowData>
         return this;
     }
 
+    public ArrowData IncDecLoop(int amount)
+    {
+        Beat.IncDecLoop(amount);
+        return this;
+    }
+
     public bool Equals(ArrowData other)
     {
         return Beat.Equals(other.Beat) && Type == other.Type;
