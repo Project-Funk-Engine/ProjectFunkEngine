@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using FunkEngine;
 using Godot;
+using GodotSteam;
 
 public partial class ControlSettings : Node2D, IFocusableMenu
 { //TODO: Add messages when an invalid key is attempted to be set.
@@ -464,5 +465,10 @@ public partial class ControlSettings : Node2D, IFocusableMenu
             }
         }
         return true;
+    }
+
+    public static bool IsOutOfFocus(Node asker)
+    {
+        return !asker.GetWindow().HasFocus() || SteamWisperer.IsOverlayActive;
     }
 }
