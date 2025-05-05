@@ -5,6 +5,8 @@ public partial class SteamWisperer : Node
 {
     private const uint AppId = 3647600;
 
+    public static bool IsOverlayActive = false;
+
     public override void _EnterTree()
     {
         OS.SetEnvironment("SteamAppId", AppId.ToString());
@@ -22,7 +24,10 @@ public partial class SteamWisperer : Node
         }
 
         GD.Print("SW: Steam initialized successfully.");
-
+        Steam.OverlayToggled += (active, _, _) =>
+        {
+            IsOverlayActive = active;
+        };
         //Uncomment this to reset your achievements/stats. There's no confirmation so...
         //ResetAll();
     }

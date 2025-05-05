@@ -50,7 +50,7 @@ public partial class OptionsMenu : CanvasLayer, IFocusableMenu
 
     public override void _Input(InputEvent @event)
     {
-        if (!GetWindow().HasFocus())
+        if (ControlSettings.IsOutOfFocus(this))
         {
             GetViewport().SetInputAsHandled();
             return;

@@ -1,8 +1,7 @@
-using System;
 using System.Threading.Tasks;
 using FunkEngine;
-using FunkEngine.Classes.MidiMaestro;
 using Godot;
+using GodotSteam;
 
 /**
  * <summary>StageProducer: Handles scene transitions and persistent gameplay data.</summary>
@@ -239,7 +238,7 @@ public partial class StageProducer : Node
     {
         //Consume controller input, if window out of focus.
         //This handles ui_input, other scenes need to consume their own.
-        if (!GetWindow().HasFocus())
+        if (ControlSettings.IsOutOfFocus(this))
         {
             GetViewport().SetInputAsHandled();
             return;
