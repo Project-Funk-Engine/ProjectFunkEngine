@@ -18,7 +18,7 @@ public partial class Conductor : Node
     private bool _initialized;
 
     #region Initialization
-    public void Initialize(SongData curSong)
+    public void Initialize(SongData curSong, EnemyPuppet[] enemies = null)
     {
         if (_initialized)
             return;
@@ -33,6 +33,8 @@ public partial class Conductor : Node
             CM.Size.X / TimeKeeper.ChartWidth * TimeKeeper.BeatsPerLoop
         );
         AddInitialNotes();
+        AddInitialEnemyNotes(enemies);
+        SpawnInitialNotes();
 
         _initialized = true;
     }
@@ -46,7 +48,17 @@ public partial class Conductor : Node
                 AddNoteData(Scribe.NoteDictionary[0], type, new Beat((int)Note.Beat), Note.Length);
             }
         }
-        SpawnInitialNotes();
+    }
+
+    private void AddInitialEnemyNotes(EnemyPuppet[] enemies)
+    {
+        if (enemies == null)
+            return;
+        foreach (EnemyPuppet enemy in enemies)
+        {
+            if (enemy.InitialNote.Amount > 0)
+                SetRandBaseNoteToType(enemy, enemy.InitialNote);
+        }
     }
 
     private void SpawnInitialNotes()
@@ -153,6 +165,32 @@ public partial class Conductor : Node
         }
         _noteData.Add(_noteData[index].IncDecLoop(1));
         _noteData.RemoveAt(index);
+    }
+
+    public void SetRandBaseNoteToType(PuppetTemplate owner, (int noteid, int amount) noteOfAmount)
+    {
+        RandomNumberGenerator noteRng = new RandomNumberGenerator();
+        noteRng.Seed = StageProducer.GlobalRng.Seed;
+        noteRng.State = StageProducer.GlobalRng.State;
+
+        for (int i = noteOfAmount.amount; i > 0; i--)
+        {
+            int iterationsLeft = 5;
+            while (iterationsLeft > 0)
+            {
+                int idx = noteRng.RandiRange(0, _noteData.Count);
+                if (_noteData[idx].NoteRef.Id == 0)
+                {
+                    Note newNoteRef = Scribe
+                        .NoteDictionary[noteOfAmount.noteid]
+                        .Clone()
+                        .SetOwner(owner);
+                    _noteData[idx] = ArrowData.SetNote(_noteData[idx], newNoteRef);
+                    iterationsLeft = -1;
+                }
+                iterationsLeft--;
+            }
+        }
     }
 
     /// <summary>

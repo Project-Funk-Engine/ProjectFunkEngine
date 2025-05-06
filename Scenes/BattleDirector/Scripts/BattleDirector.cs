@@ -96,7 +96,7 @@ public partial class BattleDirector : Node2D
         InitPlayer();
         InitEnemies();
         InitScoringGuide();
-        CD.Initialize(curSong);
+        CD.Initialize(curSong, _enemies);
         CD.NoteInputEvent += OnTimedInput;
 
         FocusedButton.GrabFocus();
@@ -225,6 +225,13 @@ public partial class BattleDirector : Node2D
         noteRef.SetOwner(enemy);
         Beat realBeat = TimeKeeper.GetBeatFromTime(Audio.GetPlaybackPosition());
         return CD.AddConcurrentNote(realBeat, noteRef, type, beat.IncDecLoop(realBeat.Loop), len);
+    }
+
+    public void RandApplyNote(PuppetTemplate owner, int noteId, int amount)
+    {
+        if (owner == null || noteId > Scribe.NoteDictionary.Length || amount < 1)
+            return;
+        CD.SetRandBaseNoteToType(owner, (noteId, amount));
     }
 
     //Only called from CD signal when a note is processed

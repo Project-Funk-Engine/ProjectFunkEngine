@@ -55,7 +55,7 @@ public struct ArrowData : IEquatable<ArrowData>, IComparable<ArrowData>
     public Beat Beat;
     public readonly double Length; //in beats, should never be >= loop
     public readonly ArrowType Type;
-    public readonly Note NoteRef = null;
+    public Note NoteRef { get; private set; } = null;
 
     public static ArrowData Placeholder { get; private set; } =
         new(default, default, new Note(-1, ""));
@@ -64,6 +64,12 @@ public struct ArrowData : IEquatable<ArrowData>, IComparable<ArrowData>
     {
         Beat += Length;
         return this;
+    }
+
+    public static ArrowData SetNote(ArrowData arrowData, Note note)
+    {
+        arrowData.NoteRef = note;
+        return arrowData;
     }
 
     public ArrowData IncDecLoop(int amount)
