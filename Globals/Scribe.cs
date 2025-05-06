@@ -138,6 +138,19 @@ public partial class Scribe : Node
                 director.AddStatus(Targetting.First, StatusEffect.Poison.GetInstance((int)timing));
             }
         ),
+        new Note(
+            10,
+            "GWS",
+            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_GWS.png"),
+            1,
+            (director, note, timing) =>
+            {
+                int dmg = 2 * (3 - (int)timing) * note.GetBaseVal() + TimeKeeper.LastBeat.Loop; //Double an enemy base plus the loop num, unless perfect
+                if (timing == Timing.Perfect)
+                    dmg = 0;
+                director.DealDamage(Targetting.Player, dmg, note.Owner);
+            }
+        ),
     };
 
     public static readonly RelicTemplate[] RelicDictionary = new[]

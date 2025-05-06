@@ -33,7 +33,14 @@ public partial class P_TheGWS : EnemyPuppet
                     e.BD.EnemyAddNote(
                         ArrowType.Up,
                         new Beat(3, 1),
-                        Scribe.NoteDictionary[0].Clone(),
+                        Scribe.NoteDictionary[10].Clone(),
+                        0,
+                        eff.Owner
+                    );
+                    e.BD.EnemyAddNote(
+                        ArrowType.Up,
+                        new Beat(26),
+                        Scribe.NoteDictionary[10].Clone(),
                         0,
                         eff.Owner
                     );
