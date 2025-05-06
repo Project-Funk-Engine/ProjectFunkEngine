@@ -178,7 +178,7 @@ public partial class Conductor : Node
             int iterationsLeft = 5;
             while (iterationsLeft > 0)
             {
-                int idx = noteRng.RandiRange(0, _noteData.Count);
+                int idx = noteRng.RandiRange(0, _noteData.Count - 1);
                 if (_noteData[idx].NoteRef.Id == 0)
                 {
                     Note newNoteRef = Scribe
