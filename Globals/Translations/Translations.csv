@@ -92,6 +92,8 @@ RELIC_SECONDPICK_NAME,Second Pick,备用拨片
 RELIC_SECONDPICK_TOOLTIP,"Placing a note has a 20% chance to instantly refill the combo bar.","每次演奏音符时，有20%的几率立即填满连击槽。"
 RELIC_BROKENDRUMSTICK_NAME,Broken Drumstick,破碎的鼓棒
 RELIC_BROKENDRUMSTICK_TOOLTIP,"Enemies start combat damaged.","敌人在战斗开始时受到伤害。"
+RELIC_BLOODMONEY_NAME,Blood Money,血腥钱袋
+RELIC_BLOODMONEY_TOOLTIP,"Gain money when taking damage below half health.","在生命值低于一半时受到伤害可获得金钱。"
 INVENTORY_TAB_NOTES,Notes,乐谱
 INVENTORY_TAB_RELICS,Relics,遗物
 OPTIONS_VOLUME_LABEL,Master Volume,最终音量设置
