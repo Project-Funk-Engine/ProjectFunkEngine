@@ -426,6 +426,24 @@ public partial class Scribe : Node
                 ),
             }
         ),
+        new RelicTemplate(
+            15,
+            "Broken Drumstick",
+            Rarity.Uncommon,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_BrokenDrumstick.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnBattleStart,
+                    10,
+                    (e, self, val) =>
+                    {
+                        //TODO: make damage scale with current act
+                        e.BD.DealDamage(Targetting.All, val, e.BD.Player);
+                    }
+                ),
+            }
+        ),
     };
 
     public static readonly SongTemplate[] SongDictionary = new[] //Generalize and make pools for areas/room types
