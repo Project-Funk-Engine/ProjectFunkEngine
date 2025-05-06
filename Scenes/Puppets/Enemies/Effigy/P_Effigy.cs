@@ -27,7 +27,8 @@ public partial class P_Effigy : EnemyPuppet
                     if (dArgs.Dmg.Target != this)
                         return;
                     dArgs.Dmg.ModifyDamage(-dArgs.Dmg.Damage + 1);
-                    dArgs.Dmg.Source.TakeDamage(new DamageInstance(1, null, dArgs.Dmg.Source));
+                    if (dArgs.Dmg.Source != null)
+                        dArgs.Dmg.Source.TakeDamage(new DamageInstance(1, null, dArgs.Dmg.Source));
                 }
             ),
             new EnemyEffect(
@@ -55,13 +56,14 @@ public partial class P_Effigy : EnemyPuppet
                 2,
                 (e, eff, val) =>
                 {
-                    if (e is not BattleDirector.Harbinger.OnDamageInstanceArgs dArgs)
+                    if (e is not BattleDirector.Harbinger.OnDamageInstanceArgs dArgs || val != 2)
                         return;
                     if (
                         dArgs.Dmg.Target == dArgs.BD.Player
                         && dArgs.Dmg.Target.GetCurrentHealth() <= dArgs.Dmg.Damage
                     )
                     {
+                        eff.Value = -1;
                         _tutorialInstance.FromBoss = true;
                         _tutorialInstance.OnPlaceDialogue3();
                     }
