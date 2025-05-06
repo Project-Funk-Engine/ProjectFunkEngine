@@ -88,6 +88,8 @@ RELIC_LUCKYDICE_NAME,Lucky Dice,幸运骰子
 RELIC_LUCKYDICE_TOOLTIP,"Gain one reroll for reward selections.","获得一次奖励重选。"
 RELIC_SHORTCUT_NAME,Shortcut,捷径
 RELIC_SHORTCUT_TOOLTIP,"Can choose any path regardless of connections, but only once.","可无视路径连接选择任意路线，但仅限一次。"
+RELIC_SECONDPICK_NAME,Second Pick,备用拨片
+RELIC_SECONDPICK_TOOLTIP,"Placing a note has a 20% chance to instantly refill the combo bar.","每次演奏音符时，有20%的几率立即填满连击槽。"
 INVENTORY_TAB_NOTES,Notes,乐谱
 INVENTORY_TAB_RELICS,Relics,遗物
 OPTIONS_VOLUME_LABEL,Master Volume,最终音量设置

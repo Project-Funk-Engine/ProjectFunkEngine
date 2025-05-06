@@ -408,6 +408,24 @@ public partial class Scribe : Node
                 ),
             }
         ),
+        new RelicTemplate(
+            14,
+            "Second Pick",
+            Rarity.Uncommon,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_SecondPick.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.NotePlaced,
+                    20,
+                    (e, self, val) =>
+                    {
+                        if (StageProducer.GlobalRng.RandiRange(1, 100) <= val)
+                            e.BD.NPB.IncreaseCharge(StageProducer.PlayerStats.MaxComboBar);
+                    }
+                ),
+            }
+        ),
     };
 
     public static readonly SongTemplate[] SongDictionary = new[] //Generalize and make pools for areas/room types
