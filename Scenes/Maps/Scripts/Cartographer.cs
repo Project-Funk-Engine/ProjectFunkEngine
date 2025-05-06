@@ -87,11 +87,9 @@ public partial class Cartographer : Node2D
         AddChild(newButton);
         bool isChild = StageProducer.GetCurRoom().Children.Contains(room.Idx);
 
-        // checks if the next room is one below current room, player has shortcut, and player hasn't used all its charges
+        // checks if the next room is one below current room, player has shortcuts
         bool isLaneChangeAllowed =
-            room.Y == StageProducer.GetCurRoom().Y + 1
-            && StageProducer.PlayerStats.usedShortcuts < Scribe.RelicDictionary[13].Effects[0].Value
-            && StageProducer.PlayerStats.CurRelics.Any(r => r.Id == Scribe.RelicDictionary[13].Id);
+            room.Y == StageProducer.GetCurRoom().Y + 1 && StageProducer.PlayerStats.Shortcuts > 0;
 
         //button is disabled if it is not a child of current room.
         //unless player has charges of lane changing
@@ -111,7 +109,7 @@ public partial class Cartographer : Node2D
             newButton.Pressed += () =>
             {
                 if (!isChild)
-                    StageProducer.PlayerStats.usedShortcuts++;
+                    StageProducer.PlayerStats.Shortcuts--;
 
                 EnterStage(room.Idx, newButton);
             };
