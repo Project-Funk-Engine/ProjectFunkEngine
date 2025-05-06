@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Godot;
 
 /**
@@ -40,14 +41,15 @@ public partial class HealthBar : TextureProgressBar
     {
         if (MaxValue == 0)
             return;
-
         float healthRatio = Mathf.Clamp((float)Value / (float)MaxValue, 0f, 1f);
-        Color targetColor;
-
-        float t = healthRatio;
-
-        targetColor = healthRatio >= 1f ? new Color(1, t, 1) : new Color(1, t, t);
-
-        SelfModulate = targetColor;
+        float nearestStep = (healthRatio - healthRatio % 0.20f);
+        if (
+            TextureProgress is GradientTexture2D gradientTexture
+            && gradientTexture.Gradient.GetPointCount() > 0
+        )
+        {
+            Color lerpColor = Colors.Red.Lerp(Colors.Green, nearestStep);
+            gradientTexture.Gradient.SetColor(0, lerpColor);
+        }
     }
 }

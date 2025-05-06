@@ -1,9 +1,20 @@
-[gd_scene load_steps=5 format=3 uid="uid://uvlux4t6h5de"]
+[gd_scene load_steps=7 format=3 uid="uid://uvlux4t6h5de"]
 
 [ext_resource type="Script" uid="uid://btaqgieybx0ep" path="res://Scenes/Puppets/Enemies/Parasifly/P_Parasifly.cs" id="1_ci2ca"]
 [ext_resource type="PackedScene" uid="uid://cdoguwlxehbpg" path="res://Scenes/Puppets/StatusContainer.tscn" id="2_dq3sr"]
 [ext_resource type="Texture2D" uid="uid://pngu3pw1pu4o" path="res://Scenes/Puppets/Enemies/Parasifly/Assets/Parasifly.png" id="2_g4o48"]
 [ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://Scenes/Puppets/HealthBar.tscn" id="3_f74ri"]
+
+[sub_resource type="Gradient" id="Gradient_6j4rl"]
+offsets = PackedFloat32Array(0.0227273, 1)
+colors = PackedColorArray(0, 1, 0.0999999, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dq3sr"]
+resource_local_to_scene = true
+gradient = SubResource("Gradient_6j4rl")
+width = 96
+height = 16
+fill_from = Vector2(0.486842, 0.236842)
 
 [node name="EnemPuppet" type="Node2D" node_paths=PackedStringArray("HealthBar", "Sprite", "_statusContainer")]
 script = ExtResource("1_ci2ca")
@@ -22,3 +33,4 @@ offset_left = -50.0
 offset_top = 32.0
 offset_right = 50.0
 offset_bottom = 52.0
+texture_progress = SubResource("GradientTexture2D_dq3sr")

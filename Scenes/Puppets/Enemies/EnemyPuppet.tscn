@@ -1,8 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://cwm0n2wu851nx"]
+[gd_scene load_steps=6 format=3 uid="uid://cwm0n2wu851nx"]
 
 [ext_resource type="Script" uid="uid://bnfo57c070cll" path="res://Scenes/Puppets/Scripts/PuppetTemplate.cs" id="1_kgmh0"]
 [ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://Scenes/Puppets/HealthBar.tscn" id="1_sxlrs"]
 [ext_resource type="PackedScene" uid="uid://cdoguwlxehbpg" path="res://Scenes/Puppets/StatusContainer.tscn" id="3_hguc7"]
+
+[sub_resource type="Gradient" id="Gradient_6j4rl"]
+offsets = PackedFloat32Array(0.0227273, 1)
+colors = PackedColorArray(0, 1, 0.0999999, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hguc7"]
+resource_local_to_scene = true
+gradient = SubResource("Gradient_6j4rl")
+width = 96
+height = 16
+fill_from = Vector2(0.486842, 0.236842)
 
 [node name="EnemPuppet" type="Node2D" node_paths=PackedStringArray("HealthBar", "Sprite", "_statusContainer")]
 script = ExtResource("1_kgmh0")
@@ -17,5 +28,6 @@ offset_left = -50.0
 offset_top = 32.0
 offset_right = 50.0
 offset_bottom = 52.0
+texture_progress = SubResource("GradientTexture2D_hguc7")
 
 [node name="StatusContainer" parent="." instance=ExtResource("3_hguc7")]
