@@ -1,27 +1,26 @@
 [gd_scene load_steps=6 format=3 uid="uid://bgomxovxs7sr8"]
 
 [ext_resource type="Script" uid="uid://d24uqauywe5j5" path="res://Scenes/Puppets/Scripts/HealthBar.cs" id="1_b1t4i"]
+[ext_resource type="Texture2D" uid="uid://0whvo6xa10it" path="res://Scenes/Puppets/HealthBar_Under.png" id="1_qp5i6"]
+[ext_resource type="Texture2D" uid="uid://btia5s3c7owi1" path="res://Scenes/Puppets/HealthBar_Over.png" id="2_r2mkj"]
 
-[sub_resource type="Gradient" id="Gradient_ve5ki"]
-colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_ti0cv"]
-gradient = SubResource("Gradient_ve5ki")
-width = 100
-height = 20
-
-[sub_resource type="Gradient" id="Gradient_soqhm"]
+[sub_resource type="Gradient" id="Gradient_qp5i6"]
+resource_local_to_scene = true
+offsets = PackedFloat32Array(0.0227273, 1)
 colors = PackedColorArray(0, 1, 0.0999999, 1, 1, 1, 1, 1)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_r4hau"]
-gradient = SubResource("Gradient_soqhm")
-width = 96
-height = 16
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_r2mkj"]
+resource_local_to_scene = true
+gradient = SubResource("Gradient_qp5i6")
+width = 100
+height = 18
 
 [node name="ProgressBar" type="TextureProgressBar"]
 offset_right = 100.0
 offset_bottom = 20.0
-texture_under = SubResource("GradientTexture2D_ti0cv")
-texture_progress = SubResource("GradientTexture2D_r4hau")
-texture_progress_offset = Vector2(2, 2)
+value = 100.0
+texture_under = ExtResource("1_qp5i6")
+texture_over = ExtResource("2_r2mkj")
+texture_progress = SubResource("GradientTexture2D_r2mkj")
+texture_progress_offset = Vector2(1, 1)
 script = ExtResource("1_b1t4i")

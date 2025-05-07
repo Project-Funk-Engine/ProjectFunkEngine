@@ -110,7 +110,7 @@ public partial class BattleDirector : Node2D
         Harbinger.Instance.InvokeBattleStarted();
     }
 
-    private ScoringScreen.ScoreGuide _battleScore;
+    public ScoringScreen.ScoreGuide BattleScore;
 
     private void InitScoringGuide()
     {
@@ -119,20 +119,20 @@ public partial class BattleDirector : Node2D
         {
             baseMoney += enem.BaseMoney;
         }
-        _battleScore = new ScoringScreen.ScoreGuide(baseMoney, Player.GetCurrentHealth());
+        BattleScore = new ScoringScreen.ScoreGuide(baseMoney, Player.GetCurrentHealth());
         Harbinger.Instance.NotePlaced += (_) =>
         {
-            _battleScore.IncPlaced();
+            BattleScore.IncPlaced();
         };
         Harbinger.Instance.NoteHit += (_) =>
         {
-            _battleScore.IncHits();
+            BattleScore.IncHits();
         };
         Harbinger.Instance.NoteHit += (e) =>
         {
             if (e is Harbinger.NoteHitArgs { Timing: Timing.Perfect })
-                _battleScore.IncPerfects();
-            _battleScore.IncHits();
+                BattleScore.IncPerfects();
+            BattleScore.IncHits();
         };
     }
 
@@ -304,7 +304,6 @@ public partial class BattleDirector : Node2D
         {
             if (!IsBattleWon())
                 return;
-            Harbinger.Instance.InvokeBattleEnded();
             CM.ProcessMode = ProcessModeEnum.Disabled;
             tween.TweenCallback(Callable.From(OnBattleWon));
         }
@@ -317,10 +316,11 @@ public partial class BattleDirector : Node2D
 
     private void OnBattleWon()
     {
+        Harbinger.Instance.InvokeBattleEnded();
         CleanUpRelics();
-        _battleScore.SetEndHp(Player.GetCurrentHealth());
+        BattleScore.SetEndHp(Player.GetCurrentHealth());
         Audio.ProcessMode = ProcessModeEnum.Always;
-        ScoringScreen.CreateScore(this, _battleScore).Finished += () =>
+        ScoringScreen.CreateScore(this, BattleScore).Finished += () =>
         {
             ShowRewardSelection(3);
         };

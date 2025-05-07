@@ -335,6 +335,141 @@ public partial class Scribe : Node
                 ),
             }
         ),
+        new RelicTemplate(
+            10,
+            "Loose Change",
+            Rarity.Common,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_LooseChange.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnBattleEnd,
+                    10,
+                    (e, self, val) =>
+                    {
+                        e.BD.BattleScore.IncRelicBonus(val);
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            11,
+            "Spiked Shield",
+            Rarity.Rare,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_SpikedShield.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnDamageInstance,
+                    5,
+                    (e, self, val) =>
+                    {
+                        if (
+                            e is BattleDirector.Harbinger.OnDamageInstanceArgs dmgArgs
+                            && dmgArgs.Dmg.Target == e.BD.Player
+                            && dmgArgs.Dmg.Damage > 0
+                            && e.BD.Player.HasStatus(StatusEffect.Block.GetInstance())
+                        )
+                        {
+                            e.BD.DealDamage(Targetting.First, val, null);
+                        }
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            12,
+            "Lucky Dice",
+            Rarity.Uncommon,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_LuckyDice.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnPickup,
+                    1,
+                    (e, self, val) =>
+                    {
+                        StageProducer.PlayerStats.Rerolls = 1;
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            13,
+            "Shortcut",
+            Rarity.Uncommon,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Shortcut.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnPickup,
+                    1,
+                    (e, self, val) =>
+                    {
+                        StageProducer.PlayerStats.Shortcuts += 1;
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            14,
+            "Second Pick",
+            Rarity.Uncommon,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_SecondPick.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.NotePlaced,
+                    20,
+                    (e, self, val) =>
+                    {
+                        if (StageProducer.GlobalRng.RandiRange(1, 100) <= val)
+                            e.BD.NPB.IncreaseCharge(StageProducer.PlayerStats.MaxComboBar);
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            15,
+            "Broken Drumstick",
+            Rarity.Uncommon,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_BrokenDrumstick.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnBattleStart,
+                    10,
+                    (e, self, val) =>
+                    {
+                        //TODO: make damage scale with current act
+                        e.BD.DealDamage(Targetting.All, val, e.BD.Player);
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            16,
+            "Blood Money",
+            Rarity.Epic,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_BloodMoney.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnDamageInstance,
+                    10,
+                    (e, self, val) =>
+                    {
+                        if (
+                            e is BattleDirector.Harbinger.OnDamageInstanceArgs dmgArgs
+                            && dmgArgs.Dmg.Target == e.BD.Player
+                            && e.BD.Player.GetCurrentHealth()
+                                < StageProducer.PlayerStats.MaxHealth / 2
+                        )
+                            StageProducer.PlayerStats.Money += val;
+                    }
+                ),
+            }
+        ),
     };
 
     public static readonly SongTemplate[] SongDictionary = new[] //Generalize and make pools for areas/room types

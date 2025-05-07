@@ -385,6 +385,7 @@ public static class SaveSystem
         public int[] NoteIds { get; init; }
         public int[] RelicIds { get; init; }
         public int PlayerHealth { get; init; }
+        public int Shortcuts { get; init; }
 
         public SaveFile(
             ulong rngSeed,
@@ -394,7 +395,8 @@ public static class SaveSystem
             int[] relicIds,
             int playerHealth,
             int area,
-            int money
+            int money,
+            int shortcuts
         )
         {
             RngSeed = rngSeed;
@@ -405,6 +407,7 @@ public static class SaveSystem
             PlayerHealth = playerHealth;
             Area = area;
             Money = money;
+            Shortcuts = shortcuts;
         }
     }
 
@@ -420,7 +423,8 @@ public static class SaveSystem
             relicIds,
             StageProducer.PlayerStats.CurrentHealth,
             StageProducer.CurLevel.Id,
-            StageProducer.PlayerStats.Money
+            StageProducer.PlayerStats.Money,
+            StageProducer.PlayerStats.Shortcuts
         );
         string json = JsonSerializer.Serialize(sv);
 
