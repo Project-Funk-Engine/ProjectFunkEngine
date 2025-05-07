@@ -5,16 +5,15 @@
 [ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://Scenes/Puppets/HealthBar.tscn" id="3_rechw"]
 [ext_resource type="PackedScene" uid="uid://cdoguwlxehbpg" path="res://Scenes/Puppets/StatusContainer.tscn" id="4_o8yrn"]
 
-[sub_resource type="Gradient" id="Gradient_6j4rl"]
+[sub_resource type="Gradient" id="Gradient_o8yrn"]
 offsets = PackedFloat32Array(0.0227273, 1)
 colors = PackedColorArray(0, 1, 0.0999999, 1, 1, 1, 1, 1)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_o8yrn"]
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_iysol"]
 resource_local_to_scene = true
-gradient = SubResource("Gradient_6j4rl")
+gradient = SubResource("Gradient_o8yrn")
 width = 100
 height = 18
-fill_from = Vector2(0.486842, 0.236842)
 
 [node name="PlayerPuppet" type="Node2D" node_paths=PackedStringArray("HealthBar", "Sprite", "_statusContainer")]
 script = ExtResource("1_f4rea")
@@ -30,6 +29,6 @@ offset_left = -50.0
 offset_top = 32.0
 offset_right = 50.0
 offset_bottom = 52.0
-texture_progress = SubResource("GradientTexture2D_o8yrn")
+texture_progress = SubResource("GradientTexture2D_iysol")
 
 [node name="StatusContainer" parent="." instance=ExtResource("4_o8yrn")]
