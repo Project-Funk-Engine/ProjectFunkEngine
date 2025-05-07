@@ -365,7 +365,8 @@ public class MapGrid
         }
 
         //Random roll for the room type.
-        float[] validRooms = curConfig.StageOdds;
+        float[] validRooms = new float[curConfig.StageOdds.Length];
+        curConfig.StageOdds.CopyTo(validRooms, 0);
         foreach ((Stages stage, int height) in curConfig.MinHeights)
         {
             if (y < height)

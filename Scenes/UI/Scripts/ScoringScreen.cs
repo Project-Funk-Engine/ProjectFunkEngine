@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Godot;
 
 public partial class ScoringScreen : CanvasLayer
@@ -11,6 +12,7 @@ public partial class ScoringScreen : CanvasLayer
         public int TotalHits = 0;
         public int TotalPerfects = 0;
         public int TotalPlaced = 0;
+        public int RelicBonus = 0;
         public float StartingHealth = 0;
         public float EndingHealth = 0;
 
@@ -38,6 +40,11 @@ public partial class ScoringScreen : CanvasLayer
         public void IncPlaced()
         {
             TotalPlaced++;
+        }
+
+        public void IncRelicBonus(int amount)
+        {
+            RelicBonus += amount;
         }
 
         public void SetEndHp(float amount)
@@ -71,12 +78,19 @@ public partial class ScoringScreen : CanvasLayer
     private Label _totalAmount;
 
     [Export]
+    private Label _relicLabel;
+
+    [Export]
+    private Label _relicAmount;
+
+    [Export]
     private Button _acceptButton;
 
     private int _totalBaseMoney;
     private float _perfectMulti;
     private float _placedMulti;
-    private int FinalMoney => (int)(_totalBaseMoney * _perfectMulti * _placedMulti);
+    private int _relicBonus;
+    private int FinalMoney => (int)(_totalBaseMoney * _perfectMulti * _placedMulti) + _relicBonus;
 
     public delegate void FinishedHandler();
     public event FinishedHandler Finished;
@@ -111,6 +125,7 @@ public partial class ScoringScreen : CanvasLayer
         if (float.IsNaN(_perfectMulti))
             _perfectMulti = 1;
         _placedMulti = Math.Max(2 - (float)Math.Abs(info.TotalPlaced - info.BaseMoney) / 10, 1);
+        _relicBonus = info.RelicBonus;
         DrawScoreLabels();
     }
 
@@ -124,9 +139,15 @@ public partial class ScoringScreen : CanvasLayer
 
     private void DrawScoreLabels()
     {
+        if (_relicBonus <= 0)
+        {
+            _relicLabel.Visible = false;
+            _relicAmount.Visible = false;
+        }
         _styleAmount.Text = $"{_totalBaseMoney}";
         _perfectsAmount.Text = $"X{_perfectMulti:0.00}";
         _placedAmount.Text = $"X{_placedMulti:0.00}";
+        _relicAmount.Text = $"+{_relicBonus}";
         _totalAmount.Text = $"{FinalMoney}";
     }
 
