@@ -151,6 +151,18 @@ public partial class Scribe : Node
                 director.DealDamage(Targetting.Player, dmg, note.Owner);
             }
         ),
+        new Note(
+            11,
+            "PlayerMoney",
+            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerMoney.png"),
+            1,
+            (director, note, timing) =>
+            {
+                if (timing == Timing.Miss)
+                    return;
+                StageProducer.PlayerStats.Money += note.GetBaseVal() * (int)timing;
+            }
+        ),
     };
 
     public static readonly RelicTemplate[] RelicDictionary = new[]
