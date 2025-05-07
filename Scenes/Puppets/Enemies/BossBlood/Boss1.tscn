@@ -30,8 +30,8 @@ colors = PackedColorArray(0, 1, 0.0999999, 1, 1, 1, 1, 1)
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_b8x7h"]
 resource_local_to_scene = true
 gradient = SubResource("Gradient_6j4rl")
-width = 96
-height = 16
+width = 100
+height = 18
 fill_from = Vector2(0.486842, 0.236842)
 
 [node name="EnemPuppet" type="Node2D" node_paths=PackedStringArray("HealthBar", "Sprite", "_statusContainer")]
