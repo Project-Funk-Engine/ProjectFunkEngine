@@ -62,6 +62,8 @@ NOTE_PLAYERPOISON_NAME,PlayerPoison,玩家中毒
 NOTE_PLAYERPOISON_TOOLTIP,"Applies stacks of poison based on timing.","根据时机施加中毒层数。"
 NOTE_PLAYERMONEY_NAME,PlayerMoney,玩家金钱
 NOTE_PLAYERMONEY_TOOLTIP,"Deals no damage, but gives you money when hit."."不会造成伤害，但命中时会获得金钱。"
+NOTE_PLAYERCOMBO_NAME,PlayerCombo,玩家连击
+NOTE_PLAYERCOMBO_TOOLTIP,"Deals no damage, but gives you double the combo bar charge when hit.","不会造成伤害，但命中时会获得双倍连击槽充能。"
 RELIC_BREAKFAST_NAME,Breakfast,早餐
 RELIC_BREAKFAST_TOOLTIP,"Increases max hp.",提高最大生命值
 RELIC_GOODVIBES_NAME,Good Vibes,良好消息

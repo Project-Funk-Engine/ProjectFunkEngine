@@ -163,6 +163,21 @@ public partial class Scribe : Node
                 StageProducer.PlayerStats.Money += note.GetBaseVal() * (int)timing;
             }
         ),
+        new Note(
+            12,
+            "PlayerCombo",
+            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerCombo.png"),
+            1,
+            (director, note, timing) =>
+            {
+                if (timing == Timing.Miss)
+                    return;
+                director.NPB.HandleTiming(
+                    timing,
+                    (ArrowType)StageProducer.GlobalRng.RandiRange(0, 3)
+                );
+            }
+        ),
     };
 
     public static readonly RelicTemplate[] RelicDictionary = new[]
