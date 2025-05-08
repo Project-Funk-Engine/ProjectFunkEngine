@@ -21,6 +21,8 @@ public partial class EventScene : Node
 
     private static Theme _buttonTheme = GD.Load<Theme>("res://Scenes/UI/Assets/GeneralTheme.tres"); // Store the theme
 
+    private EventTemplate _eventReference;
+
     public static EventScene NewEventScene(int eventId = 0)
     {
         EventScene result = GD.Load<PackedScene>(LoadPath).Instantiate<EventScene>();
@@ -36,6 +38,7 @@ public partial class EventScene : Node
         _player = GD.Load<PackedScene>(PlayerPuppet.LoadPath).Instantiate<PlayerPuppet>();
         PlayerMarker.AddChild(_player);
 
+        _eventReference = EventDatabase.EventDictionary[0];
         DisplayEvent(0);
     }
 
@@ -53,16 +56,14 @@ public partial class EventScene : Node
     /// <param name="eventIndex">Index of the event in EventDatabase.</param>
     public void DisplayEvent(int eventIndex)
     {
-        var eventTemplate = EventDatabase.EventDictionary[eventIndex];
+        _eventDescription.Text = _eventReference.EventDescription;
+        EventSprite.Texture = _eventReference.Texture;
 
-        _eventDescription.Text = eventTemplate.EventDescription;
-        EventSprite.Texture = eventTemplate.Texture;
-
-        for (int i = 0; i < eventTemplate.ButtonDescriptions.Length; i++)
+        for (int i = 0; i < _eventReference.ButtonDescriptions.Length; i++)
         {
             var button = new Button
             {
-                Text = eventTemplate.ButtonDescriptions[i],
+                Text = _eventReference.ButtonDescriptions[i],
                 Theme = _buttonTheme,
             };
 
@@ -71,15 +72,40 @@ public partial class EventScene : Node
             int capturedIndex = i; // was given a warning to capture the index
             button.Pressed += () =>
             {
-                GD.Print($"Selected option: {eventTemplate.ButtonDescriptions[capturedIndex]}");
-                eventTemplate.OptionActions[capturedIndex]?.Invoke();
-                StageProducer.LiveInstance.TransitionStage(Stages.Map);
+                GD.Print($"Selected option: {_eventReference.ButtonDescriptions[capturedIndex]}");
+                _eventReference.OptionActions[capturedIndex]?.Invoke();
+                AnyButtonPressed(capturedIndex);
             };
             if (capturedIndex == 0)
             {
-                button.GrabFocus();
+                button.CallDeferred("grab_focus");
             }
+
             _buttonContainer.AddChild(button);
         }
+    }
+
+    private void AnyButtonPressed(int capturedIndex)
+    {
+        foreach (var choices in _buttonContainer.GetChildren())
+        {
+            if (choices is not Button)
+                continue;
+            choices.QueueFree();
+        }
+
+        _eventDescription.Text = _eventReference.OutcomeDescriptions[capturedIndex];
+        var button = new Button { Text = "EVENT_CONTINUE_BUTTON", Theme = _buttonTheme };
+
+        button.Pressed += ContinuePressed;
+
+        button.SizeFlagsVertical = Control.SizeFlags.Expand | Control.SizeFlags.Fill;
+        button.CallDeferred("grab_focus");
+        _buttonContainer.AddChild(button);
+    }
+
+    private void ContinuePressed()
+    {
+        StageProducer.LiveInstance.TransitionStage(Stages.Map);
     }
 }

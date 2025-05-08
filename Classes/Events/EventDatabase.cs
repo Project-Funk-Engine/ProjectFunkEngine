@@ -13,6 +13,12 @@ public partial class EventDatabase
             1,
             "EVENT_EVENT1_DESC",
             new string[] { "EVENT_EVENT1_OPTION1", "EVENT_EVENT1_OPTION2", "EVENT_EVENT1_OPTION3" },
+            new string[]
+            {
+                "EVENT_EVENT1_OUTCOME1",
+                "EVENT_EVENT1_OUTCOME2",
+                "EVENT_EVENT1_OUTCOME3",
+            },
             new EventAction[]
             {
                 () =>
