@@ -42,8 +42,30 @@ public partial class PlayerStats : Resource
         Scribe.RemoveRelicFromPool(relic);
     }
 
+    public void RemoveRelic(int index)
+    {
+        if (index < 0 || index >= CurRelics.Length)
+        {
+            GD.Print("index out of range");
+            return;
+        }
+
+        CurRelics = CurRelics.Where((_, i) => i != index).ToArray();
+    }
+
     public void AddNote(Note nSelection)
     {
         CurNotes = CurNotes.Append(nSelection).ToArray();
+    }
+
+    public void RemoveNote(int index)
+    {
+        if (index < 0 || index >= CurNotes.Length)
+        {
+            GD.Print("index out of range");
+            return;
+        }
+
+        CurNotes = CurNotes.Where((_, i) => i != index).ToArray();
     }
 }
