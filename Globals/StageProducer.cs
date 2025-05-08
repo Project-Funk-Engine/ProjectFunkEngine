@@ -132,6 +132,7 @@ public partial class StageProducer : Node
         Config = MakeBattleConfig(nextStage, nextRoomIdx);
         switch (nextStage)
         {
+            case Stages.Elite:
             case Stages.Battle:
             case Stages.Boss:
                 _loadTask = Task.Run(() =>
@@ -140,6 +141,8 @@ public partial class StageProducer : Node
                         .Instantiate<Node>();
                 });
                 break;
+            case Stages.Shop:
+            case Stages.Event:
             case Stages.Chest:
                 _loadTask = Task.Run(() =>
                 {
@@ -163,6 +166,9 @@ public partial class StageProducer : Node
                 break;
             case Stages.Battle: //Currently these are only ever entered from map. Be aware if we change
             case Stages.Boss: //this, scenes either need to be preloaded first, or a different setup is needed.
+            case Stages.Event:
+            case Stages.Elite:
+            case Stages.Shop:
             case Stages.Chest:
                 _loadTask.Wait(); //Should always finish by the time it gets here, this guarantees it.
                 GetTree().GetCurrentScene().Free();
@@ -218,6 +224,13 @@ public partial class StageProducer : Node
                     .SongDictionary[CurLevel.NormalBattles[songIdx]]
                     .EnemyScenePath;
                 break;
+            case Stages.Elite:
+                int elitIdx = stageRng.RandiRange(0, CurLevel.EliteBattles.Length - 1);
+                result.CurSong = Scribe.SongDictionary[CurLevel.EliteBattles[elitIdx]];
+                result.EnemyScenePath = Scribe
+                    .SongDictionary[CurLevel.BossBattles[elitIdx]]
+                    .EnemyScenePath;
+                break;
             case Stages.Boss:
                 int bossIdx = stageRng.RandiRange(0, CurLevel.BossBattles.Length - 1);
                 result.CurSong = Scribe.SongDictionary[CurLevel.BossBattles[bossIdx]];
@@ -225,6 +238,8 @@ public partial class StageProducer : Node
                     .SongDictionary[CurLevel.BossBattles[bossIdx]]
                     .EnemyScenePath;
                 break;
+            case Stages.Event:
+            case Stages.Shop:
             case Stages.Chest:
                 break;
             default:
