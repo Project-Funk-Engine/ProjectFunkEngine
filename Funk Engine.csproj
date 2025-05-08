@@ -7,6 +7,10 @@
   <ItemGroup>
     <Content Include="Globals\Translations\Translations.csv" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="GameAnalytics.Net.Core.SDK" Version="3.4.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.4" />
+  </ItemGroup>
   <Target Name="Husky" BeforeTargets="Restore;CollectPackageReferences" Condition="'$(HUSKY)' != 0">
     <Exec Command="dotnet tool restore" StandardOutputImportance="Low" StandardErrorImportance="High" />
     <Exec Command="dotnet husky install" StandardOutputImportance="Low" StandardErrorImportance="High" WorkingDirectory="." />
