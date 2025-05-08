@@ -320,6 +320,7 @@ public partial class ControlSettings : Node2D, IFocusableMenu
                 InputMap.ActionAddEvent(action, keyEvent);
 
                 SaveKeyInput(_chosenKey, keyEvent);
+                NSA.LogRemapEvent("keyboard", _chosenKey, (int)keyEvent.PhysicalKeycode);
                 break;
             }
             case false when @event is InputEventJoypadButton joyEvent:
@@ -329,6 +330,7 @@ public partial class ControlSettings : Node2D, IFocusableMenu
                 InputMap.ActionAddEvent(action, joyEvent);
 
                 SaveKeyInput(_chosenKey, joyEvent);
+                NSA.LogRemapEvent("controller", _chosenKey, (int)joyEvent.ButtonIndex);
                 break;
             }
             default:
