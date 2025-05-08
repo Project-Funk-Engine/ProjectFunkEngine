@@ -23,15 +23,23 @@ public partial class EventDatabase
             {
                 () =>
                 {
-                    GD.Print("You chose to fight");
+                    int randIndex = StageProducer.GlobalRng.RandiRange(
+                        0,
+                        StageProducer.PlayerStats.CurNotes.Length
+                    );
+                    StageProducer.PlayerStats.RemoveNote(randIndex);
                 },
                 () =>
                 {
-                    GD.Print("You chose to run");
+                    int randIndex = StageProducer.GlobalRng.RandiRange(
+                        0,
+                        StageProducer.PlayerStats.CurRelics.Length
+                    );
+                    StageProducer.PlayerStats.RemoveRelic(randIndex);
                 },
                 () =>
                 {
-                    GD.Print("You chose to Mysterious third option");
+                    StageProducer.PlayerStats.Money = (int)StageProducer.PlayerStats.Money / 2;
                 },
             },
             GD.Load<Texture2D>("res://Classes/Events/Assets/TEMP.png")
