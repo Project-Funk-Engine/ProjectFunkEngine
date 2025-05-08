@@ -11,8 +11,8 @@ public partial class EventDatabase : Node
     {
         new EventTemplate(
             1,
-            "A wild creature appears in the forest.",
-            new string[] { "Fight", "Run", "Mysterious third option" },
+            "EVENT_EVENT1_DESC",
+            new string[] { "EVENT_EVENT1_OPTION1", "EVENT_EVENT1_OPTION2", "EVENT_EVENT1_OPTION3" },
             new EventAction[]
             {
                 () =>
