@@ -4,6 +4,9 @@ using Godot;
 
 public partial class NSA : Node
 {
+    private double avgFPS = 0;
+    private double previousAvgFPS = 0;
+
     public override void _EnterTree()
     {
         GameAnalytics.SetEnabledInfoLog(true);
@@ -13,12 +16,31 @@ public partial class NSA : Node
             "cf1339a85b1909b3c92ca0d4e017fd31",
             "b32a52cb05696057075ec19d8a756bf1594563ad"
         );
+        avgFPS = Engine.GetFramesPerSecond();
     }
 
     public override void _ExitTree()
     {
         GameAnalytics.EndSession();
         base._ExitTree();
+    }
+
+    public override void _Process(double delta)
+    {
+        //Log if we drop below 10 FPS
+        if (Engine.GetFramesPerSecond() < 10)
+        {
+            GameAnalytics.AddDesignEvent("LowFPS:RealFPSBelow10");
+        }
+
+        //Log if our average FPS drops below previous and is below 59
+        previousAvgFPS = avgFPS;
+        avgFPS = (avgFPS + Engine.GetFramesPerSecond()) / 2;
+
+        if (avgFPS < previousAvgFPS && avgFPS < 59)
+        {
+            GameAnalytics.AddDesignEvent("AvgFPSDecreased:" + avgFPS);
+        }
     }
 
     /// <summary>
