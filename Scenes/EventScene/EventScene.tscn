@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://u7oppwtmvmci"]
+[gd_scene load_steps=8 format=3 uid="uid://u7oppwtmvmci"]
 
 [ext_resource type="Script" uid="uid://md1vhln8ji5h" path="res://Scenes/EventScene/EventScene.cs" id="1_x82kl"]
 [ext_resource type="AudioStream" uid="uid://be5ial13ynf3o" path="res://Audio/Song1.ogg" id="2_vywvm"]
+[ext_resource type="Script" uid="uid://pl57giqyhckb" path="res://Scenes/UI/Scripts/MenuModule.cs" id="2_x82kl"]
 [ext_resource type="Texture2D" uid="uid://qhwve7fik4do" path="res://SharedAssets/BackGround_Full.png" id="4_l56en"]
 [ext_resource type="Texture2D" uid="uid://8u3xvcma81d" path="res://Scenes/UI/Assets/UI_CrystalFrame.png" id="5_erk58"]
 [ext_resource type="Script" uid="uid://cp6t6haqyef7o" path="res://Scenes/AreaBasedBackground.cs" id="5_v3lan"]
@@ -14,6 +15,10 @@ PlayerMarker = NodePath("PlayerMarker")
 EventSprite = NodePath("EventSprite")
 _eventDescription = NodePath("Control/MarginContainer/PanelContainer/HBoxContainer/DescBox/DescMargin/Description")
 _buttonContainer = NodePath("Control/MarginContainer/PanelContainer/HBoxContainer/ButtonContainer/VBoxContainer")
+
+[node name="UILayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("CurSceneNode")]
+script = ExtResource("2_x82kl")
+CurSceneNode = NodePath("..")
 
 [node name="Audio" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
@@ -35,27 +40,28 @@ script = ExtResource("5_v3lan")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 650.0
-offset_bottom = 40.0
-
-[node name="MarginContainer" type="MarginContainer" parent="Control"]
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -50.0
-offset_top = 160.0
-offset_right = 40.0
-offset_bottom = 340.0
+offset_right = 640.0
+offset_bottom = 360.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/margin_left = 50
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 50
-theme_override_constants/margin_bottom = 20
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+custom_minimum_size = Vector2(0, 180)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -105.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="PanelContainer" type="PanelContainer" parent="Control/MarginContainer"]
 layout_mode = 2
@@ -79,9 +85,10 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/margin_top = 7
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = -10
-theme_override_constants/margin_bottom = 7
+theme_override_constants/margin_bottom = 5
 
 [node name="DescBackground" type="NinePatchRect" parent="Control/MarginContainer/PanelContainer/HBoxContainer/DescBox"]
 layout_mode = 2
