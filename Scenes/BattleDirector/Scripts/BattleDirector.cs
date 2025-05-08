@@ -80,6 +80,9 @@ public partial class BattleDirector : Node2D
         }
         HasPlayed = true;
         _initializedPlaying = true;
+
+        //I'm counting this as the official battle start for now
+        NSA.LogLevelStart(StageProducer.CurLevel.Id.ToString(), StageProducer.CurRoom.ToString());
     }
 
     public override void _Ready()
@@ -297,7 +300,7 @@ public partial class BattleDirector : Node2D
         {
             CM.ProcessMode = ProcessModeEnum.Disabled;
             tween.TweenCallback(Callable.From(OnBattleLost));
-            return;
+            //return;
         }
 
         if (puppet is EnemyPuppet)
@@ -307,6 +310,14 @@ public partial class BattleDirector : Node2D
             CM.ProcessMode = ProcessModeEnum.Disabled;
             tween.TweenCallback(Callable.From(OnBattleWon));
         }
+
+        //Send battle result to the analytics system
+        NSA.LogLevelEnd(
+            StageProducer.CurLevel.Id.ToString(),
+            StageProducer.CurRoom.ToString(),
+            IsBattleWon(),
+            Player.Stats.CurrentHealth
+        );
     }
 
     private bool IsBattleWon()
