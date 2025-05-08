@@ -21,9 +21,13 @@ public partial class NSA : Node
         base._ExitTree();
     }
 
-    /**
-     * Tells everyone you lost the game
-     */
+    /// <summary>
+    /// Sends the level end event to GameAnalytics.
+    /// </summary>
+    /// <param name="worldName">The more global name for the level. For example: Forest or City</param>
+    /// <param name="levelName">The local name for the level</param>
+    /// <param name="win">True if the battle was won, False otherwise</param>
+    /// <param name="remainingHealth">The remaining health of the player at the end of the battle</param>
     public static void LogLevelEnd(
         string worldName,
         string levelName,
@@ -47,5 +51,16 @@ public partial class NSA : Node
     public static void LogLevelStart(string worldName, string levelName)
     {
         GameAnalytics.AddProgressionEvent(EGAProgressionStatus.Start, worldName, levelName);
+    }
+
+    /// <summary>
+    /// Sends the key remap event to GameAnalytics.
+    /// </summary>
+    /// <param name="inputType">The type of interface being remapped. Please keep as "keyboard" or "controller"</param>
+    /// <param name="keyName">The name of the key being mapped</param>
+    /// <param name="setKey">the int value of the key. I can't do this as anything else.</param>
+    public static void LogRemapEvent(string inputType, string keyName, int setKey)
+    {
+        GameAnalytics.AddDesignEvent(inputType + "Remap:" + keyName, setKey);
     }
 }
