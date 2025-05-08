@@ -42,27 +42,27 @@ BATTLE_ROOM_SKIP_BUTTON,Skip,跳过
 BATTLE_ROOM_ACCEPT_BUTTON,Accept,接受
 NOTE_ENEMYBASE_NAME,EnemyBase,敌人基地
 NOTE_ENEMYBASE_TOOLTIP,"Basic enemy note, deals damage to player.","基础敌人音符，对玩家造成伤害。"
-NOTE_PLAYERBASE_NAME,PlayerBase,玩家基地
+NOTE_PLAYERBASE_NAME,Basic Note,基本笔记
 NOTE_PLAYERBASE_TOOLTIP,"Basic player note, deals damage to enemy.","基础玩家音符，对敌人造成伤害。"
-NOTE_PLAYERDOUBLE_NAME,PlayerDouble,玩家双击
+NOTE_PLAYERDOUBLE_NAME,Double Note,双重笔记
 NOTE_PLAYERDOUBLE_TOOLTIP,"Basic player note, deals double damage to enemy.","基础玩家音符，对敌人造成双倍伤害。"
-NOTE_PLAYERHEAL_NAME,PlayerHeal,玩家治愈
+NOTE_PLAYERHEAL_NAME,Heal Note,治疗笔记
 NOTE_PLAYERHEAL_TOOLTIP,"Basic player note, heals player.","基础玩家音符，治愈玩家。"
-NOTE_PLAYERVAMPIRE_NAME,PlayerVampire,玩家吸血
+NOTE_PLAYERVAMPIRE_NAME,Vampire Note,吸血鬼笔记
 NOTE_PLAYERVAMPIRE_TOOLTIP,"Steals health from enemy.","从敌人吸取生命值。"
-NOTE_PLAYERQUARTER_NAME,PlayerQuarter,玩家一分之一
+NOTE_PLAYERQUARTER_NAME,Quarter Note,四分音符
 NOTE_PLAYERQUARTER_TOOLTIP,"Basic note at a quarter of the cost.","以四分之一的耗费时间量发出基础音符。"
-NOTE_PLAYERBLOCK_NAME,PlayerBlock,玩家格挡
+NOTE_PLAYERBLOCK_NAME,Block Note,块笔记
 NOTE_PLAYERBLOCK_TOOLTIP,"Gives player one charge of block.","给予玩家一层格挡充能。"
-NOTE_PLAYEREXPLOSIVE_NAME,PlayerExplosive,玩家炸药
+NOTE_PLAYEREXPLOSIVE_NAME,Explosive Note,爆炸音符
 NOTE_PLAYEREXPLOSIVE_TOOLTIP,"Deals damage to all enemies.","对所有敌人造成伤害。"
-NOTE_PLAYERECHO_NAME,PlayerEcho,玩家回声
+NOTE_PLAYERECHO_NAME,Echo Note,回音符
 NOTE_PLAYERECHO_TOOLTIP,"Deals more damage with each loop.","每次循环造成更多伤害。"
-NOTE_PLAYERPOISON_NAME,PlayerPoison,玩家中毒
+NOTE_PLAYERPOISON_NAME,Poison Note,毒药笔记
 NOTE_PLAYERPOISON_TOOLTIP,"Applies stacks of poison based on timing.","根据时机施加中毒层数。"
-NOTE_PLAYERMONEY_NAME,PlayerMoney,玩家金钱
-NOTE_PLAYERMONEY_TOOLTIP,"Deals no damage, but gives you money when hit."."不会造成伤害，但命中时会获得金钱。"
-NOTE_PLAYERCOMBO_NAME,PlayerCombo,玩家连击
+NOTE_PLAYERMONEY_NAME,Money Note,钱的便条
+NOTE_PLAYERMONEY_TOOLTIP,"Deals no damage, but gives you money when hit.","不会造成伤害，但命中时会获得金钱。"
+NOTE_PLAYERCOMBO_NAME,Combo Note,连击音符
 NOTE_PLAYERCOMBO_TOOLTIP,"Deals no damage, but gives you double the combo bar charge when hit.","不会造成伤害，但命中时会获得双倍连击槽充能。"
 RELIC_BREAKFAST_NAME,Breakfast,早餐
 RELIC_BREAKFAST_TOOLTIP,"Increases max hp.",提高最大生命值
