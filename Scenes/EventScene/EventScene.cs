@@ -19,17 +19,32 @@ public partial class EventScene : Node
     [Export]
     private VBoxContainer _buttonContainer;
 
-    private Theme _buttonTheme; // Store the theme
+    private static Theme _buttonTheme = GD.Load<Theme>("res://Scenes/UI/Assets/GeneralTheme.tres"); // Store the theme
 
+    public static EventScene NewEventScene(int eventId = 0)
+    {
+        EventScene result = GD.Load<PackedScene>(LoadPath).Instantiate<EventScene>();
+        result._player = GD.Load<PackedScene>(PlayerPuppet.LoadPath).Instantiate<PlayerPuppet>();
+        result.PlayerMarker.AddChild(result._player);
+        result.DisplayEvent(eventId);
+        return result;
+    }
+
+    //Eventually remove this, once integrated into game
     public override void _Ready()
     {
         _player = GD.Load<PackedScene>(PlayerPuppet.LoadPath).Instantiate<PlayerPuppet>();
         PlayerMarker.AddChild(_player);
 
-        // Load the theme from the path
-        _buttonTheme = GD.Load<Theme>("res://Scenes/UI/Assets/GeneralTheme.tres");
-
         DisplayEvent(0);
+    }
+
+    public override void _Process(double delta)
+    {
+        if (GetViewport().GuiGetFocusOwner() == null && _buttonContainer != null)
+        {
+            _buttonContainer.GetChild<Control>(0).GrabFocus();
+        }
     }
 
     /// <summary>
@@ -60,7 +75,10 @@ public partial class EventScene : Node
                 eventTemplate.OptionActions[capturedIndex]?.Invoke();
                 StageProducer.LiveInstance.TransitionStage(Stages.Map);
             };
-
+            if (capturedIndex == 0)
+            {
+                button.GrabFocus();
+            }
             _buttonContainer.AddChild(button);
         }
     }

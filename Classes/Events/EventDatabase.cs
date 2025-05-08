@@ -5,7 +5,7 @@ using Godot;
 /// <summary>
 /// Holds all game events and their associated logic.
 /// </summary>
-public partial class EventDatabase : Node
+public partial class EventDatabase
 {
     public static readonly EventTemplate[] EventDictionary = new[]
     {

@@ -4,7 +4,7 @@ using Godot;
 
 public delegate void EventAction();
 
-public partial class EventTemplate : Resource
+public partial class EventTemplate
 {
     public int Id;
     public string EventDescription;
