@@ -2,7 +2,7 @@ using System;
 using FunkEngine;
 using Godot;
 
-public delegate void EventAction();
+public delegate void EventAction(EventTemplate self);
 public delegate bool EventCondition();
 
 public partial class EventTemplate
