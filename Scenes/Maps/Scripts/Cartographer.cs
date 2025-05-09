@@ -28,10 +28,10 @@ public partial class Cartographer : Node2D
     {
         { Stages.Battle, GD.Load<Texture2D>("res://Scenes/Maps/Assets/BattleIcon.png") },
         { Stages.Elite, GD.Load<Texture2D>("res://Scenes/Maps/Assets/BossIcon.png") },
-        { Stages.Boss, GD.Load<Texture2D>("res://Scenes/Maps/Assets/BossIcon.png") },
+        { Stages.Boss, GD.Load<Texture2D>("res://Scenes/Maps/Assets/EliteIcon.png") },
         { Stages.Chest, GD.Load<Texture2D>("res://Scenes/Maps/Assets/ChestIcon.png") },
-        { Stages.Shop, GD.Load<Texture2D>("res://Scenes/Maps/Assets/ChestIcon.png") },
-        { Stages.Event, GD.Load<Texture2D>("res://Scenes/Maps/Assets/ChestIcon.png") },
+        { Stages.Shop, GD.Load<Texture2D>("res://Scenes/Maps/Assets/ShopIcon.png") },
+        { Stages.Event, GD.Load<Texture2D>("res://Scenes/Maps/Assets/EventIcon.png") },
     };
 
     public override void _Ready()
