@@ -104,6 +104,7 @@ public partial class StageProducer : Node
         PlayerStats.CurrentHealth = sv.PlayerHealth;
         PlayerStats.Money = sv.Money;
         PlayerStats.Shortcuts = sv.Shortcuts;
+        PlayerStats.MaxComboBar = sv.PlayerMaxCombo;
         IsInitialized = true;
         return true;
     }
