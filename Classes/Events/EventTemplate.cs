@@ -3,6 +3,7 @@ using FunkEngine;
 using Godot;
 
 public delegate void EventAction();
+public delegate bool EventCondition();
 
 public partial class EventTemplate
 {
@@ -14,6 +15,7 @@ public partial class EventTemplate
 
     // Note: Actions are NOT exported since delegates cannot be serialized
     public EventAction[] OptionActions;
+    public EventCondition[] OptionEnabledConditions;
 
     public EventTemplate() { }
 
@@ -23,7 +25,8 @@ public partial class EventTemplate
         string[] buttonDescriptions,
         string[] outcomeDescriptions,
         EventAction[] optionActions,
-        Texture2D texture
+        Texture2D texture,
+        EventCondition[] optionEnabledConditions = null
     )
     {
         Id = id;
@@ -32,5 +35,6 @@ public partial class EventTemplate
         OutcomeDescriptions = outcomeDescriptions;
         OptionActions = optionActions;
         Texture = texture;
+        OptionEnabledConditions = optionEnabledConditions;
     }
 }

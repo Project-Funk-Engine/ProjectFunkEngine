@@ -4,7 +4,7 @@ using Godot;
 
 public partial class EventScene : Node
 {
-    public static readonly string LoadPath = "res://Scenes/ChestScene/ChestScene.tscn";
+    public static readonly string LoadPath = "res://Scenes/EventScene/EventScene.tscn";
     private PlayerPuppet _player;
 
     [Export]
@@ -23,23 +23,25 @@ public partial class EventScene : Node
 
     private EventTemplate _eventReference;
 
-    public static EventScene NewEventScene(int eventId = 0)
+    public static EventScene NewEventScene()
     {
         EventScene result = GD.Load<PackedScene>(LoadPath).Instantiate<EventScene>();
         result._player = GD.Load<PackedScene>(PlayerPuppet.LoadPath).Instantiate<PlayerPuppet>();
         result.PlayerMarker.AddChild(result._player);
-        result.DisplayEvent(eventId);
+        result.DisplayEvent();
         return result;
     }
 
     //Eventually remove this, once integrated into game
     public override void _Ready()
     {
+        GD.Print("loaded event");
         _player = GD.Load<PackedScene>(PlayerPuppet.LoadPath).Instantiate<PlayerPuppet>();
         PlayerMarker.AddChild(_player);
 
+        //int eventIndex = StageProducer.GlobalRng.RandiRange(0, EventDatabase.EventDictionary.Length);
         _eventReference = EventDatabase.EventDictionary[0];
-        DisplayEvent(0);
+        DisplayEvent();
     }
 
     public override void _Process(double delta)
@@ -54,7 +56,7 @@ public partial class EventScene : Node
     /// Displays the event with the given index.
     /// </summary>
     /// <param name="eventIndex">Index of the event in EventDatabase.</param>
-    public void DisplayEvent(int eventIndex)
+    public void DisplayEvent()
     {
         _eventDescription.Text = _eventReference.EventDescription;
         EventSprite.Texture = _eventReference.Texture;
@@ -65,18 +67,27 @@ public partial class EventScene : Node
             {
                 Text = _eventReference.ButtonDescriptions[i],
                 Theme = _buttonTheme,
+                SizeFlagsVertical = Control.SizeFlags.Expand | Control.SizeFlags.Fill,
             };
 
-            button.SizeFlagsVertical = Control.SizeFlags.Expand | Control.SizeFlags.Fill;
+            // Check if the button should be enabled
+            bool isEnabled =
+                _eventReference.OptionEnabledConditions == null
+                || _eventReference.OptionEnabledConditions.Length <= i
+                || _eventReference.OptionEnabledConditions[i]?.Invoke() != false;
 
-            int capturedIndex = i; // was given a warning to capture the index
+            button.Disabled = !isEnabled;
+
+            int capturedIndex = i;
             button.Pressed += () =>
             {
                 GD.Print($"Selected option: {_eventReference.ButtonDescriptions[capturedIndex]}");
                 _eventReference.OptionActions[capturedIndex]?.Invoke();
                 AnyButtonPressed(capturedIndex);
             };
-            if (capturedIndex == 0)
+
+            // Automatically focus the first *enabled* button
+            if (capturedIndex == 0 && isEnabled)
             {
                 button.CallDeferred("grab_focus");
             }

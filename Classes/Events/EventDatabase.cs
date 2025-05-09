@@ -12,15 +12,9 @@ public partial class EventDatabase
         new EventTemplate(
             1,
             "EVENT_EVENT1_DESC",
-            new string[] { "EVENT_EVENT1_OPTION1", "EVENT_EVENT1_OPTION2", "EVENT_EVENT1_OPTION3" },
-            new string[]
-            {
-                "EVENT_EVENT1_OUTCOME1",
-                "EVENT_EVENT1_OUTCOME2",
-                "EVENT_EVENT1_OUTCOME3",
-            },
-            new EventAction[]
-            {
+            ["EVENT_EVENT1_OPTION1", "EVENT_EVENT1_OPTION2", "EVENT_EVENT1_OPTION3"],
+            ["EVENT_EVENT1_OUTCOME1", "EVENT_EVENT1_OUTCOME2", "EVENT_EVENT1_OUTCOME3"],
+            [
                 () =>
                 {
                     int randIndex = StageProducer.GlobalRng.RandiRange(
@@ -39,10 +33,15 @@ public partial class EventDatabase
                 },
                 () =>
                 {
-                    StageProducer.PlayerStats.Money = (int)StageProducer.PlayerStats.Money / 2;
+                    StageProducer.PlayerStats.Money /= 2;
                 },
-            },
-            GD.Load<Texture2D>("res://Classes/Events/Assets/TEMP.png")
+            ],
+            GD.Load<Texture2D>("res://Classes/Events/Assets/TEMP.png"),
+            [
+                () => StageProducer.PlayerStats.CurNotes.Length > 0,
+                () => StageProducer.PlayerStats.CurRelics.Length > 0,
+                () => StageProducer.PlayerStats.Money > 0,
+            ]
         ),
     };
 }
