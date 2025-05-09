@@ -39,8 +39,11 @@ public partial class EventScene : Node
         _player = GD.Load<PackedScene>(PlayerPuppet.LoadPath).Instantiate<PlayerPuppet>();
         PlayerMarker.AddChild(_player);
 
-        //int eventIndex = StageProducer.GlobalRng.RandiRange(0, EventDatabase.EventDictionary.Length);
-        _eventReference = EventDatabase.EventDictionary[0];
+        int eventIndex = StageProducer.GlobalRng.RandiRange(
+            0,
+            EventDatabase.EventDictionary.Length - 1
+        );
+        _eventReference = EventDatabase.EventDictionary[eventIndex];
         DisplayEvent();
     }
 
@@ -82,7 +85,7 @@ public partial class EventScene : Node
             button.Pressed += () =>
             {
                 GD.Print($"Selected option: {_eventReference.ButtonDescriptions[capturedIndex]}");
-                _eventReference.OptionActions[capturedIndex]?.Invoke();
+                _eventReference.OptionActions[capturedIndex]?.Invoke(_eventReference);
                 AnyButtonPressed(capturedIndex);
             };
 
