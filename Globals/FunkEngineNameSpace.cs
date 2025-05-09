@@ -259,6 +259,9 @@ public enum Stages
 {
     Battle = 0,
     Chest = 1,
+    Elite = 2,
+    Event = 3,
+    Shop = 4,
     Boss,
     Quit,
     Map,
@@ -387,7 +390,7 @@ public class MapGrid
             }
         }
         int idx = (int)StageProducer.GlobalRng.RandWeighted(validRooms);
-        return MapLevels.MapConfig.StagsToRoll[idx];
+        return MapLevels.MapConfig.StagesToRoll[idx];
     }
 
     //Asserts that if there is a room at the same x, but y+1 they are connected

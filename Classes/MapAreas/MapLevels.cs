@@ -32,21 +32,26 @@ public class MapLevels
             return this;
         }
 
-        public const int NumStages = 2;
-
-        public static readonly Stages[] StagsToRoll = new[] { Stages.Battle, Stages.Chest };
+        public static readonly Stages[] StagesToRoll = new[]
+        {
+            Stages.Battle,
+            Stages.Chest,
+            Stages.Elite,
+            Stages.Event,
+            Stages.Shop,
+        };
 
         /// <summary>
         /// The odds for each stage to appear in a non-set room position.
         /// </summary>
-        public float[] StageOdds = new float[2];
+        public float[] StageOdds = new float[5];
 
         public MapConfig(int width, int height, int paths, float[] odds)
         {
             Width = width;
             Height = height;
             Paths = paths;
-            for (int i = 0; i < NumStages; i++)
+            for (int i = 0; i < StagesToRoll.Length; i++)
             {
                 StageOdds[i] = odds[i];
             }
@@ -75,6 +80,7 @@ public class MapLevels
         int[] battleSongs,
         int[] eliteSongs,
         int[] bossSongs,
+        int[] eventIds,
         int nextLevelId = -1,
         string backgroundPath = "res://SharedAssets/BackGround_Full.png"
     )
@@ -84,6 +90,7 @@ public class MapLevels
         NormalBattles = battleSongs;
         EliteBattles = eliteSongs;
         BossBattles = bossSongs;
+        EventIds = eventIds;
         NextLevel = nextLevelId;
         BackgroundPath = backgroundPath;
     }
@@ -97,18 +104,21 @@ public class MapLevels
     public int[] NormalBattles { get; private set; }
     public int[] EliteBattles { get; private set; }
     public int[] BossBattles { get; private set; }
+    public int[] EventIds { get; private set; }
 
     #region Preset Levels
-    private static readonly MapConfig FirstMapConfig = new MapConfig(7, 6, 3, [10, 1])
+    private static readonly MapConfig FirstMapConfig = new MapConfig(7, 7, 3, [10, 1, 5, 5, 5])
         .AddSetRoom(3, Stages.Chest)
-        .AddMinHeight(Stages.Chest, 2);
+        .AddMinHeight(Stages.Chest, 2)
+        .AddMinHeight(Stages.Shop, 3)
+        .AddMinHeight(Stages.Elite, 3);
 
-    private static readonly MapConfig TutorialMapConfig = new MapConfig(1, 2, 1, [10, 0]);
+    private static readonly MapConfig TutorialMapConfig = new MapConfig(1, 2, 1, [10, 0, 0, 0, 0]);
 
     private static readonly MapLevels[] PresetLevels = new[]
     {
-        new MapLevels(0, TutorialMapConfig, [4], [], [5], 1),
-        new MapLevels(1, FirstMapConfig, [1, 2, 3], [], [0], -1),
+        new MapLevels(0, TutorialMapConfig, [4], [0], [5], [], 1),
+        new MapLevels(1, FirstMapConfig, [1, 3], [2], [0], [], -1),
     };
     #endregion
 

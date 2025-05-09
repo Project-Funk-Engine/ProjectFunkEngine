@@ -24,14 +24,14 @@ public partial class Cartographer : Node2D
 
     private Button _focusedButton;
 
-    private static readonly Dictionary<Stages, Texture2D> StageIcons = new Dictionary<
-        Stages,
-        Texture2D
-    >
+    private static readonly Dictionary<Stages, Texture2D> StageIcons = new()
     {
         { Stages.Battle, GD.Load<Texture2D>("res://Scenes/Maps/Assets/BattleIcon.png") },
-        { Stages.Boss, GD.Load<Texture2D>("res://Scenes/Maps/Assets/BossIcon.png") },
+        { Stages.Elite, GD.Load<Texture2D>("res://Scenes/Maps/Assets/BossIcon.png") },
+        { Stages.Boss, GD.Load<Texture2D>("res://Scenes/Maps/Assets/EliteIcon.png") },
         { Stages.Chest, GD.Load<Texture2D>("res://Scenes/Maps/Assets/ChestIcon.png") },
+        { Stages.Shop, GD.Load<Texture2D>("res://Scenes/Maps/Assets/ShopIcon.png") },
+        { Stages.Event, GD.Load<Texture2D>("res://Scenes/Maps/Assets/EventIcon.png") },
     };
 
     public override void _Ready()
@@ -80,6 +80,7 @@ public partial class Cartographer : Node2D
 
     private void DrawMapSprite(MapGrid.Room room)
     {
+        GD.Print(room.Type);
         var newButton = new Button();
         newButton.Theme = ButtonTheme;
         newButton.CustomMinimumSize = MapIconSize;
