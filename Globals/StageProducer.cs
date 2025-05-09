@@ -143,6 +143,11 @@ public partial class StageProducer : Node
                 break;
             case Stages.Shop:
             case Stages.Event:
+                _loadTask = Task.Run(() =>
+                {
+                    _preloadStage = GD.Load<PackedScene>(EventScene.LoadPath).Instantiate<Node>();
+                });
+                break;
             case Stages.Chest:
                 _loadTask = Task.Run(() =>
                 {
