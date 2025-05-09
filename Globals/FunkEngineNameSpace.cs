@@ -291,6 +291,7 @@ public class MapGrid
     private int[,] _map;
     private Room[] _rooms;
     private int _curIdx;
+    public int Width { get; private set; }
 
     public Room[] GetRooms()
     {
@@ -330,6 +331,7 @@ public class MapGrid
     */
     public void InitMapGrid(MapLevels.MapConfig curConfig)
     {
+        Width = curConfig.Width;
         _curIdx = 0;
         _rooms = [];
         _map = new int[curConfig.Width, curConfig.Height]; //x,y

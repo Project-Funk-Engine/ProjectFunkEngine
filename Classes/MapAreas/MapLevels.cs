@@ -107,18 +107,35 @@ public class MapLevels
     public int[] EventIds { get; private set; }
 
     #region Preset Levels
-    private static readonly MapConfig FirstMapConfig = new MapConfig(7, 7, 3, [10, 1, 5, 5, 5])
+    private static readonly MapConfig FirstMapConfig = new MapConfig(7, 7, 3, [10, 2, 5, 6, 5])
         .AddSetRoom(3, Stages.Chest)
         .AddMinHeight(Stages.Chest, 2)
         .AddMinHeight(Stages.Shop, 3)
         .AddMinHeight(Stages.Elite, 3);
+
+    private static readonly MapConfig CityMapConfig = new MapConfig(9, 10, 5, [12, 1, 5, 5, 4])
+        .AddSetRoom(2, Stages.Chest)
+        .AddSetRoom(4, Stages.Shop)
+        .AddMinHeight(Stages.Chest, 1)
+        .AddMinHeight(Stages.Shop, 3)
+        .AddMinHeight(Stages.Elite, 2);
 
     private static readonly MapConfig TutorialMapConfig = new MapConfig(1, 2, 1, [10, 0, 0, 0, 0]);
 
     private static readonly MapLevels[] PresetLevels = new[]
     {
         new MapLevels(0, TutorialMapConfig, [4], [0], [5], [], 1),
-        new MapLevels(1, FirstMapConfig, [1, 3], [2], [0], [], -1),
+        new MapLevels(1, FirstMapConfig, [1, 2], [3], [0], [], 2),
+        new MapLevels(
+            2,
+            CityMapConfig,
+            [1, 2],
+            [3],
+            [0],
+            [],
+            -1,
+            "res://SharedAssets/BackGround_City.png"
+        ),
     };
     #endregion
 

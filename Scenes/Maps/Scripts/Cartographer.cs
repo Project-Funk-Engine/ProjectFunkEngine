@@ -27,11 +27,12 @@ public partial class Cartographer : Node2D
     private static readonly Dictionary<Stages, Texture2D> StageIcons = new()
     {
         { Stages.Battle, GD.Load<Texture2D>("res://Scenes/Maps/Assets/BattleIcon.png") },
-        { Stages.Elite, GD.Load<Texture2D>("res://Scenes/Maps/Assets/BossIcon.png") },
-        { Stages.Boss, GD.Load<Texture2D>("res://Scenes/Maps/Assets/EliteIcon.png") },
+        { Stages.Elite, GD.Load<Texture2D>("res://Scenes/Maps/Assets/EliteIcon.png") },
+        { Stages.Boss, GD.Load<Texture2D>("res://Scenes/Maps/Assets/BossIcon.png") },
         { Stages.Chest, GD.Load<Texture2D>("res://Scenes/Maps/Assets/ChestIcon.png") },
         { Stages.Shop, GD.Load<Texture2D>("res://Scenes/Maps/Assets/ShopIcon.png") },
         { Stages.Event, GD.Load<Texture2D>("res://Scenes/Maps/Assets/EventIcon.png") },
+        { Stages.Map, GD.Load<Texture2D>("res://Scenes/Maps/Assets/FirstIcon.png") },
     };
 
     public override void _Ready()
@@ -54,7 +55,7 @@ public partial class Cartographer : Node2D
 
     private Vector2 GetPosition(int x, int y)
     {
-        return new Vector2((float)x * 640 / 8 + 32, y * 48 + 16);
+        return new Vector2((float)(x + 1) * 640 / (StageProducer.Map.Width + 1), y * 48 + 16);
     }
 
     private void DrawMap()
@@ -80,7 +81,6 @@ public partial class Cartographer : Node2D
 
     private void DrawMapSprite(MapGrid.Room room)
     {
-        GD.Print(room.Type);
         var newButton = new Button();
         newButton.Theme = ButtonTheme;
         newButton.CustomMinimumSize = MapIconSize;
@@ -118,16 +118,20 @@ public partial class Cartographer : Node2D
         }
 
         newButton.Icon = StageIcons[room.Type];
+        if (room.Y == 0)
+            newButton.Icon = StageIcons[Stages.Map];
 
         newButton.ZIndex = 1;
         newButton.Position = GetPosition(room.X, room.Y) - newButton.Size / 2;
         if (room == StageProducer.GetCurRoom())
         {
             PlayerSprite.Position = newButton.Position + newButton.Size * .5f;
-            Camera.Position -= //TODO: Better camera matching for areas.
+            Camera.Position -=
                 (
                     (GetViewportRect().Size / 2) - (newButton.Position + newButton.Size * .5f)
-                ).Normalized() * 20;
+                ).Normalized()
+                * room.X
+                * 48;
         }
     }
 

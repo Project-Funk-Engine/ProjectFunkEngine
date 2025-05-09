@@ -206,7 +206,7 @@ theme = ExtResource("13_v0au1")
 theme_override_font_sizes/font_size = 24
 text = "TITLE_CONTINUE"
 script = ExtResource("2_7f3m6")
-ScenePath = 9
+ScenePath = 8
 
 [node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2

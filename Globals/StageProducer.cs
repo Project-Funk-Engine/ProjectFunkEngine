@@ -228,7 +228,7 @@ public partial class StageProducer : Node
                 int elitIdx = stageRng.RandiRange(0, CurLevel.EliteBattles.Length - 1);
                 result.CurSong = Scribe.SongDictionary[CurLevel.EliteBattles[elitIdx]];
                 result.EnemyScenePath = Scribe
-                    .SongDictionary[CurLevel.BossBattles[elitIdx]]
+                    .SongDictionary[CurLevel.EliteBattles[elitIdx]]
                     .EnemyScenePath;
                 break;
             case Stages.Boss:
@@ -275,6 +275,7 @@ public partial class StageProducer : Node
 
     public void ProgressLevels()
     {
+        GD.Print(CurLevel.Id);
         CurLevel = CurLevel.GetNextLevel();
 
         Map = new();
