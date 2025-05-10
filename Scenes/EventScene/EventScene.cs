@@ -22,6 +22,7 @@ public partial class EventScene : Node
     private static Theme _buttonTheme = GD.Load<Theme>("res://Scenes/UI/Assets/GeneralTheme.tres"); // Store the theme
 
     private EventTemplate _eventReference;
+    private int updateOutputIndex;
 
     public static EventScene NewEventScene()
     {
@@ -53,6 +54,11 @@ public partial class EventScene : Node
         {
             _buttonContainer.GetChild<Control>(0).GrabFocus();
         }
+
+        if (_eventDescription.Text == "")
+        {
+            _eventDescription.Text = _eventReference.OutcomeDescriptions[updateOutputIndex];
+        }
     }
 
     /// <summary>
@@ -82,15 +88,10 @@ public partial class EventScene : Node
             button.Disabled = !isEnabled;
 
             int capturedIndex = i;
-            button.Pressed += async () =>
+            button.Pressed += () =>
             {
                 GD.Print($"Selected option: {_eventReference.ButtonDescriptions[capturedIndex]}");
-
-                var action = _eventReference.OptionActions[capturedIndex];
-                if (action != null)
-                {
-                    await action(_eventReference, this);
-                }
+                _eventReference.OptionActions[capturedIndex]?.Invoke(_eventReference, this);
                 AnyButtonPressed(capturedIndex);
             };
 
@@ -106,6 +107,8 @@ public partial class EventScene : Node
 
     private void AnyButtonPressed(int capturedIndex)
     {
+        updateOutputIndex = capturedIndex;
+
         foreach (var choices in _buttonContainer.GetChildren())
         {
             if (choices is not Button)
