@@ -113,6 +113,7 @@ public class EventDatabase
                                     break;
                             }
                             node.AnyButtonPressed(0);
+                            self.OutcomeDescriptions[0] = ""; //Will need to fix later, currently changes the primary reference
                         })
                     );
                 },
