@@ -48,14 +48,12 @@ public partial class EventScene : Node
 
     public override void _Process(double delta)
     {
-        if (GetViewport().GuiGetFocusOwner() == null && _buttonContainer != null)
+        if (GetViewport().GuiGetFocusOwner() == null)
         {
-            _buttonContainer.GetChild<Control>(0).GrabFocus();
-        }
-
-        if (_eventDescription.Text == "")
-        {
-            _eventDescription.Text = _eventReference.OutcomeDescriptions[_updateOutputIndex];
+            if (_continueContainer.Visible)
+                _continueButton.GrabFocus();
+            else
+                _buttonContainer.GetChild<Control>(0).GrabFocus();
         }
     }
 
