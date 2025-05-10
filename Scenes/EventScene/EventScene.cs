@@ -82,10 +82,15 @@ public partial class EventScene : Node
             button.Disabled = !isEnabled;
 
             int capturedIndex = i;
-            button.Pressed += () =>
+            button.Pressed += async () =>
             {
                 GD.Print($"Selected option: {_eventReference.ButtonDescriptions[capturedIndex]}");
-                _eventReference.OptionActions[capturedIndex]?.Invoke(_eventReference);
+
+                var action = _eventReference.OptionActions[capturedIndex];
+                if (action != null)
+                {
+                    await action(_eventReference, this);
+                }
                 AnyButtonPressed(capturedIndex);
             };
 

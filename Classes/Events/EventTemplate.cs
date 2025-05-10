@@ -1,8 +1,8 @@
 using System;
-using FunkEngine;
+using System.Threading.Tasks;
 using Godot;
 
-public delegate void EventAction(EventTemplate self);
+public delegate Task EventAction(EventTemplate self, Node contextNode);
 public delegate bool EventCondition();
 
 public partial class EventTemplate
@@ -12,8 +12,6 @@ public partial class EventTemplate
     public string[] ButtonDescriptions;
     public string[] OutcomeDescriptions;
     public Texture2D Texture;
-
-    // Note: Actions are NOT exported since delegates cannot be serialized
     public EventAction[] OptionActions;
     public EventCondition[] OptionEnabledConditions;
 
