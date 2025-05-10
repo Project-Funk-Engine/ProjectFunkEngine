@@ -19,21 +19,19 @@ public partial class EventScene : Node
     [Export]
     private VBoxContainer _buttonContainer;
 
-    private static Theme _buttonTheme = GD.Load<Theme>("res://Scenes/UI/Assets/GeneralTheme.tres"); // Store the theme
+    [Export]
+    private Button _continueButton;
+
+    [Export]
+    private MarginContainer _continueContainer;
+
+    private static readonly Theme ButtonTheme = GD.Load<Theme>(
+        "res://Scenes/UI/Assets/GeneralTheme.tres"
+    ); // Store the theme
 
     private EventTemplate _eventReference;
-    private int updateOutputIndex;
+    private int _updateOutputIndex;
 
-    public static EventScene NewEventScene()
-    {
-        EventScene result = GD.Load<PackedScene>(LoadPath).Instantiate<EventScene>();
-        result._player = GD.Load<PackedScene>(PlayerPuppet.LoadPath).Instantiate<PlayerPuppet>();
-        result.PlayerMarker.AddChild(result._player);
-        result.DisplayEvent();
-        return result;
-    }
-
-    //Eventually remove this, once integrated into game
     public override void _Ready()
     {
         GD.Print("loaded event");
@@ -57,14 +55,13 @@ public partial class EventScene : Node
 
         if (_eventDescription.Text == "")
         {
-            _eventDescription.Text = _eventReference.OutcomeDescriptions[updateOutputIndex];
+            _eventDescription.Text = _eventReference.OutcomeDescriptions[_updateOutputIndex];
         }
     }
 
     /// <summary>
-    /// Displays the event with the given index.
+    /// Displays the set event.
     /// </summary>
-    /// <param name="eventIndex">Index of the event in EventDatabase.</param>
     public void DisplayEvent()
     {
         _eventDescription.Text = _eventReference.EventDescription;
@@ -75,15 +72,25 @@ public partial class EventScene : Node
             var button = new Button
             {
                 Text = _eventReference.ButtonDescriptions[i],
-                Theme = _buttonTheme,
+                Theme = ButtonTheme,
                 SizeFlagsVertical = Control.SizeFlags.Expand | Control.SizeFlags.Fill,
             };
 
-            // Check if the button should be enabled
-            bool isEnabled =
+            bool isEnabled;
+            if (
                 _eventReference.OptionEnabledConditions == null
                 || _eventReference.OptionEnabledConditions.Length <= i
-                || _eventReference.OptionEnabledConditions[i]?.Invoke() != false;
+            )
+            {
+                GD.PushWarning("Event Conditions are invalid for event: " + _eventReference.Id);
+                isEnabled = true;
+            }
+            else
+            { // Check if the button should be enabled
+                isEnabled =
+                    _eventReference.OptionEnabledConditions[i] == null
+                    || _eventReference.OptionEnabledConditions[i].Invoke();
+            }
 
             button.Disabled = !isEnabled;
 
@@ -105,29 +112,12 @@ public partial class EventScene : Node
         }
     }
 
-    private void AnyButtonPressed(int capturedIndex)
+    public void AnyButtonPressed(int capturedIndex)
     {
-        updateOutputIndex = capturedIndex;
-
-        foreach (var choices in _buttonContainer.GetChildren())
-        {
-            if (choices is not Button)
-                continue;
-            choices.QueueFree();
-        }
-
+        _updateOutputIndex = capturedIndex;
+        _buttonContainer.GetParent<Control>().Visible = false;
+        _continueContainer.Visible = _eventReference.OutcomeDescriptions[capturedIndex] != "";
         _eventDescription.Text = _eventReference.OutcomeDescriptions[capturedIndex];
-        var button = new Button { Text = "EVENT_CONTINUE_BUTTON", Theme = _buttonTheme };
-
-        button.Pressed += ContinuePressed;
-
-        button.SizeFlagsVertical = Control.SizeFlags.Expand | Control.SizeFlags.Fill;
-        button.CallDeferred("grab_focus");
-        _buttonContainer.AddChild(button);
-    }
-
-    private void ContinuePressed()
-    {
-        StageProducer.LiveInstance.TransitionStage(Stages.Map);
+        _continueButton.GrabFocus();
     }
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://u7oppwtmvmci"]
+[gd_scene load_steps=10 format=3 uid="uid://u7oppwtmvmci"]
 
 [ext_resource type="Script" uid="uid://md1vhln8ji5h" path="res://Scenes/EventScene/EventScene.cs" id="1_x82kl"]
 [ext_resource type="AudioStream" uid="uid://be5ial13ynf3o" path="res://Audio/Song1.ogg" id="2_vywvm"]
@@ -7,14 +7,18 @@
 [ext_resource type="Texture2D" uid="uid://8u3xvcma81d" path="res://Scenes/UI/Assets/UI_CrystalFrame.png" id="5_erk58"]
 [ext_resource type="Script" uid="uid://cp6t6haqyef7o" path="res://Scenes/AreaBasedBackground.cs" id="5_v3lan"]
 [ext_resource type="Texture2D" uid="uid://burj10os057fx" path="res://Scenes/UI/Assets/UI_CrystalFrameInset.png" id="6_4prsq"]
+[ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="8_4prsq"]
+[ext_resource type="Script" uid="uid://cahjluc6v7ked" path="res://Scenes/UI/TitleScreen/Scripts/SceneChange.cs" id="9_lw2xf"]
 
-[node name="EventScene" type="Node2D" node_paths=PackedStringArray("PlayerMarker", "EventSprite", "_eventDescription", "_buttonContainer")]
+[node name="EventScene" type="Node2D" node_paths=PackedStringArray("PlayerMarker", "EventSprite", "_eventDescription", "_buttonContainer", "_continueButton", "_continueContainer")]
 process_mode = 1
 script = ExtResource("1_x82kl")
 PlayerMarker = NodePath("PlayerMarker")
 EventSprite = NodePath("EventSprite")
 _eventDescription = NodePath("Control/MarginContainer/PanelContainer/HBoxContainer/DescBox/DescMargin/Description")
 _buttonContainer = NodePath("Control/MarginContainer/PanelContainer/HBoxContainer/ButtonContainer/VBoxContainer")
+_continueButton = NodePath("Control/MarginContainer/PanelContainer/HBoxContainer/ContinueContainer/ContinueButton")
+_continueContainer = NodePath("Control/MarginContainer/PanelContainer/HBoxContainer/ContinueContainer")
 
 [node name="UILayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("CurSceneNode")]
 script = ExtResource("2_x82kl")
@@ -87,7 +91,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = -10
+theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
 [node name="DescBackground" type="NinePatchRect" parent="Control/MarginContainer/PanelContainer/HBoxContainer/DescBox"]
@@ -100,6 +104,7 @@ patch_margin_bottom = 7
 
 [node name="DescMargin" type="MarginContainer" parent="Control/MarginContainer/PanelContainer/HBoxContainer/DescBox"]
 layout_mode = 2
+size_flags_stretch_ratio = 0.0
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 0
@@ -117,10 +122,26 @@ text_overrun_behavior = 1
 
 [node name="ButtonContainer" type="MarginContainer" parent="Control/MarginContainer/PanelContainer/HBoxContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 10
+theme_override_constants/margin_left = -5
 theme_override_constants/margin_top = 7
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 7
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/PanelContainer/HBoxContainer/ButtonContainer"]
 layout_mode = 2
+
+[node name="ContinueContainer" type="MarginContainer" parent="Control/MarginContainer/PanelContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = -5
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 7
+
+[node name="ContinueButton" type="Button" parent="Control/MarginContainer/PanelContainer/HBoxContainer/ContinueContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+theme = ExtResource("8_4prsq")
+text = "EVENT_CONTINUE_BUTTON"
+script = ExtResource("9_lw2xf")
+ScenePath = 7

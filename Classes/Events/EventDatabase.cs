@@ -4,7 +4,7 @@ using Godot;
 /// <summary>
 /// Holds all game events and their associated logic.
 /// </summary>
-public partial class EventDatabase
+public class EventDatabase
 {
     public static readonly EventTemplate[] EventDictionary = new[]
     {
@@ -18,7 +18,7 @@ public partial class EventDatabase
                 {
                     int randIndex = StageProducer.GlobalRng.RandiRange(
                         0,
-                        StageProducer.PlayerStats.CurNotes.Length
+                        StageProducer.PlayerStats.CurNotes.Length - 1
                     );
                     StageProducer.PlayerStats.RemoveNote(randIndex);
                 },
@@ -26,7 +26,7 @@ public partial class EventDatabase
                 {
                     int randIndex = StageProducer.GlobalRng.RandiRange(
                         0,
-                        StageProducer.PlayerStats.CurRelics.Length
+                        StageProducer.PlayerStats.CurRelics.Length - 1
                     );
                     StageProducer.PlayerStats.RemoveRelic(randIndex);
                 },
@@ -50,8 +50,8 @@ public partial class EventDatabase
             [
                 (self, node) =>
                 {
-                    var spinner = node.GetNodeOrNull<Sprite2D>("EventSprite");
-                    int spinOutcome = (int)StageProducer.GlobalRng.RandiRange(0, 5);
+                    var spinner = node.EventSprite;
+                    int spinOutcome = StageProducer.GlobalRng.RandiRange(0, 5);
 
                     int outcomeCount = 6;
                     float sectorAngle = 360f / outcomeCount;
@@ -59,7 +59,7 @@ public partial class EventDatabase
                     float fullSpins = 6 * 360f;
                     float finalRotation = spinner.RotationDegrees % 360f + fullSpins + targetAngle;
 
-                    var tween = node.GetTree().CreateTween();
+                    var tween = node.CreateTween();
                     tween
                         .TweenProperty(spinner, "rotation_degrees", finalRotation, 2.5f)
                         .SetTrans(Tween.TransitionType.Cubic)
@@ -112,15 +112,14 @@ public partial class EventDatabase
                                     );
                                     break;
                             }
+                            node.AnyButtonPressed(0);
                         })
                     );
                 },
-                (self, node) => {
-                    // does nothing
-                },
+                null,
             ],
             GD.Load<Texture2D>("res://Classes/Events/Assets/Event2.png"),
-            [() => true, () => true]
+            [null, null]
         ),
         new EventTemplate(
             2,
@@ -147,7 +146,7 @@ public partial class EventDatabase
                 },
             ],
             GD.Load<Texture2D>("res://Classes/Events/Assets/TEMP.png"),
-            [() => true, () => true, () => StageProducer.PlayerStats.Money >= 30]
+            [null, null, () => StageProducer.PlayerStats.Money >= 30]
         ),
     };
 }

@@ -1,10 +1,12 @@
 using System;
 using Godot;
 
-public delegate void EventAction(EventTemplate self, Node contextNode);
+public delegate void EventAction(EventTemplate self, EventScene contextNode);
 public delegate bool EventCondition();
 
-public partial class EventTemplate
+//TODO: Consider making event option struct for better parallelizing of option parameters
+
+public class EventTemplate
 {
     public int Id;
     public string EventDescription;
