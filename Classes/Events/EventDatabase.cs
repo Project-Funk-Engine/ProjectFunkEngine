@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using Godot;
 
 /// <summary>
@@ -15,7 +14,7 @@ public partial class EventDatabase
             ["EVENT_EVENT1_OPTION1", "EVENT_EVENT1_OPTION2", "EVENT_EVENT1_OPTION3"],
             ["EVENT_EVENT1_OUTCOME1", "EVENT_EVENT1_OUTCOME2", "EVENT_EVENT1_OUTCOME3"],
             [
-                async (self, node) =>
+                (self, node) =>
                 {
                     int randIndex = StageProducer.GlobalRng.RandiRange(
                         0,
@@ -23,7 +22,7 @@ public partial class EventDatabase
                     );
                     StageProducer.PlayerStats.RemoveNote(randIndex);
                 },
-                async (self, node) =>
+                (self, node) =>
                 {
                     int randIndex = StageProducer.GlobalRng.RandiRange(
                         0,
@@ -31,7 +30,7 @@ public partial class EventDatabase
                     );
                     StageProducer.PlayerStats.RemoveRelic(randIndex);
                 },
-                async (self, node) =>
+                (self, node) =>
                 {
                     StageProducer.PlayerStats.Money /= 2;
                 },
@@ -49,10 +48,10 @@ public partial class EventDatabase
             ["EVENT_EVENT2_OPTION1", "EVENT_EVENT2_OPTION2"],
             ["", "EVENT_EVENT2_OUTCOME1"],
             [
-                async (self, node) =>
+                (self, node) =>
                 {
                     var spinner = node.GetNodeOrNull<Sprite2D>("EventSprite");
-                    int spinOutcome = (int)StageProducer.GlobalRng.RandWeighted([1, 1, 1, 1, 1, 1]);
+                    int spinOutcome = (int)StageProducer.GlobalRng.RandiRange(0, 5);
 
                     int outcomeCount = 6;
                     float sectorAngle = 360f / outcomeCount;
@@ -66,61 +65,57 @@ public partial class EventDatabase
                         .SetTrans(Tween.TransitionType.Cubic)
                         .SetEase(Tween.EaseType.Out);
 
-                    var tcs = new TaskCompletionSource<bool>();
-                    tween.TweenCallback(Callable.From(() => tcs.SetResult(true)));
-                    await tcs.Task;
-
-                    switch (spinOutcome)
-                    {
-                        case 0:
-                            GD.Print("lost half money");
-                            StageProducer.PlayerStats.Money /= 2;
-                            self.OutcomeDescriptions[0] = "EVENT_EVENT2_OUTCOME2";
-                            break;
-                        case 1:
-                            GD.Print("took damage");
-                            self.OutcomeDescriptions[0] = "EVENT_EVENT2_OUTCOME3";
-                            StageProducer.PlayerStats.CurrentHealth = Math.Max(
-                                1,
-                                StageProducer.PlayerStats.CurrentHealth - 10
-                            );
-                            break;
-                        case 2:
-                            GD.Print("gain money");
-                            self.OutcomeDescriptions[0] = "EVENT_EVENT2_OUTCOME4";
-                            StageProducer.PlayerStats.Money += 50;
-                            break;
-                        case 3:
-                            GD.Print("random note");
-                            self.OutcomeDescriptions[0] = "EVENT_EVENT2_OUTCOME5";
-                            StageProducer.PlayerStats.AddNote(
-                                Scribe.GetRandomRewardNotes(1, StageProducer.CurRoom + 10)[0]
-                            );
-                            break;
-                        case 4:
-                            GD.Print("random relic");
-                            self.OutcomeDescriptions[0] = "EVENT_EVENT2_OUTCOME6";
-                            StageProducer.PlayerStats.AddRelic(
-                                Scribe.GetRandomRelics(
-                                    1,
-                                    StageProducer.CurRoom + 10,
-                                    StageProducer.PlayerStats.RarityOdds
-                                )[0]
-                            );
-                            break;
-                        case 5:
-                            GD.Print("heal");
-                            self.OutcomeDescriptions[0] = "EVENT_EVENT2_OUTCOME7";
-                            StageProducer.PlayerStats.CurrentHealth = Math.Min(
-                                StageProducer.PlayerStats.CurrentHealth + 20,
-                                StageProducer.PlayerStats.MaxHealth
-                            );
-                            break;
-                    }
-
-                    GD.Print($"new description {self.OutcomeDescriptions[0]}");
+                    // Defer execution of the outcome until the tween finishes
+                    tween.TweenCallback(
+                        Callable.From(() =>
+                        {
+                            switch (spinOutcome)
+                            {
+                                case 0:
+                                    StageProducer.PlayerStats.Money /= 2;
+                                    self.OutcomeDescriptions[0] = "EVENT_EVENT2_OUTCOME2";
+                                    break;
+                                case 1:
+                                    self.OutcomeDescriptions[0] = "EVENT_EVENT2_OUTCOME3";
+                                    StageProducer.PlayerStats.CurrentHealth = Math.Max(
+                                        1,
+                                        StageProducer.PlayerStats.CurrentHealth - 10
+                                    );
+                                    break;
+                                case 2:
+                                    self.OutcomeDescriptions[0] = "EVENT_EVENT2_OUTCOME4";
+                                    StageProducer.PlayerStats.Money += 50;
+                                    break;
+                                case 3:
+                                    self.OutcomeDescriptions[0] = "EVENT_EVENT2_OUTCOME5";
+                                    StageProducer.PlayerStats.AddNote(
+                                        Scribe.GetRandomRewardNotes(1, StageProducer.CurRoom + 10)[
+                                            0
+                                        ]
+                                    );
+                                    break;
+                                case 4:
+                                    self.OutcomeDescriptions[0] = "EVENT_EVENT2_OUTCOME6";
+                                    StageProducer.PlayerStats.AddRelic(
+                                        Scribe.GetRandomRelics(
+                                            1,
+                                            StageProducer.CurRoom + 10,
+                                            StageProducer.PlayerStats.RarityOdds
+                                        )[0]
+                                    );
+                                    break;
+                                case 5:
+                                    self.OutcomeDescriptions[0] = "EVENT_EVENT2_OUTCOME7";
+                                    StageProducer.PlayerStats.CurrentHealth = Math.Min(
+                                        StageProducer.PlayerStats.CurrentHealth + 20,
+                                        StageProducer.PlayerStats.MaxHealth
+                                    );
+                                    break;
+                            }
+                        })
+                    );
                 },
-                async (self, node) => {
+                (self, node) => {
                     // does nothing
                 },
             ],
@@ -133,18 +128,18 @@ public partial class EventDatabase
             ["EVENT_EVENT3_OPTION1", "EVENT_EVENT3_OPTION2", "EVENT_EVENT3_OPTION3"],
             ["EVENT_EVENT3_OUTCOME1", "EVENT_EVENT3_OUTCOME2", "EVENT_EVENT3_OUTCOME3"],
             [
-                async (self, node) =>
+                (self, node) =>
                 {
                     StageProducer.PlayerStats.CurrentHealth = Math.Min(
                         StageProducer.PlayerStats.CurrentHealth + 10,
                         StageProducer.PlayerStats.MaxHealth
                     );
                 },
-                async (self, node) =>
+                (self, node) =>
                 {
                     StageProducer.PlayerStats.MaxComboBar -= 5;
                 },
-                async (self, node) =>
+                (self, node) =>
                 {
                     StageProducer.PlayerStats.Money -= 30;
                     StageProducer.PlayerStats.AddNote(Scribe.NoteDictionary[3]);

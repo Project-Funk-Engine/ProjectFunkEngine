@@ -1,8 +1,7 @@
 using System;
-using System.Threading.Tasks;
 using Godot;
 
-public delegate Task EventAction(EventTemplate self, Node contextNode);
+public delegate void EventAction(EventTemplate self, Node contextNode);
 public delegate bool EventCondition();
 
 public partial class EventTemplate
