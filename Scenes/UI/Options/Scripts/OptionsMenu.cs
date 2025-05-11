@@ -124,4 +124,12 @@ public partial class OptionsMenu : CanvasLayer, IFocusableMenu
         AddChild(howtoPlay);
         howtoPlay.OpenMenu(this);
     }
+
+    private void OpenCredits()
+    {
+        CreditsMenu creditsMenu = GD.Load<PackedScene>(CreditsMenu.LoadPath)
+            .Instantiate<CreditsMenu>();
+        AddChild(creditsMenu);
+        creditsMenu.OpenMenu(this);
+    }
 }
