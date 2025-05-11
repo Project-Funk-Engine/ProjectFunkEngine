@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://duhiilcv4tat3"]
+[gd_scene load_steps=15 format=3 uid="uid://duhiilcv4tat3"]
 
 [ext_resource type="Script" uid="uid://gj666xe815py" path="res://Scenes/BattleDirector/Scripts/NotePlacementBar.cs" id="1_456es"]
 [ext_resource type="Texture2D" uid="uid://cnyr5usjdv0ni" path="res://Scenes/BattleDirector/Assets/NoteQueue_Frame.png" id="2_3tw16"]
@@ -8,22 +8,19 @@
 [ext_resource type="Texture2D" uid="uid://bi4tbiovlm2g1" path="res://Scenes/BattleDirector/Assets/PlacementBar_Over.png" id="3_kb2co"]
 [ext_resource type="Texture2D" uid="uid://caw70lr5e1yiq" path="res://Classes/Notes/Assets/Note_PlayerDouble.png" id="4_6w8ha"]
 
-[sub_resource type="Gradient" id="Gradient_71dai"]
-colors = PackedColorArray(0, 0, 0, 1, 1, 0.133333, 1, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_doedx"]
-gradient = SubResource("Gradient_71dai")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_e2fap"]
-shader = ExtResource("2_kb2co")
-shader_parameter/fillLevel = 0.53
-shader_parameter/waveIntensity = 1.0
-shader_parameter/waveGradient = SubResource("GradientTexture1D_doedx")
-shader_parameter/backWaveTint = Color(0.7, 0.7, 0.8, 1)
-
 [sub_resource type="Gradient" id="Gradient_xvck1"]
 offsets = PackedFloat32Array(0)
 colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kb2co"]
+gradient = SubResource("Gradient_xvck1")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e2fap"]
+shader = ExtResource("2_kb2co")
+shader_parameter/fillLevel = 0.0
+shader_parameter/waveIntensity = 1.0
+shader_parameter/waveGradient = SubResource("GradientTexture2D_kb2co")
+shader_parameter/backWaveTint = Color(0.7, 0.7, 0.8, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_0bqho"]
 gradient = SubResource("Gradient_xvck1")
@@ -66,6 +63,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_456es")
+_waveMaterial = SubResource("ShaderMaterial_e2fap")
 _notePlacementBar = NodePath("PlacementBar")
 _particles = NodePath("PlacementBar/Rock")
 _fullBarParticles = NodePath("PlacementBar/FullBarParticles")

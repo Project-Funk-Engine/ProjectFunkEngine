@@ -23,8 +23,12 @@ public partial class NotePlacementBar : Node
         {
             _notePlacementBar.Value = value;
             _particles.Emitting = CurrentBarValue >= MaxValue; //This is so goated
+            _waveMaterial.SetShaderParameter("fillLevel", _notePlacementBar.Value / MaxValue);
         }
     }
+
+    [Export]
+    private ShaderMaterial _waveMaterial; //Sort of breaks the pixel art style, but its cool
 
     [Export]
     private TextureProgressBar _notePlacementBar;
