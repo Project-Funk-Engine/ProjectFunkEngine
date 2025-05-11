@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FunkEngine;
@@ -96,7 +97,7 @@ public partial class Scribe : Node
             {
                 if (timing == Timing.Miss)
                     return;
-                director.AddStatus(Targetting.Player, StatusEffect.Block.GetInstance()); //todo: should scale with timing????
+                director.AddStatus(Targetting.Player, StatusEffect.Block.CreateInstance()); //todo: should scale with timing????
             }
         ),
         new Note(
@@ -135,7 +136,7 @@ public partial class Scribe : Node
             {
                 if (timing == Timing.Miss)
                     return;
-                director.AddStatus(Targetting.First, StatusEffect.Poison.GetInstance((int)timing));
+                director.AddStatus(Targetting.First, StatusEffect.Poison, (int)timing);
             }
         ),
         new Note(
@@ -176,6 +177,17 @@ public partial class Scribe : Node
                     timing,
                     (ArrowType)StageProducer.GlobalRng.RandiRange(0, 3)
                 );
+            }
+        ),
+        new Note(
+            13,
+            "Parasifly",
+            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_Parasifly.png"),
+            1,
+            (director, note, timing) =>
+            {
+                int amt = Math.Max((3 - (int)timing) * note.GetBaseVal(), 0);
+                director.AddStatus(Targetting.All, StatusEffect.Block, amt);
             }
         ),
     };
@@ -395,7 +407,7 @@ public partial class Scribe : Node
                             e is BattleDirector.Harbinger.OnDamageInstanceArgs dmgArgs
                             && dmgArgs.Dmg.Target == e.BD.Player
                             && dmgArgs.Dmg.Damage > 0
-                            && e.BD.Player.HasStatus(StatusEffect.Block.GetInstance())
+                            && e.BD.Player.HasStatus(StatusEffect.Block.CreateInstance())
                         )
                         {
                             e.BD.DealDamage(Targetting.First, val, null);

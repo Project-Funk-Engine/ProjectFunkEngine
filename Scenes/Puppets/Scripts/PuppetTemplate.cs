@@ -170,6 +170,8 @@ public partial class PuppetTemplate : Node2D
     /// <returns></returns>
     public bool AddStatusEffect(StatusEffect effect)
     {
+        if (CurrentHealth <= 0)
+            return false;
         int index = StatusEffects.FindIndex(sEff => sEff.StatusName == effect.StatusName);
         if (index != -1) //If status of same name -> stack -> return false
         {
