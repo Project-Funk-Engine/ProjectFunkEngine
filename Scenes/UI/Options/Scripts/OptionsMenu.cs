@@ -3,7 +3,7 @@ using Godot;
 
 public partial class OptionsMenu : CanvasLayer, IFocusableMenu
 {
-    public static readonly string LoadPath = "res://Scenes/UI/Options/CreditsOptionTest.tscn";
+    public static readonly string LoadPath = "res://Scenes/UI/Options/OptionsMenu.tscn";
 
     public IFocusableMenu Prev { get; set; }
 
@@ -19,9 +19,6 @@ public partial class OptionsMenu : CanvasLayer, IFocusableMenu
 
     [Export]
     private Button _controlsButton;
-
-    [Export]
-    private Button _creditsButton;
 
     [Export]
     private CheckBox _highContrastToggle;
@@ -47,7 +44,6 @@ public partial class OptionsMenu : CanvasLayer, IFocusableMenu
 
         _closeButton.Pressed += ReturnToPrev;
         _controlsButton.Pressed += OpenControls;
-        _creditsButton.Pressed += OpenCredits;
         _highContrastToggle.Toggled += HighContrastChanged;
         _howToPlayButton.Pressed += OpenHowToPlay;
     }

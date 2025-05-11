@@ -1,3 +1,4 @@
+using System;
 using FunkEngine;
 using Godot;
 
@@ -11,11 +12,8 @@ public partial class CreditsMenu : Control, IFocusableMenu
     [Export]
     public float ScrollSpeed = 50f;
 
-    [Export]
-    public float FadeStartY = 200f;
-
-    [Export]
-    public float FadeEndY = 50f;
+    public float FadeStartY = 0;
+    public float FadeEndY = -400f;
 
     [Export]
     public float RestartPositionY = 800f;
@@ -30,8 +28,10 @@ public partial class CreditsMenu : Control, IFocusableMenu
         if (CreditsText != null)
         {
             CreditsText.Position = new Vector2(CreditsText.Position.X, RestartPositionY);
+            FadeEndY = -CreditsText.Size.Y;
         }
         _returnButton.Pressed += ReturnToPrev;
+        _returnButton.GrabFocus();
     }
 
     public void ResumeFocus()
@@ -72,33 +72,16 @@ public partial class CreditsMenu : Control, IFocusableMenu
         if (CreditsText == null)
             return;
 
-        Vector2 position = CreditsText.Position;
-        position.Y -= (float)(ScrollSpeed * delta);
-        CreditsText.Position = position;
+        CreditsText.Position += Vector2.Up * (float)(ScrollSpeed * delta);
 
-        float alpha = 1.0f;
-        if (CreditsText.GlobalPosition.Y < FadeStartY)
-        {
-            alpha = Mathf.Clamp(
-                (CreditsText.GlobalPosition.Y - FadeEndY) / (FadeStartY - FadeEndY),
-                0,
-                1
-            );
-        }
-        CreditsText.Modulate = new Color(1, 1, 1, alpha);
-
-        float bottomScreenY = RestartPositionY;
-        float topScreenY = -780;
-        float t = Mathf.Clamp(
-            (CreditsText.GlobalPosition.Y - topScreenY) / (bottomScreenY - topScreenY),
+        float alpha = Mathf.Clamp(
+            1 - (CreditsText.GlobalPosition.Y - FadeStartY) / (FadeEndY - FadeStartY),
             0,
             1
         );
+        CreditsText.Modulate = new Color(1, 1, 1, alpha);
 
-        float scaleValue = Mathf.Lerp(0.05f, 1.0f, t);
-        CreditsText.Scale = new Vector2(scaleValue, scaleValue);
-
-        if (CreditsText.GlobalPosition.Y + CreditsText.Size.Y * CreditsText.Scale.Y < 0)
+        if (CreditsText.GlobalPosition.Y < -CreditsText.Size.Y)
         {
             CreditsText.Position = new Vector2(CreditsText.Position.X, RestartPositionY);
         }

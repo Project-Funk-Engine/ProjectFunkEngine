@@ -47,4 +47,3 @@ We now have a Steam page!
 The repository license **does not** apply to any music or image files in this repository, including but not limited to `.wav`, `.mp3`, `.ogg`, `.png`, `.jpg`, and other media formats. These assets are **not licensed** for use, private or public, without prior written consent from the team.
 
 All source code and documentation files are licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)**.
-
