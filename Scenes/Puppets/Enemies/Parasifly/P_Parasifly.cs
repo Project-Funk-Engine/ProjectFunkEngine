@@ -1,4 +1,4 @@
-using System;
+using FunkEngine;
 using Godot;
 
 public partial class P_Parasifly : EnemyPuppet
@@ -11,6 +11,7 @@ public partial class P_Parasifly : EnemyPuppet
         MaxHealth = 100;
         CurrentHealth = MaxHealth;
         BaseMoney = 5;
+        InitialNote = (13, 2);
         base._Ready();
         var enemTween = CreateTween();
         enemTween.TweenProperty(Sprite, "position", Vector2.Down * 2, 2f).AsRelative();
@@ -19,5 +20,35 @@ public partial class P_Parasifly : EnemyPuppet
         enemTween.SetEase(Tween.EaseType.In);
         enemTween.SetLoops();
         enemTween.Play();
+
+        BattleEvents = new EnemyEffect[]
+        {
+            new EnemyEffect(
+                this,
+                BattleEffectTrigger.OnBattleStart,
+                1,
+                (e, eff, _) =>
+                {
+                    e.BD.RandApplyNote(eff.Owner, 13, 1);
+                }
+            ),
+            new EnemyEffect(
+                this,
+                BattleEffectTrigger.OnDamageInstance,
+                3,
+                (e, eff, val) =>
+                {
+                    if (
+                        val <= 0
+                        || e is not BattleDirector.Harbinger.OnDamageInstanceArgs dArgs
+                        || dArgs.Dmg.Target != eff.Owner
+                        || dArgs.Dmg.Damage < dArgs.Dmg.Target.GetCurrentHealth()
+                    )
+                        return;
+                    e.BD.AddStatus(Targetting.All, StatusEffect.Block, val);
+                    eff.Value = 0;
+                }
+            ),
+        };
     }
 }
