@@ -190,6 +190,21 @@ public partial class Scribe : Node
                 director.AddStatus(Targetting.All, StatusEffect.Block, amt);
             }
         ),
+        new Note(
+            14,
+            "BossBlood",
+            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_BossBlood.png"),
+            2,
+            (director, note, timing) =>
+            {
+                int dmg = (3 - (int)timing) * note.GetBaseVal();
+                director.DealDamage(note, dmg, note.Owner);
+                if (dmg > 0)
+                    note.Owner.Heal((3 - (int)timing));
+            },
+            default,
+            Targetting.Player
+        ),
     };
 
     public static readonly RelicTemplate[] RelicDictionary = new[]
