@@ -66,7 +66,7 @@ public partial class ShopScene : Control
         _cancelRemoveButton.Pressed += CloseRemovalPane;
     }
 
-    public void Initialize()
+    private void Initialize()
     {
         UpdateMoneyLabel();
         GenerateShopItems();
@@ -95,15 +95,18 @@ public partial class ShopScene : Control
         _moneyLabel.Text = StageProducer.PlayerStats.Money.ToString();
     }
 
+    private const int RelicOptions = 3;
+    private const int NoteOptions = 5;
+
     private void GenerateShopItems()
     {
         var relics = Scribe.GetRandomRelics(
-            3,
+            RelicOptions,
             StageProducer.CurRoom + 10,
             StageProducer.PlayerStats.RarityOdds
         );
 
-        var notes = Scribe.GetRandomRewardNotes(3, StageProducer.CurRoom + 10);
+        var notes = Scribe.GetRandomRewardNotes(NoteOptions, StageProducer.CurRoom + 10);
 
         foreach (var relic in relics)
         {
@@ -120,6 +123,12 @@ public partial class ShopScene : Control
 
     private void AddShopItem(GridContainer container, IDisplayable item, int price)
     {
+        if (container == null || item == null)
+        {
+            GD.PushError("AddShopItem called with null!");
+            return;
+        }
+        price = Math.Max(price, 0); //Price can't go negative.
         ShopItem newItem = GD.Load<PackedScene>(ShopItem.LoadPath).Instantiate<ShopItem>();
         newItem.Display(price, item.Texture, item.Name);
         newItem.DisplayButton.Pressed += () => SetPurchasable(item, newItem);
@@ -134,6 +143,8 @@ public partial class ShopScene : Control
 
     private void SetPurchasable(IDisplayable item, ShopItem uItem)
     {
+        if (item == null || uItem == null)
+            return;
         _currentItem = item;
         _currentUItem = uItem;
         _confirmationButton.Disabled = StageProducer.PlayerStats.Money < _currentUItem.Price;
@@ -159,7 +170,7 @@ public partial class ShopScene : Control
 
         CloseConfirmationPopup();
 
-        GetViewport().GuiGetFocusOwner().FindNextValidFocus().GrabFocus();
+        GetViewport().GuiGetFocusOwner().FindNextValidFocus().GrabFocus(); //slightly hacky
         _currentUItem.Visible = false;
         _currentUItem.QueueFree();
         UpdateMoneyLabel();
@@ -244,6 +255,8 @@ public partial class ShopScene : Control
 
     private void AddNoteToPossessions(Note note)
     {
+        if (note == null)
+            return;
         DisplayButton disButton = GD.Load<PackedScene>(DisplayButton.LoadPath)
             .Instantiate<DisplayButton>();
         disButton.Display(note.Texture, note.Name);
@@ -267,6 +280,8 @@ public partial class ShopScene : Control
 
     private void RemoveNote()
     {
+        if (_toRemove == null || _selectedRemoveButton == null)
+            return;
         StageProducer.PlayerStats.Money -= RemovalCost;
         _removalButton.Disabled = true;
         _hasRemoved = true;
