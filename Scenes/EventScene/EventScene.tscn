@@ -1,0 +1,147 @@
+[gd_scene load_steps=10 format=3 uid="uid://u7oppwtmvmci"]
+
+[ext_resource type="Script" uid="uid://md1vhln8ji5h" path="res://Scenes/EventScene/EventScene.cs" id="1_x82kl"]
+[ext_resource type="AudioStream" uid="uid://be5ial13ynf3o" path="res://Audio/Song1.ogg" id="2_vywvm"]
+[ext_resource type="Script" uid="uid://pl57giqyhckb" path="res://Scenes/UI/Scripts/MenuModule.cs" id="2_x82kl"]
+[ext_resource type="Texture2D" uid="uid://qhwve7fik4do" path="res://SharedAssets/BackGround_Full.png" id="4_l56en"]
+[ext_resource type="Texture2D" uid="uid://8u3xvcma81d" path="res://Scenes/UI/Assets/UI_CrystalFrame.png" id="5_erk58"]
+[ext_resource type="Script" uid="uid://cp6t6haqyef7o" path="res://Scenes/AreaBasedBackground.cs" id="5_v3lan"]
+[ext_resource type="Texture2D" uid="uid://burj10os057fx" path="res://Scenes/UI/Assets/UI_CrystalFrameInset.png" id="6_4prsq"]
+[ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="8_4prsq"]
+[ext_resource type="Script" uid="uid://cahjluc6v7ked" path="res://Scenes/UI/TitleScreen/Scripts/SceneChange.cs" id="9_lw2xf"]
+
+[node name="EventScene" type="Node2D" node_paths=PackedStringArray("PlayerMarker", "EventSprite", "_eventDescription", "_buttonContainer", "_continueButton", "_continueContainer")]
+process_mode = 1
+script = ExtResource("1_x82kl")
+PlayerMarker = NodePath("PlayerMarker")
+EventSprite = NodePath("EventSprite")
+_eventDescription = NodePath("Control/MarginContainer/PanelContainer/HBoxContainer/DescBox/DescMargin/Description")
+_buttonContainer = NodePath("Control/MarginContainer/PanelContainer/HBoxContainer/ButtonContainer/VBoxContainer")
+_continueButton = NodePath("Control/MarginContainer/PanelContainer/HBoxContainer/ContinueContainer/ContinueButton")
+_continueContainer = NodePath("Control/MarginContainer/PanelContainer/HBoxContainer/ContinueContainer")
+
+[node name="UILayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("CurSceneNode")]
+script = ExtResource("2_x82kl")
+CurSceneNode = NodePath("..")
+
+[node name="Audio" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("2_vywvm")
+autoplay = true
+
+[node name="PlayerMarker" type="Marker2D" parent="."]
+position = Vector2(158, 125)
+
+[node name="EventSprite" type="Sprite2D" parent="."]
+position = Vector2(385, 125)
+
+[node name="BackGround" type="TextureRect" parent="."]
+z_index = -1
+offset_right = 640.0
+offset_bottom = 178.0
+texture = ExtResource("4_l56en")
+script = ExtResource("5_v3lan")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 640.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+custom_minimum_size = Vector2(0, 180)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -105.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="Control/MarginContainer"]
+layout_mode = 2
+
+[node name="SelectionBG" type="NinePatchRect" parent="Control/MarginContainer/PanelContainer"]
+self_modulate = Color(1, 1, 1, 0.75)
+custom_minimum_size = Vector2(540, 105)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("5_erk58")
+patch_margin_left = 30
+patch_margin_top = 10
+patch_margin_right = 20
+patch_margin_bottom = 27
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="DescBox" type="MarginContainer" parent="Control/MarginContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="DescBackground" type="NinePatchRect" parent="Control/MarginContainer/PanelContainer/HBoxContainer/DescBox"]
+layout_mode = 2
+texture = ExtResource("6_4prsq")
+patch_margin_left = 7
+patch_margin_top = 7
+patch_margin_right = 7
+patch_margin_bottom = 7
+
+[node name="DescMargin" type="MarginContainer" parent="Control/MarginContainer/PanelContainer/HBoxContainer/DescBox"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="Description" type="Label" parent="Control/MarginContainer/PanelContainer/HBoxContainer/DescBox/DescMargin"]
+layout_mode = 2
+size_flags_vertical = 1
+text = ":HeathCliff:"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+clip_text = true
+text_overrun_behavior = 1
+
+[node name="ButtonContainer" type="MarginContainer" parent="Control/MarginContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = -5
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 7
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/PanelContainer/HBoxContainer/ButtonContainer"]
+layout_mode = 2
+
+[node name="ContinueContainer" type="MarginContainer" parent="Control/MarginContainer/PanelContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = -5
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 7
+
+[node name="ContinueButton" type="Button" parent="Control/MarginContainer/PanelContainer/HBoxContainer/ContinueContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+theme = ExtResource("8_4prsq")
+text = "EVENT_CONTINUE_BUTTON"
+script = ExtResource("9_lw2xf")
+ScenePath = 7

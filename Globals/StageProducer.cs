@@ -103,6 +103,7 @@ public partial class StageProducer : Node
         PlayerStats.CurrentHealth = sv.PlayerHealth;
         PlayerStats.Money = sv.Money;
         PlayerStats.Shortcuts = sv.Shortcuts;
+        PlayerStats.MaxComboBar = sv.PlayerMaxCombo;
         IsInitialized = true;
         return true;
     }
@@ -140,13 +141,18 @@ public partial class StageProducer : Node
                         .Instantiate<Node>();
                 });
                 break;
+            case Stages.Event:
+                _loadTask = Task.Run(() =>
+                {
+                    _preloadStage = GD.Load<PackedScene>(EventScene.LoadPath).Instantiate<Node>();
+                });
+                break;
             case Stages.Shop:
                 _loadTask = Task.Run(() =>
                 {
                     _preloadStage = GD.Load<PackedScene>(ShopScene.LoadPath).Instantiate<Node>();
                 });
                 break;
-            case Stages.Event:
             case Stages.Chest:
                 _loadTask = Task.Run(() =>
                 {
