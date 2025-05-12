@@ -371,16 +371,19 @@ public partial class BattleDirector : Node2D
         }
     }
 
-    public void AddStatus(Targetting targetting, StatusEffect status)
+    public void AddStatus(Targetting targetting, StatusEffect status, int amount = 1)
     {
+        if (amount == 0)
+            return;
         PuppetTemplate[] targets = GetTargets(targetting);
         foreach (PuppetTemplate target in targets)
         {
-            target.AddStatusEffect(status);
+            StatusEffect eff = status.CreateInstance(amount);
+            if (!target.AddStatusEffect(eff))
+                continue;
+            eff.StatusEnd += RemoveStatus; //If new status, add effect events
+            AddEvent(eff);
         }
-
-        status.StatusEnd += RemoveStatus;
-        AddEvent(status);
     }
 
     public void RemoveStatus(StatusEffect status)

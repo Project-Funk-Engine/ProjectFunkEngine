@@ -116,7 +116,7 @@ public partial class StatusEffect : TextureRect, IBattleEvent
         return this;
     }
 
-    public StatusEffect GetInstance(int count = 1)
+    public StatusEffect CreateInstance(int count = 1)
     {
         StatusEffect result = GD.Load<PackedScene>(LoadPath).Instantiate<StatusEffect>();
         result.SetCount(count);
