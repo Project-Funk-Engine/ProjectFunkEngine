@@ -55,4 +55,9 @@ public partial class PlayerStats : Resource
 
         CurNotes = CurNotes.Append(nSelection).ToArray();
     }
+
+    public void RemoveNote(Note nSelection)
+    {
+        CurNotes = CurNotes.Where(n => n != nSelection).ToArray();
+    }
 }
