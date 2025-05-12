@@ -1,0 +1,50 @@
+[gd_scene load_steps=9 format=3 uid="uid://dfke16a27sgop"]
+
+[ext_resource type="Script" uid="uid://cbqev0wucp5gx" path="res://Scenes/Puppets/Enemies/Holograeme/P_Holograeme.cs" id="1_qkr3f"]
+[ext_resource type="Texture2D" uid="uid://cjoky2yal24e3" path="res://Scenes/Puppets/Enemies/Holograeme/Holograeme.png" id="2_dj5fa"]
+[ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://Scenes/Puppets/HealthBar.tscn" id="3_qkr3f"]
+[ext_resource type="PackedScene" uid="uid://cdoguwlxehbpg" path="res://Scenes/Puppets/StatusContainer.tscn" id="4_73js3"]
+[ext_resource type="Texture2D" uid="uid://dwa70i6l80ic5" path="res://Scenes/Puppets/Enemies/Holograeme/HoloHand1.png" id="5_qkr3f"]
+[ext_resource type="Texture2D" uid="uid://byr53yh51cxgo" path="res://Scenes/Puppets/Enemies/Holograeme/HoloHand2.png" id="6_73js3"]
+
+[sub_resource type="Gradient" id="Gradient_hguc7"]
+offsets = PackedFloat32Array(0.0227273, 1)
+colors = PackedColorArray(0, 1, 0.0999999, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_545vi"]
+resource_local_to_scene = true
+gradient = SubResource("Gradient_hguc7")
+width = 100
+height = 18
+
+[node name="Holograeme" type="Node2D" node_paths=PackedStringArray("_whiteHand", "_redHand", "HealthBar", "Sprite")]
+script = ExtResource("1_qkr3f")
+_whiteHand = NodePath("Hand2Center")
+_redHand = NodePath("Hand1Center")
+HealthBar = NodePath("ProgressBar")
+Sprite = NodePath("Sprite")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -4)
+texture = ExtResource("2_dj5fa")
+
+[node name="ProgressBar" parent="." instance=ExtResource("3_qkr3f")]
+offset_left = -50.0
+offset_top = 32.0
+offset_right = 52.0
+offset_bottom = 52.0
+texture_progress = SubResource("GradientTexture2D_545vi")
+
+[node name="StatusContainer" parent="." instance=ExtResource("4_73js3")]
+
+[node name="Hand1Center" type="Node2D" parent="."]
+
+[node name="Hand1" type="Sprite2D" parent="Hand1Center"]
+position = Vector2(15, -1)
+texture = ExtResource("5_qkr3f")
+
+[node name="Hand2Center" type="Node2D" parent="."]
+
+[node name="Hand2" type="Sprite2D" parent="Hand2Center"]
+position = Vector2(15, 1)
+texture = ExtResource("6_73js3")

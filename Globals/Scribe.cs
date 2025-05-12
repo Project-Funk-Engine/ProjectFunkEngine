@@ -653,6 +653,18 @@ public partial class Scribe : Node
             "Audio/songMaps/Gobbler.tres",
             [P_Gobbler.LoadPath]
         ),
+        new SongTemplate( //9
+            new SongData
+            {
+                Bpm = 120,
+                SongLength = -1,
+                NumLoops = 5,
+            },
+            "Holograeme",
+            "Audio/Song1.ogg",
+            "Audio/songMaps/Song1.tres",
+            [P_Holograeme.LoadPath]
+        ),
     };
 
     //Needs to be strictly maintained based on what the player has obtained.
