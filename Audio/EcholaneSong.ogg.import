@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/EcholaneSong.ogg-98376f334d8ef68ec1401c46cae3
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0.0
 bpm=0.0
 beat_count=0
