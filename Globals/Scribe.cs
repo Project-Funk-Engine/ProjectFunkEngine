@@ -617,6 +617,18 @@ public partial class Scribe : Node
             "Audio/songMaps/TutorialBoss176_7.tres",
             [P_Effigy.LoadPath]
         ),
+        new SongTemplate(
+            new SongData
+            {
+                Bpm = 120,
+                SongLength = -1,
+                NumLoops = 4,
+            },
+            "EcholaneSong",
+            "Audio/EcholaneSong.ogg",
+            "Audio/songMaps/EcholaneSong.tres",
+            [P_Turtle.LoadPath]
+        ),
     };
 
     //Needs to be strictly maintained based on what the player has obtained.

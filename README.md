@@ -34,6 +34,7 @@ We now have a Steam page!
 - **Battle Song 1**: [Piano loops 181 – josefpres](https://freesound.org/people/josefpres/sounds/789998/)
 - **Battle Song 2**: [Dark loops 220 – josefpres](https://freesound.org/people/josefpres/sounds/620230/)
 - **Tutorial Song**: [Mute bass 002 – josefpres](https://freesound.org/people/josefpres/sounds/792389/)
+- **Turtle Boss**: [Echolane](https://echoln.bandcamp.com/)
 
 ### Images
 - **Input Buttons**: [inputKeys – Nicolae (Xelu) Berbece](https://thoseawesomeguys.com/prompts/)
