@@ -10,4 +10,5 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_26ea7")
+icon_alignment = 1
 script = ExtResource("1_7lpm6")

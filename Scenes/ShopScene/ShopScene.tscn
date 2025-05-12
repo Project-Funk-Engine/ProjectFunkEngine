@@ -1,176 +1,66 @@
-[gd_scene load_steps=2 format=3 uid="uid://b35sk5syi24et"]
+[gd_scene load_steps=9 format=3 uid="uid://b35sk5syi24et"]
 
-[ext_resource type="Script" uid="uid://dg0xaieus84ns" path="res://Scenes/ShopScene/ShopUI.cs" id="1_klv1o"]
+[ext_resource type="Script" uid="uid://pl57giqyhckb" path="res://Scenes/UI/Scripts/MenuModule.cs" id="2_723s6"]
+[ext_resource type="Texture2D" uid="uid://qhwve7fik4do" path="res://SharedAssets/BackGround_Full.png" id="2_dt33i"]
+[ext_resource type="AudioStream" uid="uid://b52r6rgf4qsdr" path="res://Scenes/UI/TitleScreen/Assets/TitleSong.ogg" id="3_2rgbi"]
+[ext_resource type="Script" uid="uid://cp6t6haqyef7o" path="res://Scenes/AreaBasedBackground.cs" id="3_n34g6"]
+[ext_resource type="PackedScene" uid="uid://eus17omen6yk" path="res://Scenes/Puppets/PlayerPuppet.tscn" id="4_jpqhk"]
+[ext_resource type="PackedScene" uid="uid://bk0js6ji42xrt" path="res://Scenes/ShopScene/ShopUI.tscn" id="8_2xatg"]
+[ext_resource type="Shader" uid="uid://dp36iuuy414k1" path="res://SharedAssets/StarryNight.gdshader" id="11_0afww"]
 
-[node name="ShopScene" type="CanvasLayer" node_paths=PackedStringArray("ShopHubMenu", "RelicMenu", "NoteMenu", "PossessionsMenu", "RelicTabButton", "NoteTabButton", "PossessionsTabButton", "RelicBackButton", "NoteBackButton", "PossessionsBackButton", "RelicContainer", "NoteContainer", "PossessionsContainer", "MoneyLabel", "ExitButton")]
-offset = Vector2(78.92, 154.04)
-transform = Transform2D(1, 0, 0, 1, 78.92, 154.04)
-script = ExtResource("1_klv1o")
-ShopHubMenu = NodePath("ShopHubMenu")
-RelicMenu = NodePath("RelicMenu")
-NoteMenu = NodePath("NoteMenu")
-PossessionsMenu = NodePath("PossessionsMenu")
-RelicTabButton = NodePath("ShopHubMenu/RelicTabButton")
-NoteTabButton = NodePath("ShopHubMenu/NoteTabButton")
-PossessionsTabButton = NodePath("ShopHubMenu/PossessionsTabButton")
-RelicBackButton = NodePath("RelicMenu/RelicBackButton")
-NoteBackButton = NodePath("NoteMenu/NotesBackButton")
-PossessionsBackButton = NodePath("PossessionsMenu/PossessionsBackButton")
-RelicContainer = NodePath("RelicMenu/RelicContainer")
-NoteContainer = NodePath("NoteMenu/NoteContainer")
-PossessionsContainer = NodePath("PossessionsMenu/PossessionsContainer")
-MoneyLabel = NodePath("MoneyLabel")
-ExitButton = NodePath("ShopHubMenu/ExitButton")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jpqhk"]
+shader = ExtResource("11_0afww")
+shader_parameter/bg_top_color = Vector4(0.18, 0.08, 0.12, 0)
+shader_parameter/bg_bottom_color = Vector4(0.028, 0.008, 0.184, 0)
+shader_parameter/gradient_ratio = 1.0
+shader_parameter/time_scale = 1.0
 
-[node name="ShopHubMenu" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="ShopScene" type="Node2D"]
 
-[node name="RelicTabButton" type="Button" parent="ShopHubMenu"]
-layout_mode = 0
-offset_left = 384.08
-offset_top = -85.04
-offset_right = 457.08
-offset_bottom = -65.04
-text = "Buy Relics"
+[node name="UILayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("CurSceneNode")]
+script = ExtResource("2_723s6")
+CurSceneNode = NodePath("..")
 
-[node name="NoteTabButton" type="Button" parent="ShopHubMenu"]
-offset_left = 384.08
-offset_top = -55.04
-offset_right = 456.08
-offset_bottom = -35.04
-text = "Buy Notes"
+[node name="Audio" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = ExtResource("3_2rgbi")
+autoplay = true
 
-[node name="PossessionsTabButton" type="Button" parent="ShopHubMenu"]
-offset_left = 384.08
-offset_top = -26.04
-offset_right = 479.08
-offset_bottom = -6.03999
-text = "Remove Notes"
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+z_index = -2
+offset_top = 178.0
+offset_right = 640.0
+offset_bottom = 358.0
+mouse_filter = 2
 
-[node name="ExitButton" type="Button" parent="ShopHubMenu"]
-offset_left = 505.08
-offset_top = 177.96
-offset_right = 553.08
-offset_bottom = 197.96
-text = "Exit"
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(640, 180)
+render_target_update_mode = 4
 
-[node name="RelicMenu" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="StarShader" type="ColorRect" parent="SubViewportContainer/SubViewport"]
+z_index = -1
+material = SubResource("ShaderMaterial_jpqhk")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
 
-[node name="RelicsLabel" type="Control" parent="RelicMenu"]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 27.08
-offset_top = 26.96
-offset_right = 67.08
-offset_bottom = 66.96
-scale = Vector2(1.34, 1.34)
+[node name="PlayerMarker" type="Marker2D" parent="."]
+position = Vector2(579, 126)
 
-[node name="NewRelics" type="Label" parent="RelicMenu/RelicsLabel"]
-layout_mode = 0
-offset_left = 108.08
-offset_top = -85.04
-offset_right = 182.08
-offset_bottom = -73.04
-text = "New Relics"
-horizontal_alignment = 2
+[node name="PlayerPuppet" parent="PlayerMarker" instance=ExtResource("4_jpqhk")]
 
-[node name="RelicContainer" type="VBoxContainer" parent="RelicMenu"]
-offset_left = 181.08
-offset_top = -65.04
-offset_right = 221.08
-offset_bottom = -25.04
+[node name="BackGround" type="TextureRect" parent="."]
+z_index = -1
+offset_right = 640.0
+offset_bottom = 180.0
+texture = ExtResource("2_dt33i")
+script = ExtResource("3_n34g6")
 
-[node name="RelicBackButton" type="Button" parent="RelicMenu"]
-offset_left = 505.08
-offset_top = 177.96
-offset_right = 553.08
-offset_bottom = 197.96
-text = "Back"
-
-[node name="NoteMenu" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="NotesLabel" type="Control" parent="NoteMenu"]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 25.08
-offset_top = 26.96
-offset_right = 65.08
-offset_bottom = 66.96
-scale = Vector2(1.34, 1.34)
-
-[node name="NewNotes" type="Label" parent="NoteMenu/NotesLabel"]
-layout_mode = 0
-offset_left = 108.08
-offset_top = -85.04
-offset_right = 182.08
-offset_bottom = -73.04
-text = "New Notes"
-horizontal_alignment = 2
-
-[node name="NoteContainer" type="VBoxContainer" parent="NoteMenu"]
-offset_left = 186.08
-offset_top = -70.04
-offset_right = 226.08
-offset_bottom = -30.04
-
-[node name="NotesBackButton" type="Button" parent="NoteMenu"]
-offset_left = 505.08
-offset_top = 177.96
-offset_right = 553.08
-offset_bottom = 197.96
-text = "Back"
-
-[node name="PossessionsMenu" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="RemoveLabel" type="Control" parent="PossessionsMenu"]
-layout_mode = 3
-anchors_preset = 0
-offset_left = -351.92
-offset_top = 10.96
-offset_right = -311.92
-offset_bottom = 50.96
-scale = Vector2(1.34, 1.34)
-
-[node name="RemoveNotes" type="Label" parent="PossessionsMenu/RemoveLabel"]
-layout_mode = 0
-offset_left = 398.024
-offset_top = -72.6764
-offset_right = 485.024
-offset_bottom = -60.6764
-text = "Remove Notes"
-horizontal_alignment = 2
-
-[node name="PossessionsContainer" type="VBoxContainer" parent="PossessionsMenu"]
-offset_left = 188.433
-offset_top = -61.04
-offset_right = 228.433
-offset_bottom = -21.04
-
-[node name="PossessionsBackButton" type="Button" parent="PossessionsMenu"]
-offset_left = 505.08
-offset_top = 177.96
-offset_right = 553.08
-offset_bottom = 197.96
-text = "Back"
-
-[node name="MoneyLabel" type="Label" parent="."]
-offset_left = 473.08
-offset_top = -145.04
-offset_right = 513.08
-offset_bottom = -133.04
-horizontal_alignment = 2
+[node name="ShopUI" parent="." instance=ExtResource("8_2xatg")]
+offset_right = 640.0
+offset_bottom = 360.0

@@ -24,7 +24,7 @@ ChestButton = NodePath("CenterContainer/VBoxContainer/ChestButton")
 PlayerMarker = NodePath("PlayerMarker")
 
 [node name="Audio" type="AudioStreamPlayer" parent="."]
-unique_name_in_owner = true
+process_mode = 3
 stream = ExtResource("2_x78jo")
 autoplay = true
 

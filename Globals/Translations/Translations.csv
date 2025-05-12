@@ -30,6 +30,10 @@ CHEST_ROOM_REWARDS,Reward Selection!,奖励!
 CHEST_ROOM_SKIP,Skip,跳过
 CHEST_ROOM_ACCEPT,Accept,接受
 CHEST_ROOM_REROLL,Rerolls: ,重刷: 
+SHOP_REMOVAL,Remove A Note,"去掉一个音符"
+SHOP_CONFIRM,Confirm Purchase,购买已确认
+SHOP_CANCEL,Cancel,取消操作
+REMOVAL_COST,Removal Fee,删除费用
 BATTLE_ROOM_BEGIN_BUTTON,"Begin Battle [Enter]","开始战斗 [Enter]"
 BATTLE_ROOM_PERFECT,Perfect,精准
 BATTLE_ROOM_GOOD,Good,良好
