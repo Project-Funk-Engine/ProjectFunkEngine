@@ -41,9 +41,10 @@ public partial class P_Holograeme : EnemyPuppet
         _curTween = CreateTween();
 
         _curTween.TweenProperty(_whiteHand, "rotation", _redHand.Rotation, .1f);
-        _curTween.SetParallel();
-        _curTween.TweenProperty(_whiteHand, "rotation", Mathf.DegToRad(630), .5f);
-        _curTween.TweenProperty(_redHand, "rotation", Mathf.DegToRad(630), .5f);
+        _curTween.TweenProperty(_whiteHand, "rotation", Mathf.DegToRad(-450) - 2 * Mathf.Pi, .4f);
+        _curTween
+            .Parallel()
+            .TweenProperty(_redHand, "rotation", Mathf.DegToRad(-450) - 2 * Mathf.Pi, .4f);
         _curTween.TweenCallback(
             Callable.From(() =>
             {

@@ -38,6 +38,8 @@ public partial class BattleDirector : Node2D
 
     private bool _initializedPlaying;
 
+    public static bool AutoPlay = true;
+
     #endregion
 
     #region Initialization
