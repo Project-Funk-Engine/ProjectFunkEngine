@@ -35,6 +35,7 @@ We now have a Steam page!
 - **Battle Song 2**: [Dark loops 220 – josefpres](https://freesound.org/people/josefpres/sounds/620230/)
 - **Tutorial Song**: [Mute bass 002 – josefpres](https://freesound.org/people/josefpres/sounds/792389/)
 - **Turtle Boss**: [Echolane](https://echoln.bandcamp.com/)
+- **CyberFox Song** [Above All - HOME](https://soundcloud.com/home-2001/home-before-the-night-05-above)
 
 ### Images
 - **Input Buttons**: [inputKeys – Nicolae (Xelu) Berbece](https://thoseawesomeguys.com/prompts/)

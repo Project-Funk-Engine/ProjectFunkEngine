@@ -629,6 +629,18 @@ public partial class Scribe : Node
             "Audio/songMaps/EcholaneSong.tres",
             [P_Turtle.LoadPath]
         ),
+        new SongTemplate(
+            new SongData
+            {
+                Bpm = 110,
+                SongLength = -1,
+                NumLoops = 4,
+            },
+            "CyberFoxSong",
+            "Audio/CyberFoxSong.ogg",
+            "Audio/songMaps/CyberFoxSong.tres",
+            [P_CyberFox.LoadPath]
+        ),
     };
 
     //Needs to be strictly maintained based on what the player has obtained.
