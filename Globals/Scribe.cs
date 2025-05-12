@@ -641,6 +641,18 @@ public partial class Scribe : Node
             "Audio/songMaps/CyberFoxSong.tres",
             [P_CyberFox.LoadPath]
         ),
+        new SongTemplate(
+            new SongData
+            {
+                Bpm = 120,
+                SongLength = -1,
+                NumLoops = 6,
+            },
+            "GobblerSong",
+            "Audio/Gobbler.ogg",
+            "Audio/songMaps/Gobbler.tres",
+            [P_Gobbler.LoadPath]
+        ),
     };
 
     //Needs to be strictly maintained based on what the player has obtained.

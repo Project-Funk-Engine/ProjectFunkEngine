@@ -129,7 +129,7 @@ public class MapLevels
         new MapLevels(
             2,
             CityMapConfig,
-            [7],
+            [7, 8],
             [6],
             [0],
             [],
