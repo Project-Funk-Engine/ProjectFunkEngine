@@ -1,5 +1,6 @@
 using FunkEngine;
 using Godot;
+using GodotSteam;
 
 /**
  * <summary>Simple system for any scene which should display pause and inventory screen.</summary>
@@ -19,6 +20,12 @@ public partial class MenuModule : CanvasLayer, IFocusableMenu
                 OpenPauseMenu(); //Pause on disconnection
         };
         GetTree().GetRoot().FocusExited += OpenPauseMenu;
+        Steam.OverlayToggled += OpenPauseMenu;
+    }
+
+    public override void _ExitTree()
+    {
+        Steam.OverlayToggled -= OpenPauseMenu;
     }
 
     public void ResumeFocus()
@@ -49,7 +56,7 @@ public partial class MenuModule : CanvasLayer, IFocusableMenu
 
     public override void _Input(InputEvent @event)
     {
-        if (!GetWindow().HasFocus())
+        if (ControlSettings.IsOutOfFocus(this))
         {
             GetViewport().SetInputAsHandled();
             return;
@@ -67,6 +74,12 @@ public partial class MenuModule : CanvasLayer, IFocusableMenu
             AddChild(invenMenu);
             invenMenu.OpenMenu(this);
         }
+    }
+
+    private void OpenPauseMenu(bool active, bool initiated = false, uint id = 0)
+    {
+        if (active)
+            OpenPauseMenu();
     }
 
     private void OpenPauseMenu()

@@ -1,0 +1,64 @@
+[gd_scene load_steps=4 format=3 uid="uid://dgjmb0wllsj41"]
+
+[ext_resource type="Script" uid="uid://drt21hext7pm2" path="res://Scenes/UI/Options/Scripts/CreditsMenu.cs" id="1_n36fd"]
+[ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="3_agb8c"]
+[ext_resource type="PackedScene" uid="uid://dfevfib11kou1" path="res://Scenes/ChartViewport/ChartViewport.tscn" id="3_ch0mg"]
+
+[node name="Credits" type="Control" node_paths=PackedStringArray("CreditsText", "_returnButton")]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_n36fd")
+CreditsText = NodePath("Node2D/Label")
+ScrollSpeed = 24.0
+RestartPositionY = 400.0
+_returnButton = NodePath("Return Button")
+
+[node name="Node2D2" type="Node2D" parent="."]
+position = Vector2(80, -12.26)
+scale = Vector2(2.255, 2.01)
+
+[node name="SubViewport" parent="Node2D2" instance=ExtResource("3_ch0mg")]
+offset_left = -57.1486
+offset_top = 5.0
+offset_right = 422.851
+offset_bottom = 185.0
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Label" type="Label" parent="Node2D"]
+offset_left = 217.0
+offset_top = -3.0
+offset_right = 467.0
+offset_bottom = 410.0
+text = "Credits
+
+Programmers
+ Jarod Spanger: Project Lead
+Connor Lowe
+Raul Mojarro
+Thomas Wessel
+Michael Quinn
+
+Artists
+Ares Atlas
+Evelyn Fu
+Emily Wen
+
+Sound
+Sam Meyer: Composer"
+horizontal_alignment = 1
+
+[node name="Return Button" type="Button" parent="."]
+layout_mode = 2
+offset_left = 570.0
+offset_top = 314.0
+offset_right = 631.0
+offset_bottom = 351.0
+theme = ExtResource("3_agb8c")
+text = "Return"
+icon_alignment = 1

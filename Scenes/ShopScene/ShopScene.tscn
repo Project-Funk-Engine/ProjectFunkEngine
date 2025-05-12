@@ -1,0 +1,66 @@
+[gd_scene load_steps=9 format=3 uid="uid://b35sk5syi24et"]
+
+[ext_resource type="Script" uid="uid://pl57giqyhckb" path="res://Scenes/UI/Scripts/MenuModule.cs" id="2_723s6"]
+[ext_resource type="Texture2D" uid="uid://qhwve7fik4do" path="res://SharedAssets/BackGround_Full.png" id="2_dt33i"]
+[ext_resource type="AudioStream" uid="uid://b52r6rgf4qsdr" path="res://Scenes/UI/TitleScreen/Assets/TitleSong.ogg" id="3_2rgbi"]
+[ext_resource type="Script" uid="uid://cp6t6haqyef7o" path="res://Scenes/AreaBasedBackground.cs" id="3_n34g6"]
+[ext_resource type="PackedScene" uid="uid://eus17omen6yk" path="res://Scenes/Puppets/PlayerPuppet.tscn" id="4_jpqhk"]
+[ext_resource type="PackedScene" uid="uid://bk0js6ji42xrt" path="res://Scenes/ShopScene/ShopUI.tscn" id="8_2xatg"]
+[ext_resource type="Shader" uid="uid://dp36iuuy414k1" path="res://SharedAssets/StarryNight.gdshader" id="11_0afww"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jpqhk"]
+shader = ExtResource("11_0afww")
+shader_parameter/bg_top_color = Vector4(0.18, 0.08, 0.12, 0)
+shader_parameter/bg_bottom_color = Vector4(0.028, 0.008, 0.184, 0)
+shader_parameter/gradient_ratio = 1.0
+shader_parameter/time_scale = 1.0
+
+[node name="ShopScene" type="Node2D"]
+
+[node name="UILayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("CurSceneNode")]
+script = ExtResource("2_723s6")
+CurSceneNode = NodePath("..")
+
+[node name="Audio" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = ExtResource("3_2rgbi")
+autoplay = true
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+z_index = -2
+offset_top = 178.0
+offset_right = 640.0
+offset_bottom = 358.0
+mouse_filter = 2
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(640, 180)
+render_target_update_mode = 4
+
+[node name="StarShader" type="ColorRect" parent="SubViewportContainer/SubViewport"]
+z_index = -1
+material = SubResource("ShaderMaterial_jpqhk")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="PlayerMarker" type="Marker2D" parent="."]
+position = Vector2(579, 126)
+
+[node name="PlayerPuppet" parent="PlayerMarker" instance=ExtResource("4_jpqhk")]
+
+[node name="BackGround" type="TextureRect" parent="."]
+z_index = -1
+offset_right = 640.0
+offset_bottom = 180.0
+texture = ExtResource("2_dt33i")
+script = ExtResource("3_n34g6")
+
+[node name="ShopUI" parent="." instance=ExtResource("8_2xatg")]
+offset_right = 640.0
+offset_bottom = 360.0

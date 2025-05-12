@@ -154,6 +154,13 @@ public partial class ScoringScreen : CanvasLayer
     private void FinishScoring()
     {
         StageProducer.PlayerStats.Money += FinalMoney;
+
+        //Achievement check for 1k money
+        if (StageProducer.PlayerStats.Money >= 1000)
+        {
+            SteamWhisperer.PopAchievement("money");
+        }
+
         Finished?.Invoke();
         QueueFree();
     }

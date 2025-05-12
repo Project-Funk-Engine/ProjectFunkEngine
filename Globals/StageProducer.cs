@@ -1,8 +1,7 @@
-using System;
 using System.Threading.Tasks;
 using FunkEngine;
-using FunkEngine.Classes.MidiMaestro;
 using Godot;
+using GodotSteam;
 
 /**
  * <summary>StageProducer: Handles scene transitions and persistent gameplay data.</summary>
@@ -142,13 +141,19 @@ public partial class StageProducer : Node
                         .Instantiate<Node>();
                 });
                 break;
-            case Stages.Shop:
             case Stages.Event:
                 _loadTask = Task.Run(() =>
                 {
                     _preloadStage = GD.Load<PackedScene>(EventScene.LoadPath).Instantiate<Node>();
                 });
                 break;
+            case Stages.Shop:
+                _loadTask = Task.Run(() =>
+                {
+                    _preloadStage = GD.Load<PackedScene>(ShopScene.LoadPath).Instantiate<Node>();
+                });
+                break;
+            case Stages.Event:
             case Stages.Chest:
                 _loadTask = Task.Run(() =>
                 {
@@ -261,7 +266,7 @@ public partial class StageProducer : Node
     {
         //Consume controller input, if window out of focus.
         //This handles ui_input, other scenes need to consume their own.
-        if (!GetWindow().HasFocus())
+        if (ControlSettings.IsOutOfFocus(this))
         {
             GetViewport().SetInputAsHandled();
             return;
