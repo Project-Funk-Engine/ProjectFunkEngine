@@ -243,6 +243,7 @@ public partial class ShopScene : Control
         _selectedRemoveButton = null;
         _noteGrid.Visible = true;
         _relicGrid.Visible = true;
+        ChangeDescription(null);
     }
 
     private void PopulatePossessedNotes()
