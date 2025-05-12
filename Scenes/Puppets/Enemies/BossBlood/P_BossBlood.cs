@@ -33,6 +33,23 @@ public partial class P_BossBlood : EnemyPuppet
                     e.BD.RandApplyNote(eff.Owner, 14, 1);
                 }
             ),
+            new EnemyEffect(
+                this,
+                BattleEffectTrigger.OnDamageInstance,
+                1,
+                (e, eff, val) =>
+                {
+                    if (e is not BattleDirector.Harbinger.OnDamageInstanceArgs dArgs)
+                        return;
+                    if (
+                        dArgs.Dmg.Target == this
+                        && dArgs.Dmg.Target.GetCurrentHealth() <= dArgs.Dmg.Damage
+                    )
+                    {
+                        SteamWhisperer.PopAchievement("actOneComp");
+                    }
+                }
+            ),
         };
     }
 }

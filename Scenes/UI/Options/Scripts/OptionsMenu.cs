@@ -50,7 +50,7 @@ public partial class OptionsMenu : CanvasLayer, IFocusableMenu
 
     public override void _Input(InputEvent @event)
     {
-        if (!GetWindow().HasFocus())
+        if (ControlSettings.IsOutOfFocus(this))
         {
             GetViewport().SetInputAsHandled();
             return;
@@ -123,5 +123,13 @@ public partial class OptionsMenu : CanvasLayer, IFocusableMenu
         HowToPlay howtoPlay = GD.Load<PackedScene>(HowToPlay.LoadPath).Instantiate<HowToPlay>();
         AddChild(howtoPlay);
         howtoPlay.OpenMenu(this);
+    }
+
+    private void OpenCredits()
+    {
+        CreditsMenu creditsMenu = GD.Load<PackedScene>(CreditsMenu.LoadPath)
+            .Instantiate<CreditsMenu>();
+        AddChild(creditsMenu);
+        creditsMenu.OpenMenu(this);
     }
 }

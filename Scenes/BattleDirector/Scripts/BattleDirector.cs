@@ -561,6 +561,7 @@ public partial class BattleDirector : Node2D
 
         public void InvokeNotePlaced(ArrowData data)
         {
+            SteamWhisperer.IncrementNoteCount();
             NotePlaced?.Invoke(new NoteEventArgs(_curDirector, data));
         }
 

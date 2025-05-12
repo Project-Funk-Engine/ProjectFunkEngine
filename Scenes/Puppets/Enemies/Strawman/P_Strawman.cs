@@ -102,6 +102,7 @@ public partial class P_Strawman : EnemyPuppet
                     )
                     {
                         SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.FirstTime, false);
+                        SteamWhisperer.PopAchievement("tutorial");
                     }
                 }
             ),

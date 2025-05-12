@@ -44,6 +44,15 @@ public partial class PlayerStats : Resource
 
     public void AddNote(Note nSelection)
     {
+        //If the note is vampire, check to see if we already have 2 of them
+        if (
+            nSelection.Name == "PlayerVampire"
+            && CurNotes.Count(note => note.Name == "PlayerVampire") >= 2
+        )
+        {
+            SteamWhisperer.PopAchievement("vampire");
+        }
+
         CurNotes = CurNotes.Append(nSelection).ToArray();
     }
 
