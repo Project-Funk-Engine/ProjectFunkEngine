@@ -39,6 +39,7 @@ public partial class BattleDirector : Node2D
     private bool _initializedPlaying;
 
     public static bool AutoPlay = true;
+    public static bool PlayerDisabled = true;
 
     #endregion
 

@@ -64,6 +64,8 @@ public partial class InputHandler : Node2D
             SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputType, "WASD");
         }
 
+        if (BattleDirector.PlayerDisabled)
+            return;
         foreach (var arrow in Arrows)
         {
             if (Input.IsActionJustPressed(scheme + "_" + arrow.Key))
