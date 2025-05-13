@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://b35sk5syi24et"]
+[gd_scene load_steps=8 format=3 uid="uid://b35sk5syi24et"]
 
 [ext_resource type="Script" uid="uid://pl57giqyhckb" path="res://Scenes/UI/Scripts/MenuModule.cs" id="2_723s6"]
 [ext_resource type="Texture2D" uid="uid://qhwve7fik4do" path="res://SharedAssets/BackGround_Full.png" id="2_dt33i"]
-[ext_resource type="AudioStream" uid="uid://b52r6rgf4qsdr" path="res://Scenes/UI/TitleScreen/Assets/TitleSong.ogg" id="3_2rgbi"]
 [ext_resource type="Script" uid="uid://cp6t6haqyef7o" path="res://Scenes/AreaBasedBackground.cs" id="3_n34g6"]
 [ext_resource type="PackedScene" uid="uid://eus17omen6yk" path="res://Scenes/Puppets/PlayerPuppet.tscn" id="4_jpqhk"]
 [ext_resource type="PackedScene" uid="uid://bk0js6ji42xrt" path="res://Scenes/ShopScene/ShopUI.tscn" id="8_2xatg"]
@@ -20,11 +19,6 @@ shader_parameter/time_scale = 1.0
 [node name="UILayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("CurSceneNode")]
 script = ExtResource("2_723s6")
 CurSceneNode = NodePath("..")
-
-[node name="Audio" type="AudioStreamPlayer" parent="."]
-process_mode = 3
-stream = ExtResource("3_2rgbi")
-autoplay = true
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 z_index = -2

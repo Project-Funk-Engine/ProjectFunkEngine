@@ -66,6 +66,11 @@ public partial class ShopScene : Control
         _cancelRemoveButton.Pressed += CloseRemovalPane;
     }
 
+    public override void _EnterTree()
+    {
+        BgAudioPlayer.LiveInstance.PlayLevelMusic();
+    }
+
     private void Initialize()
     {
         UpdateMoneyLabel();
