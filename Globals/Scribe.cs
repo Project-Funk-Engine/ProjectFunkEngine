@@ -632,9 +632,9 @@ public partial class Scribe : Node
         new SongTemplate(
             new SongData
             {
-                Bpm = 110,
+                Bpm = 180,
                 SongLength = -1,
-                NumLoops = 4,
+                NumLoops = 1,
             },
             "CyberFoxSong",
             "Audio/CyberFoxSong.ogg",
