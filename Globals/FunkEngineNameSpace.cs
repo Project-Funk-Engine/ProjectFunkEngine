@@ -142,7 +142,7 @@ public struct Beat : IEquatable<Beat>, IComparable<Beat>
 
     public double GetBeatInSong()
     {
-        return BeatPos + Loop * TimeKeeper.BeatsPerLoop % TimeKeeper.BeatsPerSong;
+        return (BeatPos + Loop * TimeKeeper.BeatsPerLoop) % TimeKeeper.BeatsPerSong;
     }
 
     public Beat IncDecLoop(int amount)

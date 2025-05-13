@@ -12,6 +12,9 @@ public partial class MenuModule : CanvasLayer, IFocusableMenu
 
     private Control _lastFocused { get; set; }
 
+    [Export]
+    bool _ignorePause = false;
+
     public override void _Ready()
     {
         Input.JoyConnectionChanged += (device, connected) =>
@@ -84,6 +87,8 @@ public partial class MenuModule : CanvasLayer, IFocusableMenu
 
     private void OpenPauseMenu()
     {
+        if (_ignorePause)
+            return;
         if (CurSceneNode.ProcessMode == ProcessModeEnum.Disabled)
             return;
         var pauseMenu = GD.Load<PackedScene>(PauseMenu.LoadPath).Instantiate<PauseMenu>();

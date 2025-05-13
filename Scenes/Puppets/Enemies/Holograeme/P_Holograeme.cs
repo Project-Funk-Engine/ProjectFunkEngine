@@ -41,7 +41,7 @@ public partial class P_Holograeme : EnemyPuppet
                 {
                     if (e is BattleDirector.Harbinger.NoteHitArgs nArgs)
                     {
-                        TweenDir(_hands[_curHandIdx], nArgs.Type);
+                        TweenDir(nArgs.Type);
                     }
                 }
             ),
@@ -70,26 +70,28 @@ public partial class P_Holograeme : EnemyPuppet
     }
 
     private Node2D[] _hands = new Node2D[2];
-    private int _curHandIdx;
-
-    private void IncrCurHand()
-    {
-        _curHandIdx = (_curHandIdx + 1) % _hands.Length;
-    }
 
     private int[] _dirToAngle = [270, 90, 180, 0]; //ArrowType to angle in deg
 
-    private void TweenDir(Node2D hand, ArrowType dir)
+    private void TweenDir(ArrowType dir)
     {
+        int handIdx = 0;
+        if (dir == ArrowType.Down || dir == ArrowType.Up)
+            handIdx = 1;
+
         _curTween = CreateTween();
 
-        _curTween.TweenProperty(hand, "rotation", Mathf.DegToRad(_dirToAngle[(int)dir]), .1f);
+        _curTween.TweenProperty(
+            _hands[handIdx],
+            "rotation",
+            Mathf.DegToRad(_dirToAngle[(int)dir]),
+            .1f
+        );
         _curTween.TweenCallback(
             Callable.From(() =>
             {
-                hand.RotationDegrees = _dirToAngle[(int)dir];
+                _hands[handIdx].RotationDegrees = _dirToAngle[(int)dir];
             })
         );
-        IncrCurHand();
     }
 }
