@@ -68,7 +68,7 @@ public partial class ShopScene : Control
 
     public override void _EnterTree()
     {
-        BgAudioPlayer.LiveInstance.PlayLevelMusic();
+        BgAudioPlayer.LiveInstance.ResumeLevelMusic();
     }
 
     private void Initialize()
