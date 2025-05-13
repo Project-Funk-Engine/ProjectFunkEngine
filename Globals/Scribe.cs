@@ -665,6 +665,18 @@ public partial class Scribe : Node
             "Audio/songMaps/Song1.tres",
             [P_Holograeme.LoadPath]
         ),
+        new SongTemplate( //10
+            new SongData
+            {
+                Bpm = 107,
+                SongLength = -1,
+                NumLoops = 7,
+            },
+            "Shapes",
+            "Audio/Shapes.ogg",
+            "Audio/songMaps/Shapes.tres",
+            [P_Shapes.LoadPath]
+        ),
     };
 
     //Needs to be strictly maintained based on what the player has obtained.
