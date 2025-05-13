@@ -14,8 +14,10 @@ public partial class P_CyberFox : EnemyPuppet
         BaseMoney = 5;
         base._Ready();
         var enemTween = CreateTween();
-        enemTween.TweenProperty(Sprite, "position", Vector2.Right * 10, 1f).AsRelative();
-        enemTween.TweenProperty(Sprite, "position", Vector2.Left * 10, 1f).AsRelative();
+        enemTween.TweenProperty(Sprite, "position", Vector2.Right * 10, 0.5f).AsRelative();
+        enemTween.TweenProperty(Sprite, "position", Vector2.Up * 5, 0.25f).AsRelative();
+        enemTween.TweenProperty(Sprite, "position", Vector2.Down * 5, 0.25f).AsRelative();
+        enemTween.TweenProperty(Sprite, "position", Vector2.Left * 10, 0.5f).AsRelative();
         enemTween.TweenProperty(Sprite, "position", Vector2.Up * 5, 0.25f).AsRelative();
         enemTween.TweenProperty(Sprite, "position", Vector2.Down * 5, 0.25f).AsRelative();
         enemTween.TweenProperty(Sprite, "position", Vector2.Up * 5, 0.25f).AsRelative();

@@ -15,10 +15,11 @@ gradient = SubResource("Gradient_c7cx1")
 width = 100
 height = 18
 
-[node name="EnemPuppet" type="Node2D" node_paths=PackedStringArray("HealthBar", "Sprite")]
+[node name="EnemPuppet" type="Node2D" node_paths=PackedStringArray("HealthBar", "Sprite", "_statusContainer")]
 script = ExtResource("1_e1x4p")
 HealthBar = NodePath("ProgressBar")
 Sprite = NodePath("Sprite")
+_statusContainer = NodePath("StatusContainer")
 
 [node name="StatusContainer" parent="." instance=ExtResource("2_t5538")]
 offset_top = -6.0
