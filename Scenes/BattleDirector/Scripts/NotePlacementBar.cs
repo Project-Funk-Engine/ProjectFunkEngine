@@ -236,6 +236,8 @@ public partial class NotePlacementBar : Node
 
     public void HandleTiming(Timing timed, ArrowType type)
     {
+        if (BattleDirector.PlayerDisabled)
+            return;
         if (timed == Timing.Miss)
         {
             MissNote();

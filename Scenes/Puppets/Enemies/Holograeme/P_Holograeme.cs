@@ -6,11 +6,20 @@ public partial class P_Holograeme : EnemyPuppet
     public static new readonly string LoadPath =
         "res://Scenes/Puppets/Enemies/Holograeme/Holograeme.tscn";
 
+    private readonly string NoteCoverPath = "res://Scenes/Puppets/Enemies/Holograeme/NoteCover.png";
+
     [Export]
     private Node2D _whiteHand;
 
     [Export]
     private Node2D _redHand;
+
+    public override void _ExitTree()
+    {
+        Scribe.NoteDictionary[0].Texture = null;
+        BattleDirector.AutoPlay = false;
+        BattleDirector.PlayerDisabled = false;
+    }
 
     public override void _Ready()
     {
@@ -26,11 +35,37 @@ public partial class P_Holograeme : EnemyPuppet
         {
             new EnemyEffect(
                 this,
+                BattleEffectTrigger.OnBattleStart,
+                -1,
+                (e, eff, val) =>
+                {
+                    BattleDirector.AutoPlay = true;
+                    BattleDirector.PlayerDisabled = true;
+                    e.BD.AddStatus(Targetting.Player, StatusEffect.Disable);
+                    e.BD.AddStatus(Targetting.Player, StatusEffect.Block, 999);
+                }
+            ),
+            new EnemyEffect(
+                this,
                 BattleEffectTrigger.OnLoop,
                 1,
                 (e, eff, val) =>
                 {
                     TweenLoop();
+                    if (e is not BattleDirector.Harbinger.LoopEventArgs lArgs)
+                        return;
+                    if (lArgs.Loop % 2 == 0)
+                    {
+                        BattleDirector.AutoPlay = true;
+                        BattleDirector.PlayerDisabled = true;
+                        e.BD.AddStatus(Targetting.Player, StatusEffect.Disable);
+                        Scribe.NoteDictionary[0].Texture = null;
+                    }
+                    else if (lArgs.Loop % 2 == 1)
+                    {
+                        BattleDirector.AutoPlay = false;
+                        Scribe.NoteDictionary[0].Texture = GD.Load<Texture2D>(NoteCoverPath);
+                    }
                 }
             ),
             new EnemyEffect(

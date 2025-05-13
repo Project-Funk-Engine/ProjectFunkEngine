@@ -87,6 +87,25 @@ public partial class StatusEffect : TextureRect, IBattleEvent
             GD.Load<Texture2D>("res://Classes/StatusEffects/Assets/Status_Poison.png")
         )
         .SetTags(true);
+
+    public static readonly Action<BattleEventArgs, StatusEffect> DisableEffect = (_, self) =>
+    {
+        self.DecCount();
+        if (self.Count < 1)
+            BattleDirector.PlayerDisabled = false;
+    };
+
+    /// <summary>
+    /// Doesn't actually successfully disable input, should be disabled manually, and generally paired with autoplay.
+    /// </summary>
+    public static readonly StatusEffect Disable = new StatusEffect()
+        .InitStatus(
+            "Disable",
+            DisableEffect,
+            BattleEffectTrigger.OnLoop,
+            GD.Load<Texture2D>("res://Classes/StatusEffects/Assets/Status_Disable.png")
+        )
+        .SetTags(false, true);
     #endregion
 
     private BattleEffectTrigger _trigger;
@@ -120,7 +139,7 @@ public partial class StatusEffect : TextureRect, IBattleEvent
     {
         StatusEffect result = GD.Load<PackedScene>(LoadPath).Instantiate<StatusEffect>();
         result.SetCount(count);
-        result.InitStatus(Name, _effect, _trigger, Texture);
+        result.InitStatus(StatusName, _effect, _trigger, Texture);
         result.SetTags(_stackable, _refreshes);
         return result;
     }
