@@ -69,6 +69,8 @@ public partial class NotePlacementBar : Node
 
         if (_notePlacementBar.TextureProgress is GradientTexture2D gradientTexture)
             _gradTex = gradientTexture.Gradient;
+
+        _waveMaterial.SetShaderParameter("fillLevel", 0.0);
     }
 
     public override void _Process(double delta)
