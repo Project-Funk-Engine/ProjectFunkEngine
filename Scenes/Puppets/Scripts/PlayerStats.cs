@@ -15,6 +15,7 @@ public partial class PlayerStats : Resource
     public int RewardAmountModifier = 0;
     public int Rerolls = 0;
     public int Shortcuts = 0;
+    public int DiscountPercent = 0;
 
     //Array in order of descending rarities, Legendary -> ... Common. Int odds out of 100.
     public int[] RarityOdds = [1, 5, 10, 20, 100];
@@ -77,6 +78,7 @@ public partial class PlayerStats : Resource
 
         CurNotes = CurNotes.Where((_, i) => i != index).ToArray();
     }
+
     public void RemoveNote(Note nSelection)
     {
         CurNotes = CurNotes.Where(n => n != nSelection).ToArray();
