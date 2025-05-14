@@ -55,6 +55,9 @@ public partial class ShopScene : Control
     private readonly int[] _priceByRarity = [100, 90, 80, 70, 60, 50, 9];
     const int NoteCost = 45;
 
+    private List<RelicTemplate> _shopRelics;
+    private List<Note> _shopNotes;
+
     public override void _Ready()
     {
         _bGroup = new ButtonGroup();
@@ -105,21 +108,43 @@ public partial class ShopScene : Control
 
     private void GenerateShopItems()
     {
-        var relics = Scribe.GetRandomRelics(
-            RelicOptions,
-            StageProducer.CurRoom + 10,
-            StageProducer.PlayerStats.RarityOdds
-        );
+        _shopRelics = Scribe
+            .GetRandomRelics(
+                RelicOptions,
+                StageProducer.CurRoom + 10,
+                StageProducer.PlayerStats.RarityOdds
+            )
+            .ToList();
 
-        var notes = Scribe.GetRandomRewardNotes(NoteOptions, StageProducer.CurRoom + 10);
+        _shopNotes = Scribe.GetRandomRewardNotes(NoteOptions, StageProducer.CurRoom + 10).ToList();
 
-        foreach (var relic in relics)
+        foreach (var relic in _shopRelics)
         {
             int price = _priceByRarity[(int)relic.Rarity];
             AddShopItem(_relicGrid, relic, price);
         }
 
-        foreach (var note in notes)
+        foreach (var note in _shopNotes)
+        {
+            int price = NoteCost;
+            AddShopItem(_noteGrid, note, price);
+        }
+    }
+
+    private void RefreshShopPrices()
+    {
+        foreach (var child in _noteGrid.GetChildren())
+            child.QueueFree();
+        foreach (var child in _relicGrid.GetChildren())
+            child.QueueFree();
+
+        foreach (var relic in _shopRelics)
+        {
+            int price = _priceByRarity[(int)relic.Rarity];
+            AddShopItem(_relicGrid, relic, price);
+        }
+
+        foreach (var note in _shopNotes)
         {
             int price = NoteCost;
             AddShopItem(_noteGrid, note, price);
@@ -167,9 +192,11 @@ public partial class ShopScene : Control
             case Note note:
                 StageProducer.PlayerStats.AddNote(note);
                 AddNoteToPossessions(note);
+                _shopNotes.Remove(note);
                 break;
             case RelicTemplate relic:
                 StageProducer.PlayerStats.AddRelic(relic);
+                _shopRelics.Remove(relic);
                 break;
         }
 
@@ -182,6 +209,8 @@ public partial class ShopScene : Control
 
         _currentItem = null;
         _currentUItem = null;
+
+        RefreshShopPrices();
     }
 
     private Control _lastFocused;
