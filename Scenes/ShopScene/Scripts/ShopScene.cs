@@ -133,7 +133,7 @@ public partial class ShopScene : Control
             GD.PushError("AddShopItem called with null!");
             return;
         }
-        price = Math.Max(price, 0); //Price can't go negative.
+        price = Math.Max(price - (price * StageProducer.PlayerStats.DiscountPercent / 100), 0); //Price can't go negative.
         ShopItem newItem = GD.Load<PackedScene>(ShopItem.LoadPath).Instantiate<ShopItem>();
         newItem.Display(price, item.Texture, item.Name);
         newItem.DisplayButton.Pressed += () => SetPurchasable(item, newItem);

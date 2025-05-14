@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c4sx72edrmarc"
-path="res://.godot/imported/Relic_LuckyDice.png-88ca6d67d74b2a5f34af4000f643b3a7.ctex"
+uid="uid://c7kegse3tt25t"
+path="res://.godot/imported/Relic_Coupon.png-fbc4593b2a2e278d51828d9813481a77.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Classes/Relics/Assets/Relic_LuckyDice.png"
-dest_files=["res://.godot/imported/Relic_LuckyDice.png-88ca6d67d74b2a5f34af4000f643b3a7.ctex"]
+source_file="res://Classes/Relics/Assets/Relic_Coupon.png"
+dest_files=["res://.godot/imported/Relic_Coupon.png-fbc4593b2a2e278d51828d9813481a77.ctex"]
 
 [params]
 
