@@ -205,6 +205,17 @@ public partial class Scribe : Node
             default,
             Targetting.Player
         ),
+        new Note(
+            15,
+            "Spider",
+            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_Parasifly.png"),
+            1,
+            (director, note, timing) =>
+            {
+                int amt = Math.Max((3 - (int)timing) * note.GetBaseVal(), 1);
+                director.AddStatus(Targetting.First, StatusEffect.Poison, amt);
+            }
+        ),
     };
 
     public static readonly RelicTemplate[] RelicDictionary = new[]
@@ -676,6 +687,18 @@ public partial class Scribe : Node
             "Audio/Shapes.ogg",
             "Audio/songMaps/Shapes.tres",
             [P_Shapes.LoadPath]
+        ),
+        new SongTemplate( //10
+            new SongData
+            {
+                Bpm = 130,
+                SongLength = -1,
+                NumLoops = 3,
+            },
+            "Spideer",
+            "Audio/Spider.ogg",
+            "Audio/songMaps/Spider.tres",
+            [P_Spider.LoadPath, P_Spider.LoadPath]
         ),
     };
 
