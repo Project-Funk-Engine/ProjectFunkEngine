@@ -208,12 +208,12 @@ public partial class Scribe : Node
         new Note(
             15,
             "Spider",
-            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_Parasifly.png"),
+            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_Spider.png"),
             1,
             (director, note, timing) =>
             {
                 int amt = Math.Max((3 - (int)timing) * note.GetBaseVal(), 1);
-                director.AddStatus(Targetting.First, StatusEffect.Poison, amt);
+                director.AddStatus(Targetting.Player, StatusEffect.Poison, amt);
             }
         ),
     };
@@ -667,13 +667,13 @@ public partial class Scribe : Node
         new SongTemplate( //9
             new SongData
             {
-                Bpm = 120,
+                Bpm = 60,
                 SongLength = -1,
-                NumLoops = 5,
+                NumLoops = 1,
             },
             "Holograeme",
-            "Audio/Song1.ogg",
-            "Audio/songMaps/Song1.tres",
+            "Audio/Song2.ogg",
+            "Audio/songMaps/Song2.tres",
             [P_Holograeme.LoadPath]
         ),
         new SongTemplate( //10

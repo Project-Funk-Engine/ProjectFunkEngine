@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://0o44m0e5yxiy" path="res://Scenes/Puppets/Enemies/Spider/P_Spider.cs" id="1_gyxko"]
 [ext_resource type="PackedScene" uid="uid://cdoguwlxehbpg" path="res://Scenes/Puppets/StatusContainer.tscn" id="2_xxbs3"]
-[ext_resource type="Texture2D" uid="uid://dvux16psycv0x" path="res://Scenes/Puppets/Enemies/Spider/spider.png" id="3_jf83a"]
+[ext_resource type="Texture2D" uid="uid://dvux16psycv0x" path="res://Scenes/Puppets/Enemies/Spider/Spider.png" id="3_jf83a"]
 [ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://Scenes/Puppets/HealthBar.tscn" id="4_vp5wi"]
 
 [sub_resource type="Gradient" id="Gradient_olxmf"]
@@ -29,12 +29,12 @@ offset_right = 41.0
 offset_bottom = 21.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -25)
+position = Vector2(0, 6)
 texture = ExtResource("3_jf83a")
 
 [node name="ProgressBar" parent="." instance=ExtResource("4_vp5wi")]
 offset_left = -47.0
-offset_top = 18.0
+offset_top = 31.0
 offset_right = 55.0
-offset_bottom = 38.0
+offset_bottom = 51.0
 texture_progress = SubResource("GradientTexture2D_r5ep7")

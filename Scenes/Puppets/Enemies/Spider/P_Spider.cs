@@ -8,10 +8,10 @@ public partial class P_Spider : EnemyPuppet
 
     public override void _Ready()
     {
-        MaxHealth = 50;
+        MaxHealth = 100;
         CurrentHealth = MaxHealth;
-        BaseMoney = 1;
-        InitialNote = (15, 1);
+        BaseMoney = 5;
+        InitialNote = (15, 2);
         base._Ready();
 
         BattleEvents = new EnemyEffect[]
