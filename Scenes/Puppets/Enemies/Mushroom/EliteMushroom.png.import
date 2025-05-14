@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dnjo4sim07auo"
-path="res://.godot/imported/forest elite concept.png-c9565f9d800591e4f84b5262ff6bc487.ctex"
+path="res://.godot/imported/EliteMushroom.png-d9b17cc112a1ebeaf650b39d5d4e2d14.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/Puppets/Enemies/Mushroom/forest elite concept.png"
-dest_files=["res://.godot/imported/forest elite concept.png-c9565f9d800591e4f84b5262ff6bc487.ctex"]
+source_file="res://Scenes/Puppets/Enemies/Mushroom/EliteMushroom.png"
+dest_files=["res://.godot/imported/EliteMushroom.png-d9b17cc112a1ebeaf650b39d5d4e2d14.ctex"]
 
 [params]
 

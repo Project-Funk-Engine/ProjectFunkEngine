@@ -669,13 +669,13 @@ public partial class Scribe : Node
         new SongTemplate( //9
             new SongData
             {
-                Bpm = 60,
+                Bpm = 130,
                 SongLength = -1,
                 NumLoops = 1,
             },
             "Holograeme",
-            "Audio/Song2.ogg",
-            "Audio/songMaps/Song2.tres",
+            "Audio/Holo_ThereItIs.ogg",
+            "Audio/songMaps/HoloRepeat.tres",
             [P_Holograeme.LoadPath]
         ),
         new SongTemplate( //10

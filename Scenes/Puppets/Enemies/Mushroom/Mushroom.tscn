@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://qoaceev66ieq" path="res://Scenes/Puppets/Enemies/Mushroom/P_Mushroom.cs" id="1_mtres"]
 [ext_resource type="PackedScene" uid="uid://cdoguwlxehbpg" path="res://Scenes/Puppets/StatusContainer.tscn" id="2_ui84p"]
-[ext_resource type="Texture2D" uid="uid://dnjo4sim07auo" path="res://Scenes/Puppets/Enemies/Mushroom/forest elite concept.png" id="3_mtres"]
+[ext_resource type="Texture2D" uid="uid://dnjo4sim07auo" path="res://Scenes/Puppets/Enemies/Mushroom/EliteMushroom.png" id="3_mtres"]
 [ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://Scenes/Puppets/HealthBar.tscn" id="4_af0yh"]
 
 [sub_resource type="Gradient" id="Gradient_yw3bu"]
