@@ -374,6 +374,15 @@ public partial class BattleDirector : Node2D
         }
     }
 
+    /*public void ReduceMeter(Note note, int amountLost, PuppetTemplate source)
+    {
+        PuppetTemplate[] targets = GetTargets(note.TargetType);
+        foreach (PuppetTemplate target in targets)
+        {
+            target.
+        }
+    }*/
+
     public void AddStatus(Targetting targetting, StatusEffect status, int amount = 1)
     {
         if (amount == 0)

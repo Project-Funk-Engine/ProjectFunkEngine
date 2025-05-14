@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://bmjhyq3se5hq5"]
+
+[ext_resource type="Script" uid="uid://qoaceev66ieq" path="res://Scenes/Puppets/Enemies/Mushroom/P_Mushroom.cs" id="1_mtres"]
+[ext_resource type="PackedScene" uid="uid://cdoguwlxehbpg" path="res://Scenes/Puppets/StatusContainer.tscn" id="2_ui84p"]
+[ext_resource type="Texture2D" uid="uid://dnjo4sim07auo" path="res://Scenes/Puppets/Enemies/Mushroom/forest elite concept.png" id="3_mtres"]
+[ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://Scenes/Puppets/HealthBar.tscn" id="4_af0yh"]
+
+[sub_resource type="Gradient" id="Gradient_yw3bu"]
+resource_local_to_scene = true
+offsets = PackedFloat32Array(0.0227273, 1)
+colors = PackedColorArray(0, 1, 0.0999999, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ypp0w"]
+resource_local_to_scene = true
+gradient = SubResource("Gradient_yw3bu")
+width = 100
+height = 18
+
+[node name="EnemPuppet" type="Node2D" node_paths=PackedStringArray("HealthBar", "Sprite", "_statusContainer")]
+script = ExtResource("1_mtres")
+HealthBar = NodePath("ProgressBar")
+Sprite = NodePath("Sprite2D")
+_statusContainer = NodePath("StatusContainer")
+
+[node name="StatusContainer" parent="." instance=ExtResource("2_ui84p")]
+offset_left = -33.0
+offset_top = 12.0
+offset_right = 43.0
+offset_bottom = 48.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(4, -22)
+texture = ExtResource("3_mtres")
+
+[node name="ProgressBar" parent="." instance=ExtResource("4_af0yh")]
+offset_left = -48.0
+offset_top = 31.0
+offset_right = 54.0
+offset_bottom = 51.0
+texture_progress = SubResource("GradientTexture2D_ypp0w")
