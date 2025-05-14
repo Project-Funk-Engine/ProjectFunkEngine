@@ -700,6 +700,18 @@ public partial class Scribe : Node
             "Audio/songMaps/Spider.tres",
             [P_Spider.LoadPath, P_Spider.LoadPath]
         ),
+        new SongTemplate(
+            new SongData
+            {
+                Bpm = 180,
+                SongLength = -1,
+                NumLoops = 5,
+            },
+            "Squirkel",
+            "Audio/SquirkelSong.ogg",
+            "Audio/songMaps/SquirkelSong.tres",
+            [P_Squirkel.LoadPath]
+        ),
     };
 
     //Needs to be strictly maintained based on what the player has obtained.

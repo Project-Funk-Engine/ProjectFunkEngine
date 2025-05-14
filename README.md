@@ -36,6 +36,7 @@ We now have a Steam page!
 - **Tutorial Song**: [Mute bass 002 – josefpres](https://freesound.org/people/josefpres/sounds/792389/)
 - **Turtle Boss**: [Echolane](https://echoln.bandcamp.com/)
 - **CyberFox Song** [We're Finally Landing - HOME](https://soundcloud.com/home-2001/home-before-the-night-01-were)
+- **Squirkel Song** [Bass Stories](https://pixabay.com/music/happy-childrens-tunes-bass-stories-15656/)
 
 ### Images
 - **Input Buttons**: [inputKeys – Nicolae (Xelu) Berbece](https://thoseawesomeguys.com/prompts/)
