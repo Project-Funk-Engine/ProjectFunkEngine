@@ -19,11 +19,13 @@ public partial class P_Holograeme : EnemyPuppet
         Scribe.NoteDictionary[0].Texture = null;
         BattleDirector.AutoPlay = false;
         BattleDirector.PlayerDisabled = false;
+        Conductor.BeatSpawnOffsetModifier = 0;
     }
 
     public override void _Ready()
     {
-        MaxHealth = 150;
+        Conductor.BeatSpawnOffsetModifier = 1;
+        MaxHealth = 3;
         CurrentHealth = MaxHealth;
         BaseMoney = 20;
         base._Ready();
@@ -37,19 +39,18 @@ public partial class P_Holograeme : EnemyPuppet
                 this,
                 BattleEffectTrigger.OnBattleStart,
                 -1,
-                (e, eff, val) =>
+                (e, _, _) =>
                 {
                     BattleDirector.AutoPlay = true;
                     BattleDirector.PlayerDisabled = true;
                     e.BD.AddStatus(Targetting.Player, StatusEffect.Disable);
-                    e.BD.AddStatus(Targetting.Player, StatusEffect.Block, 999);
                 }
             ),
             new EnemyEffect(
                 this,
                 BattleEffectTrigger.OnLoop,
                 1,
-                (e, eff, val) =>
+                (e, _, _) =>
                 {
                     TweenLoop();
                     if (e is not BattleDirector.Harbinger.LoopEventArgs lArgs)
@@ -72,11 +73,29 @@ public partial class P_Holograeme : EnemyPuppet
                 this,
                 BattleEffectTrigger.NoteHit,
                 1,
-                (e, eff, val) =>
+                (e, _, _) =>
                 {
                     if (e is BattleDirector.Harbinger.NoteHitArgs nArgs)
                     {
                         TweenDir(nArgs.Type);
+                    }
+                }
+            ),
+            new EnemyEffect(
+                this,
+                BattleEffectTrigger.OnDamageInstance,
+                3,
+                (e, eff, val) =>
+                {
+                    if (
+                        e is not BattleDirector.Harbinger.OnDamageInstanceArgs dArgs
+                        || dArgs.Dmg.Target != eff.Owner
+                        || dArgs.Dmg.Source != dArgs.BD.Player
+                    )
+                        return;
+                    if (dArgs.Dmg.Damage < val)
+                    {
+                        dArgs.Dmg.ModifyDamage(0, 0);
                     }
                 }
             ),
@@ -106,7 +125,7 @@ public partial class P_Holograeme : EnemyPuppet
 
     private Node2D[] _hands = new Node2D[2];
 
-    private int[] _dirToAngle = [270, 90, 180, 0]; //ArrowType to angle in deg
+    private int[] _dirToAngle = [270, 450, 180, 360]; //ArrowType to angle in deg
 
     private void TweenDir(ArrowType dir)
     {
@@ -125,7 +144,10 @@ public partial class P_Holograeme : EnemyPuppet
         _curTween.TweenCallback(
             Callable.From(() =>
             {
-                _hands[handIdx].RotationDegrees = _dirToAngle[(int)dir];
+                int offset = 0;
+                if (_dirToAngle[(int)dir] >= 360)
+                    offset = 360;
+                _hands[handIdx].RotationDegrees = _dirToAngle[(int)dir] - offset;
             })
         );
     }

@@ -14,6 +14,7 @@ public partial class Conductor : Node
     private readonly List<ArrowData> _noteData = new List<ArrowData>();
 
     private double _beatSpawnOffset;
+    public static int BeatSpawnOffsetModifier; //I'm gonna be mad at myself later for this.
 
     private bool _initialized;
 
@@ -29,9 +30,9 @@ public partial class Conductor : Node
         CM.Initialize(curSong);
 
         //Approximately the first note offscreen
-        _beatSpawnOffset = Math.Ceiling(
-            CM.Size.X / TimeKeeper.ChartWidth * TimeKeeper.BeatsPerLoop
-        );
+        _beatSpawnOffset =
+            Math.Ceiling(CM.Size.X / TimeKeeper.ChartWidth * TimeKeeper.BeatsPerLoop)
+            - BeatSpawnOffsetModifier;
         AddInitialNotes();
         AddInitialEnemyNotes(enemies);
         SpawnInitialNotes();
