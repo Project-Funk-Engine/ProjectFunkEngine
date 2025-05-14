@@ -131,7 +131,7 @@ public class MapLevels
             CityMapConfig,
             [7, 8, 10],
             [6],
-            [0],
+            [13],
             [],
             -1,
             "res://SharedAssets/BackGround_City.png"

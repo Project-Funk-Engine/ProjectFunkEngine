@@ -37,6 +37,7 @@ We now have a Steam page!
 - **Turtle Boss**: [Echolane](https://echoln.bandcamp.com/)
 - **CyberFox Song** [We're Finally Landing - HOME](https://soundcloud.com/home-2001/home-before-the-night-01-were)
 - **Squirkel Song** [Bass Stories](https://pixabay.com/music/happy-childrens-tunes-bass-stories-15656/)
+- **Keythulu Song** [Resonance - HOME](https://open.spotify.com/track/1TuopWDIuDi1553081zvuU)
 
 ### Images
 - **Input Buttons**: [inputKeys – Nicolae (Xelu) Berbece](https://thoseawesomeguys.com/prompts/)

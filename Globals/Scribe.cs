@@ -714,6 +714,18 @@ public partial class Scribe : Node
             "Audio/songMaps/SquirkelSong.tres",
             [P_Squirkel.LoadPath]
         ),
+        new SongTemplate(
+            new SongData
+            {
+                Bpm = 170,
+                SongLength = -1,
+                NumLoops = 9,
+            },
+            "Keythulu",
+            "Audio/KeythuluSong.ogg",
+            "Audio/songMaps/KeythuluSong.tres",
+            [P_Keythulu.LoadPath]
+        ),
     };
 
     //Needs to be strictly maintained based on what the player has obtained.
