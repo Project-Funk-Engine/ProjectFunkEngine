@@ -212,6 +212,8 @@ public partial class Scribe : Node
             1,
             (director, note, timing) =>
             {
+                if (timing == Timing.Perfect)
+                    return;
                 int amt = Math.Max((3 - (int)timing) * note.GetBaseVal(), 1);
                 director.AddStatus(Targetting.Player, StatusEffect.Poison, amt);
             }
