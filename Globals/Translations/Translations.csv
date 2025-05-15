@@ -44,6 +44,12 @@ BATTLE_ROOM_LOSE,Game Over!,游戏结束！
 END_SCREEN_RESTART,Restart,重新开始
 BATTLE_ROOM_SKIP_BUTTON,Skip,跳过
 BATTLE_ROOM_ACCEPT_BUTTON,Accept,接受
+SCORING_SCENE_TITLE,Scoring,(TODO)
+SCORING_STYLE,Base Style Points,(TODO)
+SCORING_PERFECTS,Perfect Multiplier:,(TODO)
+SCORING_PLACED,Placed Multiplier:,(TODO)
+SCORING_RELICS,Relic income:,遗物收入:
+SCORING_TOTAL,Coins Earned:,(TODO)
 NOTE_ENEMYBASE_NAME,EnemyBase,敌人基地
 NOTE_ENEMYBASE_TOOLTIP,"Basic enemy note, deals damage to player.",基础敌人音符，对玩家造成伤害。
 NOTE_PLAYERBASE_NAME,Basic Note,基本笔记
@@ -112,7 +118,6 @@ HOW_TO_PLAY,How to Play,如何游玩
 HOW_TO_PLAY_BLOCK1,Hit notes to\nbuild combo,点击音符\n以建立连击
 HOW_TO_PLAY_BLOCK2,Place notes when\ncombo is full,当连击满\n时放置音符
 HOW_TO_PLAY_BLOCK3,Only placed notes\nhave effects,只有已放置\n的音符才有效
-SCORING_RELICS,Loose Change income:,零钱收入:
 TUTORIAL_NODYING,No dying during a tutorial!,(TODO)
 TUTORIAL_DIALOGUE_1,"Hello, welcome to Midnight Riff!",(TODO)
 TUTORIAL_DIALOGUE_2,This is a rhythm game where notes more right to left.,(TODO)
