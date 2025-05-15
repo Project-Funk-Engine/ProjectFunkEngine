@@ -585,9 +585,9 @@ public partial class Scribe : Node
         new SongTemplate(
             new SongData
             {
-                Bpm = 60,
+                Bpm = 120,
                 SongLength = -1,
-                NumLoops = 1,
+                NumLoops = 2,
             },
             "Song2",
             "Audio/Song2.ogg",
