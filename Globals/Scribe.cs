@@ -738,6 +738,18 @@ public partial class Scribe : Node
             "Audio/songMaps/KeythuluSong.tres",
             [P_Keythulu.LoadPath]
         ),
+        new SongTemplate( // 15
+            new SongData
+            {
+                Bpm = 120,
+                SongLength = -1,
+                NumLoops = 5,
+            },
+            name: "LWS",
+            audioLocation: "Audio/ForestWaltz.ogg",
+            songMapLocation: "Audio/songMaps/ForestWaltz.tres",
+            enemyScenePath: [LWS.LoadPath]
+        ),
     };
 
     //Needs to be strictly maintained based on what the player has obtained.
