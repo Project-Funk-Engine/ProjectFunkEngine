@@ -7,8 +7,8 @@ public partial class PlayerStats : Resource
 {
     public int Money = 0;
 
-    public int MaxHealth = 100;
-    public int CurrentHealth = 100;
+    public int MaxHealth = 300;
+    public int CurrentHealth = 300;
     public int MaxComboBar = 60;
     public int MaxComboMult = 25;
     public int NotesToIncreaseCombo = 4;

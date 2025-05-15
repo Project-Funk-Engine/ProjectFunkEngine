@@ -107,13 +107,13 @@ public class MapLevels
     public int[] EventIds { get; private set; }
 
     #region Preset Levels
-    private static readonly MapConfig FirstMapConfig = new MapConfig(7, 7, 3, [10, 2, 5, 6, 5])
-        .AddSetRoom(3, Stages.Chest)
-        .AddMinHeight(Stages.Chest, 2)
-        .AddMinHeight(Stages.Shop, 3)
-        .AddMinHeight(Stages.Elite, 3);
+    private static readonly MapConfig FirstMapConfig = new MapConfig(7, 4, 3, [10, 2, 5, 6, 5])
+        .AddSetRoom(1, Stages.Chest)
+        .AddMinHeight(Stages.Chest, 9)
+        .AddMinHeight(Stages.Shop, 1)
+        .AddMinHeight(Stages.Elite, 1);
 
-    private static readonly MapConfig CityMapConfig = new MapConfig(9, 10, 5, [12, 1, 5, 5, 4])
+    private static readonly MapConfig CityMapConfig = new MapConfig(9, 6, 5, [12, 1, 5, 5, 4])
         .AddSetRoom(2, Stages.Chest)
         .AddSetRoom(4, Stages.Shop)
         .AddMinHeight(Stages.Chest, 1)
