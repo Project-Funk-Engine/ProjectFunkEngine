@@ -1,12 +1,12 @@
-[gd_resource type="Resource" load_steps=21 format=3]
+[gd_resource type="Resource" load_steps=21 format=3 uid="uid://cv2l8vevlixlj"]
 
-[ext_resource type="Script" path="res://Classes/MidiMaestro/NoteInfo.cs" id="1_8s5n5"]
-[ext_resource type="Script" path="res://Classes/MidiMaestro/NoteChart.cs" id="2_ipsne"]
+[ext_resource type="Script" uid="uid://bhbpcmtr6e6pk" path="res://Classes/MidiMaestro/NoteInfo.cs" id="1_8s5n5"]
+[ext_resource type="Script" uid="uid://bnpnavb5lwobj" path="res://Classes/MidiMaestro/NoteChart.cs" id="2_ipsne"]
 
 [sub_resource type="Resource" id="Resource_dwqep"]
 script = ExtResource("1_8s5n5")
 Beat = 7.0
-Length = 0.1
+Length = 0.0
 
 [sub_resource type="Resource" id="Resource_ukqut"]
 script = ExtResource("1_8s5n5")
@@ -26,7 +26,7 @@ Length = 1.0
 [sub_resource type="Resource" id="Resource_o0hqd"]
 script = ExtResource("1_8s5n5")
 Beat = 18.0
-Length = 0.1
+Length = 0.0
 
 [sub_resource type="Resource" id="Resource_8s5n5"]
 script = ExtResource("1_8s5n5")
@@ -41,22 +41,22 @@ Length = 0.0
 [sub_resource type="Resource" id="Resource_828xi"]
 script = ExtResource("1_8s5n5")
 Beat = 1.0
-Length = 0.1
+Length = 0.0
 
 [sub_resource type="Resource" id="Resource_gfy4r"]
 script = ExtResource("1_8s5n5")
 Beat = 7.0
-Length = 0.1
+Length = 0.0
 
 [sub_resource type="Resource" id="Resource_716y2"]
 script = ExtResource("1_8s5n5")
 Beat = 11.0
-Length = 0.1
+Length = 0.0
 
 [sub_resource type="Resource" id="Resource_6sju3"]
 script = ExtResource("1_8s5n5")
 Beat = 17.0
-Length = 0.1
+Length = 0.0
 
 [sub_resource type="Resource" id="Resource_h8r3u"]
 script = ExtResource("1_8s5n5")
@@ -71,7 +71,7 @@ Length = 1.0
 [sub_resource type="Resource" id="Resource_fe74b"]
 script = ExtResource("1_8s5n5")
 Beat = 18.0
-Length = 0.1
+Length = 0.0
 
 [sub_resource type="Resource" id="Resource_1d04x"]
 script = ExtResource("1_8s5n5")
