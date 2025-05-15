@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cdoguwlxehbpg" path="res://Scenes/Puppets/StatusContainer.tscn" id="2_t5538"]
 [ext_resource type="Texture2D" uid="uid://dy61pskhqgjoo" path="res://Scenes/Puppets/Enemies/CyberFox/Assets/CyberFox.png" id="3_e1x4p"]
 [ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://Scenes/Puppets/HealthBar.tscn" id="4_lmj2w"]
-[ext_resource type="Script" uid="uid://3yclsl4kckx4" path="res://Scenes/Puppets/Enemies/CyberFox/Assets/GlitchScript.cs" id="5_a0uir"]
+[ext_resource type="Script" path="res://Scenes/Puppets/Enemies/CyberFox/Assets/GlitchScript.cs" id="5_a0uir"]
 
 [sub_resource type="Gradient" id="Gradient_c7cx1"]
 offsets = PackedFloat32Array(0.0227273, 1)
@@ -16,9 +16,8 @@ gradient = SubResource("Gradient_c7cx1")
 width = 100
 height = 18
 
-[node name="EnemPuppet" type="Node2D" node_paths=PackedStringArray("_effectNode", "HealthBar", "Sprite", "_statusContainer")]
+[node name="EnemPuppet" type="Node2D" node_paths=PackedStringArray("HealthBar", "Sprite", "_statusContainer")]
 script = ExtResource("1_e1x4p")
-_effectNode = NodePath("GlitchNode")
 HealthBar = NodePath("ProgressBar")
 Sprite = NodePath("Sprite")
 _statusContainer = NodePath("StatusContainer")
