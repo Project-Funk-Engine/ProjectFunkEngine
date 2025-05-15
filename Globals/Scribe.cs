@@ -231,6 +231,19 @@ public partial class Scribe : Node
                 director.DealDamage(Targetting.Player, dmg, note.Owner);
             }
         ),
+        new Note(
+            17,
+            "Mushroom",
+            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_Mushroom.png"),
+            2,
+            (director, note, timing) =>
+            {
+                if (timing == Timing.Perfect)
+                    return;
+                int amt = Math.Max((3 - (int)timing) * note.GetBaseVal(), 1);
+                director.AddStatus(Targetting.Player, StatusEffect.Poison, amt);
+            }
+        ),
     };
 
     public static readonly RelicTemplate[] RelicDictionary = new[]
@@ -761,7 +774,7 @@ public partial class Scribe : Node
             name: "LWS",
             audioLocation: "Audio/FrostWaltz.ogg",
             songMapLocation: "Audio/songMaps/FrostWaltz.tres",
-            enemyScenePath: [LWS.LoadPath]
+            enemyScenePath: [P_LWS.LoadPath]
         ),
     };
 

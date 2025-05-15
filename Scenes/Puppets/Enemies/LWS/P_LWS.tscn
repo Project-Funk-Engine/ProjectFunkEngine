@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://beww544cthrsj"]
 
-[ext_resource type="Script" uid="uid://baudb5v4ai8br" path="res://Scenes/Puppets/Enemies/LWS/LWS.cs" id="1_slsco"]
+[ext_resource type="Script" uid="uid://baudb5v4ai8br" path="res://Scenes/Puppets/Enemies/LWS/P_LWS.cs" id="1_slsco"]
 [ext_resource type="Texture2D" uid="uid://b1k6m2uj4o76x" path="res://Scenes/Puppets/Enemies/LWS/Assets/LWS.png" id="2_iipdd"]
 [ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://Scenes/Puppets/HealthBar.tscn" id="3_3fwan"]
 [ext_resource type="PackedScene" uid="uid://cdoguwlxehbpg" path="res://Scenes/Puppets/StatusContainer.tscn" id="4_dslq0"]

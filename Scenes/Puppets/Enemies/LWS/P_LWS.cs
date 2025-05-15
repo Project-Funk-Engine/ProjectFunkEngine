@@ -2,15 +2,15 @@ using System;
 using FunkEngine;
 using Godot;
 
-public partial class LWS : EnemyPuppet
+public partial class P_LWS : EnemyPuppet
 {
     public static new readonly string LoadPath = "res://Scenes/Puppets/Enemies/LWS/P_LWS.tscn";
 
     public override void _Ready()
     {
-        MaxHealth = 150;
+        MaxHealth = 80;
         CurrentHealth = MaxHealth;
-        BaseMoney = 25;
+        BaseMoney = 8;
         InitialNote = (16, 3);
         base._Ready();
         var enemyTween = CreateTween();
