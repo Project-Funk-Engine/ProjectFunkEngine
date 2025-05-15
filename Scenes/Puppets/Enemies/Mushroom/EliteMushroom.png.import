@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0d0dwwnotlfq"
-path="res://.godot/imported/Event3.png-445c0675f61362532d1032be33503df0.ctex"
+uid="uid://dnjo4sim07auo"
+path="res://.godot/imported/EliteMushroom.png-d9b17cc112a1ebeaf650b39d5d4e2d14.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Classes/Events/Assets/Event3.png"
-dest_files=["res://.godot/imported/Event3.png-445c0675f61362532d1032be33503df0.ctex"]
+source_file="res://Scenes/Puppets/Enemies/Mushroom/EliteMushroom.png"
+dest_files=["res://.godot/imported/EliteMushroom.png-d9b17cc112a1ebeaf650b39d5d4e2d14.ctex"]
 
 [params]
 

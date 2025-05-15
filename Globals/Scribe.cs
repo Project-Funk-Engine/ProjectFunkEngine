@@ -669,13 +669,13 @@ public partial class Scribe : Node
         new SongTemplate( //9
             new SongData
             {
-                Bpm = 60,
+                Bpm = 130,
                 SongLength = -1,
                 NumLoops = 1,
             },
             "Holograeme",
-            "Audio/Song2.ogg",
-            "Audio/songMaps/Song2.tres",
+            "Audio/Holo_ThereItIs.ogg",
+            "Audio/songMaps/HoloRepeat.tres",
             [P_Holograeme.LoadPath]
         ),
         new SongTemplate( //10
@@ -690,7 +690,7 @@ public partial class Scribe : Node
             "Audio/songMaps/Shapes.tres",
             [P_Shapes.LoadPath]
         ),
-        new SongTemplate( //10
+        new SongTemplate( //11
             new SongData
             {
                 Bpm = 130,
@@ -702,7 +702,7 @@ public partial class Scribe : Node
             "Audio/songMaps/Spider.tres",
             [P_Spider.LoadPath, P_Spider.LoadPath]
         ),
-        new SongTemplate(
+        new SongTemplate( //12
             new SongData
             {
                 Bpm = 180,
@@ -713,6 +713,18 @@ public partial class Scribe : Node
             "Audio/SquirkelSong.ogg",
             "Audio/songMaps/SquirkelSong.tres",
             [P_Squirkel.LoadPath]
+        ),
+        new SongTemplate( //13
+            new SongData
+            {
+                Bpm = 100,
+                SongLength = -1,
+                NumLoops = 4,
+            },
+            "Mushroom",
+            "Audio/Mushroom.ogg",
+            "Audio/songMaps/Mushroom.tres",
+            [P_Mushroom.LoadPath]
         ),
         new SongTemplate(
             new SongData

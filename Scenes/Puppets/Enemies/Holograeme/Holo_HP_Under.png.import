@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://76wufdnhkrvk"
-path="res://.godot/imported/Event1.png-2f5f476395c8adde38110b361ff5d5f3.ctex"
+uid="uid://bpi5ytgbhtkk1"
+path="res://.godot/imported/Holo_HP_Under.png-ccb1b65a43db73eefd44ca8673d7f46d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Classes/Events/Assets/Event1.png"
-dest_files=["res://.godot/imported/Event1.png-2f5f476395c8adde38110b361ff5d5f3.ctex"]
+source_file="res://Scenes/Puppets/Enemies/Holograeme/Holo_HP_Under.png"
+dest_files=["res://.godot/imported/Holo_HP_Under.png-ccb1b65a43db73eefd44ca8673d7f46d.ctex"]
 
 [params]
 

@@ -384,6 +384,8 @@ public static class SaveSystem
         public int Money { get; init; }
         public int[] NoteIds { get; init; }
         public int[] RelicIds { get; init; }
+        public int[] BattlePool { get; init; }
+        public int[] EventPool { get; init; }
         public int PlayerHealth { get; init; }
         public int Shortcuts { get; init; }
         public int PlayerMaxCombo { get; init; }
@@ -394,6 +396,8 @@ public static class SaveSystem
             int lastRoomIdx,
             int[] noteIds,
             int[] relicIds,
+            int[] battlePool,
+            int[] eventPool,
             int playerHealth,
             int area,
             int money,
@@ -406,6 +410,8 @@ public static class SaveSystem
             LastRoomIdx = lastRoomIdx;
             NoteIds = noteIds;
             RelicIds = relicIds;
+            BattlePool = battlePool ?? [];
+            EventPool = eventPool ?? [];
             PlayerHealth = playerHealth;
             Area = area;
             Money = money;
@@ -424,6 +430,8 @@ public static class SaveSystem
             StageProducer.CurRoom,
             noteIds,
             relicIds,
+            StageProducer.BattlePool?.ToArray(),
+            EventScene.EventPool?.ToArray(),
             StageProducer.PlayerStats.CurrentHealth,
             StageProducer.CurLevel.Id,
             StageProducer.PlayerStats.Money,
