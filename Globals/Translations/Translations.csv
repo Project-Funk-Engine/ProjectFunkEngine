@@ -1,5 +1,5 @@
 keys,en,cn
-TITLE,Midnight Riff,中夜现场
+TITLE,Midnzght Riff,中夜现场
 TITLE_START,New Game,新游戏
 TITLE_CONTINUE,Load Game,加载游戏
 TITLE_QUIT,Quit Game,退出游戏
@@ -18,8 +18,8 @@ CONTROLS_RETURN_BUTTON,Return,返回
 CONTROLS_TUTORIAL_BUTTON,Tutorial,教程
 CONTROLS_CHOOSE_SCHEME,Choose Control Scheme,选择控制方式
 CONTROLS_CHOOSE_BUTTON,Choose new button,选择输入按钮
-CONTROLS_CHOOSE_TEXT_KEYBOARD,"Press Escape to close","按下 Escape 键关闭"
-CONTROLS_CHOOSE_TEXT_CONTROLLER,"Press Start to close","按下 Start 键关闭"
+CONTROLS_CHOOSE_TEXT_KEYBOARD,Press Escape to close,按下 Escape 键关闭
+CONTROLS_CHOOSE_TEXT_CONTROLLER,Press Start to close,按下 Start 键关闭
 CONTROLS_CHOOSE_INVALID,"System input, can't be used!",预留输入，无法重定向！
 CONTROLS_CHOOSE_DUPLICATE,"Input already set, can't be used again!",输入冲突，无法继续！
 ESCAPE_MENU_RESUME,Resume,继续
@@ -30,131 +30,131 @@ CHEST_ROOM_REWARDS,Reward Selection!,奖励!
 CHEST_ROOM_SKIP,Skip,跳过
 CHEST_ROOM_ACCEPT,Accept,接受
 CHEST_ROOM_REROLL,Rerolls: ,重刷: 
-SHOP_REMOVAL,Remove A Note,"去掉一个音符"
+SHOP_REMOVAL,Remove A Note,去掉一个音符
 SHOP_CONFIRM,Confirm Purchase,购买已确认
 SHOP_CANCEL,Cancel,取消操作
 REMOVAL_COST,Removal Fee,删除费用
-BATTLE_ROOM_BEGIN_BUTTON,"Begin Battle [Enter]","开始战斗 [Enter]"
+BATTLE_ROOM_BEGIN_BUTTON,Begin Battle [Enter],开始战斗 [Enter]
 BATTLE_ROOM_PERFECT,Perfect,精准
 BATTLE_ROOM_GOOD,Good,良好
 BATTLE_ROOM_OKAY,Okay,可以
 BATTLE_ROOM_MISS,Miss,错误
-BATTLE_ROOM_WIN,"You win!","你获胜了!"
-BATTLE_ROOM_LOSE,"Game Over!","游戏结束！"
+BATTLE_ROOM_WIN,You win!,你获胜了!
+BATTLE_ROOM_LOSE,Game Over!,游戏结束！
 END_SCREEN_RESTART,Restart,重新开始
 BATTLE_ROOM_SKIP_BUTTON,Skip,跳过
 BATTLE_ROOM_ACCEPT_BUTTON,Accept,接受
 NOTE_ENEMYBASE_NAME,EnemyBase,敌人基地
-NOTE_ENEMYBASE_TOOLTIP,"Basic enemy note, deals damage to player.","基础敌人音符，对玩家造成伤害。"
+NOTE_ENEMYBASE_TOOLTIP,"Basic enemy note, deals damage to player.",基础敌人音符，对玩家造成伤害。
 NOTE_PLAYERBASE_NAME,Basic Note,基本笔记
-NOTE_PLAYERBASE_TOOLTIP,"Basic player note, deals damage to enemy.","基础玩家音符，对敌人造成伤害。"
+NOTE_PLAYERBASE_TOOLTIP,"Basic player note, deals damage to enemy.",基础玩家音符，对敌人造成伤害。
 NOTE_PLAYERDOUBLE_NAME,Double Note,双重笔记
-NOTE_PLAYERDOUBLE_TOOLTIP,"Basic player note, deals double damage to enemy.","基础玩家音符，对敌人造成双倍伤害。"
+NOTE_PLAYERDOUBLE_TOOLTIP,"Basic player note, deals double damage to enemy.",基础玩家音符，对敌人造成双倍伤害。
 NOTE_PLAYERHEAL_NAME,Heal Note,治疗笔记
-NOTE_PLAYERHEAL_TOOLTIP,"Basic player note, heals player.","基础玩家音符，治愈玩家。"
+NOTE_PLAYERHEAL_TOOLTIP,"Basic player note, heals player.",基础玩家音符，治愈玩家。
 NOTE_PLAYERVAMPIRE_NAME,Vampire Note,吸血鬼笔记
-NOTE_PLAYERVAMPIRE_TOOLTIP,"Steals health from enemy.","从敌人吸取生命值。"
+NOTE_PLAYERVAMPIRE_TOOLTIP,Steals health from enemy.,从敌人吸取生命值。
 NOTE_PLAYERQUARTER_NAME,Quarter Note,四分音符
-NOTE_PLAYERQUARTER_TOOLTIP,"Basic note at a quarter of the cost.","以四分之一的耗费时间量发出基础音符。"
+NOTE_PLAYERQUARTER_TOOLTIP,Basic note at a quarter of the cost.,以四分之一的耗费时间量发出基础音符。
 NOTE_PLAYERBLOCK_NAME,Block Note,块笔记
-NOTE_PLAYERBLOCK_TOOLTIP,"Gives player one charge of block.","给予玩家一层格挡充能。"
+NOTE_PLAYERBLOCK_TOOLTIP,Gives player one charge of block.,给予玩家一层格挡充能。
 NOTE_PLAYEREXPLOSIVE_NAME,Explosive Note,爆炸音符
-NOTE_PLAYEREXPLOSIVE_TOOLTIP,"Deals damage to all enemies.","对所有敌人造成伤害。"
+NOTE_PLAYEREXPLOSIVE_TOOLTIP,Deals damage to all enemies.,对所有敌人造成伤害。
 NOTE_PLAYERECHO_NAME,Echo Note,回音符
-NOTE_PLAYERECHO_TOOLTIP,"Deals more damage with each loop.","每次循环造成更多伤害。"
+NOTE_PLAYERECHO_TOOLTIP,Deals more damage with each loop.,每次循环造成更多伤害。
 NOTE_PLAYERPOISON_NAME,Poison Note,毒药笔记
-NOTE_PLAYERPOISON_TOOLTIP,"Applies stacks of poison based on timing.","根据时机施加中毒层数。"
+NOTE_PLAYERPOISON_TOOLTIP,Applies stacks of poison based on timing.,根据时机施加中毒层数。
 NOTE_PLAYERMONEY_NAME,Money Note,钱的便条
-NOTE_PLAYERMONEY_TOOLTIP,"Deals no damage, but gives you money when hit.","不会造成伤害，但命中时会获得金钱。"
+NOTE_PLAYERMONEY_TOOLTIP,"Deals no damage, but gives you money when hit.",不会造成伤害，但命中时会获得金钱。
 NOTE_PLAYERCOMBO_NAME,Combo Note,连击音符
-NOTE_PLAYERCOMBO_TOOLTIP,"Deals no damage, but gives you double the combo bar charge when hit.","不会造成伤害，但命中时会获得双倍连击槽充能。"
+NOTE_PLAYERCOMBO_TOOLTIP,"Deals no damage, but gives you double the combo bar charge when hit.",不会造成伤害，但命中时会获得双倍连击槽充能。
 RELIC_BREAKFAST_NAME,Breakfast,早餐
-RELIC_BREAKFAST_TOOLTIP,"Increases max hp.",提高最大生命值
+RELIC_BREAKFAST_TOOLTIP,Increases max hp.,提高最大生命值
 RELIC_GOODVIBES_NAME,Good Vibes,良好消息
-RELIC_GOODVIBES_TOOLTIP,"Heals the player whenever they place a note.","每开始一个音符时治愈玩家"
+RELIC_GOODVIBES_TOOLTIP,Heals the player whenever they place a note.,每开始一个音符时治愈玩家
 RELIC_AUROBOROS_NAME,Auroboros,无尾蛇
-RELIC_AUROBOROS_TOOLTIP,"Bigger number, better person. Increases combo multiplier every loop.","更大的数字，更棒的人。每轮循环增加连击倍数。"
+RELIC_AUROBOROS_TOOLTIP,"Bigger number, better person. Increases combo multiplier every loop.",更大的数字，更棒的人。每轮循环增加连击倍数。
 RELIC_COLORBOROS_NAME,Colorboros,彩蛇轮回
-RELIC_COLORBOROS_TOOLTIP,"Taste the rainbow. Charges the freestyle bar every loop.","品尝彩虹。每轮循环为风格条充能。"
-RELIC_CHIPS_NAME,"Chips",薯片
-RELIC_CHIPS_TOOLTIP,"Hitting a note deals a bit of damage.","击中音符会造成少量伤害。"
+RELIC_COLORBOROS_TOOLTIP,Taste the rainbow. Charges the freestyle bar every loop.,品尝彩虹。每轮循环为风格条充能。
+RELIC_CHIPS_NAME,Chips,薯片
+RELIC_CHIPS_TOOLTIP,Hitting a note deals a bit of damage.,击中音符会造成少量伤害。
 RELIC_PAPERCUT_NAME,Paper Cut,纸割伤
-RELIC_PAPERCUT_TOOLTIP,"Deals damage each loop.","每轮造成伤害。"
-RELIC_ENERGYDRINK_NAME,Energy Drink,"能量饮料"
-RELIC_ENERGYDRINK_TOOLTIP,"Take a chance to cool down and sip an energy drink to decrease energy costs.","抓住机会冷静一下，喝一瓶能量饮料来降低能量消耗。"
-RELIC_BANDAGE_NAME,Bandage,"绷带"
-RELIC_BANDAGE_TOOLTIP,"A clean strip of cloth. Use it after a fight to patch up and feel better.","一块干净的布条，战斗后使用来包扎并恢复一些健康。"
-RELIC_MEDKIT_NAME,Medkit,"急救包"
-RELIC_MEDKIT_TOOLTIP,"A small kit with medical supplies. Heals you a bit after each loop.","包含一些医疗用品的小包，每次循环后恢复少量生命。"
-RELIC_VINYLRECORD_NAME,Vinyl Record,"黑胶唱片"
-RELIC_VINYLRECORD_TOOLTIP,"Right round, right round. All loop effects trigger twice.","把我转起来，把我转起来。所有循环效果触发两次。"
+RELIC_PAPERCUT_TOOLTIP,Deals damage each loop.,每轮造成伤害。
+RELIC_ENERGYDRINK_NAME,Energy Drink,能量饮料
+RELIC_ENERGYDRINK_TOOLTIP,Take a chance to cool down and sip an energy drink to decrease energy costs.,抓住机会冷静一下，喝一瓶能量饮料来降低能量消耗。
+RELIC_BANDAGE_NAME,Bandage,绷带
+RELIC_BANDAGE_TOOLTIP,A clean strip of cloth. Use it after a fight to patch up and feel better.,一块干净的布条，战斗后使用来包扎并恢复一些健康。
+RELIC_MEDKIT_NAME,Medkit,急救包
+RELIC_MEDKIT_TOOLTIP,A small kit with medical supplies. Heals you a bit after each loop.,包含一些医疗用品的小包，每次循环后恢复少量生命。
+RELIC_VINYLRECORD_NAME,Vinyl Record,黑胶唱片
+RELIC_VINYLRECORD_TOOLTIP,"Right round, right round. All loop effects trigger twice.",把我转起来，把我转起来。所有循环效果触发两次。
 RELIC_LOOSECHANGE_NAME,Loose Change,零钱
-RELIC_LOOSECHANGE_TOOLTIP,"Gain extra money after battles.","战斗后获得额外金钱。"
+RELIC_LOOSECHANGE_TOOLTIP,Gain extra money after battles.,战斗后获得额外金钱。
 RELIC_SPIKEDSHIELD_NAME,Spiked Shield,尖刺之盾
-RELIC_SPIKEDSHIELD_TOOLTIP,"Deal damage when you lose a charge of block.","失去格挡层数时造成伤害。"
+RELIC_SPIKEDSHIELD_TOOLTIP,Deal damage when you lose a charge of block.,失去格挡层数时造成伤害。
 RELIC_LUCKYDICE_NAME,Lucky Dice,幸运骰子
-RELIC_LUCKYDICE_TOOLTIP,"Gain one reroll for reward selections.","获得一次奖励重选。"
+RELIC_LUCKYDICE_TOOLTIP,Gain one reroll for reward selections.,获得一次奖励重选。
 RELIC_SHORTCUT_NAME,Shortcut,捷径
-RELIC_SHORTCUT_TOOLTIP,"Can choose any path regardless of connections, but only once.","可无视路径连接选择任意路线，但仅限一次。"
+RELIC_SHORTCUT_TOOLTIP,"Can choose any path regardless of connections, but only once.",可无视路径连接选择任意路线，但仅限一次。
 RELIC_SECONDPICK_NAME,Second Pick,备用拨片
-RELIC_SECONDPICK_TOOLTIP,"Placing a note has a 20% chance to instantly refill the combo bar.","每次演奏音符时，有20%的几率立即填满连击槽。"
+RELIC_SECONDPICK_TOOLTIP,Placing a note has a 20% chance to instantly refill the combo bar.,每次演奏音符时，有20%的几率立即填满连击槽。
 RELIC_BROKENDRUMSTICK_NAME,Broken Drumstick,破碎的鼓棒
-RELIC_BROKENDRUMSTICK_TOOLTIP,"Enemies start combat damaged.","敌人在战斗开始时受到伤害。"
+RELIC_BROKENDRUMSTICK_TOOLTIP,Enemies start combat damaged.,敌人在战斗开始时受到伤害。
 RELIC_BLOODMONEY_NAME,Blood Money,血腥钱袋
-RELIC_BLOODMONEY_TOOLTIP,"Gain money when taking damage below half health.","在生命值低于一半时受到伤害可获得金钱。"
+RELIC_BLOODMONEY_TOOLTIP,Gain money when taking damage below half health.,在生命值低于一半时受到伤害可获得金钱。
 RELIC_COUPON_NAME,Coupon,优惠券
-RELIC_COUPON_TOOLTIP,"Get a 10% discount on notes and relics in the shop.","在商店购买音符和遗物时可享受9折优惠。"
+RELIC_COUPON_TOOLTIP,Get a 10% discount on notes and relics in the shop.,在商店购买音符和遗物时可享受9折优惠。
 INVENTORY_TAB_NOTES,Notes,乐谱
 INVENTORY_TAB_RELICS,Relics,遗物
 OPTIONS_VOLUME_LABEL,Master Volume,最终音量设置
 OPTIONS_CONTRAST_LABEL,High Contrast,高对比度模式
 HOW_TO_PLAY,How to Play,如何游玩
-HOW_TO_PLAY_BLOCK1,"Hit notes to\nbuild combo","点击音符\n以建立连击"
-HOW_TO_PLAY_BLOCK2,"Place notes when\ncombo is full","当连击满\n时放置音符"
-HOW_TO_PLAY_BLOCK3,"Only placed notes\nhave effects","只有已放置\n的音符才有效"
-SCORING_RELICS,"Loose Change income:","零钱收入:"
-TUTORIAL_NODYING,"No dying during a tutorial!",(TODO)
+HOW_TO_PLAY_BLOCK1,Hit notes to\nbuild combo,点击音符\n以建立连击
+HOW_TO_PLAY_BLOCK2,Place notes when\ncombo is full,当连击满\n时放置音符
+HOW_TO_PLAY_BLOCK3,Only placed notes\nhave effects,只有已放置\n的音符才有效
+SCORING_RELICS,Loose Change income:,零钱收入:
+TUTORIAL_NODYING,No dying during a tutorial!,(TODO)
 TUTORIAL_DIALOGUE_1,"Hello, welcome to Midnight Riff!",(TODO)
-TUTORIAL_DIALOGUE_2,"This is a rhythm game where notes more right to left.",(TODO)
+TUTORIAL_DIALOGUE_2,This is a rhythm game where notes more right to left.,(TODO)
 TUTORIAL_DIALOGUE_3,"Press the right button as the notes line up to hit the note. The closer they line up, the better your timing, and the better you'll do.",(TODO)
 TUTORIAL_DIALOGUE_4,"What are the right buttons? I'll help you out and show you. And, just so you know, these can be customized later in the menu. Once you press continue we can get started!",(TODO)
-TUTORIAL_LOOP_1,"At set intervals the chart loops! This means all notes on the chart repeat. You know a loop is coming up when this symbol scrolls by.",(TODO)
+TUTORIAL_LOOP_1,At set intervals the chart loops! This means all notes on the chart repeat. You know a loop is coming up when this symbol scrolls by.,(TODO)
 TUTORIAL_LOOP_2,"Hopefully by now you've noticed some other things like these on the left side. This is your note queue, don't worry about it too much yet, but keep it in mind.",(TODO)
 TUTORIAL_LOOP_3,"This is the combo multiplier, as you hit notes successfully, your combo rises and as your combo rises, so will your multiplier. If you miss a note, your multiplier gets reset to 1.",(TODO)
 TUTORIAL_LOOP_4,"This is the freestyle bar, as you hit notes successfully, the freestyle bar fills. The higher your multiplier, the more the bar fills. If you miss a note the bar doesn't change. You can know the bar is full when it starts to shake.",(TODO)
 TUTORIAL_LOOP_5,"By now you've probably taken damage, even though this battle isn't very difficult. These aren't just cozy songs, these are battles! You take damage when you miss or hit notes with bad timing, or from enemy effects. How do you deal damage to enemies? Fill up the bar and I'll tell you.",(TODO)
 TUTORIAL_PLACE_1,"Okay, now that the bar is full, you will be able to press this button to place your own notes on the track. All your notes have special effects. These range from dealing damage to applying status effects! Placing notes consumes the freestyle bar.",(TODO)
-TUTORIAL_PLACE_2,"You can check what each note does by checking them in your inventory. You can check how to open your inventory in the controls menu.",(TODO)
+TUTORIAL_PLACE_2,You can check what each note does by checking them in your inventory. You can check how to open your inventory in the controls menu.,(TODO)
 TUTORIAL_PLACE_3,"Your notes can be placed anywhere a note doesn't already exist, and that isn't over the loop marker. But be careful, if you try to place a note while the bar isn't full you may miss a note!",(TODO)
 TUTORIAL_PLACE_4,"The note you'll place is indicated in the top of the note queue. You can place the note in the bottom of the note queue by holding your secondary button while you place a note. I don't want to confuse you, so don't worry about that secondary placement for now.",(TODO)
 TUTORIAL_PLACE_5,"Placed notes are automatically hit when you place them, so you don't need to worry about timing, and they are always placed on the closest beat. Though they come back around when the chart loops, so you need to time hitting them then.",(TODO)
 TUTORIAL_PLACE_6,"Now go ahead, place a note in the bottom lane!",(TODO)
 TUTORIAL_FINAL_1,"Good job, you placed a note! You either healed yourself, or dealt damage. I can't tell I'm just a Strawman.",(TODO)
 TUTORIAL_FINAL_2,"As a refresher: Hit notes to build a combo and fill the bar. When the bar is full, press one of your buttons for a lane that doesn't have a note at the current beat. Notes in the chart will loop around. Keep it up to win.",(TODO)
-TUTORIAL_FINAL_3,"Good luck! I believe in you.",(TODO)
+TUTORIAL_FINAL_3,Good luck! I believe in you.,(TODO)
 TUTORIAL_BOSS,"This may take some getting used to, but death is ok in the grand scheme of things. Just have some patience with yourself, you'll learn in the end.",(TODO)
-EVENT_CONTINUE_BUTTON,"Continue",(TODO)
-EVENT_EVENT1_DESC,"A bandit approaches you.",(TODO)
-EVENT_EVENT1_OPTION1,"Give them a random note",(TODO)
-EVENT_EVENT1_OPTION2,"Give them a random relic",(TODO)
-EVENT_EVENT1_OPTION3,"Give them half your gold",(TODO)
-EVENT_EVENT1_OUTCOME1,"You got robbed of a random note.",(TODO)
-EVENT_EVENT1_OUTCOME2,"You got robbed of a random relic.",(TODO)
-EVENT_EVENT1_OUTCOME3,"You got robbed of half your gold.",(TODO)
-EVENT_EVENT2_DESC,"There is a wheel with different outcomes.",(TODO)
-EVENT_EVENT2_OPTION1,"Spin the wheel",(TODO)
-EVENT_EVENT2_OPTION2,"Ignore the cool wheel",(TODO)
-EVENT_EVENT2_OUTCOME1,"You decided not to spin the wheel.",(TODO)
-EVENT_EVENT2_OUTCOME2,"You lost half your money.",(TODO)
-EVENT_EVENT2_OUTCOME3,"You took some damage.",(TODO)
-EVENT_EVENT2_OUTCOME4,"You won a lot of money!",(TODO)
-EVENT_EVENT2_OUTCOME5,"You gained a random note!",(TODO)
-EVENT_EVENT2_OUTCOME6,"You gained a random relic!",(TODO)
-EVENT_EVENT2_OUTCOME7,"You gained some health!",(TODO)
-EVENT_EVENT3_DESC,"There is a field medic on the side of the road.",(TODO)
-EVENT_EVENT3_OPTION1,"Receive a bit of healing",(TODO)
-EVENT_EVENT3_OPTION2,"Decrease max energy",(TODO)
-EVENT_EVENT3_OPTION3,"Purchase 2 heal notes (30g)",(TODO)
-EVENT_EVENT3_OUTCOME1,"The medic patched you up.\nYou restored 10 Health.",(TODO)
-EVENT_EVENT3_OUTCOME2,"The medic gave you a shot of adrenaline.\nMax Energy reduced by 5.",(TODO)
-EVENT_EVENT3_OUTCOME3,"The medic sold you some healing supplies.\nAdded 2 heal notes to your inventory.",(TODO)
+EVENT_CONTINUE_BUTTON,Continue,(TODO)
+EVENT_EVENT1_DESC,A bandit approaches you.,(TODO)
+EVENT_EVENT1_OPTION1,Give them a random note,(TODO)
+EVENT_EVENT1_OPTION2,Give them a random relic,(TODO)
+EVENT_EVENT1_OPTION3,Give them half your gold,(TODO)
+EVENT_EVENT1_OUTCOME1,You got robbed of a random note.,(TODO)
+EVENT_EVENT1_OUTCOME2,You got robbed of a random relic.,(TODO)
+EVENT_EVENT1_OUTCOME3,You got robbed of half your gold.,(TODO)
+EVENT_EVENT2_DESC,There is a wheel with different outcomes.,(TODO)
+EVENT_EVENT2_OPTION1,Spin the wheel,(TODO)
+EVENT_EVENT2_OPTION2,Ignore the cool wheel,(TODO)
+EVENT_EVENT2_OUTCOME1,You decided not to spin the wheel.,(TODO)
+EVENT_EVENT2_OUTCOME2,You lost half your money.,(TODO)
+EVENT_EVENT2_OUTCOME3,You took some damage.,(TODO)
+EVENT_EVENT2_OUTCOME4,You won a lot of money!,(TODO)
+EVENT_EVENT2_OUTCOME5,You gained a random note!,(TODO)
+EVENT_EVENT2_OUTCOME6,You gained a random relic!,(TODO)
+EVENT_EVENT2_OUTCOME7,You gained some health!,(TODO)
+EVENT_EVENT3_DESC,There is a field medic on the side of the road.,(TODO)
+EVENT_EVENT3_OPTION1,Receive a bit of healing,(TODO)
+EVENT_EVENT3_OPTION2,Decrease max energy,(TODO)
+EVENT_EVENT3_OPTION3,Purchase 2 heal notes (30g),(TODO)
+EVENT_EVENT3_OUTCOME1,The medic patched you up.\nYou restored 10 Health.,(TODO)
+EVENT_EVENT3_OUTCOME2,The medic gave you a shot of adrenaline.\nMax Energy reduced by 5.,(TODO)
+EVENT_EVENT3_OUTCOME3,The medic sold you some healing supplies.\nAdded 2 heal notes to your inventory.,(TODO)
