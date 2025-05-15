@@ -11,7 +11,7 @@ public partial class LWS : EnemyPuppet
         MaxHealth = 150;
         CurrentHealth = MaxHealth;
         BaseMoney = 25;
-        InitialNote = (10, 5);
+        InitialNote = (10, 3);
         base._Ready();
         var enemyTween = CreateTween();
         enemyTween.TweenProperty(Sprite, "position", Vector2.Up * 5, 1f).AsRelative();

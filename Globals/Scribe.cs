@@ -741,13 +741,13 @@ public partial class Scribe : Node
         new SongTemplate( // 15
             new SongData
             {
-                Bpm = 120,
+                Bpm = 99,
                 SongLength = -1,
                 NumLoops = 5,
             },
             name: "LWS",
-            audioLocation: "Audio/ForestWaltz.ogg",
-            songMapLocation: "Audio/songMaps/ForestWaltz.tres",
+            audioLocation: "Audio/FrostWaltz.ogg",
+            songMapLocation: "Audio/songMaps/FrostWaltz.tres",
             enemyScenePath: [LWS.LoadPath]
         ),
     };
