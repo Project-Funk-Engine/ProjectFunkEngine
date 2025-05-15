@@ -118,7 +118,7 @@ public class MapLevels
         .AddSetRoom(4, Stages.Shop)
         .AddMinHeight(Stages.Chest, 1)
         .AddMinHeight(Stages.Shop, 3)
-        .AddMinHeight(Stages.Elite, 2);
+        .AddMinHeight(Stages.Elite, 0);
 
     private static readonly MapConfig TutorialMapConfig = new MapConfig(1, 2, 1, [10, 0, 0, 0, 0]);
 
