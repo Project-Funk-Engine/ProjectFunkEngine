@@ -308,7 +308,7 @@ public partial class ControlSettings : Node2D, IFocusableMenu
             {
                 if (
                     _invalidKeys.Contains(keyEvent.Keycode)
-                    || !FileAccess.FileExists($"{IconPath}{CleanKeyboardText(@event.AsText())}.png")
+                    || !ResourceLoader.Exists($"{IconPath}{CleanKeyboardText(@event.AsText())}.png")
                 )
                 {
                     _remapDescription.Text = Tr(_invalidMessage);

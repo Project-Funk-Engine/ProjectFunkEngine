@@ -8,7 +8,7 @@ public partial class P_Keythulu : EnemyPuppet
     private Node2D _effectSprite;
 
     public static new readonly string LoadPath =
-        "res://Scenes/Puppets/Enemies/Keythulu/keythulu.tscn";
+        "res://Scenes/Puppets/Enemies/Keythulu/Keythulu.tscn";
 
     public override void _Ready()
     {

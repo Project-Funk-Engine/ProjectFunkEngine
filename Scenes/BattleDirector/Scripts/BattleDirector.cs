@@ -88,7 +88,7 @@ public partial class BattleDirector : Node2D
         NSA.LogLevelStart(
             StageProducer.CurLevel.Id.ToString(),
             StageProducer.CurRoom.ToString(),
-            (_enemies[1]).GetType().Name
+            (_enemies[0]).GetType().Name
         );
     }
 
