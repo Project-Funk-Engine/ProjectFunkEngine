@@ -1,11 +1,17 @@
 using System;
+using System.Collections;
+using System.IO;
 using GameAnalyticsSDK.Net;
 using Godot;
+using Environment = System.Environment;
 
 public partial class NSA : Node
 {
     private double avgFPS = 0;
     private double previousAvgFPS = 0;
+
+    //Gonna store stuff so we dont trash FPS with file IO
+    static ArrayList logs = new ArrayList();
 
     public override void _EnterTree()
     {
@@ -23,6 +29,18 @@ public partial class NSA : Node
     {
         GameAnalytics.EndSession();
         base._ExitTree();
+
+        string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+        using (
+            StreamWriter outputFile = new StreamWriter(
+                Path.Combine(docPath, $"Log {DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt")
+            )
+        )
+        {
+            foreach (string line in logs)
+                outputFile.WriteLine(line);
+        }
     }
 
     public override void _Process(double delta)
@@ -30,7 +48,8 @@ public partial class NSA : Node
         //Log if we drop below 10 FPS
         if (Engine.GetFramesPerSecond() < 10)
         {
-            GameAnalytics.AddDesignEvent("LowFPS:RealFPSBelow10");
+            addTextLog("Low FPS: " + Engine.GetFramesPerSecond());
+            GameAnalytics.AddDesignEvent("LowFPS : " + Engine.GetFramesPerSecond());
         }
 
         //Log if our average FPS drops below previous and is below 59
@@ -40,6 +59,7 @@ public partial class NSA : Node
         if (avgFPS < previousAvgFPS && avgFPS < 59)
         {
             GameAnalytics.AddDesignEvent("AvgFPSDecreased:" + avgFPS);
+            addTextLog("Average FPS below threshold: " + avgFPS);
         }
     }
 
@@ -63,6 +83,16 @@ public partial class NSA : Node
             levelName,
             remainingHealth
         );
+        addTextLog(
+            "Completed Level in world: "
+                + worldName
+                + " level: "
+                + levelName
+                + " with remaining health:  "
+                + remainingHealth
+                + " did they win?: "
+                + win
+        );
     }
 
     /// <summary>
@@ -73,6 +103,7 @@ public partial class NSA : Node
     public static void LogLevelStart(string worldName, string levelName)
     {
         GameAnalytics.AddProgressionEvent(EGAProgressionStatus.Start, worldName, levelName);
+        addTextLog("Starting Level in world: " + worldName + " level: " + levelName);
     }
 
     /// <summary>
@@ -84,5 +115,11 @@ public partial class NSA : Node
     public static void LogRemapEvent(string inputType, string keyName, int setKey)
     {
         GameAnalytics.AddDesignEvent(inputType + "Remap:" + keyName, setKey);
+        addTextLog("Remapping " + inputType + " key: " + keyName + " to: " + setKey);
+    }
+
+    private static void addTextLog(string text)
+    {
+        logs.Add(DateTime.Now + ": " + text);
     }
 }
