@@ -20,8 +20,8 @@ public partial class P_Keythulu : EnemyPuppet
         _effectSprite.Visible = false;
 
         var enemTween = CreateTween();
-        enemTween.TweenProperty(Sprite, "position", Vector2.Up * 10, 1f).AsRelative();
-        enemTween.TweenProperty(Sprite, "position", Vector2.Down * 10, 1f).AsRelative();
+        enemTween.TweenProperty(Sprite, "position", Vector2.Left * 10, 1f).AsRelative();
+        enemTween.TweenProperty(Sprite, "position", Vector2.Right * 10, 1f).AsRelative();
         enemTween.SetTrans(Tween.TransitionType.Bounce);
         enemTween.SetEase(Tween.EaseType.InOut);
         enemTween.SetLoops();
@@ -31,14 +31,21 @@ public partial class P_Keythulu : EnemyPuppet
         {
             new EnemyEffect(
                 this,
+                BattleEffectTrigger.OnBattleStart,
+                7,
+                (e, eff, val) =>
+                {
+                    e.BD.AddStatus(Targetting.Player, StatusEffect.MindCrush, val);
+                }
+            ),
+            new EnemyEffect(
+                this,
                 BattleEffectTrigger.OnLoop,
                 3,
                 (e, eff, val) =>
                 {
-                    e.BD.AddStatus(Targetting.Player, StatusEffect.Poison, val);
                     _effectSprite.Position = Vector2.Zero;
                     _effectSprite.Visible = true;
-
                     var effectTween = CreateTween();
                     effectTween
                         .TweenProperty(_effectSprite, "position", Vector2.Left * 2000, 6f)
