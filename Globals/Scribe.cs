@@ -218,6 +218,19 @@ public partial class Scribe : Node
                 director.AddStatus(Targetting.Player, StatusEffect.Poison, amt);
             }
         ),
+        new Note(
+            16,
+            "LWS",
+            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_LWS.png"),
+            1,
+            (director, note, timing) =>
+            {
+                int dmg = (3 - (int)timing) * note.GetBaseVal() + (TimeKeeper.LastBeat.Loop / 2);
+                if (timing == Timing.Perfect)
+                    dmg = 0;
+                director.DealDamage(Targetting.Player, dmg, note.Owner);
+            }
+        ),
     };
 
     public static readonly RelicTemplate[] RelicDictionary = new[]
