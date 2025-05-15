@@ -37,7 +37,7 @@ public partial class StageProducer : Node
         LiveInstance = this;
     }
 
-    private void InitFromCfg()
+    public void InitFromCfg()
     {
         OptionsMenu.ChangeVolume(
             SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.Volume).As<float>()

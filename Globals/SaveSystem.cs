@@ -368,6 +368,12 @@ public static class SaveSystem
             GD.PushWarning($"Could not parse joypad button: {buttonString}");
         }
     }
+
+    public static void ClearConfig()
+    {
+        DirAccess.RemoveAbsolute(UserConfigPath);
+        InitConfig();
+    }
     #endregion
 
     #region Save

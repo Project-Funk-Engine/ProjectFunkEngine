@@ -85,7 +85,7 @@ public partial class SteamWhisperer : Node
     }
 
     //For Debugging purposes. Resets all stats/ achievements
-    private static void ResetAll()
+    public static void ResetAll()
     {
         if (!Steam.IsSteamRunning())
         {
