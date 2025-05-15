@@ -7,6 +7,9 @@ public partial class P_CyberFox : EnemyPuppet
     public static new readonly string LoadPath =
         "res://Scenes/Puppets/Enemies/CyberFox/CyberFox.tscn";
 
+    [Export]
+    private GlitchScript _effectNode;
+
     public override void _Ready()
     {
         MaxHealth = 130;
@@ -26,5 +29,19 @@ public partial class P_CyberFox : EnemyPuppet
         enemTween.SetEase(Tween.EaseType.InOut);
         enemTween.SetLoops();
         enemTween.Play();
+
+        BattleEvents = new EnemyEffect[]
+        {
+            new EnemyEffect(
+                this,
+                BattleEffectTrigger.OnLoop,
+                1,
+                (e, eff, val) =>
+                {
+                    e.BD.AddStatus(Targetting.First, StatusEffect.Block, 1);
+                    _effectNode.TriggerGlitch(1f);
+                }
+            ),
+        };
     }
 }
