@@ -193,16 +193,17 @@ public partial class ShopScene : Control
                 StageProducer.PlayerStats.AddNote(note);
                 AddNoteToPossessions(note);
                 _shopNotes.Remove(note);
+                Callable.From(() => _noteGrid.GetChild<Control>(0).GrabFocus()).CallDeferred();
                 break;
             case RelicTemplate relic:
                 StageProducer.PlayerStats.AddRelic(relic);
                 _shopRelics.Remove(relic);
+                Callable.From(() => _relicGrid.GetChild<Control>(0).GrabFocus()).CallDeferred();
                 break;
         }
 
         CloseConfirmationPopup();
 
-        GetViewport().GuiGetFocusOwner().FindNextValidFocus().GrabFocus(); //slightly hacky
         _currentUItem.Visible = false;
         _currentUItem.QueueFree();
         UpdateMoneyLabel();

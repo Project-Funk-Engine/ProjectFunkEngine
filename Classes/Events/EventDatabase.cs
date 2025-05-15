@@ -11,7 +11,7 @@ public class EventDatabase
     public static readonly EventTemplate[] EventDictionary = new[]
     {
         new EventTemplate(
-            1,
+            0,
             "EVENT_EVENT1_DESC",
             ["EVENT_EVENT1_OPTION1", "EVENT_EVENT1_OPTION2", "EVENT_EVENT1_OPTION3"],
             ["EVENT_EVENT1_OUTCOME1", "EVENT_EVENT1_OUTCOME2", "EVENT_EVENT1_OUTCOME3"],

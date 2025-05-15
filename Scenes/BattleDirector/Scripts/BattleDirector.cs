@@ -636,7 +636,7 @@ public partial class BattleDirector : Node2D
     {
         foreach (EnemyPuppet enemy in _enemies)
         {
-            enemy.TakeDamage(new DamageInstance(1000, null, enemy));
+            enemy.TakeDamage(new DamageInstance(1000, null, null));
         }
     }
 
