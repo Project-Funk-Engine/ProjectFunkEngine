@@ -173,6 +173,7 @@ public partial class StageProducer : Node
 
     public void TransitionStage(Stages nextStage, int nextRoomIdx = -1)
     {
+        NSA.addTextLog("Transitioning to " + nextStage);
         GetTree().Root.RemoveChild(ContrastFilter);
         switch (nextStage)
         {

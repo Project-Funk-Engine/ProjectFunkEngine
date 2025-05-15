@@ -30,17 +30,7 @@ public partial class NSA : Node
         GameAnalytics.EndSession();
         base._ExitTree();
 
-        string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
-        using (
-            StreamWriter outputFile = new StreamWriter(
-                Path.Combine(docPath, $"Log {DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt")
-            )
-        )
-        {
-            foreach (string line in logs)
-                outputFile.WriteLine(line);
-        }
+        ResetTextLog();
     }
 
     public override void _Process(double delta)
@@ -100,10 +90,17 @@ public partial class NSA : Node
     /// </summary>
     /// <param name="worldName">The more global name for the level. For example: Forest or City</param>
     /// <param name="levelName">The local name for the level</param>
-    public static void LogLevelStart(string worldName, string levelName)
+    public static void LogLevelStart(string worldName, string levelName, string enemyName)
     {
         GameAnalytics.AddProgressionEvent(EGAProgressionStatus.Start, worldName, levelName);
-        addTextLog("Starting Level in world: " + worldName + " level: " + levelName);
+        addTextLog(
+            "Starting Level in world: "
+                + worldName
+                + " level: "
+                + levelName
+                + " enemy: "
+                + enemyName
+        );
     }
 
     /// <summary>
@@ -118,8 +115,27 @@ public partial class NSA : Node
         addTextLog("Remapping " + inputType + " key: " + keyName + " to: " + setKey);
     }
 
-    private static void addTextLog(string text)
+    public static void addTextLog(string text)
     {
         logs.Add(DateTime.Now + ": " + text);
+    }
+
+    public static void ResetTextLog()
+    {
+        //write the logs to file
+        string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+        using (
+            StreamWriter outputFile = new StreamWriter(
+                Path.Combine(docPath, $"Log {DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt")
+            )
+        )
+        {
+            foreach (string line in logs)
+                outputFile.WriteLine(line);
+        }
+
+        //clear the logs
+        logs.Clear();
     }
 }

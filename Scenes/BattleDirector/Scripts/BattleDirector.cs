@@ -85,7 +85,11 @@ public partial class BattleDirector : Node2D
         _initializedPlaying = true;
 
         //I'm counting this as the official battle start for now
-        NSA.LogLevelStart(StageProducer.CurLevel.Id.ToString(), StageProducer.CurRoom.ToString());
+        NSA.LogLevelStart(
+            StageProducer.CurLevel.Id.ToString(),
+            StageProducer.CurRoom.ToString(),
+            (_enemies[1]).GetType().Name
+        );
     }
 
     public override void _Ready()

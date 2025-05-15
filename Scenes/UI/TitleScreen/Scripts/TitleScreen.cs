@@ -20,6 +20,7 @@ public partial class TitleScreen : Control, IFocusableMenu
         {
             if (eventKey.Keycode == Key.Key0)
             {
+                NSA.ResetTextLog();
                 SteamWhisperer.ResetAll();
                 SaveSystem.ClearSave();
                 SaveSystem.ClearConfig();
