@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using FunkEngine;
 using Godot;
 
@@ -25,6 +26,8 @@ public partial class EventScene : Node
     [Export]
     private MarginContainer _continueContainer;
 
+    public static List<int> EventPool;
+
     private static readonly Theme ButtonTheme = GD.Load<Theme>(
         "res://Scenes/UI/Assets/GeneralTheme.tres"
     ); // Store the theme
@@ -34,15 +37,18 @@ public partial class EventScene : Node
 
     public override void _Ready()
     {
-        GD.Print("loaded event");
         _player = GD.Load<PackedScene>(PlayerPuppet.LoadPath).Instantiate<PlayerPuppet>();
         PlayerMarker.AddChild(_player);
 
-        int eventIndex = StageProducer.GlobalRng.RandiRange(
-            0,
-            EventDatabase.EventDictionary.Length - 1
-        );
+        if (EventPool == null || EventPool.Count == 0)
+            RefreshPool();
+
+        RandomNumberGenerator stageRng = new RandomNumberGenerator();
+        stageRng.SetSeed(StageProducer.GlobalRng.Seed + (ulong)StageProducer.Config.BattleRoom.Idx);
+        int eventIndex = stageRng.RandiRange(0, EventPool.Count - 1);
         _eventReference = EventDatabase.EventDictionary[eventIndex];
+
+        EventPool.RemoveAt(eventIndex);
         DisplayEvent();
     }
 
@@ -54,6 +60,20 @@ public partial class EventScene : Node
                 _continueButton.GrabFocus();
             else
                 _buttonContainer.GetChild<Control>(0).GrabFocus();
+        }
+    }
+
+    private void RefreshPool()
+    {
+        EventPool = new List<int>();
+        for (int i = 0; i < EventDatabase.EventDatabaseSize; i++)
+        {
+            EventPool.Add(i);
+        }
+        for (int i = 0; i < EventPool.Count - 2; i++)
+        {
+            int randIdx = StageProducer.GlobalRng.RandiRange(0, EventPool.Count - 1);
+            (EventPool[i], EventPool[randIdx]) = (EventPool[randIdx], EventPool[i]); //rad
         }
     }
 
@@ -95,7 +115,6 @@ public partial class EventScene : Node
             int capturedIndex = i;
             button.Pressed += () =>
             {
-                GD.Print($"Selected option: {_eventReference.ButtonDescriptions[capturedIndex]}");
                 _eventReference.OptionActions[capturedIndex]?.Invoke(_eventReference, this);
                 AnyButtonPressed(capturedIndex);
             };

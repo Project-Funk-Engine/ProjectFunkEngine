@@ -6,6 +6,8 @@ using Godot;
 /// </summary>
 public class EventDatabase
 {
+    public const int EventDatabaseSize = 3;
+
     public static readonly EventTemplate[] EventDictionary = new[]
     {
         new EventTemplate(
