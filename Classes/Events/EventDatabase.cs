@@ -35,7 +35,7 @@ public class EventDatabase
                     StageProducer.PlayerStats.Money /= 2;
                 },
             ],
-            GD.Load<Texture2D>("res://Classes/Events/Assets/Event1.png"),
+            null,
             [
                 () => StageProducer.PlayerStats.CurNotes.Length > 0,
                 () => StageProducer.PlayerStats.CurRelics.Length > 0,
@@ -146,7 +146,7 @@ public class EventDatabase
                     StageProducer.PlayerStats.AddNote(Scribe.NoteDictionary[3]);
                 },
             ],
-            GD.Load<Texture2D>("res://Classes/Events/Assets/Event3.png"),
+            null,
             [null, null, () => StageProducer.PlayerStats.Money >= 30]
         ),
     };

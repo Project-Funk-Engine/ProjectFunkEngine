@@ -19,12 +19,13 @@ gradient = SubResource("Gradient_hguc7")
 width = 22
 height = 18
 
-[node name="Holograeme" type="Node2D" node_paths=PackedStringArray("_whiteHand", "_redHand", "HealthBar", "Sprite")]
+[node name="Holograeme" type="Node2D" node_paths=PackedStringArray("_whiteHand", "_redHand", "HealthBar", "Sprite", "_statusContainer")]
 script = ExtResource("1_qkr3f")
 _whiteHand = NodePath("Hand2Center")
 _redHand = NodePath("Hand1Center")
 HealthBar = NodePath("ProgressBar")
 Sprite = NodePath("Sprite")
+_statusContainer = NodePath("StatusContainer")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 position = Vector2(0, -4)
