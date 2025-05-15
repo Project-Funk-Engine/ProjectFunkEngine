@@ -88,6 +88,28 @@ public partial class StatusEffect : TextureRect, IBattleEvent
         )
         .SetTags(true);
 
+    private static readonly Action<BattleEventArgs, StatusEffect> MindCrushEffect = (e, self) =>
+    {
+        if (e is not BattleDirector.Harbinger.LoopEventArgs)
+            return;
+        if (self.Sufferer == null)
+            return;
+        self.DecCount();
+        if (self.Count < 1)
+        {
+            self.Sufferer.TakeDamage(new DamageInstance(1000, null, null));
+        }
+    };
+
+    public static readonly StatusEffect MindCrush = new StatusEffect()
+        .InitStatus(
+            "MindCrush",
+            MindCrushEffect,
+            BattleEffectTrigger.OnLoop,
+            GD.Load<Texture2D>("res://Classes/StatusEffects/Assets/Status_MindCrush.png")
+        )
+        .SetTags(true);
+
     public static readonly Action<BattleEventArgs, StatusEffect> DisableEffect = (_, self) =>
     {
         self.DecCount();
