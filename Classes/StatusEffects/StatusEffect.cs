@@ -110,6 +110,29 @@ public partial class StatusEffect : TextureRect, IBattleEvent
         )
         .SetTags(true);
 
+    private static readonly Action<BattleEventArgs, StatusEffect> DodgeEffect = (e, self) =>
+    {
+        if (e is BattleDirector.Harbinger.OnDamageInstanceArgs dmgArgs)
+        {
+            if (dmgArgs.Dmg.Target != self.Sufferer || dmgArgs.Dmg.Damage <= 0)
+                return;
+            if (StageProducer.GlobalRng.RandiRange(0, 1) == 0)
+                return;
+
+            dmgArgs.Dmg.ModifyDamage(0, 0);
+            self.DecCount();
+        }
+    };
+
+    public static readonly StatusEffect Dodge = new StatusEffect()
+        .InitStatus(
+            "Dodge",
+            DodgeEffect,
+            BattleEffectTrigger.OnDamageInstance,
+            GD.Load<Texture2D>("res://Classes/StatusEffects/Assets/Status_Dodge.png")
+        )
+        .SetTags(true);
+
     public static readonly Action<BattleEventArgs, StatusEffect> DisableEffect = (_, self) =>
     {
         self.DecCount();

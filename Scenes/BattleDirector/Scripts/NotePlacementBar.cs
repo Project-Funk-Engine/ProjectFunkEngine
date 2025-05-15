@@ -196,6 +196,11 @@ public partial class NotePlacementBar : Node
         return _currentCombo;
     }
 
+    public double GetCurrentBarValue()
+    {
+        return CurrentBarValue;
+    }
+
     public void ResetCurrentCombo()
     {
         _currentCombo = 0;

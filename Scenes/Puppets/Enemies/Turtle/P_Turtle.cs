@@ -19,5 +19,24 @@ public partial class P_Turtle : EnemyPuppet
         enemTween.SetEase(Tween.EaseType.InOut);
         enemTween.SetLoops();
         enemTween.Play();
+
+        BattleEvents = new EnemyEffect[]
+        {
+            new EnemyEffect(
+                this,
+                BattleEffectTrigger.OnLoop,
+                1,
+                (e, eff, val) =>
+                {
+                    // take 1/4th of player's energy, and heal that amount
+                    int quarterEnergy = (int)e.BD.NPB.GetCurrentBarValue() / 4;
+                    e.BD.NPB.IncreaseCharge(-quarterEnergy);
+                    this.Heal(quarterEnergy);
+
+                    //gain block based on val
+                    e.BD.AddStatus(Targetting.First, StatusEffect.Block, val);
+                }
+            ),
+        };
     }
 }
