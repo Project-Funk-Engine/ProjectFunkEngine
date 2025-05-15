@@ -87,6 +87,70 @@ public partial class StatusEffect : TextureRect, IBattleEvent
             GD.Load<Texture2D>("res://Classes/StatusEffects/Assets/Status_Poison.png")
         )
         .SetTags(true);
+
+    private static readonly Action<BattleEventArgs, StatusEffect> MindCrushEffect = (e, self) =>
+    {
+        if (e is not BattleDirector.Harbinger.LoopEventArgs)
+            return;
+        if (self.Sufferer == null)
+            return;
+        self.DecCount();
+        if (self.Count < 1)
+        {
+            self.Sufferer.TakeDamage(new DamageInstance(1000, null, null));
+        }
+    };
+
+    public static readonly StatusEffect MindCrush = new StatusEffect()
+        .InitStatus(
+            "MindCrush",
+            MindCrushEffect,
+            BattleEffectTrigger.OnLoop,
+            GD.Load<Texture2D>("res://Classes/StatusEffects/Assets/Status_MindCrush.png")
+        )
+        .SetTags(true);
+
+    private static readonly Action<BattleEventArgs, StatusEffect> DodgeEffect = (e, self) =>
+    {
+        if (e is BattleDirector.Harbinger.OnDamageInstanceArgs dmgArgs)
+        {
+            if (dmgArgs.Dmg.Target != self.Sufferer || dmgArgs.Dmg.Damage <= 0)
+                return;
+            if (StageProducer.GlobalRng.RandiRange(0, 1) == 0)
+                return;
+
+            dmgArgs.Dmg.ModifyDamage(0, 0);
+            self.DecCount();
+        }
+    };
+
+    public static readonly StatusEffect Dodge = new StatusEffect()
+        .InitStatus(
+            "Dodge",
+            DodgeEffect,
+            BattleEffectTrigger.OnDamageInstance,
+            GD.Load<Texture2D>("res://Classes/StatusEffects/Assets/Status_Dodge.png")
+        )
+        .SetTags(true);
+
+    public static readonly Action<BattleEventArgs, StatusEffect> DisableEffect = (_, self) =>
+    {
+        self.DecCount();
+        if (self.Count < 1)
+            BattleDirector.PlayerDisabled = false;
+    };
+
+    /// <summary>
+    /// Doesn't actually successfully disable input, should be disabled manually, and generally paired with autoplay.
+    /// </summary>
+    public static readonly StatusEffect Disable = new StatusEffect()
+        .InitStatus(
+            "Disable",
+            DisableEffect,
+            BattleEffectTrigger.OnLoop,
+            GD.Load<Texture2D>("res://Classes/StatusEffects/Assets/Status_Disable.png")
+        )
+        .SetTags(false, true);
     #endregion
 
     private BattleEffectTrigger _trigger;
@@ -120,7 +184,7 @@ public partial class StatusEffect : TextureRect, IBattleEvent
     {
         StatusEffect result = GD.Load<PackedScene>(LoadPath).Instantiate<StatusEffect>();
         result.SetCount(count);
-        result.InitStatus(Name, _effect, _trigger, Texture);
+        result.InitStatus(StatusName, _effect, _trigger, Texture);
         result.SetTags(_stackable, _refreshes);
         return result;
     }

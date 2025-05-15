@@ -1,0 +1,141 @@
+[gd_resource type="Resource" load_steps=29 format=3]
+
+[ext_resource type="Script" path="res://Classes/MidiMaestro/NoteInfo.cs" id="1_kilos"]
+[ext_resource type="Script" path="res://Classes/MidiMaestro/NoteChart.cs" id="2_ojgcg"]
+
+[sub_resource type="Resource" id="Resource_kilos"]
+script = ExtResource("1_kilos")
+Beat = 6.0
+Length = 3.0
+
+[sub_resource type="Resource" id="Resource_ojgcg"]
+script = ExtResource("1_kilos")
+Beat = 19.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_e2i3v"]
+script = ExtResource("1_kilos")
+Beat = 32.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_bxgte"]
+script = ExtResource("1_kilos")
+Beat = 38.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_7c41j"]
+script = ExtResource("1_kilos")
+Beat = 56.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_ibasm"]
+script = ExtResource("1_kilos")
+Beat = 57.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_57q1g"]
+script = ExtResource("1_kilos")
+Beat = 58.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_5kf2q"]
+script = ExtResource("1_kilos")
+Beat = 9.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_klick"]
+script = ExtResource("1_kilos")
+Beat = 3.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_ncgpb"]
+script = ExtResource("1_kilos")
+Beat = 70.0
+Length = 2.0
+
+[sub_resource type="Resource" id="Resource_58gsr"]
+script = ExtResource("1_kilos")
+Beat = 17.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_cuxey"]
+script = ExtResource("1_kilos")
+Beat = 27.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_uqtyg"]
+script = ExtResource("1_kilos")
+Beat = 47.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_8wxpt"]
+script = ExtResource("1_kilos")
+Beat = 64.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_7xcdg"]
+script = ExtResource("1_kilos")
+Beat = 65.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_erw8g"]
+script = ExtResource("1_kilos")
+Beat = 44.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_ka8yr"]
+script = ExtResource("1_kilos")
+Beat = 12.0
+Length = 3.0
+
+[sub_resource type="Resource" id="Resource_8jxfc"]
+script = ExtResource("1_kilos")
+Beat = 22.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_al1ha"]
+script = ExtResource("1_kilos")
+Beat = 27.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_heg8m"]
+script = ExtResource("1_kilos")
+Beat = 38.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_j42ns"]
+script = ExtResource("1_kilos")
+Beat = 44.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_kihon"]
+script = ExtResource("1_kilos")
+Beat = 3.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_j43rp"]
+script = ExtResource("1_kilos")
+Beat = 31.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_3j8yo"]
+script = ExtResource("1_kilos")
+Beat = 17.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_vk213"]
+script = ExtResource("1_kilos")
+Beat = 47.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_dsydf"]
+script = ExtResource("1_kilos")
+Beat = 54.0
+Length = 0.0
+
+[resource]
+script = ExtResource("2_ojgcg")
+UpLaneData = Array[ExtResource("1_kilos")]([SubResource("Resource_j42ns"), SubResource("Resource_kihon"), SubResource("Resource_j43rp"), SubResource("Resource_3j8yo"), SubResource("Resource_vk213"), SubResource("Resource_dsydf")])
+DownLaneData = Array[ExtResource("1_kilos")]([SubResource("Resource_kilos"), SubResource("Resource_ojgcg"), SubResource("Resource_e2i3v"), SubResource("Resource_bxgte"), SubResource("Resource_7c41j"), SubResource("Resource_ibasm"), SubResource("Resource_57q1g")])
+LeftLaneData = Array[ExtResource("1_kilos")]([SubResource("Resource_5kf2q"), SubResource("Resource_klick"), SubResource("Resource_ncgpb"), SubResource("Resource_58gsr"), SubResource("Resource_cuxey"), SubResource("Resource_uqtyg"), SubResource("Resource_8wxpt"), SubResource("Resource_7xcdg")])
+RightLaneData = Array[ExtResource("1_kilos")]([SubResource("Resource_erw8g"), SubResource("Resource_ka8yr"), SubResource("Resource_8jxfc"), SubResource("Resource_al1ha"), SubResource("Resource_heg8m")])

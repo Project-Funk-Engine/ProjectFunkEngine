@@ -14,6 +14,20 @@ public partial class TitleScreen : Control, IFocusableMenu
     private Control _focused;
     public IFocusableMenu Prev { get; set; }
 
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (@event is InputEventKey eventKey && eventKey.Pressed && !eventKey.Echo)
+        {
+            if (eventKey.Keycode == Key.Key0)
+            {
+                SteamWhisperer.ResetAll();
+                SaveSystem.ClearSave();
+                SaveSystem.ClearConfig();
+                StageProducer.LiveInstance.InitFromCfg();
+            }
+        }
+    }
+
     public override void _EnterTree()
     {
         BgAudioPlayer.LiveInstance.PlayLevelMusic();

@@ -1,0 +1,221 @@
+[gd_resource type="Resource" load_steps=45 format=3]
+
+[ext_resource type="Script" path="res://Classes/MidiMaestro/NoteInfo.cs" id="1_tuude"]
+[ext_resource type="Script" path="res://Classes/MidiMaestro/NoteChart.cs" id="2_hfiht"]
+
+[sub_resource type="Resource" id="Resource_i2qfq"]
+script = ExtResource("1_tuude")
+Beat = 4.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_clkmt"]
+script = ExtResource("1_tuude")
+Beat = 7.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_2yhqr"]
+script = ExtResource("1_tuude")
+Beat = 10.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_avloc"]
+script = ExtResource("1_tuude")
+Beat = 13.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_7ipoh"]
+script = ExtResource("1_tuude")
+Beat = 15.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_rc4vs"]
+script = ExtResource("1_tuude")
+Beat = 18.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_hsxfe"]
+script = ExtResource("1_tuude")
+Beat = 24.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_5uul0"]
+script = ExtResource("1_tuude")
+Beat = 27.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_20iwo"]
+script = ExtResource("1_tuude")
+Beat = 25.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_q3mne"]
+script = ExtResource("1_tuude")
+Beat = 2.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_klde2"]
+script = ExtResource("1_tuude")
+Beat = 5.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_6wxhr"]
+script = ExtResource("1_tuude")
+Beat = 7.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_4fyoq"]
+script = ExtResource("1_tuude")
+Beat = 11.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_1hg6d"]
+script = ExtResource("1_tuude")
+Beat = 14.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_6on7t"]
+script = ExtResource("1_tuude")
+Beat = 19.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_eq4ob"]
+script = ExtResource("1_tuude")
+Beat = 22.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_2rtaq"]
+script = ExtResource("1_tuude")
+Beat = 25.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_t5na6"]
+script = ExtResource("1_tuude")
+Beat = 9.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_447id"]
+script = ExtResource("1_tuude")
+Beat = 1.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_5hmpv"]
+script = ExtResource("1_tuude")
+Beat = 3.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_xky58"]
+script = ExtResource("1_tuude")
+Beat = 5.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_sxqb5"]
+script = ExtResource("1_tuude")
+Beat = 8.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_ae4y0"]
+script = ExtResource("1_tuude")
+Beat = 9.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_j7a00"]
+script = ExtResource("1_tuude")
+Beat = 11.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_tbgdx"]
+script = ExtResource("1_tuude")
+Beat = 13.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_55ty7"]
+script = ExtResource("1_tuude")
+Beat = 14.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_meqji"]
+script = ExtResource("1_tuude")
+Beat = 15.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_bc4nj"]
+script = ExtResource("1_tuude")
+Beat = 16.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_i1t8w"]
+script = ExtResource("1_tuude")
+Beat = 20.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_qmi4l"]
+script = ExtResource("1_tuude")
+Beat = 21.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_ebk8g"]
+script = ExtResource("1_tuude")
+Beat = 24.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_cj46n"]
+script = ExtResource("1_tuude")
+Beat = 27.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_8xjpx"]
+script = ExtResource("1_tuude")
+Beat = 1.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_wsgab"]
+script = ExtResource("1_tuude")
+Beat = 6.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_qwdig"]
+script = ExtResource("1_tuude")
+Beat = 9.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_66kxm"]
+script = ExtResource("1_tuude")
+Beat = 12.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_7ilo7"]
+script = ExtResource("1_tuude")
+Beat = 14.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_a20b3"]
+script = ExtResource("1_tuude")
+Beat = 17.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_pqrtt"]
+script = ExtResource("1_tuude")
+Beat = 19.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_pwr5v"]
+script = ExtResource("1_tuude")
+Beat = 23.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_rt0eg"]
+script = ExtResource("1_tuude")
+Beat = 26.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_8g5uo"]
+script = ExtResource("1_tuude")
+Beat = 21.0
+Length = 0.0
+
+[resource]
+script = ExtResource("2_hfiht")
+UpLaneData = Array[ExtResource("1_tuude")]([SubResource("Resource_8xjpx"), SubResource("Resource_wsgab"), SubResource("Resource_qwdig"), SubResource("Resource_66kxm"), SubResource("Resource_7ilo7"), SubResource("Resource_a20b3"), SubResource("Resource_pqrtt"), SubResource("Resource_pwr5v"), SubResource("Resource_rt0eg"), SubResource("Resource_8g5uo")])
+DownLaneData = Array[ExtResource("1_tuude")]([SubResource("Resource_i2qfq"), SubResource("Resource_clkmt"), SubResource("Resource_2yhqr"), SubResource("Resource_avloc"), SubResource("Resource_7ipoh"), SubResource("Resource_rc4vs"), SubResource("Resource_hsxfe"), SubResource("Resource_5uul0"), SubResource("Resource_20iwo")])
+LeftLaneData = Array[ExtResource("1_tuude")]([SubResource("Resource_q3mne"), SubResource("Resource_klde2"), SubResource("Resource_6wxhr"), SubResource("Resource_4fyoq"), SubResource("Resource_1hg6d"), SubResource("Resource_6on7t"), SubResource("Resource_eq4ob"), SubResource("Resource_2rtaq"), SubResource("Resource_t5na6")])
+RightLaneData = Array[ExtResource("1_tuude")]([SubResource("Resource_447id"), SubResource("Resource_5hmpv"), SubResource("Resource_xky58"), SubResource("Resource_sxqb5"), SubResource("Resource_ae4y0"), SubResource("Resource_j7a00"), SubResource("Resource_tbgdx"), SubResource("Resource_55ty7"), SubResource("Resource_meqji"), SubResource("Resource_bc4nj"), SubResource("Resource_i1t8w"), SubResource("Resource_qmi4l"), SubResource("Resource_ebk8g"), SubResource("Resource_cj46n")])

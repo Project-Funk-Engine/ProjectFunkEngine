@@ -205,6 +205,45 @@ public partial class Scribe : Node
             default,
             Targetting.Player
         ),
+        new Note(
+            15,
+            "Spider",
+            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_Spider.png"),
+            1,
+            (director, note, timing) =>
+            {
+                if (timing == Timing.Perfect)
+                    return;
+                int amt = Math.Max((3 - (int)timing) * note.GetBaseVal(), 1);
+                director.AddStatus(Targetting.Player, StatusEffect.Poison, amt);
+            }
+        ),
+        new Note(
+            16,
+            "LWS",
+            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_LWS.png"),
+            1,
+            (director, note, timing) =>
+            {
+                int dmg = (3 - (int)timing) * note.GetBaseVal() + (TimeKeeper.LastBeat.Loop / 2);
+                if (timing == Timing.Perfect)
+                    dmg = 0;
+                director.DealDamage(Targetting.Player, dmg, note.Owner);
+            }
+        ),
+        new Note(
+            17,
+            "Mushroom",
+            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_Mushroom.png"),
+            2,
+            (director, note, timing) =>
+            {
+                if (timing == Timing.Perfect)
+                    return;
+                int amt = Math.Max((3 - (int)timing) * note.GetBaseVal(), 1);
+                director.AddStatus(Targetting.Player, StatusEffect.Poison, amt);
+            }
+        ),
     };
 
     public static readonly RelicTemplate[] RelicDictionary = new[]
@@ -572,9 +611,9 @@ public partial class Scribe : Node
         new SongTemplate(
             new SongData
             {
-                Bpm = 60,
+                Bpm = 120,
                 SongLength = -1,
-                NumLoops = 1,
+                NumLoops = 2,
             },
             "Song2",
             "Audio/Song2.ogg",
@@ -616,6 +655,126 @@ public partial class Scribe : Node
             "Audio/District_Four.ogg",
             "Audio/songMaps/TutorialBoss176_7.tres",
             [P_Effigy.LoadPath]
+        ),
+        new SongTemplate(
+            new SongData
+            {
+                Bpm = 120,
+                SongLength = -1,
+                NumLoops = 4,
+            },
+            "EcholaneSong",
+            "Audio/EcholaneSong.ogg",
+            "Audio/songMaps/EcholaneSong.tres",
+            [P_Turtle.LoadPath]
+        ),
+        new SongTemplate(
+            new SongData
+            {
+                Bpm = 180,
+                SongLength = -1,
+                NumLoops = 1,
+            },
+            "CyberFoxSong",
+            "Audio/CyberFoxSong.ogg",
+            "Audio/songMaps/CyberFoxSong.tres",
+            [P_CyberFox.LoadPath]
+        ),
+        new SongTemplate(
+            new SongData
+            {
+                Bpm = 120,
+                SongLength = -1,
+                NumLoops = 6,
+            },
+            "GobblerSong",
+            "Audio/Gobbler.ogg",
+            "Audio/songMaps/Gobbler.tres",
+            [P_Gobbler.LoadPath]
+        ),
+        new SongTemplate( //9
+            new SongData
+            {
+                Bpm = 130,
+                SongLength = -1,
+                NumLoops = 1,
+            },
+            "Holograeme",
+            "Audio/Holo_ThereItIs.ogg",
+            "Audio/songMaps/HoloRepeat.tres",
+            [P_Holograeme.LoadPath]
+        ),
+        new SongTemplate( //10
+            new SongData
+            {
+                Bpm = 107,
+                SongLength = -1,
+                NumLoops = 7,
+            },
+            "Shapes",
+            "Audio/Shapes.ogg",
+            "Audio/songMaps/Shapes.tres",
+            [P_Shapes.LoadPath]
+        ),
+        new SongTemplate( //11
+            new SongData
+            {
+                Bpm = 130,
+                SongLength = -1,
+                NumLoops = 3,
+            },
+            "Spideer",
+            "Audio/Spider.ogg",
+            "Audio/songMaps/Spider.tres",
+            [P_Spider.LoadPath, P_Spider.LoadPath]
+        ),
+        new SongTemplate( //12
+            new SongData
+            {
+                Bpm = 180,
+                SongLength = -1,
+                NumLoops = 5,
+            },
+            "Squirkel",
+            "Audio/SquirkelSong.ogg",
+            "Audio/songMaps/SquirkelSong.tres",
+            [P_Squirkel.LoadPath]
+        ),
+        new SongTemplate( //13
+            new SongData
+            {
+                Bpm = 100,
+                SongLength = -1,
+                NumLoops = 4,
+            },
+            "Mushroom",
+            "Audio/Mushroom.ogg",
+            "Audio/songMaps/Mushroom.tres",
+            [P_Mushroom.LoadPath]
+        ),
+        new SongTemplate(
+            new SongData
+            {
+                Bpm = 170,
+                SongLength = -1,
+                NumLoops = 9,
+            },
+            "Keythulu",
+            "Audio/KeythuluSong.ogg",
+            "Audio/songMaps/KeythuluSong.tres",
+            [P_Keythulu.LoadPath]
+        ),
+        new SongTemplate( // 15
+            new SongData
+            {
+                Bpm = 99,
+                SongLength = -1,
+                NumLoops = 5,
+            },
+            name: "LWS",
+            audioLocation: "Audio/FrostWaltz.ogg",
+            songMapLocation: "Audio/songMaps/FrostWaltz.tres",
+            enemyScenePath: [P_LWS.LoadPath]
         ),
     };
 

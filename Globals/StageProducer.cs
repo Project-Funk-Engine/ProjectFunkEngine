@@ -1,7 +1,8 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FunkEngine;
 using Godot;
-using GodotSteam;
 
 /**
  * <summary>StageProducer: Handles scene transitions and persistent gameplay data.</summary>
@@ -14,6 +15,7 @@ public partial class StageProducer : Node
     public static readonly RandomNumberGenerator GlobalRng = new();
 
     public static MapLevels CurLevel { get; private set; }
+    public static List<int> BattlePool { get; private set; }
 
     public static MapGrid Map { get; private set; } = new();
     private Stages _curStage = Stages.Title;
@@ -35,7 +37,7 @@ public partial class StageProducer : Node
         LiveInstance = this;
     }
 
-    private void InitFromCfg()
+    public void InitFromCfg()
     {
         OptionsMenu.ChangeVolume(
             SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.Volume).As<float>()
@@ -70,6 +72,8 @@ public partial class StageProducer : Node
         PlayerStats = new PlayerStats();
 
         CurRoom = Map.GetRooms()[0].Idx;
+        BattlePool = null;
+        EventScene.EventPool = null;
         Scribe.InitRelicPools();
         IsInitialized = true;
     }
@@ -84,6 +88,8 @@ public partial class StageProducer : Node
         }
         GlobalRng.Seed = sv.RngSeed;
         CurLevel = MapLevels.GetLevelFromId(sv.Area);
+        BattlePool = sv.BattlePool.ToList();
+        EventScene.EventPool = sv.EventPool.ToList();
         GenerateMapConsistent();
         GlobalRng.State = sv.RngState;
         CurRoom = sv.LastRoomIdx;
@@ -216,6 +222,16 @@ public partial class StageProducer : Node
     }
     #endregion
 
+    private void RefreshBattlePool()
+    {
+        BattlePool = new List<int>(CurLevel.NormalBattles);
+        for (int i = 0; i < BattlePool.Count - 2; i++)
+        {
+            int randIdx = GlobalRng.RandiRange(0, CurLevel.NormalBattles.Length - 1);
+            (BattlePool[i], BattlePool[randIdx]) = (BattlePool[randIdx], BattlePool[i]); //rad
+        }
+    }
+
     private BattleConfig MakeBattleConfig(Stages nextRoom, int nextRoomIdx)
     {
         BattleConfig result = new BattleConfig
@@ -228,11 +244,12 @@ public partial class StageProducer : Node
         switch (nextRoom)
         {
             case Stages.Battle:
-                int songIdx = stageRng.RandiRange(0, CurLevel.NormalBattles.Length - 1);
-                result.CurSong = Scribe.SongDictionary[CurLevel.NormalBattles[songIdx]];
-                result.EnemyScenePath = Scribe
-                    .SongDictionary[CurLevel.NormalBattles[songIdx]]
-                    .EnemyScenePath;
+                if (BattlePool == null || BattlePool.Count == 0)
+                    RefreshBattlePool();
+                int songIdx = stageRng.RandiRange(0, BattlePool.Count - 1);
+                result.CurSong = Scribe.SongDictionary[BattlePool[songIdx]];
+                result.EnemyScenePath = Scribe.SongDictionary[BattlePool[songIdx]].EnemyScenePath;
+                BattlePool.RemoveAt(songIdx);
                 break;
             case Stages.Elite:
                 int elitIdx = stageRng.RandiRange(0, CurLevel.EliteBattles.Length - 1);
@@ -291,6 +308,7 @@ public partial class StageProducer : Node
         Map = new();
         GenerateMapConsistent();
         CurRoom = Map.GetRooms()[0].Idx;
+        BattlePool = null;
     }
 
     #endregion

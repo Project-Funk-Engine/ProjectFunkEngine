@@ -1,0 +1,37 @@
+[gd_scene load_steps=7 format=3 uid="uid://dcouc8w63l4tu"]
+
+[ext_resource type="Script" uid="uid://ki3c7ra3rco5" path="res://Scenes/Puppets/Enemies/Turtle/P_Turtle.cs" id="1_8ghls"]
+[ext_resource type="PackedScene" uid="uid://cdoguwlxehbpg" path="res://Scenes/Puppets/StatusContainer.tscn" id="2_12ph0"]
+[ext_resource type="Texture2D" uid="uid://2fp64bbbn4qg" path="res://Scenes/Puppets/Enemies/Turtle/Assets/Turtle.png" id="3_sjk2o"]
+[ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://Scenes/Puppets/HealthBar.tscn" id="4_tpaud"]
+
+[sub_resource type="Gradient" id="Gradient_c7cx1"]
+offsets = PackedFloat32Array(0.0227273, 1)
+colors = PackedColorArray(0, 1, 0.0999999, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_c0jk6"]
+resource_local_to_scene = true
+gradient = SubResource("Gradient_c7cx1")
+width = 100
+height = 18
+
+[node name="EnemPuppet" type="Node2D" node_paths=PackedStringArray("HealthBar", "Sprite", "_statusContainer")]
+script = ExtResource("1_8ghls")
+HealthBar = NodePath("ProgressBar")
+Sprite = NodePath("Sprite")
+_statusContainer = NodePath("StatusContainer")
+
+[node name="StatusContainer" parent="." instance=ExtResource("2_12ph0")]
+offset_top = -6.0
+offset_bottom = 30.0
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -4)
+texture = ExtResource("3_sjk2o")
+
+[node name="ProgressBar" parent="." instance=ExtResource("4_tpaud")]
+offset_left = -50.0
+offset_top = 32.0
+offset_right = 50.0
+offset_bottom = 52.0
+texture_progress = SubResource("GradientTexture2D_c0jk6")

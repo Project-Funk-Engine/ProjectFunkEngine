@@ -38,6 +38,9 @@ public partial class BattleDirector : Node2D
 
     private bool _initializedPlaying;
 
+    public static bool AutoPlay = false;
+    public static bool PlayerDisabled = false;
+
     #endregion
 
     #region Initialization
@@ -216,7 +219,7 @@ public partial class BattleDirector : Node2D
 
         CD.AddPlayerNote(noteToPlace.SetOwner(Player), type, beat);
         Harbinger.Instance.InvokeNotePlaced(new ArrowData(type, beat, noteToPlace));
-        Harbinger.Instance.InvokeNoteHit(noteToPlace, Timing.Okay); //TODO: test how this feels? maybe take it out later
+        Harbinger.Instance.InvokeNoteHit(noteToPlace, Timing.Okay, type); //TODO: test how this feels? maybe take it out later
         return true;
     }
 
@@ -255,7 +258,7 @@ public partial class BattleDirector : Node2D
         Timing timed = CheckTiming(beatDif);
 
         data.NoteRef.OnHit(this, timed);
-        Harbinger.Instance.InvokeNoteHit(data.NoteRef, timed);
+        Harbinger.Instance.InvokeNoteHit(data.NoteRef, timed, data.Type);
         NPB.HandleTiming(timed, data.Type);
         CM.ComboText(timed, data.Type, NPB.GetCurrentCombo());
     }
@@ -370,6 +373,15 @@ public partial class BattleDirector : Node2D
             target.TakeDamage(new DamageInstance(damage, source, target));
         }
     }
+
+    /*public void ReduceMeter(Note note, int amountLost, PuppetTemplate source)
+    {
+        PuppetTemplate[] targets = GetTargets(note.TargetType);
+        foreach (PuppetTemplate target in targets)
+        {
+            target.
+        }
+    }*/
 
     public void AddStatus(Targetting targetting, StatusEffect status, int amount = 1)
     {
@@ -550,10 +562,12 @@ public partial class BattleDirector : Node2D
         /// </summary>
         /// <param name="bd">The BattleDirector calling the event.</param>
         /// <param name="note">The Note being hit.</param>
-        public class NoteHitArgs(BattleDirector bd, Note note, Timing timing) : BattleEventArgs(bd)
+        public class NoteHitArgs(BattleDirector bd, Note note, Timing timing, ArrowType type)
+            : BattleEventArgs(bd)
         {
-            public Note Note = note;
-            public Timing Timing = timing;
+            public readonly Note Note = note;
+            public readonly Timing Timing = timing;
+            public readonly ArrowType Type = type;
         }
 
         internal delegate void NotePlacedHandler(BattleEventArgs e);
@@ -576,9 +590,9 @@ public partial class BattleDirector : Node2D
         internal delegate void NoteHitHandler(BattleEventArgs e);
         internal event NoteHitHandler NoteHit;
 
-        public void InvokeNoteHit(Note note, Timing timing)
+        public void InvokeNoteHit(Note note, Timing timing, ArrowType type)
         {
-            NoteHit?.Invoke(new NoteHitArgs(_curDirector, note, timing));
+            NoteHit?.Invoke(new NoteHitArgs(_curDirector, note, timing, type));
         }
 
         internal delegate void BattleEndedHandler(BattleEventArgs e);

@@ -196,6 +196,11 @@ public partial class NotePlacementBar : Node
         return _currentCombo;
     }
 
+    public double GetCurrentBarValue()
+    {
+        return CurrentBarValue;
+    }
+
     public void ResetCurrentCombo()
     {
         _currentCombo = 0;
@@ -236,6 +241,8 @@ public partial class NotePlacementBar : Node
 
     public void HandleTiming(Timing timed, ArrowType type)
     {
+        if (BattleDirector.PlayerDisabled)
+            return;
         if (timed == Timing.Miss)
         {
             MissNote();

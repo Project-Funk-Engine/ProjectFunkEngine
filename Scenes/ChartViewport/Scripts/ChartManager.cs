@@ -33,6 +33,45 @@ public partial class ChartManager : SubViewportContainer
         IH.Connect(nameof(InputHandler.NoteReleased), new Callable(this, nameof(OnNoteReleased)));
     }
 
+    public override void _Process(double delta)
+    {
+        if (!BattleDirector.AutoPlay)
+            return;
+
+        for (int dir = 0; dir < 4; dir++)
+        {
+            if (
+                _currentHolds[dir] != null
+                && _currentHolds[dir].EndBeat - TimeKeeper.LastBeat < new Beat(0.1)
+            )
+            {
+                OnNoteReleased((ArrowType)dir);
+                IH.Arrows[dir].Node.SetPressed(false);
+                continue;
+            }
+
+            foreach (NoteArrow note in _queuedArrows[dir])
+            {
+                if (!note.IsHit && note.Beat - TimeKeeper.LastBeat < new Beat(0.1))
+                {
+                    OnNotePressed((ArrowType)dir);
+                    IH.Arrows[dir].Node.SetPressed(true);
+                    if (note is not HoldArrow)
+                    {
+                        int capDir = dir;
+                        Callable
+                            .From(() =>
+                            {
+                                OnNoteReleased((ArrowType)capDir);
+                                IH.Arrows[capDir].Node.SetPressed(false);
+                            })
+                            .CallDeferred();
+                    }
+                }
+            }
+        }
+    }
+
     private bool _initialized;
 
     public void Initialize(SongData songData)

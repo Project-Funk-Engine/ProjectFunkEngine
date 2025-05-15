@@ -1,0 +1,191 @@
+[gd_resource type="Resource" load_steps=39 format=3]
+
+[ext_resource type="Script" path="res://Classes/MidiMaestro/NoteInfo.cs" id="1_egl41"]
+[ext_resource type="Script" path="res://Classes/MidiMaestro/NoteChart.cs" id="2_j6rk8"]
+
+[sub_resource type="Resource" id="Resource_egl41"]
+script = ExtResource("1_egl41")
+Beat = 2.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_j6rk8"]
+script = ExtResource("1_egl41")
+Beat = 5.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_61fe8"]
+script = ExtResource("1_egl41")
+Beat = 6.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_dmlrl"]
+script = ExtResource("1_egl41")
+Beat = 8.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_xny5e"]
+script = ExtResource("1_egl41")
+Beat = 10.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_sybk5"]
+script = ExtResource("1_egl41")
+Beat = 12.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_cs7yi"]
+script = ExtResource("1_egl41")
+Beat = 14.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_xv7yd"]
+script = ExtResource("1_egl41")
+Beat = 18.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_pfidy"]
+script = ExtResource("1_egl41")
+Beat = 21.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_n0y2d"]
+script = ExtResource("1_egl41")
+Beat = 22.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_i5oul"]
+script = ExtResource("1_egl41")
+Beat = 3.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_qnkk3"]
+script = ExtResource("1_egl41")
+Beat = 6.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_oqhlp"]
+script = ExtResource("1_egl41")
+Beat = 11.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_af8di"]
+script = ExtResource("1_egl41")
+Beat = 14.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_p5qx0"]
+script = ExtResource("1_egl41")
+Beat = 16.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_5ddno"]
+script = ExtResource("1_egl41")
+Beat = 19.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_ep11h"]
+script = ExtResource("1_egl41")
+Beat = 23.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_yjewp"]
+script = ExtResource("1_egl41")
+Beat = 1.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_pn3jr"]
+script = ExtResource("1_egl41")
+Beat = 3.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_yxbuu"]
+script = ExtResource("1_egl41")
+Beat = 5.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_5ue8d"]
+script = ExtResource("1_egl41")
+Beat = 7.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_kjeyd"]
+script = ExtResource("1_egl41")
+Beat = 9.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_pljkl"]
+script = ExtResource("1_egl41")
+Beat = 12.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_0h2yl"]
+script = ExtResource("1_egl41")
+Beat = 13.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_ijt06"]
+script = ExtResource("1_egl41")
+Beat = 15.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_61fei"]
+script = ExtResource("1_egl41")
+Beat = 18.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_vxhs1"]
+script = ExtResource("1_egl41")
+Beat = 23.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_20ma1"]
+script = ExtResource("1_egl41")
+Beat = 1.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_t2x17"]
+script = ExtResource("1_egl41")
+Beat = 4.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_hsyk0"]
+script = ExtResource("1_egl41")
+Beat = 7.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_txx7m"]
+script = ExtResource("1_egl41")
+Beat = 9.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_uic3e"]
+script = ExtResource("1_egl41")
+Beat = 11.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_fy78b"]
+script = ExtResource("1_egl41")
+Beat = 13.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_p1dmw"]
+script = ExtResource("1_egl41")
+Beat = 17.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_7k1m6"]
+script = ExtResource("1_egl41")
+Beat = 20.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_e223l"]
+script = ExtResource("1_egl41")
+Beat = 21.0
+Length = 0.0
+
+[resource]
+script = ExtResource("2_j6rk8")
+UpLaneData = Array[ExtResource("1_egl41")]([SubResource("Resource_20ma1"), SubResource("Resource_t2x17"), SubResource("Resource_hsyk0"), SubResource("Resource_txx7m"), SubResource("Resource_uic3e"), SubResource("Resource_fy78b"), SubResource("Resource_p1dmw"), SubResource("Resource_7k1m6"), SubResource("Resource_e223l")])
+DownLaneData = Array[ExtResource("1_egl41")]([SubResource("Resource_egl41"), SubResource("Resource_j6rk8"), SubResource("Resource_61fe8"), SubResource("Resource_dmlrl"), SubResource("Resource_xny5e"), SubResource("Resource_sybk5"), SubResource("Resource_cs7yi"), SubResource("Resource_xv7yd"), SubResource("Resource_pfidy"), SubResource("Resource_n0y2d")])
+LeftLaneData = Array[ExtResource("1_egl41")]([SubResource("Resource_i5oul"), SubResource("Resource_qnkk3"), SubResource("Resource_oqhlp"), SubResource("Resource_af8di"), SubResource("Resource_p5qx0"), SubResource("Resource_5ddno"), SubResource("Resource_ep11h")])
+RightLaneData = Array[ExtResource("1_egl41")]([SubResource("Resource_yjewp"), SubResource("Resource_pn3jr"), SubResource("Resource_yxbuu"), SubResource("Resource_5ue8d"), SubResource("Resource_kjeyd"), SubResource("Resource_pljkl"), SubResource("Resource_0h2yl"), SubResource("Resource_ijt06"), SubResource("Resource_61fei"), SubResource("Resource_vxhs1")])
