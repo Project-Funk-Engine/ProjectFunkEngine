@@ -55,7 +55,11 @@ public partial class RewardSelect : CanvasLayer
 
     public override void _Process(double delta)
     {
-        _acceptButton.Visible = (_selection != null);
+        _acceptButton.Disabled = (_selection == null);
+        if (GetViewport().GuiGetFocusOwner() == null)
+        {
+            _skipButton.GrabFocus();
+        }
     }
 
     private void AddButton(IDisplayable displayable)

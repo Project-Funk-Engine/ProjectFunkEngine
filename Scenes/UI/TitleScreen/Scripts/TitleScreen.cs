@@ -4,8 +4,12 @@ using Godot;
 public partial class TitleScreen : Control, IFocusableMenu
 {
     public static readonly string LoadPath = "res://Scenes/UI/TitleScreen/TitleScreen.tscn";
+    private static readonly string EffectsLoadPath =
+        "res://Scenes/UI/TitleScreen/TitleScreenEffects.tscn";
 
     [Export]
+    private Node _effectsPlaceholder;
+    private Node _effectsRoot;
     public PointLight2D TextLight;
 
     [Export]
@@ -35,8 +39,13 @@ public partial class TitleScreen : Control, IFocusableMenu
 
     public override void _Ready()
     {
-        TweenLight();
         Options.Pressed += OpenOptions;
+    }
+
+    public override void _Process(double delta)
+    {
+        if (TextLight == null)
+            InitEffects();
     }
 
     public void ResumeFocus()
@@ -67,6 +76,15 @@ public partial class TitleScreen : Control, IFocusableMenu
             .Instantiate<OptionsMenu>();
         AddChild(optionsMenu);
         optionsMenu.OpenMenu(this);
+    }
+
+    private void InitEffects()
+    {
+        if (_effectsPlaceholder is not InstancePlaceholder placeholder)
+            return;
+        _effectsRoot = placeholder.CreateInstance(true, GD.Load<PackedScene>(EffectsLoadPath));
+        TextLight = _effectsRoot.GetNode<PointLight2D>("TextLight");
+        TweenLight();
     }
 
     private void TweenLight()

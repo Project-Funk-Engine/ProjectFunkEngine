@@ -55,8 +55,7 @@ public partial class ShopScene : Control
     private readonly int[] _priceByRarity = [100, 90, 80, 70, 60, 50, 9];
     const int NoteCost = 45;
 
-    private List<RelicTemplate> _shopRelics;
-    private List<Note> _shopNotes;
+    private List<ShopItem> _shopItems = new List<ShopItem>();
 
     public override void _Ready()
     {
@@ -83,6 +82,10 @@ public partial class ShopScene : Control
 
     public override void _Input(InputEvent @event)
     {
+        if (GetViewport().GuiGetFocusOwner() == null)
+        {
+            _exitButton.GrabFocus();
+        }
         if (@event.IsActionPressed("ui_cancel"))
         {
             if (_confirmationPopup.Visible)
@@ -108,7 +111,7 @@ public partial class ShopScene : Control
 
     private void GenerateShopItems()
     {
-        _shopRelics = Scribe
+        List<RelicTemplate> _shopRelics = Scribe
             .GetRandomRelics(
                 RelicOptions,
                 StageProducer.CurRoom + 10,
@@ -116,7 +119,9 @@ public partial class ShopScene : Control
             )
             .ToList();
 
-        _shopNotes = Scribe.GetRandomRewardNotes(NoteOptions, StageProducer.CurRoom + 10).ToList();
+        List<Note> _shopNotes = Scribe
+            .GetRandomRewardNotes(NoteOptions, StageProducer.CurRoom + 10)
+            .ToList();
 
         foreach (var relic in _shopRelics)
         {
@@ -133,39 +138,33 @@ public partial class ShopScene : Control
 
     private void RefreshShopPrices()
     {
-        foreach (var child in _noteGrid.GetChildren())
-            child.QueueFree();
-        foreach (var child in _relicGrid.GetChildren())
-            child.QueueFree();
-
-        foreach (var relic in _shopRelics)
+        foreach (ShopItem sItem in _shopItems)
         {
-            int price = _priceByRarity[(int)relic.Rarity];
-            AddShopItem(_relicGrid, relic, price);
-        }
-
-        foreach (var note in _shopNotes)
-        {
-            int price = NoteCost;
-            AddShopItem(_noteGrid, note, price);
+            sItem.UpdateCost(GetPrice(sItem.BaseCost));
         }
     }
 
-    private void AddShopItem(GridContainer container, IDisplayable item, int price)
+    private void AddShopItem(GridContainer container, IDisplayable item, int basePrice)
     {
         if (container == null || item == null)
         {
             GD.PushError("AddShopItem called with null!");
             return;
         }
-        price = Math.Max(price - (price * StageProducer.PlayerStats.DiscountPercent / 100), 0); //Price can't go negative.
+        int price = GetPrice(basePrice);
         ShopItem newItem = GD.Load<PackedScene>(ShopItem.LoadPath).Instantiate<ShopItem>();
-        newItem.Display(price, item.Texture, item.Name);
+        newItem.Display(basePrice, price, item.Texture, item.Name);
         newItem.DisplayButton.Pressed += () => SetPurchasable(item, newItem);
         newItem.DisplayButton.SetButtonGroup(_bGroup);
         newItem.DisplayButton.ToggleMode = true;
         newItem.DisplayButton.FocusEntered += () => ChangeDescription(item);
+        _shopItems.Add(newItem);
         container.AddChild(newItem);
+    }
+
+    private int GetPrice(int basePrice)
+    {
+        return Math.Max(basePrice * (1 - StageProducer.PlayerStats.DiscountPercent / 100), 0); //Price can't go negative
     }
 
     private IDisplayable _currentItem;
@@ -192,14 +191,13 @@ public partial class ShopScene : Control
             case Note note:
                 StageProducer.PlayerStats.AddNote(note);
                 AddNoteToPossessions(note);
-                _shopNotes.Remove(note);
                 break;
             case RelicTemplate relic:
                 StageProducer.PlayerStats.AddRelic(relic);
-                _shopRelics.Remove(relic);
                 break;
         }
 
+        _shopItems.Remove(_currentUItem);
         CloseConfirmationPopup();
 
         GetViewport().GuiGetFocusOwner().FindNextValidFocus().GrabFocus(); //slightly hacky

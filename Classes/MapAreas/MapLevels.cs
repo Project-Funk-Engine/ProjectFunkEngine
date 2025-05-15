@@ -46,6 +46,13 @@ public class MapLevels
         /// </summary>
         public float[] StageOdds = new float[5];
 
+        /// <summary>
+        /// The config to generate a map from.
+        /// </summary>
+        /// <param name="width">The maximum width of a map. Generally a max of ~12 is reasonable.</param>
+        /// <param name="height">The maximum height of a map.</param>
+        /// <param name="paths">The number of paths to draw through the mpa, this effects how many onnections there are.</param>
+        /// <param name="odds">The odds for each room type.</param>
         public MapConfig(int width, int height, int paths, float[] odds)
         {
             Width = width;
@@ -130,7 +137,7 @@ public class MapLevels
             2,
             CityMapConfig,
             [7, 8, 10],
-            [6],
+            [6, 9],
             [14],
             [],
             -1,

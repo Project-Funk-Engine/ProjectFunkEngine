@@ -48,6 +48,29 @@ public partial class Cartographer : Node2D
         }
     }
 
+    const float CameraSpeed = 120f;
+
+    public override void _Process(double delta)
+    {
+        if (Camera.Position.Y > Camera.LimitTop && Input.IsActionPressed("ui_up"))
+        {
+            Camera.Position = Camera.Position with
+            {
+                Y = (float)(Camera.Position.Y - CameraSpeed * delta),
+            };
+        }
+        else if (
+            Camera.Position.Y < Camera.LimitBottom - GetViewportRect().Size.Y
+            && Input.IsActionPressed("ui_down")
+        )
+        {
+            Camera.Position = Camera.Position with
+            {
+                Y = (float)(Camera.Position.Y + CameraSpeed * delta),
+            };
+        }
+    }
+
     public override void _EnterTree()
     {
         BgAudioPlayer.LiveInstance.PlayLevelMusic();
@@ -123,16 +146,11 @@ public partial class Cartographer : Node2D
 
         newButton.ZIndex = 1;
         newButton.Position = GetPosition(room.X, room.Y) - newButton.Size / 2;
-        if (room == StageProducer.GetCurRoom())
-        {
-            PlayerSprite.Position = newButton.Position + newButton.Size * .5f;
-            Camera.Position -=
-                (
-                    (GetViewportRect().Size / 2) - (newButton.Position + newButton.Size * .5f)
-                ).Normalized()
-                * room.X
-                * 48;
-        }
+        if (room != StageProducer.GetCurRoom())
+            return;
+
+        PlayerSprite.Position = newButton.Position + newButton.Size * .5f;
+        Camera.Position = new Vector2(0, PlayerSprite.Position.Y - MapIconSize.Y / 2);
     }
 
     private void AddFocusNeighbors()

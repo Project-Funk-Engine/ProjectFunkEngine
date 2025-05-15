@@ -168,6 +168,8 @@ public partial class BattleDirector : Node2D
 
     public override void _Process(double delta)
     {
+        if (FocusedButton != null && GetViewport().GuiGetFocusOwner() == null)
+            FocusedButton.GrabFocus();
         if (_countdownTimer != null)
             _countdownLabel.Text = ((int)_countdownTimer.TimeLeft + 1).ToString();
         TimeKeeper.CurrentTime = Audio.GetPlaybackPosition();
@@ -636,7 +638,7 @@ public partial class BattleDirector : Node2D
     {
         foreach (EnemyPuppet enemy in _enemies)
         {
-            enemy.TakeDamage(new DamageInstance(1000, null, enemy));
+            enemy.TakeDamage(new DamageInstance(1000, null, null));
         }
     }
 

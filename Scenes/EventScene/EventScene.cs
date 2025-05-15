@@ -46,7 +46,7 @@ public partial class EventScene : Node
         RandomNumberGenerator stageRng = new RandomNumberGenerator();
         stageRng.SetSeed(StageProducer.GlobalRng.Seed + (ulong)StageProducer.Config.BattleRoom.Idx);
         int eventIndex = stageRng.RandiRange(0, EventPool.Count - 1);
-        _eventReference = EventDatabase.EventDictionary[eventIndex];
+        _eventReference = EventDatabase.EventDictionary[EventPool[eventIndex]];
 
         EventPool.RemoveAt(eventIndex);
         DisplayEvent();

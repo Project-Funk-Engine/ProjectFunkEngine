@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://dvdx2ijm3i2tl"]
 
-[ext_resource type="Script" uid="uid://ki3c7ra3rco5" path="res://Scenes/Puppets/Enemies/Turtle/P_Turtle.cs" id="1_xvavq"]
+[ext_resource type="Script" uid="uid://bcugmb2irxdvn" path="res://Scenes/Puppets/Enemies/Shapes/P_Shapes.cs" id="1_82kly"]
 [ext_resource type="PackedScene" uid="uid://cdoguwlxehbpg" path="res://Scenes/Puppets/StatusContainer.tscn" id="2_sldik"]
 [ext_resource type="Texture2D" uid="uid://bkxjkg3stb1e1" path="res://Scenes/Puppets/Enemies/Shapes/Assets/MidnightRiffShapeUpGuys.png" id="3_82kly"]
 [ext_resource type="PackedScene" uid="uid://bgomxovxs7sr8" path="res://Scenes/Puppets/HealthBar.tscn" id="4_xblx4"]
@@ -16,14 +16,14 @@ width = 100
 height = 18
 
 [node name="EnemPuppet" type="Node2D" node_paths=PackedStringArray("HealthBar", "Sprite", "_statusContainer")]
-script = ExtResource("1_xvavq")
+script = ExtResource("1_82kly")
 HealthBar = NodePath("ProgressBar")
 Sprite = NodePath("Sprite")
 _statusContainer = NodePath("StatusContainer")
 
 [node name="StatusContainer" parent="." instance=ExtResource("2_sldik")]
-offset_top = -6.0
-offset_bottom = 30.0
+offset_top = -92.0
+offset_bottom = -56.0
 
 [node name="Sprite" type="Sprite2D" parent="."]
 position = Vector2(0, -11)

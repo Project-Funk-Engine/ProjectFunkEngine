@@ -24,9 +24,9 @@ _statusContainer = NodePath("StatusContainer")
 
 [node name="StatusContainer" parent="." instance=ExtResource("2_xxbs3")]
 offset_left = -35.0
-offset_top = -15.0
+offset_top = -56.0
 offset_right = 41.0
-offset_bottom = 21.0
+offset_bottom = -20.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, 6)

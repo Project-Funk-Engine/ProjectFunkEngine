@@ -11,7 +11,7 @@ public class EventDatabase
     public static readonly EventTemplate[] EventDictionary = new[]
     {
         new EventTemplate(
-            1,
+            0,
             "EVENT_EVENT1_DESC",
             ["EVENT_EVENT1_OPTION1", "EVENT_EVENT1_OPTION2", "EVENT_EVENT1_OPTION3"],
             ["EVENT_EVENT1_OUTCOME1", "EVENT_EVENT1_OUTCOME2", "EVENT_EVENT1_OUTCOME3"],
@@ -37,7 +37,7 @@ public class EventDatabase
                     StageProducer.PlayerStats.Money /= 2;
                 },
             ],
-            null,
+            GD.Load<Texture2D>("res://Classes/Events/Assets/Bandit_Event.png"),
             [
                 () => StageProducer.PlayerStats.CurNotes.Length > 0,
                 () => StageProducer.PlayerStats.CurRelics.Length > 0,
