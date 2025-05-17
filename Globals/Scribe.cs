@@ -231,6 +231,21 @@ public partial class Scribe : Node
                 director.DealDamage(Targetting.Player, dmg, note.Owner);
             }
         ),
+        new Note(
+            id: 17,
+            name: "Coffeerat",
+            texture: GD.Load<Texture2D>(
+                "res://Scenes/Puppets/Enemies/Astrorat/Assets/Astrorat.png"
+            ),
+            baseVal: 1,
+            noteEffect: (director, note, timing) =>
+            {
+                int dmg = (3 - (int)timing) * note.GetBaseVal() + (TimeKeeper.LastBeat.Loop / 2);
+                if (timing == Timing.Perfect)
+                    dmg = 0;
+                director.DealDamage(Targetting.Player, dmg, note.Owner);
+            }
+        ),
     };
 
     public static readonly RelicTemplate[] RelicDictionary = new[]
@@ -762,6 +777,18 @@ public partial class Scribe : Node
             audioLocation: "Audio/FrostWaltz.ogg",
             songMapLocation: "Audio/songMaps/FrostWaltz.tres",
             enemyScenePath: [LWS.LoadPath]
+        ),
+        new SongTemplate( // 16
+            new SongData
+            {
+                Bpm = 120,
+                SongLength = -1,
+                NumLoops = 5,
+            },
+            name: "Astrorat",
+            audioLocation: "Audio/EtherDisco.ogg",
+            songMapLocation: "Audio/songMaps/Astrorat.tres",
+            enemyScenePath: [Astrorat.LoadPath]
         ),
     };
 
