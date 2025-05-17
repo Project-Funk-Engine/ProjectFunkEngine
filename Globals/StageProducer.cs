@@ -287,6 +287,20 @@ public partial class StageProducer : Node
             GetViewport().SetInputAsHandled();
             return;
         }
+        if (@event is InputEventKey eventKey && eventKey.Pressed && !eventKey.Echo)
+        {
+            if (eventKey.Keycode == Key.F9)
+            {
+                Image screen = GetViewport().GetTexture().GetImage();
+                if (!DirAccess.DirExistsAbsolute("user://Screenshots"))
+                    DirAccess.MakeDirAbsolute("user://Screenshots");
+                screen.SavePng(
+                    "user://Screenshots/"
+                        + Time.GetDatetimeStringFromSystem().Replace(":", "_")
+                        + ".png"
+                );
+            }
+        }
     }
 
     #region Area Management
