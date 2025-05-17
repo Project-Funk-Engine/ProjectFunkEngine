@@ -148,7 +148,7 @@ public class EventDatabase
                     StageProducer.PlayerStats.AddNote(Scribe.NoteDictionary[3]);
                 },
             ],
-            null,
+            GD.Load<Texture2D>("res://Classes/Events/Assets/Medic_Event.png"),
             [null, null, () => StageProducer.PlayerStats.Money >= 30]
         ),
     };
