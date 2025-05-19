@@ -23,8 +23,12 @@ public partial class NotePlacementBar : Node
         {
             _notePlacementBar.Value = value;
             _particles.Emitting = CurrentBarValue >= MaxValue; //This is so goated
+            _waveMaterial.SetShaderParameter("fillLevel", _notePlacementBar.Value / MaxValue);
         }
     }
+
+    [Export]
+    private ShaderMaterial _waveMaterial; //Sort of breaks the pixel art style, but its cool
 
     [Export]
     private TextureProgressBar _notePlacementBar;
@@ -65,6 +69,8 @@ public partial class NotePlacementBar : Node
 
         if (_notePlacementBar.TextureProgress is GradientTexture2D gradientTexture)
             _gradTex = gradientTexture.Gradient;
+
+        _waveMaterial.SetShaderParameter("fillLevel", 0.0);
     }
 
     public override void _Process(double delta)
@@ -190,6 +196,11 @@ public partial class NotePlacementBar : Node
         return _currentCombo;
     }
 
+    public double GetCurrentBarValue()
+    {
+        return CurrentBarValue;
+    }
+
     public void ResetCurrentCombo()
     {
         _currentCombo = 0;
@@ -230,6 +241,8 @@ public partial class NotePlacementBar : Node
 
     public void HandleTiming(Timing timed, ArrowType type)
     {
+        if (BattleDirector.PlayerDisabled)
+            return;
         if (timed == Timing.Miss)
         {
             MissNote();

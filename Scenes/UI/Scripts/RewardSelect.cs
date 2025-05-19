@@ -55,7 +55,11 @@ public partial class RewardSelect : CanvasLayer
 
     public override void _Process(double delta)
     {
-        _acceptButton.Visible = (_selection != null);
+        _acceptButton.Disabled = (_selection == null);
+        if (GetViewport().GuiGetFocusOwner() == null)
+        {
+            _skipButton.GrabFocus();
+        }
     }
 
     private void AddButton(IDisplayable displayable)
@@ -63,7 +67,7 @@ public partial class RewardSelect : CanvasLayer
         var button = GD.Load<PackedScene>(DisplayButton.LoadPath).Instantiate<DisplayButton>();
         button.SetButtonGroup(_rewardGroup);
         button.ToggleMode = true;
-        button.Display(displayable.Texture, displayable.Tooltip, displayable.Name);
+        button.Display(displayable.Texture, displayable.Name);
         button.Pressed += () => SetSelection(displayable);
         button.FocusEntered += () => ChangeDescription(displayable);
         ButtonContainer.AddChild(button);
@@ -71,20 +75,32 @@ public partial class RewardSelect : CanvasLayer
 
     private void GenerateSelection()
     {
-        if (_roomType == Stages.Battle)
+        switch (_roomType)
         {
-            GenerateNoteChoices(_amount);
-        }
-        else
-        {
-            GenerateRelicChoices(_amount);
+            case Stages.Battle:
+                GenerateNoteChoices(_amount);
+                break;
+            case Stages.Boss:
+                GenerateRelicChoices(_amount, [1, 5, 5, 5, 0]);
+                break;
+            default:
+                GenerateRelicChoices(_amount);
+                break;
         }
     }
 
-    private void GenerateRelicChoices(int amount = 1)
+    private void GenerateRelicChoices(int amount = 1, int[] addedOdds = null)
     {
         if (amount < 1)
             GD.PushError("Error: In RewardSelect: amount < 1");
+        int[] fullOdds = new int[_player.RarityOdds.Length];
+        bool extraOdds = addedOdds != null && addedOdds.Length == _player.RarityOdds.Length;
+        for (int i = 0; i < _player.RarityOdds.Length; i++)
+        {
+            fullOdds[i] = _player.RarityOdds[i];
+            if (extraOdds)
+                fullOdds[i] += addedOdds[i];
+        }
         _rChoices = Scribe.GetRandomRelics(
             amount,
             StageProducer.CurRoom + 10 * _curRerolls,

@@ -1,0 +1,81 @@
+[gd_resource type="Resource" load_steps=17 format=3 uid="uid://bowwiy4hgvtiu"]
+
+[ext_resource type="Script" uid="uid://bhbpcmtr6e6pk" path="res://Classes/MidiMaestro/NoteInfo.cs" id="1_n1l5w"]
+[ext_resource type="Script" uid="uid://bnpnavb5lwobj" path="res://Classes/MidiMaestro/NoteChart.cs" id="2_0c8vj"]
+
+[sub_resource type="Resource" id="Resource_pprmk"]
+script = ExtResource("1_n1l5w")
+Beat = 1.0
+Length = 4.0
+
+[sub_resource type="Resource" id="Resource_n1l5w"]
+script = ExtResource("1_n1l5w")
+Beat = 6.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_0c8vj"]
+script = ExtResource("1_n1l5w")
+Beat = 8.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_4gn2h"]
+script = ExtResource("1_n1l5w")
+Beat = 10.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_aa728"]
+script = ExtResource("1_n1l5w")
+Beat = 13.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_olyge"]
+script = ExtResource("1_n1l5w")
+Beat = 16.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_rjl7u"]
+script = ExtResource("1_n1l5w")
+Beat = 15.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_ea4gl"]
+script = ExtResource("1_n1l5w")
+Beat = 4.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_seepc"]
+script = ExtResource("1_n1l5w")
+Beat = 6.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_xdem2"]
+script = ExtResource("1_n1l5w")
+Beat = 13.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_ymucf"]
+script = ExtResource("1_n1l5w")
+Beat = 7.0
+Length = 2.0
+
+[sub_resource type="Resource" id="Resource_bmgju"]
+script = ExtResource("1_n1l5w")
+Beat = 12.0
+Length = 2.0
+
+[sub_resource type="Resource" id="Resource_sosma"]
+script = ExtResource("1_n1l5w")
+Beat = 16.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_3retf"]
+script = ExtResource("1_n1l5w")
+Beat = 15.0
+Length = 0.0
+
+[resource]
+script = ExtResource("2_0c8vj")
+UpLaneData = Array[ExtResource("1_n1l5w")]([SubResource("Resource_ymucf"), SubResource("Resource_bmgju"), SubResource("Resource_sosma"), SubResource("Resource_3retf")])
+DownLaneData = Array[ExtResource("1_n1l5w")]([SubResource("Resource_pprmk"), SubResource("Resource_n1l5w"), SubResource("Resource_0c8vj")])
+LeftLaneData = Array[ExtResource("1_n1l5w")]([SubResource("Resource_4gn2h"), SubResource("Resource_aa728"), SubResource("Resource_olyge"), SubResource("Resource_rjl7u")])
+RightLaneData = Array[ExtResource("1_n1l5w")]([SubResource("Resource_ea4gl"), SubResource("Resource_seepc"), SubResource("Resource_xdem2")])

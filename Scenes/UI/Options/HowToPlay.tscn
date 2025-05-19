@@ -11,10 +11,11 @@
 [ext_resource type="Texture2D" uid="uid://c3chrsxrulapd" path="res://Classes/Notes/Assets/Note_PlayerBasic.png" id="6_uonw3"]
 [ext_resource type="Texture2D" uid="uid://dg0lmu0pip4lr" path="res://Classes/Notes/Assets/Note_PlayerVampire.png" id="7_rbdrm"]
 
-[node name="CanvasLayer" type="Node2D" node_paths=PackedStringArray("_returnButton")]
+[node name="CanvasLayer" type="Node2D" node_paths=PackedStringArray("_returnButton", "_tutorialButton")]
 process_mode = 3
 script = ExtResource("1_kqayr")
-_returnButton = NodePath("Control/ReturnButton")
+_returnButton = NodePath("Control/HBoxContainer/ReturnButton")
+_tutorialButton = NodePath("Control/HBoxContainer/TutorialButton")
 
 [node name="Background" type="NinePatchRect" parent="."]
 offset_right = 640.0
@@ -41,14 +42,22 @@ theme_override_font_sizes/font_size = 32
 text = "HOW_TO_PLAY"
 horizontal_alignment = 1
 
-[node name="ReturnButton" type="Button" parent="Control"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
 layout_mode = 0
-offset_left = 202.5
 offset_top = 314.0
-offset_right = 437.5
-offset_bottom = 345.0
+offset_right = 640.0
+offset_bottom = 354.0
+alignment = 1
+
+[node name="ReturnButton" type="Button" parent="Control/HBoxContainer"]
+layout_mode = 2
 theme = ExtResource("3_xqve7")
 text = "CONTROLS_RETURN_BUTTON"
+
+[node name="TutorialButton" type="Button" parent="Control/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_xqve7")
+text = "CONTROLS_TUTORIAL_BUTTON"
 
 [node name="MarginContainer" type="Control" parent="Control"]
 anchors_preset = 0

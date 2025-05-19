@@ -17,6 +17,9 @@ public partial class Inventory : Control, IFocusableMenu
     [Export]
     private TabContainer _tabs;
 
+    [Export]
+    private Label _moneyLabel;
+
     public IFocusableMenu Prev { get; set; }
     private static readonly string[] TabNames = new[] { "NOTE", "RELIC" };
 
@@ -24,6 +27,8 @@ public partial class Inventory : Control, IFocusableMenu
     {
         AddDisplayButtons(playerStats.CurRelics, _relics);
         AddDisplayButtons(playerStats.CurNotes, _notes);
+
+        _moneyLabel.Text = playerStats.Money.ToString();
 
         _tabs.TabChanged += ClearDescription;
     }
@@ -34,7 +39,7 @@ public partial class Inventory : Control, IFocusableMenu
         {
             var newButton = GD.Load<PackedScene>(DisplayButton.LoadPath)
                 .Instantiate<DisplayButton>();
-            newButton.Display(item.Texture, item.Tooltip, item.Name, true);
+            newButton.Display(item.Texture, item.Name, true);
             newButton.Pressed += () =>
             {
                 DoDescription(newButton);
@@ -50,7 +55,7 @@ public partial class Inventory : Control, IFocusableMenu
 
     public override void _Input(InputEvent @event)
     {
-        if (!GetWindow().HasFocus())
+        if (ControlSettings.IsOutOfFocus(this))
         {
             GetViewport().SetInputAsHandled();
             return;

@@ -16,16 +16,12 @@ public partial class Note : Resource, IDisplayable
     private Action<BattleDirector, Note, Timing> NoteEffect;
 
     public const double TimingMax = 0.5d; //The max range for a note to be timed is its beat +/- this const
-
-    public string Tooltip { get; set; }
     public Texture2D Texture { get; set; }
 
     public Note(
         int id,
         string name,
-        string tooltip,
         Texture2D texture = null,
-        PuppetTemplate owner = null,
         int baseVal = 1,
         Action<BattleDirector, Note, Timing> noteEffect = null,
         float costModifier = 1.0f,
@@ -34,11 +30,9 @@ public partial class Note : Resource, IDisplayable
     {
         Id = id;
         Name = name;
-        Owner = owner;
         NoteEffect = noteEffect;
         _baseVal = baseVal;
         Texture = texture;
-        Tooltip = tooltip;
         CostModifier = costModifier;
         TargetType = targetType;
     }
@@ -48,21 +42,17 @@ public partial class Note : Resource, IDisplayable
         NoteEffect(BD, this, timing);
     }
 
+    public Note SetOwner(PuppetTemplate owner)
+    {
+        Owner = owner;
+        return this;
+    }
+
     public Note Clone()
     {
         //Eventually could look into something more robust, but for now shallow copy is preferable.
         //We only would want val and name to be copied by value
-        Note newNote = new Note(
-            Id,
-            Name,
-            Tooltip,
-            Texture,
-            Owner,
-            _baseVal,
-            NoteEffect,
-            CostModifier,
-            TargetType
-        );
+        Note newNote = new Note(Id, Name, Texture, _baseVal, NoteEffect, CostModifier, TargetType);
         return newNote;
     }
 

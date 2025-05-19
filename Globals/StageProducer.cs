@@ -1,4 +1,5 @@
-using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FunkEngine;
 using Godot;
@@ -13,28 +14,12 @@ public partial class StageProducer : Node
 
     public static readonly RandomNumberGenerator GlobalRng = new();
 
-    private static readonly MapGrid.MapConfig FirstMapConfig = new MapGrid.MapConfig(
-        7,
-        6,
-        3,
-        [10, 1]
-    ).AddSetRoom(3, Stages.Chest);
-
-    private static readonly MapGrid.MapConfig TestMapConfig = new MapGrid.MapConfig(
-        10,
-        10,
-        5,
-        [10, 2]
-    )
-        .AddSetRoom(3, Stages.Chest)
-        .AddSetRoom(6, Stages.Chest);
-
-    private static readonly MapGrid.MapConfig[] MapConfigs = new[] { FirstMapConfig };
+    public static MapLevels CurLevel { get; private set; }
+    public static List<int> BattlePool { get; private set; }
 
     public static MapGrid Map { get; private set; } = new();
     private Stages _curStage = Stages.Title;
     public static int CurRoom { get; private set; }
-    public static Area CurArea { get; private set; } = Area.Forest;
 
     private Node _curScene;
     private Node _preloadStage;
@@ -52,7 +37,7 @@ public partial class StageProducer : Node
         LiveInstance = this;
     }
 
-    private void InitFromCfg()
+    public void InitFromCfg()
     {
         OptionsMenu.ChangeVolume(
             SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.Volume).As<float>()
@@ -70,19 +55,25 @@ public partial class StageProducer : Node
 
     private void GenerateMapConsistent()
     {
-        GlobalRng.State = GlobalRng.Seed << 5 / 2; //Fudge seed state, to get consistent maps across new/loaded games
-        Map.InitMapGrid(MapConfigs[(int)CurArea]);
+        //Fudge seed state, to get consistent maps across new/loaded games, might be bad practice
+        GlobalRng.State = GlobalRng.Seed << 5 / 2;
+        Map.InitMapGrid(CurLevel.GetCurrentConfig());
     }
 
     private void StartNewGame()
     {
         GlobalRng.Randomize();
-        CurArea = Area.Forest;
+        if ((bool)SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.FirstTime))
+            CurLevel = MapLevels.GetLevelFromId(0);
+        else
+            CurLevel = MapLevels.GetLevelFromId(1);
         GenerateMapConsistent();
 
         PlayerStats = new PlayerStats();
 
         CurRoom = Map.GetRooms()[0].Idx;
+        BattlePool = null;
+        EventScene.EventPool = null;
         Scribe.InitRelicPools();
         IsInitialized = true;
     }
@@ -96,7 +87,9 @@ public partial class StageProducer : Node
             return false;
         }
         GlobalRng.Seed = sv.RngSeed;
-        CurArea = (Area)sv.Area;
+        CurLevel = MapLevels.GetLevelFromId(sv.Area);
+        BattlePool = sv.BattlePool.ToList();
+        EventScene.EventPool = sv.EventPool.ToList();
         GenerateMapConsistent();
         GlobalRng.State = sv.RngState;
         CurRoom = sv.LastRoomIdx;
@@ -114,6 +107,9 @@ public partial class StageProducer : Node
             PlayerStats.AddRelic(Scribe.RelicDictionary[relicId]);
         }
         PlayerStats.CurrentHealth = sv.PlayerHealth;
+        PlayerStats.Money = sv.Money;
+        PlayerStats.Shortcuts = sv.Shortcuts;
+        PlayerStats.MaxComboBar = sv.PlayerMaxCombo;
         IsInitialized = true;
         return true;
     }
@@ -142,12 +138,25 @@ public partial class StageProducer : Node
         Config = MakeBattleConfig(nextStage, nextRoomIdx);
         switch (nextStage)
         {
+            case Stages.Elite:
             case Stages.Battle:
             case Stages.Boss:
                 _loadTask = Task.Run(() =>
                 {
                     _preloadStage = GD.Load<PackedScene>(BattleDirector.LoadPath)
                         .Instantiate<Node>();
+                });
+                break;
+            case Stages.Event:
+                _loadTask = Task.Run(() =>
+                {
+                    _preloadStage = GD.Load<PackedScene>(EventScene.LoadPath).Instantiate<Node>();
+                });
+                break;
+            case Stages.Shop:
+                _loadTask = Task.Run(() =>
+                {
+                    _preloadStage = GD.Load<PackedScene>(ShopScene.LoadPath).Instantiate<Node>();
                 });
                 break;
             case Stages.Chest:
@@ -173,6 +182,9 @@ public partial class StageProducer : Node
                 break;
             case Stages.Battle: //Currently these are only ever entered from map. Be aware if we change
             case Stages.Boss: //this, scenes either need to be preloaded first, or a different setup is needed.
+            case Stages.Event:
+            case Stages.Elite:
+            case Stages.Shop:
             case Stages.Chest:
                 _loadTask.Wait(); //Should always finish by the time it gets here, this guarantees it.
                 GetTree().GetCurrentScene().Free();
@@ -195,7 +207,7 @@ public partial class StageProducer : Node
                 GetTree().Quit();
                 return;
             case Stages.Continue:
-                ProgressAreas();
+                ProgressLevels();
                 GetTree().ChangeSceneToFile("res://Scenes/Maps/InBetween.tscn");
                 break;
             default:
@@ -210,6 +222,16 @@ public partial class StageProducer : Node
     }
     #endregion
 
+    private void RefreshBattlePool()
+    {
+        BattlePool = new List<int>(CurLevel.NormalBattles);
+        for (int i = 0; i < BattlePool.Count - 2; i++)
+        {
+            int randIdx = GlobalRng.RandiRange(0, CurLevel.NormalBattles.Length - 1);
+            (BattlePool[i], BattlePool[randIdx]) = (BattlePool[randIdx], BattlePool[i]); //rad
+        }
+    }
+
     private BattleConfig MakeBattleConfig(Stages nextRoom, int nextRoomIdx)
     {
         BattleConfig result = new BattleConfig
@@ -222,14 +244,29 @@ public partial class StageProducer : Node
         switch (nextRoom)
         {
             case Stages.Battle:
-                int songIdx = stageRng.RandiRange(1, 3);
-                result.CurSong = Scribe.SongDictionary[songIdx];
-                result.EnemyScenePath = Scribe.SongDictionary[songIdx].EnemyScenePath;
+                if (BattlePool == null || BattlePool.Count == 0)
+                    RefreshBattlePool();
+                int songIdx = stageRng.RandiRange(0, BattlePool.Count - 1);
+                result.CurSong = Scribe.SongDictionary[BattlePool[songIdx]];
+                result.EnemyScenePath = Scribe.SongDictionary[BattlePool[songIdx]].EnemyScenePath;
+                BattlePool.RemoveAt(songIdx);
+                break;
+            case Stages.Elite:
+                int elitIdx = stageRng.RandiRange(0, CurLevel.EliteBattles.Length - 1);
+                result.CurSong = Scribe.SongDictionary[CurLevel.EliteBattles[elitIdx]];
+                result.EnemyScenePath = Scribe
+                    .SongDictionary[CurLevel.EliteBattles[elitIdx]]
+                    .EnemyScenePath;
                 break;
             case Stages.Boss:
-                result.EnemyScenePath = Scribe.SongDictionary[0].EnemyScenePath;
-                result.CurSong = Scribe.SongDictionary[0];
+                int bossIdx = stageRng.RandiRange(0, CurLevel.BossBattles.Length - 1);
+                result.CurSong = Scribe.SongDictionary[CurLevel.BossBattles[bossIdx]];
+                result.EnemyScenePath = Scribe
+                    .SongDictionary[CurLevel.BossBattles[bossIdx]]
+                    .EnemyScenePath;
                 break;
+            case Stages.Event:
+            case Stages.Shop:
             case Stages.Chest:
                 break;
             default:
@@ -245,10 +282,24 @@ public partial class StageProducer : Node
     {
         //Consume controller input, if window out of focus.
         //This handles ui_input, other scenes need to consume their own.
-        if (!GetWindow().HasFocus())
+        if (ControlSettings.IsOutOfFocus(this))
         {
             GetViewport().SetInputAsHandled();
             return;
+        }
+        if (@event is InputEventKey eventKey && eventKey.Pressed && !eventKey.Echo)
+        {
+            if (eventKey.Keycode == Key.F9)
+            {
+                Image screen = GetViewport().GetTexture().GetImage();
+                if (!DirAccess.DirExistsAbsolute("user://Screenshots"))
+                    DirAccess.MakeDirAbsolute("user://Screenshots");
+                screen.SavePng(
+                    "user://Screenshots/"
+                        + Time.GetDatetimeStringFromSystem().Replace(":", "_")
+                        + ".png"
+                );
+            }
         }
     }
 
@@ -258,18 +309,20 @@ public partial class StageProducer : Node
     /// There should always be a mapconfig for each area. It's preferable to crash later if there isn't even a placeholder config.
     /// </summary>
     /// <returns>True if there is another area.</returns>
-    public static bool IsMoreAreas()
+    public static bool IsMoreLevels()
     {
-        return (int)CurArea + 1 < MapConfigs.Length;
+        return CurLevel.HasMoreMaps();
     }
 
-    public void ProgressAreas()
+    public void ProgressLevels()
     {
-        CurArea += 1;
+        GD.Print(CurLevel.Id);
+        CurLevel = CurLevel.GetNextLevel();
 
         Map = new();
         GenerateMapConsistent();
         CurRoom = Map.GetRooms()[0].Idx;
+        BattlePool = null;
     }
 
     #endregion

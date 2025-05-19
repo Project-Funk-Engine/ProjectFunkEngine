@@ -111,7 +111,6 @@ public partial class PuppetTemplate : Node2D
     protected virtual void Kill()
     {
         Defeated?.Invoke(this);
-        Visible = false;
     }
     #endregion
 
@@ -127,7 +126,7 @@ public partial class PuppetTemplate : Node2D
         Tween deathTween = DamageAnimate(amount);
         if (CurrentHealth <= 0)
         {
-            deathTween.TweenCallback(Callable.From(Kill));
+            deathTween.Finished += Kill;
         }
 
         TextParticle newText = new TextParticle();
@@ -171,6 +170,8 @@ public partial class PuppetTemplate : Node2D
     /// <returns></returns>
     public bool AddStatusEffect(StatusEffect effect)
     {
+        if (CurrentHealth <= 0)
+            return false;
         int index = StatusEffects.FindIndex(sEff => sEff.StatusName == effect.StatusName);
         if (index != -1) //If status of same name -> stack -> return false
         {
@@ -192,6 +193,14 @@ public partial class PuppetTemplate : Node2D
         _statusContainer.RemoveChild(effect);
         StatusEffects.Remove(effect);
         effect.QueueFree();
+    }
+
+    public bool HasStatus(StatusEffect effect)
+    {
+        int index = StatusEffects.FindIndex(sEff => sEff.StatusName == effect.StatusName);
+        if (index != -1)
+            return true;
+        return false;
     }
     #endregion
 }

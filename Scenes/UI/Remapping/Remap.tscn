@@ -19,12 +19,13 @@
 [ext_resource type="Texture2D" uid="uid://cpxcg12lovxu5" path="res://Scenes/UI/Remapping/Assets/Joypad Button 4 (Back, Sony Select, Xbox Back, Nintendo -).png" id="16_s0mtp"]
 [ext_resource type="Texture2D" uid="uid://djd6iw2g84bba" path="res://Scenes/UI/Assets/UI_CenterFrame.png" id="18_8iace"]
 
-[node name="Remap" type="Node2D" node_paths=PackedStringArray("_closeButton", "_remapPopup", "_remapLabel", "_remapTimer", "_remapTabs")]
+[node name="Remap" type="Node2D" node_paths=PackedStringArray("_closeButton", "_remapPopup", "_remapLabel", "_remapDescription", "_remapTimer", "_remapTabs")]
 process_mode = 3
 script = ExtResource("1_ir12b")
 _closeButton = NodePath("Panel/TitleButton")
 _remapPopup = NodePath("RemapPopup")
 _remapLabel = NodePath("RemapPopup/Label2")
+_remapDescription = NodePath("RemapPopup/Label3")
 _remapTimer = NodePath("RemapPopup/Timer")
 _remapTabs = NodePath("Panel/TabContainer")
 
@@ -578,6 +579,14 @@ offset_top = 36.0
 offset_right = 372.0
 offset_bottom = 59.0
 text = "CONTROLS_CHOOSE_BUTTON"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="RemapPopup"]
+layout_mode = 0
+offset_top = 75.0
+offset_right = 372.0
+offset_bottom = 98.0
+text = "CONTROLS_CHOOSE_TEXT_KEYBOARD"
 horizontal_alignment = 1
 
 [node name="Label2" type="Label" parent="RemapPopup"]

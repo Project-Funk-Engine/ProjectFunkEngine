@@ -24,14 +24,15 @@ public partial class Cartographer : Node2D
 
     private Button _focusedButton;
 
-    private static readonly Dictionary<Stages, Texture2D> StageIcons = new Dictionary<
-        Stages,
-        Texture2D
-    >
+    private static readonly Dictionary<Stages, Texture2D> StageIcons = new()
     {
         { Stages.Battle, GD.Load<Texture2D>("res://Scenes/Maps/Assets/BattleIcon.png") },
+        { Stages.Elite, GD.Load<Texture2D>("res://Scenes/Maps/Assets/EliteIcon.png") },
         { Stages.Boss, GD.Load<Texture2D>("res://Scenes/Maps/Assets/BossIcon.png") },
         { Stages.Chest, GD.Load<Texture2D>("res://Scenes/Maps/Assets/ChestIcon.png") },
+        { Stages.Shop, GD.Load<Texture2D>("res://Scenes/Maps/Assets/ShopIcon.png") },
+        { Stages.Event, GD.Load<Texture2D>("res://Scenes/Maps/Assets/EventIcon.png") },
+        { Stages.Map, GD.Load<Texture2D>("res://Scenes/Maps/Assets/FirstIcon.png") },
     };
 
     public override void _Ready()
@@ -47,6 +48,29 @@ public partial class Cartographer : Node2D
         }
     }
 
+    const float CameraSpeed = 120f;
+
+    public override void _Process(double delta)
+    {
+        if (Camera.Position.Y > Camera.LimitTop && Input.IsActionPressed("ui_up"))
+        {
+            Camera.Position = Camera.Position with
+            {
+                Y = (float)(Camera.Position.Y - CameraSpeed * delta),
+            };
+        }
+        else if (
+            Camera.Position.Y < Camera.LimitBottom - GetViewportRect().Size.Y
+            && Input.IsActionPressed("ui_down")
+        )
+        {
+            Camera.Position = Camera.Position with
+            {
+                Y = (float)(Camera.Position.Y + CameraSpeed * delta),
+            };
+        }
+    }
+
     public override void _EnterTree()
     {
         BgAudioPlayer.LiveInstance.PlayLevelMusic();
@@ -54,7 +78,7 @@ public partial class Cartographer : Node2D
 
     private Vector2 GetPosition(int x, int y)
     {
-        return new Vector2((float)x * 640 / 8 + 32, y * 48 + 16);
+        return new Vector2((float)(x + 1) * 640 / (StageProducer.Map.Width + 1), y * 48 + 16);
     }
 
     private void DrawMap()
@@ -85,35 +109,48 @@ public partial class Cartographer : Node2D
         newButton.CustomMinimumSize = MapIconSize;
         newButton.IconAlignment = HorizontalAlignment.Center;
         AddChild(newButton);
+        bool isChild = StageProducer.GetCurRoom().Children.Contains(room.Idx);
+
+        // checks if the next room is one below current room, player has shortcuts
+        bool isLaneChangeAllowed =
+            room.Y == StageProducer.GetCurRoom().Y + 1 && StageProducer.PlayerStats.Shortcuts > 0;
+
         //button is disabled if it is not a child of current room.
-        if (!StageProducer.GetCurRoom().Children.Contains(room.Idx))
+        //unless player has charges of lane changing
+        if (!isChild && !isLaneChangeAllowed)
         {
             newButton.Disabled = true;
             newButton.FocusMode = Control.FocusModeEnum.None;
         }
         else
         {
-            newButton.GrabFocus();
-            _focusedButton = newButton;
+            //grab focus on children paths, to really make sure user wants to use a charge of maplanechanges
+            if (isChild)
+            {
+                newButton.GrabFocus();
+                _focusedButton = newButton;
+            }
             newButton.Pressed += () =>
             {
+                if (!isChild)
+                    StageProducer.PlayerStats.Shortcuts--;
+
                 EnterStage(room.Idx, newButton);
             };
             _validButtons = _validButtons.Append(newButton).ToArray();
         }
 
         newButton.Icon = StageIcons[room.Type];
+        if (room.Y == 0)
+            newButton.Icon = StageIcons[Stages.Map];
 
         newButton.ZIndex = 1;
         newButton.Position = GetPosition(room.X, room.Y) - newButton.Size / 2;
-        if (room == StageProducer.GetCurRoom())
-        {
-            PlayerSprite.Position = newButton.Position + newButton.Size * .5f;
-            Camera.Position -= //TODO: Better camera matching for areas.
-                (
-                    (GetViewportRect().Size / 2) - (newButton.Position + newButton.Size * .5f)
-                ).Normalized() * 20;
-        }
+        if (room != StageProducer.GetCurRoom())
+            return;
+
+        PlayerSprite.Position = newButton.Position + newButton.Size * .5f;
+        Camera.Position = new Vector2(0, PlayerSprite.Position.Y - MapIconSize.Y / 2);
     }
 
     private void AddFocusNeighbors()
@@ -150,7 +187,7 @@ public partial class Cartographer : Node2D
 
     private void WinArea()
     {
-        if (StageProducer.IsMoreAreas())
+        if (StageProducer.IsMoreLevels())
         {
             GetTree().Paused = false;
             //What the living fuck? Can't do this during ready?
@@ -158,6 +195,12 @@ public partial class Cartographer : Node2D
                 .From(() => StageProducer.LiveInstance.TransitionStage(Stages.Continue))
                 .CallDeferred();
             return;
+        }
+
+        //Achievement code for emptyPockets
+        if (StageProducer.PlayerStats.CurRelics.Length == 0)
+        {
+            SteamWhisperer.PopAchievement("emptyPockets");
         }
 
         EndScreen es = GD.Load<PackedScene>(EndScreen.LoadPath).Instantiate<EndScreen>();

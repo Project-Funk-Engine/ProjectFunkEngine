@@ -1,5 +1,6 @@
 using FunkEngine;
 using Godot;
+using GodotSteam;
 
 /**
  * <summary>Simple system for any scene which should display pause and inventory screen.</summary>
@@ -11,6 +12,9 @@ public partial class MenuModule : CanvasLayer, IFocusableMenu
 
     private Control _lastFocused { get; set; }
 
+    [Export]
+    bool _ignorePause = false;
+
     public override void _Ready()
     {
         Input.JoyConnectionChanged += (device, connected) =>
@@ -19,11 +23,19 @@ public partial class MenuModule : CanvasLayer, IFocusableMenu
                 OpenPauseMenu(); //Pause on disconnection
         };
         GetTree().GetRoot().FocusExited += OpenPauseMenu;
+        Steam.OverlayToggled += OpenPauseMenu;
+    }
+
+    public override void _ExitTree()
+    {
+        Steam.OverlayToggled -= OpenPauseMenu;
     }
 
     public void ResumeFocus()
     {
         CurSceneNode.ProcessMode = ProcessModeEnum.Inherit;
+        if (CurSceneNode is BattleDirector { HasPlayed: true } bd && !GetTree().IsPaused())
+            bd.StartCountdown();
         _lastFocused?.GrabFocus();
     }
 
@@ -47,7 +59,7 @@ public partial class MenuModule : CanvasLayer, IFocusableMenu
 
     public override void _Input(InputEvent @event)
     {
-        if (!GetWindow().HasFocus())
+        if (ControlSettings.IsOutOfFocus(this))
         {
             GetViewport().SetInputAsHandled();
             return;
@@ -67,8 +79,16 @@ public partial class MenuModule : CanvasLayer, IFocusableMenu
         }
     }
 
+    private void OpenPauseMenu(bool active, bool initiated = false, uint id = 0)
+    {
+        if (active)
+            OpenPauseMenu();
+    }
+
     private void OpenPauseMenu()
     {
+        if (_ignorePause)
+            return;
         if (CurSceneNode.ProcessMode == ProcessModeEnum.Disabled)
             return;
         var pauseMenu = GD.Load<PackedScene>(PauseMenu.LoadPath).Instantiate<PauseMenu>();

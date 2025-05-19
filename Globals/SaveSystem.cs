@@ -14,7 +14,7 @@ public static class SaveSystem
     private static ConfigFile _curConfigData;
 
     private const float DefaultVolume = 1f;
-    private const string DefaultInputType = "WASD";
+    private const string DefaultInputType = "WASD"; //WASD or CONTROLLER
     private const int DefaultInputKeyboardUp = 87; //W
     private const int DefaultInputKeyboardLeft = 65; //A
     private const int DefaultInputKeyboardDown = 83; //S
@@ -29,6 +29,7 @@ public static class SaveSystem
     private const int DefaultInputControllerInventory = 4; //back button
     private const string DefaultLanguage = "en";
     private const bool DefaultHighCon = false;
+    private const bool DefaultFirstTime = true;
 
     public enum ConfigSettings
     {
@@ -48,6 +49,7 @@ public static class SaveSystem
         InputControllerInventory,
         LanguageKey,
         HighContrast,
+        FirstTime,
     }
 
     /**
@@ -72,6 +74,7 @@ public static class SaveSystem
         UpdateConfig(ConfigSettings.InputControllerInventory, DefaultInputControllerInventory);
         UpdateConfig(ConfigSettings.LanguageKey, DefaultLanguage);
         UpdateConfig(ConfigSettings.HighContrast, DefaultHighCon);
+        UpdateConfig(ConfigSettings.FirstTime, DefaultFirstTime);
     }
 
     private static void SaveConfig()
@@ -132,6 +135,9 @@ public static class SaveSystem
                 break;
             case ConfigSettings.HighContrast:
                 _curConfigData.SetValue("Options", "HighContrast", value);
+                break;
+            case ConfigSettings.FirstTime:
+                _curConfigData.SetValue("Game", "FirstTime", value);
                 break;
             default:
                 GD.PushError("SaveSystem.UpdateConfig: Invalid config setting passed. " + setting);
@@ -270,6 +276,8 @@ public static class SaveSystem
                 return _curConfigData.GetValue("Options", "LanguageKey", DefaultLanguage);
             case ConfigSettings.HighContrast:
                 return _curConfigData.GetValue("Options", "HighContrast", DefaultHighCon);
+            case ConfigSettings.FirstTime:
+                return _curConfigData.GetValue("Game", "FirstTime", DefaultFirstTime);
             default:
                 GD.PushError("Invalid config setting passed. " + setting);
                 return float.MinValue;
@@ -360,6 +368,12 @@ public static class SaveSystem
             GD.PushWarning($"Could not parse joypad button: {buttonString}");
         }
     }
+
+    public static void ClearConfig()
+    {
+        DirAccess.RemoveAbsolute(UserConfigPath);
+        InitConfig();
+    }
     #endregion
 
     #region Save
@@ -373,9 +387,14 @@ public static class SaveSystem
         public int LastRoomIdx { get; init; }
         public int Area { get; init; }
 
+        public int Money { get; init; }
         public int[] NoteIds { get; init; }
         public int[] RelicIds { get; init; }
+        public int[] BattlePool { get; init; }
+        public int[] EventPool { get; init; }
         public int PlayerHealth { get; init; }
+        public int Shortcuts { get; init; }
+        public int PlayerMaxCombo { get; init; }
 
         public SaveFile(
             ulong rngSeed,
@@ -383,8 +402,13 @@ public static class SaveSystem
             int lastRoomIdx,
             int[] noteIds,
             int[] relicIds,
+            int[] battlePool,
+            int[] eventPool,
             int playerHealth,
-            int area
+            int area,
+            int money,
+            int shortcuts,
+            int playerMaxCombo
         )
         {
             RngSeed = rngSeed;
@@ -392,8 +416,13 @@ public static class SaveSystem
             LastRoomIdx = lastRoomIdx;
             NoteIds = noteIds;
             RelicIds = relicIds;
+            BattlePool = battlePool ?? [];
+            EventPool = eventPool ?? [];
             PlayerHealth = playerHealth;
             Area = area;
+            Money = money;
+            Shortcuts = shortcuts;
+            PlayerMaxCombo = playerMaxCombo;
         }
     }
 
@@ -407,8 +436,13 @@ public static class SaveSystem
             StageProducer.CurRoom,
             noteIds,
             relicIds,
+            StageProducer.BattlePool?.ToArray(),
+            EventScene.EventPool?.ToArray(),
             StageProducer.PlayerStats.CurrentHealth,
-            (int)StageProducer.CurArea
+            StageProducer.CurLevel.Id,
+            StageProducer.PlayerStats.Money,
+            StageProducer.PlayerStats.Shortcuts,
+            StageProducer.PlayerStats.MaxComboBar
         );
         string json = JsonSerializer.Serialize(sv);
 

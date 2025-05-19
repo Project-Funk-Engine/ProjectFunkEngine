@@ -8,7 +8,6 @@ using Godot;
 public partial class BattleDirector : Node2D
 {
     #region Declarations
-
     public static readonly string LoadPath = "res://Scenes/BattleDirector/BattleScene.tscn";
 
     public PlayerPuppet Player;
@@ -16,6 +15,9 @@ public partial class BattleDirector : Node2D
 
     [Export]
     public Marker2D[] PuppetMarkers = new Marker2D[4]; //[0] is always player
+
+    [Export]
+    private Label _countdownLabel;
 
     [Export]
     private Conductor CD;
@@ -30,27 +32,56 @@ public partial class BattleDirector : Node2D
     private AudioStreamPlayer Audio;
 
     [Export]
-    private Button _focusedButton; //Initial start button
+    public Button FocusedButton; //Initial start button
 
     private double _timingInterval = .1; //in beats, maybe make note/bpm dependent
 
     private bool _initializedPlaying;
 
+    public static bool AutoPlay = false;
+    public static bool PlayerDisabled = false;
+
     #endregion
 
     #region Initialization
+    Timer _countdownTimer; //TODO: Make in time with bpm
+    public bool HasPlayed; //TODO: Disable input during countdown
+
+    public void StartCountdown()
+    {
+        CM.ArrowTween?.Pause();
+        Audio.SetStreamPaused(true);
+        if (_countdownTimer == null)
+        {
+            _countdownTimer = new Timer();
+            AddChild(_countdownTimer);
+            _countdownTimer.Timeout += SyncStartWithMix;
+        }
+        _countdownTimer.Start(3);
+        _countdownLabel.Visible = true;
+    }
+
     private void SyncStartWithMix()
     {
+        _countdownTimer.Stop();
         var timer = GetTree().CreateTimer(AudioServer.GetTimeToNextMix());
         timer.Timeout += BeginPlayback;
-        _focusedButton.QueueFree();
-        _focusedButton = null;
     }
 
     private void BeginPlayback()
     {
-        CM.BeginTweens();
-        Audio.Play();
+        _countdownLabel.Visible = false;
+        if (HasPlayed)
+        {
+            Audio.SetStreamPaused(false);
+            CM.ArrowTween?.Play();
+        }
+        else
+        {
+            CM.BeginTweens();
+            Audio.Play();
+        }
+        HasPlayed = true;
         _initializedPlaying = true;
     }
 
@@ -67,11 +98,45 @@ public partial class BattleDirector : Node2D
         Harbinger.Init(this);
         InitPlayer();
         InitEnemies();
-        CD.Initialize(curSong);
+        InitScoringGuide();
+        CD.Initialize(curSong, _enemies);
         CD.NoteInputEvent += OnTimedInput;
 
-        _focusedButton.GrabFocus();
-        _focusedButton.Pressed += SyncStartWithMix;
+        FocusedButton.GrabFocus();
+        FocusedButton.Pressed += () =>
+        {
+            FocusedButton.QueueFree();
+            FocusedButton = null;
+            StartCountdown();
+        };
+
+        Harbinger.Instance.InvokeBattleStarted();
+    }
+
+    public ScoringScreen.ScoreGuide BattleScore;
+
+    private void InitScoringGuide()
+    {
+        int baseMoney = 0;
+        foreach (EnemyPuppet enem in _enemies)
+        {
+            baseMoney += enem.BaseMoney;
+        }
+        BattleScore = new ScoringScreen.ScoreGuide(baseMoney, Player.GetCurrentHealth());
+        Harbinger.Instance.NotePlaced += (_) =>
+        {
+            BattleScore.IncPlaced();
+        };
+        Harbinger.Instance.NoteHit += (_) =>
+        {
+            BattleScore.IncHits();
+        };
+        Harbinger.Instance.NoteHit += (e) =>
+        {
+            if (e is Harbinger.NoteHitArgs { Timing: Timing.Perfect })
+                BattleScore.IncPerfects();
+            BattleScore.IncHits();
+        };
     }
 
     private void InitPlayer()
@@ -103,6 +168,10 @@ public partial class BattleDirector : Node2D
 
     public override void _Process(double delta)
     {
+        if (FocusedButton != null && GetViewport().GuiGetFocusOwner() == null)
+            FocusedButton.GrabFocus();
+        if (_countdownTimer != null)
+            _countdownLabel.Text = ((int)_countdownTimer.TimeLeft + 1).ToString();
         TimeKeeper.CurrentTime = Audio.GetPlaybackPosition();
         Beat realBeat = TimeKeeper.GetBeatFromTime(Audio.GetPlaybackPosition());
         UpdateBeat(realBeat);
@@ -117,6 +186,8 @@ public partial class BattleDirector : Node2D
         }
         if (beat.Loop > TimeKeeper.LastBeat.Loop)
         {
+            if (beat.Loop % TimeKeeper.LoopsPerSong == 0)
+                CM.BeginTweens(); //current hack to improve sync arrow tween
             Harbinger.Instance.InvokeChartLoop(beat.Loop, false);
         }
         TimeKeeper.LastBeat = beat;
@@ -140,7 +211,7 @@ public partial class BattleDirector : Node2D
         }
     }
 
-    private bool PlayerAddNote(ArrowType type, Beat beat)
+    public bool PlayerAddNote(ArrowType type, Beat beat)
     {
         if (!NPB.CanPlaceNote())
             return false;
@@ -148,10 +219,24 @@ public partial class BattleDirector : Node2D
         Note noteToPlace = NPB.NotePlaced();
         noteToPlace.OnHit(this, Timing.Okay);
 
-        CD.AddPlayerNote(noteToPlace, type, beat);
+        CD.AddPlayerNote(noteToPlace.SetOwner(Player), type, beat);
         Harbinger.Instance.InvokeNotePlaced(new ArrowData(type, beat, noteToPlace));
-        Harbinger.Instance.InvokeNoteHit(noteToPlace, Timing.Okay); //TODO: test how this feels? maybe take it out later
+        Harbinger.Instance.InvokeNoteHit(noteToPlace, Timing.Okay, type); //TODO: test how this feels? maybe take it out later
         return true;
+    }
+
+    public bool EnemyAddNote(ArrowType type, Beat beat, Note noteRef, float len, EnemyPuppet enemy)
+    {
+        noteRef.SetOwner(enemy);
+        Beat realBeat = TimeKeeper.GetBeatFromTime(Audio.GetPlaybackPosition());
+        return CD.AddConcurrentNote(realBeat, noteRef, type, beat.IncDecLoop(realBeat.Loop), len);
+    }
+
+    public void RandApplyNote(PuppetTemplate owner, int noteId, int amount)
+    {
+        if (owner == null || noteId > Scribe.NoteDictionary.Length || amount < 1)
+            return;
+        CD.SetRandBaseNoteToType(owner, (noteId, amount));
     }
 
     //Only called from CD signal when a note is processed
@@ -161,7 +246,10 @@ public partial class BattleDirector : Node2D
             return; //An inactive note was passed, for now do nothing, could force miss.
         if (data.NoteRef == null) //An empty beat
         {
-            if ((int)data.Beat.BeatPos % (int)TimeKeeper.BeatsPerLoop == 0)
+            if (
+                (int)data.Beat.BeatPos % (int)TimeKeeper.BeatsPerLoop == 0
+                || (int)data.Beat.BeatPos > TimeKeeper.BeatsPerLoop
+            )
                 return; //We never ever try to place at 0
             if (PlayerAddNote(data.Type, data.Beat))
                 return; //Exit handling for a placed note
@@ -172,7 +260,7 @@ public partial class BattleDirector : Node2D
         Timing timed = CheckTiming(beatDif);
 
         data.NoteRef.OnHit(this, timed);
-        Harbinger.Instance.InvokeNoteHit(data.NoteRef, timed);
+        Harbinger.Instance.InvokeNoteHit(data.NoteRef, timed, data.Type);
         NPB.HandleTiming(timed, data.Type);
         CM.ComboText(timed, data.Type, NPB.GetCurrentCombo());
     }
@@ -208,13 +296,22 @@ public partial class BattleDirector : Node2D
     #region Battle End
     private void CheckBattleStatus(PuppetTemplate puppet) //Called when a puppet dies
     {
+        var tween = CreateTween();
+        tween.TweenProperty(puppet, "modulate:a", 0, 2f);
         if (puppet == Player)
         {
-            OnBattleLost();
+            CM.ProcessMode = ProcessModeEnum.Disabled;
+            tween.TweenCallback(Callable.From(OnBattleLost));
             return;
         }
-        if (puppet is EnemyPuppet && IsBattleWon())
-            OnBattleWon(); //will have to adjust this to account for when we have multiple enemies at once
+
+        if (puppet is EnemyPuppet)
+        {
+            if (!IsBattleWon())
+                return;
+            CM.ProcessMode = ProcessModeEnum.Disabled;
+            tween.TweenCallback(Callable.From(OnBattleWon));
+        }
     }
 
     private bool IsBattleWon()
@@ -224,9 +321,14 @@ public partial class BattleDirector : Node2D
 
     private void OnBattleWon()
     {
-        Audio.StreamPaused = true;
+        Harbinger.Instance.InvokeBattleEnded();
         CleanUpRelics();
-        ShowRewardSelection(3);
+        BattleScore.SetEndHp(Player.GetCurrentHealth());
+        Audio.ProcessMode = ProcessModeEnum.Always;
+        ScoringScreen.CreateScore(this, BattleScore).Finished += () =>
+        {
+            ShowRewardSelection(3);
+        };
     }
 
     private void OnBattleLost()
@@ -265,12 +367,7 @@ public partial class BattleDirector : Node2D
         }
     }
 
-    public void DealDamage(
-        Targetting targetting,
-        int damage,
-        PuppetTemplate source,
-        bool targetPlayer = false
-    )
+    public void DealDamage(Targetting targetting, int damage, PuppetTemplate source)
     {
         PuppetTemplate[] targets = GetTargets(targetting);
         foreach (PuppetTemplate target in targets)
@@ -279,16 +376,28 @@ public partial class BattleDirector : Node2D
         }
     }
 
-    public void AddStatus(Targetting targetting, StatusEffect status)
+    /*public void ReduceMeter(Note note, int amountLost, PuppetTemplate source)
     {
+        PuppetTemplate[] targets = GetTargets(note.TargetType);
+        foreach (PuppetTemplate target in targets)
+        {
+            target.
+        }
+    }*/
+
+    public void AddStatus(Targetting targetting, StatusEffect status, int amount = 1)
+    {
+        if (amount == 0)
+            return;
         PuppetTemplate[] targets = GetTargets(targetting);
         foreach (PuppetTemplate target in targets)
         {
-            target.AddStatusEffect(status);
+            StatusEffect eff = status.CreateInstance(amount);
+            if (!target.AddStatusEffect(eff))
+                continue;
+            eff.StatusEnd += RemoveStatus; //If new status, add effect events
+            AddEvent(eff);
         }
-
-        status.StatusEnd += RemoveStatus;
-        AddEvent(status);
     }
 
     public void RemoveStatus(StatusEffect status)
@@ -347,6 +456,9 @@ public partial class BattleDirector : Node2D
             case BattleEffectTrigger.OnDamageInstance:
                 Harbinger.Instance.OnDamageInstance += bEvent.OnTrigger;
                 break;
+            case BattleEffectTrigger.OnBattleStart:
+                Harbinger.Instance.BattleStarted += bEvent.OnTrigger;
+                break;
         }
     }
 
@@ -368,6 +480,9 @@ public partial class BattleDirector : Node2D
                 break;
             case BattleEffectTrigger.OnDamageInstance:
                 Harbinger.Instance.OnDamageInstance -= bEvent.OnTrigger;
+                break;
+            case BattleEffectTrigger.OnBattleStart:
+                Harbinger.Instance.BattleStarted -= bEvent.OnTrigger;
                 break;
         }
     }
@@ -449,10 +564,12 @@ public partial class BattleDirector : Node2D
         /// </summary>
         /// <param name="bd">The BattleDirector calling the event.</param>
         /// <param name="note">The Note being hit.</param>
-        public class NoteHitArgs(BattleDirector bd, Note note, Timing timing) : BattleEventArgs(bd)
+        public class NoteHitArgs(BattleDirector bd, Note note, Timing timing, ArrowType type)
+            : BattleEventArgs(bd)
         {
-            public Note Note = note;
-            public Timing Timing = timing;
+            public readonly Note Note = note;
+            public readonly Timing Timing = timing;
+            public readonly ArrowType Type = type;
         }
 
         internal delegate void NotePlacedHandler(BattleEventArgs e);
@@ -460,6 +577,7 @@ public partial class BattleDirector : Node2D
 
         public void InvokeNotePlaced(ArrowData data)
         {
+            SteamWhisperer.IncrementNoteCount();
             NotePlaced?.Invoke(new NoteEventArgs(_curDirector, data));
         }
 
@@ -474,9 +592,9 @@ public partial class BattleDirector : Node2D
         internal delegate void NoteHitHandler(BattleEventArgs e);
         internal event NoteHitHandler NoteHit;
 
-        public void InvokeNoteHit(Note note, Timing timing)
+        public void InvokeNoteHit(Note note, Timing timing, ArrowType type)
         {
-            NoteHit?.Invoke(new NoteHitArgs(_curDirector, note, timing));
+            NoteHit?.Invoke(new NoteHitArgs(_curDirector, note, timing, type));
         }
 
         internal delegate void BattleEndedHandler(BattleEventArgs e);
@@ -485,6 +603,14 @@ public partial class BattleDirector : Node2D
         public void InvokeBattleEnded()
         {
             BattleEnded?.Invoke(new BattleEventArgs(_curDirector));
+        }
+
+        internal delegate void BattleStartedHandler(BattleEventArgs e);
+        internal event BattleStartedHandler BattleStarted;
+
+        public void InvokeBattleStarted()
+        {
+            BattleStarted?.Invoke(new BattleEventArgs(_curDirector));
         }
 
         /// <summary>
@@ -512,7 +638,7 @@ public partial class BattleDirector : Node2D
     {
         foreach (EnemyPuppet enemy in _enemies)
         {
-            enemy.TakeDamage(new DamageInstance(1000, null, enemy));
+            enemy.TakeDamage(new DamageInstance(1000, null, null));
         }
     }
 

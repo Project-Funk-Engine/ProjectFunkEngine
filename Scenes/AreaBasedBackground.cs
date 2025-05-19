@@ -6,11 +6,9 @@ public partial class AreaBasedBackground : TextureRect
 {
     public override void _Ready()
     {
-        Texture = StageProducer.CurArea switch
-        {
-            Area.Forest => GD.Load<Texture2D>("res://SharedAssets/BackGround_Full.png"),
-            Area.City => GD.Load<Texture2D>("res://icon.svg"),
-            _ => null,
-        };
+        if (StageProducer.CurLevel == null)
+            Texture = GD.Load<Texture2D>("res://SharedAssets/BackGround_Full.png");
+        else
+            Texture = GD.Load<Texture2D>(StageProducer.CurLevel.BackgroundPath);
     }
 }

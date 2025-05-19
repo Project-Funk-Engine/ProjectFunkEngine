@@ -5,6 +5,8 @@ using Godot;
 
 public partial class PlayerStats : Resource
 {
+    public int Money = 0;
+
     public int MaxHealth = 100;
     public int CurrentHealth = 100;
     public int MaxComboBar = 60;
@@ -12,6 +14,8 @@ public partial class PlayerStats : Resource
     public int NotesToIncreaseCombo = 4;
     public int RewardAmountModifier = 0;
     public int Rerolls = 0;
+    public int Shortcuts = 0;
+    public int DiscountPercent = 0;
 
     //Array in order of descending rarities, Legendary -> ... Common. Int odds out of 100.
     public int[] RarityOdds = [1, 5, 10, 20, 100];
@@ -39,8 +43,44 @@ public partial class PlayerStats : Resource
         Scribe.RemoveRelicFromPool(relic);
     }
 
+    public void RemoveRelic(int index)
+    {
+        if (index < 0 || index >= CurRelics.Length)
+        {
+            GD.Print("index out of range");
+            return;
+        }
+
+        CurRelics = CurRelics.Where((_, i) => i != index).ToArray();
+    }
+
     public void AddNote(Note nSelection)
     {
+        //If the note is vampire, check to see if we already have 2 of them
+        if (
+            nSelection.Name == "PlayerVampire"
+            && CurNotes.Count(note => note.Name == "PlayerVampire") >= 2
+        )
+        {
+            SteamWhisperer.PopAchievement("vampire");
+        }
+
         CurNotes = CurNotes.Append(nSelection).ToArray();
+    }
+
+    public void RemoveNote(int index)
+    {
+        if (index < 0 || index >= CurNotes.Length)
+        {
+            GD.Print("index out of range");
+            return;
+        }
+
+        CurNotes = CurNotes.Where((_, i) => i != index).ToArray();
+    }
+
+    public void RemoveNote(Note nSelection)
+    {
+        CurNotes = CurNotes.Where(n => n != nSelection).ToArray();
     }
 }

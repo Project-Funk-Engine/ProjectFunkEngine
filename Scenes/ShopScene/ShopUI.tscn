@@ -1,0 +1,530 @@
+[gd_scene load_steps=8 format=3 uid="uid://bk0js6ji42xrt"]
+
+[ext_resource type="Texture2D" uid="uid://djd6iw2g84bba" path="res://Scenes/UI/Assets/UI_CenterFrame.png" id="1_67his"]
+[ext_resource type="Script" uid="uid://dg0xaieus84ns" path="res://Scenes/ShopScene/Scripts/ShopScene.cs" id="1_bmt43"]
+[ext_resource type="Texture2D" uid="uid://8u3xvcma81d" path="res://Scenes/UI/Assets/UI_CrystalFrame.png" id="2_bmt43"]
+[ext_resource type="Texture2D" uid="uid://burj10os057fx" path="res://Scenes/UI/Assets/UI_CrystalFrameInset.png" id="3_r34tc"]
+[ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="4_3vktw"]
+[ext_resource type="Script" uid="uid://cahjluc6v7ked" path="res://Scenes/UI/TitleScreen/Scripts/SceneChange.cs" id="5_w0f8r"]
+[ext_resource type="Texture2D" uid="uid://dyt1cvag13aik" path="res://SharedAssets/Money.png" id="6_tf865"]
+
+[node name="ShopUI" type="Control" node_paths=PackedStringArray("_moneyLabel", "_exitButton", "_removalButton", "_noteGrid", "_relicGrid", "_confirmationPopup", "_confirmationButton", "_denyButton", "_descriptionLabel", "_removalPanel", "_possessionGrid", "_removalAcceptButton", "_cancelRemoveButton", "_removalCostLabel")]
+z_index = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bmt43")
+_moneyLabel = NodePath("MoneyContainer/MoneyFrame/MarginContainer/HBoxContainer/MoneyLabel")
+_exitButton = NodePath("BottomPanel/DescBox/HBoxContainer/OptionsBG/OptionsMargin/OptionsBG/MarginContainer/VBoxContainer/Continue")
+_removalButton = NodePath("BottomPanel/DescBox/HBoxContainer/OptionsBG/OptionsMargin/OptionsBG/MarginContainer/VBoxContainer/Removal")
+_noteGrid = NodePath("TopPanel/MarginContainer/VBoxContainer/NoteSelection/MarginContainer/NotesBox/CenterContainer/NotesGrid")
+_relicGrid = NodePath("TopPanel/MarginContainer/VBoxContainer/RelicSelection/MarginContainer/RelicsBox/CenterContainer/RelicsGrid")
+_confirmationPopup = NodePath("ConfirmPurchase")
+_confirmationButton = NodePath("ConfirmPurchase/HBoxContainer/Confirm")
+_denyButton = NodePath("ConfirmPurchase/HBoxContainer/Deny")
+_descriptionLabel = NodePath("BottomPanel/DescBox/HBoxContainer/DescBG/DescMargin/DescBackground/MarginContainer/Description")
+_removalPanel = NodePath("Removal")
+_possessionGrid = NodePath("Removal/Panel/MarginContainer/VBoxContainer/NoteSelection/MarginContainer/NotesBox/CenterContainer/PossesionGrid")
+_removalAcceptButton = NodePath("Removal/Panel/MarginContainer/VBoxContainer/Options/MarginContainer/HBoxContainer/Accept")
+_cancelRemoveButton = NodePath("Removal/Panel/MarginContainer/VBoxContainer/Options/MarginContainer/HBoxContainer/Cancel")
+_removalCostLabel = NodePath("Removal/Panel/MarginContainer/VBoxContainer/Options/MarginContainer/HBoxContainer/CostPanel/HBoxContainer/MoneyLabel")
+
+[node name="TopPanel" type="NinePatchRect" parent="."]
+layout_mode = 0
+offset_right = 508.0
+offset_bottom = 211.0
+texture = ExtResource("1_67his")
+patch_margin_left = 12
+patch_margin_top = 12
+patch_margin_right = 12
+patch_margin_bottom = 12
+
+[node name="MarginContainer" type="MarginContainer" parent="TopPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TopPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="NoteSelection" type="NinePatchRect" parent="TopPanel/MarginContainer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0.75)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_bmt43")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 7
+
+[node name="MarginContainer" type="MarginContainer" parent="TopPanel/MarginContainer/VBoxContainer/NoteSelection"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="NotesBox" type="ScrollContainer" parent="TopPanel/MarginContainer/VBoxContainer/NoteSelection/MarginContainer"]
+layout_mode = 2
+follow_focus = true
+
+[node name="CenterContainer" type="CenterContainer" parent="TopPanel/MarginContainer/VBoxContainer/NoteSelection/MarginContainer/NotesBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="NotesGrid" type="GridContainer" parent="TopPanel/MarginContainer/VBoxContainer/NoteSelection/MarginContainer/NotesBox/CenterContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/h_separation = 30
+columns = 6
+
+[node name="RelicSelection" type="NinePatchRect" parent="TopPanel/MarginContainer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0.75)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_bmt43")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 7
+
+[node name="MarginContainer" type="MarginContainer" parent="TopPanel/MarginContainer/VBoxContainer/RelicSelection"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="RelicsBox" type="ScrollContainer" parent="TopPanel/MarginContainer/VBoxContainer/RelicSelection/MarginContainer"]
+layout_mode = 2
+follow_focus = true
+
+[node name="CenterContainer" type="CenterContainer" parent="TopPanel/MarginContainer/VBoxContainer/RelicSelection/MarginContainer/RelicsBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RelicsGrid" type="GridContainer" parent="TopPanel/MarginContainer/VBoxContainer/RelicSelection/MarginContainer/RelicsBox/CenterContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/h_separation = 30
+columns = 6
+
+[node name="BottomPanel" type="NinePatchRect" parent="."]
+layout_mode = 0
+offset_top = 211.0
+offset_right = 640.0
+offset_bottom = 360.0
+texture = ExtResource("1_67his")
+patch_margin_left = 12
+patch_margin_top = 12
+patch_margin_right = 12
+patch_margin_bottom = 12
+
+[node name="DescBox" type="MarginContainer" parent="BottomPanel"]
+layout_mode = 2
+offset_right = 640.0
+offset_bottom = 149.0
+grow_vertical = 0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.4
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BottomPanel/DescBox"]
+layout_mode = 2
+
+[node name="DescBG" type="NinePatchRect" parent="BottomPanel/DescBox/HBoxContainer"]
+self_modulate = Color(1, 1, 1, 0.75)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_bmt43")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 7
+
+[node name="DescMargin" type="MarginContainer" parent="BottomPanel/DescBox/HBoxContainer/DescBG"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="DescBackground" type="NinePatchRect" parent="BottomPanel/DescBox/HBoxContainer/DescBG/DescMargin"]
+layout_mode = 2
+texture = ExtResource("3_r34tc")
+patch_margin_left = 7
+patch_margin_top = 7
+patch_margin_right = 7
+patch_margin_bottom = 7
+
+[node name="MarginContainer" type="MarginContainer" parent="BottomPanel/DescBox/HBoxContainer/DescBG/DescMargin/DescBackground"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 7
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 7
+
+[node name="Description" type="Label" parent="BottomPanel/DescBox/HBoxContainer/DescBG/DescMargin/DescBackground/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+autowrap_mode = 2
+clip_text = true
+text_overrun_behavior = 1
+
+[node name="OptionsBG" type="NinePatchRect" parent="BottomPanel/DescBox/HBoxContainer"]
+self_modulate = Color(1, 1, 1, 0.75)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.39
+texture = ExtResource("2_bmt43")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 7
+
+[node name="OptionsMargin" type="MarginContainer" parent="BottomPanel/DescBox/HBoxContainer/OptionsBG"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="OptionsBG" type="NinePatchRect" parent="BottomPanel/DescBox/HBoxContainer/OptionsBG/OptionsMargin"]
+layout_mode = 2
+texture = ExtResource("3_r34tc")
+patch_margin_left = 7
+patch_margin_top = 7
+patch_margin_right = 7
+patch_margin_bottom = 7
+
+[node name="MarginContainer" type="MarginContainer" parent="BottomPanel/DescBox/HBoxContainer/OptionsBG/OptionsMargin/OptionsBG"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 7
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 7
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BottomPanel/DescBox/HBoxContainer/OptionsBG/OptionsMargin/OptionsBG/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Removal" type="Button" parent="BottomPanel/DescBox/HBoxContainer/OptionsBG/OptionsMargin/OptionsBG/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("4_3vktw")
+text = "SHOP_REMOVAL"
+
+[node name="Continue" type="Button" parent="BottomPanel/DescBox/HBoxContainer/OptionsBG/OptionsMargin/OptionsBG/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("4_3vktw")
+text = "INBETWEEN_CONTINUE"
+script = ExtResource("5_w0f8r")
+ScenePath = 7
+_startFocused = true
+
+[node name="MoneyContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -125.0
+offset_bottom = 29.0
+grow_horizontal = 0
+theme_override_constants/margin_left = -1
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 0
+
+[node name="MoneyFrame" type="NinePatchRect" parent="MoneyContainer"]
+layout_mode = 2
+texture = ExtResource("2_bmt43")
+patch_margin_left = 7
+patch_margin_top = 7
+patch_margin_right = 7
+patch_margin_bottom = 7
+
+[node name="MarginContainer" type="MarginContainer" parent="MoneyContainer/MoneyFrame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_right = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MoneyContainer/MoneyFrame/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MoneyContainer/MoneyFrame/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+
+[node name="TextureRect" type="TextureRect" parent="MoneyContainer/MoneyFrame/MarginContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("6_tf865")
+
+[node name="MoneyLabel" type="Label" parent="MoneyContainer/MoneyFrame/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(91, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 1
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+clip_text = true
+
+[node name="ConfirmPurchase" type="CenterContainer" parent="."]
+visible = false
+z_index = 3
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -105.0
+offset_top = -20.0
+offset_right = 105.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MouseFilter" type="Control" parent="ConfirmPurchase"]
+custom_minimum_size = Vector2(640, 360)
+layout_mode = 2
+
+[node name="Confirmation" type="NinePatchRect" parent="ConfirmPurchase"]
+custom_minimum_size = Vector2(230, 62)
+layout_mode = 2
+texture = ExtResource("1_67his")
+patch_margin_left = 7
+patch_margin_top = 7
+patch_margin_right = 7
+patch_margin_bottom = 7
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ConfirmPurchase"]
+layout_mode = 2
+alignment = 1
+
+[node name="Confirm" type="Button" parent="ConfirmPurchase/HBoxContainer"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../Deny")
+focus_neighbor_top = NodePath("../Deny")
+focus_neighbor_right = NodePath("../Deny")
+focus_neighbor_bottom = NodePath("../Deny")
+focus_next = NodePath("../Deny")
+focus_previous = NodePath("../Deny")
+theme = ExtResource("4_3vktw")
+text = "SHOP_CONFIRM"
+
+[node name="Deny" type="Button" parent="ConfirmPurchase/HBoxContainer"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../Confirm")
+focus_neighbor_top = NodePath("../Confirm")
+focus_neighbor_right = NodePath("../Confirm")
+focus_neighbor_bottom = NodePath("../Confirm")
+focus_next = NodePath("../Confirm")
+focus_previous = NodePath("../Confirm")
+theme = ExtResource("4_3vktw")
+text = "SHOP_CANCEL"
+
+[node name="Removal" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 360.0
+
+[node name="Panel" type="NinePatchRect" parent="Removal"]
+layout_mode = 0
+offset_right = 508.0
+offset_bottom = 211.0
+texture = ExtResource("1_67his")
+patch_margin_left = 12
+patch_margin_top = 12
+patch_margin_right = 12
+patch_margin_bottom = 12
+
+[node name="MarginContainer" type="MarginContainer" parent="Removal/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Removal/Panel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="NoteSelection" type="NinePatchRect" parent="Removal/Panel/MarginContainer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0.75)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_bmt43")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 7
+
+[node name="MarginContainer" type="MarginContainer" parent="Removal/Panel/MarginContainer/VBoxContainer/NoteSelection"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="NotesBox" type="ScrollContainer" parent="Removal/Panel/MarginContainer/VBoxContainer/NoteSelection/MarginContainer"]
+layout_mode = 2
+follow_focus = true
+
+[node name="CenterContainer" type="CenterContainer" parent="Removal/Panel/MarginContainer/VBoxContainer/NoteSelection/MarginContainer/NotesBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PossesionGrid" type="GridContainer" parent="Removal/Panel/MarginContainer/VBoxContainer/NoteSelection/MarginContainer/NotesBox/CenterContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/h_separation = 30
+columns = 6
+
+[node name="Options" type="NinePatchRect" parent="Removal/Panel/MarginContainer/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0.75)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+texture = ExtResource("2_bmt43")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 7
+
+[node name="MarginContainer" type="MarginContainer" parent="Removal/Panel/MarginContainer/VBoxContainer/Options"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Removal/Panel/MarginContainer/VBoxContainer/Options/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="CostPanel" type="VBoxContainer" parent="Removal/Panel/MarginContainer/VBoxContainer/Options/MarginContainer/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Removal/Panel/MarginContainer/VBoxContainer/Options/MarginContainer/HBoxContainer/CostPanel"]
+layout_mode = 2
+text = "REMOVAL_COST"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Removal/Panel/MarginContainer/VBoxContainer/Options/MarginContainer/HBoxContainer/CostPanel"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Removal/Panel/MarginContainer/VBoxContainer/Options/MarginContainer/HBoxContainer/CostPanel/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+
+[node name="TextureRect" type="TextureRect" parent="Removal/Panel/MarginContainer/VBoxContainer/Options/MarginContainer/HBoxContainer/CostPanel/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("6_tf865")
+
+[node name="MoneyLabel" type="Label" parent="Removal/Panel/MarginContainer/VBoxContainer/Options/MarginContainer/HBoxContainer/CostPanel/HBoxContainer"]
+custom_minimum_size = Vector2(21, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 1
+text = "999"
+horizontal_alignment = 2
+vertical_alignment = 1
+clip_text = true
+
+[node name="Accept" type="Button" parent="Removal/Panel/MarginContainer/VBoxContainer/Options/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_bottom = NodePath("../Cancel")
+theme = ExtResource("4_3vktw")
+text = "CHEST_ROOM_ACCEPT"
+
+[node name="Cancel" type="Button" parent="Removal/Panel/MarginContainer/VBoxContainer/Options/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_bottom = NodePath("../Accept")
+focus_next = NodePath(".")
+theme = ExtResource("4_3vktw")
+text = "SHOP_CANCEL"

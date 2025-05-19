@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using FunkEngine;
 using Godot;
+using GodotSteam;
 
 public partial class ControlSettings : Node2D, IFocusableMenu
 { //TODO: Add messages when an invalid key is attempted to be set.
@@ -19,6 +20,13 @@ public partial class ControlSettings : Node2D, IFocusableMenu
 
     [Export]
     private Label _remapLabel;
+    private string _keyboardRemap = "CONTROLS_CHOOSE_TEXT_KEYBOARD";
+    private string _controllerRemap = "CONTROLS_CHOOSE_TEXT_CONTROLLER";
+    private string _invalidMessage = "CONTROLS_CHOOSE_INVALID";
+    private string _duplicateInput = "CONTROLS_CHOOSE_DUPLICATE";
+
+    [Export]
+    private Label _remapDescription;
 
     [Export]
     private Timer _remapTimer;
@@ -122,6 +130,8 @@ public partial class ControlSettings : Node2D, IFocusableMenu
                 ? 0
                 : 1;
 
+        _remapDescription.Text = Tr(_remapTabs.CurrentTab == 0 ? _keyboardRemap : _controllerRemap);
+
         _remapTimer.Timeout += OnTimerEnd;
         _remapTabs.TabChanged += (_) => ChangeInputType();
         _closeButton.Pressed += ReturnToPrev;
@@ -197,6 +207,7 @@ public partial class ControlSettings : Node2D, IFocusableMenu
             SaveSystem.ConfigSettings.InputType,
             _remapTabs.CurrentTab == 0 ? KeyboardPrefix : JoyPrefix
         );
+        _remapDescription.Text = Tr(_remapTabs.CurrentTab == 0 ? _keyboardRemap : _controllerRemap);
     }
 
     /// <summary>
@@ -255,7 +266,7 @@ public partial class ControlSettings : Node2D, IFocusableMenu
     {
         if (_remapPopup.Visible)
         {
-            if (@event.IsActionPressed("ui_cancel"))
+            if (@event.IsActionPressed("Pause"))
             {
                 _remapTimer.Stop();
                 OnTimerEnd();
@@ -295,8 +306,14 @@ public partial class ControlSettings : Node2D, IFocusableMenu
         {
             case true when @event is InputEventKey keyEvent:
             {
-                if (_invalidKeys.Contains(keyEvent.Keycode))
+                if (
+                    _invalidKeys.Contains(keyEvent.Keycode)
+                    || !ResourceLoader.Exists($"{IconPath}{CleanKeyboardText(@event.AsText())}.png")
+                )
+                {
+                    _remapDescription.Text = Tr(_invalidMessage);
                     return;
+                }
 
                 string action = KeyboardPrefix + _chosenKey;
                 InputMap.ActionEraseEvents(action);
@@ -371,6 +388,22 @@ public partial class ControlSettings : Node2D, IFocusableMenu
         },
     };
 
+    public static string GetTextureForInput(string inputMapName)
+    {
+        var events = InputMap.ActionGetEvents(inputMapName);
+        if (events.Count <= 0)
+            return null;
+        string textureName = events[0].AsText();
+
+        // Clean up the texture name
+        if (inputMapName.StartsWith(KeyboardPrefix))
+            textureName = CleanKeyboardText(textureName);
+        else
+            textureName = textureName.Replace("/", "");
+
+        return $"{IconPath}{textureName}.png";
+    }
+
     /// <summary>
     /// Saves the key to the input based on its input name into the correct config setting.
     /// </summary>
@@ -425,9 +458,17 @@ public partial class ControlSettings : Node2D, IFocusableMenu
                         && CleanKeyboardText(keyEvent.AsText()) == keyText
                     ) || (evt is InputEventJoypadButton padEvent && padEvent.AsText() == keyText)
                 )
+                {
+                    _remapDescription.Text = Tr(_duplicateInput);
                     return false;
+                }
             }
         }
         return true;
+    }
+
+    public static bool IsOutOfFocus(Node asker)
+    {
+        return !asker.GetWindow().HasFocus() || SteamWhisperer.IsOverlayActive;
     }
 }

@@ -1,7 +1,7 @@
 keys,en,cn
-TITLE,Midnight Riff,中夜现场
+TITLE,Midnzght Riff,中夜现场
 TITLE_START,New Game,新游戏
-TITLE_CONTINUE,Load Game,加载游戏
+TITLE_CONTINUE,Load Game,读取存档
 TITLE_QUIT,Quit Game,退出游戏
 TITLE_OPTIONS,Options,选项
 TITLE_CONTROLS,Change Controls,更改操控
@@ -10,76 +10,156 @@ CONTROLS_TITLE_TYPE_QWER,QWERT,QWERT
 CONTROLS_TITLE_TYPE_ARROW,Arrow,箭头键
 CONTROLS_TITLE_SELECTED,Selected,已选择
 CONTROLS_WASD_BUTTON,WASD,WASD
-CONTROLS_CONTROLLER,Controller,控制杆
+CONTROLS_CONTROLLER,Controller,手柄
 CONTROLS_KEYBOARD,Keyboard,键盘
 CONTROLS_QWER_BUTTON,QWER,QWER
 CONTROLS_ARROW_BUTTON,Arrow Keys,箭头键
 CONTROLS_RETURN_BUTTON,Return,返回
-CONTROLS_CHOOSE_SCHEME,Choose Control Scheme,选择控制方式
-CONTROLS_CHOOSE_BUTTON,Choose new button,选择输入按钮
+CONTROLS_TUTORIAL_BUTTON,Tutorial,教程
+CONTROLS_CHOOSE_SCHEME,Choose Control Scheme,选择操控方案
+CONTROLS_CHOOSE_BUTTON,Choose new button,选择新按键
+CONTROLS_CHOOSE_TEXT_KEYBOARD,Press Escape to close,按下 Esc 键关闭
+CONTROLS_CHOOSE_TEXT_CONTROLLER,Press Start to close,按下 Start 键关闭
+CONTROLS_CHOOSE_INVALID,"System input, can't be used!",预留输入，无法重定向！
+CONTROLS_CHOOSE_DUPLICATE,"Input already set, can't be used again!",按键已设置，无法重复使用！
 ESCAPE_MENU_RESUME,Resume,继续
-ESCAPE_MENU_QUIT,Quit,退出
+ESCAPE_MENU_QUIT,Quit Game,退出游戏
 ESCAPE_MENU_TITLE,Quit to Title,返回标题
 INBETWEEN_CONTINUE,Continue,继续
-CHEST_ROOM_REWARDS,Reward Selection!,奖励!
+CHEST_ROOM_REWARDS,Reward Selection!,奖励选择!
 CHEST_ROOM_SKIP,Skip,跳过
-CHEST_ROOM_ACCEPT,Accept,接受
-CHEST_ROOM_REROLL,Rerolls: ,重刷: 
-BATTLE_ROOM_BEGIN_BUTTON,"Begin Battle [Enter]","开始战斗 [Enter]"
-BATTLE_ROOM_PERFECT,Perfect,精准
+CHEST_ROOM_ACCEPT,Accept,确定
+CHEST_ROOM_REROLL,Rerolls: ,重抽: 
+SHOP_REMOVAL,Remove A Note,移除音符
+SHOP_CONFIRM,Confirm Purchase,购买已确认
+SHOP_CANCEL,Cancel,取消操作
+REMOVAL_COST,Removal Fee,删除费用
+BATTLE_ROOM_BEGIN_BUTTON,Begin Battle [Enter],开始战斗 [Enter]
+BATTLE_ROOM_PERFECT,Perfect,Perfect
 BATTLE_ROOM_GOOD,Good,良好
 BATTLE_ROOM_OKAY,Okay,可以
 BATTLE_ROOM_MISS,Miss,错误
-BATTLE_ROOM_WIN,"You win!","你获胜了!"
-BATTLE_ROOM_LOSE,"Game Over!","游戏结束！"
+BATTLE_ROOM_WIN,You win!,你赢了！
+BATTLE_ROOM_LOSE,Game Over!,游戏结束！
 END_SCREEN_RESTART,Restart,重新开始
 BATTLE_ROOM_SKIP_BUTTON,Skip,跳过
 BATTLE_ROOM_ACCEPT_BUTTON,Accept,接受
+SCORING_SCENE_TITLE,Scoring,计分
+SCORING_STYLE,Base Style Points,技巧分
+SCORING_PERFECTS,Perfect Multiplier:,"Perfect 倍数:"
+SCORING_PLACED,Placed Multiplier:,已放置倍数:
+SCORING_RELICS,Relic income:,遗物收入:
+SCORING_TOTAL,Coins Earned:,获得硬币:
 NOTE_ENEMYBASE_NAME,EnemyBase,敌人基地
-NOTE_ENEMYBASE_TOOLTIP,"Basic enemy note, deals damage to player.","基础敌人音符，对玩家造成伤害"
-NOTE_PLAYERBASE_NAME,PlayerBase,玩家基地
-NOTE_PLAYERBASE_TOOLTIP,"Basic player note, deals damage to enemy.","基础玩家音符，对敌人造成伤害"
-NOTE_PLAYERDOUBLE_NAME,PlayerDouble,玩家双击
-NOTE_PLAYERDOUBLE_TOOLTIP,"Basic player note, deals double damage to enemy.","基础玩家音符，对敌人造成双倍伤害"
-NOTE_PLAYERHEAL_NAME,PlayerHeal,玩家治愈
-NOTE_PLAYERHEAL_TOOLTIP,"Basic player note, heals player.","基础玩家音符，治愈玩家"
-NOTE_PLAYERVAMPIRE_NAME,PlayerVampire,玩家吸血
-NOTE_PLAYERVAMPIRE_TOOLTIP,"Steals health from enemy.","从敌人吸取生命值"
-NOTE_PLAYERQUARTER_NAME,PlayerQuarter,玩家一分之一
-NOTE_PLAYERQUARTER_TOOLTIP,"Basic note at a quarter of the cost.","以四分之一的耗费时间量发出基础音符"
-NOTE_PLAYERBLOCK_NAME,PlayerBlock,玩家格挡
-NOTE_PLAYERBLOCK_TOOLTIP,"Gives player one charge of block.","给予玩家一层格挡充能。"
-NOTE_PLAYEREXPLOSIVE_NAME,PlayerExplosive,玩家炸药
-NOTE_PLAYEREXPLOSIVE_TOOLTIP,"Deals damage to all enemies.","对所有敌人造成伤害"
-NOTE_PLAYERECHO_NAME,PlayerEcho,玩家回声
-NOTE_PLAYERECHO_TOOLTIP,"Deals more damage with each loop.","每次循环造成更多伤害"
-NOTE_PLAYERPOISON_NAME,PlayerPoison,玩家中毒
-NOTE_PLAYERPOISON_TOOLTIP,"Applies stacks of poison based on timing.","根据时机施加中毒层数"
+NOTE_ENEMYBASE_TOOLTIP,"Basic enemy note, deals damage to player.",基础敌人音符，对玩家造成伤害。
+NOTE_PLAYERBASE_NAME,Basic Note,基本音符
+NOTE_PLAYERBASE_TOOLTIP,"Basic player note, deals damage to enemy.",基础玩家音符，对敌人造成伤害。
+NOTE_PLAYERDOUBLE_NAME,Double Note,双重音符
+NOTE_PLAYERDOUBLE_TOOLTIP,"Basic player note, deals double damage to enemy.",基础玩家音符，对敌人造成双倍伤害。
+NOTE_PLAYERHEAL_NAME,Heal Note,治疗音符
+NOTE_PLAYERHEAL_TOOLTIP,"Basic player note, heals player.",基础玩家音符，治愈玩家。
+NOTE_PLAYERVAMPIRE_NAME,Vampire Note,吸血鬼音符
+NOTE_PLAYERVAMPIRE_TOOLTIP,Steals health from enemy.,从敌人吸取生命值。
+NOTE_PLAYERQUARTER_NAME,Quarter Note,四分音符
+NOTE_PLAYERQUARTER_TOOLTIP,Basic note at a quarter of the cost.,以四分之一的耗费时间量发出基础音符。
+NOTE_PLAYERBLOCK_NAME,Block Note,块音符
+NOTE_PLAYERBLOCK_TOOLTIP,Gives player one charge of block.,给予玩家一层格挡充能。
+NOTE_PLAYEREXPLOSIVE_NAME,Explosive Note,爆炸音符
+NOTE_PLAYEREXPLOSIVE_TOOLTIP,Deals damage to all enemies.,对所有敌人造成伤害。
+NOTE_PLAYERECHO_NAME,Echo Note,回音符
+NOTE_PLAYERECHO_TOOLTIP,Deals more damage with each loop.,每次循环造成更多伤害。
+NOTE_PLAYERPOISON_NAME,Poison Note,毒药音符
+NOTE_PLAYERPOISON_TOOLTIP,Applies stacks of poison based on timing.,根据时机施加中毒层数。
+NOTE_PLAYERMONEY_NAME,Money Note,钱的便条
+NOTE_PLAYERMONEY_TOOLTIP,"Deals no damage, but gives you money when hit.",不会造成伤害，但命中时会获得金钱。
+NOTE_PLAYERCOMBO_NAME,Combo Note,连击音符
+NOTE_PLAYERCOMBO_TOOLTIP,"Deals no damage, but gives you double the combo bar charge when hit.",不会造成伤害，但命中时会获得双倍连击槽充能。
 RELIC_BREAKFAST_NAME,Breakfast,早餐
-RELIC_BREAKFAST_TOOLTIP,"Increases max hp.",提高最大生命值
+RELIC_BREAKFAST_TOOLTIP,Increases max hp.,提高最大生命值
 RELIC_GOODVIBES_NAME,Good Vibes,良好消息
-RELIC_GOODVIBES_TOOLTIP,"Heals the player whenever they place a note.","每开始一个音符时治愈玩家"
+RELIC_GOODVIBES_TOOLTIP,Heals the player whenever they place a note.,每开始一个音符时治愈玩家
 RELIC_AUROBOROS_NAME,Auroboros,无尾蛇
-RELIC_AUROBOROS_TOOLTIP,"Bigger number, better person. Increases combo multiplier every riff.","进一步增加综合倍数，每次现场提升"
+RELIC_AUROBOROS_TOOLTIP,"Bigger number, better person. Increases combo multiplier every loop.",更大的数字，更棒的人。每轮循环增加连击倍数。
 RELIC_COLORBOROS_NAME,Colorboros,彩蛇轮回
-RELIC_COLORBOROS_TOOLTIP,"Taste the rainbow. Charges the freestyle bar every riff.","品尝临岛，每次现场充值自由格条"
-RELIC_CHIPS_NAME,"Chips",薯片
-RELIC_CHIPS_TOOLTIP,"Hitting a note deals a bit of damage.","击中音符会造成少量伤害。"
+RELIC_COLORBOROS_TOOLTIP,Taste the rainbow. Charges the freestyle bar every loop.,品尝彩虹。每轮循环为风格条充能。
+RELIC_CHIPS_NAME,Chips,薯片
+RELIC_CHIPS_TOOLTIP,Hitting a note deals a bit of damage.,击中音符会造成少量伤害。
 RELIC_PAPERCUT_NAME,Paper Cut,纸割伤
-RELIC_PAPERCUT_TOOLTIP,"Deals damage each riff.","每轮造成伤害"
-RELIC_ENERGYDRINK_NAME,Energy Drink,"能量饮料"
-RELIC_ENERGYDRINK_TOOLTIP,"Take a chance to cool down and sip an energy drink to increase your max energy bar.","碰碰运气，喝一口能量饮料来冷静下来并增加你的最大能量条。"
-RELIC_BANDAGE_NAME,Bandage,"绷带"
-RELIC_BANDAGE_TOOLTIP,"A clean strip of cloth. Use it after a fight to patch up and feel better.","一块干净的布条，战斗后使用来包扎并恢复一些健康。"
-RELIC_MEDKIT_NAME,Medkit,"急救包"
-RELIC_MEDKIT_TOOLTIP,"A small kit with medical supplies. Heals you a bit after each riff.","包含一些医疗用品的小包，每次循环后恢复少量生命。"
-RELIC_VINYLRECORD_NAME,Vinyl Record,"黑胶唱片"
-RELIC_VINYLRECORD_TOOLTIP,"Right round, right round. All riff effects trigger twice.","把我转起来，把我转起来。所有循环效果触发两次。"
+RELIC_PAPERCUT_TOOLTIP,Deals damage each loop.,每轮造成伤害。
+RELIC_ENERGYDRINK_NAME,Energy Drink,能量饮料
+RELIC_ENERGYDRINK_TOOLTIP,Take a chance to cool down and sip an energy drink to make your freestyle bar charge faster.,休息一下，补充能量，自由风格能量恢复得更快。
+RELIC_BANDAGE_NAME,Bandage,绷带
+RELIC_BANDAGE_TOOLTIP,A clean strip of cloth. Used after every fight to patch up and feel better.,一块干净的布条，战斗后使用来包扎并恢复一些健康。
+RELIC_MEDKIT_NAME,Medkit,急救包
+RELIC_MEDKIT_TOOLTIP,A small kit with medical supplies. Heals you a bit after each loop.,包含一些医疗用品的小包，每次循环后恢复少量生命。
+RELIC_VINYLRECORD_NAME,Vinyl Record,黑胶唱片
+RELIC_VINYLRECORD_TOOLTIP,"Right round, right round. All loop effects trigger twice.",把我转起来，把我转起来。所有循环效果触发两次。
+RELIC_LOOSECHANGE_NAME,Loose Change,零钱
+RELIC_LOOSECHANGE_TOOLTIP,Gain extra money after battles.,战斗后获得额外金钱。
+RELIC_SPIKEDSHIELD_NAME,Spiked Shield,尖刺之盾
+RELIC_SPIKEDSHIELD_TOOLTIP,Deal damage when you lose a charge of block.,失去格挡层数时造成伤害。
+RELIC_LUCKYDICE_NAME,Lucky Dice,幸运骰子
+RELIC_LUCKYDICE_TOOLTIP,Gain one reroll for reward selections.,获得一次奖励重选。
+RELIC_SHORTCUT_NAME,Shortcut,捷径
+RELIC_SHORTCUT_TOOLTIP,"Can choose any path regardless of connections, but only once.",可无视路径连接选择任意路线，但仅限一次。
+RELIC_SECONDPICK_NAME,Second Pick,备用拨片
+RELIC_SECONDPICK_TOOLTIP,Placing a note has a 20% chance to instantly refill the combo bar.,每次演奏音符时，有20%的几率立即填满连击槽。
+RELIC_BROKENDRUMSTICK_NAME,Broken Drumstick,破碎的鼓棒
+RELIC_BROKENDRUMSTICK_TOOLTIP,Enemies start combat damaged.,敌人在战斗开始时受到伤害。
+RELIC_BLOODMONEY_NAME,Blood Money,血腥钱袋
+RELIC_BLOODMONEY_TOOLTIP,Gain money when taking damage below half health.,在生命值低于一半时受到伤害可获得金钱。
+RELIC_COUPON_NAME,Coupon,优惠券
+RELIC_COUPON_TOOLTIP,Get a 10% discount on notes and relics in the shop.,在商店购买音符和遗物时可享受9折优惠。
 INVENTORY_TAB_NOTES,Notes,乐谱
 INVENTORY_TAB_RELICS,Relics,遗物
 OPTIONS_VOLUME_LABEL,Master Volume,最终音量设置
 OPTIONS_CONTRAST_LABEL,High Contrast,高对比度模式
 HOW_TO_PLAY,How to Play,如何游玩
-HOW_TO_PLAY_BLOCK1,"Hit notes to\nbuild combo","点击音符\n以建立连击"
-HOW_TO_PLAY_BLOCK2,"Place notes when\ncombo is full","当连击满\n时放置音符"
-HOW_TO_PLAY_BLOCK3,"Only placed notes\nhave effects","只有已放置\n的音符才有效"
+HOW_TO_PLAY_BLOCK1,Hit notes to\nbuild combo,点击音符\n以建立连击
+HOW_TO_PLAY_BLOCK2,Place notes when\ncombo is full,当连击满\n时放置音符
+HOW_TO_PLAY_BLOCK3,Only placed notes\nhave effects,只有已放置\n的音符才有效
+TUTORIAL_NODYING,No dying during a tutorial!,教程中不会死亡！
+TUTORIAL_DIALOGUE_1,"Hello, welcome to Midnight Riff!",你好！欢迎来到午夜即兴！
+TUTORIAL_DIALOGUE_2,This is a rhythm game where notes move right to left.,这是一款节奏游戏，音符从右向左移动。
+TUTORIAL_DIALOGUE_3,"Press the correct button as the notes line up to hit the note. Try to time it as well as you can!",音符对齐时按下正确的按键，尽量精准地进行点击！
+TUTORIAL_DIALOGUE_4,"What are the correct buttons? I'll help you out and show you. These can be changed from the meu. Once you press continue we can get started!",正确的按键是什么？我会帮你指出来。这些可以在菜单中更改。按下继续后，我们就可以开始了！
+TUTORIAL_LOOP_1,At set intervals the chart loops! This means all notes on the chart repeat. You know a loop is coming up when this symbol scrolls by.,在固定的时间间隔内，乐谱会循环！这意味着乐谱上的所有音符都会重复出现。当这个符号滚动经过时，你就知道循环即将开始。
+TUTORIAL_LOOP_2,"In case you haven't noticed, I'll explain these things on the left side. This is your note queue.",如果你还没注意到，我会在左侧解释这些内容。这是你的音符队列。
+TUTORIAL_LOOP_3,"This is the combo multiplier, as you hit notes successfully your multiplier will rise. If you miss a note, your multiplier gets reset.",这是连击倍数，成功点击音符后，你的倍数将会上升。如果你错过了一个音符，你的倍数将会重置。
+TUTORIAL_LOOP_4,"This is the freestyle bar, as you hit notes successfully, the freestyle bar fills. The higher your multiplier the more this fills.",这是风格条，成功点击音符后，风格条将会填充。你的倍数越高，填充速度越快。
+TUTORIAL_LOOP_5,"By now you've probably taken damage. These aren't just cozy songs, these are battles! You take damage when you miss or have bad timing, or from enemy effects. How do you deal damage to enemies? Fill up the bar and I'll tell you.",到目前为止，你可能已经受到伤害了。这些不仅仅是轻松的歌曲，它们是战斗！你错过音符或时机不好，或者受到敌人的效果影响时，都会受到伤害。你如何对敌人造成伤害？填满能量条，我会告诉你。
+TUTORIAL_PLACE_1,"Okay, now that the bar is full, you can press a lane button to place your own note. Your notes have special effects. Placing notes consumes the freestyle bar.",好的，现在能量条已满，你可以按下轨道按键放置你自己的音符。你的音符具有特殊效果。放置音符会消耗风格条。
+TUTORIAL_PLACE_2,These note effects range from dealing damage to applying status effects!,这些音符效果从造成伤害到施加状态效果不等！
+TUTORIAL_PLACE_3,"Your notes can be placed anywhere a note doesn't already exist, and that isn't over the loop marker. But be careful, if you try to place a note while the bar isn't full you may miss a note!",你的音符可以放置在任何没有音符存在且不在循环标记上的位置。但是要小心，如果你试图在能量条未满时放置音符，你可能会错过音符！
+TUTORIAL_PLACE_4,"The note you'll place is indicated in the top of the note queue.",你将要放置的音符显示在音符队列顶部。
+TUTORIAL_PLACE_5,"Notes are automatically hit when you place them, how helpful, but they come back around when the chart loops, and you need to time hitting them then.",放置音符时会自动击中，这非常方便，但当乐谱循环时它们会再次出现，你需要掌握时机才能击中它们。
+TUTORIAL_PLACE_6,"Now go ahead, place a note in the bottom lane!",现在，在最下方的轨道上放置一个音符吧！
+TUTORIAL_FINAL_1,"Good job, you placed a note! You either healed yourself, or dealt damage. I can't tell I'm just a Strawman.",干得好，你放置了一个音符！你或者治愈了自己，或者造成了伤害。我无法判断，我只是个稻草人。
+TUTORIAL_FINAL_2,"As a refresher: Hit notes to fill the bar. When the bar is full, press one of your lane buttons that doesn't have a note under it. Notes in the chart will loop around. Keep it up to win.",回顾一下：点击音符以填充能量条。当能量条已满时，按下没有音符的轨道按键。乐谱中的音符会循环出现。坚持下去就能获胜！
+TUTORIAL_FINAL_3,Good luck! I believe in you.,祝你好运！我相信你！
+TUTORIAL_BOSS,"This may take some getting used to, but death is ok in the grand scheme of things. Just have some patience with yourself, you'll learn in the end.",这可能需要一些时间来适应，但在全局来看，死亡是可以接受的。只要对自己有耐心，你最终会学会的。
+EVENT_CONTINUE_BUTTON,Continue,继续
+EVENT_EVENT1_DESC,A bandit approaches you.,一个强盗拦住了你。
+EVENT_EVENT1_OPTION1,Give them a random note,给他一个随机音符
+EVENT_EVENT1_OPTION2,Give them a random relic,给他一件随机遗物
+EVENT_EVENT1_OPTION3,Give them half your gold,给他你一半的金币
+EVENT_EVENT1_OUTCOME1,You got robbed of a random note.,你被抢走了一个随机音符
+EVENT_EVENT1_OUTCOME2,You got robbed of a random relic.,你被抢走了一件随机遗物
+EVENT_EVENT1_OUTCOME3,You got robbed of half your gold.,你被抢走了一半金币
+EVENT_EVENT2_DESC,There is a wheel with different outcomes.,这里有一个转盘，结果各不相同。
+EVENT_EVENT2_OPTION1,Spin the wheel,转动转盘
+EVENT_EVENT2_OPTION2,Ignore the cool wheel,忽略这个酷炫的转盘
+EVENT_EVENT2_OUTCOME1,You decided not to spin the wheel.,你决定不转动转盘。
+EVENT_EVENT2_OUTCOME2,You lost half your money.,你损失了一半的金币。
+EVENT_EVENT2_OUTCOME3,You took some damage.,你受到了一些伤害。
+EVENT_EVENT2_OUTCOME4,You won a lot of money!,你赢得了很多金币！
+EVENT_EVENT2_OUTCOME5,You gained a random note!,你获得了一个随机音符！
+EVENT_EVENT2_OUTCOME6,You gained a random relic!,你获得了一件随机遗物！
+EVENT_EVENT2_OUTCOME7,You gained some health!,你恢复了一些生命值！
+EVENT_EVENT3_DESC,There is a field medic on the side of the road.,路边有一名战地医生。
+EVENT_EVENT3_OPTION1,Receive a bit of healing,接受一些治疗
+EVENT_EVENT3_OPTION2,Increase bar charge rate.,提高能量条充能速度
+EVENT_EVENT3_OPTION3,Purchase 2 heal notes (30g),购买2个治疗音符 (30硬币)
+EVENT_EVENT3_OUTCOME1,The medic patched you up.\nYou restored 10 Health.,医生为你包扎了伤口。\n你恢复了10点生命值。
+EVENT_EVENT3_OUTCOME2,The medic gave you a shot of adrenaline.\nFreestyle bar fills 8% faster!,医生给你注射了一针肾上腺素。\n风格条充能速度提升8%！
+EVENT_EVENT3_OUTCOME3,The medic sold you some healing supplies.\nAdded 2 heal notes to your inventory.,医生卖给你一些治疗用品。\n你的背包中增加了2个治疗音符。
