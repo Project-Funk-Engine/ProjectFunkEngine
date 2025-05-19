@@ -783,7 +783,7 @@ public partial class Scribe : Node
             {
                 Bpm = 120,
                 SongLength = -1,
-                NumLoops = 5,
+                NumLoops = 4,
             },
             name: "Astrorat",
             audioLocation: "Audio/EtherDisco.ogg",
