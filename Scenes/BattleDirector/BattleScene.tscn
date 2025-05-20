@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b0mrgr7h0ty1y"]
+[gd_scene load_steps=17 format=3 uid="uid://b0mrgr7h0ty1y"]
 
 [ext_resource type="Script" uid="uid://bttu0wmy2fp64" path="res://Scenes/BattleDirector/Scripts/BattleDirector.cs" id="1_jmdo1"]
 [ext_resource type="Script" uid="uid://pl57giqyhckb" path="res://Scenes/UI/Scripts/MenuModule.cs" id="2_ka0ws"]
@@ -10,6 +10,23 @@
 [ext_resource type="Script" uid="uid://cp6t6haqyef7o" path="res://Scenes/AreaBasedBackground.cs" id="7_6k2qj"]
 [ext_resource type="Texture2D" uid="uid://dbjotl0v1ymia" path="res://SharedAssets/BattleFrame1.png" id="7_klvil"]
 [ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="8_62qim"]
+
+[sub_resource type="Gradient" id="Gradient_ygqah"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_6k2qj"]
+gradient = SubResource("Gradient_ygqah")
+fill_from = Vector2(0.664634, 0.688666)
+
+[sub_resource type="Gradient" id="Gradient_600ps"]
+colors = PackedColorArray(0, 0, 0, 0.75, 1, 1, 1, 0.75)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_e25q1"]
+gradient = SubResource("Gradient_600ps")
+fill_from = Vector2(0.664634, 0.482066)
+fill_to = Vector2(0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gbbxr"]
+size = Vector2(64, 64)
 
 [sub_resource type="Gradient" id="Gradient_8uy3a"]
 offsets = PackedFloat32Array(0, 0.766234, 1)
@@ -34,6 +51,55 @@ FocusedButton = NodePath("StartButton")
 metadata/_edit_lock_ = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="TouchButtons" type="CanvasLayer" parent="."]
+
+[node name="LButton" type="TouchScreenButton" parent="TouchButtons"]
+self_modulate = Color(2, 0.078, 0.576, 0.2)
+top_level = true
+scale = Vector2(2, 3.625)
+texture_normal = SubResource("GradientTexture2D_6k2qj")
+texture_pressed = SubResource("GradientTexture2D_e25q1")
+shape = SubResource("RectangleShape2D_gbbxr")
+action = "WASD_arrowLeft"
+visibility_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="UButton" type="TouchScreenButton" parent="TouchButtons"]
+self_modulate = Color(0, 1, 0, 0.2)
+top_level = true
+position = Vector2(0, 124)
+scale = Vector2(2, 3.625)
+texture_normal = SubResource("GradientTexture2D_6k2qj")
+texture_pressed = SubResource("GradientTexture2D_e25q1")
+shape = SubResource("RectangleShape2D_gbbxr")
+action = "WASD_arrowUp"
+visibility_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="RButton" type="TouchScreenButton" parent="TouchButtons"]
+self_modulate = Color(2, 0, 0, 0.2)
+top_level = true
+position = Vector2(512, 0)
+scale = Vector2(2, 3.625)
+texture_normal = SubResource("GradientTexture2D_6k2qj")
+texture_pressed = SubResource("GradientTexture2D_e25q1")
+shape = SubResource("RectangleShape2D_gbbxr")
+action = "WASD_arrowRight"
+visibility_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="DButton" type="TouchScreenButton" parent="TouchButtons"]
+self_modulate = Color(0, 2, 2, 0.2)
+top_level = true
+position = Vector2(512, 128)
+scale = Vector2(2, 3.625)
+texture_normal = SubResource("GradientTexture2D_6k2qj")
+texture_pressed = SubResource("GradientTexture2D_e25q1")
+shape = SubResource("RectangleShape2D_gbbxr")
+action = "WASD_arrowDown"
+visibility_mode = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="UILayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("CurSceneNode")]
 script = ExtResource("2_ka0ws")

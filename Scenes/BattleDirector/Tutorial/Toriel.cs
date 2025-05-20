@@ -98,7 +98,8 @@ public partial class Toriel : CanvasLayer
         _nextButton.Pressed -= Dialogue3;
         _dialogueLabel.Text = Tr("TUTORIAL_DIALOGUE_3");
         _selector.Visible = true;
-        _selector.Position = _inputSprites[(int)ArrowType.Down].Position - _selector.Size / 2;
+        _selector.Position =
+            _fakeInputButton.Position + _fakeInputButton.Size / 2 - _selector.Size / 2;
         _nextButton.Pressed += Dialogue4;
     }
 
@@ -183,7 +184,9 @@ public partial class Toriel : CanvasLayer
         _dialogueLabel.Text = Tr("TUTORIAL_PLACE_1");
         _nextButton.GrabFocus();
         _selector.Visible = true;
-        _selector.Position = _inputSprites[(int)ArrowType.Right].Position - _selector.Size / 2;
+        _selector.Position =
+            _fakeInputButton.Position + _fakeInputButton.Size / 2 - _selector.Size / 2;
+        ;
         _nextButton.Pressed += PlaceDialogue2;
     }
 
@@ -199,7 +202,9 @@ public partial class Toriel : CanvasLayer
     {
         _nextButton.Pressed -= PlaceDialogue3;
         _dialogueLabel.Text = Tr("TUTORIAL_PLACE_3");
-        _selector.Position = _inputSprites[(int)ArrowType.Right].Position - _selector.Size / 2;
+        _selector.Position =
+            _fakeInputButton.Position + _fakeInputButton.Size / 2 - _selector.Size / 2;
+        ;
         _nextButton.Pressed += PlaceDialogue4;
     }
 
@@ -222,7 +227,9 @@ public partial class Toriel : CanvasLayer
     {
         _nextButton.Pressed -= PlaceDialogue6;
         _dialogueLabel.Text = Tr("TUTORIAL_PLACE_6");
-        _selector.Position = _inputSprites[(int)ArrowType.Right].Position - _selector.Size / 2;
+        _selector.Position =
+            _fakeInputButton.Position + _fakeInputButton.Size / 2 - _selector.Size / 2;
+        ;
         _waitingForPlace = true;
         _nextButton.Visible = false;
         _fakeInputButton.Visible = true;
