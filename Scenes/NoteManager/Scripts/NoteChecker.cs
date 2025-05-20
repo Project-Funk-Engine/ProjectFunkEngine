@@ -10,6 +10,9 @@ public partial class NoteChecker : Sprite2D
     private float _fadeTime = 2.0f;
     public HitParticles Particles;
 
+    [Export]
+    public Button InputButton;
+
     public override void _Process(double delta)
     {
         SelfModulate = _isPressed

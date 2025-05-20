@@ -22,10 +22,10 @@ public partial class MidiMaestro : Resource
      */
     public MidiMaestro(string filePath)
     {
-        if (!OS.HasFeature("editor"))
+        /*if (!OS.HasFeature("editor"))
         {
             filePath = OS.GetExecutablePath().GetBaseDir() + "/" + filePath;
-        }
+        }*/
 
         if (!FileAccess.FileExists(filePath))
         {
