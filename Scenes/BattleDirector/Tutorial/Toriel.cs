@@ -38,6 +38,9 @@ public partial class Toriel : CanvasLayer
     [Export]
     private NinePatchRect _selector;
 
+    [Export]
+    private Button _fakeInputButton;
+
     public static Toriel AttachNewToriel(BattleDirector director)
     {
         Toriel result = GD.Load<PackedScene>(LoadPath).Instantiate<Toriel>();
@@ -46,41 +49,15 @@ public partial class Toriel : CanvasLayer
         return result;
     }
 
-    public override void _EnterTree()
+    public override void _Input(InputEvent @event)
     {
-        UpdateInputSprites();
-    }
-
-    public override void _Process(double delta)
-    {
-        if (GetViewport().GuiGetFocusOwner() == null)
+        if (@event is InputEventKey || @event is InputEventJoypadButton)
         {
-            _nextButton?.GrabFocus();
+            if (GetViewport().GuiGetFocusOwner() == null)
+            {
+                _nextButton?.GrabFocus();
+            }
         }
-        UpdateInputSprites();
-        string scheme = SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.InputType).As<string>();
-        if (_waitingForPlace && Input.IsActionPressed(scheme + "_arrowRight"))
-        {
-            GetViewport().SetInputAsHandled();
-            FirstNotePlaced();
-        }
-    }
-
-    private void UpdateInputSprites()
-    {
-        string prefix = SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.InputType).ToString();
-        _inputSprites[0].Texture = GD.Load<Texture2D>(
-            ControlSettings.GetTextureForInput(prefix + "_arrowUp")
-        );
-        _inputSprites[1].Texture = GD.Load<Texture2D>(
-            ControlSettings.GetTextureForInput(prefix + "_arrowDown")
-        );
-        _inputSprites[2].Texture = GD.Load<Texture2D>(
-            ControlSettings.GetTextureForInput(prefix + "_arrowLeft")
-        );
-        _inputSprites[3].Texture = GD.Load<Texture2D>(
-            ControlSettings.GetTextureForInput(prefix + "_arrowRight")
-        );
     }
 
     private SceneTreeTimer _timer;
@@ -130,10 +107,6 @@ public partial class Toriel : CanvasLayer
         _nextButton.Pressed -= Dialogue4;
         _dialogueLabel.Text = Tr("TUTORIAL_DIALOGUE_4");
         _selector.Visible = false;
-        _inputSprites[0].Visible = true;
-        _inputSprites[1].Visible = true;
-        _inputSprites[2].Visible = true;
-        _inputSprites[3].Visible = true;
         _nextButton.Pressed += Dialogue5;
     }
 
@@ -153,12 +126,6 @@ public partial class Toriel : CanvasLayer
         _timer?.SetTimeLeft(0);
         _dialogueBox.Visible = true;
         _nextButton.Visible = true;
-
-        _inputSprites[0].Visible = false;
-        _inputSprites[1].Visible = false;
-        _inputSprites[2].Visible = false;
-        _inputSprites[3].Visible = false;
-
         _selector.Visible = true;
         _selector.Position = _loopMarker.Position - _selector.Size / 2;
 
@@ -171,11 +138,6 @@ public partial class Toriel : CanvasLayer
     public void LoopDialogue2()
     {
         _nextButton.Pressed -= LoopDialogue2;
-        _inputSprites[0].Visible = true;
-        _inputSprites[1].Visible = true;
-        _inputSprites[2].Visible = true;
-        _inputSprites[3].Visible = true;
-
         _dialogueLabel.Text = Tr("TUTORIAL_LOOP_2");
         _selector.Position = _noteQueueMarker.Position - _selector.Size / 2;
         _nextButton.Pressed += LoopDialogue3;
@@ -263,9 +225,20 @@ public partial class Toriel : CanvasLayer
         _selector.Position = _inputSprites[(int)ArrowType.Right].Position - _selector.Size / 2;
         _waitingForPlace = true;
         _nextButton.Visible = false;
+        _fakeInputButton.Visible = true;
+        _fakeInputButton.Pressed += FakeInput;
     }
 
     private bool _waitingForPlace = false;
+
+    private void FakeInput()
+    {
+        if (!_waitingForPlace)
+            return;
+        GetViewport().SetInputAsHandled();
+        FirstNotePlaced();
+        _fakeInputButton.Visible = false;
+    }
 
     public void FirstNotePlaced()
     {

@@ -56,9 +56,16 @@ public partial class RewardSelect : CanvasLayer
     public override void _Process(double delta)
     {
         _acceptButton.Disabled = (_selection == null);
-        if (GetViewport().GuiGetFocusOwner() == null)
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventKey || @event is InputEventJoypadButton)
         {
-            _skipButton.GrabFocus();
+            if (GetViewport().GuiGetFocusOwner() == null)
+            {
+                _skipButton.GrabFocus();
+            }
         }
     }
 

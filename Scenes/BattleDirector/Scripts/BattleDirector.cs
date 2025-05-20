@@ -23,7 +23,7 @@ public partial class BattleDirector : Node2D
     private Conductor CD;
 
     [Export]
-    private ChartManager CM;
+    public ChartManager CM { get; private set; }
 
     [Export]
     private DimensionalWizard DW;
@@ -134,7 +134,6 @@ public partial class BattleDirector : Node2D
 
         CD.NoteInputEvent += OnTimedInput;
 
-        FocusedButton.GrabFocus();
         FocusedButton.Pressed += () =>
         {
             FocusedButton.QueueFree();
@@ -236,17 +235,11 @@ public partial class BattleDirector : Node2D
     #region Input&Timing
     public override void _UnhandledInput(InputEvent @event)
     {
-        if (@event is InputEventKey eventKey && eventKey.Pressed && !eventKey.Echo)
+        if (@event is InputEventKey || @event is InputEventJoypadButton)
         {
-            //return;
-            if (eventKey.Keycode == Key.Key0)
+            if (GetViewport().GuiGetFocusOwner() == null)
             {
-                DebugKillEnemy();
-            }
-
-            if (eventKey.Keycode == Key.Key9)
-            {
-                DebugRefillEnergy();
+                FocusedButton?.GrabFocus();
             }
         }
     }

@@ -63,6 +63,8 @@ public partial class OptionsMenu : CanvasLayer, IFocusableMenu
         _noteSpriteToggle.Toggled += ArrowSpritesToggled;
         _verticalScrollToggle.ButtonPressed = BattleDirector.VerticalScroll;
         _verticalScrollToggle.Toggled += VerticalScrollToggled;
+
+        _controlsButton.Visible = StageProducer.IsJoy || StageProducer.IsKeyBoard;
     }
 
     public override void _Input(InputEvent @event)

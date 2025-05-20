@@ -12,7 +12,7 @@ public partial class NoteChecker : Sprite2D
 
     [Export]
     public Sprite2D Outline;
-    public Button InputButton;
+    public TouchScreenButton InputButton;
 
     public override void _Process(double delta)
     {

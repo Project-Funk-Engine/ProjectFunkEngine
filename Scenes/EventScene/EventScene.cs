@@ -52,14 +52,17 @@ public partial class EventScene : Node
         DisplayEvent();
     }
 
-    public override void _Process(double delta)
+    public override void _Input(InputEvent @event)
     {
-        if (GetViewport().GuiGetFocusOwner() == null)
+        if (@event is InputEventKey || @event is InputEventJoypadButton)
         {
-            if (_continueContainer.Visible)
-                _continueButton.GrabFocus();
-            else
-                _buttonContainer.GetChild<Control>(0).GrabFocus();
+            if (GetViewport().GuiGetFocusOwner() == null)
+            {
+                if (_continueContainer.Visible)
+                    _continueButton.GrabFocus();
+                else
+                    _buttonContainer.GetChild<Control>(0).GrabFocus();
+            }
         }
     }
 

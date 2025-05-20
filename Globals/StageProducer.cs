@@ -313,9 +313,22 @@ public partial class StageProducer : Node
         return result;
     }
 
+    public static bool IsKeyBoard = false;
+    public static bool IsJoy = false;
+
     //Putting this here in an autoload.
     public override void _Input(InputEvent @event)
     {
+        switch (@event)
+        {
+            case InputEventKey:
+                IsKeyBoard = true;
+                break;
+            case InputEventJoypadButton:
+                IsJoy = true;
+                break;
+        }
+
         //Consume controller input, if window out of focus.
         //This handles ui_input, other scenes need to consume their own.
         if (ControlSettings.IsOutOfFocus(this))
