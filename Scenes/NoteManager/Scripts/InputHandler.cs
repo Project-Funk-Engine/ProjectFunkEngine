@@ -51,17 +51,27 @@ public partial class InputHandler : Node2D
             Arrows[i].Node.SetColor(Arrows[i].Color);
 
             int arrowIndex = i;
-            Arrows[i].Node.InputButton.ButtonDown += () =>
+            Arrows[i].Node.InputButton.Pressed += () =>
             {
-                EmitSignal(nameof(NotePressed), (int)Arrows[arrowIndex].Type);
-                Arrows[arrowIndex].Node.SetPressed(true);
+                PressArrow((ArrowType)arrowIndex);
             };
-            Arrows[i].Node.InputButton.ButtonUp += () =>
+            Arrows[i].Node.InputButton.Released += () =>
             {
-                EmitSignal(nameof(NoteReleased), (int)Arrows[arrowIndex].Type);
-                Arrows[arrowIndex].Node.SetPressed(false);
+                ReleaseArrow((ArrowType)arrowIndex);
             };
         }
+    }
+
+    public void PressArrow(ArrowType arrowType)
+    {
+        EmitSignal(nameof(NotePressed), (int)arrowType);
+        Arrows[(int)arrowType].Node.SetPressed(true);
+    }
+
+    public void ReleaseArrow(ArrowType arrowType)
+    {
+        EmitSignal(nameof(NoteReleased), (int)arrowType);
+        Arrows[(int)arrowType].Node.SetPressed(false);
     }
 
     public override void _Ready()
@@ -89,13 +99,11 @@ public partial class InputHandler : Node2D
         {
             if (Input.IsActionJustPressed(scheme + "_" + arrow.Key))
             {
-                EmitSignal(nameof(NotePressed), (int)arrow.Type);
-                arrow.Node.SetPressed(true);
+                PressArrow(arrow.Type);
             }
             else if (Input.IsActionJustReleased(scheme + "_" + arrow.Key))
             {
-                EmitSignal(nameof(NoteReleased), (int)arrow.Type);
-                arrow.Node.SetPressed(false);
+                ReleaseArrow(arrow.Type);
             }
         }
     }

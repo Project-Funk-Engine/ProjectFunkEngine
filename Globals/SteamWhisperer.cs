@@ -1,22 +1,7 @@
 using Godot;
 
 public partial class SteamWhisperer : Node
-{
-    /*public override void _EnterTree()
-    {
-        OS.SetEnvironment("SteamAppId", AppId.ToString());
-        OS.SetEnvironment("SteamGameId", AppId.ToString());
-    }*/
-
-    /*public override void _ExitTree()
-    {
-        if (!Steam.IsSteamRunning())
-            return;
-        Steam.StoreStats();
-        GD.Print("SW: Steam shut down.");
-    }*/
-
-    //TODO: This might fail sometimes? IDK, need to look into it
+{ //I don't want to hunt down all the instances.
     public static bool PopAchievement(string id)
     {
         return false;

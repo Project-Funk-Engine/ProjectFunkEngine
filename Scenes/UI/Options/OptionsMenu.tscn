@@ -199,6 +199,7 @@ popup/item_1/id = 1
 script = ExtResource("1_qyvkw")
 
 [node name="ControlsButton" type="Button" parent="Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 theme = ExtResource("4_r616m")
 text = "TITLE_CONTROLS"
