@@ -150,10 +150,8 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_d6o7n")
 
 [node name="FakeInputButton" type="Button" parent="."]
-visible = false
 self_modulate = Color(1, 1, 1, 0.25)
-offset_left = 103.0
-offset_top = 319.0
-offset_right = 556.0
-offset_bottom = 353.0
+offset_left = 495.0
+offset_right = 643.0
+offset_bottom = 190.0
 focus_mode = 0
