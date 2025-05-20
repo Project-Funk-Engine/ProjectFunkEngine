@@ -28,7 +28,7 @@ StageProducer="*res://Globals/StageProducer.cs"
 TimeKeeper="*res://Globals/TimeKeeper.cs"
 Scribe="*res://Globals/Scribe.cs"
 BgAudioPlayer="*res://Globals/BgAudioPlayer/BGAudioPlayer.tscn"
-SteamWhisperer="*res://Globals/SteamWhisperer.cs"
+SteamWhisperer="res://Globals/SteamWhisperer.cs"
 
 [display]
 
@@ -175,6 +175,7 @@ locale/translations=PackedStringArray("res://Globals/Translations/Translations.e
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+textures/vram_compression/import_etc2_astc=true
 
 [threading]
 

@@ -44,6 +44,7 @@ offset_left = -60.0
 offset_right = 415.0
 offset_bottom = 177.0
 scale = Vector2(2.18, 2.18)
+mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="ChartLoopables" type="CanvasGroup" parent="SubViewport"]
