@@ -17,11 +17,11 @@ gradient = SubResource("Gradient_ygqah")
 height = 34
 fill_from = Vector2(0.664634, 0.688666)
 
-[sub_resource type="Gradient" id="Gradient_600ps"]
+[sub_resource type="Gradient" id="Gradient_7no7r"]
 colors = PackedColorArray(0, 0, 0, 0.75, 1, 1, 1, 0.75)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_adgij"]
-gradient = SubResource("Gradient_600ps")
+gradient = SubResource("Gradient_7no7r")
 height = 34
 fill_from = Vector2(0.664634, 0.482066)
 fill_to = Vector2(0, 1)
@@ -48,6 +48,7 @@ texture = ExtResource("4_adgij")
 [node name="HitParticles" parent="noteCheckers/arrowLeft" instance=ExtResource("5_jv1tr")]
 
 [node name="Button" type="TouchScreenButton" parent="noteCheckers/arrowLeft"]
+visible = false
 self_modulate = Color(1, 1, 1, 0.1)
 top_level = true
 position = Vector2(-34, 13)
@@ -72,6 +73,7 @@ texture = ExtResource("7_hm3i3")
 [node name="HitParticles" parent="noteCheckers/arrowUp" instance=ExtResource("5_jv1tr")]
 
 [node name="Button" type="TouchScreenButton" parent="noteCheckers/arrowUp"]
+visible = false
 self_modulate = Color(1, 1, 1, 0.1)
 top_level = true
 position = Vector2(-34, 51)
@@ -96,6 +98,7 @@ texture = ExtResource("9_osoy2")
 [node name="HitParticles" parent="noteCheckers/arrowDown" instance=ExtResource("5_jv1tr")]
 
 [node name="Button" type="TouchScreenButton" parent="noteCheckers/arrowDown"]
+visible = false
 self_modulate = Color(1, 1, 1, 0.1)
 top_level = true
 position = Vector2(-34, 95)
@@ -119,6 +122,7 @@ texture = ExtResource("11_ymppf")
 [node name="HitParticles" parent="noteCheckers/arrowRight" instance=ExtResource("5_jv1tr")]
 
 [node name="Button" type="TouchScreenButton" parent="noteCheckers/arrowRight"]
+visible = false
 self_modulate = Color(1, 1, 1, 0.1)
 top_level = true
 position = Vector2(-34, 134)
