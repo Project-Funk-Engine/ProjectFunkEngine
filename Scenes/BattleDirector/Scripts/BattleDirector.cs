@@ -23,7 +23,7 @@ public partial class BattleDirector : Node2D
     private Conductor CD;
 
     [Export]
-    private ChartManager CM;
+    public ChartManager CM { get; private set; }
 
     [Export]
     public NotePlacementBar NPB;
@@ -102,7 +102,6 @@ public partial class BattleDirector : Node2D
         CD.Initialize(curSong, _enemies);
         CD.NoteInputEvent += OnTimedInput;
 
-        FocusedButton.GrabFocus();
         FocusedButton.Pressed += () =>
         {
             FocusedButton.QueueFree();
@@ -168,8 +167,6 @@ public partial class BattleDirector : Node2D
 
     public override void _Process(double delta)
     {
-        if (FocusedButton != null && GetViewport().GuiGetFocusOwner() == null)
-            FocusedButton.GrabFocus();
         if (_countdownTimer != null)
             _countdownLabel.Text = ((int)_countdownTimer.TimeLeft + 1).ToString();
         TimeKeeper.CurrentTime = Audio.GetPlaybackPosition();
@@ -195,19 +192,13 @@ public partial class BattleDirector : Node2D
     #endregion
 
     #region Input&Timing
-    public override void _UnhandledInput(InputEvent @event)
+    public override void _Input(InputEvent @event)
     {
-        if (@event is InputEventKey eventKey && eventKey.Pressed && !eventKey.Echo)
+        if (@event is InputEventKey || @event is InputEventJoypadButton)
         {
-            return;
-            if (eventKey.Keycode == Key.Key0)
+            if (GetViewport().GuiGetFocusOwner() == null)
             {
-                DebugKillEnemy();
-            }
-
-            if (eventKey.Keycode == Key.Key9)
-            {
-                DebugRefillEnergy();
+                FocusedButton?.GrabFocus();
             }
         }
     }

@@ -46,6 +46,8 @@ public partial class OptionsMenu : CanvasLayer, IFocusableMenu
         _controlsButton.Pressed += OpenControls;
         _highContrastToggle.Toggled += HighContrastChanged;
         _howToPlayButton.Pressed += OpenHowToPlay;
+
+        _controlsButton.Visible = StageProducer.IsJoy || StageProducer.IsKeyBoard;
     }
 
     public override void _Input(InputEvent @event)

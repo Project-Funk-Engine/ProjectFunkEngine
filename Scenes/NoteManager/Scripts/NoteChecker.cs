@@ -11,7 +11,7 @@ public partial class NoteChecker : Sprite2D
     public HitParticles Particles;
 
     [Export]
-    public Button InputButton;
+    public TouchScreenButton InputButton;
 
     public override void _Process(double delta)
     {
