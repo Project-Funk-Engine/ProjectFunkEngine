@@ -97,6 +97,7 @@ z_index = 1
 offset_top = 178.0
 offset_right = 640.0
 offset_bottom = 360.0
+mouse_filter = 2
 texture = ExtResource("7_klvil")
 
 [node name="StartButton" type="Button" parent="."]

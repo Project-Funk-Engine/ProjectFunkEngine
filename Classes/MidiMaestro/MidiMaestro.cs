@@ -25,7 +25,7 @@ public partial class MidiMaestro : Resource
         /*if (!OS.HasFeature("editor"))
         {
             filePath = OS.GetExecutablePath().GetBaseDir() + "/" + filePath;
-        }
+        }*/
 
         if (!FileAccess.FileExists(filePath))
         {

@@ -15,11 +15,12 @@ script = ExtResource("1_2oeuf")
 
 [node name="noteCheckers" type="Node2D" parent="."]
 
-[node name="arrowLeft" type="Sprite2D" parent="noteCheckers" node_paths=PackedStringArray("Outline")]
-position = Vector2(0, 27)
-texture = ExtResource("2_shvru")
+[node name="arrowLeft" type="Sprite2D" parent="noteCheckers" node_paths=PackedStringArray("InputButton")]
+position = Vector2(0, 29)
+rotation = 3.14159
+texture = ExtResource("2_pb1qk")
 script = ExtResource("3_0cioe")
-Outline = NodePath("Outline")
+InputButton = NodePath("Button")
 
 [node name="Outline" type="Sprite2D" parent="noteCheckers/arrowLeft"]
 self_modulate = Color(0.45, 0.45, 0.45, 1)
@@ -27,11 +28,21 @@ texture = ExtResource("4_adgij")
 
 [node name="HitParticles" parent="noteCheckers/arrowLeft" instance=ExtResource("5_jv1tr")]
 
-[node name="arrowUp" type="Sprite2D" parent="noteCheckers" node_paths=PackedStringArray("Outline")]
+[node name="Button" type="Button" parent="noteCheckers/arrowLeft"]
+self_modulate = Color(1, 1, 1, 0.25)
+top_level = true
+offset_left = -35.0
+offset_top = 17.0
+offset_right = 622.0
+offset_bottom = 41.0
+focus_mode = 0
+
+[node name="arrowUp" type="Sprite2D" parent="noteCheckers" node_paths=PackedStringArray("InputButton")]
 position = Vector2(0, 68)
 texture = ExtResource("2_shvru")
 script = ExtResource("3_0cioe")
 Outline = NodePath("Outline")
+InputButton = NodePath("Button")
 
 [node name="Outline" type="Sprite2D" parent="noteCheckers/arrowUp"]
 self_modulate = Color(0.45, 0.45, 0.45, 1)
@@ -39,11 +50,20 @@ texture = ExtResource("7_hm3i3")
 
 [node name="HitParticles" parent="noteCheckers/arrowUp" instance=ExtResource("5_jv1tr")]
 
-[node name="arrowDown" type="Sprite2D" parent="noteCheckers" node_paths=PackedStringArray("Outline")]
+[node name="Button" type="Button" parent="noteCheckers/arrowUp"]
+self_modulate = Color(1, 1, 1, 0.25)
+offset_left = -17.0
+offset_top = -35.0
+offset_right = 17.0
+offset_bottom = 622.0
+focus_mode = 0
+
+[node name="arrowDown" type="Sprite2D" parent="noteCheckers" node_paths=PackedStringArray("InputButton")]
 position = Vector2(0, 112)
 texture = ExtResource("2_shvru")
 script = ExtResource("3_0cioe")
 Outline = NodePath("Outline")
+InputButton = NodePath("Button")
 
 [node name="Outline" type="Sprite2D" parent="noteCheckers/arrowDown"]
 self_modulate = Color(0.45, 0.45, 0.45, 1)
@@ -51,17 +71,33 @@ texture = ExtResource("9_osoy2")
 
 [node name="HitParticles" parent="noteCheckers/arrowDown" instance=ExtResource("5_jv1tr")]
 
-[node name="arrowRight" type="Sprite2D" parent="noteCheckers" node_paths=PackedStringArray("Outline")]
-position = Vector2(0, 153)
-texture = ExtResource("2_shvru")
+[node name="Button" type="Button" parent="noteCheckers/arrowDown"]
+self_modulate = Color(1, 1, 1, 0.25)
+offset_left = -17.0
+offset_top = -623.0
+offset_right = 17.0
+offset_bottom = 36.0
+focus_mode = 0
+
+[node name="arrowRight" type="Sprite2D" parent="noteCheckers" node_paths=PackedStringArray("InputButton")]
+position = Vector2(0, 151)
+texture = ExtResource("2_pb1qk")
 script = ExtResource("3_0cioe")
-Outline = NodePath("Outline")
+InputButton = NodePath("Button")
 
 [node name="Outline" type="Sprite2D" parent="noteCheckers/arrowRight"]
 self_modulate = Color(0.45, 0.45, 0.45, 1)
 texture = ExtResource("11_ymppf")
 
 [node name="HitParticles" parent="noteCheckers/arrowRight" instance=ExtResource("5_jv1tr")]
+
+[node name="Button" type="Button" parent="noteCheckers/arrowRight"]
+self_modulate = Color(1, 1, 1, 0.25)
+offset_left = -35.0
+offset_top = -12.0
+offset_right = 623.0
+offset_bottom = 12.0
+focus_mode = 0
 
 [node name="ui" type="Node2D" parent="."]
 
