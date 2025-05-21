@@ -98,6 +98,7 @@ theme = ExtResource("4_lw4m2")
 text = "ESCAPE_MENU_TITLE"
 
 [node name="MarginContainer3" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 20
