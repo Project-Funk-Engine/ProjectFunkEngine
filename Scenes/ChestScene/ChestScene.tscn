@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://c4vmb783d3v03"]
+[gd_scene load_steps=14 format=3 uid="uid://c4vmb783d3v03"]
 
 [ext_resource type="Script" uid="uid://cetn71kolbrmg" path="res://Scenes/ChestScene/ChestScene.cs" id="1_ardd2"]
 [ext_resource type="AudioStream" uid="uid://lardvkxjnxtb" path="res://Audio/Spooky-Forest.ogg" id="2_u0wcg"]
@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://d0ywqw1j1k71v" path="res://Scenes/ChestScene/Assets/Chest.png" id="6_58hf4"]
 [ext_resource type="Theme" uid="uid://bcejp4llrb3m0" path="res://Scenes/UI/Assets/EmptyButton.tres" id="6_pisq4"]
 [ext_resource type="Texture2D" uid="uid://dbjotl0v1ymia" path="res://SharedAssets/BattleFrame1.png" id="7_kkck7"]
+[ext_resource type="Texture2D" uid="uid://bpomsqirdeom0" path="res://SharedAssets/Inventory.png" id="10_e6mxb"]
+[ext_resource type="Texture2D" uid="uid://du6cai5ibrrjp" path="res://SharedAssets/Pause.png" id="11_smrr1"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8x17a"]
 shader = ExtResource("5_whthd")
@@ -16,6 +18,9 @@ shader_parameter/bg_top_color = Vector4(0.18, 0.08, 0.12, 0)
 shader_parameter/bg_bottom_color = Vector4(0.028, 0.008, 0.184, 0)
 shader_parameter/gradient_ratio = 1.0
 shader_parameter/time_scale = 1.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_25030"]
+size = Vector2(32, 32)
 
 [node name="ChestScene" type="Node2D" node_paths=PackedStringArray("ChestButton", "PlayerMarker")]
 process_mode = 1
@@ -98,3 +103,15 @@ offset_right = 415.0
 offset_bottom = 177.0
 scale = Vector2(2.18, 2.18)
 color = Color(0, 0, 0, 1)
+
+[node name="Inventory" type="TouchScreenButton" parent="."]
+position = Vector2(280, 9)
+texture_normal = ExtResource("10_e6mxb")
+shape = SubResource("RectangleShape2D_25030")
+action = "WASD_inventory"
+
+[node name="Pause" type="TouchScreenButton" parent="."]
+position = Vector2(360, 9)
+texture_normal = ExtResource("11_smrr1")
+shape = SubResource("RectangleShape2D_25030")
+action = "Pause"

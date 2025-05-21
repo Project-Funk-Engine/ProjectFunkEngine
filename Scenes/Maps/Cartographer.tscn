@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cydmo2lbnj1de"]
+[gd_scene load_steps=10 format=3 uid="uid://cydmo2lbnj1de"]
 
 [ext_resource type="Script" uid="uid://dtlpiwt4n3pta" path="res://Scenes/Maps/Scripts/Cartographer.cs" id="1_u4q3n"]
 [ext_resource type="Texture2D" uid="uid://qhwve7fik4do" path="res://SharedAssets/BackGround_Full.png" id="2_5g6at"]
@@ -6,6 +6,11 @@
 [ext_resource type="Theme" uid="uid://bcejp4llrb3m0" path="res://Scenes/UI/Assets/EmptyButton.tres" id="2_rnj1y"]
 [ext_resource type="Texture2D" uid="uid://cmc7gcplqnebx" path="res://SharedAssets/Player.png" id="3_qiprp"]
 [ext_resource type="Script" uid="uid://cp6t6haqyef7o" path="res://Scenes/AreaBasedBackground.cs" id="5_taedj"]
+[ext_resource type="Texture2D" uid="uid://bpomsqirdeom0" path="res://SharedAssets/Inventory.png" id="7_tuqr3"]
+[ext_resource type="Texture2D" uid="uid://du6cai5ibrrjp" path="res://SharedAssets/Pause.png" id="8_rmyb8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tuqr3"]
+size = Vector2(32, 32)
 
 [node name="Cartographer" type="Node2D" node_paths=PackedStringArray("PlayerSprite", "Camera")]
 process_mode = 1
@@ -42,3 +47,15 @@ script = ExtResource("5_taedj")
 [node name="Player" type="Sprite2D" parent="."]
 z_index = 2
 texture = ExtResource("3_qiprp")
+
+[node name="Inventory" type="TouchScreenButton" parent="."]
+position = Vector2(280, 9)
+texture_normal = ExtResource("7_tuqr3")
+shape = SubResource("RectangleShape2D_tuqr3")
+action = "WASD_inventory"
+
+[node name="Pause" type="TouchScreenButton" parent="."]
+position = Vector2(360, 9)
+texture_normal = ExtResource("8_rmyb8")
+shape = SubResource("RectangleShape2D_tuqr3")
+action = "Pause"

@@ -1,10 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://b35sk5syi24et"]
+[gd_scene load_steps=11 format=3 uid="uid://b35sk5syi24et"]
 
 [ext_resource type="Script" uid="uid://pl57giqyhckb" path="res://Scenes/UI/Scripts/MenuModule.cs" id="2_723s6"]
 [ext_resource type="Texture2D" uid="uid://qhwve7fik4do" path="res://SharedAssets/BackGround_Full.png" id="2_dt33i"]
 [ext_resource type="Script" uid="uid://cp6t6haqyef7o" path="res://Scenes/AreaBasedBackground.cs" id="3_n34g6"]
 [ext_resource type="PackedScene" uid="uid://eus17omen6yk" path="res://Scenes/Puppets/PlayerPuppet.tscn" id="4_jpqhk"]
+[ext_resource type="Texture2D" uid="uid://bpomsqirdeom0" path="res://SharedAssets/Inventory.png" id="7_2xatg"]
 [ext_resource type="PackedScene" uid="uid://bk0js6ji42xrt" path="res://Scenes/ShopScene/ShopUI.tscn" id="8_2xatg"]
+[ext_resource type="Texture2D" uid="uid://du6cai5ibrrjp" path="res://SharedAssets/Pause.png" id="8_s4tl8"]
 [ext_resource type="Shader" uid="uid://dp36iuuy414k1" path="res://SharedAssets/StarryNight.gdshader" id="11_0afww"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jpqhk"]
@@ -13,6 +15,9 @@ shader_parameter/bg_top_color = Vector4(0.18, 0.08, 0.12, 0)
 shader_parameter/bg_bottom_color = Vector4(0.028, 0.008, 0.184, 0)
 shader_parameter/gradient_ratio = 1.0
 shader_parameter/time_scale = 1.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cu4qp"]
+size = Vector2(32, 32)
 
 [node name="ShopScene" type="Node2D"]
 
@@ -59,3 +64,15 @@ script = ExtResource("3_n34g6")
 offset_right = 640.0
 offset_bottom = 360.0
 _player = NodePath("../PlayerMarker/PlayerPuppet")
+
+[node name="Inventory" type="TouchScreenButton" parent="."]
+position = Vector2(518, 44)
+texture_normal = ExtResource("7_2xatg")
+shape = SubResource("RectangleShape2D_cu4qp")
+action = "WASD_inventory"
+
+[node name="Pause" type="TouchScreenButton" parent="."]
+position = Vector2(599, 44)
+texture_normal = ExtResource("8_s4tl8")
+shape = SubResource("RectangleShape2D_cu4qp")
+action = "Pause"
