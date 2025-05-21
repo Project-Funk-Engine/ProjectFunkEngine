@@ -1,8 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://b0mrgr7h0ty1y"]
+[gd_scene load_steps=20 format=3 uid="uid://b0mrgr7h0ty1y"]
 
 [ext_resource type="Script" uid="uid://bttu0wmy2fp64" path="res://Scenes/BattleDirector/Scripts/BattleDirector.cs" id="1_jmdo1"]
+[ext_resource type="Texture2D" uid="uid://bpomsqirdeom0" path="res://SharedAssets/Inventory.png" id="2_gbbxr"]
 [ext_resource type="Script" uid="uid://pl57giqyhckb" path="res://Scenes/UI/Scripts/MenuModule.cs" id="2_ka0ws"]
 [ext_resource type="Script" uid="uid://tg14hkh1n7iv" path="res://Scenes/BattleDirector/Scripts/Conductor.cs" id="3_elcaj"]
+[ext_resource type="Texture2D" uid="uid://du6cai5ibrrjp" path="res://SharedAssets/Pause.png" id="3_hw37c"]
 [ext_resource type="PackedScene" uid="uid://duhiilcv4tat3" path="res://Scenes/BattleDirector/NotePlacementBar.tscn" id="4_qk7om"]
 [ext_resource type="PackedScene" uid="uid://dyd2nc2sgt0qw" path="res://Scenes/3DWizard/3DWizard.tscn" id="5_e25q1"]
 [ext_resource type="PackedScene" uid="uid://dfevfib11kou1" path="res://Scenes/ChartViewport/ChartViewport.tscn" id="5_gbbxr"]
@@ -27,6 +29,9 @@ fill_to = Vector2(0, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gbbxr"]
 size = Vector2(64, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_br4gw"]
+size = Vector2(32, 32)
 
 [sub_resource type="Gradient" id="Gradient_8uy3a"]
 offsets = PackedFloat32Array(0, 0.766234, 1)
@@ -100,6 +105,18 @@ shape = SubResource("RectangleShape2D_gbbxr")
 action = "WASD_arrowDown"
 visibility_mode = 1
 metadata/_edit_use_anchors_ = true
+
+[node name="Inventory" type="TouchScreenButton" parent="TouchButtons"]
+position = Vector2(280, 9)
+texture_normal = ExtResource("2_gbbxr")
+shape = SubResource("RectangleShape2D_br4gw")
+action = "WASD_inventory"
+
+[node name="Pause" type="TouchScreenButton" parent="TouchButtons"]
+position = Vector2(360, 9)
+texture_normal = ExtResource("3_hw37c")
+shape = SubResource("RectangleShape2D_br4gw")
+action = "Pause"
 
 [node name="UILayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("CurSceneNode")]
 script = ExtResource("2_ka0ws")
