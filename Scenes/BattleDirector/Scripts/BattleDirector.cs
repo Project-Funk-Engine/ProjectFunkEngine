@@ -44,26 +44,27 @@ public partial class BattleDirector : Node2D
     #endregion
 
     #region Initialization
-    Timer _countdownTimer; //TODO: Make in time with bpm
+    Tween _countdownTween; //TODO: Make in time with bpm
+    int _countdown;
     public bool HasPlayed; //TODO: Disable input during countdown
 
     public void StartCountdown()
     {
         CM.ArrowTween?.Pause();
         Audio.SetStreamPaused(true);
-        if (_countdownTimer == null)
-        {
-            _countdownTimer = new Timer();
-            AddChild(_countdownTimer);
-            _countdownTimer.Timeout += SyncStartWithMix;
-        }
-        _countdownTimer.Start(3);
+        _countdownTween?.Kill();
+        _countdownTween = CreateTween();
+        _countdownTween.Finished += SyncStartWithMix;
+
+        _countdown = 4;
+        _countdownTween.TweenProperty(this, nameof(_countdown), 0, 5 / (TimeKeeper.Bpm / 60));
         _countdownLabel.Visible = true;
+        _countdownTween.Play();
     }
 
     private void SyncStartWithMix()
     {
-        _countdownTimer.Stop();
+        _countdownTween.Stop();
         var timer = GetTree().CreateTimer(AudioServer.GetTimeToNextMix());
         timer.Timeout += BeginPlayback;
     }
@@ -170,8 +171,8 @@ public partial class BattleDirector : Node2D
     {
         if (FocusedButton != null && GetViewport().GuiGetFocusOwner() == null)
             FocusedButton.GrabFocus();
-        if (_countdownTimer != null)
-            _countdownLabel.Text = ((int)_countdownTimer.TimeLeft + 1).ToString();
+        if (_countdownTween != null)
+            _countdownLabel.Text = (_countdown + 1).ToString();
         TimeKeeper.CurrentTime = Audio.GetPlaybackPosition();
         Beat realBeat = TimeKeeper.GetBeatFromTime(Audio.GetPlaybackPosition());
         UpdateBeat(realBeat);
