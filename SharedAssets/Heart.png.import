@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ox0iikoj3ooe"
-path="res://.godot/imported/riff_rabbit.png-2c147e4df2c202fb7e5a3e11aacf00f1.ctex"
+uid="uid://dtaf4wcsur721"
+path="res://.godot/imported/Heart.png-7dfefac643a1f449fa6e4073fe6379c7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://SharedAssets/riff_rabbit.png"
-dest_files=["res://.godot/imported/riff_rabbit.png-2c147e4df2c202fb7e5a3e11aacf00f1.ctex"]
+source_file="res://SharedAssets/Heart.png"
+dest_files=["res://.godot/imported/Heart.png-7dfefac643a1f449fa6e4073fe6379c7.ctex"]
 
 [params]
 

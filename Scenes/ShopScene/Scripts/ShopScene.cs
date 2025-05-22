@@ -12,10 +12,16 @@ public partial class ShopScene : Control
     private Label _moneyLabel;
 
     [Export]
+    private Label _currentHealthLabel;
+
+    [Export]
     private Button _exitButton;
 
     [Export]
     private Button _removalButton;
+
+    [Export]
+    private Button _healButton;
 
     [Export]
     private GridContainer _noteGrid;
@@ -66,6 +72,7 @@ public partial class ShopScene : Control
         _removalButton.Pressed += OpenRemovalPane;
         _removalAcceptButton.Pressed += RemoveNote;
         _cancelRemoveButton.Pressed += CloseRemovalPane;
+        _healButton.Pressed += TryHeal;
     }
 
     public override void _EnterTree()
@@ -76,8 +83,10 @@ public partial class ShopScene : Control
     private void Initialize()
     {
         UpdateMoneyLabel();
+        UpdateCurrentHealthLabel();
         GenerateShopItems();
         PopulatePossessedNotes();
+        HealButtonStatus();
     }
 
     public override void _Input(InputEvent @event)
@@ -104,6 +113,12 @@ public partial class ShopScene : Control
     private void UpdateMoneyLabel()
     {
         _moneyLabel.Text = StageProducer.PlayerStats.Money.ToString();
+    }
+
+    private void UpdateCurrentHealthLabel()
+    {
+        _currentHealthLabel.Text =
+            $"{StageProducer.PlayerStats.CurrentHealth}/{StageProducer.PlayerStats.MaxHealth}";
     }
 
     private const int RelicOptions = 3;
@@ -321,5 +336,45 @@ public partial class ShopScene : Control
         StageProducer.PlayerStats.RemoveNote(_toRemove);
         _selectedRemoveButton.QueueFree();
         CloseRemovalPane();
+    }
+
+    private bool _hasHealed = false;
+    private const int HealCost = 30;
+    private int _healAmount = (StageProducer.PlayerStats.MaxHealth / 4);
+
+    private void HealButtonStatus()
+    {
+        if (
+            StageProducer.PlayerStats.Money <= HealCost
+            || StageProducer.PlayerStats.CurrentHealth == StageProducer.PlayerStats.MaxHealth
+            || _hasHealed
+        )
+        {
+            _healButton.Disabled = true;
+        }
+    }
+
+    private void TryHeal()
+    {
+        if (_hasHealed)
+        {
+            return;
+        }
+        HealPlayer();
+    }
+
+    private void HealPlayer()
+    {
+        StageProducer.PlayerStats.CurrentHealth += _healAmount;
+        if (StageProducer.PlayerStats.CurrentHealth > StageProducer.PlayerStats.MaxHealth)
+        {
+            StageProducer.PlayerStats.CurrentHealth = StageProducer.PlayerStats.MaxHealth;
+        }
+
+        StageProducer.PlayerStats.Money -= 30;
+        UpdateCurrentHealthLabel();
+        UpdateMoneyLabel();
+        _hasHealed = true;
+        HealButtonStatus();
     }
 }

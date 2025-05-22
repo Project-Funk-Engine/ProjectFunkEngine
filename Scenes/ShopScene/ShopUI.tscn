@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bk0js6ji42xrt"]
+[gd_scene load_steps=9 format=3 uid="uid://bk0js6ji42xrt"]
 
 [ext_resource type="Texture2D" uid="uid://djd6iw2g84bba" path="res://Scenes/UI/Assets/UI_CenterFrame.png" id="1_67his"]
 [ext_resource type="Script" uid="uid://dg0xaieus84ns" path="res://Scenes/ShopScene/Scripts/ShopScene.cs" id="1_bmt43"]
@@ -7,8 +7,9 @@
 [ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="4_3vktw"]
 [ext_resource type="Script" uid="uid://cahjluc6v7ked" path="res://Scenes/UI/TitleScreen/Scripts/SceneChange.cs" id="5_w0f8r"]
 [ext_resource type="Texture2D" uid="uid://dyt1cvag13aik" path="res://SharedAssets/Money.png" id="6_tf865"]
+[ext_resource type="Texture2D" uid="uid://dtaf4wcsur721" path="res://SharedAssets/Heart.png" id="8_r34tc"]
 
-[node name="ShopUI" type="Control" node_paths=PackedStringArray("_moneyLabel", "_exitButton", "_removalButton", "_noteGrid", "_relicGrid", "_confirmationPopup", "_confirmationButton", "_denyButton", "_descriptionLabel", "_removalPanel", "_possessionGrid", "_removalAcceptButton", "_cancelRemoveButton", "_removalCostLabel")]
+[node name="ShopUI" type="Control" node_paths=PackedStringArray("_moneyLabel", "_currentHealthLabel", "_exitButton", "_removalButton", "_healButton", "_noteGrid", "_relicGrid", "_confirmationPopup", "_confirmationButton", "_denyButton", "_descriptionLabel", "_removalPanel", "_possessionGrid", "_removalAcceptButton", "_cancelRemoveButton", "_removalCostLabel")]
 z_index = 2
 layout_mode = 3
 anchors_preset = 15
@@ -18,8 +19,10 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_bmt43")
 _moneyLabel = NodePath("MoneyContainer/MoneyFrame/MarginContainer/HBoxContainer/MoneyLabel")
+_currentHealthLabel = NodePath("HealthContainer/HealthFrame/MarginContainer/HBoxContainer/CurrentHealthLabel")
 _exitButton = NodePath("BottomPanel/DescBox/HBoxContainer/OptionsBG/OptionsMargin/OptionsBG/MarginContainer/VBoxContainer/Continue")
 _removalButton = NodePath("BottomPanel/DescBox/HBoxContainer/OptionsBG/OptionsMargin/OptionsBG/MarginContainer/VBoxContainer/Removal")
+_healButton = NodePath("BottomPanel/DescBox/HBoxContainer/OptionsBG/OptionsMargin/OptionsBG/MarginContainer/VBoxContainer/Heal")
 _noteGrid = NodePath("TopPanel/MarginContainer/VBoxContainer/NoteSelection/MarginContainer/NotesBox/CenterContainer/NotesGrid")
 _relicGrid = NodePath("TopPanel/MarginContainer/VBoxContainer/RelicSelection/MarginContainer/RelicsBox/CenterContainer/RelicsGrid")
 _confirmationPopup = NodePath("ConfirmPurchase")
@@ -265,6 +268,13 @@ size_flags_vertical = 4
 theme = ExtResource("4_3vktw")
 text = "SHOP_REMOVAL"
 
+[node name="Heal" type="Button" parent="BottomPanel/DescBox/HBoxContainer/OptionsBG/OptionsMargin/OptionsBG/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("4_3vktw")
+text = "SHOP_HEAL"
+
 [node name="Continue" type="Button" parent="BottomPanel/DescBox/HBoxContainer/OptionsBG/OptionsMargin/OptionsBG/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -318,6 +328,59 @@ size_flags_vertical = 4
 texture = ExtResource("6_tf865")
 
 [node name="MoneyLabel" type="Label" parent="MoneyContainer/MoneyFrame/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(91, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 1
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+clip_text = true
+
+[node name="HealthContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -125.0
+offset_top = 24.0
+offset_bottom = 53.0
+grow_horizontal = 0
+theme_override_constants/margin_left = -1
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 0
+
+[node name="HealthFrame" type="NinePatchRect" parent="HealthContainer"]
+layout_mode = 2
+texture = ExtResource("2_bmt43")
+patch_margin_left = 7
+patch_margin_top = 7
+patch_margin_right = 7
+patch_margin_bottom = 7
+
+[node name="MarginContainer" type="MarginContainer" parent="HealthContainer/HealthFrame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_right = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HealthContainer/HealthFrame/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HealthContainer/HealthFrame/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+
+[node name="TextureRect" type="TextureRect" parent="HealthContainer/HealthFrame/MarginContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("8_r34tc")
+
+[node name="CurrentHealthLabel" type="Label" parent="HealthContainer/HealthFrame/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(91, 0)
 layout_mode = 2
 size_flags_horizontal = 10
