@@ -14,7 +14,7 @@ public partial class P_Keythulu : EnemyPuppet
     {
         MaxHealth = 500;
         CurrentHealth = MaxHealth;
-        BaseMoney = 50;
+        BaseMoney = 80;
         base._Ready();
 
         _effectSprite.Visible = false;

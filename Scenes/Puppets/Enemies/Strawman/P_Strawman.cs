@@ -13,7 +13,7 @@ public partial class P_Strawman : EnemyPuppet
     {
         CurrentHealth = 40;
         MaxHealth = 40;
-        BaseMoney = 1;
+        BaseMoney = 5;
         base._Ready();
 
         BattleEvents = new EnemyEffect[]

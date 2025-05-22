@@ -27,7 +27,7 @@ public partial class P_Holograeme : EnemyPuppet
         Conductor.BeatSpawnOffsetModifier = 1;
         MaxHealth = 3;
         CurrentHealth = MaxHealth;
-        BaseMoney = 20;
+        BaseMoney = 40;
         base._Ready();
 
         _hands[0] = _redHand;

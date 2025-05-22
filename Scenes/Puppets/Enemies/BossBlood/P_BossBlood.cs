@@ -10,7 +10,7 @@ public partial class P_BossBlood : EnemyPuppet
     {
         MaxHealth = 225;
         CurrentHealth = MaxHealth;
-        BaseMoney = 15;
+        BaseMoney = 50;
         InitialNote = (14, 3);
         base._Ready();
         var enemTween = CreateTween();

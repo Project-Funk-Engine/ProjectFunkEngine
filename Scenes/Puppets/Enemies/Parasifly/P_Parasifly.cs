@@ -10,7 +10,7 @@ public partial class P_Parasifly : EnemyPuppet
     {
         MaxHealth = 100;
         CurrentHealth = MaxHealth;
-        BaseMoney = 5;
+        BaseMoney = 7;
         InitialNote = (13, 2);
         base._Ready();
         var enemTween = CreateTween();

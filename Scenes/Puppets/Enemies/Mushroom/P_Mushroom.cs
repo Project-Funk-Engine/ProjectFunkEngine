@@ -11,7 +11,7 @@ public partial class P_Mushroom : EnemyPuppet
     {
         MaxHealth = 200;
         CurrentHealth = MaxHealth;
-        BaseMoney = 10;
+        BaseMoney = 20;
         InitialNote = (17, 1);
         base._Ready();
         BattleEvents = new EnemyEffect[]
