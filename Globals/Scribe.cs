@@ -549,7 +549,7 @@ public partial class Scribe : Node
             {
                 new RelicEffect(
                     BattleEffectTrigger.OnDamageInstance,
-                    10,
+                    5,
                     (e, self, val) =>
                     {
                         if (
