@@ -34,6 +34,7 @@ SHOP_REMOVAL,Remove A Note,移除音符
 SHOP_CONFIRM,Confirm Purchase,购买已确认
 SHOP_CANCEL,Cancel,取消操作
 REMOVAL_COST,Removal Fee,删除费用
+SHOP_HEAL,Heal 25%: 30g,愈合 25%: 30硬币
 BATTLE_ROOM_BEGIN_BUTTON,Begin Battle [Enter],开始战斗 [Enter]
 BATTLE_ROOM_PERFECT,Perfect,Perfect
 BATTLE_ROOM_GOOD,Good,良好
@@ -122,7 +123,7 @@ TUTORIAL_NODYING,No dying during a tutorial!,教程中不会死亡！
 TUTORIAL_DIALOGUE_1,"Hello, welcome to Midnight Riff!",你好！欢迎来到午夜即兴！
 TUTORIAL_DIALOGUE_2,This is a rhythm game where notes move right to left.,这是一款节奏游戏，音符从右向左移动。
 TUTORIAL_DIALOGUE_3,"Press the correct button as the notes line up to hit the note. Try to time it as well as you can!",音符对齐时按下正确的按键，尽量精准地进行点击！
-TUTORIAL_DIALOGUE_4,"What are the correct buttons? I'll help you out and show you. These can be changed from the meu. Once you press continue we can get started!",正确的按键是什么？我会帮你指出来。这些可以在菜单中更改。按下继续后，我们就可以开始了！
+TUTORIAL_DIALOGUE_4,"What are the correct buttons? I'll help you out and show you. These can be changed from the menu. Once you press continue we can get started!",正确的按键是什么？我会帮你指出来。这些可以在菜单中更改。按下继续后，我们就可以开始了！
 TUTORIAL_LOOP_1,At set intervals the chart loops! This means all notes on the chart repeat. You know a loop is coming up when this symbol scrolls by.,在固定的时间间隔内，乐谱会循环！这意味着乐谱上的所有音符都会重复出现。当这个符号滚动经过时，你就知道循环即将开始。
 TUTORIAL_LOOP_2,"In case you haven't noticed, I'll explain these things on the left side. This is your note queue.",如果你还没注意到，我会在左侧解释这些内容。这是你的音符队列。
 TUTORIAL_LOOP_3,"This is the combo multiplier, as you hit notes successfully your multiplier will rise. If you miss a note, your multiplier gets reset.",这是连击倍数，成功点击音符后，你的倍数将会上升。如果你错过了一个音符，你的倍数将会重置。
@@ -130,7 +131,7 @@ TUTORIAL_LOOP_4,"This is the freestyle bar, as you hit notes successfully, the f
 TUTORIAL_LOOP_5,"By now you've probably taken damage. These aren't just cozy songs, these are battles! You take damage when you miss or have bad timing, or from enemy effects. How do you deal damage to enemies? Fill up the bar and I'll tell you.",到目前为止，你可能已经受到伤害了。这些不仅仅是轻松的歌曲，它们是战斗！你错过音符或时机不好，或者受到敌人的效果影响时，都会受到伤害。你如何对敌人造成伤害？填满能量条，我会告诉你。
 TUTORIAL_PLACE_1,"Okay, now that the bar is full, you can press a lane button to place your own note. Your notes have special effects. Placing notes consumes the freestyle bar.",好的，现在能量条已满，你可以按下轨道按键放置你自己的音符。你的音符具有特殊效果。放置音符会消耗风格条。
 TUTORIAL_PLACE_2,These note effects range from dealing damage to applying status effects!,这些音符效果从造成伤害到施加状态效果不等！
-TUTORIAL_PLACE_3,"Your notes can be placed anywhere a note doesn't already exist, and that isn't over the loop marker. But be careful, if you try to place a note while the bar isn't full you may miss a note!",你的音符可以放置在任何没有音符存在且不在循环标记上的位置。但是要小心，如果你试图在能量条未满时放置音符，你可能会错过音符！
+TUTORIAL_PLACE_3,"Your notes can be placed anywhere a note doesn't already exist, and that isn't over the loop marker.",你的音符可以放置在任何没有音符存在且不在循环标记上的位置。
 TUTORIAL_PLACE_4,"The note you'll place is indicated in the top of the note queue.",你将要放置的音符显示在音符队列顶部。
 TUTORIAL_PLACE_5,"Notes are automatically hit when you place them, how helpful, but they come back around when the chart loops, and you need to time hitting them then.",放置音符时会自动击中，这非常方便，但当乐谱循环时它们会再次出现，你需要掌握时机才能击中它们。
 TUTORIAL_PLACE_6,"Now go ahead, place a note in the bottom lane!",现在，在最下方的轨道上放置一个音符吧！
