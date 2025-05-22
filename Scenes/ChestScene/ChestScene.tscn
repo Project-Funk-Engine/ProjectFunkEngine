@@ -105,13 +105,13 @@ scale = Vector2(2.18, 2.18)
 color = Color(0, 0, 0, 1)
 
 [node name="Inventory" type="TouchScreenButton" parent="."]
-position = Vector2(280, 9)
+position = Vector2(280, 10)
 texture_normal = ExtResource("10_e6mxb")
 shape = SubResource("RectangleShape2D_25030")
 action = "WASD_inventory"
 
 [node name="Pause" type="TouchScreenButton" parent="."]
-position = Vector2(360, 9)
+position = Vector2(360, 10)
 texture_normal = ExtResource("11_smrr1")
 shape = SubResource("RectangleShape2D_25030")
 action = "Pause"
