@@ -34,7 +34,7 @@ SHOP_REMOVAL,Remove A Note,移除音符
 SHOP_CONFIRM,Confirm Purchase,购买已确认
 SHOP_CANCEL,Cancel,取消操作
 REMOVAL_COST,Removal Fee,删除费用
-SHOP_HEAL, Heal, 愈合
+SHOP_HEAL,Heal 25%: 30g,愈合 25%: 30硬币
 BATTLE_ROOM_BEGIN_BUTTON,Begin Battle [Enter],开始战斗 [Enter]
 BATTLE_ROOM_PERFECT,Perfect,Perfect
 BATTLE_ROOM_GOOD,Good,良好

@@ -55,6 +55,7 @@ offset_bottom = 180.0
 texture = ExtResource("2_dt33i")
 script = ExtResource("3_n34g6")
 
-[node name="ShopUI" parent="." instance=ExtResource("8_2xatg")]
+[node name="ShopUI" parent="." node_paths=PackedStringArray("_player") instance=ExtResource("8_2xatg")]
 offset_right = 640.0
 offset_bottom = 360.0
+_player = NodePath("../PlayerMarker/PlayerPuppet")
