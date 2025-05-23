@@ -371,6 +371,7 @@ public partial class BattleDirector : Node2D
 
     private void TransitionOutOfCustom()
     {
+        BgAudioPlayer.LiveInstance.PlayLevelMusic();
         StageProducer.LiveInstance.TransitionStage(Stages.Title);
     }
 

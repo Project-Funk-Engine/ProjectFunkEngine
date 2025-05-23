@@ -76,6 +76,7 @@ public partial class CustomSelection : CanvasLayer, IFocusableMenu
 
     private void StartCustomSelection()
     {
+        BgAudioPlayer.LiveInstance.StopMusic();
         StageProducer.LiveInstance.TransitionToCustom(_selectedSong);
     }
 
