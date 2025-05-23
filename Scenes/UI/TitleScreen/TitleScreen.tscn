@@ -224,6 +224,7 @@ theme_override_font_sizes/font_size = 24
 text = "TITLE_OPTIONS"
 
 [node name="Custom" type="Button" parent="."]
+visible = false
 z_index = 1
 layout_mode = 0
 offset_top = 1.0
