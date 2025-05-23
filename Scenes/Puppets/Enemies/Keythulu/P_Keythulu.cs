@@ -65,7 +65,10 @@ public partial class P_Keythulu : EnemyPuppet
                 1,
                 (e, eff, val) =>
                 {
-                    if (e is not BattleDirector.Harbinger.OnDamageInstanceArgs dArgs)
+                    if (
+                        StageProducer.Config.RoomType == Stages.Custom
+                        || e is not BattleDirector.Harbinger.OnDamageInstanceArgs dArgs
+                    )
                         return;
                     if (
                         dArgs.Dmg.Target == this

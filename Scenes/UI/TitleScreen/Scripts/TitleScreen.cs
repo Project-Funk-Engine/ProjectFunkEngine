@@ -15,6 +15,9 @@ public partial class TitleScreen : Control, IFocusableMenu
     [Export]
     public Button Options;
 
+    [Export]
+    private Button _customSelectionButton;
+
     private Control _focused;
     public IFocusableMenu Prev { get; set; }
 
@@ -36,11 +39,14 @@ public partial class TitleScreen : Control, IFocusableMenu
     public override void _EnterTree()
     {
         BgAudioPlayer.LiveInstance.PlayLevelMusic();
+        Options.Pressed += OpenOptions;
+        _customSelectionButton.Pressed += OpenCustomSelection;
     }
 
     public override void _Ready()
     {
-        Options.Pressed += OpenOptions;
+        if (StageProducer.LiveInstance.LastStage == Stages.Custom)
+            OpenCustomSelection();
     }
 
     public override void _Process(double delta)
@@ -77,6 +83,14 @@ public partial class TitleScreen : Control, IFocusableMenu
             .Instantiate<OptionsMenu>();
         AddChild(optionsMenu);
         optionsMenu.OpenMenu(this);
+    }
+
+    private void OpenCustomSelection()
+    {
+        CustomSelection customMenu = GD.Load<PackedScene>(CustomSelection.LoadPath)
+            .Instantiate<CustomSelection>();
+        AddChild(customMenu);
+        customMenu.OpenMenu(this);
     }
 
     private void InitEffects()

@@ -259,6 +259,7 @@ public enum Stages
     Load,
     Continue,
     Title,
+    Custom,
 }
 
 public enum Rarity

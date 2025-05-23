@@ -89,7 +89,15 @@ public partial class BattleDirector : Node2D
     public override void _Ready()
     {
         NoteChart curChart = StageProducer.Config.CurSong.Chart;
-        Audio.SetStream(GD.Load<AudioStream>("Audio/" + curChart.SongMapLocation));
+
+        Audio.SetStream(
+            StageProducer.Config.RoomType == Stages.Custom
+                ? AudioStreamOggVorbis.LoadFromFile(
+                    CustomSelection.UserSongDir + curChart.SongMapLocation
+                )
+                : GD.Load<AudioStream>("Audio/" + curChart.SongMapLocation)
+        );
+
         double songLen = Audio.Stream.GetLength();
 
         TimeKeeper.InitVals(curChart.Bpm);
@@ -98,6 +106,7 @@ public partial class BattleDirector : Node2D
         InitEnemies();
         InitScoringGuide();
         CD.Initialize(curChart, songLen, _enemies);
+
         CD.NoteInputEvent += OnTimedInput;
 
         FocusedButton.GrabFocus();
@@ -320,6 +329,11 @@ public partial class BattleDirector : Node2D
 
     private void OnBattleWon()
     {
+        if (StageProducer.Config.RoomType == Stages.Custom)
+        {
+            TransitionOutOfCustom();
+            return;
+        }
         Harbinger.Instance.InvokeBattleEnded();
         CleanUpRelics();
         BattleScore.SetEndHp(Player.GetCurrentHealth());
@@ -332,6 +346,11 @@ public partial class BattleDirector : Node2D
 
     private void OnBattleLost()
     {
+        if (StageProducer.Config.RoomType == Stages.Custom)
+        {
+            TransitionOutOfCustom();
+            return;
+        }
         Audio.StreamPaused = true;
         SaveSystem.ClearSave();
         AddChild(GD.Load<PackedScene>(EndScreen.LoadPath).Instantiate());
@@ -348,6 +367,11 @@ public partial class BattleDirector : Node2D
         );
         rewardSelect.GetNode<Label>("%TopLabel").Text = Tr("BATTLE_ROOM_WIN");
         rewardSelect.Selected += TransitionOutOfBattle;
+    }
+
+    private void TransitionOutOfCustom()
+    {
+        StageProducer.LiveInstance.TransitionStage(Stages.Title);
     }
 
     private void TransitionOutOfBattle()
