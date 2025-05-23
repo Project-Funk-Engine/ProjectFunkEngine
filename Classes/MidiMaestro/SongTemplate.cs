@@ -6,23 +6,13 @@ namespace FunkEngine.Classes.MidiMaestro;
 public struct SongTemplate
 {
     public string Name;
-    public readonly string AudioLocation;
-    public string SongMapLocation;
+    public readonly NoteChart Chart;
     public readonly string[] EnemyScenePath;
-    public SongData SongData;
 
-    public SongTemplate(
-        SongData songData,
-        string name = "",
-        string audioLocation = "",
-        string songMapLocation = "",
-        string[] enemyScenePath = null
-    )
+    public SongTemplate(string name = "", string[] enemyScenePath = null, NoteChart chart = null)
     {
         Name = name;
-        AudioLocation = audioLocation;
-        SongMapLocation = songMapLocation;
-        SongData = songData;
+        Chart = chart;
         EnemyScenePath = enemyScenePath;
     }
 }

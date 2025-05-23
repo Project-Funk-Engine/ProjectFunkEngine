@@ -88,19 +88,16 @@ public partial class BattleDirector : Node2D
 
     public override void _Ready()
     {
-        SongData curSong = StageProducer.Config.CurSong.SongData;
-        Audio.SetStream(GD.Load<AudioStream>(StageProducer.Config.CurSong.AudioLocation));
-        if (curSong.SongLength <= 0)
-        {
-            curSong.SongLength = Audio.Stream.GetLength();
-        }
+        NoteChart curChart = StageProducer.Config.CurSong.Chart;
+        Audio.SetStream(GD.Load<AudioStream>("Audio/" + curChart.SongMapLocation));
+        double songLen = Audio.Stream.GetLength();
 
-        TimeKeeper.InitVals(curSong.Bpm);
+        TimeKeeper.InitVals(curChart.Bpm);
         Harbinger.Init(this);
         InitPlayer();
         InitEnemies();
         InitScoringGuide();
-        CD.Initialize(curSong, _enemies);
+        CD.Initialize(curChart, songLen, _enemies);
         CD.NoteInputEvent += OnTimedInput;
 
         FocusedButton.GrabFocus();

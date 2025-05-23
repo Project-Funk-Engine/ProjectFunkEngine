@@ -74,21 +74,21 @@ public partial class ChartManager : SubViewportContainer
 
     private bool _initialized;
 
-    public void Initialize(SongData songData)
+    public void Initialize(NoteChart songData, double songLen)
     {
         if (_initialized)
             return;
         TimeKeeper.LoopsPerSong = songData.NumLoops;
-        TimeKeeper.SongLength = songData.SongLength;
+        TimeKeeper.SongLength = songLen;
 
-        double _loopLen = songData.SongLength / songData.NumLoops;
+        double loopLen = songLen / songData.NumLoops;
 
         //99% sure chart length can never be less than (chart viewport width) * 2,
         //otherwise there isn't room for things to loop from off and on screen
         _chartLength = Math.Max(
-            _loopLen * Math.Ceiling(Size.X * 2 / _loopLen),
+            loopLen * Math.Ceiling(Size.X * 2 / loopLen),
             //Also minimize rounding point imprecision, improvement is qualitative
-            _loopLen * Math.Floor(_chartLength / _loopLen)
+            loopLen * Math.Floor(_chartLength / loopLen)
         );
 
         TimeKeeper.ChartWidth = _chartLength;

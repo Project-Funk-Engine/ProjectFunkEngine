@@ -1,0 +1,129 @@
+[gd_resource type="Resource" load_steps=26 format=3 uid="uid://drmfhafnnokw1"]
+
+[ext_resource type="Script" uid="uid://bhbpcmtr6e6pk" path="res://Classes/MidiMaestro/NoteInfo.cs" id="1_qiqje"]
+[ext_resource type="Script" uid="uid://bnpnavb5lwobj" path="res://Classes/MidiMaestro/NoteChart.cs" id="2_qfjvo"]
+
+[sub_resource type="Resource" id="Resource_svc5u"]
+script = ExtResource("1_qiqje")
+Beat = 2.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_ienox"]
+script = ExtResource("1_qiqje")
+Beat = 6.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_ax4q1"]
+script = ExtResource("1_qiqje")
+Beat = 10.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_663rs"]
+script = ExtResource("1_qiqje")
+Beat = 15.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_86xei"]
+script = ExtResource("1_qiqje")
+Beat = 20.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_w3gx2"]
+script = ExtResource("1_qiqje")
+Beat = 12.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_t01kg"]
+script = ExtResource("1_qiqje")
+Beat = 18.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_rnhdg"]
+script = ExtResource("1_qiqje")
+Beat = 8.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_of7dy"]
+script = ExtResource("1_qiqje")
+Beat = 22.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_xq1dl"]
+script = ExtResource("1_qiqje")
+Beat = 11.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_ym0tj"]
+script = ExtResource("1_qiqje")
+Beat = 4.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_1vvgc"]
+script = ExtResource("1_qiqje")
+Beat = 11.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_wjmqy"]
+script = ExtResource("1_qiqje")
+Beat = 14.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_64q4o"]
+script = ExtResource("1_qiqje")
+Beat = 16.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_rubmr"]
+script = ExtResource("1_qiqje")
+Beat = 19.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_ejow0"]
+script = ExtResource("1_qiqje")
+Beat = 20.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_pbett"]
+script = ExtResource("1_qiqje")
+Beat = 8.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_gru0r"]
+script = ExtResource("1_qiqje")
+Beat = 22.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_wljiu"]
+script = ExtResource("1_qiqje")
+Beat = 10.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_3viwm"]
+script = ExtResource("1_qiqje")
+Beat = 2.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_mcgpp"]
+script = ExtResource("1_qiqje")
+Beat = 4.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_olklg"]
+script = ExtResource("1_qiqje")
+Beat = 12.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_57g2b"]
+script = ExtResource("1_qiqje")
+Beat = 18.0
+Length = 0.0
+
+[resource]
+script = ExtResource("2_qfjvo")
+Bpm = 60
+NumLoops = 1
+SongMapLocation = "Song2.ogg"
+UpLaneData = Array[ExtResource("1_qiqje")]([SubResource("Resource_3viwm"), SubResource("Resource_mcgpp"), SubResource("Resource_olklg"), SubResource("Resource_57g2b")])
+DownLaneData = Array[ExtResource("1_qiqje")]([SubResource("Resource_svc5u"), SubResource("Resource_ienox"), SubResource("Resource_ax4q1"), SubResource("Resource_663rs"), SubResource("Resource_86xei"), SubResource("Resource_w3gx2"), SubResource("Resource_t01kg")])
+LeftLaneData = Array[ExtResource("1_qiqje")]([SubResource("Resource_rnhdg"), SubResource("Resource_of7dy"), SubResource("Resource_xq1dl")])
+RightLaneData = Array[ExtResource("1_qiqje")]([SubResource("Resource_ym0tj"), SubResource("Resource_1vvgc"), SubResource("Resource_wjmqy"), SubResource("Resource_64q4o"), SubResource("Resource_rubmr"), SubResource("Resource_ejow0"), SubResource("Resource_pbett"), SubResource("Resource_gru0r"), SubResource("Resource_wljiu")])

@@ -1,7 +1,7 @@
-[gd_resource type="Resource" load_steps=25 format=3]
+[gd_resource type="Resource" load_steps=25 format=3 uid="uid://xhi8r70ht3dp"]
 
-[ext_resource type="Script" path="res://Classes/MidiMaestro/NoteInfo.cs" id="1_8ueh4"]
-[ext_resource type="Script" path="res://Classes/MidiMaestro/NoteChart.cs" id="2_s63u8"]
+[ext_resource type="Script" uid="uid://bhbpcmtr6e6pk" path="res://Classes/MidiMaestro/NoteInfo.cs" id="1_8ueh4"]
+[ext_resource type="Script" uid="uid://bnpnavb5lwobj" path="res://Classes/MidiMaestro/NoteChart.cs" id="2_s63u8"]
 
 [sub_resource type="Resource" id="Resource_ljr32"]
 script = ExtResource("1_8ueh4")
@@ -115,6 +115,9 @@ Length = 0.0
 
 [resource]
 script = ExtResource("2_s63u8")
+Bpm = 180
+NumLoops = 1
+SongMapLocation = "CyberFoxSong.ogg"
 UpLaneData = Array[ExtResource("1_8ueh4")]([SubResource("Resource_50tbs"), SubResource("Resource_ttd2q"), SubResource("Resource_nnlde"), SubResource("Resource_rwedv"), SubResource("Resource_3eydr"), SubResource("Resource_83big")])
 DownLaneData = Array[ExtResource("1_8ueh4")]([SubResource("Resource_ljr32"), SubResource("Resource_bb3yp"), SubResource("Resource_852ml"), SubResource("Resource_38nu8"), SubResource("Resource_ct6sp"), SubResource("Resource_8ueh4"), SubResource("Resource_7lpnw")])
 LeftLaneData = Array[ExtResource("1_8ueh4")]([SubResource("Resource_yk705"), SubResource("Resource_oocdv"), SubResource("Resource_uswjw"), SubResource("Resource_e1hbr")])

@@ -1,7 +1,7 @@
-[gd_resource type="Resource" load_steps=45 format=3]
+[gd_resource type="Resource" load_steps=45 format=3 uid="uid://dfs1r7rw8x2fv"]
 
-[ext_resource type="Script" path="res://Classes/MidiMaestro/NoteInfo.cs" id="1_tuude"]
-[ext_resource type="Script" path="res://Classes/MidiMaestro/NoteChart.cs" id="2_hfiht"]
+[ext_resource type="Script" uid="uid://bhbpcmtr6e6pk" path="res://Classes/MidiMaestro/NoteInfo.cs" id="1_tuude"]
+[ext_resource type="Script" uid="uid://bnpnavb5lwobj" path="res://Classes/MidiMaestro/NoteChart.cs" id="2_hfiht"]
 
 [sub_resource type="Resource" id="Resource_i2qfq"]
 script = ExtResource("1_tuude")
@@ -215,6 +215,9 @@ Length = 0.0
 
 [resource]
 script = ExtResource("2_hfiht")
+Bpm = 120
+NumLoops = 6
+SongMapLocation = "Gobbler.ogg"
 UpLaneData = Array[ExtResource("1_tuude")]([SubResource("Resource_8xjpx"), SubResource("Resource_wsgab"), SubResource("Resource_qwdig"), SubResource("Resource_66kxm"), SubResource("Resource_7ilo7"), SubResource("Resource_a20b3"), SubResource("Resource_pqrtt"), SubResource("Resource_pwr5v"), SubResource("Resource_rt0eg"), SubResource("Resource_8g5uo")])
 DownLaneData = Array[ExtResource("1_tuude")]([SubResource("Resource_i2qfq"), SubResource("Resource_clkmt"), SubResource("Resource_2yhqr"), SubResource("Resource_avloc"), SubResource("Resource_7ipoh"), SubResource("Resource_rc4vs"), SubResource("Resource_hsxfe"), SubResource("Resource_5uul0"), SubResource("Resource_20iwo")])
 LeftLaneData = Array[ExtResource("1_tuude")]([SubResource("Resource_q3mne"), SubResource("Resource_klde2"), SubResource("Resource_6wxhr"), SubResource("Resource_4fyoq"), SubResource("Resource_1hg6d"), SubResource("Resource_6on7t"), SubResource("Resource_eq4ob"), SubResource("Resource_2rtaq"), SubResource("Resource_t5na6")])

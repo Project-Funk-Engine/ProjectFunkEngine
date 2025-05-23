@@ -9,6 +9,15 @@ public partial class NoteChart : Resource
     const float Precision = 0.0001f;
 
     [Export]
+    public int Bpm { get; set; }
+
+    [Export]
+    public int NumLoops { get; set; }
+
+    [Export]
+    public string SongMapLocation { get; set; } = "";
+
+    [Export]
     Array<NoteInfo> UpLaneData = [];
 
     [Export]
