@@ -83,6 +83,8 @@ public partial class ChartManager : SubViewportContainer
 
         double loopLen = songLen / songData.NumLoops;
 
+        if (songData.SongSpeed > 0)
+            _chartLength = songData.SongSpeed * loopLen;
         //99% sure chart length can never be less than (chart viewport width) * 2,
         //otherwise there isn't room for things to loop from off and on screen
         _chartLength = Math.Max(
@@ -90,7 +92,6 @@ public partial class ChartManager : SubViewportContainer
             //Also minimize rounding point imprecision, improvement is qualitative
             loopLen * Math.Floor(_chartLength / loopLen)
         );
-
         TimeKeeper.ChartWidth = _chartLength;
         TimeKeeper.Bpm = songData.Bpm;
 
@@ -102,7 +103,7 @@ public partial class ChartManager : SubViewportContainer
     public void BeginTweens()
     {
         if (ArrowTween != null)
-            this.ArrowTween.Kill();
+            ArrowTween.Kill();
         //This could be good as a function to call on something, to have many things animated to the beat.
         ArrowTween = CreateTween();
         ArrowTween

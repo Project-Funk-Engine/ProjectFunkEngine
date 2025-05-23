@@ -247,6 +247,7 @@ Length = 0.0
 script = ExtResource("2_uhxkd")
 Bpm = 120
 NumLoops = 5
+SongSpeed = -1.0
 SongMapLocation = "Song1.ogg"
 UpLaneData = Array[ExtResource("1_mc06a")]([SubResource("Resource_fjllr"), SubResource("Resource_y2wfd"), SubResource("Resource_cb61k"), SubResource("Resource_hbkgo"), SubResource("Resource_80wib"), SubResource("Resource_jsm3m"), SubResource("Resource_ryg8k"), SubResource("Resource_gj6xo"), SubResource("Resource_112dg"), SubResource("Resource_eguul"), SubResource("Resource_tdy7a"), SubResource("Resource_d7de0")])
 DownLaneData = Array[ExtResource("1_mc06a")]([SubResource("Resource_h1ijp"), SubResource("Resource_ysbfa"), SubResource("Resource_j4c1l"), SubResource("Resource_lktv3"), SubResource("Resource_b0kfm"), SubResource("Resource_xbckj"), SubResource("Resource_gs0vr"), SubResource("Resource_4ygvu"), SubResource("Resource_efsyh")])

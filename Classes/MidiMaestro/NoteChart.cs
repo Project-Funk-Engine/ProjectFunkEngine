@@ -14,6 +14,11 @@ public partial class NoteChart : Resource
     [Export]
     public int NumLoops { get; set; }
 
+    //178 is average for most fights
+    //<= 0 means go with default chart speed based on song length
+    [Export]
+    public float SongSpeed { get; set; } = -1;
+
     [Export]
     public string SongMapLocation { get; set; } = "";
 
