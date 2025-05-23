@@ -143,9 +143,9 @@ EVENT_EVENT1_DESC,A bandit approaches you.,一个强盗拦住了你。
 EVENT_EVENT1_OPTION1,Give them a random note,给他一个随机音符
 EVENT_EVENT1_OPTION2,Give them a random relic,给他一件随机遗物
 EVENT_EVENT1_OPTION3,Give them half your gold,给他你一半的金币
-EVENT_EVENT1_OUTCOME1,You got robbed of a random note.,你被抢走了一个随机音符
-EVENT_EVENT1_OUTCOME2,You got robbed of a random relic.,你被抢走了一件随机遗物
-EVENT_EVENT1_OUTCOME3,You got robbed of half your gold.,你被抢走了一半金币
+EVENT_EVENT1_OUTCOME1,You got robbed of a random note. ({0}),你被抢走了一个随机音符 ({0})
+EVENT_EVENT1_OUTCOME2,You got robbed of a random relic.({0}),你被抢走了一件随机遗物 ({0})
+EVENT_EVENT1_OUTCOME3,You got robbed of half your gold. ({0}),你被抢走了一半金币 ({0})
 EVENT_EVENT2_DESC,There is a wheel with different outcomes.,这里有一个转盘，结果各不相同。
 EVENT_EVENT2_OPTION1,Spin the wheel,转动转盘
 EVENT_EVENT2_OPTION2,Ignore the cool wheel,忽略这个酷炫的转盘

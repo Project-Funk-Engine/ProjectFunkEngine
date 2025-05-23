@@ -34,6 +34,7 @@ public partial class EventScene : Node
 
     private EventTemplate _eventReference;
     private int _updateOutputIndex;
+    public object TempData;
 
     public override void _Ready()
     {
@@ -133,8 +134,10 @@ public partial class EventScene : Node
     {
         _updateOutputIndex = capturedIndex;
         _buttonContainer.GetParent<Control>().Visible = false;
-        _continueContainer.Visible = _eventReference.OutcomeDescriptions[capturedIndex] != "";
-        _eventDescription.Text = _eventReference.OutcomeDescriptions[capturedIndex];
+        //_continueContainer.Visible = _eventReference.OutcomeDescriptions[capturedIndex] != "";
+        _continueContainer.Visible = _eventReference.GetOutcomeText(capturedIndex, this) != "";
+        //_eventDescription.Text = _eventReference.OutcomeDescriptions[capturedIndex];
+        _eventDescription.Text = _eventReference.GetOutcomeText(capturedIndex, this);
         _continueButton.GrabFocus();
     }
 }
