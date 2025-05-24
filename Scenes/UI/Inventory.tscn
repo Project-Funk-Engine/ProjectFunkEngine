@@ -1,13 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://be6fb2sr5i515"]
+[gd_scene load_steps=7 format=3 uid="uid://be6fb2sr5i515"]
 
 [ext_resource type="Script" uid="uid://kqa0ovjph1hd" path="res://Scenes/UI/Scripts/Inventory.cs" id="1_8rcwd"]
 [ext_resource type="Texture2D" uid="uid://ck16vyh1q68ri" path="res://Scenes/UI/Assets/UI_ForestBackground.png" id="2_s6pj7"]
 [ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="3_e51wb"]
 [ext_resource type="Texture2D" uid="uid://8u3xvcma81d" path="res://Scenes/UI/Assets/UI_CrystalFrame.png" id="3_s6pj7"]
 [ext_resource type="Texture2D" uid="uid://burj10os057fx" path="res://Scenes/UI/Assets/UI_CrystalFrameInset.png" id="4_b6trj"]
-[ext_resource type="PackedScene" uid="uid://cymo26khpw4m1" path="res://Scenes/UI/DisplayButton.tscn" id="5_fv6l5"]
 [ext_resource type="Texture2D" uid="uid://dyt1cvag13aik" path="res://SharedAssets/Money.png" id="5_si1x5"]
-[ext_resource type="Texture2D" uid="uid://bqng2uofbio1x" path="res://Classes/Notes/Assets/Note_GWS.png" id="6_0txfk"]
 
 [node name="Inventory" type="Control" node_paths=PackedStringArray("_relics", "_notes", "_description", "_tabs", "_moneyLabel")]
 process_mode = 1
@@ -94,11 +92,6 @@ follow_focus = true
 layout_mode = 2
 size_flags_vertical = 4
 columns = 10
-
-[node name="DisplayButton" parent="MarginContainer/InvenVBox/Tabs/INVENTORY_TAB_NOTES/SelectionBG/MarginContainer/NotesBox/NotesGrid" instance=ExtResource("5_fv6l5")]
-layout_mode = 2
-theme_type_variation = &"FlatButton"
-icon = ExtResource("6_0txfk")
 
 [node name="INVENTORY_TAB_RELICS" type="MarginContainer" parent="MarginContainer/InvenVBox/Tabs"]
 visible = false
