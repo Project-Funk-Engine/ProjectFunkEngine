@@ -4,6 +4,7 @@ using System.IO;
 using FunkEngine;
 using FunkEngine.Classes.MidiMaestro;
 using Godot;
+using FileAccess = Godot.FileAccess;
 
 public partial class CustomSelection : CanvasLayer, IFocusableMenu
 {
@@ -63,11 +64,43 @@ public partial class CustomSelection : CanvasLayer, IFocusableMenu
                 };
                 continue;
             }
+            if (!FileAccess.FileExists(UserSongDir + song.Chart.SongMapLocation))
+            {
+                newButton.Text = Tr("CUSTOM_SONG_NOT_FOUND");
+                newButton.Disabled = true;
+                newButton.FocusEntered += () =>
+                {
+                    _songDescription.Text = UserSongDir + song.Chart.SongMapLocation;
+                };
+                continue;
+            }
+
+            float arbitraryDifficulty = 0;
+            arbitraryDifficulty += (float)song.Chart.Bpm / 120;
+            arbitraryDifficulty += (float)song.Chart.GetLane(ArrowType.Up).Count / 10;
+            arbitraryDifficulty += (float)song.Chart.GetLane(ArrowType.Right).Count / 10;
+            arbitraryDifficulty += (float)song.Chart.GetLane(ArrowType.Left).Count / 10;
+            arbitraryDifficulty += (float)song.Chart.GetLane(ArrowType.Down).Count / 10;
+            arbitraryDifficulty = (float)Math.Floor(arbitraryDifficulty);
+
             newButton.Text = song.Name;
             newButton.FocusEntered += () =>
             {
                 _songDescription.Text =
-                    song.Name + "\n" + song.Chart.Bpm + "\n" + song.Chart.NumLoops;
+                    song.Name
+                    + "\n \n"
+                    + Tr("CUSTOM_SONG")
+                    + song.Chart.SongMapLocation
+                    + "\n"
+                    + Tr("CUSTOM_BPM")
+                    + song.Chart.Bpm
+                    + "\n"
+                    + Tr("CUSTOM_LOOPS")
+                    + song.Chart.NumLoops
+                    + "\n"
+                    + Tr("CUSTOM_DIFFICULTY")
+                    + new string('\u2605', (int)arbitraryDifficulty);
+
                 _selectedSong = song;
             };
             newButton.Pressed += StartCustomSelection;

@@ -231,4 +231,4 @@ offset_top = 1.0
 offset_right = 113.0
 offset_bottom = 40.0
 theme = ExtResource("13_v0au1")
-text = "CUSTOM_SONG"
+text = "CUSTOM_SONG_SELECT"

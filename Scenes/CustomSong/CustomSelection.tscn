@@ -114,7 +114,6 @@ theme_override_constants/margin_bottom = 4
 [node name="SongDetails" type="Label" parent="Control/Background/MarginContainer/HBoxContainer/MarginContainer/OptionsBackground/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 1
-text = "Test"
 horizontal_alignment = 1
 vertical_alignment = 1
 

@@ -164,3 +164,13 @@ EVENT_EVENT3_OPTION3,Purchase 2 heal notes (30g),购买2个治疗音符 (30硬�
 EVENT_EVENT3_OUTCOME1,The medic patched you up.\nYou restored 10 Health.,医生为你包扎了伤口。\n你恢复了10点生命值。
 EVENT_EVENT3_OUTCOME2,The medic gave you a shot of adrenaline.\nFreestyle bar fills 8% faster!,医生给你注射了一针肾上腺素。\n风格条充能速度提升8%！
 EVENT_EVENT3_OUTCOME3,The medic sold you some healing supplies.\nAdded 2 heal notes to your inventory.,医生卖给你一些治疗用品。\n你的背包中增加了2个治疗音符。
+CUSTOM_DIFFICULTY,Difficulty: ,困难： 
+CUSTOM_SONG,Song: ,歌曲： 
+CUSTOM_BPM,BPM: ,BPM: 
+CUSTOM_LOOPS,Number of Loops: , 循环次数： 
+CUSTOM_SONG_SELECT,Custom Song,自定义歌曲 
+CUSTOM_SONG_NOT_FOUND,Could not find song file!,(TODO)
+CUSTOM_SONTEM_NOT_FOUND,Could not find .sontem file!,(TODO)
+CUSTOM_NO_CHART_PATH,There was no chart file path!,(TODO)
+CUSTOM_CHART_NOT_FOUND,Could not find chart files at path!,(TODO)
+CUSTOM_COULD_NOT_READ,Invalid/broken sontem file!,(TODO)
