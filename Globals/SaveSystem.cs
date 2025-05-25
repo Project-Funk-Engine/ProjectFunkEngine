@@ -30,6 +30,7 @@ public static class SaveSystem
     private const string DefaultLanguage = "en";
     private const bool DefaultHighCon = false;
     private const bool DefaultFirstTime = true;
+    private const bool DefaultHasWon = false;
 
     public enum ConfigSettings
     {
@@ -50,6 +51,7 @@ public static class SaveSystem
         LanguageKey,
         HighContrast,
         FirstTime,
+        HasWon,
     }
 
     /**
@@ -75,6 +77,7 @@ public static class SaveSystem
         UpdateConfig(ConfigSettings.LanguageKey, DefaultLanguage);
         UpdateConfig(ConfigSettings.HighContrast, DefaultHighCon);
         UpdateConfig(ConfigSettings.FirstTime, DefaultFirstTime);
+        UpdateConfig(ConfigSettings.HasWon, DefaultHasWon);
     }
 
     private static void SaveConfig()
@@ -138,6 +141,9 @@ public static class SaveSystem
                 break;
             case ConfigSettings.FirstTime:
                 _curConfigData.SetValue("Game", "FirstTime", value);
+                break;
+            case ConfigSettings.HasWon:
+                _curConfigData.SetValue("Game", "HasWon", value);
                 break;
             default:
                 GD.PushError("SaveSystem.UpdateConfig: Invalid config setting passed. " + setting);
@@ -278,6 +284,8 @@ public static class SaveSystem
                 return _curConfigData.GetValue("Options", "HighContrast", DefaultHighCon);
             case ConfigSettings.FirstTime:
                 return _curConfigData.GetValue("Game", "FirstTime", DefaultFirstTime);
+            case ConfigSettings.HasWon:
+                return _curConfigData.GetValue("Game", "HasWon", DefaultHasWon);
             default:
                 GD.PushError("Invalid config setting passed. " + setting);
                 return float.MinValue;

@@ -20,9 +20,9 @@ public partial class MidiMaestro : Resource
      * <summary>Constructor loads resource file and populates lane note arrays with NoteInfo</summary>
      * <param name="filePath">A string file path to a valid songMap .tres file</param>
      */
-    public MidiMaestro(string filePath)
+    public MidiMaestro(NoteChart savedChart)
     {
-        if (!OS.HasFeature("editor"))
+        /*if (!OS.HasFeature("editor"))
         {
             filePath = OS.GetExecutablePath().GetBaseDir() + "/" + filePath;
         }
@@ -32,7 +32,7 @@ public partial class MidiMaestro : Resource
             GD.PushError("ERROR: Unable to load level songMap resource file: " + filePath);
         }
 
-        NoteChart savedChart = ResourceLoader.Load<NoteChart>(filePath);
+        NoteChart savedChart = ResourceLoader.Load<NoteChart>(filePath);*/
 
         if (savedChart != null)
         {
@@ -43,7 +43,7 @@ public partial class MidiMaestro : Resource
         }
         else
         {
-            GD.PushError("ERROR: Unable to load songMap resource file: " + filePath);
+            GD.PushError("ERROR: Unable to load songMap resource file!");
             _upNotes = [];
             _downNotes = [];
             _leftNotes = [];

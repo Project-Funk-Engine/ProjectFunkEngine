@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FunkEngine;
+using FunkEngine.Classes.MidiMaestro;
 using Godot;
 
 /**
@@ -218,8 +219,29 @@ public partial class StageProducer : Node
         _preloadStage = null;
         //Apply grayscale shader to all scenes
         GetTree().Root.AddChild(ContrastFilter);
+        LastStage = _curStage;
         _curStage = nextStage;
     }
+
+    public Stages LastStage; //Hacky, purely to have title screen return to custom menu.
+
+    public void TransitionToCustom(SongTemplate song)
+    {
+        GetTree().Root.RemoveChild(ContrastFilter);
+        GetTree().Root.AddChild(ContrastFilter);
+        GlobalRng.Randomize();
+        PlayerStats = new PlayerStats();
+        Config = new BattleConfig
+        {
+            BattleRoom = null,
+            RoomType = Stages.Custom,
+            CurSong = song,
+            EnemyScenePath = song.EnemyScenePath,
+        };
+        GetTree().ChangeSceneToFile(BattleDirector.LoadPath);
+        _curStage = Stages.Custom;
+    }
+
     #endregion
 
     private void RefreshBattlePool()

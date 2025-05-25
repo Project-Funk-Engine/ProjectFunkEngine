@@ -49,6 +49,7 @@ theme_override_constants/margin_bottom = 50
 
 [node name="PanelBg" type="NinePatchRect" parent="Bg/WindowMargin"]
 self_modulate = Color(1, 1, 1, 0.75)
+custom_minimum_size = Vector2(0, 280)
 layout_mode = 2
 texture = ExtResource("2_usavq")
 patch_margin_left = 30
@@ -65,7 +66,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="TopPanelBg" type="NinePatchRect" parent="Bg/WindowMargin/PanelBg/VBoxContainer"]
-self_modulate = Color(1, 1, 1, 0.5)
+custom_minimum_size = Vector2(0, 45)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -102,7 +103,7 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
 [node name="BottomPanelBg" type="NinePatchRect" parent="Bg/WindowMargin/PanelBg/VBoxContainer/MarginContainer"]
-self_modulate = Color(1, 1, 1, 0.5)
+custom_minimum_size = Vector2(0, 175)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3

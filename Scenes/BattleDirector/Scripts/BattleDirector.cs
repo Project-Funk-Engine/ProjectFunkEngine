@@ -88,19 +88,25 @@ public partial class BattleDirector : Node2D
 
     public override void _Ready()
     {
-        SongData curSong = StageProducer.Config.CurSong.SongData;
-        Audio.SetStream(GD.Load<AudioStream>(StageProducer.Config.CurSong.AudioLocation));
-        if (curSong.SongLength <= 0)
-        {
-            curSong.SongLength = Audio.Stream.GetLength();
-        }
+        NoteChart curChart = StageProducer.Config.CurSong.Chart;
 
-        TimeKeeper.InitVals(curSong.Bpm);
+        Audio.SetStream(
+            StageProducer.Config.RoomType == Stages.Custom
+                ? AudioStreamOggVorbis.LoadFromFile(
+                    CustomSelection.UserSongDir + curChart.SongMapLocation
+                )
+                : GD.Load<AudioStream>("Audio/" + curChart.SongMapLocation)
+        );
+
+        double songLen = Audio.Stream.GetLength();
+
+        TimeKeeper.InitVals(curChart.Bpm);
         Harbinger.Init(this);
         InitPlayer();
         InitEnemies();
         InitScoringGuide();
-        CD.Initialize(curSong, _enemies);
+        CD.Initialize(curChart, songLen, _enemies);
+
         CD.NoteInputEvent += OnTimedInput;
 
         FocusedButton.GrabFocus();
@@ -112,6 +118,11 @@ public partial class BattleDirector : Node2D
         };
 
         Harbinger.Instance.InvokeBattleStarted();
+        if (StageProducer.Config.RoomType != Stages.Custom)
+            return;
+        _customSongResultsScene = GD.Load<PackedScene>(CustomScore.LoadPath)
+            .Instantiate<CustomScore>();
+        _customSongResultsScene.ListenToDirector();
     }
 
     public ScoringScreen.ScoreGuide BattleScore;
@@ -323,6 +334,12 @@ public partial class BattleDirector : Node2D
 
     private void OnBattleWon()
     {
+        if (StageProducer.Config.RoomType == Stages.Custom)
+        {
+            _customSongResultsScene.ShowResults(this, (float)_enemies[0].GetCurrentHealth() / 500);
+            _customSongResultsScene.Finished += TransitionOutOfCustom;
+            return;
+        }
         Harbinger.Instance.InvokeBattleEnded();
         CleanUpRelics();
         BattleScore.SetEndHp(Player.GetCurrentHealth());
@@ -335,6 +352,12 @@ public partial class BattleDirector : Node2D
 
     private void OnBattleLost()
     {
+        if (StageProducer.Config.RoomType == Stages.Custom)
+        {
+            _customSongResultsScene.ShowResults(this, (float)_enemies[0].GetCurrentHealth() / 500);
+            _customSongResultsScene.Finished += TransitionOutOfCustom;
+            return;
+        }
         Audio.StreamPaused = true;
         SaveSystem.ClearSave();
         AddChild(GD.Load<PackedScene>(EndScreen.LoadPath).Instantiate());
@@ -351,6 +374,14 @@ public partial class BattleDirector : Node2D
         );
         rewardSelect.GetNode<Label>("%TopLabel").Text = Tr("BATTLE_ROOM_WIN");
         rewardSelect.Selected += TransitionOutOfBattle;
+    }
+
+    private CustomScore _customSongResultsScene;
+
+    private void TransitionOutOfCustom()
+    {
+        BgAudioPlayer.LiveInstance.PlayLevelMusic();
+        StageProducer.LiveInstance.TransitionStage(Stages.Title);
     }
 
     private void TransitionOutOfBattle()

@@ -40,6 +40,7 @@ public partial class Inventory : Control, IFocusableMenu
             var newButton = GD.Load<PackedScene>(DisplayButton.LoadPath)
                 .Instantiate<DisplayButton>();
             newButton.Display(item.Texture, item.Name, true);
+            newButton.ThemeTypeVariation = "nopress";
             newButton.Pressed += () =>
             {
                 DoDescription(newButton);

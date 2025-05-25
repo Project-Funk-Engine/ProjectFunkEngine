@@ -1,0 +1,134 @@
+[gd_scene load_steps=5 format=3 uid="uid://4afpdcupy6x"]
+
+[ext_resource type="Script" uid="uid://cvt1bucvy5o2b" path="res://Scenes/CustomSong/Scripts/CustomSelection.cs" id="1_2bets"]
+[ext_resource type="Texture2D" uid="uid://ck16vyh1q68ri" path="res://Scenes/UI/Assets/UI_ForestBackground.png" id="1_2j36x"]
+[ext_resource type="Texture2D" uid="uid://djd6iw2g84bba" path="res://Scenes/UI/Assets/UI_CenterFrame.png" id="2_2bets"]
+[ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="4_fvo50"]
+
+[node name="CustomSongMenu" type="CanvasLayer" node_paths=PackedStringArray("_returnButton", "_songList", "_songDescription", "_focused")]
+process_mode = 3
+script = ExtResource("1_2bets")
+_returnButton = NodePath("Control/ReturnButton")
+_songList = NodePath("Control/Background/MarginContainer/HBoxContainer/MarginContainer2/ScrollContainer/Songs")
+_songDescription = NodePath("Control/Background/MarginContainer/HBoxContainer/MarginContainer/OptionsBackground/MarginContainer/SongDetails")
+_focused = NodePath("Control/ReturnButton")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Background" type="NinePatchRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_2j36x")
+patch_margin_left = 105
+patch_margin_top = 100
+patch_margin_right = 105
+patch_margin_bottom = 100
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/Background"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -255.0
+offset_top = -155.0
+offset_right = 255.0
+offset_bottom = 105.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="OptionsBackground" type="NinePatchRect" parent="Control/Background/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("2_2bets")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/Background/MarginContainer"]
+custom_minimum_size = Vector2(500, 250)
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="Control/Background/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/Background/MarginContainer/HBoxContainer/MarginContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="Songs" type="VBoxContainer" parent="Control/Background/MarginContainer/HBoxContainer/MarginContainer2/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/Background/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="OptionsBackground" type="NinePatchRect" parent="Control/Background/MarginContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("2_2bets")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/Background/MarginContainer/HBoxContainer/MarginContainer/OptionsBackground"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="SongDetails" type="Label" parent="Control/Background/MarginContainer/HBoxContainer/MarginContainer/OptionsBackground/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ReturnButton" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -91.5
+offset_top = -59.0
+offset_right = 91.5
+offset_bottom = -22.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("4_fvo50")
+text = "CONTROLS_RETURN_BUTTON"

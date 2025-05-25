@@ -1,8 +1,9 @@
-[gd_resource type="Theme" load_steps=12 format=3 uid="uid://d37e3tpsbxwak"]
+[gd_resource type="Theme" load_steps=22 format=3 uid="uid://d37e3tpsbxwak"]
 
 [ext_resource type="Texture2D" uid="uid://dj0nfgig1kd5l" path="res://Scenes/UI/Assets/3DButton.png" id="1_nsq46"]
 [ext_resource type="Texture2D" uid="uid://cegasble5d7uw" path="res://Scenes/UI/Assets/UI_Selection.png" id="2_d2tmw"]
 [ext_resource type="Texture2D" uid="uid://b5jfffpaextmp" path="res://Scenes/UI/Assets/3DButtonPressed.png" id="2_i0sgk"]
+[ext_resource type="Texture2D" uid="uid://djd6iw2g84bba" path="res://Scenes/UI/Assets/UI_CenterFrame.png" id="4_fcxv1"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_agpvv"]
 texture = ExtResource("1_nsq46")
@@ -51,13 +52,90 @@ texture_margin_right = 9.0
 texture_margin_bottom = 13.0
 modulate_color = Color(0.801938, 0.00206308, 0.972656, 0.8)
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fcxv1"]
+texture = ExtResource("2_d2tmw")
+texture_margin_left = 20.0
+texture_margin_top = 20.0
+texture_margin_right = 20.0
+texture_margin_bottom = 20.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o3ngu"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.584, 0.004, 0.725, 0.4)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x6kye"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.754963, 0.0147022, 0.93338, 0.9)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gstb8"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.89, 0.8, 1, 0.2)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a72e7"]
+bg_color = Color(1, 1, 1, 0.25)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_o3ngu"]
+texture = ExtResource("4_fcxv1")
+texture_margin_left = 6.0
+texture_margin_top = 6.0
+texture_margin_right = 6.0
+texture_margin_bottom = 6.0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_fcxv1"]
+load_path = "res://.godot/imported/UI_Selection.png-8c5709c8210ccab47a36d274ec2686c0.ctex"
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_a72e7"]
+texture = SubResource("CompressedTexture2D_fcxv1")
+texture_margin_left = 20.0
+texture_margin_top = 21.0
+texture_margin_right = 20.0
+expand_margin_left = 1.0
+expand_margin_top = 2.0
+expand_margin_right = 1.0
+expand_margin_bottom = 2.0
+region_rect = Rect2(0, 0, 98, 20)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fcxv1"]
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0.039, 0.012, 0.149, 0.75)
+border_color = Color(0.175, 0.175, 0.175, 1)
+corner_detail = 1
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_crcjn"]
 content_margin_left = 10.0
 content_margin_top = 4.0
 content_margin_right = 10.0
 content_margin_bottom = 4.0
-bg_color = Color(0.1, 0.1, 0.1, 1)
+bg_color = Color(0.0392157, 0.0117647, 0.145098, 1)
 border_width_top = 2
+border_color = Color(0.890196, 0.8, 1, 1)
 corner_detail = 1
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gxcar"]
@@ -65,9 +143,7 @@ content_margin_left = 10.0
 content_margin_top = 4.0
 content_margin_right = 10.0
 content_margin_bottom = 4.0
-bg_color = Color(0, 0, 0, 0.8)
-border_width_left = 1
-border_width_right = 1
+bg_color = Color(0.039, 0.012, 0.149, 0.75)
 border_color = Color(0.175, 0.175, 0.175, 1)
 corner_detail = 1
 
@@ -91,5 +167,13 @@ Button/styles/hover = SubResource("StyleBoxTexture_crcjn")
 Button/styles/hover_pressed = SubResource("StyleBoxTexture_gxcar")
 Button/styles/normal = SubResource("StyleBoxTexture_a6bcw")
 Button/styles/pressed = SubResource("StyleBoxTexture_3eh60")
+CheckBox/styles/focus = SubResource("StyleBoxTexture_fcxv1")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_o3ngu")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_x6kye")
+HSlider/styles/slider = SubResource("StyleBoxFlat_gstb8")
+PopupMenu/styles/hover = SubResource("StyleBoxFlat_a72e7")
+PopupMenu/styles/panel = SubResource("StyleBoxTexture_o3ngu")
+TabContainer/styles/tab_focus = SubResource("StyleBoxTexture_a72e7")
+TabContainer/styles/tab_hovered = SubResource("StyleBoxFlat_fcxv1")
 TabContainer/styles/tab_selected = SubResource("StyleBoxFlat_crcjn")
 TabContainer/styles/tab_unselected = SubResource("StyleBoxFlat_gxcar")
