@@ -5,7 +5,7 @@ using Godot;
 public partial class TitleScreen : Control, IFocusableMenu
 {
     public static readonly string LoadPath = "res://Scenes/UI/TitleScreen/TitleScreen.tscn";
-    private static readonly string EffectsLoadPath =
+    public static readonly string EffectsLoadPath =
         "res://Scenes/UI/TitleScreen/TitleScreenEffects.tscn";
 
     [Export]

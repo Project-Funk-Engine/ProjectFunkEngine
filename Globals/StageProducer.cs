@@ -36,6 +36,13 @@ public partial class StageProducer : Node
     {
         InitFromCfg();
         LiveInstance = this;
+
+        GD.Load<PackedScene>(BattleDirector.LoadPath);
+        GD.Load<PackedScene>(Cartographer.LoadPath);
+        GD.Load<PackedScene>(ShopScene.LoadPath);
+        GD.Load<PackedScene>(EventScene.LoadPath);
+        GD.Load<PackedScene>(ChestScene.LoadPath);
+        GD.Load<PackedScene>(TitleScreen.EffectsLoadPath);
     }
 
     public void InitFromCfg()

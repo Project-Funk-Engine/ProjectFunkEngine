@@ -86,6 +86,11 @@ public partial class BattleDirector : Node2D
         _initializedPlaying = true;
     }
 
+    public override void _EnterTree()
+    {
+        GD.Load<PackedScene>(NoteQueueParticlesFactory.LoadPath);
+    }
+
     public override void _Ready()
     {
         NoteChart curChart = StageProducer.Config.CurSong.Chart;
