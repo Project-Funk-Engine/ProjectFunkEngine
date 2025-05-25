@@ -169,15 +169,15 @@ CUSTOM_SONG,Song: ,歌曲：
 CUSTOM_BPM,BPM: ,BPM: 
 CUSTOM_LOOPS,Number of Loops: , 循环次数： 
 CUSTOM_SONG_SELECT,Custom Song,自定义歌曲 
-CUSTOM_SONG_NOT_FOUND,Could not find song file!,(TODO)
-CUSTOM_SONTEM_NOT_FOUND,Could not find .sontem file!,(TODO)
-CUSTOM_NO_CHART_PATH,There was no chart file path!,(TODO)
-CUSTOM_CHART_NOT_FOUND,Could not find chart files at path!,(TODO)
-CUSTOM_COULD_NOT_READ,Invalid/broken sontem file!,(TODO)
-CUSTOM_RESULTS,Results,(TODO)
-CUSTOM_PLAYER_HP,HP Remaining: ,(TODO)
-CUSTOM_ENEMY_HP,Enemy HP Remaining: ,(TODO)
-CUSTOM_NOTES_PLACED,Notes Placed: ,(TODO)
-CUSTOM_PERFECTS,Perfect Hits: ,(TODO)
-CUSTOM_MISSES,Missed Notes: ,(TODO)
-CUSTOM_LOOPS_TAKEN,Loops Taken: ,(TODO)
+CUSTOM_SONG_NOT_FOUND,Could not find song file!,无法找到歌曲文件！
+CUSTOM_SONTEM_NOT_FOUND,Could not find .sontem file!,无法找到 .sontem 文件！
+CUSTOM_NO_CHART_PATH,There was no chart file path!,未提供谱面文件路径！
+CUSTOM_CHART_NOT_FOUND,Could not find chart files at path!,无法在指定路径下找到谱面文件！
+CUSTOM_COULD_NOT_READ,Invalid/broken sontem file!,无效或损坏的 .sontem 文件！
+CUSTOM_RESULTS,Results,自定义歌曲结算
+CUSTOM_PLAYER_HP,HP Remaining: ,剩余HP： 
+CUSTOM_ENEMY_HP,Enemy HP Remaining: ,敌人剩余HP： 
+CUSTOM_NOTES_PLACED,Notes Placed: ,已放置音符： 
+CUSTOM_PERFECTS,Perfect Hits: ,Perfect 命中： 
+CUSTOM_MISSES,Missed Notes: ,失误音符： 
+CUSTOM_LOOPS_TAKEN,Loops Taken: ,循环次数： 
