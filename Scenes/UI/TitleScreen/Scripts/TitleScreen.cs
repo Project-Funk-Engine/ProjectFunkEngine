@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using FunkEngine;
 using Godot;
 
@@ -95,13 +96,28 @@ public partial class TitleScreen : Control, IFocusableMenu
         customMenu.OpenMenu(this);
     }
 
+    private bool taskStarted = false;
+
     private void InitEffects()
     {
-        if (_effectsPlaceholder is not InstancePlaceholder placeholder)
+        if (taskStarted || _effectsPlaceholder is not InstancePlaceholder placeholder)
             return;
-        _effectsRoot = placeholder.CreateInstance(true, GD.Load<PackedScene>(EffectsLoadPath));
-        TextLight = _effectsRoot.GetNode<PointLight2D>("TextLight");
-        TweenLight();
+
+        taskStarted = true;
+        Task.Run(() => //Will need to monitor to make sure this is safe
+        {
+            Callable
+                .From(() =>
+                {
+                    _effectsRoot = placeholder.CreateInstance(
+                        true,
+                        GD.Load<PackedScene>(EffectsLoadPath)
+                    );
+                    TextLight = _effectsRoot.GetNode<PointLight2D>("TextLight");
+                    TweenLight();
+                })
+                .CallDeferred();
+        });
     }
 
     private void TweenLight()

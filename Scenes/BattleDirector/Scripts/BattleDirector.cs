@@ -118,6 +118,11 @@ public partial class BattleDirector : Node2D
         };
 
         Harbinger.Instance.InvokeBattleStarted();
+        if (StageProducer.Config.RoomType != Stages.Custom)
+            return;
+        _customSongResultsScene = GD.Load<PackedScene>(CustomScore.LoadPath)
+            .Instantiate<CustomScore>();
+        _customSongResultsScene.ListenToDirector();
     }
 
     public ScoringScreen.ScoreGuide BattleScore;
@@ -331,7 +336,8 @@ public partial class BattleDirector : Node2D
     {
         if (StageProducer.Config.RoomType == Stages.Custom)
         {
-            TransitionOutOfCustom();
+            _customSongResultsScene.ShowResults(this, (float)_enemies[0].GetCurrentHealth() / 500);
+            _customSongResultsScene.Finished += TransitionOutOfCustom;
             return;
         }
         Harbinger.Instance.InvokeBattleEnded();
@@ -348,7 +354,8 @@ public partial class BattleDirector : Node2D
     {
         if (StageProducer.Config.RoomType == Stages.Custom)
         {
-            TransitionOutOfCustom();
+            _customSongResultsScene.ShowResults(this, (float)_enemies[0].GetCurrentHealth() / 500);
+            _customSongResultsScene.Finished += TransitionOutOfCustom;
             return;
         }
         Audio.StreamPaused = true;
@@ -368,6 +375,8 @@ public partial class BattleDirector : Node2D
         rewardSelect.GetNode<Label>("%TopLabel").Text = Tr("BATTLE_ROOM_WIN");
         rewardSelect.Selected += TransitionOutOfBattle;
     }
+
+    private CustomScore _customSongResultsScene;
 
     private void TransitionOutOfCustom()
     {
