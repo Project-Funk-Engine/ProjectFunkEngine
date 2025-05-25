@@ -90,10 +90,9 @@ public partial class P_Holograeme : EnemyPuppet
                     if (
                         e is not BattleDirector.Harbinger.OnDamageInstanceArgs dArgs
                         || dArgs.Dmg.Target != eff.Owner
-                        || dArgs.Dmg.Source != dArgs.BD.Player
                     )
                         return;
-                    if (dArgs.Dmg.Damage < val)
+                    if (dArgs.Dmg.Source != e.BD.Player || dArgs.Dmg.Damage < val)
                     {
                         dArgs.Dmg.ModifyDamage(0, 0);
                     }

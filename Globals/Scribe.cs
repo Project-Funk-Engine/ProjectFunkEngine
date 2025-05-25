@@ -582,199 +582,89 @@ public partial class Scribe : Node
         ),
     };
 
+    private static string DefaultNoteChartPath = "Audio/songMaps/";
+
     public static readonly SongTemplate[] SongDictionary = new[] //Generalize and make pools for areas/room types
     {
         new SongTemplate(
-            new SongData
-            {
-                Bpm = 120,
-                SongLength = -1,
-                NumLoops = 5,
-            },
             "Song1",
-            "Audio/Song1.ogg",
-            "Audio/songMaps/Song1.tres",
-            [P_BossBlood.LoadPath]
+            [P_BossBlood.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "BossBlood.tres")
         ),
         new SongTemplate(
-            new SongData
-            {
-                Bpm = 60,
-                SongLength = -1,
-                NumLoops = 1,
-            },
             "Song2",
-            "Audio/Song2.ogg",
-            "Audio/songMaps/Song2.tres",
-            [P_Parasifly.LoadPath]
+            [P_Parasifly.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "ParasiflySingle.tres")
         ),
         new SongTemplate(
-            new SongData
-            {
-                Bpm = 120,
-                SongLength = -1,
-                NumLoops = 2,
-            },
             "Song2",
-            "Audio/Song2.ogg",
-            "Audio/songMaps/Song2.tres",
-            [P_Parasifly.LoadPath, P_Parasifly.LoadPath]
+            [P_Parasifly.LoadPath, P_Parasifly.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "ParasiflyDouble.tres")
         ),
         new SongTemplate(
-            new SongData
-            {
-                Bpm = 120,
-                SongLength = -1,
-                NumLoops = 1,
-            },
             "Song3",
-            "Audio/Song3.ogg",
-            "Audio/songMaps/Song3.tres",
-            [P_TheGWS.LoadPath]
+            [P_TheGWS.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "GWS.tres")
         ),
         new SongTemplate(
-            new SongData
-            {
-                Bpm = 90,
-                SongLength = -1,
-                NumLoops = 1,
-            },
             "TutorialSong",
-            "Audio/TutorialSong.ogg",
-            "Audio/songMaps/TutorialSong.tres",
-            [P_Strawman.LoadPath]
+            [P_Strawman.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "TutorialSong.tres")
         ),
         new SongTemplate(
-            new SongData
-            {
-                Bpm = 176,
-                SongLength = -1,
-                NumLoops = 7,
-            },
             "YouWillDie:)",
-            "Audio/District_Four.ogg",
-            "Audio/songMaps/TutorialBoss176_7.tres",
-            [P_Effigy.LoadPath]
+            [P_Effigy.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "TutorialBoss176_7.tres")
         ),
         new SongTemplate(
-            new SongData
-            {
-                Bpm = 120,
-                SongLength = -1,
-                NumLoops = 4,
-            },
             "EcholaneSong",
-            "Audio/EcholaneSong.ogg",
-            "Audio/songMaps/EcholaneSong.tres",
-            [P_Turtle.LoadPath]
+            [P_Turtle.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "EcholaneSong.tres")
         ),
         new SongTemplate(
-            new SongData
-            {
-                Bpm = 180,
-                SongLength = -1,
-                NumLoops = 1,
-            },
             "CyberFoxSong",
-            "Audio/CyberFoxSong.ogg",
-            "Audio/songMaps/CyberFoxSong.tres",
-            [P_CyberFox.LoadPath]
+            [P_CyberFox.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "CyberFoxSong.tres")
         ),
         new SongTemplate(
-            new SongData
-            {
-                Bpm = 120,
-                SongLength = -1,
-                NumLoops = 6,
-            },
             "GobblerSong",
-            "Audio/Gobbler.ogg",
-            "Audio/songMaps/Gobbler.tres",
-            [P_Gobbler.LoadPath]
+            [P_Gobbler.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "Gobbler.tres")
         ),
         new SongTemplate( //9
-            new SongData
-            {
-                Bpm = 130,
-                SongLength = -1,
-                NumLoops = 1,
-            },
             "Holograeme",
-            "Audio/Holo_ThereItIs.ogg",
-            "Audio/songMaps/HoloRepeat.tres",
-            [P_Holograeme.LoadPath]
+            [P_Holograeme.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "HoloRepeat.tres")
         ),
         new SongTemplate( //10
-            new SongData
-            {
-                Bpm = 107,
-                SongLength = -1,
-                NumLoops = 7,
-            },
             "Shapes",
-            "Audio/Shapes.ogg",
-            "Audio/songMaps/Shapes.tres",
-            [P_Shapes.LoadPath]
+            [P_Shapes.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "Shapes.tres")
         ),
         new SongTemplate( //11
-            new SongData
-            {
-                Bpm = 130,
-                SongLength = -1,
-                NumLoops = 3,
-            },
             "Spideer",
-            "Audio/Spider.ogg",
-            "Audio/songMaps/Spider.tres",
-            [P_Spider.LoadPath, P_Spider.LoadPath]
+            [P_Spider.LoadPath, P_Spider.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "Spider.tres")
         ),
         new SongTemplate( //12
-            new SongData
-            {
-                Bpm = 180,
-                SongLength = -1,
-                NumLoops = 5,
-            },
             "Squirkel",
-            "Audio/SquirkelSong.ogg",
-            "Audio/songMaps/SquirkelSong.tres",
-            [P_Squirkel.LoadPath]
+            [P_Squirkel.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "SquirkelSong.tres")
         ),
         new SongTemplate( //13
-            new SongData
-            {
-                Bpm = 100,
-                SongLength = -1,
-                NumLoops = 4,
-            },
             "Mushroom",
-            "Audio/Mushroom.ogg",
-            "Audio/songMaps/Mushroom.tres",
-            [P_Mushroom.LoadPath]
+            [P_Mushroom.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "Mushroom.tres")
         ),
         new SongTemplate(
-            new SongData
-            {
-                Bpm = 170,
-                SongLength = -1,
-                NumLoops = 9,
-            },
             "Keythulu",
-            "Audio/KeythuluSong.ogg",
-            "Audio/songMaps/KeythuluSong.tres",
-            [P_Keythulu.LoadPath]
+            [P_Keythulu.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "KeythuluSong.tres")
         ),
         new SongTemplate( // 15
-            new SongData
-            {
-                Bpm = 99,
-                SongLength = -1,
-                NumLoops = 5,
-            },
             name: "LWS",
-            audioLocation: "Audio/FrostWaltz.ogg",
-            songMapLocation: "Audio/songMaps/FrostWaltz.tres",
-            enemyScenePath: [P_LWS.LoadPath]
+            enemyScenePath: [P_LWS.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "FrostWaltz.tres")
         ),
     };
 

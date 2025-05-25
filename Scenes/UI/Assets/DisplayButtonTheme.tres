@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=9 format=3 uid="uid://ckecvh3spna35"]
+[gd_resource type="Theme" load_steps=15 format=3 uid="uid://ckecvh3spna35"]
 
 [ext_resource type="Texture2D" uid="uid://cegasble5d7uw" path="res://Scenes/UI/Assets/UI_Selection.png" id="1_2cv7a"]
 [ext_resource type="Texture2D" uid="uid://burj10os057fx" path="res://Scenes/UI/Assets/UI_CrystalFrameInset.png" id="1_cx0nq"]
@@ -49,6 +49,51 @@ texture_margin_right = 6.0
 texture_margin_bottom = 6.0
 modulate_color = Color(2, 2, 2, 0.8)
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_m0rnd"]
+texture = ExtResource("1_cx0nq")
+texture_margin_left = 6.0
+texture_margin_top = 6.0
+texture_margin_right = 6.0
+texture_margin_bottom = 6.0
+modulate_color = Color(1, 1, 1, 0.8)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_juphm"]
+texture = ExtResource("1_2cv7a")
+texture_margin_left = 20.0
+texture_margin_top = 20.0
+texture_margin_right = 20.0
+texture_margin_bottom = 20.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nysmq"]
+texture = ExtResource("1_cx0nq")
+texture_margin_left = 6.0
+texture_margin_top = 6.0
+texture_margin_right = 6.0
+texture_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_p2uoo"]
+texture = ExtResource("1_cx0nq")
+texture_margin_left = 6.0
+texture_margin_top = 6.0
+texture_margin_right = 6.0
+texture_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5a8h5"]
+texture = ExtResource("1_cx0nq")
+texture_margin_left = 6.0
+texture_margin_top = 6.0
+texture_margin_right = 6.0
+texture_margin_bottom = 6.0
+modulate_color = Color(1, 1, 1, 0.8)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bo0wt"]
+texture = ExtResource("1_cx0nq")
+texture_margin_left = 6.0
+texture_margin_top = 6.0
+texture_margin_right = 6.0
+texture_margin_bottom = 6.0
+modulate_color = Color(1, 1, 1, 0.8)
+
 [resource]
 Button/styles/disabled = SubResource("StyleBoxTexture_7041q")
 Button/styles/focus = SubResource("StyleBoxTexture_2t3ig")
@@ -56,3 +101,10 @@ Button/styles/hover = SubResource("StyleBoxTexture_qs7pc")
 Button/styles/hover_pressed = SubResource("StyleBoxTexture_yqny2")
 Button/styles/normal = SubResource("StyleBoxTexture_2cv7a")
 Button/styles/pressed = SubResource("StyleBoxTexture_5plxl")
+nopress/base_type = &"Button"
+nopress/styles/disabled = SubResource("StyleBoxTexture_m0rnd")
+nopress/styles/focus = SubResource("StyleBoxTexture_juphm")
+nopress/styles/hover = SubResource("StyleBoxTexture_nysmq")
+nopress/styles/hover_pressed = SubResource("StyleBoxTexture_p2uoo")
+nopress/styles/normal = SubResource("StyleBoxTexture_5a8h5")
+nopress/styles/pressed = SubResource("StyleBoxTexture_bo0wt")

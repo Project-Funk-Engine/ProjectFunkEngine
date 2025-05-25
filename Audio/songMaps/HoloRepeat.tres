@@ -1,7 +1,7 @@
-[gd_resource type="Resource" load_steps=27 format=3]
+[gd_resource type="Resource" load_steps=27 format=3 uid="uid://dh7fdqbs6mwrq"]
 
-[ext_resource type="Script" path="res://Classes/MidiMaestro/NoteInfo.cs" id="1_y4wy8"]
-[ext_resource type="Script" path="res://Classes/MidiMaestro/NoteChart.cs" id="2_1kkot"]
+[ext_resource type="Script" uid="uid://bhbpcmtr6e6pk" path="res://Classes/MidiMaestro/NoteInfo.cs" id="1_y4wy8"]
+[ext_resource type="Script" uid="uid://bnpnavb5lwobj" path="res://Classes/MidiMaestro/NoteChart.cs" id="2_1kkot"]
 
 [sub_resource type="Resource" id="Resource_wxfu7"]
 script = ExtResource("1_y4wy8")
@@ -125,6 +125,10 @@ Length = 0.0
 
 [resource]
 script = ExtResource("2_1kkot")
+Bpm = 130
+NumLoops = 1
+SongSpeed = -1.0
+SongMapLocation = "Holo_ThereItIs.ogg"
 UpLaneData = [SubResource("Resource_rclq0"), SubResource("Resource_d15sy"), SubResource("Resource_xylpo"), SubResource("Resource_c4e5y"), SubResource("Resource_7lbis"), SubResource("Resource_8usgo")]
 DownLaneData = [SubResource("Resource_wxfu7"), SubResource("Resource_cjafy"), SubResource("Resource_jdotv"), SubResource("Resource_per1x"), SubResource("Resource_lw4uc"), SubResource("Resource_nxcmx")]
 LeftLaneData = [SubResource("Resource_x0uap"), SubResource("Resource_1m0i6"), SubResource("Resource_1mpgo"), SubResource("Resource_iuho0"), SubResource("Resource_uj1b6"), SubResource("Resource_fi760")]

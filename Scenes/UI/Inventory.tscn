@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://be6fb2sr5i515"]
+[gd_scene load_steps=7 format=3 uid="uid://be6fb2sr5i515"]
 
 [ext_resource type="Script" uid="uid://kqa0ovjph1hd" path="res://Scenes/UI/Scripts/Inventory.cs" id="1_8rcwd"]
 [ext_resource type="Texture2D" uid="uid://ck16vyh1q68ri" path="res://Scenes/UI/Assets/UI_ForestBackground.png" id="2_s6pj7"]
+[ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="3_e51wb"]
 [ext_resource type="Texture2D" uid="uid://8u3xvcma81d" path="res://Scenes/UI/Assets/UI_CrystalFrame.png" id="3_s6pj7"]
 [ext_resource type="Texture2D" uid="uid://burj10os057fx" path="res://Scenes/UI/Assets/UI_CrystalFrameInset.png" id="4_b6trj"]
 [ext_resource type="Texture2D" uid="uid://dyt1cvag13aik" path="res://SharedAssets/Money.png" id="5_si1x5"]
@@ -53,6 +54,7 @@ layout_mode = 2
 [node name="Tabs" type="TabContainer" parent="MarginContainer/InvenVBox"]
 layout_mode = 2
 size_flags_vertical = 3
+theme = ExtResource("3_e51wb")
 current_tab = 0
 clip_tabs = false
 

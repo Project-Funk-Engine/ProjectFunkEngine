@@ -106,6 +106,7 @@ horizontal_alignment = 1
 [node name="Volume" type="HSlider" parent="Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/Container"]
 layout_mode = 2
 tooltip_text = "OPTIONS_VOLUME_LABEL"
+theme = ExtResource("4_r616m")
 max_value = 1.0
 step = 0.01
 value = 1.0

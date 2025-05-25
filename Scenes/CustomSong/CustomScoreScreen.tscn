@@ -1,0 +1,201 @@
+[gd_scene load_steps=6 format=3 uid="uid://de8eb06i6ftr"]
+
+[ext_resource type="Script" uid="uid://d2wb4jlf3iphf" path="res://Scenes/CustomSong/CustomScore.cs" id="1_qqyeb"]
+[ext_resource type="Texture2D" uid="uid://ck16vyh1q68ri" path="res://Scenes/UI/Assets/UI_ForestBackground.png" id="2_f5eg8"]
+[ext_resource type="Texture2D" uid="uid://8u3xvcma81d" path="res://Scenes/UI/Assets/UI_CrystalFrame.png" id="3_5fo4y"]
+[ext_resource type="Texture2D" uid="uid://burj10os057fx" path="res://Scenes/UI/Assets/UI_CrystalFrameInset.png" id="4_pghd5"]
+[ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="6_ql2an"]
+
+[node name="ScoreScreen" type="CanvasLayer" node_paths=PackedStringArray("_amtLabels", "_acceptButton")]
+process_mode = 3
+script = ExtResource("1_qqyeb")
+_amtLabels = [NodePath("Bg/WindowMargin/VBoxContainer/MarginContainer/HBoxContainer/LabelMargin/LabelVbox/HBoxContainer/PlayerHPPercent"), NodePath("Bg/WindowMargin/VBoxContainer/MarginContainer/HBoxContainer/LabelMargin/LabelVbox/HBoxContainer2/EnemyHPPercent"), NodePath("Bg/WindowMargin/VBoxContainer/MarginContainer/HBoxContainer/LabelMargin/LabelVbox/HBoxContainer3/NotesPlacedAmt"), NodePath("Bg/WindowMargin/VBoxContainer/MarginContainer/HBoxContainer/LabelMargin/LabelVbox/HBoxContainer4/PerfectAmt"), NodePath("Bg/WindowMargin/VBoxContainer/MarginContainer/HBoxContainer/LabelMargin/LabelVbox/HBoxContainer5/MissedAmt"), NodePath("Bg/WindowMargin/VBoxContainer/MarginContainer/HBoxContainer/LabelMargin/LabelVbox/HBoxContainer6/LoopsAmt")]
+_acceptButton = NodePath("Bg/WindowMargin/VBoxContainer/ButtonMargin/AcceptButton")
+
+[node name="Bg" type="NinePatchRect" parent="."]
+self_modulate = Color(1, 1, 1, 0.75)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_f5eg8")
+patch_margin_left = 100
+patch_margin_top = 100
+patch_margin_right = 102
+patch_margin_bottom = 100
+
+[node name="WindowMargin" type="MarginContainer" parent="Bg"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 175
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 175
+theme_override_constants/margin_bottom = 50
+
+[node name="PanelBg" type="NinePatchRect" parent="Bg/WindowMargin"]
+self_modulate = Color(1, 1, 1, 0.75)
+layout_mode = 2
+texture = ExtResource("3_5fo4y")
+patch_margin_left = 30
+patch_margin_top = 10
+patch_margin_right = 20
+patch_margin_bottom = 27
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Bg/WindowMargin"]
+layout_mode = 2
+
+[node name="TitleContainer" type="MarginContainer" parent="Bg/WindowMargin/VBoxContainer"]
+layout_mode = 2
+
+[node name="TopPanelBg" type="NinePatchRect" parent="Bg/WindowMargin/VBoxContainer/TitleContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.25
+texture = ExtResource("3_5fo4y")
+patch_margin_left = 30
+patch_margin_top = 10
+patch_margin_right = 20
+patch_margin_bottom = 27
+
+[node name="Title" type="CenterContainer" parent="Bg/WindowMargin/VBoxContainer/TitleContainer"]
+layout_mode = 2
+
+[node name="TitleText" type="RichTextLabel" parent="Bg/WindowMargin/VBoxContainer/TitleContainer/Title"]
+custom_minimum_size = Vector2(400, 47)
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "CUSTOM_RESULTS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Bg/WindowMargin/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 4
+
+[node name="BottomPanelBg" type="NinePatchRect" parent="Bg/WindowMargin/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("4_pghd5")
+patch_margin_left = 30
+patch_margin_top = 10
+patch_margin_right = 20
+patch_margin_bottom = 27
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Bg/WindowMargin/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LabelMargin" type="MarginContainer" parent="Bg/WindowMargin/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="LabelVbox" type="VBoxContainer" parent="Bg/WindowMargin/VBoxContainer/MarginContainer/HBoxContainer/LabelMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 11
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Bg/WindowMargin/VBoxContainer/MarginContainer/HBoxContainer/LabelMargin/LabelVbox"]
+layout_mode = 2
+
+[node name="PlayerHP" type="Label" parent="Bg/WindowMargin/VBoxContainer/MarginContainer/HBoxContainer/LabelMargin/LabelVbox/HBoxContainer"]
+layout_mode = 2
+text = "CUSTOM_PLAYER_HP"
+
+[node name="PlayerHPPercent" type="Label" parent="Bg/WindowMargin/VBoxContainer/MarginContainer/HBoxContainer/LabelMargin/LabelVbox/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "999"
+horizontal_alignment = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Bg/WindowMargin/VBoxContainer/MarginContainer/HBoxContainer/LabelMargin/LabelVbox"]
+layout_mode = 2
+
+[node name="EnemyHP" type="Label" parent="Bg/WindowMargin/VBoxContainer/MarginContainer/HBoxContainer/LabelMargin/LabelVbox/HBoxContainer2"]
+layout_mode = 2
+text = "CUSTOM_ENEMY_HP"
+
+[node name="EnemyHPPercent" type="Label" parent="Bg/WindowMargin/VBoxContainer/MarginContainer/HBoxContainer/LabelMargin/LabelVbox/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "999"
+horizontal_alignment = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Bg/WindowMargin/VBoxContainer/MarginContainer/HBoxContainer/LabelMargin/LabelVbox"]
+layout_mode = 2
+
+[node name="NotesPlaced" type="Label" parent="Bg/WindowMargin/VBoxContainer/MarginContainer/HBoxContainer/LabelMargin/LabelVbox/HBoxContainer3"]
+layout_mode = 2
+text = "CUSTOM_NOTES_PLACED"
+
+[node name="NotesPlacedAmt" type="Label" parent="Bg/WindowMargin/VBoxContainer/MarginContainer/HBoxContainer/LabelMargin/LabelVbox/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "999"
+horizontal_alignment = 2
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="Bg/WindowMargin/VBoxContainer/MarginContainer/HBoxContainer/LabelMargin/LabelVbox"]
+layout_mode = 2
+
+[node name="Perfects" type="Label" parent="Bg/WindowMargin/VBoxContainer/MarginContainer/HBoxContainer/LabelMargin/LabelVbox/HBoxContainer4"]
+layout_mode = 2
+text = "CUSTOM_PERFECTS"
+
+[node name="PerfectAmt" type="Label" parent="Bg/WindowMargin/VBoxContainer/MarginContainer/HBoxContainer/LabelMargin/LabelVbox/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "999"
+horizontal_alignment = 2
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="Bg/WindowMargin/VBoxContainer/MarginContainer/HBoxContainer/LabelMargin/LabelVbox"]
+layout_mode = 2
+
+[node name="Misses" type="Label" parent="Bg/WindowMargin/VBoxContainer/MarginContainer/HBoxContainer/LabelMargin/LabelVbox/HBoxContainer5"]
+layout_mode = 2
+text = "CUSTOM_MISSES"
+
+[node name="MissedAmt" type="Label" parent="Bg/WindowMargin/VBoxContainer/MarginContainer/HBoxContainer/LabelMargin/LabelVbox/HBoxContainer5"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "999"
+horizontal_alignment = 2
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="Bg/WindowMargin/VBoxContainer/MarginContainer/HBoxContainer/LabelMargin/LabelVbox"]
+layout_mode = 2
+
+[node name="LoopsTake" type="Label" parent="Bg/WindowMargin/VBoxContainer/MarginContainer/HBoxContainer/LabelMargin/LabelVbox/HBoxContainer6"]
+layout_mode = 2
+text = "CUSTOM_LOOPS_TAKEN"
+
+[node name="LoopsAmt" type="Label" parent="Bg/WindowMargin/VBoxContainer/MarginContainer/HBoxContainer/LabelMargin/LabelVbox/HBoxContainer6"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "999"
+horizontal_alignment = 2
+
+[node name="ButtonMargin" type="MarginContainer" parent="Bg/WindowMargin/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = -3
+theme_override_constants/margin_bottom = 9
+
+[node name="AcceptButton" type="Button" parent="Bg/WindowMargin/VBoxContainer/ButtonMargin"]
+layout_mode = 2
+size_flags_horizontal = 6
+theme = ExtResource("6_ql2an")
+text = "ESCAPE_MENU_TITLE"

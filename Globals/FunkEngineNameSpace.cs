@@ -7,15 +7,6 @@ using Godot;
 namespace FunkEngine;
 
 #region Structs
-/**
- * <summary>SongData: Basic information defining the statistics of an in-battle song.</summary>
- */
-public struct SongData
-{
-    public int Bpm;
-    public double SongLength;
-    public int NumLoops;
-}
 
 /**
  * <summary>ArrowData: Data representing the necessary information for each arrow checker.</summary>
@@ -268,6 +259,7 @@ public enum Stages
     Load,
     Continue,
     Title,
+    Custom,
 }
 
 public enum Rarity

@@ -4,9 +4,8 @@ using Godot;
  */
 public static class NoteQueueParticlesFactory
 {
-    private static readonly PackedScene ParticlesScene = GD.Load<PackedScene>(
-        "res://Scenes/BattleDirector/NotePoofParticles.tscn"
-    );
+    public const string LoadPath = "res://Scenes/BattleDirector/NotePoofParticles.tscn";
+    private static readonly PackedScene ParticlesScene = GD.Load<PackedScene>(LoadPath);
 
     public static GpuParticles2D NoteParticles(
         Node parent,
