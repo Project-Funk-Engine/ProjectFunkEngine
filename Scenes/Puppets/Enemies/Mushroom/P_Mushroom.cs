@@ -9,7 +9,7 @@ public partial class P_Mushroom : EnemyPuppet
 
     public override void _Ready()
     {
-        MaxHealth = 200;
+        MaxHealth = 150;
         CurrentHealth = MaxHealth;
         BaseMoney = 20;
         InitialNote = (17, 1);

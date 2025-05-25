@@ -8,7 +8,7 @@ public partial class P_Turtle : EnemyPuppet
 
     public override void _Ready()
     {
-        MaxHealth = 150;
+        MaxHealth = 225;
         CurrentHealth = MaxHealth;
         BaseMoney = 40;
         base._Ready();

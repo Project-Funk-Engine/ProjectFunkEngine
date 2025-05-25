@@ -8,7 +8,7 @@ public partial class P_BossBlood : EnemyPuppet
 
     public override void _Ready()
     {
-        MaxHealth = 225;
+        MaxHealth = 250;
         CurrentHealth = MaxHealth;
         BaseMoney = 50;
         InitialNote = (14, 3);
@@ -26,7 +26,7 @@ public partial class P_BossBlood : EnemyPuppet
             new EnemyEffect(
                 this,
                 BattleEffectTrigger.OnLoop,
-                20,
+                30,
                 (e, eff, val) =>
                 {
                     eff.Owner.Heal(val);

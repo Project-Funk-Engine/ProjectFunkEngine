@@ -32,7 +32,7 @@ public partial class P_Keythulu : EnemyPuppet
             new EnemyEffect(
                 this,
                 BattleEffectTrigger.OnBattleStart,
-                7,
+                6,
                 (e, eff, val) =>
                 {
                     e.BD.AddStatus(Targetting.Player, StatusEffect.MindCrush, val);
