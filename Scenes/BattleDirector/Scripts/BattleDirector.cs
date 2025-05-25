@@ -57,7 +57,7 @@ public partial class BattleDirector : Node2D
         _countdownTween.Finished += SyncStartWithMix;
 
         _countdown = 4;
-        _countdownTween.TweenProperty(this, nameof(_countdown), 0, 5);
+        _countdownTween.TweenProperty(this, nameof(_countdown), 0, 5 / (TimeKeeper.Bpm / 60));
         _countdownLabel.Visible = true;
         _countdownTween.Play();
     }
