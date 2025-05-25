@@ -184,6 +184,8 @@ public partial class BattleDirector : Node2D
             FocusedButton.GrabFocus();
         if (_countdownTween != null)
             _countdownLabel.Text = (_countdown + 1).ToString();
+        if (IsBattleWon() || Player.GetCurrentHealth() <= 0)
+            return;
         TimeKeeper.CurrentTime = Audio.GetPlaybackPosition();
         Beat realBeat = TimeKeeper.GetBeatFromTime(Audio.GetPlaybackPosition());
         UpdateBeat(realBeat);
@@ -408,15 +410,6 @@ public partial class BattleDirector : Node2D
             target.TakeDamage(new DamageInstance(damage, source, target));
         }
     }
-
-    /*public void ReduceMeter(Note note, int amountLost, PuppetTemplate source)
-    {
-        PuppetTemplate[] targets = GetTargets(note.TargetType);
-        foreach (PuppetTemplate target in targets)
-        {
-            target.
-        }
-    }*/
 
     public void AddStatus(Targetting targetting, StatusEffect status, int amount = 1)
     {
