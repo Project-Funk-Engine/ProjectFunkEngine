@@ -103,6 +103,14 @@ public partial class ShopScene : Control
                 GetViewport().SetInputAsHandled();
             }
         }
+        if (@event is InputEventKey eventKey && eventKey.Pressed && !eventKey.Echo)
+        {
+            if (eventKey.Keycode == Key.Key0)
+            {
+                StageProducer.PlayerStats.Money += 999;
+                UpdateMoneyLabel();
+            }
+        }
     }
 
     private void UpdateMoneyLabel()
@@ -168,7 +176,8 @@ public partial class ShopScene : Control
 
     private int GetPrice(int basePrice)
     {
-        return Math.Max(basePrice * (1 - StageProducer.PlayerStats.DiscountPercent / 100), 0); //Price can't go negative
+        return (int)
+            Math.Max(basePrice * (1 - (float)StageProducer.PlayerStats.DiscountPercent / 100), 0); //Price can't go negative
     }
 
     private IDisplayable _currentItem;
