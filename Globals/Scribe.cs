@@ -580,6 +580,23 @@ public partial class Scribe : Node
                 ),
             }
         ),
+        new RelicTemplate(
+            18,
+            "War Horn",
+            Rarity.Epic,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_WarHorn.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnPickup,
+                    1,
+                    (e, self, val) =>
+                    {
+                        MapGrid.ForceEliteBattles = true;
+                    }
+                ),
+            }
+        ),
     };
 
     private static string DefaultNoteChartPath = "Audio/songMaps/";
