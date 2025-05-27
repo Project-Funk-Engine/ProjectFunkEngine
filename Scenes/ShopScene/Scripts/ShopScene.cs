@@ -58,8 +58,8 @@ public partial class ShopScene : Control
 
     private ButtonGroup _bGroup;
 
-    private readonly int[] _priceByRarity = [100, 90, 80, 70, 60, 50, 9];
-    const int NoteCost = 45;
+    private readonly int[] _priceByRarity = [200, 180, 160, 140, 120, 100, 18];
+    const int NoteCost = 90;
 
     private List<ShopItem> _shopItems = new List<ShopItem>();
 
@@ -260,7 +260,7 @@ public partial class ShopScene : Control
         _descriptionLabel.Text = Tr(type + name + "_NAME") + ": " + Tr(type + name + "_TOOLTIP");
     }
 
-    private const int RemovalCost = 50;
+    private const int RemovalCost = 75;
     private bool _hasRemoved;
 
     private void OpenRemovalPane()
@@ -340,7 +340,7 @@ public partial class ShopScene : Control
     }
 
     private bool _hasHealed;
-    private const int HealCost = 30;
+    private const int HealCost = 50;
     private int _healAmount = (StageProducer.PlayerStats.MaxHealth / 4);
 
     private void UpdateHealButton()

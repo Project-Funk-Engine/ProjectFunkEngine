@@ -8,9 +8,9 @@ public partial class P_Turtle : EnemyPuppet
 
     public override void _Ready()
     {
-        MaxHealth = 150;
+        MaxHealth = 225;
         CurrentHealth = MaxHealth;
-        BaseMoney = 10;
+        BaseMoney = 40;
         base._Ready();
         var enemTween = CreateTween();
         enemTween.TweenProperty(Sprite, "position", Vector2.Right * 10, 3f).AsRelative();

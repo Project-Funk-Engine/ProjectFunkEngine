@@ -14,7 +14,7 @@ public partial class P_Keythulu : EnemyPuppet
     {
         MaxHealth = 500;
         CurrentHealth = MaxHealth;
-        BaseMoney = 50;
+        BaseMoney = 80;
         base._Ready();
 
         _effectSprite.Visible = false;
@@ -32,7 +32,7 @@ public partial class P_Keythulu : EnemyPuppet
             new EnemyEffect(
                 this,
                 BattleEffectTrigger.OnBattleStart,
-                7,
+                6,
                 (e, eff, val) =>
                 {
                     e.BD.AddStatus(Targetting.Player, StatusEffect.MindCrush, val);

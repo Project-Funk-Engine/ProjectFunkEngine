@@ -10,7 +10,7 @@ public partial class P_Effigy : EnemyPuppet
     public override void _Ready()
     {
         MaxHealth = 124;
-        BaseMoney = 99;
+        BaseMoney = 80;
         CurrentHealth = MaxHealth;
         base._Ready();
 

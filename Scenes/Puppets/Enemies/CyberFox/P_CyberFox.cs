@@ -14,7 +14,7 @@ public partial class P_CyberFox : EnemyPuppet
     {
         MaxHealth = 130;
         CurrentHealth = MaxHealth;
-        BaseMoney = 5;
+        BaseMoney = 20;
         base._Ready();
         var enemTween = CreateTween();
         enemTween.TweenProperty(Sprite, "position", Vector2.Right * 10, 0.5f).AsRelative();

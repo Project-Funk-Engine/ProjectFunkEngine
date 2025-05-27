@@ -124,7 +124,7 @@ public partial class ScoringScreen : CanvasLayer
         _perfectMulti = 1 + (float)info.TotalPerfects / (info.TotalHits - info.TotalPlaced);
         if (float.IsNaN(_perfectMulti))
             _perfectMulti = 1;
-        _placedMulti = Math.Max(2 - (float)Math.Abs(info.TotalPlaced - info.BaseMoney) / 10, 1);
+        _placedMulti = Math.Min(1 + (float)info.TotalPlaced / 20, 2);
         _relicBonus = info.RelicBonus;
         DrawScoreLabels();
     }

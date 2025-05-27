@@ -11,7 +11,7 @@ public partial class P_Gobbler : EnemyPuppet
     {
         MaxHealth = 150;
         CurrentHealth = MaxHealth;
-        BaseMoney = 10;
+        BaseMoney = 20;
         base._Ready();
         var enemTween = CreateTween();
         enemTween.TweenProperty(Sprite, "position", Vector2.Right * 10, 3f).AsRelative();
