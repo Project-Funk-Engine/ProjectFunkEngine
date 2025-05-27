@@ -113,6 +113,8 @@ RELIC_COUPON_NAME,Coupon,优惠券
 RELIC_COUPON_TOOLTIP,Get a 10% discount on notes and relics in the shop.,在商店购买音符和遗物时可享受9折优惠。
 RELIC_WARHORN_NAME,War Horn,(translation needed)
 RELIC_WARHORN_TOOLTIP,All normal battles are now elite battles.,(translation needed)
+RELIC_LOOTER'SLENS_NAME,Looter's Lens,(translation needed)
+RELIC_LOOTER'SLENS_TOOLTIP,Can see one more item in reward selection screens.,(translation needed)
 INVENTORY_TAB_NOTES,Notes,乐谱
 INVENTORY_TAB_RELICS,Relics,遗物
 OPTIONS_VOLUME_LABEL,Master Volume,最终音量设置

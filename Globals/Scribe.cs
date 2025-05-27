@@ -597,6 +597,23 @@ public partial class Scribe : Node
                 ),
             }
         ),
+        new RelicTemplate(
+            19,
+            "Looter's Lens",
+            Rarity.Uncommon,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_LootersLens.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnPickup,
+                    1,
+                    (e, self, val) =>
+                    {
+                        StageProducer.PlayerStats.RewardAmountModifier += val;
+                    }
+                ),
+            }
+        ),
     };
 
     private static string DefaultNoteChartPath = "Audio/songMaps/";
