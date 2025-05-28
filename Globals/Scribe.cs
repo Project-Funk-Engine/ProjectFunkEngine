@@ -638,6 +638,24 @@ public partial class Scribe : Node
                 ),
             }
         ),
+        new RelicTemplate(
+            21,
+            "Soloist's Triangle",
+            Rarity.Epic,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Soloist'sTriangle.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnPickup,
+                    1,
+                    (e, self, val) =>
+                    {
+                        StageProducer.PlayerStats.ChartSpeedMultiplier += val;
+                        StageProducer.PlayerStats.RewardAmountModifier += 3;
+                    }
+                ),
+            }
+        ),
     };
 
     private static string DefaultNoteChartPath = "Audio/songMaps/";
