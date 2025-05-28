@@ -27,7 +27,11 @@ public class EventDatabase
                     string name = note.Name.ToUpper().Replace(" ", "");
                     string localizedName = TranslationServer.Translate("NOTE_" + name + "_NAME");
                     StageProducer.PlayerStats.RemoveNote(randIndex);
-                    node.TempData = localizedName;
+
+                    self.OutcomeDescriptions[0] = string.Format(
+                        TranslationServer.Translate("EVENT_EVENT1_OUTCOME1"),
+                        localizedName
+                    );
                 },
                 (self, node) =>
                 {
@@ -40,14 +44,20 @@ public class EventDatabase
                     string localizedName = TranslationServer.Translate("RELIC_" + name + "_NAME");
                     StageProducer.PlayerStats.RemoveRelic(randIndex);
 
-                    node.TempData = localizedName;
+                    self.OutcomeDescriptions[1] = string.Format(
+                        TranslationServer.Translate("EVENT_EVENT1_OUTCOME2"),
+                        localizedName
+                    );
                 },
                 (self, node) =>
                 {
                     string stolenMoney = (StageProducer.PlayerStats.Money / 2).ToString();
                     StageProducer.PlayerStats.Money /= 2;
 
-                    node.TempData = stolenMoney;
+                    self.OutcomeDescriptions[2] = self.OutcomeDescriptions[0] = string.Format(
+                        TranslationServer.Translate("EVENT_EVENT1_OUTCOME3"),
+                        stolenMoney
+                    );
                 },
             ],
             GD.Load<Texture2D>("res://Classes/Events/Assets/Bandit_Event.png"),
@@ -55,34 +65,7 @@ public class EventDatabase
                 () => StageProducer.PlayerStats.CurNotes.Length > 0,
                 () => StageProducer.PlayerStats.CurRelics.Length > 0,
                 () => StageProducer.PlayerStats.Money > 0,
-            ],
-            outcomeResolvers: new Func<EventTemplate, EventScene, string>[]
-            {
-                (self, node) =>
-                {
-                    string itemName = node.TempData?.ToString() ?? "an item";
-                    return string.Format(
-                        TranslationServer.Translate("EVENT_EVENT1_OUTCOME1"),
-                        itemName
-                    );
-                },
-                (self, node) =>
-                {
-                    string relicName = node.TempData?.ToString() ?? "a relic";
-                    return string.Format(
-                        TranslationServer.Translate("EVENT_EVENT1_OUTCOME2"),
-                        relicName
-                    );
-                },
-                (self, node) =>
-                {
-                    string money = node.TempData?.ToString() ?? "some gold";
-                    return string.Format(
-                        TranslationServer.Translate("EVENT_EVENT1_OUTCOME3"),
-                        money
-                    );
-                },
-            }
+            ]
         ),
         new EventTemplate(
             1,
