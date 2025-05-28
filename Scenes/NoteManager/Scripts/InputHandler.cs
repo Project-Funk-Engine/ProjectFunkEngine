@@ -99,7 +99,7 @@ public partial class InputHandler : Node2D
         switch (timed)
         {
             case Timing.Perfect:
-                particleAmount = 10;
+                particleAmount = 30;
                 break;
             case Timing.Good:
                 particleAmount = 7;

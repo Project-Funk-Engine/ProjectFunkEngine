@@ -1,11 +1,15 @@
-[gd_scene load_steps=19 format=3 uid="uid://bew23sumjs0fg"]
+[gd_scene load_steps=23 format=3 uid="uid://bew23sumjs0fg"]
 
 [ext_resource type="Script" uid="uid://lnlfcp1n0mad" path="res://Scenes/UI/Remapping/ControlSettings.cs" id="1_ir12b"]
 [ext_resource type="Texture2D" uid="uid://ck16vyh1q68ri" path="res://Scenes/UI/Assets/UI_ForestBackground.png" id="2_tqdi0"]
 [ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="3_wr01w"]
+[ext_resource type="Texture2D" uid="uid://br6xfjuq6c2nk" path="res://Scenes/NoteManager/Assets/TopNoteOutline.png" id="4_4nu1q"]
 [ext_resource type="Texture2D" uid="uid://8u3xvcma81d" path="res://Scenes/UI/Assets/UI_CrystalFrame.png" id="4_8jqfi"]
 [ext_resource type="Texture2D" uid="uid://xtygvpk7s8e4" path="res://SharedAssets/NoteArrow_Black_Outline.png" id="4_se2m3"]
+[ext_resource type="Texture2D" uid="uid://bh68528ekvjbk" path="res://Scenes/NoteManager/Assets/BottomNoteOutline.png" id="5_s0mtp"]
 [ext_resource type="Texture2D" uid="uid://ucxkeg8mkugt" path="res://Scenes/UI/Remapping/Assets/A.png" id="6_rrvpi"]
+[ext_resource type="Texture2D" uid="uid://s84c7d50wjvn" path="res://Scenes/NoteManager/Assets/LeftNoteOutline.png" id="6_sl0ys"]
+[ext_resource type="Texture2D" uid="uid://dslb58tkhgroj" path="res://Scenes/NoteManager/Assets/RightNoteOutline.png" id="7_3xifn"]
 [ext_resource type="Texture2D" uid="uid://e4dr0lk7ll0e" path="res://Scenes/UI/Remapping/Assets/W.png" id="7_kgn1x"]
 [ext_resource type="Texture2D" uid="uid://bhjl3xnuwauu0" path="res://Scenes/UI/Remapping/Assets/S.png" id="8_40ke1"]
 [ext_resource type="Texture2D" uid="uid://bpic7oh05r5fp" path="res://Scenes/UI/Remapping/Assets/D.png" id="9_qhhwk"]
@@ -152,25 +156,22 @@ theme = ExtResource("3_wr01w")
 [node name="Left" type="Sprite2D" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
 z_index = 1
 position = Vector2(81, 39)
-rotation = -3.14159
-texture = ExtResource("4_se2m3")
+texture = ExtResource("4_4nu1q")
 
 [node name="Right" type="Sprite2D" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
 z_index = 1
 position = Vector2(279, 39)
-texture = ExtResource("4_se2m3")
+texture = ExtResource("5_s0mtp")
 
 [node name="Up" type="Sprite2D" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
 z_index = 1
 position = Vector2(82, 115)
-rotation = -1.5708
-texture = ExtResource("4_se2m3")
+texture = ExtResource("6_sl0ys")
 
 [node name="Down" type="Sprite2D" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
 z_index = 1
 position = Vector2(280, 114)
-rotation = 1.5708
-texture = ExtResource("4_se2m3")
+texture = ExtResource("7_3xifn")
 
 [node name="TEMPSecondaryButtonText" type="Label" parent="Panel/TabContainer/CONTROLS_KEYBOARD"]
 z_index = 1
