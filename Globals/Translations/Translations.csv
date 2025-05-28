@@ -119,6 +119,8 @@ RELIC_QUITO_NAME,Quito,(Translation needed)
 RELIC_QUITO_TOOLTIP,"Quito mimics the player, duplicating all of their notes with bad timing.",(translation needed)
 RELIC_SOLOIST'STRIANGLE_NAME,Soloist's Triangle,(translation needed)
 RELIC_SOLOIST'STRIANGLE_TOOLTIP,"Charts move at double speed, reward selections have 3 additional options to choose from.",(translation needed)
+RELIC_TINSEL_NAME,Tinsel,(translation needed)
+RELIC_TINSEL_TOOLTIP,"Become an aspect of the turtle. Charts move at half speed and take 1 less damage from all sources (damage cannot be reduced below 1).",(translation needed)
 INVENTORY_TAB_NOTES,Notes,乐谱
 INVENTORY_TAB_RELICS,Relics,遗物
 OPTIONS_VOLUME_LABEL,Master Volume,最终音量设置

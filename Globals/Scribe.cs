@@ -647,11 +647,43 @@ public partial class Scribe : Node
             {
                 new RelicEffect(
                     BattleEffectTrigger.OnPickup,
+                    2,
+                    (e, self, val) =>
+                    {
+                        StageProducer.PlayerStats.ChartSpeedMultiplier *= val;
+                        StageProducer.PlayerStats.RewardAmountModifier += 3;
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            22,
+            "Tinsel",
+            Rarity.Legendary,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Tinsel.png"),
+            new RelicEffect[] // all this combined might be OP, but just slowing down the speed felt boring for a legendary
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnPickup,
+                    2,
+                    (e, self, val) =>
+                    {
+                        StageProducer.PlayerStats.ChartSpeedMultiplier /= val;
+                    }
+                ),
+                new RelicEffect(
+                    BattleEffectTrigger.OnDamageInstance,
                     1,
                     (e, self, val) =>
                     {
-                        StageProducer.PlayerStats.ChartSpeedMultiplier += val;
-                        StageProducer.PlayerStats.RewardAmountModifier += 3;
+                        if (
+                            e is BattleDirector.Harbinger.OnDamageInstanceArgs dmgArgs
+                            && dmgArgs.Dmg.Target == e.BD.Player
+                            && dmgArgs.Dmg.Damage > 1
+                        )
+                        {
+                            dmgArgs.Dmg.ModifyDamage(-val);
+                        }
                     }
                 ),
             }
