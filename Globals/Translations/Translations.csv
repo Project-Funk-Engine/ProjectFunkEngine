@@ -115,6 +115,8 @@ RELIC_WARHORN_NAME,War Horn,(translation needed)
 RELIC_WARHORN_TOOLTIP,All normal battles are now elite battles.,(translation needed)
 RELIC_LOOTER'SLENS_NAME,Looter's Lens,(translation needed)
 RELIC_LOOTER'SLENS_TOOLTIP,Can see one more item in reward selection screens.,(translation needed)
+RELIC_QUITO_NAME,Quito,(Translation needed)
+RELIC_QUITO_TOOLTIP,Quito mimics the player, duplicating all of their notes with bad timing.,(translation needed)
 INVENTORY_TAB_NOTES,Notes,乐谱
 INVENTORY_TAB_RELICS,Relics,遗物
 OPTIONS_VOLUME_LABEL,Master Volume,最终音量设置

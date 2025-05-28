@@ -614,6 +614,30 @@ public partial class Scribe : Node
                 ),
             }
         ),
+        new RelicTemplate(
+            20,
+            "Quito",
+            Rarity.Legendary,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Quito.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.NoteHit,
+                    1,
+                    (e, self, val) =>
+                    {
+                        if (
+                            e is BattleDirector.Harbinger.NoteHitArgs noteArgs
+                            && noteArgs.Note.Owner == e.BD.Player
+                            && noteArgs.Timing != Timing.Miss
+                        )
+                        {
+                            noteArgs.Note.OnHit(e.BD, Timing.Bad);
+                        }
+                    }
+                ),
+            }
+        ),
     };
 
     private static string DefaultNoteChartPath = "Audio/songMaps/";
