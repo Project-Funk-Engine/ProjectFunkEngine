@@ -111,14 +111,14 @@ RELIC_BLOODMONEY_NAME,Blood Money,血腥钱袋
 RELIC_BLOODMONEY_TOOLTIP,Gain money when taking damage below half health.,在生命值低于一半时受到伤害可获得金钱。
 RELIC_COUPON_NAME,Coupon,优惠券
 RELIC_COUPON_TOOLTIP,Get a 10% discount on notes and relics in the shop.,在商店购买音符和遗物时可享受9折优惠。
-RELIC_WARHORN_NAME,War Horn,(translation needed)
-RELIC_WARHORN_TOOLTIP,All normal battles are now elite battles.,(translation needed)
-RELIC_LOOTER'SLENS_NAME,Looter's Lens,(translation needed)
-RELIC_LOOTER'SLENS_TOOLTIP,Can see one more item in reward selection screens.,(translation needed)
+RELIC_WARHORN_NAME,War Horn,战号
+RELIC_WARHORN_TOOLTIP,All normal battles are now elite battles.,所有普通战斗现在都会变为精英战斗。
+RELIC_LOOTER'SLENS_NAME,Looter's Lens,盗贼之镜片
+RELIC_LOOTER'SLENS_TOOLTIP,Can see one more item in reward selection screens.,在奖励选择界面上可以多看到一个物品。
 RELIC_QUITO_NAME,Quito,(Translation needed)
 RELIC_QUITO_TOOLTIP,"Quito mimics the player, duplicating all of their notes with bad timing.",(translation needed)
-RELIC_SOLOIST'STRIANGLE_NAME,Soloist's Triangle,(translation needed)
-RELIC_SOLOIST'STRIANGLE_TOOLTIP,"Charts move at double speed, reward selections have 3 additional options to choose from.",(translation needed)
+RELIC_SOLOIST'STRIANGLE_NAME,Soloist's Triangle,独奏者的三角铁
+RELIC_SOLOIST'STRIANGLE_TOOLTIP,"Charts move at double speed, reward selections have 3 additional options to choose from.",谱面移动速度加倍，奖励选择中额外提供3个选项。
 RELIC_TINSEL_NAME,Tinsel,(translation needed)
 RELIC_TINSEL_TOOLTIP,"Become an aspect of the turtle. Charts move at half speed and take 1 less damage from all sources (damage cannot be reduced below 1).",(translation needed)
 INVENTORY_TAB_NOTES,Notes,乐谱
