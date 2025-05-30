@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://hfxynr5jdgsp"
-path="res://.godot/imported/New_Arrow.png-b9cc790fe65b856a0cee80c6a83cb011.ctex"
+uid="uid://s84c7d50wjvn"
+path="res://.godot/imported/LeftNoteOutline.png-3862cf3f2ce1e27b8968108f0bab1d60.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/NoteManager/Assets/New_Arrow.png"
-dest_files=["res://.godot/imported/New_Arrow.png-b9cc790fe65b856a0cee80c6a83cb011.ctex"]
+source_file="res://Scenes/NoteManager/Assets/LeftNoteOutline.png"
+dest_files=["res://.godot/imported/LeftNoteOutline.png-3862cf3f2ce1e27b8968108f0bab1d60.ctex"]
 
 [params]
 
