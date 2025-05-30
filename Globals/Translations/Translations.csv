@@ -151,11 +151,11 @@ EVENT_EVENT2_OPTION1,Spin the wheel,转动转盘
 EVENT_EVENT2_OPTION2,Ignore the cool wheel,忽略这个酷炫的转盘
 EVENT_EVENT2_OUTCOME1,You decided not to spin the wheel.,你决定不转动转盘。
 EVENT_EVENT2_OUTCOME2,You lost half your money. ({0}),你损失了一半的金币。({0})
-EVENT_EVENT2_OUTCOME3,You took some damage. ({0}),你受到了一些伤害。({0})
-EVENT_EVENT2_OUTCOME4,You won a lot of money! ({0}),你赢得了很多金币！({0})
+EVENT_EVENT2_OUTCOME3,You took some damage. (10),你受到了一些伤害。(10)
+EVENT_EVENT2_OUTCOME4,You won a lot of money! (50),你赢得了很多金币！(50)
 EVENT_EVENT2_OUTCOME5,You gained a random note! ({0}),你获得了一个随机音符！({0})
 EVENT_EVENT2_OUTCOME6,You gained a random relic ({0})!,你获得了一件随机遗物！({0})
-EVENT_EVENT2_OUTCOME7,You gained some health! ({0}),你恢复了一些生命值！({0})
+EVENT_EVENT2_OUTCOME7,You gained some health! (20),你恢复了一些生命值！(20)
 EVENT_EVENT3_DESC,There is a field medic on the side of the road.,路边有一名战地医生。
 EVENT_EVENT3_OPTION1,Receive a bit of healing,接受一些治疗
 EVENT_EVENT3_OPTION2,Increase bar charge rate.,提高能量条充能速度

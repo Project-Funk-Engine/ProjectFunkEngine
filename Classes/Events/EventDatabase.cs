@@ -100,43 +100,29 @@ public class EventDatabase
                                 case 0:
                                     eventEffect = (StageProducer.PlayerStats.Money / 2).ToString();
                                     StageProducer.PlayerStats.Money /= 2;
-                                    //self.OutcomeDescriptions[0] = "EVENT_EVENT2_OUTCOME2";
                                     self.OutcomeDescriptions[0] = string.Format(
                                         TranslationServer.Translate("EVENT_EVENT2_OUTCOME2"),
                                         eventEffect
                                     );
                                     break;
                                 case 1:
-                                    eventEffect = 10.ToString();
-                                    //self.OutcomeDescriptions[0] = "EVENT_EVENT2_OUTCOME3";
-                                    self.OutcomeDescriptions[0] = string.Format(
-                                        TranslationServer.Translate("EVENT_EVENT2_OUTCOME3"),
-                                        eventEffect
-                                    );
+                                    self.OutcomeDescriptions[0] = "EVENT_EVENT2_OUTCOME3";
                                     StageProducer.PlayerStats.CurrentHealth = Math.Max(
                                         1,
                                         StageProducer.PlayerStats.CurrentHealth - 10
                                     );
                                     break;
                                 case 2:
-                                    eventEffect = 50.ToString();
-                                    //self.OutcomeDescriptions[0] = "EVENT_EVENT2_OUTCOME4";
-                                    self.OutcomeDescriptions[0] = string.Format(
-                                        TranslationServer.Translate("EVENT_EVENT2_OUTCOME4"),
-                                        eventEffect
-                                    );
+                                    self.OutcomeDescriptions[0] = "EVENT_EVENT2_OUTCOME4";
                                     StageProducer.PlayerStats.Money += 50;
                                     break;
                                 case 3:
-                                    //self.OutcomeDescriptions[0] = "EVENT_EVENT2_OUTCOME5";
                                     StageProducer.PlayerStats.AddNote(
                                         Scribe.GetRandomRewardNotes(1, StageProducer.CurRoom + 10)[
                                             0
                                         ]
                                     );
-                                    var note = StageProducer.PlayerStats.CurNotes[
-                                        StageProducer.PlayerStats.CurNotes.Length - 1
-                                    ];
+                                    var note = StageProducer.PlayerStats.CurNotes[^1];
                                     string name = note.Name.ToUpper().Replace(" ", "");
                                     eventEffect = TranslationServer.Translate(
                                         "NOTE_" + name + "_NAME"
@@ -148,7 +134,6 @@ public class EventDatabase
                                     );
                                     break;
                                 case 4:
-                                    //self.OutcomeDescriptions[0] = "EVENT_EVENT2_OUTCOME6";
                                     StageProducer.PlayerStats.AddRelic(
                                         Scribe.GetRandomRelics(
                                             1,
@@ -157,9 +142,7 @@ public class EventDatabase
                                         )[0]
                                     );
 
-                                    var relic = StageProducer.PlayerStats.CurRelics[
-                                        StageProducer.PlayerStats.CurRelics.Length - 1
-                                    ];
+                                    var relic = StageProducer.PlayerStats.CurRelics[^1];
                                     string name1 = relic.Name.ToUpper().Replace(" ", "");
                                     eventEffect = TranslationServer.Translate(
                                         "NOTE_" + name1 + "_NAME"
@@ -170,11 +153,6 @@ public class EventDatabase
                                     );
                                     break;
                                 case 5:
-                                    eventEffect = Math.Min(
-                                            StageProducer.PlayerStats.CurrentHealth + 20,
-                                            StageProducer.PlayerStats.MaxHealth
-                                        )
-                                        .ToString();
                                     self.OutcomeDescriptions[0] = "EVENT_EVENT2_OUTCOME7";
                                     StageProducer.PlayerStats.CurrentHealth = Math.Min(
                                         StageProducer.PlayerStats.CurrentHealth + 20,
@@ -184,7 +162,6 @@ public class EventDatabase
                             }
                             node.AnyButtonPressed(0);
                             self.OutcomeDescriptions[0] = ""; //Will need to fix later, currently changes the primary reference
-                            //self.OutcomeDescriptions[0] = eventEffect;
                         })
                     );
                 },
