@@ -11,7 +11,7 @@ public partial class P_TheGWS : EnemyPuppet
         MaxHealth = 150;
         CurrentHealth = MaxHealth;
         BaseMoney = 20;
-        InitialNote = (10, 7);
+        InitialNote = (8, 7);
         base._Ready();
         var enemTween = CreateTween();
         enemTween.TweenProperty(Sprite, "position", Vector2.Down * 10, 3f).AsRelative();
@@ -29,27 +29,27 @@ public partial class P_TheGWS : EnemyPuppet
                 1,
                 (e, eff, val) =>
                 {
-                    e.BD.RandApplyNote(eff.Owner, 10, 2);
+                    e.BD.RandApplyNote(eff.Owner, InitialNote.NoteId, 2);
                     if (val == 0)
                         return;
                     e.BD.EnemyAddNote(
                         ArrowType.Down,
                         new Beat(37),
-                        Scribe.NoteDictionary[10].Clone(),
+                        Scribe.NoteDictionary[InitialNote.NoteId].Clone(),
                         0,
                         eff.Owner
                     );
                     e.BD.EnemyAddNote(
                         ArrowType.Left,
                         new Beat(51),
-                        Scribe.NoteDictionary[10].Clone(),
+                        Scribe.NoteDictionary[InitialNote.NoteId].Clone(),
                         0,
                         eff.Owner
                     );
                     e.BD.EnemyAddNote(
                         ArrowType.Right,
                         new Beat(59),
-                        Scribe.NoteDictionary[10].Clone(),
+                        Scribe.NoteDictionary[InitialNote.NoteId].Clone(),
                         0,
                         eff.Owner
                     );

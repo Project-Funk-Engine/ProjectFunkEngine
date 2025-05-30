@@ -12,7 +12,7 @@ public partial class P_Mushroom : EnemyPuppet
         MaxHealth = 150;
         CurrentHealth = MaxHealth;
         BaseMoney = 20;
-        InitialNote = (17, 1);
+        InitialNote = (13, 1);
         base._Ready();
         BattleEvents = new EnemyEffect[]
         {
@@ -22,7 +22,7 @@ public partial class P_Mushroom : EnemyPuppet
                 1,
                 (e, eff, _) =>
                 {
-                    e.BD.RandApplyNote(eff.Owner, 17, 1);
+                    e.BD.RandApplyNote(eff.Owner, InitialNote.NoteId, 1);
                 }
             ),
         };

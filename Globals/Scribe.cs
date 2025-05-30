@@ -90,18 +90,6 @@ public partial class Scribe : Node
         ),
         new Note(
             6,
-            "PlayerBlock",
-            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerBlock.png"),
-            1,
-            (director, note, timing) =>
-            {
-                if (timing == Timing.Miss)
-                    return;
-                director.AddStatus(Targetting.Player, StatusEffect.Block.CreateInstance()); //todo: should scale with timing????
-            }
-        ),
-        new Note(
-            7,
             "PlayerExplosive",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerExplosive.png"),
             4,
@@ -115,20 +103,7 @@ public partial class Scribe : Node
             Targetting.All
         ),
         new Note(
-            8,
-            "PlayerEcho",
-            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerEcho.png"),
-            4,
-            (director, note, timing) =>
-            {
-                if (timing == Timing.Miss)
-                    return;
-                director.DealDamage(note, (int)timing * note.GetBaseVal(), director.Player);
-                note.SetBaseVal(note.GetBaseVal() + 2);
-            }
-        ),
-        new Note(
-            9,
+            7,
             "PlayerPoison",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerPoison.png"),
             1,
@@ -140,7 +115,7 @@ public partial class Scribe : Node
             }
         ),
         new Note(
-            10,
+            8,
             "GWS",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_GWS.png"),
             1,
@@ -153,34 +128,7 @@ public partial class Scribe : Node
             }
         ),
         new Note(
-            11,
-            "PlayerMoney",
-            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerMoney.png"),
-            1,
-            (director, note, timing) =>
-            {
-                if (timing == Timing.Miss)
-                    return;
-                StageProducer.PlayerStats.Money += note.GetBaseVal() * (int)timing;
-            }
-        ),
-        new Note(
-            12,
-            "PlayerCombo",
-            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerCombo.png"),
-            1,
-            (director, note, timing) =>
-            {
-                if (timing == Timing.Miss)
-                    return;
-                director.NPB.HandleTiming(
-                    timing,
-                    (ArrowType)StageProducer.GlobalRng.RandiRange(0, 3)
-                );
-            }
-        ),
-        new Note(
-            13,
+            9,
             "Parasifly",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_Parasifly.png"),
             1,
@@ -191,7 +139,7 @@ public partial class Scribe : Node
             }
         ),
         new Note(
-            14,
+            10,
             "BossBlood",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_BossBlood.png"),
             2,
@@ -206,7 +154,7 @@ public partial class Scribe : Node
             Targetting.Player
         ),
         new Note(
-            15,
+            11,
             "Spider",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_Spider.png"),
             1,
@@ -219,7 +167,7 @@ public partial class Scribe : Node
             }
         ),
         new Note(
-            16,
+            12,
             "LWS",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_LWS.png"),
             1,
@@ -232,7 +180,7 @@ public partial class Scribe : Node
             }
         ),
         new Note(
-            17,
+            13,
             "Mushroom",
             GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_Mushroom.png"),
             2,
@@ -417,23 +365,6 @@ public partial class Scribe : Node
         ),
         new RelicTemplate(
             8,
-            "Medkit",
-            Rarity.Common,
-            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Medkit.png"),
-            new RelicEffect[]
-            {
-                new RelicEffect(
-                    BattleEffectTrigger.OnLoop,
-                    5,
-                    (e, self, val) =>
-                    {
-                        e.BD.Player.Heal(val);
-                    }
-                ),
-            }
-        ),
-        new RelicTemplate(
-            9,
             "Vinyl Record",
             Rarity.Epic,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_VinylRecord.png"),
@@ -454,7 +385,7 @@ public partial class Scribe : Node
             }
         ),
         new RelicTemplate(
-            10,
+            9,
             "Loose Change",
             Rarity.Common,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_LooseChange.png"),
@@ -471,84 +402,7 @@ public partial class Scribe : Node
             }
         ),
         new RelicTemplate(
-            11,
-            "Spiked Shield",
-            Rarity.Rare,
-            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_SpikedShield.png"),
-            new RelicEffect[]
-            {
-                new RelicEffect(
-                    BattleEffectTrigger.OnDamageInstance,
-                    5,
-                    (e, self, val) =>
-                    {
-                        if (
-                            e is BattleDirector.Harbinger.OnDamageInstanceArgs dmgArgs
-                            && dmgArgs.Dmg.Target == e.BD.Player
-                            && dmgArgs.Dmg.Damage > 0
-                            && e.BD.Player.HasStatus(StatusEffect.Block.CreateInstance())
-                        )
-                        {
-                            e.BD.DealDamage(Targetting.First, val, null);
-                        }
-                    }
-                ),
-            }
-        ),
-        new RelicTemplate(
-            12,
-            "Lucky Dice",
-            Rarity.Uncommon,
-            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_LuckyDice.png"),
-            new RelicEffect[]
-            {
-                new RelicEffect(
-                    BattleEffectTrigger.OnPickup,
-                    1,
-                    (e, self, val) =>
-                    {
-                        StageProducer.PlayerStats.Rerolls = 1;
-                    }
-                ),
-            }
-        ),
-        new RelicTemplate(
-            13,
-            "Shortcut",
-            Rarity.Uncommon,
-            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Shortcut.png"),
-            new RelicEffect[]
-            {
-                new RelicEffect(
-                    BattleEffectTrigger.OnPickup,
-                    1,
-                    (e, self, val) =>
-                    {
-                        StageProducer.PlayerStats.Shortcuts += 1;
-                    }
-                ),
-            }
-        ),
-        new RelicTemplate(
-            14,
-            "Second Pick",
-            Rarity.Uncommon,
-            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_SecondPick.png"),
-            new RelicEffect[]
-            {
-                new RelicEffect(
-                    BattleEffectTrigger.NotePlaced,
-                    20,
-                    (e, self, val) =>
-                    {
-                        if (StageProducer.GlobalRng.RandiRange(1, 100) <= val)
-                            e.BD.NPB.IncreaseCharge(StageProducer.PlayerStats.MaxComboBar);
-                    }
-                ),
-            }
-        ),
-        new RelicTemplate(
-            15,
+            10,
             "Broken Drumstick",
             Rarity.Uncommon,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_BrokenDrumstick.png"),
@@ -566,30 +420,7 @@ public partial class Scribe : Node
             }
         ),
         new RelicTemplate(
-            16,
-            "Blood Money",
-            Rarity.Epic,
-            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_BloodMoney.png"),
-            new RelicEffect[]
-            {
-                new RelicEffect(
-                    BattleEffectTrigger.OnDamageInstance,
-                    5,
-                    (e, self, val) =>
-                    {
-                        if (
-                            e is BattleDirector.Harbinger.OnDamageInstanceArgs dmgArgs
-                            && dmgArgs.Dmg.Target == e.BD.Player
-                            && e.BD.Player.GetCurrentHealth()
-                                < StageProducer.PlayerStats.MaxHealth / 2
-                        )
-                            StageProducer.PlayerStats.Money += val;
-                    }
-                ),
-            }
-        ),
-        new RelicTemplate(
-            17,
+            11,
             "Coupon",
             Rarity.Common,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Coupon.png"),

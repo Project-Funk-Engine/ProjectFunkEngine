@@ -11,7 +11,7 @@ public partial class P_BossBlood : EnemyPuppet
         MaxHealth = 250;
         CurrentHealth = MaxHealth;
         BaseMoney = 50;
-        InitialNote = (14, 3);
+        InitialNote = (10, 3);
         base._Ready();
         var enemTween = CreateTween();
         enemTween.TweenProperty(Sprite, "position", Vector2.Down * 5, 1f).AsRelative();
@@ -30,7 +30,7 @@ public partial class P_BossBlood : EnemyPuppet
                 (e, eff, val) =>
                 {
                     eff.Owner.Heal(val);
-                    e.BD.RandApplyNote(eff.Owner, 14, 1);
+                    e.BD.RandApplyNote(eff.Owner, InitialNote.NoteId, 1);
                 }
             ),
             new EnemyEffect(

@@ -227,23 +227,6 @@ public partial class BattleDirector : Node2D
     #endregion
 
     #region Input&Timing
-    public override void _UnhandledInput(InputEvent @event)
-    {
-        if (@event is InputEventKey eventKey && eventKey.Pressed && !eventKey.Echo)
-        {
-            //return;
-            if (eventKey.Keycode == Key.Key0)
-            {
-                DebugKillEnemy();
-            }
-
-            if (eventKey.Keycode == Key.Key9)
-            {
-                DebugRefillEnergy();
-            }
-        }
-    }
-
     public bool PlayerAddNote(ArrowType type, Beat beat)
     {
         if (!NPB.CanPlaceNote())
@@ -676,18 +659,5 @@ public partial class BattleDirector : Node2D
         {
             OnDamageInstance?.Invoke(new OnDamageInstanceArgs(_curDirector, dmg));
         }
-    }
-
-    private void DebugKillEnemy()
-    {
-        foreach (EnemyPuppet enemy in _enemies)
-        {
-            enemy.TakeDamage(new DamageInstance(1000, null, null));
-        }
-    }
-
-    private void DebugRefillEnergy()
-    {
-        NPB.IncreaseCharge(100);
     }
 }

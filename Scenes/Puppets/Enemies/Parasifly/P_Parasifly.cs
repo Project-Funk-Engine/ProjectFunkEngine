@@ -11,7 +11,7 @@ public partial class P_Parasifly : EnemyPuppet
         MaxHealth = 75;
         CurrentHealth = MaxHealth;
         BaseMoney = 7;
-        InitialNote = (13, 2);
+        InitialNote = (9, 2);
         base._Ready();
         var enemTween = CreateTween();
         enemTween.TweenProperty(Sprite, "position", Vector2.Down * 2, 2f).AsRelative();
@@ -29,7 +29,7 @@ public partial class P_Parasifly : EnemyPuppet
                 1,
                 (e, eff, _) =>
                 {
-                    e.BD.RandApplyNote(eff.Owner, 13, 1);
+                    e.BD.RandApplyNote(eff.Owner, InitialNote.NoteId, 1);
                 }
             ),
             new EnemyEffect(
