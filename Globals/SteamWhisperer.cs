@@ -3,7 +3,7 @@ using GodotSteam;
 
 public partial class SteamWhisperer : Node
 {
-    private const uint AppId = 3647600;
+    private const uint AppId = 3787760;
 
     public static bool IsOverlayActive = false;
 
