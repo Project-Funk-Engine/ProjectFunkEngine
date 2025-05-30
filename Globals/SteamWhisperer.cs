@@ -53,6 +53,17 @@ public partial class SteamWhisperer : Node
         return false;
     }
 
+    public static bool OpenWishlist()
+    {
+        if (!Steam.IsSteamRunning())
+        {
+            return false;
+        }
+
+        Steam.ActivateGameOverlayToStore(AppId);
+        return true;
+    }
+
     //Should make this more generic, but we only have one stat
     public static bool IncrementNoteCount()
     {

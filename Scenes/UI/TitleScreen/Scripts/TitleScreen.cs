@@ -19,6 +19,9 @@ public partial class TitleScreen : Control, IFocusableMenu
     [Export]
     private Button _loadButton;
 
+    [Export]
+    private Button _wishlistButton;
+
     private Control _focused;
     public IFocusableMenu Prev { get; set; }
 
@@ -33,6 +36,7 @@ public partial class TitleScreen : Control, IFocusableMenu
         if (StageProducer.LiveInstance.LastStage == Stages.Custom)
             OpenCustomSelection();
         _loadButton.Visible = SaveSystem.LoadGame() != null;
+        _wishlistButton.Pressed += () => SteamWhisperer.OpenWishlist();
     }
 
     public override void _Process(double delta)
