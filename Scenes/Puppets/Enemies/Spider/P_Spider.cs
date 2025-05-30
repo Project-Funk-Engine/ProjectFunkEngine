@@ -11,7 +11,7 @@ public partial class P_Spider : EnemyPuppet
         MaxHealth = 60;
         CurrentHealth = MaxHealth;
         BaseMoney = 5;
-        InitialNote = (15, 2);
+        InitialNote = (11, 2);
         base._Ready();
 
         BattleEvents = new EnemyEffect[]
@@ -22,7 +22,7 @@ public partial class P_Spider : EnemyPuppet
                 1,
                 (e, eff, _) =>
                 {
-                    e.BD.RandApplyNote(eff.Owner, 15, 1);
+                    e.BD.RandApplyNote(eff.Owner, InitialNote.NoteId, 1);
                 }
             ),
         };

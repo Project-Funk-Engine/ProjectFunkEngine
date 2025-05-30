@@ -17,39 +17,22 @@ public partial class TitleScreen : Control, IFocusableMenu
     public Button Options;
 
     [Export]
-    private Button _customSelectionButton;
+    private Button _loadButton;
 
     private Control _focused;
     public IFocusableMenu Prev { get; set; }
-
-    public override void _UnhandledInput(InputEvent @event)
-    {
-        if (@event is InputEventKey eventKey && eventKey.Pressed && !eventKey.Echo)
-        {
-            return;
-            if (eventKey.Keycode == Key.Key0)
-            {
-                SteamWhisperer.ResetAll();
-                SaveSystem.ClearSave();
-                SaveSystem.ClearConfig();
-                StageProducer.LiveInstance.InitFromCfg();
-            }
-        }
-    }
 
     public override void _EnterTree()
     {
         BgAudioPlayer.LiveInstance.PlayLevelMusic();
         Options.Pressed += OpenOptions;
-        _customSelectionButton.Pressed += OpenCustomSelection;
     }
 
     public override void _Ready()
     {
         if (StageProducer.LiveInstance.LastStage == Stages.Custom)
             OpenCustomSelection();
-        _customSelectionButton.Visible = (bool)
-            SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.HasWon);
+        _loadButton.Visible = SaveSystem.LoadGame() != null;
     }
 
     public override void _Process(double delta)

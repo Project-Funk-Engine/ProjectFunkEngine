@@ -50,18 +50,6 @@ public partial class SteamWhisperer : Node
     //TODO: This might fail sometimes? IDK, need to look into it
     public static bool PopAchievement(string id)
     {
-        if (!Steam.IsSteamRunning())
-        {
-            return false;
-        }
-
-        if (Steam.SetAchievement(id) && Steam.StoreStats())
-        {
-            GD.Print($"SW: Unlocked {id}.");
-            return true;
-        }
-
-        GD.PrintErr($"SW: Failed to set achievement {id}.");
         return false;
     }
 
