@@ -144,19 +144,19 @@ EVENT_EVENT1_DESC,A bandit approaches you.,一个强盗拦住了你。
 EVENT_EVENT1_OPTION1,Give them a random note,给他一个随机音符
 EVENT_EVENT1_OPTION2,Give them a random relic,给他一件随机遗物
 EVENT_EVENT1_OPTION3,Give them half your gold,给他你一半的金币
-EVENT_EVENT1_OUTCOME1,You got robbed of a random note.,你被抢走了一个随机音符
-EVENT_EVENT1_OUTCOME2,You got robbed of a random relic.,你被抢走了一件随机遗物
-EVENT_EVENT1_OUTCOME3,You got robbed of half your gold.,你被抢走了一半金币
+EVENT_EVENT1_OUTCOME1,You got robbed of a random note. ({0}),你被抢走了一个随机音符 ({0})
+EVENT_EVENT1_OUTCOME2,You got robbed of a random relic.({0}),你被抢走了一件随机遗物 ({0})
+EVENT_EVENT1_OUTCOME3,You got robbed of half your gold. ({0}),你被抢走了一半金币 ({0})
 EVENT_EVENT2_DESC,There is a wheel with different outcomes.,这里有一个转盘，结果各不相同。
 EVENT_EVENT2_OPTION1,Spin the wheel,转动转盘
 EVENT_EVENT2_OPTION2,Ignore the cool wheel,忽略这个酷炫的转盘
 EVENT_EVENT2_OUTCOME1,You decided not to spin the wheel.,你决定不转动转盘。
-EVENT_EVENT2_OUTCOME2,You lost half your money.,你损失了一半的金币。
-EVENT_EVENT2_OUTCOME3,You took some damage.,你受到了一些伤害。
-EVENT_EVENT2_OUTCOME4,You won a lot of money!,你赢得了很多金币！
-EVENT_EVENT2_OUTCOME5,You gained a random note!,你获得了一个随机音符！
-EVENT_EVENT2_OUTCOME6,You gained a random relic!,你获得了一件随机遗物！
-EVENT_EVENT2_OUTCOME7,You gained some health!,你恢复了一些生命值！
+EVENT_EVENT2_OUTCOME2,You lost half your money. ({0}),你损失了一半的金币。({0})
+EVENT_EVENT2_OUTCOME3,You took some damage. (10),你受到了一些伤害。(10)
+EVENT_EVENT2_OUTCOME4,You won a lot of money! (50),你赢得了很多金币！(50)
+EVENT_EVENT2_OUTCOME5,You gained a random note! ({0}),你获得了一个随机音符！({0})
+EVENT_EVENT2_OUTCOME6,You gained a random relic ({0})!,你获得了一件随机遗物！({0})
+EVENT_EVENT2_OUTCOME7,You gained some health! (20),你恢复了一些生命值！(20)
 EVENT_EVENT3_DESC,There is a field medic on the side of the road.,路边有一名战地医生。
 EVENT_EVENT3_OPTION1,Receive a bit of healing,接受一些治疗
 EVENT_EVENT3_OPTION2,Increase bar charge rate.,提高能量条充能速度

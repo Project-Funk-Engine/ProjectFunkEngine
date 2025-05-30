@@ -4,6 +4,7 @@ using Godot;
 /// <summary>
 /// Holds all game events and their associated logic.
 /// </summary>
+
 public class EventDatabase
 {
     public const int EventDatabaseSize = 3;
@@ -22,7 +23,15 @@ public class EventDatabase
                         0,
                         StageProducer.PlayerStats.CurNotes.Length - 1
                     );
+                    var note = StageProducer.PlayerStats.CurNotes[randIndex];
+                    string name = note.Name.ToUpper().Replace(" ", "");
+                    string localizedName = TranslationServer.Translate("NOTE_" + name + "_NAME");
                     StageProducer.PlayerStats.RemoveNote(randIndex);
+
+                    self.OutcomeDescriptions[0] = string.Format(
+                        TranslationServer.Translate("EVENT_EVENT1_OUTCOME1"),
+                        localizedName
+                    );
                 },
                 (self, node) =>
                 {
@@ -30,11 +39,25 @@ public class EventDatabase
                         0,
                         StageProducer.PlayerStats.CurRelics.Length - 1
                     );
+                    var relic = StageProducer.PlayerStats.CurRelics[randIndex];
+                    string name = relic.Name.ToUpper().Replace(" ", "");
+                    string localizedName = TranslationServer.Translate("RELIC_" + name + "_NAME");
                     StageProducer.PlayerStats.RemoveRelic(randIndex);
+
+                    self.OutcomeDescriptions[1] = string.Format(
+                        TranslationServer.Translate("EVENT_EVENT1_OUTCOME2"),
+                        localizedName
+                    );
                 },
                 (self, node) =>
                 {
+                    string stolenMoney = (StageProducer.PlayerStats.Money / 2).ToString();
                     StageProducer.PlayerStats.Money /= 2;
+
+                    self.OutcomeDescriptions[2] = self.OutcomeDescriptions[0] = string.Format(
+                        TranslationServer.Translate("EVENT_EVENT1_OUTCOME3"),
+                        stolenMoney
+                    );
                 },
             ],
             GD.Load<Texture2D>("res://Classes/Events/Assets/Bandit_Event.png"),
@@ -68,14 +91,19 @@ public class EventDatabase
                         .SetEase(Tween.EaseType.Out);
 
                     // Defer execution of the outcome until the tween finishes
+                    string eventEffect = "";
                     tween.TweenCallback(
                         Callable.From(() =>
                         {
                             switch (spinOutcome)
                             {
                                 case 0:
+                                    eventEffect = (StageProducer.PlayerStats.Money / 2).ToString();
                                     StageProducer.PlayerStats.Money /= 2;
-                                    self.OutcomeDescriptions[0] = "EVENT_EVENT2_OUTCOME2";
+                                    self.OutcomeDescriptions[0] = string.Format(
+                                        TranslationServer.Translate("EVENT_EVENT2_OUTCOME2"),
+                                        eventEffect
+                                    );
                                     break;
                                 case 1:
                                     self.OutcomeDescriptions[0] = "EVENT_EVENT2_OUTCOME3";
@@ -89,21 +117,39 @@ public class EventDatabase
                                     StageProducer.PlayerStats.Money += 50;
                                     break;
                                 case 3:
-                                    self.OutcomeDescriptions[0] = "EVENT_EVENT2_OUTCOME5";
                                     StageProducer.PlayerStats.AddNote(
                                         Scribe.GetRandomRewardNotes(1, StageProducer.CurRoom + 10)[
                                             0
                                         ]
                                     );
+                                    var note = StageProducer.PlayerStats.CurNotes[^1];
+                                    string name = note.Name.ToUpper().Replace(" ", "");
+                                    eventEffect = TranslationServer.Translate(
+                                        "NOTE_" + name + "_NAME"
+                                    );
+
+                                    self.OutcomeDescriptions[0] = string.Format(
+                                        TranslationServer.Translate("EVENT_EVENT2_OUTCOME5"),
+                                        eventEffect
+                                    );
                                     break;
                                 case 4:
-                                    self.OutcomeDescriptions[0] = "EVENT_EVENT2_OUTCOME6";
                                     StageProducer.PlayerStats.AddRelic(
                                         Scribe.GetRandomRelics(
                                             1,
                                             StageProducer.CurRoom + 10,
                                             StageProducer.PlayerStats.RarityOdds
                                         )[0]
+                                    );
+
+                                    var relic = StageProducer.PlayerStats.CurRelics[^1];
+                                    string name1 = relic.Name.ToUpper().Replace(" ", "");
+                                    eventEffect = TranslationServer.Translate(
+                                        "NOTE_" + name1 + "_NAME"
+                                    );
+                                    self.OutcomeDescriptions[0] = string.Format(
+                                        TranslationServer.Translate("EVENT_EVENT2_OUTCOME6"),
+                                        eventEffect
                                     );
                                     break;
                                 case 5:
