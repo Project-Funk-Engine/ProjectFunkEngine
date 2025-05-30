@@ -15,10 +15,10 @@ public static class SaveSystem
 
     private const float DefaultVolume = 1f;
     private const string DefaultInputType = "WASD"; //WASD or CONTROLLER
-    private const int DefaultInputKeyboardUp = 87; //W
-    private const int DefaultInputKeyboardLeft = 65; //A
-    private const int DefaultInputKeyboardDown = 83; //S
-    private const int DefaultInputKeyboardRight = 68; //D
+    private const int DefaultInputKeyboardUp = 65; //A
+    private const int DefaultInputKeyboardLeft = 81; //Q
+    private const int DefaultInputKeyboardDown = 76; //P
+    private const int DefaultInputKeyboardRight = 80; //L
     private const int DefaultInputKeyboardSecondary = 4194325; //Shift
     private const int DefaultInputKeyboardInventory = 73; //I
     private const int DefaultInputControllerUp = 3; //Y
