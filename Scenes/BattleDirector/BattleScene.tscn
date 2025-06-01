@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://pl57giqyhckb" path="res://Scenes/UI/Scripts/MenuModule.cs" id="2_ka0ws"]
 [ext_resource type="Script" uid="uid://tg14hkh1n7iv" path="res://Scenes/BattleDirector/Scripts/Conductor.cs" id="3_elcaj"]
 [ext_resource type="PackedScene" uid="uid://duhiilcv4tat3" path="res://Scenes/BattleDirector/NotePlacementBar.tscn" id="4_qk7om"]
-[ext_resource type="PackedScene" uid="uid://dfevfib11kou1" path="res://Scenes/ChartViewport/ChartViewport.tscn" id="5_r2xh0"]
+[ext_resource type="PackedScene" uid="uid://dyd2nc2sgt0qw" path="res://Scenes/3DWizard/3DWizard.tscn" id="5_e25q1"]
 [ext_resource type="Texture2D" uid="uid://qhwve7fik4do" path="res://SharedAssets/BackGround_Full.png" id="6_0jtpx"]
 [ext_resource type="Script" uid="uid://cp6t6haqyef7o" path="res://Scenes/AreaBasedBackground.cs" id="7_6k2qj"]
 [ext_resource type="Texture2D" uid="uid://dbjotl0v1ymia" path="res://SharedAssets/BattleFrame1.png" id="7_klvil"]
@@ -25,7 +25,7 @@ script = ExtResource("1_jmdo1")
 PuppetMarkers = [NodePath("PlayerMarker"), NodePath("Enemy1Marker"), NodePath("Enemy2Marker"), NodePath("Enemy3Marker")]
 _countdownLabel = NodePath("CountInControl/Countdown")
 CD = NodePath("Conductor")
-CM = NodePath("SubViewport")
+CM = NodePath("3D/SubViewport/3DWizard/SubViewport/VPContainer")
 NPB = NodePath("NotePlacementBar")
 Audio = NodePath("AudioStreamPlayer")
 FocusedButton = NodePath("StartButton")
@@ -39,7 +39,7 @@ CurSceneNode = NodePath("..")
 
 [node name="Conductor" type="Node" parent="." node_paths=PackedStringArray("CM")]
 script = ExtResource("3_elcaj")
-CM = NodePath("../SubViewport")
+CM = NodePath("../3D/SubViewport/3DWizard/SubViewport/VPContainer")
 
 [node name="PlayerMarker" type="Marker2D" parent="."]
 position = Vector2(158, 125)
@@ -64,11 +64,18 @@ offset_right = 81.0
 offset_bottom = 175.0
 texture = SubResource("GradientTexture2D_bajwn")
 
-[node name="SubViewport" parent="." instance=ExtResource("5_r2xh0")]
+[node name="3D" type="SubViewportContainer" parent="."]
 offset_left = 80.0
 offset_top = 180.0
 offset_right = 560.0
 offset_bottom = 360.0
+
+[node name="SubViewport" type="SubViewport" parent="3D"]
+handle_input_locally = false
+size = Vector2i(480, 180)
+render_target_update_mode = 4
+
+[node name="3DWizard" parent="3D/SubViewport" instance=ExtResource("5_e25q1")]
 
 [node name="BackGround" type="TextureRect" parent="."]
 z_index = -1
