@@ -662,9 +662,14 @@ public partial class Scribe : Node
             ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "KeythuluSong.tres")
         ),
         new SongTemplate( // 15
-            name: "LWS",
-            enemyScenePath: [P_LWS.LoadPath],
+            "LWS",
+            [P_LWS.LoadPath],
             ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "FrostWaltz.tres")
+        ),
+        new SongTemplate( // 16
+            name: "Astrorat",
+            enemyScenePath: [P_Astrorat.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "Astrorat.tres")
         ),
     };
 

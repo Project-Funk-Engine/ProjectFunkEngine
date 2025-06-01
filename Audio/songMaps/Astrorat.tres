@@ -210,6 +210,10 @@ Length = 0.0
 
 [resource]
 script = ExtResource("2_658pd")
+Bpm = 120
+NumLoops = 4
+SongSpeed = 200.0
+SongMapLocation = "EtherDisco.ogg"
 UpLaneData = Array[ExtResource("1_2eqea")]([SubResource("Resource_rijti"), SubResource("Resource_nu6ys"), SubResource("Resource_68fmb"), SubResource("Resource_5kcxv"), SubResource("Resource_ow73n"), SubResource("Resource_1flyl"), SubResource("Resource_k72np"), SubResource("Resource_kj2ca"), SubResource("Resource_priv2"), SubResource("Resource_qnlwb")])
 DownLaneData = Array[ExtResource("1_2eqea")]([SubResource("Resource_0ttw5"), SubResource("Resource_l0i1e"), SubResource("Resource_q06y0"), SubResource("Resource_w8ofo"), SubResource("Resource_ydc1g"), SubResource("Resource_irvvx"), SubResource("Resource_w2s6l"), SubResource("Resource_exuk7"), SubResource("Resource_dk24q"), SubResource("Resource_wgol3"), SubResource("Resource_qqfs2"), SubResource("Resource_a68i2"), SubResource("Resource_nnp0y"), SubResource("Resource_dnh6q"), SubResource("Resource_klyd2"), SubResource("Resource_0n5dw")])
 LeftLaneData = Array[ExtResource("1_2eqea")]([SubResource("Resource_5g7v8"), SubResource("Resource_s6s0g"), SubResource("Resource_boxlj"), SubResource("Resource_7os4q"), SubResource("Resource_6h64d"), SubResource("Resource_xi2wb")])

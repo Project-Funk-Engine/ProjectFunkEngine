@@ -1,7 +1,7 @@
 using FunkEngine;
 using Godot;
 
-public partial class Astrorat : EnemyPuppet
+public partial class P_Astrorat : EnemyPuppet
 {
     public static new readonly string LoadPath =
         "res://Scenes/Puppets/Enemies/Astrorat/Astrorat.tscn";
@@ -10,8 +10,7 @@ public partial class Astrorat : EnemyPuppet
     {
         MaxHealth = 150;
         CurrentHealth = MaxHealth;
-        BaseMoney = 25;
-        InitialNote = (17, 3);
+        BaseMoney = 20;
         base._Ready();
         var enemyTween = CreateTween();
         enemyTween.TweenProperty(Sprite, "position", Vector2.Up * 5, 1f).AsRelative();
@@ -20,18 +19,5 @@ public partial class Astrorat : EnemyPuppet
         enemyTween.SetEase(Tween.EaseType.InOut);
         enemyTween.SetLoops();
         enemyTween.Play();
-
-        BattleEvents = new EnemyEffect[]
-        {
-            new EnemyEffect(
-                this,
-                BattleEffectTrigger.OnLoop,
-                1,
-                (e, eff, val) =>
-                {
-                    e.BD.RandApplyNote(eff.Owner, InitialNote.NoteId, val);
-                }
-            ),
-        };
     }
 }
