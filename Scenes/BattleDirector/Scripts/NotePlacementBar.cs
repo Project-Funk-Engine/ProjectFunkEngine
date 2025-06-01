@@ -48,7 +48,7 @@ public partial class NotePlacementBar : Node
 
     private int _currentCombo;
     private int MaxComboMult;
-    private int ComboMult =>
+    public int ComboMult =>
         Math.Min(_currentCombo / _notesToIncreaseCombo + 1 + _bonusMult, MaxComboMult);
     private int _bonusMult;
     private int _notesToIncreaseCombo;

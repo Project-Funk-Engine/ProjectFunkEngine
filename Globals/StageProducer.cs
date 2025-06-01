@@ -84,6 +84,7 @@ public partial class StageProducer : Node
         EventScene.EventPool = null;
         Scribe.InitRelicPools();
         IsInitialized = true;
+        MapGrid.ForceEliteBattles = false;
     }
 
     private bool LoadGame()

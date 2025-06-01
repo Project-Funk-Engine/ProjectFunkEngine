@@ -290,13 +290,25 @@ public class MapGrid
         return _rooms;
     }
 
+    public static bool ForceEliteBattles = false;
+
     public class Room
     {
         public int Idx { get; private set; }
         public int[] Children { get; private set; } = [];
         public int X { get; private set; }
         public int Y { get; private set; }
-        public Stages Type { get; private set; }
+        public Stages Type
+        {
+            get
+            {
+                if (ForceEliteBattles && _type == Stages.Battle)
+                    return Stages.Elite;
+                return _type;
+            }
+            private set { _type = value; }
+        }
+        private Stages _type;
 
         public Room(int idx, int x, int y)
         {

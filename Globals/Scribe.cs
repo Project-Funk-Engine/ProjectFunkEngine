@@ -244,6 +244,31 @@ public partial class Scribe : Node
                 director.AddStatus(Targetting.Player, StatusEffect.Poison, amt);
             }
         ),
+        new Note(
+            18,
+            "PlayerBrass",
+            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerBrass.png"),
+            0,
+            (director, note, timing) =>
+            {
+                if (note.GetBaseVal() == 0) //Setup, so it doesn't trigger on place.
+                {
+                    note.SetBaseVal(2);
+                    return;
+                }
+                if (timing == Timing.Miss)
+                {
+                    director.AddStatus(Targetting.Player, StatusEffect.Mulligan, 1);
+                    return;
+                }
+                director.DealDamage(
+                    Targetting.First,
+                    note.GetBaseVal() * director.NPB.ComboMult,
+                    note.Owner
+                );
+                director.NPB.ResetCurrentCombo();
+            }
+        ),
     };
 
     public static readonly RelicTemplate[] RelicDictionary = new[]
@@ -576,6 +601,114 @@ public partial class Scribe : Node
                     (e, self, val) =>
                     {
                         StageProducer.PlayerStats.DiscountPercent += val;
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            18,
+            "War Horn",
+            Rarity.Epic,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_WarHorn.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnPickup,
+                    1,
+                    (e, self, val) =>
+                    {
+                        MapGrid.ForceEliteBattles = true;
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            19,
+            "Looter's Lens",
+            Rarity.Uncommon,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_LootersLens.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnPickup,
+                    1,
+                    (e, self, val) =>
+                    {
+                        StageProducer.PlayerStats.RewardAmountModifier += val;
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            20,
+            "Quito",
+            Rarity.Legendary,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Quito.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.NoteHit,
+                    1,
+                    (e, self, val) =>
+                    {
+                        if (
+                            e is BattleDirector.Harbinger.NoteHitArgs noteArgs
+                            && noteArgs.Note.Owner == e.BD.Player
+                            && noteArgs.Timing != Timing.Miss
+                        )
+                        {
+                            noteArgs.Note.OnHit(e.BD, Timing.Bad);
+                        }
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            21,
+            "Soloist's Triangle",
+            Rarity.Epic,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Soloist'sTriangle.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnPickup,
+                    2,
+                    (e, self, val) =>
+                    {
+                        StageProducer.PlayerStats.ChartSpeedMultiplier *= val;
+                        StageProducer.PlayerStats.RewardAmountModifier += 3;
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            22,
+            "Tinsel",
+            Rarity.Legendary,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Tinsel.png"),
+            new RelicEffect[] // all this combined might be OP, but just slowing down the speed felt boring for a legendary
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnPickup,
+                    2,
+                    (e, self, val) =>
+                    {
+                        StageProducer.PlayerStats.ChartSpeedMultiplier /= val;
+                    }
+                ),
+                new RelicEffect(
+                    BattleEffectTrigger.OnDamageInstance,
+                    1,
+                    (e, self, val) =>
+                    {
+                        if (
+                            e is BattleDirector.Harbinger.OnDamageInstanceArgs dmgArgs
+                            && dmgArgs.Dmg.Target == e.BD.Player
+                            && dmgArgs.Dmg.Damage > 1
+                        )
+                        {
+                            dmgArgs.Dmg.ModifyDamage(-val);
+                        }
                     }
                 ),
             }

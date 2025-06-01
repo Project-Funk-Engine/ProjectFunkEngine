@@ -84,7 +84,8 @@ public partial class ChartManager : SubViewportContainer
         double loopLen = songLen / songData.NumLoops;
 
         if (songData.SongSpeed > 0)
-            _chartLength = songData.SongSpeed * loopLen;
+            _chartLength =
+                songData.SongSpeed * loopLen * StageProducer.PlayerStats.ChartSpeedMultiplier;
         //99% sure chart length can never be less than (chart viewport width) * 2,
         //otherwise there isn't room for things to loop from off and on screen
         _chartLength = Math.Max(

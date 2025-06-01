@@ -71,10 +71,12 @@ NOTE_PLAYERECHO_NAME,Echo Note,回音符
 NOTE_PLAYERECHO_TOOLTIP,Deals more damage with each loop.,每次循环造成更多伤害。
 NOTE_PLAYERPOISON_NAME,Poison Note,毒药音符
 NOTE_PLAYERPOISON_TOOLTIP,Applies stacks of poison based on timing.,根据时机施加中毒层数。
-NOTE_PLAYERMONEY_NAME,Money Note,钱的便条
+NOTE_PLAYERMONEY_NAME,Money Note,金钱音符
 NOTE_PLAYERMONEY_TOOLTIP,"Deals no damage, but gives you money when hit.",不会造成伤害，但命中时会获得金钱。
 NOTE_PLAYERCOMBO_NAME,Combo Note,连击音符
 NOTE_PLAYERCOMBO_TOOLTIP,"Deals no damage, but gives you double the combo bar charge when hit.",不会造成伤害，但命中时会获得双倍连击槽充能。
+NOTE_PLAYERBRASS_NAME,Brass Cannon Note,铜管加农炮音符
+NOTE_PLAYERBRASS_TOOLTIP,"Can be missed without penalty. When hit, deals double the multiplier in damage, then resets the current multiplier.",失误不计。命中时，造成双倍连击倍率伤害，并重置当前连击倍率。
 RELIC_BREAKFAST_NAME,Breakfast,早餐
 RELIC_BREAKFAST_TOOLTIP,Increases max hp.,提高最大生命值
 RELIC_GOODVIBES_NAME,Good Vibes,良好消息
@@ -111,6 +113,16 @@ RELIC_BLOODMONEY_NAME,Blood Money,血腥钱袋
 RELIC_BLOODMONEY_TOOLTIP,Gain money when taking damage below half health.,在生命值低于一半时受到伤害可获得金钱。
 RELIC_COUPON_NAME,Coupon,优惠券
 RELIC_COUPON_TOOLTIP,Get a 10% discount on notes and relics in the shop.,在商店购买音符和遗物时可享受9折优惠。
+RELIC_WARHORN_NAME,War Horn,战号
+RELIC_WARHORN_TOOLTIP,All normal battles are now elite battles.,所有普通战斗现在都会变为精英战斗。
+RELIC_LOOTER'SLENS_NAME,Looter's Lens,盗贼之镜片
+RELIC_LOOTER'SLENS_TOOLTIP,Can see one more item in reward selection screens.,在奖励选择界面上可以多看到一个物品。
+RELIC_QUITO_NAME,Quito,基多
+RELIC_QUITO_TOOLTIP,"Quito mimics the player, duplicating all of their notes with bad timing.",基多模仿玩家，"复制他们所有的音符，但时机很差。"
+RELIC_SOLOIST'STRIANGLE_NAME,Soloist's Triangle,独奏者的三角铁
+RELIC_SOLOIST'STRIANGLE_TOOLTIP,"Charts move at double speed, reward selections have 3 additional options to choose from.","谱面移动速度加倍，奖励选择中额外提供3个选项。"
+RELIC_TINSEL_NAME,Tinsel,廷瑟
+RELIC_TINSEL_TOOLTIP,"Become an aspect of the turtle. Charts move at half speed, and all damage taken is reduced by 1 (damage cannot be reduced below 1).","化身为龟之化身。图表移动速度减半，所受伤害减少1点（伤害最低为1点）。"
 INVENTORY_TAB_NOTES,Notes,乐谱
 INVENTORY_TAB_RELICS,Relics,遗物
 OPTIONS_VOLUME_LABEL,Master Volume,最终音量设置
