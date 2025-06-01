@@ -71,10 +71,12 @@ NOTE_PLAYERECHO_NAME,Echo Note,回音符
 NOTE_PLAYERECHO_TOOLTIP,Deals more damage with each loop.,每次循环造成更多伤害。
 NOTE_PLAYERPOISON_NAME,Poison Note,毒药音符
 NOTE_PLAYERPOISON_TOOLTIP,Applies stacks of poison based on timing.,根据时机施加中毒层数。
-NOTE_PLAYERMONEY_NAME,Money Note,钱的便条
+NOTE_PLAYERMONEY_NAME,Money Note,金钱音符
 NOTE_PLAYERMONEY_TOOLTIP,"Deals no damage, but gives you money when hit.",不会造成伤害，但命中时会获得金钱。
 NOTE_PLAYERCOMBO_NAME,Combo Note,连击音符
 NOTE_PLAYERCOMBO_TOOLTIP,"Deals no damage, but gives you double the combo bar charge when hit.",不会造成伤害，但命中时会获得双倍连击槽充能。
+NOTE_PLAYERBRASS_NAME,Brass Cannon Note,铜管加农炮音符
+NOTE_PLAYERBRASS_TOOLTIP,"Can be missed without penalty. When hit, deals double the multiplier in damage, then resets the current multiplier.",失误不计。命中时，造成双倍连击倍率伤害，并重置当前连击倍率。
 RELIC_BREAKFAST_NAME,Breakfast,早餐
 RELIC_BREAKFAST_TOOLTIP,Increases max hp.,提高最大生命值
 RELIC_GOODVIBES_NAME,Good Vibes,良好消息
