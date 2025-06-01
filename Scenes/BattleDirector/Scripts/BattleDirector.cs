@@ -236,7 +236,7 @@ public partial class BattleDirector : Node2D
         if (!NPB.CanPlaceNote())
             return false;
 
-        Note noteToPlace = NPB.NotePlaced();
+        Note noteToPlace = NPB.NotePlaced().Clone();
         noteToPlace.OnHit(this, Timing.Okay);
 
         CD.AddPlayerNote(noteToPlace.SetOwner(Player), type, beat);
