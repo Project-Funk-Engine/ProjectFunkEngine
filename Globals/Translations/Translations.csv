@@ -119,8 +119,8 @@ RELIC_QUITO_NAME,Quito,基多
 RELIC_QUITO_TOOLTIP,"Quito mimics the player, duplicating all of their notes with bad timing.",基多模仿玩家，"复制他们所有的音符，但时机很差。"
 RELIC_SOLOIST'STRIANGLE_NAME,Soloist's Triangle,独奏者的三角铁
 RELIC_SOLOIST'STRIANGLE_TOOLTIP,"Charts move at double speed, reward selections have 3 additional options to choose from.","谱面移动速度加倍，奖励选择中额外提供3个选项。"
-RELIC_TINSEL_NAME,Tinsel,(translation needed)
-RELIC_TINSEL_TOOLTIP,"Become an aspect of the turtle. Charts move at half speed and take 1 less damage from all sources (damage cannot be reduced below 1).",(translation needed)
+RELIC_TINSEL_NAME,Tinsel,廷瑟
+RELIC_TINSEL_TOOLTIP,"Become an aspect of the turtle. Charts move at half speed, and all damage taken is reduced by 1 (damage cannot be reduced below 1).","化身为龟之化身。图表移动速度减半，所受伤害减少1点（伤害最低为1点）。"
 INVENTORY_TAB_NOTES,Notes,乐谱
 INVENTORY_TAB_RELICS,Relics,遗物
 OPTIONS_VOLUME_LABEL,Master Volume,最终音量设置
