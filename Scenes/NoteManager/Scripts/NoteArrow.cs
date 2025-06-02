@@ -29,13 +29,45 @@ public partial class NoteArrow : Sprite2D
         ZIndex = 2;
     }
 
-    public virtual void Init(CheckerData parentChecker, ArrowData arrowData, double beatTime)
+    public virtual void Init(
+        CheckerData parentChecker,
+        ArrowData arrowData,
+        double beatTime,
+        bool isTypeArrow
+    )
     {
         Data = arrowData;
         _beatTime = beatTime;
 
         Position = new Vector2(GetNewPosX(), parentChecker.Node.GlobalPosition.Y);
-        OutlineSprite.Texture = parentChecker.Node.Outline.Texture;
+        if (isTypeArrow)
+        {
+            Texture = GD.Load<Texture2D>("res://Scenes/NoteManager/Assets/New_Arrow.png");
+            OutlineSprite.Texture = GD.Load<Texture2D>(
+                "res://Scenes/NoteManager/Assets/Arrow_Outline.png"
+            );
+            var rotDeg = 0f;
+            switch (arrowData.Type)
+            {
+                case ArrowType.Right:
+                    rotDeg = 0f;
+                    break;
+                case ArrowType.Down:
+                    rotDeg = 90f;
+                    break;
+                case ArrowType.Left:
+                    rotDeg = 180f;
+                    break;
+                case ArrowType.Up:
+                    rotDeg = 270f;
+                    break;
+            }
+            RotationDegrees = rotDeg;
+        }
+        else
+        {
+            OutlineSprite.Texture = parentChecker.Node.Outline.Texture;
+        }
         IconSprite.Texture = arrowData.NoteRef.Texture;
         IconSprite.Rotation = -Rotation;
         OutlineSprite.Modulate = parentChecker.Color;

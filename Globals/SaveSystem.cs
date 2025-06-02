@@ -28,6 +28,7 @@ public static class SaveSystem
     private const int DefaultInputControllerSecondary = 10; //right bumper
     private const int DefaultInputControllerInventory = 4; //back button
     private const string DefaultLanguage = "en";
+    private const bool DefaultTypeIsArrow = false;
     private const bool DefaultHighCon = false;
     private const bool DefaultFirstTime = true;
     private const bool DefaultHasWon = false;
@@ -49,6 +50,7 @@ public static class SaveSystem
         InputControllerSecondary,
         InputControllerInventory,
         LanguageKey,
+        TypeIsArrow,
         HighContrast,
         FirstTime,
         HasWon,
@@ -75,6 +77,7 @@ public static class SaveSystem
         UpdateConfig(ConfigSettings.InputControllerSecondary, DefaultInputControllerSecondary);
         UpdateConfig(ConfigSettings.InputControllerInventory, DefaultInputControllerInventory);
         UpdateConfig(ConfigSettings.LanguageKey, DefaultLanguage);
+        UpdateConfig(ConfigSettings.TypeIsArrow, DefaultTypeIsArrow);
         UpdateConfig(ConfigSettings.HighContrast, DefaultHighCon);
         UpdateConfig(ConfigSettings.FirstTime, DefaultFirstTime);
         UpdateConfig(ConfigSettings.HasWon, DefaultHasWon);
@@ -135,6 +138,9 @@ public static class SaveSystem
                 break;
             case ConfigSettings.LanguageKey:
                 _curConfigData.SetValue("Options", "LanguageKey", value);
+                break;
+            case ConfigSettings.TypeIsArrow:
+                _curConfigData.SetValue("Options", "TypeIsArrow", value);
                 break;
             case ConfigSettings.HighContrast:
                 _curConfigData.SetValue("Options", "HighContrast", value);
@@ -280,6 +286,8 @@ public static class SaveSystem
                 );
             case ConfigSettings.LanguageKey:
                 return _curConfigData.GetValue("Options", "LanguageKey", DefaultLanguage);
+            case ConfigSettings.TypeIsArrow:
+                return _curConfigData.GetValue("Options", "TypeIsArrow", DefaultTypeIsArrow);
             case ConfigSettings.HighContrast:
                 return _curConfigData.GetValue("Options", "HighContrast", DefaultHighCon);
             case ConfigSettings.FirstTime:

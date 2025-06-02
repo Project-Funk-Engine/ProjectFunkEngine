@@ -12,6 +12,32 @@ public partial class InputHandler : Node2D
     [Signal]
     public delegate void NoteReleasedEventHandler(ArrowType arrowType);
 
+    [Export]
+    public Sprite2D leftArrowSprite;
+
+    [Export]
+    public Sprite2D leftArrowOutlineSprite;
+
+    [Export]
+    public Sprite2D upArrowSprite;
+
+    [Export]
+    public Sprite2D upArrowOutlineSprite;
+
+    [Export]
+    public Sprite2D downArrowSprite;
+
+    [Export]
+    public Sprite2D downArrowOutlineSprite;
+
+    [Export]
+    public Sprite2D rightArrowSprite;
+
+    [Export]
+    public Sprite2D rightArrowOutlineSprite;
+
+    private static readonly string _arrowFolderPath = "res://Scenes/NoteManager/Assets/";
+
     public readonly CheckerData[] Arrows = new CheckerData[]
     {
         new CheckerData()
@@ -53,6 +79,7 @@ public partial class InputHandler : Node2D
     public override void _Ready()
     {
         InitializeArrowCheckers();
+        UpdateArrowSprites();
     }
 
     public override void _Process(double delta)
@@ -112,5 +139,53 @@ public partial class InputHandler : Node2D
         }
 
         particles.Emit(particleAmount);
+    }
+
+    private void UpdateArrowSprites()
+    {
+        if (SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.TypeIsArrow).As<bool>())
+        {
+            leftArrowSprite.Texture = GD.Load<Texture2D>(_arrowFolderPath + "New_Arrow.png");
+            leftArrowOutlineSprite.Texture = GD.Load<Texture2D>(
+                _arrowFolderPath + "Arrow_Outline.png"
+            );
+            leftArrowSprite.RotationDegrees = 180f;
+            upArrowSprite.Texture = GD.Load<Texture2D>(_arrowFolderPath + "New_Arrow.png");
+            upArrowOutlineSprite.Texture = GD.Load<Texture2D>(
+                _arrowFolderPath + "Arrow_Outline.png"
+            );
+            upArrowSprite.RotationDegrees = 270f;
+            downArrowSprite.Texture = GD.Load<Texture2D>(_arrowFolderPath + "New_Arrow.png");
+            downArrowOutlineSprite.Texture = GD.Load<Texture2D>(
+                _arrowFolderPath + "Arrow_Outline.png"
+            );
+            downArrowSprite.RotationDegrees = 90f;
+            rightArrowSprite.Texture = GD.Load<Texture2D>(_arrowFolderPath + "New_Arrow.png");
+            rightArrowOutlineSprite.Texture = GD.Load<Texture2D>(
+                _arrowFolderPath + "Arrow_Outline.png"
+            );
+        }
+        else
+        {
+            leftArrowSprite.Texture = GD.Load<Texture2D>(_arrowFolderPath + "Note.png");
+            leftArrowOutlineSprite.Texture = GD.Load<Texture2D>(
+                _arrowFolderPath + "LeftNoteOutline.png"
+            );
+            leftArrowSprite.RotationDegrees = 0f;
+            upArrowSprite.Texture = GD.Load<Texture2D>(_arrowFolderPath + "Note.png");
+            upArrowOutlineSprite.Texture = GD.Load<Texture2D>(
+                _arrowFolderPath + "TopNoteOutline.png"
+            );
+            upArrowSprite.RotationDegrees = 0f;
+            downArrowSprite.Texture = GD.Load<Texture2D>(_arrowFolderPath + "Note.png");
+            downArrowOutlineSprite.Texture = GD.Load<Texture2D>(
+                _arrowFolderPath + "BottomNoteOutline.png"
+            );
+            downArrowSprite.RotationDegrees = 0f;
+            rightArrowSprite.Texture = GD.Load<Texture2D>(_arrowFolderPath + "Note.png");
+            rightArrowOutlineSprite.Texture = GD.Load<Texture2D>(
+                _arrowFolderPath + "RightNoteOutline.png"
+            );
+        }
     }
 }

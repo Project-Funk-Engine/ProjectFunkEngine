@@ -22,7 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://cpxcg12lovxu5" path="res://Scenes/UI/Remapping/Assets/Joypad Button 4 (Back, Sony Select, Xbox Back, Nintendo -).png" id="16_s0mtp"]
 [ext_resource type="Texture2D" uid="uid://djd6iw2g84bba" path="res://Scenes/UI/Assets/UI_CenterFrame.png" id="18_8iace"]
 
-[node name="Remap" type="Node2D" node_paths=PackedStringArray("_closeButton", "_remapPopup", "_remapLabel", "_remapDescription", "_remapTimer", "_remapTabs")]
+[node name="Remap" type="Node2D" node_paths=PackedStringArray("_closeButton", "_remapPopup", "_remapLabel", "_remapDescription", "_remapTimer", "_remapTabs", "_keyboardUpSprite", "_keyboardDownSprite", "_keyboardLeftSprite", "_keyboardRightSprite", "_controllerUpSprite", "_controllerDownSprite", "_controllerLeftSprite", "_controllerRightSprite")]
 process_mode = 3
 script = ExtResource("1_ir12b")
 _closeButton = NodePath("Panel/TitleButton")
@@ -31,6 +31,14 @@ _remapLabel = NodePath("RemapPopup/Label2")
 _remapDescription = NodePath("RemapPopup/Label3")
 _remapTimer = NodePath("RemapPopup/Timer")
 _remapTabs = NodePath("Panel/TabContainer")
+_keyboardUpSprite = NodePath("Panel/TabContainer/CONTROLS_KEYBOARD/Up")
+_keyboardDownSprite = NodePath("Panel/TabContainer/CONTROLS_KEYBOARD/Down")
+_keyboardLeftSprite = NodePath("Panel/TabContainer/CONTROLS_KEYBOARD/Left")
+_keyboardRightSprite = NodePath("Panel/TabContainer/CONTROLS_KEYBOARD/Right")
+_controllerUpSprite = NodePath("Panel/TabContainer/CONTROLS_CONTROLLER/Up")
+_controllerDownSprite = NodePath("Panel/TabContainer/CONTROLS_CONTROLLER/Down")
+_controllerLeftSprite = NodePath("Panel/TabContainer/CONTROLS_CONTROLLER/Left")
+_controllerRightSprite = NodePath("Panel/TabContainer/CONTROLS_CONTROLLER/Right")
 
 [node name="Background" type="NinePatchRect" parent="."]
 offset_right = 640.0

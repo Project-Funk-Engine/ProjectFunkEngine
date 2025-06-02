@@ -13,9 +13,14 @@ public partial class HoldArrow : NoteArrow
     public Beat EndBeat => Data.Beat + Data.Length;
     private bool _isReleased;
 
-    public override void Init(CheckerData parentChecker, ArrowData arrowData, double beatTime)
+    public override void Init(
+        CheckerData parentChecker,
+        ArrowData arrowData,
+        double beatTime,
+        bool isTypeArrow
+    )
     {
-        base.Init(parentChecker, arrowData, beatTime);
+        base.Init(parentChecker, arrowData, beatTime, isTypeArrow);
         _trail.Size = new Vector2(
             (float)(Length / TimeKeeper.BeatsPerLoop * TimeKeeper.ChartWidth),
             _trail.Size.Y

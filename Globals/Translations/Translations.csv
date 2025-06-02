@@ -127,6 +127,8 @@ INVENTORY_TAB_NOTES,Notes,乐谱
 INVENTORY_TAB_RELICS,Relics,遗物
 OPTIONS_VOLUME_LABEL,Master Volume,最终音量设置
 OPTIONS_CONTRAST_LABEL,High Contrast,高对比度模式
+OPTIONS_TYPE_SYMBOL,Icons,图标
+OPTIONS_TYPE_ARROW,Arrows,箭
 HOW_TO_PLAY,How to Play,如何游玩
 HOW_TO_PLAY_BLOCK1,Hit notes to\nbuild combo,点击音符\n以建立连击
 HOW_TO_PLAY_BLOCK2,Place notes when\ncombo is full,当连击满\n时放置音符
