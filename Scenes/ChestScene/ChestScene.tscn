@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://c4vmb783d3v03"]
 
 [ext_resource type="Script" uid="uid://cetn71kolbrmg" path="res://Scenes/ChestScene/ChestScene.cs" id="1_ardd2"]
-[ext_resource type="AudioStream" uid="uid://be5ial13ynf3o" path="res://Audio/Song1.ogg" id="2_x78jo"]
+[ext_resource type="AudioStream" uid="uid://lardvkxjnxtb" path="res://Audio/Spooky-Forest.ogg" id="2_u0wcg"]
 [ext_resource type="Script" uid="uid://pl57giqyhckb" path="res://Scenes/UI/Scripts/MenuModule.cs" id="3_5uvci"]
 [ext_resource type="Script" uid="uid://cp6t6haqyef7o" path="res://Scenes/AreaBasedBackground.cs" id="5_u0wcg"]
 [ext_resource type="Shader" uid="uid://dp36iuuy414k1" path="res://SharedAssets/StarryNight.gdshader" id="5_whthd"]
@@ -25,7 +25,8 @@ PlayerMarker = NodePath("PlayerMarker")
 
 [node name="Audio" type="AudioStreamPlayer" parent="."]
 process_mode = 3
-stream = ExtResource("2_x78jo")
+stream = ExtResource("2_u0wcg")
+volume_db = -2.0
 autoplay = true
 
 [node name="UILayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("CurSceneNode")]
