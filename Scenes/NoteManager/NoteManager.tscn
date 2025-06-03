@@ -10,16 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://dslb58tkhgroj" path="res://Scenes/NoteManager/Assets/RightNoteOutline.png" id="9_osoy2"]
 [ext_resource type="Texture2D" uid="uid://bh68528ekvjbk" path="res://Scenes/NoteManager/Assets/BottomNoteOutline.png" id="11_ymppf"]
 
-[node name="noteManager" type="Node2D" node_paths=PackedStringArray("leftArrowSprite", "leftArrowOutlineSprite", "upArrowSprite", "upArrowOutlineSprite", "downArrowSprite", "downArrowOutlineSprite", "rightArrowSprite", "rightArrowOutlineSprite")]
+[node name="noteManager" type="Node2D"]
 script = ExtResource("1_2oeuf")
-leftArrowSprite = NodePath("noteCheckers/arrowLeft")
-leftArrowOutlineSprite = NodePath("noteCheckers/arrowLeft/Outline")
-upArrowSprite = NodePath("noteCheckers/arrowUp")
-upArrowOutlineSprite = NodePath("noteCheckers/arrowUp/Outline")
-downArrowSprite = NodePath("noteCheckers/arrowDown")
-downArrowOutlineSprite = NodePath("noteCheckers/arrowDown/Outline")
-rightArrowSprite = NodePath("noteCheckers/arrowRight")
-rightArrowOutlineSprite = NodePath("noteCheckers/arrowRight/Outline")
 
 [node name="noteCheckers" type="Node2D" parent="."]
 

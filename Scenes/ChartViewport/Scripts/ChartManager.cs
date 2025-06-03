@@ -24,9 +24,6 @@ public partial class ChartManager : SubViewportContainer
     private readonly List<NoteArrow>[] _queuedArrows = { new(), new(), new(), new() };
 
     private double _chartLength = 2500; //Play with this
-
-    private bool _isTypeArrow;
-
     #region Initialization
     public override void _Ready()
     {
@@ -34,8 +31,6 @@ public partial class ChartManager : SubViewportContainer
 
         IH.Connect(nameof(InputHandler.NotePressed), new Callable(this, nameof(OnNotePressed)));
         IH.Connect(nameof(InputHandler.NoteReleased), new Callable(this, nameof(OnNoteReleased)));
-
-        _isTypeArrow = SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.TypeIsArrow).As<bool>();
     }
 
     public override void _Process(double delta)
@@ -153,8 +148,7 @@ public partial class ChartManager : SubViewportContainer
         noteArrow.Init(
             IH.Arrows[(int)arrowData.Type],
             arrowData,
-            TimeKeeper.GetTimeOfBeat(arrowData.Beat),
-            _isTypeArrow
+            TimeKeeper.GetTimeOfBeat(arrowData.Beat)
         );
         if (arrowData.NoteRef.IsPlayerNote())
             noteArrow.SelfModulate = PlayerPuppet.NoteColor;

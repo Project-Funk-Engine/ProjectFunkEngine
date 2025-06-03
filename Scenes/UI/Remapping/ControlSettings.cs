@@ -184,40 +184,23 @@ public partial class ControlSettings : Node2D, IFocusableMenu
 
     private void InitNoteSprites()
     {
-        if (SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.TypeIsArrow).As<bool>())
-        {
-            _keyboardUpSprite.Texture = GD.Load<Texture2D>(NotePath + "New_Arrow.png");
-            _keyboardUpSprite.RotationDegrees = 270f;
-            _keyboardDownSprite.Texture = GD.Load<Texture2D>(NotePath + "New_Arrow.png");
-            _keyboardDownSprite.RotationDegrees = 90f;
-            _keyboardLeftSprite.Texture = GD.Load<Texture2D>(NotePath + "New_Arrow.png");
-            _keyboardLeftSprite.RotationDegrees = 180f;
-            _keyboardRightSprite.Texture = GD.Load<Texture2D>(NotePath + "New_Arrow.png");
-            _controllerUpSprite.Texture = GD.Load<Texture2D>(NotePath + "New_Arrow.png");
-            _controllerUpSprite.RotationDegrees = 270f;
-            _controllerDownSprite.Texture = GD.Load<Texture2D>(NotePath + "New_Arrow.png");
-            _controllerDownSprite.RotationDegrees = 90f;
-            _controllerLeftSprite.Texture = GD.Load<Texture2D>(NotePath + "New_Arrow.png");
-            _controllerLeftSprite.RotationDegrees = 180f;
-            _controllerRightSprite.Texture = GD.Load<Texture2D>(NotePath + "New_Arrow.png");
-        }
-        else
-        {
-            _keyboardUpSprite.Texture = GD.Load<Texture2D>(NotePath + "TopNoteOutline.png");
-            _keyboardUpSprite.RotationDegrees = 0f;
-            _keyboardDownSprite.Texture = GD.Load<Texture2D>(NotePath + "BottomNoteOutline.png");
-            _keyboardDownSprite.RotationDegrees = 0f;
-            _keyboardLeftSprite.Texture = GD.Load<Texture2D>(NotePath + "LeftNoteOutline.png");
-            _keyboardLeftSprite.RotationDegrees = 0f;
-            _keyboardRightSprite.Texture = GD.Load<Texture2D>(NotePath + "RightNoteOutline.png");
-            _controllerUpSprite.Texture = GD.Load<Texture2D>(NotePath + "TopNoteOutline.png");
-            _controllerUpSprite.RotationDegrees = 0f;
-            _controllerDownSprite.Texture = GD.Load<Texture2D>(NotePath + "BottomNoteOutline.png");
-            _controllerDownSprite.RotationDegrees = 0f;
-            _controllerLeftSprite.Texture = GD.Load<Texture2D>(NotePath + "LeftNoteOutline.png");
-            _controllerLeftSprite.RotationDegrees = 0f;
-            _controllerRightSprite.Texture = GD.Load<Texture2D>(NotePath + "RightNoteOutline.png");
-        }
+        if (!InputHandler.UseArrows)
+            return;
+        _keyboardUpSprite.Texture = GD.Load<Texture2D>(NotePath + "New_Arrow.png");
+        _keyboardUpSprite.RotationDegrees = 270f;
+        _keyboardDownSprite.Texture = GD.Load<Texture2D>(NotePath + "New_Arrow.png");
+        _keyboardDownSprite.RotationDegrees = 90f;
+        _keyboardLeftSprite.Texture = GD.Load<Texture2D>(NotePath + "New_Arrow.png");
+        _keyboardLeftSprite.RotationDegrees = 180f;
+        _keyboardRightSprite.Texture = GD.Load<Texture2D>(NotePath + "New_Arrow.png");
+
+        _controllerUpSprite.Texture = GD.Load<Texture2D>(NotePath + "New_Arrow.png");
+        _controllerUpSprite.RotationDegrees = 270f;
+        _controllerDownSprite.Texture = GD.Load<Texture2D>(NotePath + "New_Arrow.png");
+        _controllerDownSprite.RotationDegrees = 90f;
+        _controllerLeftSprite.Texture = GD.Load<Texture2D>(NotePath + "New_Arrow.png");
+        _controllerLeftSprite.RotationDegrees = 180f;
+        _controllerRightSprite.Texture = GD.Load<Texture2D>(NotePath + "New_Arrow.png");
     }
     #endregion
 

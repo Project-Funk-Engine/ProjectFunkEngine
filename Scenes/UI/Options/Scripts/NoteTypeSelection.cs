@@ -18,9 +18,11 @@ public partial class NoteTypeSelection : OptionButton
         {
             case 0:
                 SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.TypeIsArrow, false);
+                InputHandler.UseArrows = false;
                 break;
             case 1:
                 SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.TypeIsArrow, true);
+                InputHandler.UseArrows = true;
                 break;
         }
     }
