@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3 uid="uid://pvfy2bvvghl1"]
+
+[ext_resource type="Script" uid="uid://d2iq847jsxr1w" path="res://Scenes/EndScreen/NewEndScreen.cs" id="1_efhqt"]
+
+[node name="EndScreen" type="Node2D"]
+script = ExtResource("1_efhqt")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = 129.0
+offset_top = 12.0
+offset_right = 506.0
+offset_bottom = 320.0
+color = Color(0.300687, 0.278166, 0.371212, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 129.0
+offset_top = 12.0
+offset_right = 506.0
+offset_bottom = 339.0
+
+[node name="Title" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Battle Results"
+horizontal_alignment = 1
+
+[node name="Stats" type="Label" parent="VBoxContainer/Title"]
+offset_left = 39.0
+offset_top = 32.0
+offset_right = 128.0
+offset_bottom = 44.0
+text = "Stats"
+horizontal_alignment = 1
+
+[node name="battlesWonLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Battle Results"
+horizontal_alignment = 1
+
+[node name="notesPlacedLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Battle Results"
+horizontal_alignment = 1

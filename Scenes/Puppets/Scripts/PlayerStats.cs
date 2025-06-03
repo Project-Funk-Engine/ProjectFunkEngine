@@ -18,6 +18,12 @@ public partial class PlayerStats : Resource
     public int DiscountPercent = 0;
     public float ChartSpeedMultiplier = 1f;
 
+    public int BattlesWon = 0;
+    public int TotalNotesPlaced = 0;
+    public int TotalNotesHit = 0;
+
+    public float HitRate => TotalNotesPlaced == 0 ? 0 : (float)TotalNotesHit / TotalNotesPlaced;
+
     //Array in order of descending rarities, Legendary -> ... Common. Int odds out of 100.
     public int[] RarityOdds = [1, 5, 10, 20, 100];
     public Note[] CurNotes = new Note[]

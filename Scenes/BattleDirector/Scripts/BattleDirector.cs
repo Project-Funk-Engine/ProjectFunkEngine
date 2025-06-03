@@ -156,6 +156,7 @@ public partial class BattleDirector : Node2D
         Harbinger.Instance.NotePlaced += (_) =>
         {
             BattleScore.IncPlaced();
+            StageProducer.PlayerStats.TotalNotesPlaced++;
         };
         Harbinger.Instance.NoteHit += (_) =>
         {
@@ -166,6 +167,7 @@ public partial class BattleDirector : Node2D
             if (e is Harbinger.NoteHitArgs { Timing: Timing.Perfect })
                 BattleScore.IncPerfects();
             BattleScore.IncHits();
+            StageProducer.PlayerStats.TotalNotesHit++;
         };
     }
 
@@ -364,6 +366,7 @@ public partial class BattleDirector : Node2D
         CleanUpRelics();
         BattleScore.SetEndHp(Player.GetCurrentHealth());
         Audio.ProcessMode = ProcessModeEnum.Always;
+        StageProducer.PlayerStats.BattlesWon++;
         ScoringScreen.CreateScore(this, BattleScore).Finished += () =>
         {
             ShowRewardSelection(3);
