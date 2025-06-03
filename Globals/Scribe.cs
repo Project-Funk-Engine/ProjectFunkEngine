@@ -804,6 +804,11 @@ public partial class Scribe : Node
             enemyScenePath: [P_Astrorat.LoadPath],
             ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "Astrorat.tres")
         ),
+        new SongTemplate( // 17
+            name: "CatGirl",
+            enemyScenePath: [P_Midriff.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "Jammin' Forest.tres")
+        ),
     };
 
     //Needs to be strictly maintained based on what the player has obtained.
