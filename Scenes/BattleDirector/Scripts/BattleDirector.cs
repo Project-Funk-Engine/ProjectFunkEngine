@@ -44,6 +44,7 @@ public partial class BattleDirector : Node2D
     public static bool AutoPlay = false;
     public static bool PlayerDisabled = false;
     public static bool VerticalScroll = false;
+    public static float VerticalScrollRotation = 90f;
 
     #endregion
 

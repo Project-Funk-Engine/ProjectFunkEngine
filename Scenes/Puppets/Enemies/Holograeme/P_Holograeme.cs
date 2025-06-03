@@ -20,6 +20,7 @@ public partial class P_Holograeme : EnemyPuppet
         BattleDirector.AutoPlay = false;
         BattleDirector.PlayerDisabled = false;
         Conductor.BeatSpawnOffsetModifier = 0;
+        BattleDirector.VerticalScrollRotation = 90f;
     }
 
     public override void _Ready()
@@ -43,6 +44,7 @@ public partial class P_Holograeme : EnemyPuppet
                 {
                     BattleDirector.AutoPlay = true;
                     BattleDirector.PlayerDisabled = true;
+                    BattleDirector.VerticalScrollRotation = 0f;
                     e.BD.AddStatus(Targetting.Player, StatusEffect.Disable);
                 }
             ),
