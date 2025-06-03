@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://dfevfib11kou1"]
+[gd_scene load_steps=8 format=3 uid="uid://dfevfib11kou1"]
 
 [ext_resource type="Script" uid="uid://btgmfxqoe2wqx" path="res://Scenes/ChartViewport/Scripts/ChartManager.cs" id="1_ruh2l"]
+[ext_resource type="Texture2D" uid="uid://3kimu20ebgtu" path="res://Scenes/ChartViewport/LaneLines.png" id="2_543sd"]
 [ext_resource type="Texture2D" uid="uid://cp78odda2doab" path="res://Scenes/ChartViewport/LoopMarker.png" id="2_q5cjc"]
 [ext_resource type="Script" uid="uid://cf58ep1c2o0q2" path="res://Scenes/ChartViewport/Scripts/Loopable.cs" id="3_5u57h"]
 [ext_resource type="PackedScene" uid="uid://bn8txx53xlguw" path="res://Scenes/NoteManager/NoteManager.tscn" id="4_fd5fw"]
@@ -28,6 +29,13 @@ render_target_update_mode = 4
 [node name="Camera2D" type="Camera2D" parent="SubViewport"]
 position = Vector2(-50, 0)
 anchor_mode = 0
+
+[node name="LaneLines" type="TextureRect" parent="SubViewport"]
+offset_left = -50.0
+offset_top = 45.0
+offset_right = 480.0
+offset_bottom = 135.0
+texture = ExtResource("2_543sd")
 
 [node name="StarShader" type="ColorRect" parent="SubViewport"]
 z_index = -1

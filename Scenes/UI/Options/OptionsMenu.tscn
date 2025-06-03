@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://djd6iw2g84bba" path="res://Scenes/UI/Assets/UI_CenterFrame.png" id="3_qydxi"]
 [ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="4_r616m"]
 
-[node name="OptionsMenu" type="CanvasLayer" node_paths=PackedStringArray("_focused", "_volumeSlider", "_closeButton", "_controlsButton", "_highContrastToggle", "_howToPlayButton")]
+[node name="OptionsMenu" type="CanvasLayer" node_paths=PackedStringArray("_focused", "_volumeSlider", "_closeButton", "_controlsButton", "_highContrastToggle", "_howToPlayButton", "_titleScreenOptions", "_noteSpriteToggle", "_verticalScrollToggle")]
 process_mode = 3
 script = ExtResource("1_yjq7i")
 _focused = NodePath("Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/CheckBox")
@@ -15,6 +15,9 @@ _closeButton = NodePath("Control/CenterContainer/MarginContainer/MarginContainer
 _controlsButton = NodePath("Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/ControlsButton")
 _highContrastToggle = NodePath("Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/CheckBox")
 _howToPlayButton = NodePath("Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/HowToPlayButton")
+_titleScreenOptions = NodePath("Control/MarginContainer2")
+_noteSpriteToggle = NodePath("Control/MarginContainer2/CenterContainer/MarginContainer/VBoxContainer/NoteCheckbox")
+_verticalScrollToggle = NodePath("Control/MarginContainer2/CenterContainer/MarginContainer/VBoxContainer/VerticalScroll")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -39,6 +42,77 @@ patch_margin_top = 100
 patch_margin_right = 105
 patch_margin_bottom = 100
 
+[node name="MarginContainer2" type="MarginContainer" parent="Control"]
+layout_mode = 1
+offset_right = 162.0
+offset_bottom = 105.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = 7
+theme_override_constants/margin_top = 7
+
+[node name="OptionsBackground" type="NinePatchRect" parent="Control/MarginContainer2"]
+layout_mode = 2
+texture = ExtResource("3_qydxi")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="MoreOpaque" type="NinePatchRect" parent="Control/MarginContainer2"]
+layout_mode = 2
+texture = ExtResource("3_qydxi")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="MoreMoreOpaque" type="NinePatchRect" parent="Control/MarginContainer2"]
+layout_mode = 2
+texture = ExtResource("3_qydxi")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="CenterContainer" type="CenterContainer" parent="Control/MarginContainer2"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer2/CenterContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/margin_left = 7
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 7
+theme_override_constants/margin_bottom = 7
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer2/CenterContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="NoteLabel" type="Label" parent="Control/MarginContainer2/CenterContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "OPTIONS_NOTE_SWAP"
+horizontal_alignment = 1
+
+[node name="NoteCheckbox" type="CheckBox" parent="Control/MarginContainer2/CenterContainer/MarginContainer/VBoxContainer"]
+self_modulate = Color(2, 3, 2, 1)
+layout_mode = 2
+size_flags_horizontal = 4
+focus_neighbor_right = NodePath("../../../../../CenterContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/CheckBox")
+
+[node name="VerticalLabel" type="Label" parent="Control/MarginContainer2/CenterContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "OPTIONS_VERT_SCROLL"
+horizontal_alignment = 1
+
+[node name="VerticalScroll" type="CheckBox" parent="Control/MarginContainer2/CenterContainer/MarginContainer/VBoxContainer"]
+modulate = Color(2, 3, 2, 1)
+layout_mode = 2
+size_flags_horizontal = 4
+focus_neighbor_right = NodePath("../../../../../CenterContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer/CheckBox")
+
 [node name="CenterContainer" type="CenterContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = 15
@@ -46,6 +120,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="Control/CenterContainer"]
 layout_mode = 2
@@ -87,6 +162,7 @@ alignment = 1
 [node name="CheckBox" type="CheckBox" parent="Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 self_modulate = Color(2, 3, 2, 1)
 layout_mode = 2
+focus_neighbor_left = NodePath("../../../../../../MarginContainer2/CenterContainer/MarginContainer/VBoxContainer/NoteCheckbox")
 
 [node name="Label" type="Label" parent="Control/CenterContainer/MarginContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2

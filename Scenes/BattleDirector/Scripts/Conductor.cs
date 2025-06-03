@@ -7,7 +7,6 @@ using Godot;
  */
 public partial class Conductor : Node
 {
-    [Export]
     private ChartManager CM;
     private MidiMaestro MM;
 
@@ -19,11 +18,17 @@ public partial class Conductor : Node
     private bool _initialized;
 
     #region Initialization
-    public void Initialize(NoteChart curSong, double songLen, EnemyPuppet[] enemies = null)
+    public void Initialize(
+        ChartManager cm,
+        NoteChart curSong,
+        double songLen,
+        EnemyPuppet[] enemies = null
+    )
     {
         if (_initialized)
             return;
 
+        CM = cm;
         MM = new MidiMaestro(curSong);
         CM.ArrowFromInput += ReceiveNoteInput;
 

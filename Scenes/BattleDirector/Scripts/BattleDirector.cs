@@ -26,6 +26,9 @@ public partial class BattleDirector : Node2D
     private ChartManager CM;
 
     [Export]
+    private DimensionalWizard DW;
+
+    [Export]
     public NotePlacementBar NPB;
 
     [Export]
@@ -40,6 +43,7 @@ public partial class BattleDirector : Node2D
 
     public static bool AutoPlay = false;
     public static bool PlayerDisabled = false;
+    public static bool VerticalScroll = false;
 
     #endregion
 
@@ -110,7 +114,15 @@ public partial class BattleDirector : Node2D
         InitPlayer();
         InitEnemies();
         InitScoringGuide();
-        CD.Initialize(curChart, songLen, _enemies);
+        if (VerticalScroll)
+        {
+            CM.ProcessMode = ProcessModeEnum.Disabled;
+            CM.Visible = false;
+            CM = DW.CM;
+            DW.Visible = true;
+            DW.ProcessMode = ProcessModeEnum.Inherit;
+        }
+        CD.Initialize(CM, curChart, songLen, _enemies);
 
         CD.NoteInputEvent += OnTimedInput;
 

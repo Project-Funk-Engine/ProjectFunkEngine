@@ -59,6 +59,12 @@ public partial class StageProducer : Node
             .GetConfigValue(SaveSystem.ConfigSettings.HighContrast)
             .AsBool();
         GetTree().Root.CallDeferred("add_child", ContrastFilter);
+        InputHandler.UseArrows = SaveSystem
+            .GetConfigValue(SaveSystem.ConfigSettings.TypeIsArrow)
+            .AsBool();
+        BattleDirector.VerticalScroll = SaveSystem
+            .GetConfigValue(SaveSystem.ConfigSettings.VerticalScroll)
+            .AsBool();
     }
 
     private void GenerateMapConsistent()

@@ -39,6 +39,32 @@ public partial class ControlSettings : Node2D, IFocusableMenu
     private JoyButton _tempJoyButton;
     private string _chosenKey = "";
 
+    [Export]
+    private Sprite2D _keyboardUpSprite;
+
+    [Export]
+    private Sprite2D _keyboardDownSprite;
+
+    [Export]
+    private Sprite2D _keyboardLeftSprite;
+
+    [Export]
+    private Sprite2D _keyboardRightSprite;
+
+    [Export]
+    private Sprite2D _controllerUpSprite;
+
+    [Export]
+    private Sprite2D _controllerDownSprite;
+
+    [Export]
+    private Sprite2D _controllerLeftSprite;
+
+    [Export]
+    private Sprite2D _controllerRightSprite;
+
+    private static readonly string NotePath = "res://Scenes/NoteManager/Assets/";
+
     //These just don't play well with inputs
     private readonly HashSet<Key> _invalidKeys = new HashSet<Key>
     {
@@ -137,6 +163,7 @@ public partial class ControlSettings : Node2D, IFocusableMenu
         _closeButton.Pressed += ReturnToPrev;
 
         InitInputSprites();
+        InitNoteSprites();
     }
 
     private void InitInputSprites()
@@ -153,6 +180,27 @@ public partial class ControlSettings : Node2D, IFocusableMenu
         }
 
         UpdateKeySprites();
+    }
+
+    private void InitNoteSprites()
+    {
+        if (!InputHandler.UseArrows)
+            return;
+        _keyboardUpSprite.Texture = GD.Load<Texture2D>(NotePath + "New_Arrow.png");
+        _keyboardUpSprite.RotationDegrees = 270f;
+        _keyboardDownSprite.Texture = GD.Load<Texture2D>(NotePath + "New_Arrow.png");
+        _keyboardDownSprite.RotationDegrees = 90f;
+        _keyboardLeftSprite.Texture = GD.Load<Texture2D>(NotePath + "New_Arrow.png");
+        _keyboardLeftSprite.RotationDegrees = 180f;
+        _keyboardRightSprite.Texture = GD.Load<Texture2D>(NotePath + "New_Arrow.png");
+
+        _controllerUpSprite.Texture = GD.Load<Texture2D>(NotePath + "New_Arrow.png");
+        _controllerUpSprite.RotationDegrees = 270f;
+        _controllerDownSprite.Texture = GD.Load<Texture2D>(NotePath + "New_Arrow.png");
+        _controllerDownSprite.RotationDegrees = 90f;
+        _controllerLeftSprite.Texture = GD.Load<Texture2D>(NotePath + "New_Arrow.png");
+        _controllerLeftSprite.RotationDegrees = 180f;
+        _controllerRightSprite.Texture = GD.Load<Texture2D>(NotePath + "New_Arrow.png");
     }
     #endregion
 

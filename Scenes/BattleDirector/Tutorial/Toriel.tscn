@@ -115,7 +115,7 @@ position = Vector2(35, 202)
 position = Vector2(59, 266)
 
 [node name="NoteMarker" type="Marker2D" parent="."]
-position = Vector2(364, 294)
+position = Vector2(392, 246)
 
 [node name="LoopMarker" type="Marker2D" parent="."]
 position = Vector2(129, 270)
