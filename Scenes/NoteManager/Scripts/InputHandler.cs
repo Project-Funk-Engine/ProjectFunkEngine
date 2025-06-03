@@ -56,6 +56,10 @@ public partial class InputHandler : Node2D
     {
         InitializeArrowCheckers();
         UpdateArrowSprites();
+        if (!BattleDirector.VerticalScroll)
+            return;
+        foreach (CheckerData data in Arrows)
+            data.Node.RotationDegrees += 90f;
     }
 
     public override void _Process(double delta)

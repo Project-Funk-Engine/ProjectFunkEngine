@@ -29,6 +29,7 @@ public static class SaveSystem
     private const int DefaultInputControllerInventory = 4; //back button
     private const string DefaultLanguage = "en";
     private const bool DefaultTypeIsArrow = false;
+    private const bool DefaultVerticalScroll = false;
     private const bool DefaultHighCon = false;
     private const bool DefaultFirstTime = true;
     private const bool DefaultHasWon = false;
@@ -54,6 +55,7 @@ public static class SaveSystem
         HighContrast,
         FirstTime,
         HasWon,
+        VerticalScroll,
     }
 
     /**
@@ -81,6 +83,7 @@ public static class SaveSystem
         UpdateConfig(ConfigSettings.HighContrast, DefaultHighCon);
         UpdateConfig(ConfigSettings.FirstTime, DefaultFirstTime);
         UpdateConfig(ConfigSettings.HasWon, DefaultHasWon);
+        UpdateConfig(ConfigSettings.VerticalScroll, DefaultVerticalScroll);
     }
 
     private static void SaveConfig()
@@ -141,6 +144,9 @@ public static class SaveSystem
                 break;
             case ConfigSettings.TypeIsArrow:
                 _curConfigData.SetValue("Options", "TypeIsArrow", value);
+                break;
+            case ConfigSettings.VerticalScroll:
+                _curConfigData.SetValue("Options", "VerticalScroll", value);
                 break;
             case ConfigSettings.HighContrast:
                 _curConfigData.SetValue("Options", "HighContrast", value);
@@ -288,6 +294,8 @@ public static class SaveSystem
                 return _curConfigData.GetValue("Options", "LanguageKey", DefaultLanguage);
             case ConfigSettings.TypeIsArrow:
                 return _curConfigData.GetValue("Options", "TypeIsArrow", DefaultTypeIsArrow);
+            case ConfigSettings.VerticalScroll:
+                return _curConfigData.GetValue("Options", "VerticalScroll", DefaultVerticalScroll);
             case ConfigSettings.HighContrast:
                 return _curConfigData.GetValue("Options", "HighContrast", DefaultHighCon);
             case ConfigSettings.FirstTime:

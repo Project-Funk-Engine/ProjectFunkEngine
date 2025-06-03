@@ -26,6 +26,15 @@ public partial class OptionsMenu : CanvasLayer, IFocusableMenu
     [Export]
     private Button _howToPlayButton;
 
+    [Export]
+    private MarginContainer _titleScreenOptions;
+
+    [Export]
+    private CheckBox _noteSpriteToggle;
+
+    [Export]
+    private CheckBox _verticalScrollToggle;
+
     private const float MinVolumeVal = 0f;
 
     public override void _Ready()
@@ -46,6 +55,12 @@ public partial class OptionsMenu : CanvasLayer, IFocusableMenu
         _controlsButton.Pressed += OpenControls;
         _highContrastToggle.Toggled += HighContrastChanged;
         _howToPlayButton.Pressed += OpenHowToPlay;
+
+        _titleScreenOptions.Visible = !StageProducer.IsInitialized;
+        _noteSpriteToggle.ButtonPressed = InputHandler.UseArrows;
+        _noteSpriteToggle.Toggled += ArrowSpritesToggled;
+        _verticalScrollToggle.ButtonPressed = BattleDirector.VerticalScroll;
+        _verticalScrollToggle.Toggled += VerticalScrollToggled;
     }
 
     public override void _Input(InputEvent @event)
@@ -110,6 +125,18 @@ public partial class OptionsMenu : CanvasLayer, IFocusableMenu
             AudioServer.GetBusIndex("Master"),
             (float)Mathf.LinearToDb(value)
         );
+    }
+
+    private void ArrowSpritesToggled(bool value)
+    {
+        InputHandler.UseArrows = value;
+        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.TypeIsArrow, value);
+    }
+
+    private void VerticalScrollToggled(bool value)
+    {
+        BattleDirector.VerticalScroll = value;
+        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.VerticalScroll, value);
     }
 
     private void HighContrastChanged(bool toggled)

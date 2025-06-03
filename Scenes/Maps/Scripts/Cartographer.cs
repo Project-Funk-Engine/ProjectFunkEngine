@@ -74,6 +74,10 @@ public partial class Cartographer : Node2D
     public override void _EnterTree()
     {
         BgAudioPlayer.LiveInstance.PlayLevelMusic();
+        if (!SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.FirstTime).AsBool())
+            return;
+        BattleDirector.VerticalScroll = false;
+        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.VerticalScroll, false);
     }
 
     private Vector2 GetPosition(int x, int y)

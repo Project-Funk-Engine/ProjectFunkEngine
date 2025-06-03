@@ -40,6 +40,8 @@ public partial class NoteArrow : Sprite2D
         OutlineSprite.Texture = parentChecker.Node.Outline.Texture;
         IconSprite.Texture = arrowData.NoteRef.Texture;
         IconSprite.Rotation = -Rotation;
+        if (BattleDirector.VerticalScroll)
+            IconSprite.RotationDegrees += 90f;
         OutlineSprite.Modulate = parentChecker.Color;
     }
 

@@ -62,6 +62,9 @@ public partial class StageProducer : Node
         InputHandler.UseArrows = SaveSystem
             .GetConfigValue(SaveSystem.ConfigSettings.TypeIsArrow)
             .AsBool();
+        BattleDirector.VerticalScroll = SaveSystem
+            .GetConfigValue(SaveSystem.ConfigSettings.VerticalScroll)
+            .AsBool();
     }
 
     private void GenerateMapConsistent()

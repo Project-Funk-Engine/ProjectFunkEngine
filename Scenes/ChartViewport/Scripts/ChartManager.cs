@@ -281,6 +281,11 @@ public partial class ChartManager : SubViewportContainer
         TextParticle newText = new TextParticle();
         AddChild(newText);
         newText.Position = IH.Arrows[(int)arrow].Node.Position - newText.Size / 2;
+        if (BattleDirector.VerticalScroll)
+        {
+            newText.RotationDegrees += 90f;
+            newText.Position += Vector2.Right * 70;
+        }
         IH.FeedbackEffect(arrow, timed);
         newText.Text = Tr("BATTLE_ROOM_" + timed.ToString().ToUpper()) + $" {currentCombo}";
     }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://b0mrgr7h0ty1y"]
+[gd_scene load_steps=13 format=3 uid="uid://b0mrgr7h0ty1y"]
 
 [ext_resource type="Script" uid="uid://bttu0wmy2fp64" path="res://Scenes/BattleDirector/Scripts/BattleDirector.cs" id="1_jmdo1"]
 [ext_resource type="Script" uid="uid://pl57giqyhckb" path="res://Scenes/UI/Scripts/MenuModule.cs" id="2_ka0ws"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://duhiilcv4tat3" path="res://Scenes/BattleDirector/NotePlacementBar.tscn" id="4_qk7om"]
 [ext_resource type="PackedScene" uid="uid://dyd2nc2sgt0qw" path="res://Scenes/3DWizard/3DWizard.tscn" id="5_e25q1"]
 [ext_resource type="Texture2D" uid="uid://qhwve7fik4do" path="res://SharedAssets/BackGround_Full.png" id="6_0jtpx"]
+[ext_resource type="PackedScene" uid="uid://dfevfib11kou1" path="res://Scenes/ChartViewport/ChartViewport.tscn" id="6_e25q1"]
 [ext_resource type="Script" uid="uid://cp6t6haqyef7o" path="res://Scenes/AreaBasedBackground.cs" id="7_6k2qj"]
 [ext_resource type="Texture2D" uid="uid://dbjotl0v1ymia" path="res://SharedAssets/BattleFrame1.png" id="7_klvil"]
 [ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="8_62qim"]
@@ -19,13 +20,14 @@ gradient = SubResource("Gradient_8uy3a")
 fill_from = Vector2(1, 0)
 fill_to = Vector2(0.738532, 1)
 
-[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("PuppetMarkers", "_countdownLabel", "CD", "CM", "NPB", "Audio", "FocusedButton")]
+[node name="ProtoBattleDirector" type="Node2D" node_paths=PackedStringArray("PuppetMarkers", "_countdownLabel", "CD", "CM", "DW", "NPB", "Audio", "FocusedButton")]
 process_mode = 1
 script = ExtResource("1_jmdo1")
 PuppetMarkers = [NodePath("PlayerMarker"), NodePath("Enemy1Marker"), NodePath("Enemy2Marker"), NodePath("Enemy3Marker")]
 _countdownLabel = NodePath("CountInControl/Countdown")
 CD = NodePath("Conductor")
-CM = NodePath("3D/SubViewport/3DWizard/SubViewport/VPContainer")
+CM = NodePath("VPContainer")
+DW = NodePath("3D/SubViewport/3DWizard")
 NPB = NodePath("NotePlacementBar")
 Audio = NodePath("AudioStreamPlayer")
 FocusedButton = NodePath("StartButton")
@@ -37,9 +39,8 @@ metadata/_edit_lock_ = true
 script = ExtResource("2_ka0ws")
 CurSceneNode = NodePath("..")
 
-[node name="Conductor" type="Node" parent="." node_paths=PackedStringArray("CM")]
+[node name="Conductor" type="Node" parent="."]
 script = ExtResource("3_elcaj")
-CM = NodePath("../3D/SubViewport/3DWizard/SubViewport/VPContainer")
 
 [node name="PlayerMarker" type="Marker2D" parent="."]
 position = Vector2(158, 125)
@@ -76,6 +77,14 @@ size = Vector2i(480, 180)
 render_target_update_mode = 4
 
 [node name="3DWizard" parent="3D/SubViewport" instance=ExtResource("5_e25q1")]
+process_mode = 4
+visible = false
+
+[node name="VPContainer" parent="." instance=ExtResource("6_e25q1")]
+offset_left = 80.0
+offset_top = 180.0
+offset_right = 560.0
+offset_bottom = 360.0
 
 [node name="BackGround" type="TextureRect" parent="."]
 z_index = -1
