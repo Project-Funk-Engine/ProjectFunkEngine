@@ -113,8 +113,6 @@ public partial class Toriel : CanvasLayer
     {
         _nextButton.Pressed -= Dialogue2;
         _dialogueLabel.Text = Tr("TUTORIAL_DIALOGUE_2");
-        _selector.Visible = true;
-        _selector.Position = _noteMarker.Position - _selector.Size / 2;
         _nextButton.Pressed += Dialogue3;
     }
 
@@ -122,6 +120,7 @@ public partial class Toriel : CanvasLayer
     {
         _nextButton.Pressed -= Dialogue3;
         _dialogueLabel.Text = Tr("TUTORIAL_DIALOGUE_3");
+        _selector.Visible = true;
         _selector.Position = _inputSprites[(int)ArrowType.Down].Position - _selector.Size / 2;
         _nextButton.Pressed += Dialogue4;
     }
