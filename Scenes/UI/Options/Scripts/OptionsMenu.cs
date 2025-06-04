@@ -56,7 +56,9 @@ public partial class OptionsMenu : CanvasLayer, IFocusableMenu
         _highContrastToggle.Toggled += HighContrastChanged;
         _howToPlayButton.Pressed += OpenHowToPlay;
 
-        _titleScreenOptions.Visible = !StageProducer.IsInitialized;
+        _titleScreenOptions.Visible =
+            !StageProducer.IsInitialized
+            && !SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.FirstTime).AsBool();
         _noteSpriteToggle.ButtonPressed = InputHandler.UseArrows;
         _noteSpriteToggle.Toggled += ArrowSpritesToggled;
         _verticalScrollToggle.ButtonPressed = BattleDirector.VerticalScroll;

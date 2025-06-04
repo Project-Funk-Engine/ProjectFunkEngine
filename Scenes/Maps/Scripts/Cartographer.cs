@@ -76,8 +76,8 @@ public partial class Cartographer : Node2D
         BgAudioPlayer.LiveInstance.PlayLevelMusic();
         if (!SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.FirstTime).AsBool())
             return;
-        BattleDirector.VerticalScroll = false;
-        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.VerticalScroll, false);
+        BattleDirector.VerticalScroll = true;
+        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.VerticalScroll, true);
     }
 
     private Vector2 GetPosition(int x, int y)

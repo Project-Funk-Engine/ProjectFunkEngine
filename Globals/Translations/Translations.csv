@@ -135,7 +135,7 @@ HOW_TO_PLAY_BLOCK2,Place notes when\ncombo is full,当连击满\n时放置音符
 HOW_TO_PLAY_BLOCK3,Only placed notes\nhave effects,只有已放置\n的音符才有效
 TUTORIAL_NODYING,No dying during a tutorial!,教程中不会死亡！
 TUTORIAL_DIALOGUE_1,"Hello, welcome to Midnight Riff!",你好！欢迎来到午夜即兴！
-TUTORIAL_DIALOGUE_2,This is a rhythm game where notes move right to left.,这是一款节奏游戏，音符从右向左移动。
+TUTORIAL_DIALOGUE_2,This is a rhythm roguelike game!,这是一款节奏肉鸽游戏！
 TUTORIAL_DIALOGUE_3,"Press the correct button as the notes line up to hit the note. Try to time it as well as you can!",音符对齐时按下正确的按键，尽量精准地进行点击！
 TUTORIAL_DIALOGUE_4,"What are the correct buttons? I'll help you out and show you. These can be changed from the menu. Once you press continue we can get started!",正确的按键是什么？我会帮你指出来。这些可以在菜单中更改。按下继续后，我们就可以开始了！
 TUTORIAL_LOOP_1,At set intervals the chart loops! This means all notes on the chart repeat. You know a loop is coming up when this symbol scrolls by.,在固定的时间间隔内，乐谱会循环！这意味着乐谱上的所有音符都会重复出现。当这个符号滚动经过时，你就知道循环即将开始。

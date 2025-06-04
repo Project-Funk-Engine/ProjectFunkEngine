@@ -1,12 +1,7 @@
-[gd_resource type="Resource" load_steps=21 format=3]
+[gd_resource type="Resource" load_steps=18 format=3 uid="uid://csmn1qu7o67eo"]
 
-[ext_resource type="Script" path="res://Classes/MidiMaestro/NoteInfo.cs" id="1_0pymh"]
-[ext_resource type="Script" path="res://Classes/MidiMaestro/NoteChart.cs" id="2_2wffk"]
-
-[sub_resource type="Resource" id="Resource_udrqx"]
-script = ExtResource("1_0pymh")
-Beat = 2.0
-Length = 0.0
+[ext_resource type="Script" uid="uid://bhbpcmtr6e6pk" path="res://Classes/MidiMaestro/NoteInfo.cs" id="1_0pymh"]
+[ext_resource type="Script" uid="uid://bnpnavb5lwobj" path="res://Classes/MidiMaestro/NoteChart.cs" id="2_2wffk"]
 
 [sub_resource type="Resource" id="Resource_sdqpm"]
 script = ExtResource("1_0pymh")
@@ -68,16 +63,6 @@ script = ExtResource("1_0pymh")
 Beat = 8.0
 Length = 4.0
 
-[sub_resource type="Resource" id="Resource_2wffk"]
-script = ExtResource("1_0pymh")
-Beat = 3.0
-Length = 0.0
-
-[sub_resource type="Resource" id="Resource_x2ruo"]
-script = ExtResource("1_0pymh")
-Beat = 1.0
-Length = 0.0
-
 [sub_resource type="Resource" id="Resource_kbcyp"]
 script = ExtResource("1_0pymh")
 Beat = 5.0
@@ -99,7 +84,7 @@ Bpm = 150
 NumLoops = 4
 SongSpeed = 200.0
 SongMapLocation = "Jammin' Forest (Charting Edition).ogg"
-UpLaneData = Array[ExtResource("1_0pymh")]([SubResource("Resource_2wffk"), SubResource("Resource_x2ruo"), SubResource("Resource_kbcyp"), SubResource("Resource_cbvew"), SubResource("Resource_kadiu")])
-DownLaneData = Array[ExtResource("1_0pymh")]([SubResource("Resource_udrqx"), SubResource("Resource_sdqpm"), SubResource("Resource_k02mj"), SubResource("Resource_fpi3x"), SubResource("Resource_w82ea"), SubResource("Resource_8y5mj"), SubResource("Resource_moa4j")])
+UpLaneData = Array[ExtResource("1_0pymh")]([SubResource("Resource_kbcyp"), SubResource("Resource_cbvew"), SubResource("Resource_kadiu")])
+DownLaneData = Array[ExtResource("1_0pymh")]([SubResource("Resource_sdqpm"), SubResource("Resource_k02mj"), SubResource("Resource_fpi3x"), SubResource("Resource_w82ea"), SubResource("Resource_8y5mj"), SubResource("Resource_moa4j")])
 LeftLaneData = Array[ExtResource("1_0pymh")]([SubResource("Resource_0pymh"), SubResource("Resource_iy0fj"), SubResource("Resource_w0kh8")])
 RightLaneData = Array[ExtResource("1_0pymh")]([SubResource("Resource_eva2x"), SubResource("Resource_na3r5"), SubResource("Resource_wiej5")])

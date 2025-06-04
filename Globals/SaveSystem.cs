@@ -15,10 +15,10 @@ public static class SaveSystem
 
     private const float DefaultVolume = 1f;
     private const string DefaultInputType = "WASD"; //WASD or CONTROLLER
-    private const int DefaultInputKeyboardUp = 87; //W
+    private const int DefaultInputKeyboardUp = 83; //S
     private const int DefaultInputKeyboardLeft = 65; //A
-    private const int DefaultInputKeyboardDown = 83; //S
-    private const int DefaultInputKeyboardRight = 68; //D
+    private const int DefaultInputKeyboardDown = 75; //K
+    private const int DefaultInputKeyboardRight = 76; //L
     private const int DefaultInputKeyboardSecondary = 4194325; //Shift
     private const int DefaultInputKeyboardInventory = 73; //I
     private const int DefaultInputControllerUp = 3; //Y
@@ -29,7 +29,7 @@ public static class SaveSystem
     private const int DefaultInputControllerInventory = 4; //back button
     private const string DefaultLanguage = "en";
     private const bool DefaultTypeIsArrow = false;
-    private const bool DefaultVerticalScroll = false;
+    private const bool DefaultVerticalScroll = true;
     private const bool DefaultHighCon = false;
     private const bool DefaultFirstTime = true;
     private const bool DefaultHasWon = false;
