@@ -145,7 +145,7 @@ public class EventDatabase
                                     var relic = StageProducer.PlayerStats.CurRelics[^1];
                                     string name1 = relic.Name.ToUpper().Replace(" ", "");
                                     eventEffect = TranslationServer.Translate(
-                                        "NOTE_" + name1 + "_NAME"
+                                        "RELIC_" + name1 + "_NAME"
                                     );
                                     self.OutcomeDescriptions[0] = string.Format(
                                         TranslationServer.Translate("EVENT_EVENT2_OUTCOME6"),
