@@ -115,13 +115,18 @@ public partial class BattleDirector : Node2D
         InitPlayer();
         InitEnemies();
         InitScoringGuide();
+        CM.Visible = !VerticalScroll;
+        DW.Visible = VerticalScroll;
         if (VerticalScroll)
         {
             CM.ProcessMode = ProcessModeEnum.Disabled;
-            CM.Visible = false;
             CM = DW.CM;
-            DW.Visible = true;
             DW.ProcessMode = ProcessModeEnum.Inherit;
+        }
+        else
+        {
+            CM.ProcessMode = ProcessModeEnum.Inherit;
+            DW.ProcessMode = ProcessModeEnum.Disabled;
         }
         CD.Initialize(CM, curChart, songLen, _enemies);
 
