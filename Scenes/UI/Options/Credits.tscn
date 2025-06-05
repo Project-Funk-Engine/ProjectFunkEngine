@@ -45,12 +45,30 @@ Thomas Wessel
 Michael Quinn
 
 Artists
-Ares Atlas
 Evelyn Fu
+Ares Atlas
 Emily Wen
 
-Sound
-Sam Meyer: Composer"
+Music
+Crystal Cave - Cynicmusic
+Spooky Forest - Sam Meyer
+Paint the Town Neon Red - Sam Meyer
+gameMusic - Magntron
+Piano loops 181 - josefpres
+Dark loops 220 - josefpres
+District Four - Kevin MacLeod
+Echolane - Echolane
+We're Finally Landing - HOME
+Punk - Mere Notilde
+There It Is - Kevin Macleod
+Data - Karl Casey
+Jungle-ish beat for video games - IHateTuesdays
+Bass Stories - Pixabay
+Mysterious Ambience - Cynicmusic
+Resonance - HOME
+Frost Waltz - Kevin MacLeod
+Ether Disco - Kevin MacLeod
+Jammin' Forest - Sam Meyer"
 horizontal_alignment = 1
 
 [node name="Return Button" type="Button" parent="."]

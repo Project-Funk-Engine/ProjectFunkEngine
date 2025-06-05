@@ -45,9 +45,9 @@
 	&emsp;Licensed under Creative Commons: By Attribution 4.0 License  
 	&emsp;[http://creativecommons.org/licenses/by/4.0/](http://creativecommons.org/licenses/by/4.0/)  
 - **Shape Dudes Song:** [Data - Karl Casey](https://karlcasey.bandcamp.com/track/data)
-- **Weaver Song:** [Jungle-ish beat for video games](https://pixabay.com/music/video-games-jungle-ish-beat-for-video-games-314073/)
-- **Squirkel Song:** [Bass Stories](https://pixabay.com/music/happy-childrens-tunes-bass-stories-15656/)
-- **Elite Mushroom Song:** [Mysterious Ambience](https://opengameart.org/content/mysterious-ambience-song21)
+- **Weaver Song:** [Jungle-ish beat for video games - IHateTuesdays](https://pixabay.com/music/video-games-jungle-ish-beat-for-video-games-314073/)
+- **Squirkel Song:** [Bass Stories - Pixabay](https://pixabay.com/music/happy-childrens-tunes-bass-stories-15656/)
+- **Elite Mushroom Song:** [Mysterious Ambience - Cynicmusic](https://opengameart.org/content/mysterious-ambience-song21)
 - **Keythulu Song:** [Resonance - HOME](https://open.spotify.com/track/1TuopWDIuDi1553081zvuU)
 - **LWS Song**: [Frost Waltz - Kevin Macleod](https://incompetech.com/)  
 	&emsp;Licensed under Creative Commons: By Attribution 4.0 License  
