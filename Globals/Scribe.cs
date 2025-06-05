@@ -192,31 +192,6 @@ public partial class Scribe : Node
                 director.AddStatus(Targetting.Player, StatusEffect.Poison, amt);
             }
         ),
-        new Note(
-            18,
-            "PlayerBrass",
-            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerBrass.png"),
-            0,
-            (director, note, timing) =>
-            {
-                if (note.GetBaseVal() == 0) //Setup, so it doesn't trigger on place.
-                {
-                    note.SetBaseVal(2);
-                    return;
-                }
-                if (timing == Timing.Miss)
-                {
-                    director.AddStatus(Targetting.Player, StatusEffect.Mulligan, 1);
-                    return;
-                }
-                director.DealDamage(
-                    Targetting.First,
-                    note.GetBaseVal() * director.NPB.ComboMult,
-                    note.Owner
-                );
-                director.NPB.ResetCurrentCombo();
-            }
-        ),
     };
 
     public static readonly RelicTemplate[] RelicDictionary = new[]
@@ -437,41 +412,7 @@ public partial class Scribe : Node
             }
         ),
         new RelicTemplate(
-            18,
-            "War Horn",
-            Rarity.Epic,
-            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_WarHorn.png"),
-            new RelicEffect[]
-            {
-                new RelicEffect(
-                    BattleEffectTrigger.OnPickup,
-                    1,
-                    (e, self, val) =>
-                    {
-                        MapGrid.ForceEliteBattles = true;
-                    }
-                ),
-            }
-        ),
-        new RelicTemplate(
-            19,
-            "Looter's Lens",
-            Rarity.Uncommon,
-            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_LootersLens.png"),
-            new RelicEffect[]
-            {
-                new RelicEffect(
-                    BattleEffectTrigger.OnPickup,
-                    1,
-                    (e, self, val) =>
-                    {
-                        StageProducer.PlayerStats.RewardAmountModifier += val;
-                    }
-                ),
-            }
-        ),
-        new RelicTemplate(
-            20,
+            12,
             "Quito",
             Rarity.Legendary,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Quito.png"),
@@ -495,7 +436,7 @@ public partial class Scribe : Node
             }
         ),
         new RelicTemplate(
-            21,
+            13,
             "Soloist's Triangle",
             Rarity.Epic,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Soloist'sTriangle.png"),
@@ -513,7 +454,7 @@ public partial class Scribe : Node
             }
         ),
         new RelicTemplate(
-            22,
+            14,
             "Tinsel",
             Rarity.Legendary,
             GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Tinsel.png"),
