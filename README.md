@@ -16,7 +16,6 @@
 - Connor Lowe - Combat Designer
 - Thomas Wessel - Tools / Engine Lead
 - Raul Mojarro - Programming Support
-- Michael Quinn - Design Support
 
 ### Artists
 - **Evelyn Fu** - Art Lead
