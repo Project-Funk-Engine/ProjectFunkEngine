@@ -22,18 +22,6 @@ public partial class MidiMaestro : Resource
      */
     public MidiMaestro(NoteChart savedChart)
     {
-        /*if (!OS.HasFeature("editor"))
-        {
-            filePath = OS.GetExecutablePath().GetBaseDir() + "/" + filePath;
-        }*/
-
-        if (!FileAccess.FileExists(filePath))
-        {
-            GD.PushError("ERROR: Unable to load level songMap resource file: " + filePath);
-        }
-
-        NoteChart savedChart = ResourceLoader.Load<NoteChart>(filePath);*/
-
         if (savedChart != null)
         {
             _upNotes = savedChart.GetLane(ArrowType.Up).ToArray();
