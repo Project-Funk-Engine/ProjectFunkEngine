@@ -360,6 +360,14 @@ public partial class StageProducer : Node
         }
     }
 
+    public override void _Notification(int what)
+    {
+        if (what == NotificationWMGoBackRequest)
+        {
+            Input.ActionPress("Pause");
+        }
+    }
+
     #region Area Management
 
     /// <summary>
