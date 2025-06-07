@@ -1,45 +1,24 @@
-[gd_scene load_steps=7 format=3 uid="uid://bn8txx53xlguw"]
+[gd_scene load_steps=9 format=3 uid="uid://bn8txx53xlguw"]
 
 [ext_resource type="Script" uid="uid://bok6bnyemsgck" path="res://Scenes/NoteManager/Scripts/InputHandler.cs" id="1_2oeuf"]
 [ext_resource type="Texture2D" uid="uid://2jj65hqoi8su" path="res://Scenes/NoteManager/Assets/Note.png" id="2_shvru"]
 [ext_resource type="Script" uid="uid://coukobemtvmah" path="res://Scenes/NoteManager/Scripts/NoteChecker.cs" id="3_0cioe"]
 [ext_resource type="Texture2D" uid="uid://br6xfjuq6c2nk" path="res://Scenes/NoteManager/Assets/TopNoteOutline.png" id="4_adgij"]
-[ext_resource type="Texture2D" uid="uid://b0tvsewgnf2x7" path="res://icon.svg" id="4_foklt"]
 [ext_resource type="PackedScene" uid="uid://bcf6vs4aqoxr5" path="res://Scenes/ChartViewport/HitParticles.tscn" id="5_jv1tr"]
 [ext_resource type="Texture2D" uid="uid://s84c7d50wjvn" path="res://Scenes/NoteManager/Assets/LeftNoteOutline.png" id="7_hm3i3"]
 [ext_resource type="Texture2D" uid="uid://dslb58tkhgroj" path="res://Scenes/NoteManager/Assets/RightNoteOutline.png" id="9_osoy2"]
 [ext_resource type="Texture2D" uid="uid://bh68528ekvjbk" path="res://Scenes/NoteManager/Assets/BottomNoteOutline.png" id="11_ymppf"]
-
-[sub_resource type="Gradient" id="Gradient_ygqah"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_7no7r"]
-gradient = SubResource("Gradient_ygqah")
-height = 34
-fill_from = Vector2(0.664634, 0.688666)
-
-[sub_resource type="Gradient" id="Gradient_7no7r"]
-colors = PackedColorArray(0, 0, 0, 0.75, 1, 1, 1, 0.75)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_adgij"]
-gradient = SubResource("Gradient_7no7r")
-height = 34
-fill_from = Vector2(0.664634, 0.482066)
-fill_to = Vector2(0, 1)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ygqah"]
-size = Vector2(64, 34)
 
 [node name="noteManager" type="Node2D"]
 script = ExtResource("1_2oeuf")
 
 [node name="noteCheckers" type="Node2D" parent="."]
 
-[node name="arrowLeft" type="Sprite2D" parent="noteCheckers" node_paths=PackedStringArray("InputButton")]
-position = Vector2(0, 29)
-rotation = 3.14159
-texture = ExtResource("2_pb1qk")
+[node name="arrowLeft" type="Sprite2D" parent="noteCheckers" node_paths=PackedStringArray("Outline")]
+position = Vector2(0, 27)
+texture = ExtResource("2_shvru")
 script = ExtResource("3_0cioe")
-InputButton = NodePath("Button")
+Outline = NodePath("Outline")
 
 [node name="Outline" type="Sprite2D" parent="noteCheckers/arrowLeft"]
 self_modulate = Color(0.45, 0.45, 0.45, 1)
@@ -47,24 +26,11 @@ texture = ExtResource("4_adgij")
 
 [node name="HitParticles" parent="noteCheckers/arrowLeft" instance=ExtResource("5_jv1tr")]
 
-[node name="Button" type="TouchScreenButton" parent="noteCheckers/arrowLeft"]
-visible = false
-self_modulate = Color(1, 1, 1, 0.1)
-top_level = true
-position = Vector2(-34, 13)
-scale = Vector2(10.25, 1)
-texture_normal = SubResource("GradientTexture2D_7no7r")
-texture_pressed = SubResource("GradientTexture2D_adgij")
-shape = SubResource("RectangleShape2D_ygqah")
-visibility_mode = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="arrowUp" type="Sprite2D" parent="noteCheckers" node_paths=PackedStringArray("InputButton")]
+[node name="arrowUp" type="Sprite2D" parent="noteCheckers" node_paths=PackedStringArray("Outline")]
 position = Vector2(0, 68)
 texture = ExtResource("2_shvru")
 script = ExtResource("3_0cioe")
 Outline = NodePath("Outline")
-InputButton = NodePath("Button")
 
 [node name="Outline" type="Sprite2D" parent="noteCheckers/arrowUp"]
 self_modulate = Color(0.45, 0.45, 0.45, 1)
@@ -72,24 +38,11 @@ texture = ExtResource("7_hm3i3")
 
 [node name="HitParticles" parent="noteCheckers/arrowUp" instance=ExtResource("5_jv1tr")]
 
-[node name="Button" type="TouchScreenButton" parent="noteCheckers/arrowUp"]
-visible = false
-self_modulate = Color(1, 1, 1, 0.1)
-top_level = true
-position = Vector2(-34, 51)
-scale = Vector2(10.25, 1)
-texture_normal = SubResource("GradientTexture2D_7no7r")
-texture_pressed = SubResource("GradientTexture2D_adgij")
-shape = SubResource("RectangleShape2D_ygqah")
-visibility_mode = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="arrowDown" type="Sprite2D" parent="noteCheckers" node_paths=PackedStringArray("InputButton")]
+[node name="arrowDown" type="Sprite2D" parent="noteCheckers" node_paths=PackedStringArray("Outline")]
 position = Vector2(0, 112)
 texture = ExtResource("2_shvru")
 script = ExtResource("3_0cioe")
 Outline = NodePath("Outline")
-InputButton = NodePath("Button")
 
 [node name="Outline" type="Sprite2D" parent="noteCheckers/arrowDown"]
 self_modulate = Color(0.45, 0.45, 0.45, 1)
@@ -97,61 +50,14 @@ texture = ExtResource("9_osoy2")
 
 [node name="HitParticles" parent="noteCheckers/arrowDown" instance=ExtResource("5_jv1tr")]
 
-[node name="Button" type="TouchScreenButton" parent="noteCheckers/arrowDown"]
-visible = false
-self_modulate = Color(1, 1, 1, 0.1)
-top_level = true
-position = Vector2(-34, 95)
-scale = Vector2(10.25, 1)
-texture_normal = SubResource("GradientTexture2D_7no7r")
-texture_pressed = SubResource("GradientTexture2D_adgij")
-shape = SubResource("RectangleShape2D_ygqah")
-visibility_mode = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="arrowRight" type="Sprite2D" parent="noteCheckers" node_paths=PackedStringArray("InputButton")]
-position = Vector2(0, 151)
-texture = ExtResource("2_pb1qk")
+[node name="arrowRight" type="Sprite2D" parent="noteCheckers" node_paths=PackedStringArray("Outline")]
+position = Vector2(0, 153)
+texture = ExtResource("2_shvru")
 script = ExtResource("3_0cioe")
-InputButton = NodePath("Button")
+Outline = NodePath("Outline")
 
 [node name="Outline" type="Sprite2D" parent="noteCheckers/arrowRight"]
 self_modulate = Color(0.45, 0.45, 0.45, 1)
 texture = ExtResource("11_ymppf")
 
 [node name="HitParticles" parent="noteCheckers/arrowRight" instance=ExtResource("5_jv1tr")]
-
-[node name="Button" type="TouchScreenButton" parent="noteCheckers/arrowRight"]
-visible = false
-self_modulate = Color(1, 1, 1, 0.1)
-top_level = true
-position = Vector2(-34, 134)
-scale = Vector2(10.25, 1)
-texture_normal = SubResource("GradientTexture2D_7no7r")
-texture_pressed = SubResource("GradientTexture2D_adgij")
-shape = SubResource("RectangleShape2D_ygqah")
-visibility_mode = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="ui" type="Node2D" parent="."]
-
-[node name="dividers" type="Node2D" parent="ui"]
-visible = false
-
-[node name="DivA" type="Sprite2D" parent="ui/dividers"]
-modulate = Color(0, 0, 0, 1)
-position = Vector2(295, 37)
-scale = Vector2(5.10938, 0.041)
-texture = ExtResource("4_foklt")
-
-[node name="DivB" type="Sprite2D" parent="ui/dividers"]
-modulate = Color(0, 0, 0, 1)
-position = Vector2(295, 77)
-scale = Vector2(5.10938, 0.041)
-texture = ExtResource("4_foklt")
-
-[node name="DivC" type="Sprite2D" parent="ui/dividers"]
-modulate = Color(0, 0, 0, 1)
-position = Vector2(295, 120)
-scale = Vector2(5.10938, 0.041)
-texture = ExtResource("4_foklt")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://b0mrgr7h0ty1y"]
+[gd_scene load_steps=21 format=3 uid="uid://b0mrgr7h0ty1y"]
 
 [ext_resource type="Script" uid="uid://bttu0wmy2fp64" path="res://Scenes/BattleDirector/Scripts/BattleDirector.cs" id="1_jmdo1"]
 [ext_resource type="Texture2D" uid="uid://bpomsqirdeom0" path="res://SharedAssets/Inventory.png" id="2_gbbxr"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://be6fb2sr5i515"]
+[gd_scene load_steps=9 format=3 uid="uid://be6fb2sr5i515"]
 
 [ext_resource type="Script" uid="uid://kqa0ovjph1hd" path="res://Scenes/UI/Scripts/Inventory.cs" id="1_8rcwd"]
 [ext_resource type="Texture2D" uid="uid://ck16vyh1q68ri" path="res://Scenes/UI/Assets/UI_ForestBackground.png" id="2_s6pj7"]
@@ -6,6 +6,10 @@
 [ext_resource type="Texture2D" uid="uid://8u3xvcma81d" path="res://Scenes/UI/Assets/UI_CrystalFrame.png" id="3_s6pj7"]
 [ext_resource type="Texture2D" uid="uid://burj10os057fx" path="res://Scenes/UI/Assets/UI_CrystalFrameInset.png" id="4_b6trj"]
 [ext_resource type="Texture2D" uid="uid://dyt1cvag13aik" path="res://SharedAssets/Money.png" id="5_si1x5"]
+[ext_resource type="Texture2D" uid="uid://bpomsqirdeom0" path="res://SharedAssets/Inventory.png" id="7_lwp4u"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fv6l5"]
+size = Vector2(32, 32)
 
 [node name="Inventory" type="Control" node_paths=PackedStringArray("_relics", "_notes", "_description", "_tabs", "_moneyLabel")]
 process_mode = 1
@@ -44,7 +48,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 11
+theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 5
 
@@ -180,8 +184,10 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -130.0
-offset_bottom = 34.0
+offset_left = -168.0
+offset_top = 4.0
+offset_right = -38.0
+offset_bottom = 38.0
 grow_horizontal = 0
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 10
@@ -200,6 +206,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -0.5
+offset_right = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_right = 8
@@ -225,3 +233,9 @@ text = "0"
 horizontal_alignment = 2
 vertical_alignment = 1
 clip_text = true
+
+[node name="Inventory" type="TouchScreenButton" parent="."]
+position = Vector2(598, 5)
+texture_normal = ExtResource("7_lwp4u")
+shape = SubResource("RectangleShape2D_fv6l5")
+action = "WASD_inventory"

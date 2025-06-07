@@ -49,16 +49,6 @@ public partial class InputHandler : Node2D
         {
             Arrows[i].Node = GetNode<NoteChecker>("noteCheckers/" + Arrows[i].Key);
             Arrows[i].Node.SetColor(Arrows[i].Color);
-
-            int arrowIndex = i;
-            Arrows[i].Node.InputButton.Pressed += () =>
-            {
-                PressArrow((ArrowType)arrowIndex);
-            };
-            Arrows[i].Node.InputButton.Released += () =>
-            {
-                ReleaseArrow((ArrowType)arrowIndex);
-            };
         }
     }
 
