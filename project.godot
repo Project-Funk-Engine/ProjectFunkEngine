@@ -13,6 +13,7 @@ config_version=5
 config/name="ProjectFunkEngine"
 config/tags=PackedStringArray("cool")
 run/main_scene="res://Scenes/UI/TitleScreen/TitleScreen.tscn"
+config/quit_on_go_back=false
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 boot_splash/bg_color=Color(0.103744, 0.103744, 0.103744, 1)
 boot_splash/image="uid://buc2vne427up1"
