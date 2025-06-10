@@ -7,13 +7,13 @@ public partial class CreditsMenu : Control, IFocusableMenu
     public static readonly string LoadPath = "res://Scenes/UI/Options/Credits.tscn";
 
     [Export]
-    public Label CreditsText;
+    public Control CreditsText;
 
     [Export]
-    public float ScrollSpeed = 50f;
+    public float ScrollSpeed = 60f;
 
-    public float FadeStartY = 0;
-    public float FadeEndY = -400f;
+    public float FadeStartY = -500f;
+    public float FadeEndY = -1200f;
 
     [Export]
     public float RestartPositionY = 800f;

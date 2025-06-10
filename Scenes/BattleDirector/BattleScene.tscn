@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://dyd2nc2sgt0qw" path="res://Scenes/3DWizard/3DWizard.tscn" id="5_e25q1"]
 [ext_resource type="PackedScene" uid="uid://dfevfib11kou1" path="res://Scenes/ChartViewport/ChartViewport.tscn" id="5_gbbxr"]
 [ext_resource type="Texture2D" uid="uid://qhwve7fik4do" path="res://SharedAssets/BackGround_Full.png" id="6_0jtpx"]
-[ext_resource type="PackedScene" uid="uid://dfevfib11kou1" path="res://Scenes/ChartViewport/ChartViewport.tscn" id="6_e25q1"]
 [ext_resource type="Script" uid="uid://cp6t6haqyef7o" path="res://Scenes/AreaBasedBackground.cs" id="7_6k2qj"]
 [ext_resource type="Texture2D" uid="uid://dbjotl0v1ymia" path="res://SharedAssets/BattleFrame1.png" id="7_klvil"]
 [ext_resource type="Theme" uid="uid://d37e3tpsbxwak" path="res://Scenes/UI/Assets/GeneralTheme.tres" id="8_62qim"]
@@ -27,7 +26,7 @@ script = ExtResource("1_jmdo1")
 PuppetMarkers = [NodePath("PlayerMarker"), NodePath("Enemy1Marker"), NodePath("Enemy2Marker"), NodePath("Enemy3Marker")]
 _countdownLabel = NodePath("CountInControl/Countdown")
 CD = NodePath("Conductor")
-CM = NodePath("VPContainer")
+CM = NodePath("VPContainer2")
 DW = NodePath("3D/SubViewport/3DWizard")
 NPB = NodePath("NotePlacementBar")
 Audio = NodePath("AudioStreamPlayer")
@@ -81,14 +80,7 @@ render_target_update_mode = 4
 process_mode = 4
 visible = false
 
-[node name="VPContainer" parent="." instance=ExtResource("6_e25q1")]
-offset_left = 80.0
-offset_top = 180.0
-offset_right = 560.0
-offset_bottom = 360.0
-
-[node name="VPContainer" parent="." instance=ExtResource("5_gbbxr")]
-visible = false
+[node name="VPContainer2" parent="." instance=ExtResource("5_gbbxr")]
 offset_left = 80.0
 offset_top = 180.0
 offset_right = 560.0
