@@ -113,7 +113,7 @@ public partial class Savekeeper : Node
         return valName + Delimiter + value + Delimiter;
     }
 
-    public const string ArrayDelimiter = "~";
+    public const string ArrayDelimiter = "*";
 
     //Ex: ValidIds|[12~1~4~5]|
     public static string FormatArray<T>(string valName, T[] value)
