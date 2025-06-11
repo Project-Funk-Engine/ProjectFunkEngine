@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Godot;
+using FileAccess = Godot.FileAccess;
 
 /// <summary>
 /// v1 of a drag and drop save system.
@@ -30,7 +31,7 @@ public partial class Savekeeper : Node
 
     public static Dictionary<String, String> GameSaveObjects = new Dictionary<String, String>();
 
-    public void RecordSave()
+    public static void RecordSave()
     { //TODO: Refine later
         //Call signal, assume nodes will access dictionary. This means in ready will need to listen to signal.
         //Maybe node groups?
@@ -38,12 +39,15 @@ public partial class Savekeeper : Node
         Callable.From(() => SaveToFile()).CallDeferred();
     }
 
-    public bool SaveToFile(string savePath = DefaultSaveFileName + SaveFileExtension)
+    public static bool SaveToFile(string savePath = DefaultSaveFileName + SaveFileExtension)
     {
         if (string.IsNullOrEmpty(savePath))
             return false;
 
-        FileAccess file = FileAccess.Open(SaveFileDirectory + savePath, FileAccess.ModeFlags.Write);
+        FileAccess file = FileAccess.Open(
+            SaveFileDirectory + "/" + savePath,
+            FileAccess.ModeFlags.Write
+        );
         if (file == null)
             return false;
         foreach ((string key, string value) in GameSaveObjects)
@@ -56,11 +60,14 @@ public partial class Savekeeper : Node
         return true;
     }
 
-    public bool LoadFromFile(string savePath = DefaultSaveFileName + SaveFileExtension)
+    public static bool LoadFromFile(string savePath = DefaultSaveFileName + SaveFileExtension)
     {
         if (string.IsNullOrEmpty(savePath))
             return false;
-        FileAccess file = FileAccess.Open(SaveFileDirectory + savePath, FileAccess.ModeFlags.Read);
+        FileAccess file = FileAccess.Open(
+            SaveFileDirectory + "/" + savePath,
+            FileAccess.ModeFlags.Read
+        );
         if (file == null)
             return false;
 
@@ -84,7 +91,7 @@ public partial class Savekeeper : Node
         return true;
     }
 
-    public string SanitizeSaveString(string saveString)
+    public static string SanitizeSaveString(string saveString)
     {
         if (string.IsNullOrEmpty(saveString))
             return null;
