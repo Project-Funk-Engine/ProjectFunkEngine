@@ -11,35 +11,23 @@ signal loaded
 	
 var GameSaveObjects : Dictionary[String, String]
 
-func _enter_tree() -> void:
-	run_tests()
-
-func run_tests() -> void:
-	var test_name : String = "TEST_NAME"
-	var test_val : Array[int] = [1,2,999,909,-2]
-	var test_string : String = format_array(test_name, test_val)
-	print_debug(test_string)
-	var result : Parse_Result = parse_array(test_name, test_string, 0, "is_valid_int", "to_int")
-	print_debug(result.success)
-	print_debug(result.value)
-	print_debug(typeof(result.value))
-	print_debug(result.message)
-
 func handle_prev_save() -> void:
 	GameSaveObjects.clear()
 
 func sanitize_savestring(what : String) -> String:
-	if what.is_empty() or what == null:
-		return ""
+	if what.is_empty() or what == null: return ""
 	what = what.strip_edges()
 	if what.is_empty():
 		return ""
+		
 	if what.find(Delimiter) == 0:
 		return what.trim_prefix(Delimiter)
 	return ""
 
-func record_save() -> void:
+func record_save(save_path : String = DefaultSaveFileName + SaveFileExtension) -> bool:
 	saving.emit()
+	return save_to_file(save_path)
+	
 	
 func save_to_file(save_path : String = DefaultSaveFileName + SaveFileExtension) -> bool:
 	if save_path.is_empty() or save_path == null:
@@ -47,6 +35,7 @@ func save_to_file(save_path : String = DefaultSaveFileName + SaveFileExtension) 
 	var file : FileAccess = FileAccess.open(SaveFileDirectory + "/" + save_path, FileAccess.WRITE)
 	if file == null:
 		return false
+		
 	for key in GameSaveObjects:
 		file.store_line(key + Delimiter + GameSaveObjects[key])
 	file.close()
@@ -60,6 +49,7 @@ func load_from_file(save_path : String = DefaultSaveFileName + SaveFileExtension
 	var file : FileAccess = FileAccess.open(SaveFileDirectory + "/" + save_path, FileAccess.READ)
 	if file == null:
 		return false
+		
 	handle_prev_save()
 	while file.get_position() < file.get_length():
 		var line : String = file.get_line()
@@ -75,11 +65,13 @@ func load_from_file(save_path : String = DefaultSaveFileName + SaveFileExtension
 	loaded.emit()
 	return true
 	
+const InvalidFormatString : String = "InvalidString"
+	
 func format(val_name : String, what : Variant) -> String:
 	if what == null:
 		return ""
 	if typeof(what) == typeof(Delimiter) && !what.is_valid_filename():#TODO: regex to remove characters?
-		return val_name + Delimiter + "InvalidString" + Delimiter
+		return val_name + Delimiter + InvalidFormatString + Delimiter
 	return val_name + Delimiter + str(what) + Delimiter
 	
 const ArrayDelimiter : String = "*"
@@ -90,7 +82,7 @@ func format_array(val_name : String, what : Array) -> String:
 	var return_string : String = val_name + Delimiter + "["
 	for obj in what:
 		if typeof(obj) == typeof(Delimiter) && !obj.is_valid_filename():#TODO: regex to remove characters?
-			return_string = return_string + "InvalidString" + ArrayDelimiter
+			return_string = return_string + InvalidFormatString + ArrayDelimiter
 			continue
 		return_string = return_string + str(obj) + ArrayDelimiter
 	return_string = return_string + "]" + Delimiter

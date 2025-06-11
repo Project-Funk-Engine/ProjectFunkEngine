@@ -4,16 +4,19 @@ using Godot;
 using FileAccess = Godot.FileAccess;
 
 /// <summary>
-/// v1 of a drag and drop save system.
-/// Does not work with Godot resources for safer handling.
+/// v1 of a drag and drop save system.<br></br>
+/// Does not work with Godot resources for safer handling.<br></br>
+/// Assumptions:<br></br>
+/// T needs ToString() and T.TryParse(string value, out T result) -> bool<br></br>
+/// Objects need to implement their own Serialize and Deserialize<br></br>
 /// </summary>
 public partial class Savekeeper : Node
 {
-    public const string SaveFileDirectory = "user://saved_games";
-    public const string SaveFileExtension = ".save";
-    public const string DefaultSaveFileName = "game";
+    private const string SaveFileDirectory = "user://saved_games";
+    private const string SaveFileExtension = ".save";
+    private const string DefaultSaveFileName = "game";
 
-    public const char Delimiter = '|';
+    private const char Delimiter = '|';
 
     public delegate void SavingHandler();
     public static event SavingHandler Saving;
@@ -29,31 +32,28 @@ public partial class Savekeeper : Node
         DirAccess.MakeDirAbsolute(SaveFileExtension);
     }
 
-    public static Dictionary<String, String> GameSaveObjects = new Dictionary<String, String>();
+    public static Dictionary<String, String> GameSaveObjects { get; private set; } =
+        new Dictionary<String, String>();
 
-    public static void RecordSave()
-    { //TODO: Refine later
-        //Call signal, assume nodes will access dictionary. This means in ready will need to listen to signal.
-        //Maybe node groups?
+    public static void RecordSave(string savePath = DefaultSaveFileName + SaveFileExtension)
+    {
         Saving?.Invoke();
-        Callable.From(() => SaveToFile()).CallDeferred();
+        Callable.From(() => SaveToFile(savePath)).CallDeferred();
     }
 
-    public static bool SaveToFile(string savePath = DefaultSaveFileName + SaveFileExtension)
+    private static bool SaveToFile(string savePath = DefaultSaveFileName + SaveFileExtension)
     {
         if (string.IsNullOrEmpty(savePath))
             return false;
-
         FileAccess file = FileAccess.Open(
             SaveFileDirectory + "/" + savePath,
             FileAccess.ModeFlags.Write
         );
         if (file == null)
             return false;
+
         foreach ((string key, string value) in GameSaveObjects)
-        {
             file.StoreLine(key + Delimiter + value);
-        }
         file.Close();
 
         GameSaved?.Invoke();
@@ -79,6 +79,7 @@ public partial class Savekeeper : Node
             int idx = line.IndexOf(Delimiter);
             if (idx == -1)
                 continue;
+
             string key = line.Substring(0, idx);
             string value = SanitizeSaveString(line.Substring(idx));
             if (value == null)
@@ -91,38 +92,45 @@ public partial class Savekeeper : Node
         return true;
     }
 
-    public static string SanitizeSaveString(string saveString)
+    private static string SanitizeSaveString(string saveString)
     {
         if (string.IsNullOrEmpty(saveString))
             return null;
         saveString = saveString.Trim();
-        if (saveString.Length == 0)
-            return null;
-
-        if (saveString[0] != Delimiter)
+        if (saveString.Length == 0 || saveString[0] != Delimiter)
             return null;
         return saveString.Substring(1);
     }
 
-    //TODO: Learn more about C# types.
+    const string InvalidFormatString = "InvalidString";
+
     //Ex: Position.X|45.8|
     public static string Format(string valName, object value)
     {
         if (value == null)
             return "";
+        if (value is string s && !s.IsValidFileName())
+            return valName + Delimiter + InvalidFormatString + Delimiter;
+
         return valName + Delimiter + value + Delimiter;
     }
 
-    public const string ArrayDelimiter = "*";
+    private const string ArrayDelimiter = "*";
 
-    //Ex: ValidIds|[12~1~4~5]|
+    //Ex: ValidIds|[12*1*4*5]|
     public static string FormatArray<T>(string valName, T[] value)
     {
         if (value == null)
             return "";
         String retString = valName + Delimiter + '[';
+
         foreach (object o in value)
         {
+            if (o is string s && !s.IsValidFileName())
+            {
+                retString += InvalidFormatString + ArrayDelimiter;
+                continue;
+            }
             retString += o.ToString() + ArrayDelimiter;
         }
         retString += "]" + Delimiter;
@@ -203,24 +211,21 @@ public partial class Savekeeper : Node
         string value = success.Value;
         int finalIdx = success.NextIdx;
 
-        value = value.Replace("[", "");
-        value = value.Replace("]", "");
-        string[] values = value.Split(ArrayDelimiter);
-
+        string[] values = value.Replace("[", "").Replace("]", "").Split(ArrayDelimiter);
         List<T> list = new List<T>();
         foreach (String s in values)
         {
             if (string.IsNullOrEmpty(s))
                 continue;
-            if (handler(s, out var result))
-                list.Add(result);
-            else
+            if (!handler(s, out var result))
                 return new ParseResult<T[]>(
                     list.ToArray(),
                     false,
                     finalIdx,
                     $"Unable to parse from: \"{s}\" to type: {typeof(T)}. Returning any successful values."
                 );
+
+            list.Add(result);
         }
 
         return new ParseResult<T[]>(list.ToArray(), true, finalIdx);
@@ -235,6 +240,7 @@ public partial class Savekeeper : Node
         int nextIdx = saveString.IndexOf(valName, startIdx, StringComparison.Ordinal);
         if (nextIdx == -1)
             return new ParseResult<string>(default, false, startIdx, $"Name not found! {valName}");
+
         nextIdx += valName.Length + 1;
         int finalIdx = saveString.IndexOf(Delimiter, nextIdx);
         if (finalIdx == -1)
