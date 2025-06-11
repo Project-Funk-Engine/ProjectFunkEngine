@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using Godot;
  */
 public partial class StageProducer : Node
 {
+    #region Declarations
     public static StageProducer LiveInstance { get; private set; }
     public static bool IsInitialized;
 
@@ -30,6 +32,7 @@ public partial class StageProducer : Node
     public static PlayerStats PlayerStats { get; private set; } //Hold here to persist between changes
 
     public static CanvasLayer ContrastFilter { get; private set; }
+    #endregion
 
     #region Initialization
     public override void _EnterTree()
@@ -43,6 +46,8 @@ public partial class StageProducer : Node
         GD.Load<PackedScene>(EventScene.LoadPath);
         GD.Load<PackedScene>(ChestScene.LoadPath);
         GD.Load<PackedScene>(TitleScreen.EffectsLoadPath);
+
+        Savekeeper.Saving += Serialize;
     }
 
     public void InitFromCfg()
@@ -344,6 +349,11 @@ public partial class StageProducer : Node
                         : DisplayServer.WindowMode.ExclusiveFullscreen
                 );
             }
+            else if (eventKey.Keycode == Key.Apostrophe)
+            {
+                Serialize();
+                Deserialize();
+            }
         }
     }
 
@@ -369,5 +379,51 @@ public partial class StageProducer : Node
         BattlePool = null;
     }
 
+    #endregion
+
+    #region Saving
+    private const string SaveKey = "STAGE_PRODUCER";
+
+    public void Serialize()
+    {
+        string saveString = "";
+        saveString += Savekeeper.Format("RngSed2", "WORD");
+        saveString += Savekeeper.FormatArray("RngSeed4", [1, 2, 3, 5, 6]);
+        saveString += Savekeeper.Format("RngSeed1", GlobalRng.Seed);
+        //saveString += Savekeeper.FormatArray("Relics", PlayerStats.CurRelics.Select(r => r.Id).ToArray());
+        GD.Print(saveString);
+        Savekeeper.GameSaveObjects[SaveKey] = saveString;
+    }
+
+    private void Deserialize()
+    {
+        string saveString = Savekeeper.GameSaveObjects[SaveKey];
+        int idx = 0;
+        var result = Savekeeper.Parse<string>("RngSed2", saveString, idx, Savekeeper.StringParse);
+        if (result.Success)
+        {
+            idx = result.NextIdx;
+            GD.Print("Result: " + result.Value);
+        }
+        var result4 = Savekeeper.ParseArray<int>("RngSeed4", saveString, idx, int.TryParse);
+        if (result4.Success)
+        {
+            idx = result4.NextIdx;
+            foreach (int s in result4.Value)
+            {
+                GD.Print(s);
+            }
+        }
+        else
+        {
+            GD.Print(result4.Message);
+        }
+        var result2 = Savekeeper.Parse<ulong>("RngSeed1", saveString, idx, ulong.TryParse);
+        if (result2.Success)
+        {
+            idx = result2.NextIdx;
+            GD.Print("Result 2: " + result2.Value);
+        }
+    }
     #endregion
 }
