@@ -208,6 +208,7 @@ public partial class Cartographer : Node2D
         }
 
         EndScreen es = GD.Load<PackedScene>(EndScreen.LoadPath).Instantiate<EndScreen>();
+        es.HasWon = true;
         AddChild(es);
         es.TopLabel.Text = Tr("BATTLE_ROOM_WIN");
         ProcessMode = ProcessModeEnum.Disabled;

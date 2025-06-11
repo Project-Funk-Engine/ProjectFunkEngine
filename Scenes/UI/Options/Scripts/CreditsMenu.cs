@@ -32,6 +32,7 @@ public partial class CreditsMenu : Control, IFocusableMenu
         }
         _returnButton.Pressed += ReturnToPrev;
         _returnButton.GrabFocus();
+        BgAudioPlayer.LiveInstance.ResumeLevelMusic();
     }
 
     public void ResumeFocus()
