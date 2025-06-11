@@ -336,6 +336,14 @@ public partial class StageProducer : Node
                         + ".png"
                 );
             }
+            else if (eventKey.Keycode == Key.F11)
+            {
+                DisplayServer.WindowSetMode(
+                    DisplayServer.WindowGetMode() == DisplayServer.WindowMode.ExclusiveFullscreen
+                        ? DisplayServer.WindowMode.Windowed
+                        : DisplayServer.WindowMode.ExclusiveFullscreen
+                );
+            }
         }
     }
 
