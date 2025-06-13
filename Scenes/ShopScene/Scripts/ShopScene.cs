@@ -346,7 +346,7 @@ public partial class ShopScene : Control
     private void UpdateHealButton()
     {
         _healButton.Disabled =
-            StageProducer.PlayerStats.Money <= HealCost
+            StageProducer.PlayerStats.Money < HealCost
             || StageProducer.PlayerStats.CurrentHealth == StageProducer.PlayerStats.MaxHealth
             || _hasHealed;
     }
@@ -354,7 +354,7 @@ public partial class ShopScene : Control
     private void TryHeal()
     {
         if (
-            StageProducer.PlayerStats.Money <= HealCost
+            StageProducer.PlayerStats.Money < HealCost
             || StageProducer.PlayerStats.CurrentHealth == StageProducer.PlayerStats.MaxHealth
             || _hasHealed
         )
@@ -363,9 +363,9 @@ public partial class ShopScene : Control
         }
 
         StageProducer.PlayerStats.Money -= HealCost;
-        UpdateMoneyLabel();
-        UpdateHealButton();
         _hasHealed = true;
         _player.Heal(_healAmount);
+        UpdateHealButton();
+        UpdateMoneyLabel();
     }
 }

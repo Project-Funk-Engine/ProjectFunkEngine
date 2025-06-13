@@ -132,7 +132,7 @@ public class MapLevels
     private static readonly MapLevels[] PresetLevels = new[]
     {
         new MapLevels(0, TutorialMapConfig, [4], [0], [5], [], 1),
-        new MapLevels(1, FirstMapConfig, [1, 2, 11, 12, 15, 17], [3, 13], [0], [], 2),
+        new MapLevels(1, FirstMapConfig, [1, 2, 11, 12, 15], [3, 13], [0], [], 2),
         new MapLevels(
             2,
             CityMapConfig,
