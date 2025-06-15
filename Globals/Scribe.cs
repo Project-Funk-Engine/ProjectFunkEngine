@@ -560,7 +560,7 @@ public partial class Scribe : Node
                     (e, self, val) =>
                     {
                         //TODO: make damage scale with current act
-                        e.BD.DealDamage(Targetting.All, val, e.BD.Player);
+                        e.BD.DealDamage(Targetting.All, val, null);
                     }
                 ),
             }
