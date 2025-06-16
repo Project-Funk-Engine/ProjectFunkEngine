@@ -80,6 +80,7 @@ public partial class PlayerStats : Resource
         CurNotes = CurNotes.Where((_, i) => i != index).ToArray();
     }
 
+    //Can remove more than 1
     public void RemoveNote(Note nSelection)
     {
         CurNotes = CurNotes.Where(n => n != nSelection).ToArray();

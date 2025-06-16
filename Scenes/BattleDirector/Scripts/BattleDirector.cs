@@ -87,6 +87,8 @@ public partial class BattleDirector : Node2D
             CM.BeginTweens();
             Audio.Play();
         }
+        if (Player.GetCurrentHealth() <= 0 && !_battleEnding)
+            CheckBattleStatus(Player);
         HasPlayed = true;
         _initializedPlaying = true;
     }
@@ -332,10 +334,13 @@ public partial class BattleDirector : Node2D
     #endregion
 
     #region Battle End
+    private bool _battleEnding = false;
+
     private void CheckBattleStatus(PuppetTemplate puppet) //Called when a puppet dies
     {
         var tween = CreateTween();
         tween.TweenProperty(puppet, "modulate:a", 0, 2f);
+        _battleEnding = true;
         if (puppet == Player)
         {
             CM.ProcessMode = ProcessModeEnum.Disabled;

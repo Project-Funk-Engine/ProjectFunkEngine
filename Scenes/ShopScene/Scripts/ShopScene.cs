@@ -332,7 +332,9 @@ public partial class ShopScene : Control
         StageProducer.PlayerStats.Money -= RemovalCost;
         _removalButton.Disabled = true;
         _hasRemoved = true;
-        StageProducer.PlayerStats.RemoveNote(_toRemove);
+        StageProducer.PlayerStats.RemoveNote(
+            Array.IndexOf(StageProducer.PlayerStats.CurNotes, _toRemove)
+        );
         _selectedRemoveButton.QueueFree();
         CloseRemovalPane();
         UpdateMoneyLabel();
