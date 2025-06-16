@@ -132,7 +132,7 @@ public partial class ScoringScreen : CanvasLayer
     private int CalcTotalBase(ScoreGuide info)
     {
         int result = info.BaseMoney;
-        result += (int)((info.EndingHealth / info.StartingHealth) * 10);
+        result += (int)(Math.Min((info.EndingHealth / info.StartingHealth), 1) * 10);
         result += StageProducer.GlobalRng.RandiRange(0, 3);
         return result;
     }
