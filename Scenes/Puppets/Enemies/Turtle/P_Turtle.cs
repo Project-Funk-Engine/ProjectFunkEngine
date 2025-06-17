@@ -35,7 +35,8 @@ public partial class P_Turtle : EnemyPuppet
 
                     //gain block based on val
                     e.BD.AddStatus(Targetting.First, StatusEffect.Block, val);
-                }
+                },
+                "TURTLE_EFFECT1"
             ),
         };
     }

@@ -23,7 +23,8 @@ public partial class P_Mushroom : EnemyPuppet
                 (e, eff, _) =>
                 {
                     e.BD.RandApplyNote(eff.Owner, 17, 1);
-                }
+                },
+                null
             ),
         };
     }

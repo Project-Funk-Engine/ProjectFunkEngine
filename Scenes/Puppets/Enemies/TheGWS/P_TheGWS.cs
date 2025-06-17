@@ -54,7 +54,8 @@ public partial class P_TheGWS : EnemyPuppet
                         eff.Owner
                     );
                     eff.Value = 0;
-                }
+                },
+                "GWS_EFFECT1"
             ),
         };
     }

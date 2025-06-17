@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://bejjkejyeffek"]
+
+[ext_resource type="Script" uid="uid://da8no3g3kbob7" path="res://Scenes/BattleDirector/Scripts/EnemyDescriptions.cs" id="1_r3tcc"]
+[ext_resource type="Texture2D" uid="uid://djd6iw2g84bba" path="res://Scenes/UI/Assets/UI_CenterFrame.png" id="2_mg2uj"]
+
+[node name="EnemyDescriptions" type="Control" node_paths=PackedStringArray("DescriptionsContainer")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_r3tcc")
+DescriptionsContainer = NodePath("VBoxContainer")
+
+[node name="UiCenterFrame" type="Sprite2D" parent="."]
+scale = Vector2(0.84375, 3.5)
+texture = ExtResource("2_mg2uj")
+centered = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 15.0
+offset_right = 75.0
+offset_bottom = 168.0

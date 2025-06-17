@@ -40,7 +40,8 @@ public partial class P_CyberFox : EnemyPuppet
                 {
                     e.BD.AddStatus(Targetting.First, StatusEffect.Dodge, 1);
                     _effectNode.TriggerGlitch(1f);
-                }
+                },
+                "CYBERFOX_EFFECT1"
             ),
         };
     }

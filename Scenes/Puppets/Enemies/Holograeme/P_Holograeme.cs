@@ -46,7 +46,8 @@ public partial class P_Holograeme : EnemyPuppet
                     BattleDirector.PlayerDisabled = true;
                     BattleDirector.VerticalScrollRotation = 0f;
                     e.BD.AddStatus(Targetting.Player, StatusEffect.Disable);
-                }
+                },
+                "HOLOGRAEME_EFFECT1"
             ),
             new EnemyEffect(
                 this,
@@ -69,7 +70,8 @@ public partial class P_Holograeme : EnemyPuppet
                         BattleDirector.AutoPlay = false;
                         Scribe.NoteDictionary[0].Texture = GD.Load<Texture2D>(NoteCoverPath);
                     }
-                }
+                },
+                null
             ),
             new EnemyEffect(
                 this,
@@ -81,7 +83,8 @@ public partial class P_Holograeme : EnemyPuppet
                     {
                         TweenDir(nArgs.Type);
                     }
-                }
+                },
+                null
             ),
             new EnemyEffect(
                 this,
@@ -98,7 +101,8 @@ public partial class P_Holograeme : EnemyPuppet
                     {
                         dArgs.Dmg.ModifyDamage(0, 0);
                     }
-                }
+                },
+                "HOLOGRAEME_EFFECT2"
             ),
         };
     }

@@ -27,16 +27,22 @@ public partial class P_Keythulu : EnemyPuppet
         enemTween.SetLoops();
         enemTween.Play();
 
+        const int effect1Val = 6;
+
         BattleEvents = new EnemyEffect[]
         {
             new EnemyEffect(
                 this,
                 BattleEffectTrigger.OnBattleStart,
-                6,
+                effect1Val,
                 (e, eff, val) =>
                 {
                     e.BD.AddStatus(Targetting.Player, StatusEffect.MindCrush, val);
-                }
+                },
+                string.Format(
+                    TranslationServer.Translate("KEYTHULU_EFFECT1"),
+                    effect1Val.ToString()
+                )
             ),
             new EnemyEffect(
                 this,
@@ -57,7 +63,8 @@ public partial class P_Keythulu : EnemyPuppet
                             _effectSprite.Visible = false;
                         })
                     );
-                }
+                },
+                null
             ),
             new EnemyEffect(
                 this,
@@ -78,7 +85,8 @@ public partial class P_Keythulu : EnemyPuppet
                         SteamWhisperer.PopAchievement("actTwoComp");
                         StageProducer.UpdatePersistantValues(StageProducer.PersistKeys.HasWon, 1);
                     }
-                }
+                },
+                null
             ),
         };
     }

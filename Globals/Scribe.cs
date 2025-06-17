@@ -150,7 +150,8 @@ public partial class Scribe : Node
                 if (timing == Timing.Perfect)
                     dmg = 0;
                 director.DealDamage(Targetting.Player, dmg, note.Owner);
-            }
+            },
+            description: "GWS_NOTE_DESCRIPTION"
         ),
         new Note(
             11,
@@ -188,7 +189,8 @@ public partial class Scribe : Node
             {
                 int amt = Math.Max((3 - (int)timing) * note.GetBaseVal(), 0);
                 director.AddStatus(Targetting.All, StatusEffect.Block, amt);
-            }
+            },
+            description: "PARASIFLY_NOTE_DESCRIPTION"
         ),
         new Note(
             14,
@@ -203,7 +205,8 @@ public partial class Scribe : Node
                     note.Owner.Heal((3 - (int)timing));
             },
             default,
-            Targetting.Player
+            Targetting.Player,
+            "BOSSBLOOD_NOTE_DESCRIPTION"
         ),
         new Note(
             15,
@@ -216,7 +219,8 @@ public partial class Scribe : Node
                     return;
                 int amt = Math.Max((3 - (int)timing) * note.GetBaseVal(), 1);
                 director.AddStatus(Targetting.Player, StatusEffect.Poison, amt);
-            }
+            },
+            description: "SPIDER_NOTE_DESCRIPTION"
         ),
         new Note(
             16,
@@ -229,7 +233,8 @@ public partial class Scribe : Node
                 if (timing == Timing.Perfect)
                     dmg = 0;
                 director.DealDamage(Targetting.Player, dmg, note.Owner);
-            }
+            },
+            description: "LWS_NOTE_DESCRIPTION"
         ),
         new Note(
             17,
@@ -242,7 +247,8 @@ public partial class Scribe : Node
                     return;
                 int amt = Math.Max((3 - (int)timing) * note.GetBaseVal(), 1);
                 director.AddStatus(Targetting.Player, StatusEffect.Poison, amt);
-            }
+            },
+            description: "MUSHROOM_NOTE_DESCRIPTION"
         ),
         new Note(
             18,
