@@ -238,7 +238,7 @@ public partial class BattleDirector : Node2D
     {
         if (@event is InputEventKey eventKey && eventKey.Pressed && !eventKey.Echo)
         {
-            //return;
+            return;
             if (eventKey.Keycode == Key.Key0)
             {
                 DebugKillEnemy();
