@@ -1,0 +1,90 @@
+[gd_resource type="Resource" load_steps=18 format=3 uid="uid://csmn1qu7o67eo"]
+
+[ext_resource type="Script" uid="uid://bhbpcmtr6e6pk" path="res://Classes/MidiMaestro/NoteInfo.cs" id="1_0pymh"]
+[ext_resource type="Script" uid="uid://bnpnavb5lwobj" path="res://Classes/MidiMaestro/NoteChart.cs" id="2_2wffk"]
+
+[sub_resource type="Resource" id="Resource_sdqpm"]
+script = ExtResource("1_0pymh")
+Beat = 4.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_k02mj"]
+script = ExtResource("1_0pymh")
+Beat = 6.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_fpi3x"]
+script = ExtResource("1_0pymh")
+Beat = 20.0
+Length = 4.0
+
+[sub_resource type="Resource" id="Resource_w82ea"]
+script = ExtResource("1_0pymh")
+Beat = 10.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_8y5mj"]
+script = ExtResource("1_0pymh")
+Beat = 14.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_moa4j"]
+script = ExtResource("1_0pymh")
+Beat = 18.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_0pymh"]
+script = ExtResource("1_0pymh")
+Beat = 3.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_iy0fj"]
+script = ExtResource("1_0pymh")
+Beat = 1.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_w0kh8"]
+script = ExtResource("1_0pymh")
+Beat = 16.0
+Length = 4.0
+
+[sub_resource type="Resource" id="Resource_eva2x"]
+script = ExtResource("1_0pymh")
+Beat = 2.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_na3r5"]
+script = ExtResource("1_0pymh")
+Beat = 7.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_wiej5"]
+script = ExtResource("1_0pymh")
+Beat = 8.0
+Length = 4.0
+
+[sub_resource type="Resource" id="Resource_kbcyp"]
+script = ExtResource("1_0pymh")
+Beat = 5.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_cbvew"]
+script = ExtResource("1_0pymh")
+Beat = 12.0
+Length = 4.0
+
+[sub_resource type="Resource" id="Resource_kadiu"]
+script = ExtResource("1_0pymh")
+Beat = 22.0
+Length = 0.0
+
+[resource]
+script = ExtResource("2_2wffk")
+Bpm = 150
+NumLoops = 4
+SongSpeed = 200.0
+SongMapLocation = "Jammin' Forest (Charting Edition).ogg"
+UpLaneData = Array[ExtResource("1_0pymh")]([SubResource("Resource_kbcyp"), SubResource("Resource_cbvew"), SubResource("Resource_kadiu")])
+DownLaneData = Array[ExtResource("1_0pymh")]([SubResource("Resource_sdqpm"), SubResource("Resource_k02mj"), SubResource("Resource_fpi3x"), SubResource("Resource_w82ea"), SubResource("Resource_8y5mj"), SubResource("Resource_moa4j")])
+LeftLaneData = Array[ExtResource("1_0pymh")]([SubResource("Resource_0pymh"), SubResource("Resource_iy0fj"), SubResource("Resource_w0kh8")])
+RightLaneData = Array[ExtResource("1_0pymh")]([SubResource("Resource_eva2x"), SubResource("Resource_na3r5"), SubResource("Resource_wiej5")])

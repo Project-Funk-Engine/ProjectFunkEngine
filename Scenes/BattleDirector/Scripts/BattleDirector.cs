@@ -26,6 +26,9 @@ public partial class BattleDirector : Node2D
     private ChartManager CM;
 
     [Export]
+    private DimensionalWizard DW;
+
+    [Export]
     public NotePlacementBar NPB;
 
     [Export]
@@ -40,30 +43,33 @@ public partial class BattleDirector : Node2D
 
     public static bool AutoPlay = false;
     public static bool PlayerDisabled = false;
+    public static bool VerticalScroll = false;
+    public static float VerticalScrollRotation = 90f;
 
     #endregion
 
     #region Initialization
-    Timer _countdownTimer; //TODO: Make in time with bpm
+    Tween _countdownTween; //TODO: Make in time with bpm
+    int _countdown;
     public bool HasPlayed; //TODO: Disable input during countdown
 
     public void StartCountdown()
     {
         CM.ArrowTween?.Pause();
         Audio.SetStreamPaused(true);
-        if (_countdownTimer == null)
-        {
-            _countdownTimer = new Timer();
-            AddChild(_countdownTimer);
-            _countdownTimer.Timeout += SyncStartWithMix;
-        }
-        _countdownTimer.Start(3);
+        _countdownTween?.Kill();
+        _countdownTween = CreateTween();
+        _countdownTween.Finished += SyncStartWithMix;
+
+        _countdown = 4;
+        _countdownTween.TweenProperty(this, nameof(_countdown), 0, 5 / (TimeKeeper.Bpm / 60));
         _countdownLabel.Visible = true;
+        _countdownTween.Play();
     }
 
     private void SyncStartWithMix()
     {
-        _countdownTimer.Stop();
+        _countdownTween.Stop();
         var timer = GetTree().CreateTimer(AudioServer.GetTimeToNextMix());
         timer.Timeout += BeginPlayback;
     }
@@ -81,25 +87,51 @@ public partial class BattleDirector : Node2D
             CM.BeginTweens();
             Audio.Play();
         }
+        if (Player.GetCurrentHealth() <= 0 && !_battleEnding)
+            CheckBattleStatus(Player);
         HasPlayed = true;
         _initializedPlaying = true;
     }
 
+    public override void _EnterTree()
+    {
+        GD.Load<PackedScene>(NoteQueueParticlesFactory.LoadPath);
+    }
+
     public override void _Ready()
     {
-        SongData curSong = StageProducer.Config.CurSong.SongData;
-        Audio.SetStream(GD.Load<AudioStream>(StageProducer.Config.CurSong.AudioLocation));
-        if (curSong.SongLength <= 0)
-        {
-            curSong.SongLength = Audio.Stream.GetLength();
-        }
+        NoteChart curChart = StageProducer.Config.CurSong.Chart;
 
-        TimeKeeper.InitVals(curSong.Bpm);
+        Audio.SetStream(
+            StageProducer.Config.RoomType == Stages.Custom
+                ? AudioStreamOggVorbis.LoadFromFile(
+                    CustomSelection.UserSongDir + curChart.SongMapLocation
+                )
+                : GD.Load<AudioStream>("Audio/" + curChart.SongMapLocation)
+        );
+
+        double songLen = Audio.Stream.GetLength();
+
+        TimeKeeper.InitVals(curChart.Bpm);
         Harbinger.Init(this);
         InitPlayer();
         InitEnemies();
         InitScoringGuide();
-        CD.Initialize(curSong, _enemies);
+        CM.Visible = !VerticalScroll;
+        DW.Visible = VerticalScroll;
+        if (VerticalScroll)
+        {
+            CM.ProcessMode = ProcessModeEnum.Disabled;
+            CM = DW.CM;
+            DW.ProcessMode = ProcessModeEnum.Inherit;
+        }
+        else
+        {
+            CM.ProcessMode = ProcessModeEnum.Inherit;
+            DW.ProcessMode = ProcessModeEnum.Disabled;
+        }
+        CD.Initialize(CM, curChart, songLen, _enemies);
+
         CD.NoteInputEvent += OnTimedInput;
 
         FocusedButton.GrabFocus();
@@ -111,6 +143,11 @@ public partial class BattleDirector : Node2D
         };
 
         Harbinger.Instance.InvokeBattleStarted();
+        if (StageProducer.Config.RoomType != Stages.Custom)
+            return;
+        _customSongResultsScene = GD.Load<PackedScene>(CustomScore.LoadPath)
+            .Instantiate<CustomScore>();
+        _customSongResultsScene.ListenToDirector();
     }
 
     public ScoringScreen.ScoreGuide BattleScore;
@@ -170,8 +207,10 @@ public partial class BattleDirector : Node2D
     {
         if (FocusedButton != null && GetViewport().GuiGetFocusOwner() == null)
             FocusedButton.GrabFocus();
-        if (_countdownTimer != null)
-            _countdownLabel.Text = ((int)_countdownTimer.TimeLeft + 1).ToString();
+        if (_countdownTween != null)
+            _countdownLabel.Text = (_countdown + 1).ToString();
+        if (IsBattleWon() || Player.GetCurrentHealth() <= 0)
+            return;
         TimeKeeper.CurrentTime = Audio.GetPlaybackPosition();
         Beat realBeat = TimeKeeper.GetBeatFromTime(Audio.GetPlaybackPosition());
         UpdateBeat(realBeat);
@@ -199,7 +238,7 @@ public partial class BattleDirector : Node2D
     {
         if (@event is InputEventKey eventKey && eventKey.Pressed && !eventKey.Echo)
         {
-            return;
+            //return;
             if (eventKey.Keycode == Key.Key0)
             {
                 DebugKillEnemy();
@@ -217,7 +256,7 @@ public partial class BattleDirector : Node2D
         if (!NPB.CanPlaceNote())
             return false;
 
-        Note noteToPlace = NPB.NotePlaced();
+        Note noteToPlace = NPB.NotePlaced().Clone();
         noteToPlace.OnHit(this, Timing.Okay);
 
         CD.AddPlayerNote(noteToPlace.SetOwner(Player), type, beat);
@@ -295,10 +334,13 @@ public partial class BattleDirector : Node2D
     #endregion
 
     #region Battle End
+    private bool _battleEnding = false;
+
     private void CheckBattleStatus(PuppetTemplate puppet) //Called when a puppet dies
     {
         var tween = CreateTween();
         tween.TweenProperty(puppet, "modulate:a", 0, 2f);
+        _battleEnding = true;
         if (puppet == Player)
         {
             CM.ProcessMode = ProcessModeEnum.Disabled;
@@ -322,6 +364,12 @@ public partial class BattleDirector : Node2D
 
     private void OnBattleWon()
     {
+        if (StageProducer.Config.RoomType == Stages.Custom)
+        {
+            _customSongResultsScene.ShowResults(this, (float)_enemies[0].GetCurrentHealth() / 500);
+            _customSongResultsScene.Finished += TransitionOutOfCustom;
+            return;
+        }
         Harbinger.Instance.InvokeBattleEnded();
         CleanUpRelics();
         BattleScore.SetEndHp(Player.GetCurrentHealth());
@@ -334,6 +382,12 @@ public partial class BattleDirector : Node2D
 
     private void OnBattleLost()
     {
+        if (StageProducer.Config.RoomType == Stages.Custom)
+        {
+            _customSongResultsScene.ShowResults(this, (float)_enemies[0].GetCurrentHealth() / 500);
+            _customSongResultsScene.Finished += TransitionOutOfCustom;
+            return;
+        }
         Audio.StreamPaused = true;
         SaveSystem.ClearSave();
         AddChild(GD.Load<PackedScene>(EndScreen.LoadPath).Instantiate());
@@ -350,6 +404,14 @@ public partial class BattleDirector : Node2D
         );
         rewardSelect.GetNode<Label>("%TopLabel").Text = Tr("BATTLE_ROOM_WIN");
         rewardSelect.Selected += TransitionOutOfBattle;
+    }
+
+    private CustomScore _customSongResultsScene;
+
+    private void TransitionOutOfCustom()
+    {
+        BgAudioPlayer.LiveInstance.PlayLevelMusic();
+        StageProducer.LiveInstance.TransitionStage(Stages.Title);
     }
 
     private void TransitionOutOfBattle()
@@ -376,15 +438,6 @@ public partial class BattleDirector : Node2D
             target.TakeDamage(new DamageInstance(damage, source, target));
         }
     }
-
-    /*public void ReduceMeter(Note note, int amountLost, PuppetTemplate source)
-    {
-        PuppetTemplate[] targets = GetTargets(note.TargetType);
-        foreach (PuppetTemplate target in targets)
-        {
-            target.
-        }
-    }*/
 
     public void AddStatus(Targetting targetting, StatusEffect status, int amount = 1)
     {

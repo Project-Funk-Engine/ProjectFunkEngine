@@ -7,7 +7,6 @@ using Godot;
  */
 public partial class Conductor : Node
 {
-    [Export]
     private ChartManager CM;
     private MidiMaestro MM;
 
@@ -19,15 +18,21 @@ public partial class Conductor : Node
     private bool _initialized;
 
     #region Initialization
-    public void Initialize(SongData curSong, EnemyPuppet[] enemies = null)
+    public void Initialize(
+        ChartManager cm,
+        NoteChart curSong,
+        double songLen,
+        EnemyPuppet[] enemies = null
+    )
     {
         if (_initialized)
             return;
 
-        MM = new MidiMaestro(StageProducer.Config.CurSong.SongMapLocation);
+        CM = cm;
+        MM = new MidiMaestro(curSong);
         CM.ArrowFromInput += ReceiveNoteInput;
 
-        CM.Initialize(curSong);
+        CM.Initialize(curSong, songLen);
 
         //Approximately the first note offscreen
         _beatSpawnOffset =

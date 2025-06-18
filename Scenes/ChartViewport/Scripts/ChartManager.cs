@@ -74,23 +74,25 @@ public partial class ChartManager : SubViewportContainer
 
     private bool _initialized;
 
-    public void Initialize(SongData songData)
+    public void Initialize(NoteChart songData, double songLen)
     {
         if (_initialized)
             return;
         TimeKeeper.LoopsPerSong = songData.NumLoops;
-        TimeKeeper.SongLength = songData.SongLength;
+        TimeKeeper.SongLength = songLen;
 
-        double _loopLen = songData.SongLength / songData.NumLoops;
+        double loopLen = songLen / songData.NumLoops;
 
+        if (songData.SongSpeed > 0)
+            _chartLength =
+                songData.SongSpeed * loopLen * StageProducer.PlayerStats.ChartSpeedMultiplier;
         //99% sure chart length can never be less than (chart viewport width) * 2,
         //otherwise there isn't room for things to loop from off and on screen
         _chartLength = Math.Max(
-            _loopLen * Math.Ceiling(Size.X * 2 / _loopLen),
+            loopLen * Math.Ceiling(Size.X * 2 / loopLen),
             //Also minimize rounding point imprecision, improvement is qualitative
-            _loopLen * Math.Floor(_chartLength / _loopLen)
+            loopLen * Math.Floor(_chartLength / loopLen)
         );
-
         TimeKeeper.ChartWidth = _chartLength;
         TimeKeeper.Bpm = songData.Bpm;
 
@@ -102,7 +104,7 @@ public partial class ChartManager : SubViewportContainer
     public void BeginTweens()
     {
         if (ArrowTween != null)
-            this.ArrowTween.Kill();
+            ArrowTween.Kill();
         //This could be good as a function to call on something, to have many things animated to the beat.
         ArrowTween = CreateTween();
         ArrowTween
@@ -279,6 +281,11 @@ public partial class ChartManager : SubViewportContainer
         TextParticle newText = new TextParticle();
         AddChild(newText);
         newText.Position = IH.Arrows[(int)arrow].Node.Position - newText.Size / 2;
+        if (BattleDirector.VerticalScroll)
+        {
+            newText.RotationDegrees += 90f;
+            newText.Position += Vector2.Right * 70;
+        }
         IH.FeedbackEffect(arrow, timed);
         newText.Text = Tr("BATTLE_ROOM_" + timed.ToString().ToUpper()) + $" {currentCombo}";
     }

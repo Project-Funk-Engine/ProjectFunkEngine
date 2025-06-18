@@ -17,6 +17,7 @@ public partial class PauseMenu : Control, IFocusableMenu
         PauseButtons[1].Pressed += OpenOptions;
         PauseButtons[2].Pressed += Quit;
         PauseButtons[3].Pressed += QuitToMainMenu;
+        GD.Load<PackedScene>(TitleScreen.LoadPath);
     }
 
     private void OpenOptions()

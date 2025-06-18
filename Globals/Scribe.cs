@@ -244,6 +244,31 @@ public partial class Scribe : Node
                 director.AddStatus(Targetting.Player, StatusEffect.Poison, amt);
             }
         ),
+        new Note(
+            18,
+            "PlayerBrass",
+            GD.Load<Texture2D>("res://Classes/Notes/Assets/Note_PlayerBrass.png"),
+            0,
+            (director, note, timing) =>
+            {
+                if (note.GetBaseVal() == 0) //Setup, so it doesn't trigger on place.
+                {
+                    note.SetBaseVal(2);
+                    return;
+                }
+                if (timing == Timing.Miss)
+                {
+                    director.AddStatus(Targetting.Player, StatusEffect.Mulligan, 1);
+                    return;
+                }
+                director.DealDamage(
+                    Targetting.First,
+                    note.GetBaseVal() * director.NPB.ComboMult,
+                    note.Owner
+                );
+                director.NPB.ResetCurrentCombo();
+            }
+        ),
     };
 
     public static readonly RelicTemplate[] RelicDictionary = new[]
@@ -535,7 +560,7 @@ public partial class Scribe : Node
                     (e, self, val) =>
                     {
                         //TODO: make damage scale with current act
-                        e.BD.DealDamage(Targetting.All, val, e.BD.Player);
+                        e.BD.DealDamage(Targetting.All, val, null);
                     }
                 ),
             }
@@ -549,7 +574,7 @@ public partial class Scribe : Node
             {
                 new RelicEffect(
                     BattleEffectTrigger.OnDamageInstance,
-                    10,
+                    5,
                     (e, self, val) =>
                     {
                         if (
@@ -580,201 +605,209 @@ public partial class Scribe : Node
                 ),
             }
         ),
+        new RelicTemplate(
+            18,
+            "War Horn",
+            Rarity.Epic,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_WarHorn.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnPickup,
+                    1,
+                    (e, self, val) =>
+                    {
+                        MapGrid.ForceEliteBattles = true;
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            19,
+            "Looter's Lens",
+            Rarity.Uncommon,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_LootersLens.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnPickup,
+                    1,
+                    (e, self, val) =>
+                    {
+                        StageProducer.PlayerStats.RewardAmountModifier += val;
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            20,
+            "Quito",
+            Rarity.Legendary,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Quito.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.NoteHit,
+                    1,
+                    (e, self, val) =>
+                    {
+                        if (
+                            e is BattleDirector.Harbinger.NoteHitArgs noteArgs
+                            && noteArgs.Note.Owner == e.BD.Player
+                            && noteArgs.Timing != Timing.Miss
+                        )
+                        {
+                            noteArgs.Note.OnHit(e.BD, Timing.Bad);
+                        }
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            21,
+            "Soloist's Triangle",
+            Rarity.Epic,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Soloist'sTriangle.png"),
+            new RelicEffect[]
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnPickup,
+                    2,
+                    (e, self, val) =>
+                    {
+                        StageProducer.PlayerStats.ChartSpeedMultiplier *= val;
+                        StageProducer.PlayerStats.RewardAmountModifier += 3;
+                    }
+                ),
+            }
+        ),
+        new RelicTemplate(
+            22,
+            "Tinsel",
+            Rarity.Legendary,
+            GD.Load<Texture2D>("res://Classes/Relics/Assets/Relic_Tinsel.png"),
+            new RelicEffect[] // all this combined might be OP, but just slowing down the speed felt boring for a legendary
+            {
+                new RelicEffect(
+                    BattleEffectTrigger.OnPickup,
+                    2,
+                    (e, self, val) =>
+                    {
+                        StageProducer.PlayerStats.ChartSpeedMultiplier /= val;
+                    }
+                ),
+                new RelicEffect(
+                    BattleEffectTrigger.OnDamageInstance,
+                    1,
+                    (e, self, val) =>
+                    {
+                        if (
+                            e is BattleDirector.Harbinger.OnDamageInstanceArgs dmgArgs
+                            && dmgArgs.Dmg.Target == e.BD.Player
+                            && dmgArgs.Dmg.Damage > 1
+                        )
+                        {
+                            dmgArgs.Dmg.ModifyDamage(-val);
+                        }
+                    }
+                ),
+            }
+        ),
     };
+
+    private static string DefaultNoteChartPath = "Audio/songMaps/";
 
     public static readonly SongTemplate[] SongDictionary = new[] //Generalize and make pools for areas/room types
     {
         new SongTemplate(
-            new SongData
-            {
-                Bpm = 120,
-                SongLength = -1,
-                NumLoops = 5,
-            },
             "Song1",
-            "Audio/Song1.ogg",
-            "Audio/songMaps/Song1.tres",
-            [P_BossBlood.LoadPath]
+            [P_BossBlood.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "BossBlood.tres")
         ),
         new SongTemplate(
-            new SongData
-            {
-                Bpm = 60,
-                SongLength = -1,
-                NumLoops = 1,
-            },
             "Song2",
-            "Audio/Song2.ogg",
-            "Audio/songMaps/Song2.tres",
-            [P_Parasifly.LoadPath]
+            [P_Parasifly.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "ParasiflySingle.tres")
         ),
         new SongTemplate(
-            new SongData
-            {
-                Bpm = 120,
-                SongLength = -1,
-                NumLoops = 2,
-            },
             "Song2",
-            "Audio/Song2.ogg",
-            "Audio/songMaps/Song2.tres",
-            [P_Parasifly.LoadPath, P_Parasifly.LoadPath]
+            [P_Parasifly.LoadPath, P_Parasifly.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "ParasiflyDouble.tres")
         ),
         new SongTemplate(
-            new SongData
-            {
-                Bpm = 120,
-                SongLength = -1,
-                NumLoops = 1,
-            },
             "Song3",
-            "Audio/Song3.ogg",
-            "Audio/songMaps/Song3.tres",
-            [P_TheGWS.LoadPath]
+            [P_TheGWS.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "GWS.tres")
         ),
         new SongTemplate(
-            new SongData
-            {
-                Bpm = 90,
-                SongLength = -1,
-                NumLoops = 1,
-            },
             "TutorialSong",
-            "Audio/TutorialSong.ogg",
-            "Audio/songMaps/TutorialSong.tres",
-            [P_Strawman.LoadPath]
+            [P_Strawman.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "TutorialSong.tres")
         ),
         new SongTemplate(
-            new SongData
-            {
-                Bpm = 176,
-                SongLength = -1,
-                NumLoops = 7,
-            },
             "YouWillDie:)",
-            "Audio/District_Four.ogg",
-            "Audio/songMaps/TutorialBoss176_7.tres",
-            [P_Effigy.LoadPath]
+            [P_Effigy.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "TutorialBoss176_7.tres")
         ),
         new SongTemplate(
-            new SongData
-            {
-                Bpm = 120,
-                SongLength = -1,
-                NumLoops = 4,
-            },
             "EcholaneSong",
-            "Audio/EcholaneSong.ogg",
-            "Audio/songMaps/EcholaneSong.tres",
-            [P_Turtle.LoadPath]
+            [P_Turtle.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "EcholaneSong.tres")
         ),
         new SongTemplate(
-            new SongData
-            {
-                Bpm = 180,
-                SongLength = -1,
-                NumLoops = 1,
-            },
             "CyberFoxSong",
-            "Audio/CyberFoxSong.ogg",
-            "Audio/songMaps/CyberFoxSong.tres",
-            [P_CyberFox.LoadPath]
+            [P_CyberFox.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "CyberFoxSong.tres")
         ),
         new SongTemplate(
-            new SongData
-            {
-                Bpm = 120,
-                SongLength = -1,
-                NumLoops = 6,
-            },
             "GobblerSong",
-            "Audio/Gobbler.ogg",
-            "Audio/songMaps/Gobbler.tres",
-            [P_Gobbler.LoadPath]
+            [P_Gobbler.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "Gobbler.tres")
         ),
         new SongTemplate( //9
-            new SongData
-            {
-                Bpm = 130,
-                SongLength = -1,
-                NumLoops = 1,
-            },
             "Holograeme",
-            "Audio/Holo_ThereItIs.ogg",
-            "Audio/songMaps/HoloRepeat.tres",
-            [P_Holograeme.LoadPath]
+            [P_Holograeme.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "HoloRepeat.tres")
         ),
         new SongTemplate( //10
-            new SongData
-            {
-                Bpm = 107,
-                SongLength = -1,
-                NumLoops = 7,
-            },
             "Shapes",
-            "Audio/Shapes.ogg",
-            "Audio/songMaps/Shapes.tres",
-            [P_Shapes.LoadPath]
+            [P_Shapes.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "Shapes.tres")
         ),
         new SongTemplate( //11
-            new SongData
-            {
-                Bpm = 130,
-                SongLength = -1,
-                NumLoops = 3,
-            },
             "Spideer",
-            "Audio/Spider.ogg",
-            "Audio/songMaps/Spider.tres",
-            [P_Spider.LoadPath, P_Spider.LoadPath]
+            [P_Spider.LoadPath, P_Spider.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "Spider.tres")
         ),
         new SongTemplate( //12
-            new SongData
-            {
-                Bpm = 180,
-                SongLength = -1,
-                NumLoops = 5,
-            },
             "Squirkel",
-            "Audio/SquirkelSong.ogg",
-            "Audio/songMaps/SquirkelSong.tres",
-            [P_Squirkel.LoadPath]
+            [P_Squirkel.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "SquirkelSong.tres")
         ),
         new SongTemplate( //13
-            new SongData
-            {
-                Bpm = 100,
-                SongLength = -1,
-                NumLoops = 4,
-            },
             "Mushroom",
-            "Audio/Mushroom.ogg",
-            "Audio/songMaps/Mushroom.tres",
-            [P_Mushroom.LoadPath]
+            [P_Mushroom.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "Mushroom.tres")
         ),
         new SongTemplate(
-            new SongData
-            {
-                Bpm = 170,
-                SongLength = -1,
-                NumLoops = 9,
-            },
             "Keythulu",
-            "Audio/KeythuluSong.ogg",
-            "Audio/songMaps/KeythuluSong.tres",
-            [P_Keythulu.LoadPath]
+            [P_Keythulu.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "KeythuluSong.tres")
         ),
         new SongTemplate( // 15
-            new SongData
-            {
-                Bpm = 99,
-                SongLength = -1,
-                NumLoops = 5,
-            },
-            name: "LWS",
-            audioLocation: "Audio/FrostWaltz.ogg",
-            songMapLocation: "Audio/songMaps/FrostWaltz.tres",
-            enemyScenePath: [P_LWS.LoadPath]
+            "LWS",
+            [P_LWS.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "FrostWaltz.tres")
+        ),
+        new SongTemplate( // 16
+            name: "Astrorat",
+            enemyScenePath: [P_Astrorat.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "Astrorat.tres")
+        ),
+        new SongTemplate( // 17
+            name: "CatGirl",
+            enemyScenePath: [P_Midriff.LoadPath],
+            ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "Jammin' Forest.tres")
         ),
     };
 

@@ -1,7 +1,5 @@
 using System;
-
-namespace FunkEngine;
-
+using FunkEngine;
 using Godot;
 
 public partial class NoteArrow : Sprite2D
@@ -36,8 +34,12 @@ public partial class NoteArrow : Sprite2D
 
         Position = new Vector2(GetNewPosX(), parentChecker.Node.GlobalPosition.Y);
         RotationDegrees = parentChecker.Node.RotationDegrees;
+        Texture = parentChecker.Node.Texture;
+        OutlineSprite.Texture = parentChecker.Node.Outline.Texture;
         IconSprite.Texture = arrowData.NoteRef.Texture;
         IconSprite.Rotation = -Rotation;
+        if (BattleDirector.VerticalScroll)
+            IconSprite.RotationDegrees += BattleDirector.VerticalScrollRotation;
         OutlineSprite.Modulate = parentChecker.Color;
     }
 

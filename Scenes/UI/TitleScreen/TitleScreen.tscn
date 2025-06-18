@@ -26,7 +26,7 @@ shader_parameter/height = 10.0
 shader_parameter/speed = 2.0
 shader_parameter/freq = 10.0
 
-[node name="Title" type="Control" node_paths=PackedStringArray("_effectsPlaceholder", "Options")]
+[node name="Title" type="Control" node_paths=PackedStringArray("_effectsPlaceholder", "Options", "_customSelectionButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -38,6 +38,7 @@ size_flags_vertical = 3
 script = ExtResource("1_r22ha")
 _effectsPlaceholder = NodePath("Effects")
 Options = NodePath("VBoxContainer/OptionsMargin/Options")
+_customSelectionButton = NodePath("Custom")
 
 [node name="Effects" parent="." instance_placeholder="res://Scenes/UI/TitleScreen/TitleScreenEffects.tscn"]
 
@@ -221,3 +222,13 @@ focus_neighbor_right = NodePath("../../HBoxContainer/MarginContainer2/Quit")
 theme = ExtResource("13_v0au1")
 theme_override_font_sizes/font_size = 24
 text = "TITLE_OPTIONS"
+
+[node name="Custom" type="Button" parent="."]
+visible = false
+z_index = 1
+layout_mode = 0
+offset_top = 1.0
+offset_right = 113.0
+offset_bottom = 40.0
+theme = ExtResource("13_v0au1")
+text = "CUSTOM_SONG_SELECT"

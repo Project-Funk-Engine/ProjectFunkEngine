@@ -9,6 +9,20 @@ public partial class NoteChart : Resource
     const float Precision = 0.0001f;
 
     [Export]
+    public int Bpm { get; set; }
+
+    [Export]
+    public int NumLoops { get; set; }
+
+    //178 is average for most fights
+    //<= 0 means go with default chart speed based on song length
+    [Export]
+    public float SongSpeed { get; set; } = -1;
+
+    [Export]
+    public string SongMapLocation { get; set; } = "";
+
+    [Export]
     Array<NoteInfo> UpLaneData = [];
 
     [Export]

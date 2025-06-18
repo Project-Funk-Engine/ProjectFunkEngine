@@ -1,0 +1,220 @@
+[gd_resource type="Resource" load_steps=44 format=3 uid="uid://c6f4svggjh6br"]
+
+[ext_resource type="Script" uid="uid://bhbpcmtr6e6pk" path="res://Classes/MidiMaestro/NoteInfo.cs" id="1_2eqea"]
+[ext_resource type="Script" uid="uid://bnpnavb5lwobj" path="res://Classes/MidiMaestro/NoteChart.cs" id="2_658pd"]
+
+[sub_resource type="Resource" id="Resource_0ttw5"]
+script = ExtResource("1_2eqea")
+Beat = 11.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_l0i1e"]
+script = ExtResource("1_2eqea")
+Beat = 4.4
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_q06y0"]
+script = ExtResource("1_2eqea")
+Beat = 13.9
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_w8ofo"]
+script = ExtResource("1_2eqea")
+Beat = 3.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_ydc1g"]
+script = ExtResource("1_2eqea")
+Beat = 2.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_irvvx"]
+script = ExtResource("1_2eqea")
+Beat = 8.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_w2s6l"]
+script = ExtResource("1_2eqea")
+Beat = 9.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_exuk7"]
+script = ExtResource("1_2eqea")
+Beat = 12.2
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_dk24q"]
+script = ExtResource("1_2eqea")
+Beat = 18.4
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_wgol3"]
+script = ExtResource("1_2eqea")
+Beat = 17.2
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_qqfs2"]
+script = ExtResource("1_2eqea")
+Beat = 5.8
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_a68i2"]
+script = ExtResource("1_2eqea")
+Beat = 23.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_nnp0y"]
+script = ExtResource("1_2eqea")
+Beat = 24.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_dnh6q"]
+script = ExtResource("1_2eqea")
+Beat = 25.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_klyd2"]
+script = ExtResource("1_2eqea")
+Beat = 27.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_0n5dw"]
+script = ExtResource("1_2eqea")
+Beat = 21.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_5g7v8"]
+script = ExtResource("1_2eqea")
+Beat = 7.1
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_s6s0g"]
+script = ExtResource("1_2eqea")
+Beat = 1.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_boxlj"]
+script = ExtResource("1_2eqea")
+Beat = 10.6
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_7os4q"]
+script = ExtResource("1_2eqea")
+Beat = 16.2
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_6h64d"]
+script = ExtResource("1_2eqea")
+Beat = 26.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_xi2wb"]
+script = ExtResource("1_2eqea")
+Beat = 22.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_mgqc0"]
+script = ExtResource("1_2eqea")
+Beat = 20.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_c66mr"]
+script = ExtResource("1_2eqea")
+Beat = 15.4
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_7gaev"]
+script = ExtResource("1_2eqea")
+Beat = 2.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_wmx5m"]
+script = ExtResource("1_2eqea")
+Beat = 8.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_dk1sj"]
+script = ExtResource("1_2eqea")
+Beat = 23.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_4jkdb"]
+script = ExtResource("1_2eqea")
+Beat = 24.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_sy2kx"]
+script = ExtResource("1_2eqea")
+Beat = 1.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_ryhj6"]
+script = ExtResource("1_2eqea")
+Beat = 27.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_vvh4f"]
+script = ExtResource("1_2eqea")
+Beat = 21.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_rijti"]
+script = ExtResource("1_2eqea")
+Beat = 18.4
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_nu6ys"]
+script = ExtResource("1_2eqea")
+Beat = 17.2
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_68fmb"]
+script = ExtResource("1_2eqea")
+Beat = 5.8
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_5kcxv"]
+script = ExtResource("1_2eqea")
+Beat = 9.6
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_ow73n"]
+script = ExtResource("1_2eqea")
+Beat = 3.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_1flyl"]
+script = ExtResource("1_2eqea")
+Beat = 4.4
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_k72np"]
+script = ExtResource("1_2eqea")
+Beat = 12.2
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_kj2ca"]
+script = ExtResource("1_2eqea")
+Beat = 13.9
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_priv2"]
+script = ExtResource("1_2eqea")
+Beat = 25.0
+Length = 0.0
+
+[sub_resource type="Resource" id="Resource_qnlwb"]
+script = ExtResource("1_2eqea")
+Beat = 26.0
+Length = 0.0
+
+[resource]
+script = ExtResource("2_658pd")
+Bpm = 120
+NumLoops = 4
+SongSpeed = 200.0
+SongMapLocation = "EtherDisco.ogg"
+UpLaneData = Array[ExtResource("1_2eqea")]([SubResource("Resource_rijti"), SubResource("Resource_nu6ys"), SubResource("Resource_68fmb"), SubResource("Resource_5kcxv"), SubResource("Resource_ow73n"), SubResource("Resource_1flyl"), SubResource("Resource_k72np"), SubResource("Resource_kj2ca"), SubResource("Resource_priv2"), SubResource("Resource_qnlwb")])
+DownLaneData = Array[ExtResource("1_2eqea")]([SubResource("Resource_0ttw5"), SubResource("Resource_l0i1e"), SubResource("Resource_q06y0"), SubResource("Resource_w8ofo"), SubResource("Resource_ydc1g"), SubResource("Resource_irvvx"), SubResource("Resource_w2s6l"), SubResource("Resource_exuk7"), SubResource("Resource_dk24q"), SubResource("Resource_wgol3"), SubResource("Resource_qqfs2"), SubResource("Resource_a68i2"), SubResource("Resource_nnp0y"), SubResource("Resource_dnh6q"), SubResource("Resource_klyd2"), SubResource("Resource_0n5dw")])
+LeftLaneData = Array[ExtResource("1_2eqea")]([SubResource("Resource_5g7v8"), SubResource("Resource_s6s0g"), SubResource("Resource_boxlj"), SubResource("Resource_7os4q"), SubResource("Resource_6h64d"), SubResource("Resource_xi2wb")])
+RightLaneData = Array[ExtResource("1_2eqea")]([SubResource("Resource_mgqc0"), SubResource("Resource_c66mr"), SubResource("Resource_7gaev"), SubResource("Resource_wmx5m"), SubResource("Resource_dk1sj"), SubResource("Resource_4jkdb"), SubResource("Resource_sy2kx"), SubResource("Resource_ryhj6"), SubResource("Resource_vvh4f")])

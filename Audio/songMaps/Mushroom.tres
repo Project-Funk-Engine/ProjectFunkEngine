@@ -75,7 +75,11 @@ Length = 0.0
 
 [resource]
 script = ExtResource("2_0c8vj")
-UpLaneData = Array[ExtResource("1_n1l5w")]([SubResource("Resource_ymucf"), SubResource("Resource_bmgju"), SubResource("Resource_sosma"), SubResource("Resource_3retf")])
-DownLaneData = Array[ExtResource("1_n1l5w")]([SubResource("Resource_pprmk"), SubResource("Resource_n1l5w"), SubResource("Resource_0c8vj")])
-LeftLaneData = Array[ExtResource("1_n1l5w")]([SubResource("Resource_4gn2h"), SubResource("Resource_aa728"), SubResource("Resource_olyge"), SubResource("Resource_rjl7u")])
-RightLaneData = Array[ExtResource("1_n1l5w")]([SubResource("Resource_ea4gl"), SubResource("Resource_seepc"), SubResource("Resource_xdem2")])
+Bpm = 100
+NumLoops = 4
+SongSpeed = 200.0
+SongMapLocation = "Mushroom.ogg"
+UpLaneData = [SubResource("Resource_ymucf"), SubResource("Resource_bmgju"), SubResource("Resource_sosma"), SubResource("Resource_3retf")]
+DownLaneData = [SubResource("Resource_pprmk"), SubResource("Resource_n1l5w"), SubResource("Resource_0c8vj")]
+LeftLaneData = [SubResource("Resource_4gn2h"), SubResource("Resource_aa728"), SubResource("Resource_olyge"), SubResource("Resource_rjl7u")]
+RightLaneData = [SubResource("Resource_ea4gl"), SubResource("Resource_seepc"), SubResource("Resource_xdem2")]

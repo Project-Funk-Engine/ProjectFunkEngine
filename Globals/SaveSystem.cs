@@ -15,10 +15,10 @@ public static class SaveSystem
 
     private const float DefaultVolume = 1f;
     private const string DefaultInputType = "WASD"; //WASD or CONTROLLER
-    private const int DefaultInputKeyboardUp = 87; //W
+    private const int DefaultInputKeyboardUp = 83; //S
     private const int DefaultInputKeyboardLeft = 65; //A
-    private const int DefaultInputKeyboardDown = 83; //S
-    private const int DefaultInputKeyboardRight = 68; //D
+    private const int DefaultInputKeyboardDown = 75; //K
+    private const int DefaultInputKeyboardRight = 76; //L
     private const int DefaultInputKeyboardSecondary = 4194325; //Shift
     private const int DefaultInputKeyboardInventory = 73; //I
     private const int DefaultInputControllerUp = 3; //Y
@@ -28,8 +28,11 @@ public static class SaveSystem
     private const int DefaultInputControllerSecondary = 10; //right bumper
     private const int DefaultInputControllerInventory = 4; //back button
     private const string DefaultLanguage = "en";
+    private const bool DefaultTypeIsArrow = false;
+    private const bool DefaultVerticalScroll = true;
     private const bool DefaultHighCon = false;
     private const bool DefaultFirstTime = true;
+    private const bool DefaultHasWon = false;
 
     public enum ConfigSettings
     {
@@ -48,8 +51,11 @@ public static class SaveSystem
         InputControllerSecondary,
         InputControllerInventory,
         LanguageKey,
+        TypeIsArrow,
         HighContrast,
         FirstTime,
+        HasWon,
+        VerticalScroll,
     }
 
     /**
@@ -73,8 +79,11 @@ public static class SaveSystem
         UpdateConfig(ConfigSettings.InputControllerSecondary, DefaultInputControllerSecondary);
         UpdateConfig(ConfigSettings.InputControllerInventory, DefaultInputControllerInventory);
         UpdateConfig(ConfigSettings.LanguageKey, DefaultLanguage);
+        UpdateConfig(ConfigSettings.TypeIsArrow, DefaultTypeIsArrow);
         UpdateConfig(ConfigSettings.HighContrast, DefaultHighCon);
         UpdateConfig(ConfigSettings.FirstTime, DefaultFirstTime);
+        UpdateConfig(ConfigSettings.HasWon, DefaultHasWon);
+        UpdateConfig(ConfigSettings.VerticalScroll, DefaultVerticalScroll);
     }
 
     private static void SaveConfig()
@@ -133,11 +142,20 @@ public static class SaveSystem
             case ConfigSettings.LanguageKey:
                 _curConfigData.SetValue("Options", "LanguageKey", value);
                 break;
+            case ConfigSettings.TypeIsArrow:
+                _curConfigData.SetValue("Options", "TypeIsArrow", value);
+                break;
+            case ConfigSettings.VerticalScroll:
+                _curConfigData.SetValue("Options", "VerticalScroll", value);
+                break;
             case ConfigSettings.HighContrast:
                 _curConfigData.SetValue("Options", "HighContrast", value);
                 break;
             case ConfigSettings.FirstTime:
                 _curConfigData.SetValue("Game", "FirstTime", value);
+                break;
+            case ConfigSettings.HasWon:
+                _curConfigData.SetValue("Game", "HasWon", value);
                 break;
             default:
                 GD.PushError("SaveSystem.UpdateConfig: Invalid config setting passed. " + setting);
@@ -274,10 +292,16 @@ public static class SaveSystem
                 );
             case ConfigSettings.LanguageKey:
                 return _curConfigData.GetValue("Options", "LanguageKey", DefaultLanguage);
+            case ConfigSettings.TypeIsArrow:
+                return _curConfigData.GetValue("Options", "TypeIsArrow", DefaultTypeIsArrow);
+            case ConfigSettings.VerticalScroll:
+                return _curConfigData.GetValue("Options", "VerticalScroll", DefaultVerticalScroll);
             case ConfigSettings.HighContrast:
                 return _curConfigData.GetValue("Options", "HighContrast", DefaultHighCon);
             case ConfigSettings.FirstTime:
                 return _curConfigData.GetValue("Game", "FirstTime", DefaultFirstTime);
+            case ConfigSettings.HasWon:
+                return _curConfigData.GetValue("Game", "HasWon", DefaultHasWon);
             default:
                 GD.PushError("Invalid config setting passed. " + setting);
                 return float.MinValue;

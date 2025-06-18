@@ -10,7 +10,7 @@ public partial class P_LWS : EnemyPuppet
     {
         MaxHealth = 80;
         CurrentHealth = MaxHealth;
-        BaseMoney = 8;
+        BaseMoney = 10;
         InitialNote = (16, 3);
         base._Ready();
         var enemyTween = CreateTween();

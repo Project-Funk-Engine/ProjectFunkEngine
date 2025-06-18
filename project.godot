@@ -14,6 +14,8 @@ config/name="ProjectFunkEngine"
 config/tags=PackedStringArray("cool")
 run/main_scene="res://Scenes/UI/TitleScreen/TitleScreen.tscn"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
+boot_splash/bg_color=Color(0.103744, 0.103744, 0.103744, 1)
+boot_splash/image="uid://buc2vne427up1"
 config/icon="res://SharedAssets/Character1.png"
 
 [audio]
@@ -32,6 +34,7 @@ SteamWhisperer="*res://Globals/SteamWhisperer.cs"
 
 window/size/viewport_width=640
 window/size/viewport_height=360
+window/size/mode=4
 window/stretch/mode="canvas_items"
 window/stretch/scale_mode="integer"
 

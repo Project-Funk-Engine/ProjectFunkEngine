@@ -40,6 +40,8 @@ public partial class InputHandler : Node2D
         },
     };
 
+    public static bool UseArrows = false;
+
     private void InitializeArrowCheckers()
     {
         //Set the color of the arrows
@@ -53,6 +55,11 @@ public partial class InputHandler : Node2D
     public override void _Ready()
     {
         InitializeArrowCheckers();
+        UpdateArrowSprites();
+        if (!BattleDirector.VerticalScroll)
+            return;
+        foreach (CheckerData data in Arrows)
+            data.Node.RotationDegrees += 90f;
     }
 
     public override void _Process(double delta)
@@ -99,7 +106,7 @@ public partial class InputHandler : Node2D
         switch (timed)
         {
             case Timing.Perfect:
-                particleAmount = 10;
+                particleAmount = 30;
                 break;
             case Timing.Good:
                 particleAmount = 7;
@@ -112,5 +119,43 @@ public partial class InputHandler : Node2D
         }
 
         particles.Emit(particleAmount);
+    }
+
+    private static readonly string ArrowFolderPath = "res://Scenes/NoteManager/Assets/";
+
+    private void UpdateArrowSprites()
+    {
+        if (!UseArrows)
+            return;
+        Arrows[(int)ArrowType.Left].Node.Texture = GD.Load<Texture2D>(
+            ArrowFolderPath + "New_Arrow.png"
+        );
+        Arrows[(int)ArrowType.Left].Node.Outline.Texture = GD.Load<Texture2D>(
+            ArrowFolderPath + "Arrow_Outline.png"
+        );
+        Arrows[(int)ArrowType.Left].Node.RotationDegrees = 180f;
+
+        Arrows[(int)ArrowType.Up].Node.Texture = GD.Load<Texture2D>(
+            ArrowFolderPath + "New_Arrow.png"
+        );
+        Arrows[(int)ArrowType.Up].Node.Outline.Texture = GD.Load<Texture2D>(
+            ArrowFolderPath + "Arrow_Outline.png"
+        );
+        Arrows[(int)ArrowType.Up].Node.RotationDegrees = 270f;
+
+        Arrows[(int)ArrowType.Down].Node.Texture = GD.Load<Texture2D>(
+            ArrowFolderPath + "New_Arrow.png"
+        );
+        Arrows[(int)ArrowType.Down].Node.Outline.Texture = GD.Load<Texture2D>(
+            ArrowFolderPath + "Arrow_Outline.png"
+        );
+        Arrows[(int)ArrowType.Down].Node.RotationDegrees = 90f;
+
+        Arrows[(int)ArrowType.Right].Node.Texture = GD.Load<Texture2D>(
+            ArrowFolderPath + "New_Arrow.png"
+        );
+        Arrows[(int)ArrowType.Right].Node.Outline.Texture = GD.Load<Texture2D>(
+            ArrowFolderPath + "Arrow_Outline.png"
+        );
     }
 }

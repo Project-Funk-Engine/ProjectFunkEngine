@@ -34,6 +34,7 @@ SHOP_REMOVAL,Remove A Note,移除音符
 SHOP_CONFIRM,Confirm Purchase,购买已确认
 SHOP_CANCEL,Cancel,取消操作
 REMOVAL_COST,Removal Fee,删除费用
+SHOP_HEAL,Heal 25%: 50g,愈合 25%: 50硬币
 BATTLE_ROOM_BEGIN_BUTTON,Begin Battle [Enter],开始战斗 [Enter]
 BATTLE_ROOM_PERFECT,Perfect,Perfect
 BATTLE_ROOM_GOOD,Good,良好
@@ -70,10 +71,12 @@ NOTE_PLAYERECHO_NAME,Echo Note,回音符
 NOTE_PLAYERECHO_TOOLTIP,Deals more damage with each loop.,每次循环造成更多伤害。
 NOTE_PLAYERPOISON_NAME,Poison Note,毒药音符
 NOTE_PLAYERPOISON_TOOLTIP,Applies stacks of poison based on timing.,根据时机施加中毒层数。
-NOTE_PLAYERMONEY_NAME,Money Note,钱的便条
+NOTE_PLAYERMONEY_NAME,Money Note,金钱音符
 NOTE_PLAYERMONEY_TOOLTIP,"Deals no damage, but gives you money when hit.",不会造成伤害，但命中时会获得金钱。
 NOTE_PLAYERCOMBO_NAME,Combo Note,连击音符
 NOTE_PLAYERCOMBO_TOOLTIP,"Deals no damage, but gives you double the combo bar charge when hit.",不会造成伤害，但命中时会获得双倍连击槽充能。
+NOTE_PLAYERBRASS_NAME,Brass Cannon Note,铜管加农炮音符
+NOTE_PLAYERBRASS_TOOLTIP,"Can be missed without penalty. When hit, deals double the multiplier in damage, then resets the current multiplier.",失误不计。命中时，造成双倍连击倍率伤害，并重置当前连击倍率。
 RELIC_BREAKFAST_NAME,Breakfast,早餐
 RELIC_BREAKFAST_TOOLTIP,Increases max hp.,提高最大生命值
 RELIC_GOODVIBES_NAME,Good Vibes,良好消息
@@ -110,19 +113,31 @@ RELIC_BLOODMONEY_NAME,Blood Money,血腥钱袋
 RELIC_BLOODMONEY_TOOLTIP,Gain money when taking damage below half health.,在生命值低于一半时受到伤害可获得金钱。
 RELIC_COUPON_NAME,Coupon,优惠券
 RELIC_COUPON_TOOLTIP,Get a 10% discount on notes and relics in the shop.,在商店购买音符和遗物时可享受9折优惠。
+RELIC_WARHORN_NAME,War Horn,战号
+RELIC_WARHORN_TOOLTIP,All normal battles are now elite battles.,所有普通战斗现在都会变为精英战斗。
+RELIC_LOOTER'SLENS_NAME,Looter's Lens,盗贼之镜片
+RELIC_LOOTER'SLENS_TOOLTIP,Can see one more item in reward selection screens.,在奖励选择界面上可以多看到一个物品。
+RELIC_QUITO_NAME,Quito,基多
+RELIC_QUITO_TOOLTIP,"Quito mimics the player, duplicating all of their notes with bad timing.",基多模仿玩家，"复制他们所有的音符，但时机很差。"
+RELIC_SOLOIST'STRIANGLE_NAME,Soloist's Triangle,独奏者的三角铁
+RELIC_SOLOIST'STRIANGLE_TOOLTIP,"Charts move at double speed, reward selections have 3 additional options to choose from.","谱面移动速度加倍，奖励选择中额外提供3个选项。"
+RELIC_TINSEL_NAME,Tinsel,廷瑟
+RELIC_TINSEL_TOOLTIP,"Become an aspect of the turtle. Charts move at half speed, and all damage taken is reduced by 1 (damage cannot be reduced below 1).","化身为龟之化身。图表移动速度减半，所受伤害减少1点（伤害最低为1点）。"
 INVENTORY_TAB_NOTES,Notes,乐谱
 INVENTORY_TAB_RELICS,Relics,遗物
 OPTIONS_VOLUME_LABEL,Master Volume,最终音量设置
 OPTIONS_CONTRAST_LABEL,High Contrast,高对比度模式
+OPTIONS_NOTE_SWAP,Use arrows?,使用箭头？
+OPTIONS_VERT_SCROLL,Vertical Scroll?,垂直滚动？
 HOW_TO_PLAY,How to Play,如何游玩
 HOW_TO_PLAY_BLOCK1,Hit notes to\nbuild combo,点击音符\n以建立连击
 HOW_TO_PLAY_BLOCK2,Place notes when\ncombo is full,当连击满\n时放置音符
 HOW_TO_PLAY_BLOCK3,Only placed notes\nhave effects,只有已放置\n的音符才有效
 TUTORIAL_NODYING,No dying during a tutorial!,教程中不会死亡！
 TUTORIAL_DIALOGUE_1,"Hello, welcome to Midnight Riff!",你好！欢迎来到午夜即兴！
-TUTORIAL_DIALOGUE_2,This is a rhythm game where notes move right to left.,这是一款节奏游戏，音符从右向左移动。
+TUTORIAL_DIALOGUE_2,This is a rhythm roguelike game!,这是一款节奏肉鸽游戏！
 TUTORIAL_DIALOGUE_3,"Press the correct button as the notes line up to hit the note. Try to time it as well as you can!",音符对齐时按下正确的按键，尽量精准地进行点击！
-TUTORIAL_DIALOGUE_4,"What are the correct buttons? I'll help you out and show you. These can be changed from the meu. Once you press continue we can get started!",正确的按键是什么？我会帮你指出来。这些可以在菜单中更改。按下继续后，我们就可以开始了！
+TUTORIAL_DIALOGUE_4,"What are the correct buttons? I'll help you out and show you. These can be changed from the menu. Once you press continue we can get started!",正确的按键是什么？我会帮你指出来。这些可以在菜单中更改。按下继续后，我们就可以开始了！
 TUTORIAL_LOOP_1,At set intervals the chart loops! This means all notes on the chart repeat. You know a loop is coming up when this symbol scrolls by.,在固定的时间间隔内，乐谱会循环！这意味着乐谱上的所有音符都会重复出现。当这个符号滚动经过时，你就知道循环即将开始。
 TUTORIAL_LOOP_2,"In case you haven't noticed, I'll explain these things on the left side. This is your note queue.",如果你还没注意到，我会在左侧解释这些内容。这是你的音符队列。
 TUTORIAL_LOOP_3,"This is the combo multiplier, as you hit notes successfully your multiplier will rise. If you miss a note, your multiplier gets reset.",这是连击倍数，成功点击音符后，你的倍数将会上升。如果你错过了一个音符，你的倍数将会重置。
@@ -130,7 +145,7 @@ TUTORIAL_LOOP_4,"This is the freestyle bar, as you hit notes successfully, the f
 TUTORIAL_LOOP_5,"By now you've probably taken damage. These aren't just cozy songs, these are battles! You take damage when you miss or have bad timing, or from enemy effects. How do you deal damage to enemies? Fill up the bar and I'll tell you.",到目前为止，你可能已经受到伤害了。这些不仅仅是轻松的歌曲，它们是战斗！你错过音符或时机不好，或者受到敌人的效果影响时，都会受到伤害。你如何对敌人造成伤害？填满能量条，我会告诉你。
 TUTORIAL_PLACE_1,"Okay, now that the bar is full, you can press a lane button to place your own note. Your notes have special effects. Placing notes consumes the freestyle bar.",好的，现在能量条已满，你可以按下轨道按键放置你自己的音符。你的音符具有特殊效果。放置音符会消耗风格条。
 TUTORIAL_PLACE_2,These note effects range from dealing damage to applying status effects!,这些音符效果从造成伤害到施加状态效果不等！
-TUTORIAL_PLACE_3,"Your notes can be placed anywhere a note doesn't already exist, and that isn't over the loop marker. But be careful, if you try to place a note while the bar isn't full you may miss a note!",你的音符可以放置在任何没有音符存在且不在循环标记上的位置。但是要小心，如果你试图在能量条未满时放置音符，你可能会错过音符！
+TUTORIAL_PLACE_3,"Your notes can be placed anywhere a note doesn't already exist, and that isn't over the loop marker.",你的音符可以放置在任何没有音符存在且不在循环标记上的位置。
 TUTORIAL_PLACE_4,"The note you'll place is indicated in the top of the note queue.",你将要放置的音符显示在音符队列顶部。
 TUTORIAL_PLACE_5,"Notes are automatically hit when you place them, how helpful, but they come back around when the chart loops, and you need to time hitting them then.",放置音符时会自动击中，这非常方便，但当乐谱循环时它们会再次出现，你需要掌握时机才能击中它们。
 TUTORIAL_PLACE_6,"Now go ahead, place a note in the bottom lane!",现在，在最下方的轨道上放置一个音符吧！
@@ -143,19 +158,19 @@ EVENT_EVENT1_DESC,A bandit approaches you.,一个强盗拦住了你。
 EVENT_EVENT1_OPTION1,Give them a random note,给他一个随机音符
 EVENT_EVENT1_OPTION2,Give them a random relic,给他一件随机遗物
 EVENT_EVENT1_OPTION3,Give them half your gold,给他你一半的金币
-EVENT_EVENT1_OUTCOME1,You got robbed of a random note.,你被抢走了一个随机音符
-EVENT_EVENT1_OUTCOME2,You got robbed of a random relic.,你被抢走了一件随机遗物
-EVENT_EVENT1_OUTCOME3,You got robbed of half your gold.,你被抢走了一半金币
+EVENT_EVENT1_OUTCOME1,You got robbed of a random note. ({0}),你被抢走了一个随机音符 ({0})
+EVENT_EVENT1_OUTCOME2,You got robbed of a random relic.({0}),你被抢走了一件随机遗物 ({0})
+EVENT_EVENT1_OUTCOME3,You got robbed of half your gold. ({0}),你被抢走了一半金币 ({0})
 EVENT_EVENT2_DESC,There is a wheel with different outcomes.,这里有一个转盘，结果各不相同。
 EVENT_EVENT2_OPTION1,Spin the wheel,转动转盘
 EVENT_EVENT2_OPTION2,Ignore the cool wheel,忽略这个酷炫的转盘
 EVENT_EVENT2_OUTCOME1,You decided not to spin the wheel.,你决定不转动转盘。
-EVENT_EVENT2_OUTCOME2,You lost half your money.,你损失了一半的金币。
-EVENT_EVENT2_OUTCOME3,You took some damage.,你受到了一些伤害。
-EVENT_EVENT2_OUTCOME4,You won a lot of money!,你赢得了很多金币！
-EVENT_EVENT2_OUTCOME5,You gained a random note!,你获得了一个随机音符！
-EVENT_EVENT2_OUTCOME6,You gained a random relic!,你获得了一件随机遗物！
-EVENT_EVENT2_OUTCOME7,You gained some health!,你恢复了一些生命值！
+EVENT_EVENT2_OUTCOME2,You lost half your money. ({0}),你损失了一半的金币。({0})
+EVENT_EVENT2_OUTCOME3,You took some damage. (10),你受到了一些伤害。(10)
+EVENT_EVENT2_OUTCOME4,You won a lot of money! (50),你赢得了很多金币！(50)
+EVENT_EVENT2_OUTCOME5,You gained a random note! ({0}),你获得了一个随机音符！({0})
+EVENT_EVENT2_OUTCOME6,You gained a random relic ({0})!,你获得了一件随机遗物！({0})
+EVENT_EVENT2_OUTCOME7,You gained some health! (20),你恢复了一些生命值！(20)
 EVENT_EVENT3_DESC,There is a field medic on the side of the road.,路边有一名战地医生。
 EVENT_EVENT3_OPTION1,Receive a bit of healing,接受一些治疗
 EVENT_EVENT3_OPTION2,Increase bar charge rate.,提高能量条充能速度
@@ -163,3 +178,32 @@ EVENT_EVENT3_OPTION3,Purchase 2 heal notes (30g),购买2个治疗音符 (30硬�
 EVENT_EVENT3_OUTCOME1,The medic patched you up.\nYou restored 10 Health.,医生为你包扎了伤口。\n你恢复了10点生命值。
 EVENT_EVENT3_OUTCOME2,The medic gave you a shot of adrenaline.\nFreestyle bar fills 8% faster!,医生给你注射了一针肾上腺素。\n风格条充能速度提升8%！
 EVENT_EVENT3_OUTCOME3,The medic sold you some healing supplies.\nAdded 2 heal notes to your inventory.,医生卖给你一些治疗用品。\n你的背包中增加了2个治疗音符。
+CUSTOM_DIFFICULTY,Difficulty: ,困难： 
+CUSTOM_SONG,Song: ,歌曲： 
+CUSTOM_BPM,BPM: ,BPM: 
+CUSTOM_LOOPS,Number of Loops: , 循环次数： 
+CUSTOM_SONG_SELECT,Custom Song,自定义歌曲 
+CUSTOM_SONG_NOT_FOUND,Could not find song file!,无法找到歌曲文件！
+CUSTOM_SONTEM_NOT_FOUND,Could not find .sontem file!,无法找到 .sontem 文件！
+CUSTOM_NO_CHART_PATH,There was no chart file path!,未提供谱面文件路径！
+CUSTOM_CHART_NOT_FOUND,Could not find chart files at path!,无法在指定路径下找到谱面文件！
+CUSTOM_COULD_NOT_READ,Invalid/broken sontem file!,无效或损坏的 .sontem 文件！
+CUSTOM_RESULTS,Results,自定义歌曲结算
+CUSTOM_PLAYER_HP,HP Remaining: ,剩余HP： 
+CUSTOM_ENEMY_HP,Enemy HP Remaining: ,敌人剩余HP： 
+CUSTOM_NOTES_PLACED,Notes Placed: ,已放置音符： 
+CUSTOM_PERFECTS,Perfect Hits: ,Perfect 命中： 
+CUSTOM_MISSES,Missed Notes: ,失误音符： 
+CUSTOM_LOOPS_TAKEN,Loops Taken: ,循环次数： 
+CREDITS,Credits,制作人员
+CREDITS_LEAD,Producer and Lead Programmer,制作人与主程序员
+CREDITS_DESIGN,Scenario Designer and Assistant Programmer,剧情设计师与助理程序员
+CREDITS_TOOLS,Tools Lead,工具主管
+CREDITS_ART,Lead Artist,主美术
+CREDITS_PROGRAMMING,Assistant Programmer,助理程序员
+CREDITS_MUSIC,Music,音乐
+CREDITS_ADDITIONAL_ART,Art,额外美术
+CREDITS_ADDITIONAL_HELP,Additional Help,额外协助
+CREDITS_OTHER_PLAYTESTERS,All our other playtesters,以及所有其他测试玩家
+CREDITS_SPECIAL_THANKS,Special Thanks,特别鸣谢
+CREDITS_THANKS_PLAYERS,And to you the player!,以及屏幕前的你！

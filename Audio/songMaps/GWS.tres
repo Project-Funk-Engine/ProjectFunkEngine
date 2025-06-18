@@ -1,295 +1,299 @@
-[gd_resource type="Resource" load_steps=60 format=3]
+[gd_resource type="Resource" load_steps=60 format=3 uid="uid://cnxhv0busahh0"]
 
-[ext_resource type="Script" path="res://Classes/MidiMaestro/NoteInfo.cs" id="1_7kndb"]
-[ext_resource type="Script" path="res://Classes/MidiMaestro/NoteChart.cs" id="2_xg88o"]
+[ext_resource type="Script" uid="uid://bhbpcmtr6e6pk" path="res://Classes/MidiMaestro/NoteInfo.cs" id="1_6fik5"]
+[ext_resource type="Script" uid="uid://bnpnavb5lwobj" path="res://Classes/MidiMaestro/NoteChart.cs" id="2_4vdmh"]
 
 [sub_resource type="Resource" id="Resource_11qbm"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 17.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_hrrtc"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 20.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_rmog3"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 22.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_tnqsp"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 25.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_fldsc"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 38.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_ntp27"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 35.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_7nmxt"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 49.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_47jch"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 57.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_kp5f0"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 41.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_v8s33"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 52.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_hrafv"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 61.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_d50tw"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 4.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_a8amf"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 44.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_mbtm7"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 12.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_ynh6c"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 28.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_marsf"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 33.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_wkvcn"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 18.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_woki6"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 21.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_gm3ao"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 24.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_1qfq5"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 56.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_ywfrj"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 60.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_rxusk"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 8.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_r88cj"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 36.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_5e2go"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 50.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_s083v"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 40.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_jc0cy"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 52.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_3oete"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 61.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_b24fs"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 5.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_45x0b"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 33.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_x70wl"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 45.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_6e30o"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 29.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_8l6ei"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 32.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_31o0y"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 16.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_2wwc7"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 56.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_m5e6q"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 24.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_v8sin"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 38.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_ykqor"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 48.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_cbmdd"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 34.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_ak0tp"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 40.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_pd2wi"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 53.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_11m2d"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 3.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_7totf"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 8.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_ob06q"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 45.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_s6r1b"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 29.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_3gjtl"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 19.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_vdnsu"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 25.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_3wyug"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 51.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_6kji1"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 60.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_w6jqv"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 54.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_083mg"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 37.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_dsf4k"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 57.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_2woca"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 41.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_jsj5h"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 6.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_qoqm3"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 32.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_nob8r"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 44.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_a6epf"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 12.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_ekjhc"]
-script = ExtResource("1_7kndb")
+script = ExtResource("1_6fik5")
 Beat = 28.0
 Length = 0.0
 
 [resource]
-script = ExtResource("2_xg88o")
+script = ExtResource("2_4vdmh")
+Bpm = 120
+NumLoops = 1
+SongSpeed = 200.0
+SongMapLocation = "Song3.ogg"
 UpLaneData = [SubResource("Resource_3gjtl"), SubResource("Resource_vdnsu"), SubResource("Resource_3wyug"), SubResource("Resource_6kji1"), SubResource("Resource_w6jqv"), SubResource("Resource_083mg"), SubResource("Resource_dsf4k"), SubResource("Resource_2woca"), SubResource("Resource_jsj5h"), SubResource("Resource_qoqm3"), SubResource("Resource_nob8r"), SubResource("Resource_a6epf"), SubResource("Resource_ekjhc")]
 DownLaneData = [SubResource("Resource_11qbm"), SubResource("Resource_hrrtc"), SubResource("Resource_rmog3"), SubResource("Resource_tnqsp"), SubResource("Resource_fldsc"), SubResource("Resource_ntp27"), SubResource("Resource_7nmxt"), SubResource("Resource_47jch"), SubResource("Resource_kp5f0"), SubResource("Resource_v8s33"), SubResource("Resource_hrafv"), SubResource("Resource_d50tw"), SubResource("Resource_a8amf"), SubResource("Resource_mbtm7"), SubResource("Resource_ynh6c"), SubResource("Resource_marsf")]
 LeftLaneData = [SubResource("Resource_wkvcn"), SubResource("Resource_woki6"), SubResource("Resource_gm3ao"), SubResource("Resource_1qfq5"), SubResource("Resource_ywfrj"), SubResource("Resource_rxusk"), SubResource("Resource_r88cj"), SubResource("Resource_5e2go"), SubResource("Resource_s083v"), SubResource("Resource_jc0cy"), SubResource("Resource_3oete"), SubResource("Resource_b24fs"), SubResource("Resource_45x0b"), SubResource("Resource_x70wl"), SubResource("Resource_6e30o"), SubResource("Resource_8l6ei")]

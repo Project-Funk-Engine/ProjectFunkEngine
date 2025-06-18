@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://xtygvpk7s8e4"
-path="res://.godot/imported/NoteArrow_Black_Outline.png-60b3e26fae858d07195c337ad8018a56.ctex"
+uid="uid://dk0ri03m3tns"
+path="res://.godot/imported/Relic_WarHorn.png-e617c4620279dcc6112d25b0abc021c7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://SharedAssets/NoteArrow_Black_Outline.png"
-dest_files=["res://.godot/imported/NoteArrow_Black_Outline.png-60b3e26fae858d07195c337ad8018a56.ctex"]
+source_file="res://Classes/Relics/Assets/Relic_WarHorn.png"
+dest_files=["res://.godot/imported/Relic_WarHorn.png-e617c4620279dcc6112d25b0abc021c7.ctex"]
 
 [params]
 

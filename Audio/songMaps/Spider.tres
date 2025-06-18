@@ -1,7 +1,7 @@
-[gd_resource type="Resource" load_steps=29 format=3]
+[gd_resource type="Resource" load_steps=29 format=3 uid="uid://ca5svgb1cmdc"]
 
-[ext_resource type="Script" path="res://Classes/MidiMaestro/NoteInfo.cs" id="1_kilos"]
-[ext_resource type="Script" path="res://Classes/MidiMaestro/NoteChart.cs" id="2_ojgcg"]
+[ext_resource type="Script" uid="uid://bhbpcmtr6e6pk" path="res://Classes/MidiMaestro/NoteInfo.cs" id="1_kilos"]
+[ext_resource type="Script" uid="uid://bnpnavb5lwobj" path="res://Classes/MidiMaestro/NoteChart.cs" id="2_ojgcg"]
 
 [sub_resource type="Resource" id="Resource_kilos"]
 script = ExtResource("1_kilos")
@@ -135,7 +135,11 @@ Length = 0.0
 
 [resource]
 script = ExtResource("2_ojgcg")
-UpLaneData = Array[ExtResource("1_kilos")]([SubResource("Resource_j42ns"), SubResource("Resource_kihon"), SubResource("Resource_j43rp"), SubResource("Resource_3j8yo"), SubResource("Resource_vk213"), SubResource("Resource_dsydf")])
-DownLaneData = Array[ExtResource("1_kilos")]([SubResource("Resource_kilos"), SubResource("Resource_ojgcg"), SubResource("Resource_e2i3v"), SubResource("Resource_bxgte"), SubResource("Resource_7c41j"), SubResource("Resource_ibasm"), SubResource("Resource_57q1g")])
-LeftLaneData = Array[ExtResource("1_kilos")]([SubResource("Resource_5kf2q"), SubResource("Resource_klick"), SubResource("Resource_ncgpb"), SubResource("Resource_58gsr"), SubResource("Resource_cuxey"), SubResource("Resource_uqtyg"), SubResource("Resource_8wxpt"), SubResource("Resource_7xcdg")])
-RightLaneData = Array[ExtResource("1_kilos")]([SubResource("Resource_erw8g"), SubResource("Resource_ka8yr"), SubResource("Resource_8jxfc"), SubResource("Resource_al1ha"), SubResource("Resource_heg8m")])
+Bpm = 130
+NumLoops = 3
+SongSpeed = 200.0
+SongMapLocation = "Spider.ogg"
+UpLaneData = [SubResource("Resource_j42ns"), SubResource("Resource_kihon"), SubResource("Resource_j43rp"), SubResource("Resource_3j8yo"), SubResource("Resource_vk213"), SubResource("Resource_dsydf")]
+DownLaneData = [SubResource("Resource_kilos"), SubResource("Resource_ojgcg"), SubResource("Resource_e2i3v"), SubResource("Resource_bxgte"), SubResource("Resource_7c41j"), SubResource("Resource_ibasm"), SubResource("Resource_57q1g")]
+LeftLaneData = [SubResource("Resource_5kf2q"), SubResource("Resource_klick"), SubResource("Resource_ncgpb"), SubResource("Resource_58gsr"), SubResource("Resource_cuxey"), SubResource("Resource_uqtyg"), SubResource("Resource_8wxpt"), SubResource("Resource_7xcdg")]
+RightLaneData = [SubResource("Resource_erw8g"), SubResource("Resource_ka8yr"), SubResource("Resource_8jxfc"), SubResource("Resource_al1ha"), SubResource("Resource_heg8m")]

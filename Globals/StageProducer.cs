@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FunkEngine;
+using FunkEngine.Classes.MidiMaestro;
 using Godot;
 
 /**
@@ -35,6 +36,13 @@ public partial class StageProducer : Node
     {
         InitFromCfg();
         LiveInstance = this;
+
+        GD.Load<PackedScene>(BattleDirector.LoadPath);
+        GD.Load<PackedScene>(Cartographer.LoadPath);
+        GD.Load<PackedScene>(ShopScene.LoadPath);
+        GD.Load<PackedScene>(EventScene.LoadPath);
+        GD.Load<PackedScene>(ChestScene.LoadPath);
+        GD.Load<PackedScene>(TitleScreen.EffectsLoadPath);
     }
 
     public void InitFromCfg()
@@ -51,6 +59,12 @@ public partial class StageProducer : Node
             .GetConfigValue(SaveSystem.ConfigSettings.HighContrast)
             .AsBool();
         GetTree().Root.CallDeferred("add_child", ContrastFilter);
+        InputHandler.UseArrows = SaveSystem
+            .GetConfigValue(SaveSystem.ConfigSettings.TypeIsArrow)
+            .AsBool();
+        BattleDirector.VerticalScroll = SaveSystem
+            .GetConfigValue(SaveSystem.ConfigSettings.VerticalScroll)
+            .AsBool();
     }
 
     private void GenerateMapConsistent()
@@ -76,6 +90,7 @@ public partial class StageProducer : Node
         EventScene.EventPool = null;
         Scribe.InitRelicPools();
         IsInitialized = true;
+        MapGrid.ForceEliteBattles = false;
     }
 
     private bool LoadGame()
@@ -218,8 +233,29 @@ public partial class StageProducer : Node
         _preloadStage = null;
         //Apply grayscale shader to all scenes
         GetTree().Root.AddChild(ContrastFilter);
+        LastStage = _curStage;
         _curStage = nextStage;
     }
+
+    public Stages LastStage; //Hacky, purely to have title screen return to custom menu.
+
+    public void TransitionToCustom(SongTemplate song)
+    {
+        GetTree().Root.RemoveChild(ContrastFilter);
+        GetTree().Root.AddChild(ContrastFilter);
+        GlobalRng.Randomize();
+        PlayerStats = new PlayerStats();
+        Config = new BattleConfig
+        {
+            BattleRoom = null,
+            RoomType = Stages.Custom,
+            CurSong = song,
+            EnemyScenePath = song.EnemyScenePath,
+        };
+        GetTree().ChangeSceneToFile(BattleDirector.LoadPath);
+        _curStage = Stages.Custom;
+    }
+
     #endregion
 
     private void RefreshBattlePool()
@@ -298,6 +334,14 @@ public partial class StageProducer : Node
                     "user://Screenshots/"
                         + Time.GetDatetimeStringFromSystem().Replace(":", "_")
                         + ".png"
+                );
+            }
+            else if (eventKey.Keycode == Key.F11)
+            {
+                DisplayServer.WindowSetMode(
+                    DisplayServer.WindowGetMode() == DisplayServer.WindowMode.ExclusiveFullscreen
+                        ? DisplayServer.WindowMode.Windowed
+                        : DisplayServer.WindowMode.ExclusiveFullscreen
                 );
             }
         }

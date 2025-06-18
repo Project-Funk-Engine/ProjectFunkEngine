@@ -1,8 +1,8 @@
 [gd_scene load_steps=10 format=3 uid="uid://u7oppwtmvmci"]
 
 [ext_resource type="Script" uid="uid://md1vhln8ji5h" path="res://Scenes/EventScene/EventScene.cs" id="1_x82kl"]
-[ext_resource type="AudioStream" uid="uid://be5ial13ynf3o" path="res://Audio/Song1.ogg" id="2_vywvm"]
 [ext_resource type="Script" uid="uid://pl57giqyhckb" path="res://Scenes/UI/Scripts/MenuModule.cs" id="2_x82kl"]
+[ext_resource type="AudioStream" uid="uid://da2ldmsjlkdod" path="res://Audio/Paint-the-Town-Neon-Red.ogg" id="3_4prsq"]
 [ext_resource type="Texture2D" uid="uid://qhwve7fik4do" path="res://SharedAssets/BackGround_Full.png" id="4_l56en"]
 [ext_resource type="Texture2D" uid="uid://8u3xvcma81d" path="res://Scenes/UI/Assets/UI_CrystalFrame.png" id="5_erk58"]
 [ext_resource type="Script" uid="uid://cp6t6haqyef7o" path="res://Scenes/AreaBasedBackground.cs" id="5_v3lan"]
@@ -26,7 +26,8 @@ CurSceneNode = NodePath("..")
 
 [node name="Audio" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
-stream = ExtResource("2_vywvm")
+stream = ExtResource("3_4prsq")
+volume_db = -15.0
 autoplay = true
 
 [node name="PlayerMarker" type="Marker2D" parent="."]

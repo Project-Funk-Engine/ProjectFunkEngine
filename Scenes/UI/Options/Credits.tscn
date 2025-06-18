@@ -6,6 +6,7 @@
 
 [node name="Credits" type="Control" node_paths=PackedStringArray("CreditsText", "_returnButton")]
 process_mode = 3
+z_index = 20
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,8 +14,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_n36fd")
-CreditsText = NodePath("Node2D/Label")
-ScrollSpeed = 24.0
+CreditsText = NodePath("Node2D")
+ScrollSpeed = 30.0
 RestartPositionY = 400.0
 _returnButton = NodePath("Return Button")
 
@@ -28,29 +29,196 @@ offset_top = 5.0
 offset_right = 422.851
 offset_bottom = 185.0
 
-[node name="Node2D" type="Node2D" parent="."]
+[node name="Node2D" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -160.5
+offset_right = 160.5
+offset_bottom = 939.0
+grow_horizontal = 2
+theme_override_constants/separation = 6
+
+[node name="Label2" type="Label" parent="Node2D"]
+layout_mode = 2
+text = "CREDITS"
+horizontal_alignment = 1
+
+[node name="Label9" type="Label" parent="Node2D"]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="Node2D"]
+layout_mode = 2
+text = "CREDITS_LEAD"
+horizontal_alignment = 1
+
+[node name="Label4" type="Label" parent="Node2D"]
+layout_mode = 2
+text = "Jarod Spangler
+"
+horizontal_alignment = 1
+
+[node name="Label5" type="Label" parent="Node2D"]
+layout_mode = 2
+text = "CREDITS_DESIGN"
+horizontal_alignment = 1
+
+[node name="Label6" type="Label" parent="Node2D"]
+layout_mode = 2
+text = "Connor Lowe
+"
+horizontal_alignment = 1
+
+[node name="Label7" type="Label" parent="Node2D"]
+layout_mode = 2
+text = "CREDITS_TOOLS"
+horizontal_alignment = 1
+
+[node name="Label8" type="Label" parent="Node2D"]
+layout_mode = 2
+text = "Thomas Wessel
+"
+horizontal_alignment = 1
+
+[node name="Label10" type="Label" parent="Node2D"]
+layout_mode = 2
+text = "CREDITS_PROGRAMMING"
+horizontal_alignment = 1
+
+[node name="Label11" type="Label" parent="Node2D"]
+layout_mode = 2
+text = "Raul Mojarro
+"
+horizontal_alignment = 1
+
+[node name="Label12" type="Label" parent="Node2D"]
+layout_mode = 2
+text = "CREDITS_ART"
+horizontal_alignment = 1
+
+[node name="Label13" type="Label" parent="Node2D"]
+layout_mode = 2
+text = "Evelyn Fu
+"
+horizontal_alignment = 1
+
+[node name="Label16" type="Label" parent="Node2D"]
+layout_mode = 2
+text = "CREDITS_MUSIC"
+horizontal_alignment = 1
+
+[node name="Label17" type="Label" parent="Node2D"]
+layout_mode = 2
+text = "Sam Meyer
+Echolane
+"
+horizontal_alignment = 1
+
+[node name="Label14" type="Label" parent="Node2D"]
+layout_mode = 2
+text = "CREDITS_ADDITIONAL_ART"
+horizontal_alignment = 1
+
+[node name="Label15" type="Label" parent="Node2D"]
+layout_mode = 2
+text = "Ares Atlas
+Emily Wen
+Norman Zhu
+Patrick Galang
+Zeke Davidson
+Lyssa Li
+Ashley Knapp
+Nolan Jensen
+Mimi Fournier
+Kevin Paw
+Brendan Trieu
+Jarod Spangler
+Connor Lowe
+"
+horizontal_alignment = 1
+
+[node name="Label18" type="Label" parent="Node2D"]
+layout_mode = 2
+text = "CREDITS_ADDITIONAL_HELP"
+horizontal_alignment = 1
+
+[node name="Label19" type="Label" parent="Node2D"]
+layout_mode = 2
+text = "Jaxon Ruiz
+Marco Ogaz-Vega
+Patrick Hu
+Michael Quinn
+Reese Garcia"
+horizontal_alignment = 1
+
+[node name="Label20" type="Label" parent="Node2D"]
+layout_mode = 2
+text = "CREDITS_OTHER_PLAYTESTERS"
+horizontal_alignment = 1
+
+[node name="Label22" type="Label" parent="Node2D"]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="Label21" type="Label" parent="Node2D"]
+layout_mode = 2
+text = "CREDITS_SPECIAL_THANKS"
+horizontal_alignment = 1
+
+[node name="Label23" type="Label" parent="Node2D"]
+layout_mode = 2
+text = "Tyler Coleman
+Graeme Devine"
+horizontal_alignment = 1
+
+[node name="Label24" type="Label" parent="Node2D"]
+layout_mode = 2
+text = "CREDITS_THANKS_PLAYERS"
+horizontal_alignment = 1
 
 [node name="Label" type="Label" parent="Node2D"]
-offset_left = 217.0
-offset_top = -3.0
-offset_right = 467.0
-offset_bottom = 410.0
-text = "Credits
+layout_mode = 2
+text = "
+Crystal Cave - Cynicmusic
+Spooky Forest - Sam Meyer
+Paint the Town Neon Red - Sam Meyer
+gameMusic - Magntron
+Piano loops 181 - josefpres
+Dark loops 220 - josefpres
+Mute bass 002 - josefpres
+District Four - Kevin MacLeod
+Funk Engine - Echolane
+We're Finally Landing - HOME
+Punk - Mere Notilde
+There It Is - Kevin Macleod
+Data - Karl Casey
+Jungle-ish beat for video games - IHateTuesdays
+Bass Stories - Pixabay
+Mysterious Ambience - Cynicmusic
+Resonance - HOME
+Frost Waltz - Kevin MacLeod
+Ether Disco - Kevin MacLeod
+Jammin' Forest - Sam Meyer
+"
+horizontal_alignment = 1
 
-Programmers
- Jarod Spanger: Project Lead
-Connor Lowe
-Raul Mojarro
-Thomas Wessel
-Michael Quinn
+[node name="HSeparator" type="HSeparator" parent="Node2D"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 18
 
-Artists
-Ares Atlas
-Evelyn Fu
-Emily Wen
+[node name="Label25" type="Label" parent="Node2D"]
+visible = false
+layout_mode = 2
+text = "Emily Wen"
+horizontal_alignment = 1
 
-Sound
-Sam Meyer: Composer"
+[node name="Label26" type="Label" parent="Node2D"]
+visible = false
+layout_mode = 2
+text = "Ares Atlas"
 horizontal_alignment = 1
 
 [node name="Return Button" type="Button" parent="."]

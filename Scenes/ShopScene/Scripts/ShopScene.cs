@@ -18,6 +18,9 @@ public partial class ShopScene : Control
     private Button _removalButton;
 
     [Export]
+    private Button _healButton;
+
+    [Export]
     private GridContainer _noteGrid;
 
     [Export]
@@ -50,15 +53,19 @@ public partial class ShopScene : Control
     [Export]
     private Label _removalCostLabel;
 
+    [Export]
+    private PlayerPuppet _player;
+
     private ButtonGroup _bGroup;
 
-    private readonly int[] _priceByRarity = [100, 90, 80, 70, 60, 50, 9];
-    const int NoteCost = 45;
+    private readonly int[] _priceByRarity = [200, 180, 160, 140, 120, 100, 18];
+    const int NoteCost = 90;
 
     private List<ShopItem> _shopItems = new List<ShopItem>();
 
-    public override void _Ready()
+    public override void _EnterTree()
     {
+        BgAudioPlayer.LiveInstance.ResumeLevelMusic();
         _bGroup = new ButtonGroup();
         Initialize();
         _confirmationButton.Pressed += TryPurchase;
@@ -66,11 +73,7 @@ public partial class ShopScene : Control
         _removalButton.Pressed += OpenRemovalPane;
         _removalAcceptButton.Pressed += RemoveNote;
         _cancelRemoveButton.Pressed += CloseRemovalPane;
-    }
-
-    public override void _EnterTree()
-    {
-        BgAudioPlayer.LiveInstance.ResumeLevelMusic();
+        _healButton.Pressed += TryHeal;
     }
 
     private void Initialize()
@@ -78,6 +81,7 @@ public partial class ShopScene : Control
         UpdateMoneyLabel();
         GenerateShopItems();
         PopulatePossessedNotes();
+        UpdateHealButton();
     }
 
     public override void _Input(InputEvent @event)
@@ -97,6 +101,14 @@ public partial class ShopScene : Control
             {
                 CloseRemovalPane();
                 GetViewport().SetInputAsHandled();
+            }
+        }
+        if (@event is InputEventKey eventKey && eventKey.Pressed && !eventKey.Echo)
+        {
+            if (eventKey.Keycode == Key.Key0)
+            {
+                StageProducer.PlayerStats.Money += 999;
+                UpdateMoneyLabel();
             }
         }
     }
@@ -164,7 +176,8 @@ public partial class ShopScene : Control
 
     private int GetPrice(int basePrice)
     {
-        return Math.Max(basePrice * (1 - StageProducer.PlayerStats.DiscountPercent / 100), 0); //Price can't go negative
+        return (int)
+            Math.Max(basePrice * (1 - (float)StageProducer.PlayerStats.DiscountPercent / 100), 0); //Price can't go negative
     }
 
     private IDisplayable _currentItem;
@@ -209,6 +222,7 @@ public partial class ShopScene : Control
         _currentUItem = null;
 
         RefreshShopPrices();
+        UpdateHealButton();
     }
 
     private Control _lastFocused;
@@ -246,7 +260,7 @@ public partial class ShopScene : Control
         _descriptionLabel.Text = Tr(type + name + "_NAME") + ": " + Tr(type + name + "_TOOLTIP");
     }
 
-    private const int RemovalCost = 50;
+    private const int RemovalCost = 75;
     private bool _hasRemoved;
 
     private void OpenRemovalPane()
@@ -318,8 +332,42 @@ public partial class ShopScene : Control
         StageProducer.PlayerStats.Money -= RemovalCost;
         _removalButton.Disabled = true;
         _hasRemoved = true;
-        StageProducer.PlayerStats.RemoveNote(_toRemove);
+        StageProducer.PlayerStats.RemoveNote(
+            Array.IndexOf(StageProducer.PlayerStats.CurNotes, _toRemove)
+        );
         _selectedRemoveButton.QueueFree();
         CloseRemovalPane();
+        UpdateMoneyLabel();
+        UpdateHealButton();
+    }
+
+    private bool _hasHealed;
+    private const int HealCost = 50;
+    private int _healAmount = (StageProducer.PlayerStats.MaxHealth / 4);
+
+    private void UpdateHealButton()
+    {
+        _healButton.Disabled =
+            StageProducer.PlayerStats.Money < HealCost
+            || StageProducer.PlayerStats.CurrentHealth == StageProducer.PlayerStats.MaxHealth
+            || _hasHealed;
+    }
+
+    private void TryHeal()
+    {
+        if (
+            StageProducer.PlayerStats.Money < HealCost
+            || StageProducer.PlayerStats.CurrentHealth == StageProducer.PlayerStats.MaxHealth
+            || _hasHealed
+        )
+        {
+            return;
+        }
+
+        StageProducer.PlayerStats.Money -= HealCost;
+        _hasHealed = true;
+        _player.Heal(_healAmount);
+        UpdateHealButton();
+        UpdateMoneyLabel();
     }
 }

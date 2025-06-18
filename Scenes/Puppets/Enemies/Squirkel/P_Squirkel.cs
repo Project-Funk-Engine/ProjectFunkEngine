@@ -11,7 +11,7 @@ public partial class P_Squirkel : EnemyPuppet
     {
         MaxHealth = 90;
         CurrentHealth = MaxHealth;
-        BaseMoney = 5;
+        BaseMoney = 10;
         base._Ready();
 
         var tween = CreateTween();

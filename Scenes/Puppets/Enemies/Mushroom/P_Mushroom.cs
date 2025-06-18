@@ -9,9 +9,9 @@ public partial class P_Mushroom : EnemyPuppet
 
     public override void _Ready()
     {
-        MaxHealth = 200;
+        MaxHealth = 150;
         CurrentHealth = MaxHealth;
-        BaseMoney = 10;
+        BaseMoney = 20;
         InitialNote = (17, 1);
         base._Ready();
         BattleEvents = new EnemyEffect[]

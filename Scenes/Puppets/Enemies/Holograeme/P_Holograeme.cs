@@ -20,6 +20,7 @@ public partial class P_Holograeme : EnemyPuppet
         BattleDirector.AutoPlay = false;
         BattleDirector.PlayerDisabled = false;
         Conductor.BeatSpawnOffsetModifier = 0;
+        BattleDirector.VerticalScrollRotation = 90f;
     }
 
     public override void _Ready()
@@ -27,7 +28,7 @@ public partial class P_Holograeme : EnemyPuppet
         Conductor.BeatSpawnOffsetModifier = 1;
         MaxHealth = 3;
         CurrentHealth = MaxHealth;
-        BaseMoney = 20;
+        BaseMoney = 40;
         base._Ready();
 
         _hands[0] = _redHand;
@@ -43,6 +44,7 @@ public partial class P_Holograeme : EnemyPuppet
                 {
                     BattleDirector.AutoPlay = true;
                     BattleDirector.PlayerDisabled = true;
+                    BattleDirector.VerticalScrollRotation = 0f;
                     e.BD.AddStatus(Targetting.Player, StatusEffect.Disable);
                 }
             ),
@@ -90,10 +92,9 @@ public partial class P_Holograeme : EnemyPuppet
                     if (
                         e is not BattleDirector.Harbinger.OnDamageInstanceArgs dArgs
                         || dArgs.Dmg.Target != eff.Owner
-                        || dArgs.Dmg.Source != dArgs.BD.Player
                     )
                         return;
-                    if (dArgs.Dmg.Damage < val)
+                    if (dArgs.Dmg.Source != e.BD.Player || dArgs.Dmg.Damage < val)
                     {
                         dArgs.Dmg.ModifyDamage(0, 0);
                     }

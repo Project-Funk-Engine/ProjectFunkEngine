@@ -10,7 +10,7 @@
 process_mode = 3
 layer = 0
 script = ExtResource("1_mf0nq")
-_dialogueLabel = NodePath("Control/CenterContainer/VBoxContainer/NinePatchRect/MarginContainer/TextLabel")
+_dialogueLabel = NodePath("Control/CenterContainer/VBoxContainer/MarginContainer/MarginContainer/TextLabel")
 _dialogueBox = NodePath("Control")
 _nextButton = NodePath("Control/CenterContainer/VBoxContainer/MarginContainer2/NextButton")
 _inputSprites = [NodePath("Up"), NodePath("Down"), NodePath("Left"), NodePath("Right")]
@@ -42,7 +42,16 @@ mouse_filter = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer"]
 layout_mode = 2
 
-[node name="NinePatchRect" type="NinePatchRect" parent="Control/CenterContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Control/CenterContainer/VBoxContainer/MarginContainer"]
 custom_minimum_size = Vector2(250, 150)
 layout_mode = 2
 texture = ExtResource("2_3a4m1")
@@ -51,26 +60,17 @@ patch_margin_top = 8
 patch_margin_right = 8
 patch_margin_bottom = 8
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/CenterContainer/VBoxContainer/NinePatchRect"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_vertical = 3
-mouse_filter = 2
-theme_override_constants/margin_left = 6
-theme_override_constants/margin_top = 6
-theme_override_constants/margin_right = 6
-theme_override_constants/margin_bottom = 6
+[node name="MarginContainer" type="MarginContainer" parent="Control/CenterContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
 
-[node name="TextLabel" type="Label" parent="Control/CenterContainer/VBoxContainer/NinePatchRect/MarginContainer"]
+[node name="TextLabel" type="Label" parent="Control/CenterContainer/VBoxContainer/MarginContainer/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 1
-autowrap_mode = 2
-clip_text = true
-text_overrun_behavior = 4
+autowrap_mode = 3
 
 [node name="MarginContainer2" type="MarginContainer" parent="Control/CenterContainer/VBoxContainer"]
 process_mode = 3
@@ -112,38 +112,38 @@ position = Vector2(22, 249)
 position = Vector2(35, 202)
 
 [node name="BarMarker" type="Marker2D" parent="."]
-position = Vector2(59, 266)
+position = Vector2(59, 267)
 
 [node name="NoteMarker" type="Marker2D" parent="."]
-position = Vector2(364, 294)
+position = Vector2(392, 246)
 
 [node name="LoopMarker" type="Marker2D" parent="."]
-position = Vector2(129, 270)
+position = Vector2(320, 309)
 
 [node name="Up" type="Sprite2D" parent="."]
 visible = false
 self_modulate = Color(1, 1, 1, 0.45)
-position = Vector2(129, 248)
+position = Vector2(284, 313)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_d6o7n")
 
 [node name="Down" type="Sprite2D" parent="."]
 visible = false
 self_modulate = Color(1, 1, 1, 0.45)
-position = Vector2(129, 292)
+position = Vector2(357, 313)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_d6o7n")
 
 [node name="Left" type="Sprite2D" parent="."]
 visible = false
 self_modulate = Color(1, 1, 1, 0.45)
-position = Vector2(129, 210)
+position = Vector2(214, 313)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_d6o7n")
 
 [node name="Right" type="Sprite2D" parent="."]
 visible = false
 self_modulate = Color(1, 1, 1, 0.45)
-position = Vector2(129, 330)
+position = Vector2(422, 313)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_d6o7n")

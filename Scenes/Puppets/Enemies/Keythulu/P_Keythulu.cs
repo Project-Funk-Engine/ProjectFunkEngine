@@ -14,7 +14,7 @@ public partial class P_Keythulu : EnemyPuppet
     {
         MaxHealth = 500;
         CurrentHealth = MaxHealth;
-        BaseMoney = 50;
+        BaseMoney = 80;
         base._Ready();
 
         _effectSprite.Visible = false;
@@ -32,7 +32,7 @@ public partial class P_Keythulu : EnemyPuppet
             new EnemyEffect(
                 this,
                 BattleEffectTrigger.OnBattleStart,
-                7,
+                6,
                 (e, eff, val) =>
                 {
                     e.BD.AddStatus(Targetting.Player, StatusEffect.MindCrush, val);
@@ -65,7 +65,10 @@ public partial class P_Keythulu : EnemyPuppet
                 1,
                 (e, eff, val) =>
                 {
-                    if (e is not BattleDirector.Harbinger.OnDamageInstanceArgs dArgs)
+                    if (
+                        StageProducer.Config.RoomType == Stages.Custom
+                        || e is not BattleDirector.Harbinger.OnDamageInstanceArgs dArgs
+                    )
                         return;
                     if (
                         dArgs.Dmg.Target == this
@@ -73,6 +76,7 @@ public partial class P_Keythulu : EnemyPuppet
                     )
                     {
                         SteamWhisperer.PopAchievement("actTwoComp");
+                        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.HasWon, true);
                     }
                 }
             ),

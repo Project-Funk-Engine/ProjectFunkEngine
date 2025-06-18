@@ -8,7 +8,7 @@ public partial class P_Spider : EnemyPuppet
 
     public override void _Ready()
     {
-        MaxHealth = 100;
+        MaxHealth = 60;
         CurrentHealth = MaxHealth;
         BaseMoney = 5;
         InitialNote = (15, 2);

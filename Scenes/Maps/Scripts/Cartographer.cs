@@ -74,6 +74,10 @@ public partial class Cartographer : Node2D
     public override void _EnterTree()
     {
         BgAudioPlayer.LiveInstance.PlayLevelMusic();
+        if (!SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.FirstTime).AsBool())
+            return;
+        BattleDirector.VerticalScroll = true;
+        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.VerticalScroll, true);
     }
 
     private Vector2 GetPosition(int x, int y)
@@ -204,6 +208,7 @@ public partial class Cartographer : Node2D
         }
 
         EndScreen es = GD.Load<PackedScene>(EndScreen.LoadPath).Instantiate<EndScreen>();
+        es.HasWon = true;
         AddChild(es);
         es.TopLabel.Text = Tr("BATTLE_ROOM_WIN");
         ProcessMode = ProcessModeEnum.Disabled;
