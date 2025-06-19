@@ -40,7 +40,7 @@ public partial class P_Effigy : EnemyPuppet
                 {
                     e.BD.DealDamage(Targetting.Player, e.BD.Player.GetCurrentHealth() - 1, null);
                 },
-                "EFFECT_EFFECT2"
+                "EFFIGY_EFFECT2"
             ),
             new EnemyEffect(
                 this,

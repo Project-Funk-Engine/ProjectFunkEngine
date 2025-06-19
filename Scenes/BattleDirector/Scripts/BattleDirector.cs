@@ -142,6 +142,7 @@ public partial class BattleDirector : Node2D
         {
             FocusedButton.QueueFree();
             FocusedButton = null;
+            Descriptions.QueueFree();
             StartCountdown();
         };
 
