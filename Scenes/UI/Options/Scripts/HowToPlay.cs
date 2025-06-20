@@ -46,7 +46,7 @@ public partial class HowToPlay : Node2D, IFocusableMenu
 
     private void DoTutorial()
     {
-        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.FirstTime, true);
+        Configkeeper.UpdateConfig(Configkeeper.ConfigSettings.FirstTime, true);
         StageProducer.LiveInstance.TransitionStage(Stages.Map);
     }
 

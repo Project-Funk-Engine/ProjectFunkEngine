@@ -76,7 +76,7 @@ public partial class P_Keythulu : EnemyPuppet
                     )
                     {
                         SteamWhisperer.PopAchievement("actTwoComp");
-                        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.HasWon, true);
+                        Configkeeper.UpdateConfig(Configkeeper.ConfigSettings.HasWon, true);
                     }
                 }
             ),

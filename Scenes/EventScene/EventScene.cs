@@ -26,7 +26,7 @@ public partial class EventScene : Node
     [Export]
     private MarginContainer _continueContainer;
 
-    public static List<int> EventPool;
+    public static List<int> EventPool = [];
 
     private static readonly Theme ButtonTheme = GD.Load<Theme>(
         "res://Scenes/UI/Assets/GeneralTheme.tres"

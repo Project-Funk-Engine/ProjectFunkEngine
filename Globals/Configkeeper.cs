@@ -7,7 +7,7 @@ using FileAccess = Godot.FileAccess;
 /**
  * <summary>SaveSystem: Manages FileI/O of configs and save files.</summary>
  */
-public static class SaveSystem
+public static class Configkeeper
 {
     #region Config
     private const string UserConfigPath = "user://Options.cfg";
@@ -400,7 +400,8 @@ public static class SaveSystem
     }
     #endregion
 
-    #region Save
+    
+    /*#region Save
 
     private const string UserSavePath = "user://MidnighRiff.save";
 
@@ -478,7 +479,7 @@ public static class SaveSystem
 
     /**
      * <remarks>Returns null if invalid save or save 404's.</remarks>
-     */
+     #1#
     public static SaveFile LoadGame()
     {
         if (!FileAccess.FileExists(UserSavePath))
@@ -505,4 +506,5 @@ public static class SaveSystem
         DirAccess.RemoveAbsolute(UserSavePath);
     }
     #endregion
+*/
 }

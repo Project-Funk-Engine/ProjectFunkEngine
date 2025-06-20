@@ -30,8 +30,8 @@ public partial class TitleScreen : Control, IFocusableMenu
             if (eventKey.Keycode == Key.Key0)
             {
                 SteamWhisperer.ResetAll();
-                SaveSystem.ClearSave();
-                SaveSystem.ClearConfig();
+                Savekeeper.ClearRun();
+                Configkeeper.ClearConfig();
                 StageProducer.LiveInstance.InitFromCfg();
             }
         }
@@ -49,7 +49,7 @@ public partial class TitleScreen : Control, IFocusableMenu
         if (StageProducer.LiveInstance.LastStage == Stages.Custom)
             OpenCustomSelection();
         _customSelectionButton.Visible = (bool)
-            SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.HasWon);
+            Configkeeper.GetConfigValue(Configkeeper.ConfigSettings.HasWon);
     }
 
     public override void _Process(double delta)

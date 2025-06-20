@@ -151,7 +151,7 @@ public partial class ControlSettings : Node2D, IFocusableMenu
         }
 
         _remapTabs.CurrentTab =
-            SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.InputType).ToString()
+            Configkeeper.GetConfigValue(Configkeeper.ConfigSettings.InputType).ToString()
             == KeyboardPrefix
                 ? 0
                 : 1;
@@ -251,8 +251,8 @@ public partial class ControlSettings : Node2D, IFocusableMenu
     /// </summary>
     private void ChangeInputType()
     {
-        SaveSystem.UpdateConfig(
-            SaveSystem.ConfigSettings.InputType,
+        Configkeeper.UpdateConfig(
+            Configkeeper.ConfigSettings.InputType,
             _remapTabs.CurrentTab == 0 ? KeyboardPrefix : JoyPrefix
         );
         _remapDescription.Text = Tr(_remapTabs.CurrentTab == 0 ? _keyboardRemap : _controllerRemap);
@@ -392,46 +392,49 @@ public partial class ControlSettings : Node2D, IFocusableMenu
     /// </summary>
     private static readonly Dictionary<
         string,
-        (SaveSystem.ConfigSettings keyboard, SaveSystem.ConfigSettings controller)
+        (Configkeeper.ConfigSettings keyboard, Configkeeper.ConfigSettings controller)
     > ConfigMap = new()
     {
         {
             "_arrowUp",
-            (SaveSystem.ConfigSettings.InputKeyboardUp, SaveSystem.ConfigSettings.InputControllerUp)
+            (
+                Configkeeper.ConfigSettings.InputKeyboardUp,
+                Configkeeper.ConfigSettings.InputControllerUp
+            )
         },
         {
             "_arrowDown",
             (
-                SaveSystem.ConfigSettings.InputKeyboardDown,
-                SaveSystem.ConfigSettings.InputControllerDown
+                Configkeeper.ConfigSettings.InputKeyboardDown,
+                Configkeeper.ConfigSettings.InputControllerDown
             )
         },
         {
             "_arrowLeft",
             (
-                SaveSystem.ConfigSettings.InputKeyboardLeft,
-                SaveSystem.ConfigSettings.InputControllerLeft
+                Configkeeper.ConfigSettings.InputKeyboardLeft,
+                Configkeeper.ConfigSettings.InputControllerLeft
             )
         },
         {
             "_arrowRight",
             (
-                SaveSystem.ConfigSettings.InputKeyboardRight,
-                SaveSystem.ConfigSettings.InputControllerRight
+                Configkeeper.ConfigSettings.InputKeyboardRight,
+                Configkeeper.ConfigSettings.InputControllerRight
             )
         },
         {
             "_secondaryPlacement",
             (
-                SaveSystem.ConfigSettings.InputKeyboardSecondary,
-                SaveSystem.ConfigSettings.InputControllerSecondary
+                Configkeeper.ConfigSettings.InputKeyboardSecondary,
+                Configkeeper.ConfigSettings.InputControllerSecondary
             )
         },
         {
             "_inventory",
             (
-                SaveSystem.ConfigSettings.InputKeyboardInventory,
-                SaveSystem.ConfigSettings.InputControllerInventory
+                Configkeeper.ConfigSettings.InputKeyboardInventory,
+                Configkeeper.ConfigSettings.InputControllerInventory
             )
         },
     };
@@ -474,7 +477,7 @@ public partial class ControlSettings : Node2D, IFocusableMenu
             return;
 
         var config = key is InputEventKey ? configPair.keyboard : configPair.controller;
-        SaveSystem.UpdateConfig(config, keycode);
+        Configkeeper.UpdateConfig(config, keycode);
     }
 
     /// <summary>

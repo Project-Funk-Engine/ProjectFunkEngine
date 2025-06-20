@@ -65,10 +65,12 @@ public partial class InputHandler : Node2D
     public override void _Process(double delta)
     {
         //TODO: Add change control scheme signal, so we don't query each frame.
-        string scheme = SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.InputType).As<string>();
+        string scheme = Configkeeper
+            .GetConfigValue(Configkeeper.ConfigSettings.InputType)
+            .As<string>();
         if (Input.GetConnectedJoypads().Count <= 0 && scheme == "CONTROLLER")
         {
-            SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputType, "WASD");
+            Configkeeper.UpdateConfig(Configkeeper.ConfigSettings.InputType, "WASD");
         }
 
         if (BattleDirector.PlayerDisabled)
@@ -92,7 +94,7 @@ public partial class InputHandler : Node2D
     {
         if (@event is InputEventJoypadButton)
         { //Force Controller if controller was pressed
-            SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.InputType, "CONTROLLER");
+            Configkeeper.UpdateConfig(Configkeeper.ConfigSettings.InputType, "CONTROLLER");
         }
     }
 

@@ -101,7 +101,7 @@ public partial class P_Strawman : EnemyPuppet
                         && dArgs.Dmg.Target.GetCurrentHealth() <= dArgs.Dmg.Damage
                     )
                     {
-                        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.FirstTime, false);
+                        Configkeeper.UpdateConfig(Configkeeper.ConfigSettings.FirstTime, false);
                         SteamWhisperer.PopAchievement("tutorial");
                     }
                 }
