@@ -129,35 +129,16 @@ public partial class InputHandler : Node2D
     {
         if (!UseArrows)
             return;
-        Arrows[(int)ArrowType.Left].Node.Texture = GD.Load<Texture2D>(
-            ArrowFolderPath + "New_Arrow.png"
-        );
-        Arrows[(int)ArrowType.Left].Node.Outline.Texture = GD.Load<Texture2D>(
-            ArrowFolderPath + "Arrow_Outline.png"
-        );
-        Arrows[(int)ArrowType.Left].Node.RotationDegrees = 180f;
+        Texture2D arrowTexture = GD.Load<Texture2D>(ArrowFolderPath + "New_Arrow.png");
+        Texture2D outlineTexture = GD.Load<Texture2D>(ArrowFolderPath + "Arrow_Outline.png");
+        float[] rotations = [270f, 90f, 180f]; //Up, down, left
 
-        Arrows[(int)ArrowType.Up].Node.Texture = GD.Load<Texture2D>(
-            ArrowFolderPath + "New_Arrow.png"
-        );
-        Arrows[(int)ArrowType.Up].Node.Outline.Texture = GD.Load<Texture2D>(
-            ArrowFolderPath + "Arrow_Outline.png"
-        );
-        Arrows[(int)ArrowType.Up].Node.RotationDegrees = 270f;
-
-        Arrows[(int)ArrowType.Down].Node.Texture = GD.Load<Texture2D>(
-            ArrowFolderPath + "New_Arrow.png"
-        );
-        Arrows[(int)ArrowType.Down].Node.Outline.Texture = GD.Load<Texture2D>(
-            ArrowFolderPath + "Arrow_Outline.png"
-        );
-        Arrows[(int)ArrowType.Down].Node.RotationDegrees = 90f;
-
-        Arrows[(int)ArrowType.Right].Node.Texture = GD.Load<Texture2D>(
-            ArrowFolderPath + "New_Arrow.png"
-        );
-        Arrows[(int)ArrowType.Right].Node.Outline.Texture = GD.Load<Texture2D>(
-            ArrowFolderPath + "Arrow_Outline.png"
-        );
+        for (int i = 0; i < Arrows.Length; i++)
+        {
+            Arrows[i].Node.Texture = arrowTexture;
+            Arrows[i].Node.Outline.Texture = outlineTexture;
+            if (i < rotations.Length)
+                Arrows[i].Node.RotationDegrees = rotations[i];
+        }
     }
 }

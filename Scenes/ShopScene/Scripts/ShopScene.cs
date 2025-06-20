@@ -343,7 +343,7 @@ public partial class ShopScene : Control
 
     private bool _hasHealed;
     private const int HealCost = 50;
-    private int _healAmount = (StageProducer.PlayerStats.MaxHealth / 4);
+    private int HealAmount => (StageProducer.PlayerStats.MaxHealth / 4);
 
     private void UpdateHealButton()
     {
@@ -366,7 +366,7 @@ public partial class ShopScene : Control
 
         StageProducer.PlayerStats.Money -= HealCost;
         _hasHealed = true;
-        _player.Heal(_healAmount);
+        _player.Heal(HealAmount);
         UpdateHealButton();
         UpdateMoneyLabel();
     }

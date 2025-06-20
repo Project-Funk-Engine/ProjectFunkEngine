@@ -22,7 +22,7 @@ public partial class P_Strawman : EnemyPuppet
                 this,
                 BattleEffectTrigger.OnBattleStart,
                 1,
-                (e, eff, val) =>
+                (e, _, _) =>
                 {
                     _tutorialInstance = Toriel.AttachNewToriel(e.BD);
                     _tutorialInstance.IntroDialogue();
@@ -32,7 +32,7 @@ public partial class P_Strawman : EnemyPuppet
                 this,
                 BattleEffectTrigger.OnDamageInstance,
                 2,
-                (e, eff, val) =>
+                (e, eff, _) =>
                 {
                     if (e is not BattleDirector.Harbinger.OnDamageInstanceArgs dArgs)
                         return;
@@ -53,7 +53,7 @@ public partial class P_Strawman : EnemyPuppet
                 this,
                 BattleEffectTrigger.OnLoop,
                 1,
-                (e, eff, val) =>
+                (e, _, _) =>
                 {
                     if (e is not BattleDirector.Harbinger.LoopEventArgs lArgs)
                         return;
@@ -67,7 +67,7 @@ public partial class P_Strawman : EnemyPuppet
                 this,
                 BattleEffectTrigger.NoteHit,
                 1,
-                (e, eff, val) =>
+                (e, eff, _) =>
                 {
                     if (eff.Value == 0)
                         return;
@@ -83,7 +83,7 @@ public partial class P_Strawman : EnemyPuppet
                 this,
                 BattleEffectTrigger.NotePlaced,
                 1,
-                (e, eff, val) =>
+                (_, _, _) =>
                 {
                     _tutorialInstance.CallDeferred(nameof(_tutorialInstance.OnPlaceDialogue1));
                 }
@@ -92,7 +92,7 @@ public partial class P_Strawman : EnemyPuppet
                 this,
                 BattleEffectTrigger.OnDamageInstance,
                 1,
-                (e, eff, val) =>
+                (e, _, _) =>
                 {
                     if (e is not BattleDirector.Harbinger.OnDamageInstanceArgs dArgs)
                         return;

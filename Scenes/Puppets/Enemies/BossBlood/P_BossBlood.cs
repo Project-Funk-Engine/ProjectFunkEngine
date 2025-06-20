@@ -37,7 +37,7 @@ public partial class P_BossBlood : EnemyPuppet
                 this,
                 BattleEffectTrigger.OnDamageInstance,
                 1,
-                (e, eff, val) =>
+                (e, _, _) =>
                 {
                     if (e is not BattleDirector.Harbinger.OnDamageInstanceArgs dArgs)
                         return;
