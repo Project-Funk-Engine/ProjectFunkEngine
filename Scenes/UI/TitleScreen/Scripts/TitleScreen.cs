@@ -48,8 +48,8 @@ public partial class TitleScreen : Control, IFocusableMenu
     {
         if (StageProducer.LiveInstance.LastStage == Stages.Custom)
             OpenCustomSelection();
-        _customSelectionButton.Visible = (bool)
-            Configkeeper.GetConfigValue(Configkeeper.ConfigSettings.HasWon);
+        _customSelectionButton.Visible =
+            StageProducer.GetPersistantVal(StageProducer.PersistKeys.HasWon) == 1;
     }
 
     public override void _Process(double delta)

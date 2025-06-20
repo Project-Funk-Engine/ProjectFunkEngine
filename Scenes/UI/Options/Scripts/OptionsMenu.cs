@@ -58,7 +58,7 @@ public partial class OptionsMenu : CanvasLayer, IFocusableMenu
 
         _titleScreenOptions.Visible =
             !StageProducer.IsInitialized
-            && !Configkeeper.GetConfigValue(Configkeeper.ConfigSettings.FirstTime).AsBool();
+            && StageProducer.GetPersistantVal(StageProducer.PersistKeys.TutorialDone) == 1;
         _noteSpriteToggle.ButtonPressed = InputHandler.UseArrows;
         _noteSpriteToggle.Toggled += ArrowSpritesToggled;
         _verticalScrollToggle.ButtonPressed = BattleDirector.VerticalScroll;

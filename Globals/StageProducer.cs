@@ -35,7 +35,9 @@ public partial class StageProducer : Node
     public override void _EnterTree()
     {
         Savekeeper.Saving += SerializeRun;
+        Savekeeper.Saving += SerializePersist;
         Savekeeper.LoadFromFile();
+        DeserializePersist();
 
         InitFromCfg();
         LiveInstance = this;
@@ -80,7 +82,7 @@ public partial class StageProducer : Node
     private void StartNewGame()
     {
         GlobalRng.Randomize();
-        if ((bool)Configkeeper.GetConfigValue(Configkeeper.ConfigSettings.FirstTime))
+        if (GetPersistantVal(PersistKeys.TutorialDone) == 0)
             CurLevel = MapLevels.GetLevelFromId(0);
         else
             CurLevel = MapLevels.GetLevelFromId(1);
@@ -339,7 +341,6 @@ public partial class StageProducer : Node
 
     public void ProgressLevels()
     {
-        GD.Print(CurLevel.Id);
         CurLevel = CurLevel.GetNextLevel();
 
         Map = new();
@@ -348,6 +349,60 @@ public partial class StageProducer : Node
         BattlePool = [];
     }
 
+    #endregion
+
+    #region Persistent Data
+    private const string PersistenceHeader = "PersistVals";
+
+    public enum PersistKeys
+    {
+        TutorialDone = 0,
+        HasWon = 1,
+    } //Relative order needs to be preserved between versions.
+
+    private static int[] PersistantValues { get; set; } = [0, 0]; //Dumb and hacky right now. Literally doing this to avoid bool spam for now.
+    private const string PersistentIntValName = "PersistInts";
+
+    public static int GetPersistantVal(PersistKeys key)
+    {
+        return PersistantValues[(int)key];
+    }
+
+    public static void UpdatePersistantValues(PersistKeys key, int newVal)
+    {
+        PersistantValues[(int)key] = newVal;
+        SerializePersist();
+        Savekeeper.SaveToFile();
+    }
+
+    private static void SerializePersist()
+    {
+        string saveString = "";
+        saveString += Savekeeper.FormatArray(PersistentIntValName, PersistantValues);
+        Savekeeper.GameSaveObjects[PersistenceHeader] = saveString;
+    }
+
+    private void DeserializePersist()
+    {
+        if (!Savekeeper.GameSaveObjects.TryGetValue(PersistenceHeader, out var loadPers))
+        {
+            GD.PushWarning("Savekeeper does not contain persistence key!");
+            return;
+        }
+
+        int idx = 0;
+        var success = Savekeeper.ParseArray<int>(PersistentIntValName, loadPers, idx, int.TryParse);
+        if (success.Success)
+        {
+            int[] tempVals = success.Value;
+            for (int i = 0; i < tempVals.Length && i < PersistantValues.Length; i++) //Manually update to safeguard against saves breaking when values are added.
+                PersistantValues[i] = tempVals[i];
+            return;
+        }
+        GD.PushWarning(
+            $"Error deserializing persistent values: {loadPers} Error: {success.Message}"
+        );
+    }
     #endregion
 
     #region Saving

@@ -31,8 +31,6 @@ public static class Configkeeper
     private const bool DefaultTypeIsArrow = false;
     private const bool DefaultVerticalScroll = true;
     private const bool DefaultHighCon = false;
-    private const bool DefaultFirstTime = true;
-    private const bool DefaultHasWon = false;
 
     public enum ConfigSettings
     {
@@ -53,8 +51,6 @@ public static class Configkeeper
         LanguageKey,
         TypeIsArrow,
         HighContrast,
-        FirstTime,
-        HasWon,
         VerticalScroll,
     }
 
@@ -81,8 +77,6 @@ public static class Configkeeper
         UpdateConfig(ConfigSettings.LanguageKey, DefaultLanguage);
         UpdateConfig(ConfigSettings.TypeIsArrow, DefaultTypeIsArrow);
         UpdateConfig(ConfigSettings.HighContrast, DefaultHighCon);
-        UpdateConfig(ConfigSettings.FirstTime, DefaultFirstTime);
-        UpdateConfig(ConfigSettings.HasWon, DefaultHasWon);
         UpdateConfig(ConfigSettings.VerticalScroll, DefaultVerticalScroll);
     }
 
@@ -150,12 +144,6 @@ public static class Configkeeper
                 break;
             case ConfigSettings.HighContrast:
                 _curConfigData.SetValue("Options", "HighContrast", value);
-                break;
-            case ConfigSettings.FirstTime:
-                _curConfigData.SetValue("Game", "FirstTime", value);
-                break;
-            case ConfigSettings.HasWon:
-                _curConfigData.SetValue("Game", "HasWon", value);
                 break;
             default:
                 GD.PushError("SaveSystem.UpdateConfig: Invalid config setting passed. " + setting);
@@ -298,10 +286,6 @@ public static class Configkeeper
                 return _curConfigData.GetValue("Options", "VerticalScroll", DefaultVerticalScroll);
             case ConfigSettings.HighContrast:
                 return _curConfigData.GetValue("Options", "HighContrast", DefaultHighCon);
-            case ConfigSettings.FirstTime:
-                return _curConfigData.GetValue("Game", "FirstTime", DefaultFirstTime);
-            case ConfigSettings.HasWon:
-                return _curConfigData.GetValue("Game", "HasWon", DefaultHasWon);
             default:
                 GD.PushError("Invalid config setting passed. " + setting);
                 return float.MinValue;
@@ -399,112 +383,4 @@ public static class Configkeeper
         InitConfig();
     }
     #endregion
-
-    
-    /*#region Save
-
-    private const string UserSavePath = "user://MidnighRiff.save";
-
-    public class SaveFile
-    {
-        public ulong RngSeed { get; init; }
-        public ulong RngState { get; init; }
-        public int LastRoomIdx { get; init; }
-        public int Area { get; init; }
-
-        public int Money { get; init; }
-        public int[] NoteIds { get; init; }
-        public int[] RelicIds { get; init; }
-        public int[] BattlePool { get; init; }
-        public int[] EventPool { get; init; }
-        public int PlayerHealth { get; init; }
-        public int Shortcuts { get; init; }
-        public int PlayerMaxCombo { get; init; }
-
-        public SaveFile(
-            ulong rngSeed,
-            ulong rngState,
-            int lastRoomIdx,
-            int[] noteIds,
-            int[] relicIds,
-            int[] battlePool,
-            int[] eventPool,
-            int playerHealth,
-            int area,
-            int money,
-            int shortcuts,
-            int playerMaxCombo
-        )
-        {
-            RngSeed = rngSeed;
-            RngState = rngState;
-            LastRoomIdx = lastRoomIdx;
-            NoteIds = noteIds;
-            RelicIds = relicIds;
-            BattlePool = battlePool ?? [];
-            EventPool = eventPool ?? [];
-            PlayerHealth = playerHealth;
-            Area = area;
-            Money = money;
-            Shortcuts = shortcuts;
-            PlayerMaxCombo = playerMaxCombo;
-        }
-    }
-
-    public static void SaveGame()
-    {
-        int[] relicIds = StageProducer.PlayerStats.CurRelics.Select(r => r.Id).ToArray();
-        int[] noteIds = StageProducer.PlayerStats.CurNotes.Select(r => r.Id).ToArray();
-        SaveFile sv = new SaveFile(
-            StageProducer.GlobalRng.Seed,
-            StageProducer.GlobalRng.State,
-            StageProducer.CurRoom,
-            noteIds,
-            relicIds,
-            StageProducer.BattlePool?.ToArray(),
-            EventScene.EventPool?.ToArray(),
-            StageProducer.PlayerStats.CurrentHealth,
-            StageProducer.CurLevel.Id,
-            StageProducer.PlayerStats.Money,
-            StageProducer.PlayerStats.Shortcuts,
-            StageProducer.PlayerStats.MaxComboBar
-        );
-        string json = JsonSerializer.Serialize(sv);
-
-        FileAccess file = FileAccess.Open(UserSavePath, FileAccess.ModeFlags.Write);
-
-        file.StoreLine(json);
-        file.Close();
-    }
-
-    /**
-     * <remarks>Returns null if invalid save or save 404's.</remarks>
-     #1#
-    public static SaveFile LoadGame()
-    {
-        if (!FileAccess.FileExists(UserSavePath))
-            return null;
-        FileAccess file = FileAccess.Open(UserSavePath, FileAccess.ModeFlags.Read);
-        string json = file.GetAsText();
-
-        file.Close();
-        SaveFile sv;
-        try
-        {
-            sv = JsonSerializer.Deserialize<SaveFile>(json);
-        }
-        catch (JsonException)
-        {
-            GD.PushWarning("Cannot deserialize save file, returning null.");
-            return null;
-        }
-        return sv;
-    }
-
-    public static void ClearSave()
-    {
-        DirAccess.RemoveAbsolute(UserSavePath);
-    }
-    #endregion
-*/
 }

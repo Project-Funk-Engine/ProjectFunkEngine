@@ -74,7 +74,7 @@ public partial class Cartographer : Node2D
     public override void _EnterTree()
     {
         BgAudioPlayer.LiveInstance.PlayLevelMusic();
-        if (!Configkeeper.GetConfigValue(Configkeeper.ConfigSettings.FirstTime).AsBool())
+        if (StageProducer.GetPersistantVal(StageProducer.PersistKeys.TutorialDone) == 1)
             return;
         BattleDirector.VerticalScroll = true;
         Configkeeper.UpdateConfig(Configkeeper.ConfigSettings.VerticalScroll, true);

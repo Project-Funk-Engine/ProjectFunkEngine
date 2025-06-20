@@ -50,7 +50,7 @@ public partial class Savekeeper : Node
         Callable.From(() => SaveToFile(savePath)).CallDeferred();
     }
 
-    private static bool SaveToFile(string savePath = DefaultSaveFileName + SaveFileExtension)
+    public static bool SaveToFile(string savePath = DefaultSaveFileName + SaveFileExtension)
     {
         if (string.IsNullOrEmpty(savePath))
             return false;
