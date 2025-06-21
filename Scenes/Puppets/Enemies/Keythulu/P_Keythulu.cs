@@ -42,7 +42,7 @@ public partial class P_Keythulu : EnemyPuppet
                 this,
                 BattleEffectTrigger.OnLoop,
                 3,
-                (e, eff, val) =>
+                (_, _, _) =>
                 {
                     _effectSprite.Position = Vector2.Zero;
                     _effectSprite.Visible = true;
@@ -63,7 +63,7 @@ public partial class P_Keythulu : EnemyPuppet
                 this,
                 BattleEffectTrigger.OnDamageInstance,
                 1,
-                (e, eff, val) =>
+                (e, _, _) =>
                 {
                     if (
                         StageProducer.Config.RoomType == Stages.Custom
@@ -76,7 +76,7 @@ public partial class P_Keythulu : EnemyPuppet
                     )
                     {
                         SteamWhisperer.PopAchievement("actTwoComp");
-                        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.HasWon, true);
+                        StageProducer.UpdatePersistantValues(StageProducer.PersistKeys.HasWon, 1);
                     }
                 }
             ),

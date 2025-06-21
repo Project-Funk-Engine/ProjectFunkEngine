@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cr82n7aojboaw" path="res://Scenes/UI/Assets/UI_CenterFrameLight.png" id="4_4vscx"]
 [ext_resource type="Texture2D" uid="uid://caw70lr5e1yiq" path="res://Classes/Notes/Assets/Note_PlayerDouble.png" id="4_m6low"]
 [ext_resource type="Texture2D" uid="uid://cdf3g3174du4r" path="res://Classes/Notes/Assets/Note_PlayerHeal.png" id="5_8kiq2"]
-[ext_resource type="Texture2D" uid="uid://coav3xvksq4jy" path="res://Scenes/NoteManager/Assets/NoteWIthOutline.png" id="5_xqve7"]
+[ext_resource type="Texture2D" uid="uid://coav3xvksq4jy" path="res://Scenes/NoteManager/Assets/NoteWithOutline.png" id="5_xqve7"]
 [ext_resource type="Texture2D" uid="uid://c3chrsxrulapd" path="res://Classes/Notes/Assets/Note_PlayerBasic.png" id="6_uonw3"]
 [ext_resource type="Texture2D" uid="uid://dg0lmu0pip4lr" path="res://Classes/Notes/Assets/Note_PlayerVampire.png" id="7_rbdrm"]
 

@@ -44,8 +44,8 @@ public partial class OptionsMenu : CanvasLayer, IFocusableMenu
             AudioServer.GetBusVolumeDb(AudioServer.GetBusIndex("Master"))
         );
 
-        _highContrastToggle.ButtonPressed = SaveSystem
-            .GetConfigValue(SaveSystem.ConfigSettings.HighContrast)
+        _highContrastToggle.ButtonPressed = Configkeeper
+            .GetConfigValue(Configkeeper.ConfigSettings.HighContrast)
             .AsBool();
 
         _volumeSlider.DragEnded += VolumeChanged;
@@ -58,7 +58,7 @@ public partial class OptionsMenu : CanvasLayer, IFocusableMenu
 
         _titleScreenOptions.Visible =
             !StageProducer.IsInitialized
-            && !SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.FirstTime).AsBool();
+            && StageProducer.GetPersistantVal(StageProducer.PersistKeys.TutorialDone) == 1;
         _noteSpriteToggle.ButtonPressed = InputHandler.UseArrows;
         _noteSpriteToggle.Toggled += ArrowSpritesToggled;
         _verticalScrollToggle.ButtonPressed = BattleDirector.VerticalScroll;
@@ -118,7 +118,7 @@ public partial class OptionsMenu : CanvasLayer, IFocusableMenu
         if (!valueChanged)
             return;
         ChangeVolume((float)_volumeSlider.Value);
-        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.Volume, _volumeSlider.Value);
+        Configkeeper.UpdateConfig(Configkeeper.ConfigSettings.Volume, _volumeSlider.Value);
     }
 
     public static void ChangeVolume(double value)
@@ -132,19 +132,19 @@ public partial class OptionsMenu : CanvasLayer, IFocusableMenu
     private void ArrowSpritesToggled(bool value)
     {
         InputHandler.UseArrows = value;
-        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.TypeIsArrow, value);
+        Configkeeper.UpdateConfig(Configkeeper.ConfigSettings.TypeIsArrow, value);
     }
 
     private void VerticalScrollToggled(bool value)
     {
         BattleDirector.VerticalScroll = value;
-        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.VerticalScroll, value);
+        Configkeeper.UpdateConfig(Configkeeper.ConfigSettings.VerticalScroll, value);
     }
 
     private void HighContrastChanged(bool toggled)
     {
         StageProducer.ContrastFilter.Visible = toggled;
-        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.HighContrast, toggled);
+        Configkeeper.UpdateConfig(Configkeeper.ConfigSettings.HighContrast, toggled);
     }
 
     private void OpenHowToPlay()

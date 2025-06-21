@@ -238,7 +238,6 @@ public partial class BattleDirector : Node2D
     {
         if (@event is InputEventKey eventKey && eventKey.Pressed && !eventKey.Echo)
         {
-            return;
             if (eventKey.Keycode == Key.Key0)
             {
                 DebugKillEnemy();
@@ -389,7 +388,7 @@ public partial class BattleDirector : Node2D
             return;
         }
         Audio.StreamPaused = true;
-        SaveSystem.ClearSave();
+        Savekeeper.ClearRun();
         AddChild(GD.Load<PackedScene>(EndScreen.LoadPath).Instantiate());
         ProcessMode = ProcessModeEnum.Disabled;
     }

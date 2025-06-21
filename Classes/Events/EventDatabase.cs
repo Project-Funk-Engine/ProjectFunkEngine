@@ -17,7 +17,7 @@ public class EventDatabase
             ["EVENT_EVENT1_OPTION1", "EVENT_EVENT1_OPTION2", "EVENT_EVENT1_OPTION3"],
             ["EVENT_EVENT1_OUTCOME1", "EVENT_EVENT1_OUTCOME2", "EVENT_EVENT1_OUTCOME3"],
             [
-                (self, node) =>
+                (self, _) =>
                 {
                     int randIndex = StageProducer.GlobalRng.RandiRange(
                         0,
@@ -33,7 +33,7 @@ public class EventDatabase
                         localizedName
                     );
                 },
-                (self, node) =>
+                (self, _) =>
                 {
                     int randIndex = StageProducer.GlobalRng.RandiRange(
                         0,
@@ -49,12 +49,12 @@ public class EventDatabase
                         localizedName
                     );
                 },
-                (self, node) =>
+                (self, _) =>
                 {
                     string stolenMoney = (StageProducer.PlayerStats.Money / 2).ToString();
                     StageProducer.PlayerStats.Money /= 2;
 
-                    self.OutcomeDescriptions[2] = self.OutcomeDescriptions[0] = string.Format(
+                    self.OutcomeDescriptions[2] = string.Format(
                         TranslationServer.Translate("EVENT_EVENT1_OUTCOME3"),
                         stolenMoney
                     );
@@ -176,18 +176,18 @@ public class EventDatabase
             ["EVENT_EVENT3_OPTION1", "EVENT_EVENT3_OPTION2", "EVENT_EVENT3_OPTION3"],
             ["EVENT_EVENT3_OUTCOME1", "EVENT_EVENT3_OUTCOME2", "EVENT_EVENT3_OUTCOME3"],
             [
-                (self, node) =>
+                (_, _) =>
                 {
                     StageProducer.PlayerStats.CurrentHealth = Math.Min(
                         StageProducer.PlayerStats.CurrentHealth + 10,
                         StageProducer.PlayerStats.MaxHealth
                     );
                 },
-                (self, node) =>
+                (_, _) =>
                 {
                     StageProducer.PlayerStats.MaxComboBar -= 5;
                 },
-                (self, node) =>
+                (_, _) =>
                 {
                     StageProducer.PlayerStats.Money -= 30;
                     StageProducer.PlayerStats.AddNote(Scribe.NoteDictionary[3]);

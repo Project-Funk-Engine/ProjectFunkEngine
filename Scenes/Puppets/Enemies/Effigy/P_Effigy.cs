@@ -20,7 +20,7 @@ public partial class P_Effigy : EnemyPuppet
                 this,
                 BattleEffectTrigger.OnDamageInstance,
                 1,
-                (e, eff, val) =>
+                (e, _, _) =>
                 {
                     if (e is not BattleDirector.Harbinger.OnDamageInstanceArgs dArgs)
                         return;
@@ -35,7 +35,7 @@ public partial class P_Effigy : EnemyPuppet
                 this,
                 BattleEffectTrigger.OnBattleEnd,
                 1,
-                (e, eff, val) =>
+                (e, _, _) =>
                 {
                     e.BD.DealDamage(Targetting.Player, e.BD.Player.GetCurrentHealth() - 1, null);
                 }
@@ -44,7 +44,7 @@ public partial class P_Effigy : EnemyPuppet
                 this,
                 BattleEffectTrigger.OnBattleStart,
                 1,
-                (e, eff, val) =>
+                (e, _, _) =>
                 {
                     _tutorialInstance = Toriel.AttachNewToriel(e.BD);
                     _tutorialInstance.BossDialogue();
