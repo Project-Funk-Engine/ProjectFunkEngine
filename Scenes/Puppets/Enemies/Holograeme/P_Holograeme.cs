@@ -70,8 +70,7 @@ public partial class P_Holograeme : EnemyPuppet
                         BattleDirector.AutoPlay = false;
                         Scribe.NoteDictionary[0].Texture = GD.Load<Texture2D>(NoteCoverPath);
                     }
-                },
-                null
+                }
             ),
             new EnemyEffect(
                 this,
@@ -83,8 +82,7 @@ public partial class P_Holograeme : EnemyPuppet
                     {
                         TweenDir(nArgs.Type);
                     }
-                },
-                null
+                }
             ),
             new EnemyEffect(
                 this,

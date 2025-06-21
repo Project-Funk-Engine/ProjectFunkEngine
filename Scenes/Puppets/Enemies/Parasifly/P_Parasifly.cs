@@ -30,8 +30,7 @@ public partial class P_Parasifly : EnemyPuppet
                 (e, eff, _) =>
                 {
                     e.BD.RandApplyNote(eff.Owner, 13, 1);
-                },
-                null
+                }
             ),
             new EnemyEffect(
                 this,

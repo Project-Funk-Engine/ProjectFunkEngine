@@ -21,23 +21,18 @@ public partial class P_BossBlood : EnemyPuppet
         enemTween.SetLoops();
         enemTween.Play();
 
-        const int effect1Val = 30;
-
         BattleEvents = new EnemyEffect[]
         {
             new EnemyEffect(
                 this,
                 BattleEffectTrigger.OnLoop,
-                effect1Val,
+                30,
                 (e, eff, val) =>
                 {
                     eff.Owner.Heal(val);
                     e.BD.RandApplyNote(eff.Owner, 14, 1);
                 },
-                string.Format(
-                    TranslationServer.Translate("BOSSBLOOD_EFFECT1"),
-                    effect1Val.ToString()
-                )
+                "BOSSBLOOD_EFFECT1"
             ),
             new EnemyEffect(
                 this,
@@ -54,8 +49,7 @@ public partial class P_BossBlood : EnemyPuppet
                     {
                         SteamWhisperer.PopAchievement("actOneComp");
                     }
-                },
-                null
+                }
             ),
         };
     }

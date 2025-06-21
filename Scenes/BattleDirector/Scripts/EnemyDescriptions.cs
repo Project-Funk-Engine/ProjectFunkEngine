@@ -17,24 +17,24 @@ public partial class EnemyDescriptions : Control
         "res://Scenes/BattleDirector/Assets/BattleEndSymbol.png";
 
     private bool _isVisible = false;
+    private const string TranslationKeySuffix = "_NOTE_DESCRIPTION";
 
     public void Setup(EnemyPuppet enemy)
     {
-        if (enemy.InitialNote != (0, 0))
+        if (enemy.InitialNote.Amount > 0)
         {
-            string desc = Scribe.NoteDictionary[enemy.InitialNote.NoteId].Description;
+            string desc = NoteDescBuilder(Scribe.NoteDictionary[enemy.InitialNote.NoteId].Name);
             AddDescriptionRow(Scribe.NoteDictionary[enemy.InitialNote.NoteId].Texture, desc);
             _isVisible = true;
         }
 
         foreach (var effect in enemy.GetBattleEvents())
         {
-            if (effect.Description != null)
-            {
-                Texture2D icon = GetTriggerIcon(effect.GetTrigger());
-                AddDescriptionRow(icon, effect.Description);
-                _isVisible = true;
-            }
+            if (effect.Description == null)
+                continue;
+            Texture2D icon = GetTriggerIcon(effect.GetTrigger());
+            AddDescriptionRow(icon, effect.Description);
+            _isVisible = true;
         }
 
         Visible = _isVisible;
@@ -46,15 +46,21 @@ public partial class EnemyDescriptions : Control
 
         TextureRect icon = new TextureRect();
         icon.Texture = iconTexture;
+        icon.StretchMode = TextureRect.StretchModeEnum.Keep;
 
         Label desc = new Label();
         desc.Text = text;
-        desc.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
+        desc.SizeFlagsHorizontal = SizeFlags.ExpandFill;
         desc.AutowrapMode = TextServer.AutowrapMode.WordSmart;
 
         hbox.AddChild(icon);
         hbox.AddChild(desc);
         DescriptionsContainer.AddChild(hbox);
+    }
+
+    private string NoteDescBuilder(string noteName)
+    {
+        return noteName.ToUpper() + TranslationKeySuffix;
     }
 
     private Texture2D GetTriggerIcon(BattleEffectTrigger trigger)

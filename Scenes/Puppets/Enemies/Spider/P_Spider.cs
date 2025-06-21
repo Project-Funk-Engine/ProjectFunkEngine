@@ -23,8 +23,7 @@ public partial class P_Spider : EnemyPuppet
                 (e, eff, _) =>
                 {
                     e.BD.RandApplyNote(eff.Owner, 15, 1);
-                },
-                null
+                }
             ),
         };
     }

@@ -33,8 +33,7 @@ public partial class P_Midriff : EnemyPuppet
                     MaxHealth += val;
                     CurrentHealth = MaxHealth;
                     BaseMoney += val / 10;
-                },
-                null
+                }
             ),
         };
     }

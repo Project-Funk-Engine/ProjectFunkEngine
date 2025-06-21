@@ -26,8 +26,7 @@ public partial class P_Strawman : EnemyPuppet
                 {
                     _tutorialInstance = Toriel.AttachNewToriel(e.BD);
                     _tutorialInstance.IntroDialogue();
-                },
-                null
+                }
             ),
             new EnemyEffect(
                 this,
@@ -48,8 +47,7 @@ public partial class P_Strawman : EnemyPuppet
                         _tutorialInstance.NoDying();
                         eff.Value--;
                     }
-                },
-                "STRAWMAN_EFFECT1"
+                }
             ),
             new EnemyEffect(
                 this,
@@ -63,8 +61,7 @@ public partial class P_Strawman : EnemyPuppet
                     {
                         _tutorialInstance.LoopDialogue();
                     }
-                },
-                null
+                }
             ),
             new EnemyEffect(
                 this,
@@ -80,8 +77,7 @@ public partial class P_Strawman : EnemyPuppet
                         return;
                     eff.Value = 0;
                     _tutorialInstance.PlaceDialogue1();
-                },
-                null
+                }
             ),
             new EnemyEffect(
                 this,
@@ -90,8 +86,7 @@ public partial class P_Strawman : EnemyPuppet
                 (_, _, _) =>
                 {
                     _tutorialInstance.CallDeferred(nameof(_tutorialInstance.OnPlaceDialogue1));
-                },
-                null
+                }
             ),
             new EnemyEffect(
                 this,
@@ -112,8 +107,7 @@ public partial class P_Strawman : EnemyPuppet
                         );
                         SteamWhisperer.PopAchievement("tutorial");
                     }
-                },
-                null
+                }
             ),
         };
     }

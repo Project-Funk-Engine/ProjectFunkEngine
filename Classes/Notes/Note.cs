@@ -18,8 +18,6 @@ public partial class Note : Resource, IDisplayable
     public const double TimingMax = 0.5d; //The max range for a note to be timed is its beat +/- this const
     public Texture2D Texture { get; set; }
 
-    public string Description;
-
     public Note(
         int id,
         string name,
@@ -27,8 +25,7 @@ public partial class Note : Resource, IDisplayable
         int baseVal = 1,
         Action<BattleDirector, Note, Timing> noteEffect = null,
         float costModifier = 1.0f,
-        Targetting targetType = Targetting.First,
-        string description = null
+        Targetting targetType = Targetting.First
     )
     {
         Id = id;
@@ -38,7 +35,6 @@ public partial class Note : Resource, IDisplayable
         Texture = texture;
         CostModifier = costModifier;
         TargetType = targetType;
-        Description = description;
     }
 
     public void OnHit(BattleDirector BD, Timing timing)

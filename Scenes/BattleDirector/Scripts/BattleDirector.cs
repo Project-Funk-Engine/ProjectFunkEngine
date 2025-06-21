@@ -35,7 +35,7 @@ public partial class BattleDirector : Node2D
     private AudioStreamPlayer Audio;
 
     [Export]
-    private EnemyDescriptions Descriptions;
+    public EnemyDescriptions Descriptions;
 
     [Export]
     public Button FocusedButton; //Initial start button

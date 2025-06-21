@@ -50,8 +50,7 @@ public partial class P_Effigy : EnemyPuppet
                 {
                     _tutorialInstance = Toriel.AttachNewToriel(e.BD);
                     _tutorialInstance.BossDialogue();
-                },
-                null
+                }
             ),
             new EnemyEffect(
                 this,
@@ -70,8 +69,7 @@ public partial class P_Effigy : EnemyPuppet
                         _tutorialInstance.FromBoss = true;
                         _tutorialInstance.OnPlaceDialogue3();
                     }
-                },
-                null
+                }
             ),
         };
     }

@@ -15,7 +15,7 @@ public class EnemyEffect : IBattleEvent
         BattleEffectTrigger trigger,
         int val,
         Action<BattleEventArgs, EnemyEffect, int> onEnemyEffect,
-        string description
+        string description = null
     )
     {
         Owner = owner;

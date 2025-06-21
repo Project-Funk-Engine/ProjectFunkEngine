@@ -102,9 +102,9 @@ offset_bottom = 360.0
 texture = ExtResource("7_klvil")
 
 [node name="StartButton" type="Button" parent="."]
-offset_left = 185.0
+offset_left = 190.0
 offset_top = 200.0
-offset_right = 445.0
+offset_right = 450.0
 offset_bottom = 248.0
 theme = ExtResource("8_62qim")
 text = "BATTLE_ROOM_BEGIN_BUTTON"
@@ -146,8 +146,12 @@ theme_override_font_sizes/font_size = 64
 text = "5"
 
 [node name="EnemyDescriptions" parent="." instance=ExtResource("11_gbbxr")]
-z_index = 1
-offset_left = 170.0
-offset_top = 248.0
-offset_right = 170.0
-offset_bottom = 248.0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 320.0
+offset_top = 183.0
+offset_right = 320.0
+offset_bottom = 183.0
+grow_horizontal = 1
+grow_vertical = 1
