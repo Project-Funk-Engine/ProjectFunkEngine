@@ -35,6 +35,9 @@ public partial class BattleDirector : Node2D
     private AudioStreamPlayer Audio;
 
     [Export]
+    public EnemyDescriptions Descriptions;
+
+    [Export]
     public Button FocusedButton; //Initial start button
 
     private double _timingInterval = .1; //in beats, maybe make note/bpm dependent
@@ -139,6 +142,7 @@ public partial class BattleDirector : Node2D
         {
             FocusedButton.QueueFree();
             FocusedButton = null;
+            Descriptions.QueueFree();
             StartCountdown();
         };
 
@@ -201,6 +205,7 @@ public partial class BattleDirector : Node2D
             _enemies[i] = enemy;
             AddEnemyEffects(enemy);
         }
+        Descriptions.Setup(_enemies[0]);
     }
 
     public override void _Process(double delta)

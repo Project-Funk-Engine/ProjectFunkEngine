@@ -29,7 +29,8 @@ public partial class P_Effigy : EnemyPuppet
                     dArgs.Dmg.ModifyDamage(-dArgs.Dmg.Damage + 1);
                     if (dArgs.Dmg.Source != null)
                         dArgs.Dmg.Source.TakeDamage(new DamageInstance(1, null, dArgs.Dmg.Source));
-                }
+                },
+                "EFFIGY_EFFECT1"
             ),
             new EnemyEffect(
                 this,
@@ -38,7 +39,8 @@ public partial class P_Effigy : EnemyPuppet
                 (e, _, _) =>
                 {
                     e.BD.DealDamage(Targetting.Player, e.BD.Player.GetCurrentHealth() - 1, null);
-                }
+                },
+                "EFFIGY_EFFECT2"
             ),
             new EnemyEffect(
                 this,

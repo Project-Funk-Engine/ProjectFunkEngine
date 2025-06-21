@@ -341,6 +341,7 @@ public partial class Toriel : CanvasLayer
     public void BossDialogue()
     {
         _dialogueBox.Visible = true;
+        _currentDirector.Descriptions.Visible = false;
         GetTree().SetPause(true);
         _currentDirector.FocusedButton.Visible = false;
         _dialogueLabel.Text = Tr("TUTORIAL_BOSS");
@@ -355,6 +356,7 @@ public partial class Toriel : CanvasLayer
         GetTree().SetPause(false);
         _currentDirector.FocusedButton.Visible = true;
         _currentDirector.FocusedButton.GrabFocus();
+        _currentDirector.Descriptions.Visible = true;
     }
     #endregion
 }

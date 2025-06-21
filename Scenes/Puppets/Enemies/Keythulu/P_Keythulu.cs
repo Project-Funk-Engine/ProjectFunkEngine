@@ -27,16 +27,19 @@ public partial class P_Keythulu : EnemyPuppet
         enemTween.SetLoops();
         enemTween.Play();
 
+        const int effect1Val = 6;
+
         BattleEvents = new EnemyEffect[]
         {
             new EnemyEffect(
                 this,
                 BattleEffectTrigger.OnBattleStart,
-                6,
+                effect1Val,
                 (e, eff, val) =>
                 {
                     e.BD.AddStatus(Targetting.Player, StatusEffect.MindCrush, val);
-                }
+                },
+                "KEYTHULU_EFFECT1"
             ),
             new EnemyEffect(
                 this,

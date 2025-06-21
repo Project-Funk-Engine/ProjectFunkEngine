@@ -31,7 +31,8 @@ public partial class P_BossBlood : EnemyPuppet
                 {
                     eff.Owner.Heal(val);
                     e.BD.RandApplyNote(eff.Owner, 14, 1);
-                }
+                },
+                "BOSSBLOOD_EFFECT1"
             ),
             new EnemyEffect(
                 this,
