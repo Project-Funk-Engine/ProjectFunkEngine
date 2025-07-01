@@ -58,7 +58,9 @@ public partial class Toriel : CanvasLayer
             _nextButton?.GrabFocus();
         }
         UpdateInputSprites();
-        string scheme = SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.InputType).As<string>();
+        string scheme = Configkeeper
+            .GetConfigValue(Configkeeper.ConfigSettings.InputType)
+            .As<string>();
         if (_waitingForPlace && Input.IsActionPressed(scheme + "_arrowRight"))
         {
             GetViewport().SetInputAsHandled();
@@ -68,7 +70,9 @@ public partial class Toriel : CanvasLayer
 
     private void UpdateInputSprites()
     {
-        string prefix = SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.InputType).ToString();
+        string prefix = Configkeeper
+            .GetConfigValue(Configkeeper.ConfigSettings.InputType)
+            .ToString();
         _inputSprites[0].Texture = GD.Load<Texture2D>(
             ControlSettings.GetTextureForInput(prefix + "_arrowUp")
         );
@@ -337,6 +341,7 @@ public partial class Toriel : CanvasLayer
     public void BossDialogue()
     {
         _dialogueBox.Visible = true;
+        _currentDirector.Descriptions.Visible = false;
         GetTree().SetPause(true);
         _currentDirector.FocusedButton.Visible = false;
         _dialogueLabel.Text = Tr("TUTORIAL_BOSS");
@@ -351,6 +356,7 @@ public partial class Toriel : CanvasLayer
         GetTree().SetPause(false);
         _currentDirector.FocusedButton.Visible = true;
         _currentDirector.FocusedButton.GrabFocus();
+        _currentDirector.Descriptions.Visible = true;
     }
     #endregion
 }

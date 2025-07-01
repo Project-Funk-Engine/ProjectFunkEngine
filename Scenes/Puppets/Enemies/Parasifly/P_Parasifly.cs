@@ -47,7 +47,8 @@ public partial class P_Parasifly : EnemyPuppet
                         return;
                     e.BD.AddStatus(Targetting.All, StatusEffect.Block, val);
                     eff.Value = 0;
-                }
+                },
+                "PARASIFLY_EFFECT1"
             ),
         };
     }

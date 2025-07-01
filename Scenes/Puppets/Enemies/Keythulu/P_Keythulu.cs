@@ -27,22 +27,25 @@ public partial class P_Keythulu : EnemyPuppet
         enemTween.SetLoops();
         enemTween.Play();
 
+        const int effect1Val = 6;
+
         BattleEvents = new EnemyEffect[]
         {
             new EnemyEffect(
                 this,
                 BattleEffectTrigger.OnBattleStart,
-                6,
+                effect1Val,
                 (e, eff, val) =>
                 {
                     e.BD.AddStatus(Targetting.Player, StatusEffect.MindCrush, val);
-                }
+                },
+                "KEYTHULU_EFFECT1"
             ),
             new EnemyEffect(
                 this,
                 BattleEffectTrigger.OnLoop,
                 3,
-                (e, eff, val) =>
+                (_, _, _) =>
                 {
                     _effectSprite.Position = Vector2.Zero;
                     _effectSprite.Visible = true;
@@ -63,7 +66,7 @@ public partial class P_Keythulu : EnemyPuppet
                 this,
                 BattleEffectTrigger.OnDamageInstance,
                 1,
-                (e, eff, val) =>
+                (e, _, _) =>
                 {
                     if (
                         StageProducer.Config.RoomType == Stages.Custom
@@ -76,7 +79,7 @@ public partial class P_Keythulu : EnemyPuppet
                     )
                     {
                         SteamWhisperer.PopAchievement("actTwoComp");
-                        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.HasWon, true);
+                        StageProducer.UpdatePersistantValues(StageProducer.PersistKeys.HasWon, 1);
                     }
                 }
             ),

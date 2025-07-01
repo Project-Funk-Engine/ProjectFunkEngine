@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://coav3xvksq4jy"
-path="res://.godot/imported/NoteWIthOutline.png-00b7213af7b9958e4dcd747d842ce073.ctex"
+uid="uid://bmw2tkpmv22ew"
+path="res://.godot/imported/BattleEndSymbol.png-5c282cbc73fc3f3efd9a51295ca4bc9d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/NoteManager/Assets/NoteWIthOutline.png"
-dest_files=["res://.godot/imported/NoteWIthOutline.png-00b7213af7b9958e4dcd747d842ce073.ctex"]
+source_file="res://Scenes/BattleDirector/Assets/BattleEndSymbol.png"
+dest_files=["res://.godot/imported/BattleEndSymbol.png-5c282cbc73fc3f3efd9a51295ca4bc9d.ctex"]
 
 [params]
 

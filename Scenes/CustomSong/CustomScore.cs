@@ -28,9 +28,12 @@ public partial class CustomScore : CanvasLayer
     public delegate void FinishedHandler();
     public event FinishedHandler Finished;
 
+    private BattleDirector.Harbinger.NoteHitHandler _noteHitListener;
+    private BattleDirector.Harbinger.NotePlacedHandler _notePlacedListener;
+
     public void ListenToDirector()
     {
-        BattleDirector.Harbinger.Instance.NoteHit += e =>
+        _noteHitListener = e =>
         {
             if (e is not BattleDirector.Harbinger.NoteHitArgs nArgs)
                 return;
@@ -44,10 +47,19 @@ public partial class CustomScore : CanvasLayer
                     break;
             }
         };
-        BattleDirector.Harbinger.Instance.NotePlaced += _ =>
+        _notePlacedListener = _ =>
         {
             score[(int)ScoringVals.NotesPlaced] += 1;
         };
+
+        BattleDirector.Harbinger.Instance.NotePlaced += _notePlacedListener;
+        BattleDirector.Harbinger.Instance.NoteHit += _noteHitListener;
+    }
+
+    public override void _ExitTree()
+    {
+        BattleDirector.Harbinger.Instance.NotePlaced -= _notePlacedListener;
+        BattleDirector.Harbinger.Instance.NoteHit -= _noteHitListener;
     }
 
     public CustomScore ShowResults(BattleDirector battleDirector, float enemyPercent)

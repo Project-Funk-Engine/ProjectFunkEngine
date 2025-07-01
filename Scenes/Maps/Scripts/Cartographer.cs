@@ -38,7 +38,7 @@ public partial class Cartographer : Node2D
     public override void _Ready()
     {
         DrawMap();
-        SaveSystem.SaveGame();
+        Savekeeper.RecordSave();
         if (
             StageProducer.GetCurRoom().Type == Stages.Boss
             && StageProducer.GetCurRoom().Children.Length == 0
@@ -74,10 +74,10 @@ public partial class Cartographer : Node2D
     public override void _EnterTree()
     {
         BgAudioPlayer.LiveInstance.PlayLevelMusic();
-        if (!SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.FirstTime).AsBool())
+        if (StageProducer.GetPersistantVal(StageProducer.PersistKeys.TutorialDone) == 1)
             return;
         BattleDirector.VerticalScroll = true;
-        SaveSystem.UpdateConfig(SaveSystem.ConfigSettings.VerticalScroll, true);
+        Configkeeper.UpdateConfig(Configkeeper.ConfigSettings.VerticalScroll, true);
     }
 
     private Vector2 GetPosition(int x, int y)

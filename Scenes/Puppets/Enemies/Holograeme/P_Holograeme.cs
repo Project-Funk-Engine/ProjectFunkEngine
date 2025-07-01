@@ -46,7 +46,8 @@ public partial class P_Holograeme : EnemyPuppet
                     BattleDirector.PlayerDisabled = true;
                     BattleDirector.VerticalScrollRotation = 0f;
                     e.BD.AddStatus(Targetting.Player, StatusEffect.Disable);
-                }
+                },
+                "HOLOGRAEME_EFFECT1"
             ),
             new EnemyEffect(
                 this,
@@ -98,7 +99,8 @@ public partial class P_Holograeme : EnemyPuppet
                     {
                         dArgs.Dmg.ModifyDamage(0, 0);
                     }
-                }
+                },
+                "HOLOGRAEME_EFFECT2"
             ),
         };
     }

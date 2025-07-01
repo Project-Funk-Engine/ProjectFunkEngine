@@ -30,7 +30,8 @@ public partial class P_LWS : EnemyPuppet
                 (e, eff, val) =>
                 {
                     e.BD.RandApplyNote(eff.Owner, InitialNote.NoteId, val);
-                }
+                },
+                "LWS_EFFECT1"
             ),
         };
     }

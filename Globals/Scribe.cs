@@ -715,7 +715,7 @@ public partial class Scribe : Node
         ),
     };
 
-    private static string DefaultNoteChartPath = "Audio/songMaps/";
+    private static string DefaultNoteChartPath = "res://Audio/songMaps/";
 
     public static readonly SongTemplate[] SongDictionary = new[] //Generalize and make pools for areas/room types
     {
@@ -800,13 +800,13 @@ public partial class Scribe : Node
             ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "FrostWaltz.tres")
         ),
         new SongTemplate( // 16
-            name: "Astrorat",
-            enemyScenePath: [P_Astrorat.LoadPath],
+            "Astrorat",
+            [P_Astrorat.LoadPath],
             ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "Astrorat.tres")
         ),
         new SongTemplate( // 17
-            name: "CatGirl",
-            enemyScenePath: [P_Midriff.LoadPath],
+            "CatGirl",
+            [P_Midriff.LoadPath],
             ResourceLoader.Load<NoteChart>(DefaultNoteChartPath + "Jammin' Forest.tres")
         ),
     };

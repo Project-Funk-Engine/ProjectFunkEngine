@@ -31,13 +31,14 @@ public partial class P_BossBlood : EnemyPuppet
                 {
                     eff.Owner.Heal(val);
                     e.BD.RandApplyNote(eff.Owner, 14, 1);
-                }
+                },
+                "BOSSBLOOD_EFFECT1"
             ),
             new EnemyEffect(
                 this,
                 BattleEffectTrigger.OnDamageInstance,
                 1,
-                (e, eff, val) =>
+                (e, _, _) =>
                 {
                     if (e is not BattleDirector.Harbinger.OnDamageInstanceArgs dArgs)
                         return;

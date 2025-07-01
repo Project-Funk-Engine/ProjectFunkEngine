@@ -36,11 +36,12 @@ public partial class P_CyberFox : EnemyPuppet
                 this,
                 BattleEffectTrigger.OnLoop,
                 1,
-                (e, eff, val) =>
+                (e, _, _) =>
                 {
                     e.BD.AddStatus(Targetting.First, StatusEffect.Dodge, 1);
                     _effectNode.TriggerGlitch(1f);
-                }
+                },
+                "CYBERFOX_EFFECT1"
             ),
         };
     }

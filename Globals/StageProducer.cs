@@ -16,7 +16,7 @@ public partial class StageProducer : Node
     public static readonly RandomNumberGenerator GlobalRng = new();
 
     public static MapLevels CurLevel { get; private set; }
-    public static List<int> BattlePool { get; private set; }
+    public static List<int> BattlePool { get; private set; } = [];
 
     public static MapGrid Map { get; private set; } = new();
     private Stages _curStage = Stages.Title;
@@ -34,6 +34,11 @@ public partial class StageProducer : Node
     #region Initialization
     public override void _EnterTree()
     {
+        Savekeeper.Saving += SerializeRun;
+        Savekeeper.Saving += SerializePersist;
+        Savekeeper.LoadFromFile();
+        DeserializePersist();
+
         InitFromCfg();
         LiveInstance = this;
 
@@ -48,22 +53,22 @@ public partial class StageProducer : Node
     public void InitFromCfg()
     {
         OptionsMenu.ChangeVolume(
-            SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.Volume).As<float>()
+            Configkeeper.GetConfigValue(Configkeeper.ConfigSettings.Volume).As<float>()
         );
         TranslationServer.SetLocale(
-            SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.LanguageKey).As<string>()
+            Configkeeper.GetConfigValue(Configkeeper.ConfigSettings.LanguageKey).As<string>()
         );
         ContrastFilter = GD.Load<PackedScene>("res://Globals/ContrastFilter/ContrastFilter.tscn")
             .Instantiate<CanvasLayer>();
-        ContrastFilter.Visible = SaveSystem
-            .GetConfigValue(SaveSystem.ConfigSettings.HighContrast)
+        ContrastFilter.Visible = Configkeeper
+            .GetConfigValue(Configkeeper.ConfigSettings.HighContrast)
             .AsBool();
         GetTree().Root.CallDeferred("add_child", ContrastFilter);
-        InputHandler.UseArrows = SaveSystem
-            .GetConfigValue(SaveSystem.ConfigSettings.TypeIsArrow)
+        InputHandler.UseArrows = Configkeeper
+            .GetConfigValue(Configkeeper.ConfigSettings.TypeIsArrow)
             .AsBool();
-        BattleDirector.VerticalScroll = SaveSystem
-            .GetConfigValue(SaveSystem.ConfigSettings.VerticalScroll)
+        BattleDirector.VerticalScroll = Configkeeper
+            .GetConfigValue(Configkeeper.ConfigSettings.VerticalScroll)
             .AsBool();
     }
 
@@ -77,7 +82,7 @@ public partial class StageProducer : Node
     private void StartNewGame()
     {
         GlobalRng.Randomize();
-        if ((bool)SaveSystem.GetConfigValue(SaveSystem.ConfigSettings.FirstTime))
+        if (GetPersistantVal(PersistKeys.TutorialDone) == 0)
             CurLevel = MapLevels.GetLevelFromId(0);
         else
             CurLevel = MapLevels.GetLevelFromId(1);
@@ -86,8 +91,8 @@ public partial class StageProducer : Node
         PlayerStats = new PlayerStats();
 
         CurRoom = Map.GetRooms()[0].Idx;
-        BattlePool = null;
-        EventScene.EventPool = null;
+        BattlePool = [];
+        EventScene.EventPool = [];
         Scribe.InitRelicPools();
         IsInitialized = true;
         MapGrid.ForceEliteBattles = false;
@@ -95,36 +100,12 @@ public partial class StageProducer : Node
 
     private bool LoadGame()
     {
-        SaveSystem.SaveFile sv = SaveSystem.LoadGame();
-        if (sv == null)
+        if (!DeserializeRun())
         {
             GD.PushWarning("Can't load game, either file 404 or invalid file.");
             return false;
         }
-        GlobalRng.Seed = sv.RngSeed;
-        CurLevel = MapLevels.GetLevelFromId(sv.Area);
-        BattlePool = sv.BattlePool.ToList();
-        EventScene.EventPool = sv.EventPool.ToList();
-        GenerateMapConsistent();
-        GlobalRng.State = sv.RngState;
-        CurRoom = sv.LastRoomIdx;
 
-        Scribe.InitRelicPools();
-
-        PlayerStats = new PlayerStats();
-        PlayerStats.CurNotes = [];
-        foreach (int noteId in sv.NoteIds)
-        {
-            PlayerStats.AddNote(Scribe.NoteDictionary[noteId]);
-        }
-        foreach (int relicId in sv.RelicIds)
-        {
-            PlayerStats.AddRelic(Scribe.RelicDictionary[relicId]);
-        }
-        PlayerStats.CurrentHealth = sv.PlayerHealth;
-        PlayerStats.Money = sv.Money;
-        PlayerStats.Shortcuts = sv.Shortcuts;
-        PlayerStats.MaxComboBar = sv.PlayerMaxCombo;
         IsInitialized = true;
         return true;
     }
@@ -360,13 +341,282 @@ public partial class StageProducer : Node
 
     public void ProgressLevels()
     {
-        GD.Print(CurLevel.Id);
         CurLevel = CurLevel.GetNextLevel();
 
         Map = new();
         GenerateMapConsistent();
         CurRoom = Map.GetRooms()[0].Idx;
-        BattlePool = null;
+        BattlePool = [];
+    }
+
+    #endregion
+
+    #region Persistent Data
+    private const string PersistenceHeader = "PersistVals";
+
+    public enum PersistKeys
+    {
+        TutorialDone = 0,
+        HasWon = 1,
+    } //Relative order needs to be preserved between versions.
+
+    private static int[] PersistantValues { get; set; } = [0, 0]; //Dumb and hacky right now. Literally doing this to avoid bool spam for now.
+    private const string PersistentIntValName = "PersistInts";
+
+    public static int GetPersistantVal(PersistKeys key)
+    {
+        return PersistantValues[(int)key];
+    }
+
+    public static void UpdatePersistantValues(PersistKeys key, int newVal)
+    {
+        PersistantValues[(int)key] = newVal;
+        SerializePersist();
+        Savekeeper.SaveToFile();
+    }
+
+    private static void SerializePersist()
+    {
+        string saveString = "";
+        saveString += Savekeeper.FormatArray(PersistentIntValName, PersistantValues);
+        Savekeeper.GameSaveObjects[PersistenceHeader] = saveString;
+    }
+
+    private void DeserializePersist()
+    {
+        if (!Savekeeper.GameSaveObjects.TryGetValue(PersistenceHeader, out var loadPers))
+        {
+            GD.PushWarning("Savekeeper does not contain persistence key!");
+            return;
+        }
+
+        int idx = 0;
+        var success = Savekeeper.ParseArray<int>(PersistentIntValName, loadPers, idx, int.TryParse);
+        if (success.Success)
+        {
+            int[] tempVals = success.Value;
+            for (int i = 0; i < tempVals.Length && i < PersistantValues.Length; i++) //Manually update to safeguard against saves breaking when values are added.
+                PersistantValues[i] = tempVals[i];
+            return;
+        }
+        GD.PushWarning(
+            $"Error deserializing persistent values: {loadPers} Error: {success.Message}"
+        );
+    }
+    #endregion
+
+    #region Saving
+
+    enum RunSaveValues
+    { //Maintain in order of needing to be saved & loaded
+        RngSeed,
+        Area,
+        BattlePool,
+        EventPool,
+        RngState,
+        LastRoomIdx,
+        NoteIds,
+        RelicIds,
+        PlayerHealth,
+        Money,
+        Shortcuts,
+        PlayerMaxCombo,
+    }
+
+    private void SerializeRun()
+    {
+        if (!IsInitialized)
+            return;
+        string saveString = "";
+        saveString +=
+            Savekeeper.Format(RunSaveValues.RngSeed.ToString(), GlobalRng.Seed)
+            + Savekeeper.Format(RunSaveValues.Area.ToString(), CurLevel.Id)
+            + Savekeeper.FormatArray(RunSaveValues.BattlePool.ToString(), BattlePool.ToArray())
+            + Savekeeper.FormatArray(
+                RunSaveValues.EventPool.ToString(),
+                EventScene.EventPool.ToArray()
+            )
+            + Savekeeper.Format(RunSaveValues.RngState.ToString(), GlobalRng.State)
+            + Savekeeper.Format(RunSaveValues.LastRoomIdx.ToString(), CurRoom)
+            + Savekeeper.FormatArray(
+                RunSaveValues.NoteIds.ToString(),
+                PlayerStats.CurNotes.Select(r => r.Id).ToArray()
+            )
+            + Savekeeper.FormatArray(
+                RunSaveValues.RelicIds.ToString(),
+                PlayerStats.CurRelics.Select(r => r.Id).ToArray()
+            )
+            + Savekeeper.Format(RunSaveValues.PlayerHealth.ToString(), PlayerStats.CurrentHealth)
+            + Savekeeper.Format(RunSaveValues.Money.ToString(), PlayerStats.Money)
+            + Savekeeper.Format(RunSaveValues.Shortcuts.ToString(), PlayerStats.Shortcuts)
+            + Savekeeper.Format(RunSaveValues.PlayerMaxCombo.ToString(), PlayerStats.MaxComboBar);
+
+        Savekeeper.GameSaveObjects[Savekeeper.DefaultRunSaveHeader] = saveString;
+    }
+
+    private bool DeserializeRun() //TODO: This is really verbose and bad.
+    {
+        if (!Savekeeper.GameSaveObjects.ContainsKey(Savekeeper.DefaultRunSaveHeader))
+            return false;
+        int idx = 0;
+        string loadRun = Savekeeper.GameSaveObjects[Savekeeper.DefaultRunSaveHeader];
+
+        var ulongSuccess = Savekeeper.Parse<ulong>(
+            RunSaveValues.RngSeed.ToString(),
+            loadRun,
+            idx,
+            ulong.TryParse
+        );
+        if (!ulongSuccess.Success)
+            return false;
+        GlobalRng.Seed = ulongSuccess.Value;
+        idx = ulongSuccess.NextIdx;
+
+        var intSuccess = Savekeeper.Parse<int>(
+            RunSaveValues.Area.ToString(),
+            loadRun,
+            idx,
+            int.TryParse
+        );
+        if (!intSuccess.Success)
+            return false;
+        CurLevel = MapLevels.GetLevelFromId(intSuccess.Value);
+        idx = intSuccess.NextIdx;
+
+        var bPoolSuccess = Savekeeper.ParseArray<int>(
+            RunSaveValues.BattlePool.ToString(),
+            loadRun,
+            idx,
+            int.TryParse
+        );
+        if (bPoolSuccess.Success)
+        {
+            BattlePool = bPoolSuccess.Value.ToList();
+            idx = bPoolSuccess.NextIdx;
+        }
+        else
+        {
+            GD.PushWarning("Could not parse battle pool!");
+            BattlePool = [];
+        }
+
+        var ePoolSuccess = Savekeeper.ParseArray<int>(
+            RunSaveValues.EventPool.ToString(),
+            loadRun,
+            idx,
+            int.TryParse
+        );
+        if (ePoolSuccess.Success)
+        {
+            EventScene.EventPool = ePoolSuccess.Value.ToList();
+            idx = ePoolSuccess.NextIdx;
+        }
+        else
+        {
+            GD.PushWarning("Could not parse event pool!");
+            EventScene.EventPool = [];
+        }
+
+        GenerateMapConsistent();
+
+        ulongSuccess = Savekeeper.Parse<ulong>(
+            RunSaveValues.RngState.ToString(),
+            loadRun,
+            idx,
+            ulong.TryParse
+        );
+        if (!ulongSuccess.Success)
+            return false;
+        GlobalRng.State = ulongSuccess.Value;
+        idx = ulongSuccess.NextIdx;
+
+        intSuccess = Savekeeper.Parse<int>(
+            RunSaveValues.LastRoomIdx.ToString(),
+            loadRun,
+            idx,
+            int.TryParse
+        );
+        if (!intSuccess.Success)
+            return false;
+        CurRoom = intSuccess.Value;
+        idx = intSuccess.NextIdx;
+
+        Scribe.InitRelicPools();
+        PlayerStats = new PlayerStats();
+        PlayerStats.CurNotes = [];
+
+        var noteSuccess = Savekeeper.ParseArray<int>(
+            RunSaveValues.NoteIds.ToString(),
+            loadRun,
+            idx,
+            int.TryParse
+        );
+        if (!noteSuccess.Success)
+            return false;
+        foreach (int noteId in noteSuccess.Value)
+        {
+            PlayerStats.AddNote(Scribe.NoteDictionary[noteId]);
+        }
+        idx = noteSuccess.NextIdx;
+
+        var relicSuccess = Savekeeper.ParseArray<int>(
+            RunSaveValues.RelicIds.ToString(),
+            loadRun,
+            idx,
+            int.TryParse
+        );
+        if (!relicSuccess.Success)
+            return false;
+        foreach (int relicId in relicSuccess.Value)
+        {
+            PlayerStats.AddRelic(Scribe.RelicDictionary[relicId]);
+        }
+        idx = relicSuccess.NextIdx;
+
+        intSuccess = Savekeeper.Parse<int>(
+            RunSaveValues.PlayerHealth.ToString(),
+            loadRun,
+            idx,
+            int.TryParse
+        );
+        if (!intSuccess.Success)
+            return false;
+        PlayerStats.CurrentHealth = intSuccess.Value;
+        idx = intSuccess.NextIdx;
+
+        intSuccess = Savekeeper.Parse<int>(
+            RunSaveValues.Money.ToString(),
+            loadRun,
+            idx,
+            int.TryParse
+        );
+        if (!intSuccess.Success)
+            return false;
+        PlayerStats.Money = intSuccess.Value;
+        idx = intSuccess.NextIdx;
+
+        intSuccess = Savekeeper.Parse<int>(
+            RunSaveValues.Shortcuts.ToString(),
+            loadRun,
+            idx,
+            int.TryParse
+        );
+        if (!intSuccess.Success)
+            return false;
+        PlayerStats.Shortcuts = intSuccess.Value;
+        idx = intSuccess.NextIdx;
+
+        intSuccess = Savekeeper.Parse<int>(
+            RunSaveValues.PlayerMaxCombo.ToString(),
+            loadRun,
+            idx,
+            int.TryParse
+        );
+        if (!intSuccess.Success)
+            return false;
+        PlayerStats.MaxComboBar = intSuccess.Value;
+
+        return true;
     }
 
     #endregion

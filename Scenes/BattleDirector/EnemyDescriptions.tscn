@@ -1,0 +1,50 @@
+[gd_scene load_steps=3 format=3 uid="uid://bejjkejyeffek"]
+
+[ext_resource type="Script" uid="uid://da8no3g3kbob7" path="res://Scenes/BattleDirector/Scripts/EnemyDescriptions.cs" id="1_r3tcc"]
+[ext_resource type="Texture2D" uid="uid://djd6iw2g84bba" path="res://Scenes/UI/Assets/UI_CenterFrame.png" id="2_mg2uj"]
+
+[node name="EnemyDescriptions" type="Control" node_paths=PackedStringArray("DescriptionsContainer")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_r3tcc")
+DescriptionsContainer = NodePath("Center/MarginContainer/MarginContainer/VBoxContainer")
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Center"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_top = 230
+
+[node name="UiCenterFrame" type="NinePatchRect" parent="Center/MarginContainer"]
+custom_minimum_size = Vector2(280, 80)
+layout_mode = 2
+texture = ExtResource("2_mg2uj")
+patch_margin_left = 12
+patch_margin_top = 12
+patch_margin_right = 12
+patch_margin_bottom = 12
+
+[node name="MarginContainer" type="MarginContainer" parent="Center/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Center/MarginContainer/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2

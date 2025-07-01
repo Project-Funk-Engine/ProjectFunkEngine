@@ -35,6 +35,9 @@ public partial class BattleDirector : Node2D
     private AudioStreamPlayer Audio;
 
     [Export]
+    public EnemyDescriptions Descriptions;
+
+    [Export]
     public Button FocusedButton; //Initial start button
 
     private double _timingInterval = .1; //in beats, maybe make note/bpm dependent
@@ -139,6 +142,7 @@ public partial class BattleDirector : Node2D
         {
             FocusedButton.QueueFree();
             FocusedButton = null;
+            Descriptions.QueueFree();
             StartCountdown();
         };
 
@@ -201,6 +205,7 @@ public partial class BattleDirector : Node2D
             _enemies[i] = enemy;
             AddEnemyEffects(enemy);
         }
+        Descriptions.Setup(_enemies[0]);
     }
 
     public override void _Process(double delta)
@@ -236,9 +241,9 @@ public partial class BattleDirector : Node2D
     #region Input&Timing
     public override void _UnhandledInput(InputEvent @event)
     {
+        return;
         if (@event is InputEventKey eventKey && eventKey.Pressed && !eventKey.Echo)
         {
-            return;
             if (eventKey.Keycode == Key.Key0)
             {
                 DebugKillEnemy();
@@ -389,7 +394,7 @@ public partial class BattleDirector : Node2D
             return;
         }
         Audio.StreamPaused = true;
-        SaveSystem.ClearSave();
+        Savekeeper.ClearRun();
         AddChild(GD.Load<PackedScene>(EndScreen.LoadPath).Instantiate());
         ProcessMode = ProcessModeEnum.Disabled;
     }

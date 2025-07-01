@@ -15,25 +15,12 @@ public partial class MidiMaestro : Resource
     private readonly NoteInfo[] _leftNotes;
     private readonly NoteInfo[] _rightNotes;
 
-    //private MidiFile strippedSong;
     /**
      * <summary>Constructor loads resource file and populates lane note arrays with NoteInfo</summary>
      * <param name="filePath">A string file path to a valid songMap .tres file</param>
      */
     public MidiMaestro(NoteChart savedChart)
     {
-        /*if (!OS.HasFeature("editor"))
-        {
-            filePath = OS.GetExecutablePath().GetBaseDir() + "/" + filePath;
-        }
-
-        if (!FileAccess.FileExists(filePath))
-        {
-            GD.PushError("ERROR: Unable to load level songMap resource file: " + filePath);
-        }
-
-        NoteChart savedChart = ResourceLoader.Load<NoteChart>(filePath);*/
-
         if (savedChart != null)
         {
             _upNotes = savedChart.GetLane(ArrowType.Up).ToArray();
