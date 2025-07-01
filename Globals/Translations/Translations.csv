@@ -207,17 +207,17 @@ CREDITS_ADDITIONAL_HELP,Additional Help,额外协助
 CREDITS_OTHER_PLAYTESTERS,All our other playtesters,以及所有其他测试玩家
 CREDITS_SPECIAL_THANKS,Special Thanks,特别鸣谢
 CREDITS_THANKS_PLAYERS,And to you the player!,以及屏幕前的你！
-BOSSBLOOD_EFFECT1,"Heal and convert a basic note into a Blood note.","每循环治疗 点生命，并将一个普通音符转化为血之音符。"
+BOSSBLOOD_EFFECT1,"Heal and convert an empty note into a Boss Blood note.","每循环治疗 点生命，并将一个普通音符转化为血之音符。"
 CYBERFOX_EFFECT1,Gains one dodge.,获得一次闪避。
-EFFIGY_EFFECT1,Only takes 1 damage at a time.,每次只受到1点伤害。
+EFFIGY_EFFECT1,"Only takes 1 damage at a time, and reflects 1 damage to the player.",每次仅受到1点伤害，并向玩家反弹1点伤害。
 EFFIGY_EFFECT2,Sets player's health to 1 if defeated.,被击败时将玩家的生命值设为1。
-HOLOGRAEME_EFFECT1,Player only plays every other loop.,玩家每隔一轮行动一次。
+HOLOGRAEME_EFFECT1,"Player only plays every other loop with notes hidden. Learn the pattern!",玩家每隔一次循环才能进行游戏，且期间音符会被隐藏。记住这个模式！
 HOLOGRAEME_EFFECT2,"Holograeme only has 1 health, and is immune to relic damage.","全息格莱姆仅有1点生命值，且免疫遗物伤害。"
 KEYTHULU_EFFECT1,"Every loop mindcrush ticks down by one, when it reaches zero, the player is defeated.","每次循环，心灵碾压计数会减1。当计数归零时，玩家即被击败。"
 LWS_EFFECT1,Converts an empty note into a Lesser Wolf Snake note.,将一个基础音符转化为次级狼蛇音符。
 PARASIFLY_EFFECT1,All enemies gains block the first time fatal damage is dealt.,首次受到致命伤害时，所有敌人获得格挡。
 STRAWMAN_EFFECT1,Player cannot take fatal damage.,玩家不会受到致命伤害。
-GWS_EFFECT1,Adds Greater Wolf Snake notes after the first loop.,首次循环后，添加高级狼蛇音符。
+GWS_EFFECT1,Adds Great Wolf Snake notes after the first loop.,首次循环后，添加高级狼蛇音符。
 TURTLE_EFFECT1,Gains one block and drains some of player's charge to heal.,获得一层格挡，并消耗玩家部分充能以进行治疗。
 GWS_NOTE_DESCRIPTION,"If timed badly, deals high damage to the player. Damage increases each loop.","若时机不佳，则对玩家造成高额伤害，且伤害随每次循环递增。"
 PARASIFLY_NOTE_DESCRIPTION,Parasifly gains block if timed badly.,若时机不佳，寄生蝇获得格挡。
