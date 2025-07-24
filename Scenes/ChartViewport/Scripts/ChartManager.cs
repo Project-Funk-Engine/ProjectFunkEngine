@@ -246,7 +246,7 @@ public partial class ChartManager : SubViewportContainer
     //TODO: Breakup and simplify where possible
     private ArrowData GetArrowFromInput(ArrowType type)
     {
-        ArrowData placeable = new ArrowData(type, TimeKeeper.LastBeat.RoundBeat(), null);
+        ArrowData placeable = new ArrowData(type, TimeKeeper.LastBeat.RoundBeatToInt(), null);
 
         if (_queuedArrows[(int)type].Count == 0)
             return placeable; //Empty return null, place note action

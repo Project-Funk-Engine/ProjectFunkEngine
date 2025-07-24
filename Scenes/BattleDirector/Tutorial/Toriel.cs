@@ -277,7 +277,7 @@ public partial class Toriel : CanvasLayer
         _dialogueBox.Visible = false;
         _selector.Visible = false;
         GetTree().SetPause(false);
-        _currentDirector.PlayerAddNote(ArrowType.Right, TimeKeeper.LastBeat.RoundBeat());
+        _currentDirector.PlayerAddNote(ArrowType.Right, TimeKeeper.LastBeat.RoundBeatToInt());
         _finalDialogue = true;
     }
     #endregion

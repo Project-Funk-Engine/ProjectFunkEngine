@@ -96,7 +96,10 @@ public struct ArrowData : IEquatable<ArrowData>, IComparable<ArrowData>
 
     public int CompareTo(ArrowData data) //Only care about beat for comparison
     {
-        if ((int)Beat.BeatPos == (int)data.Beat.BeatPos && Beat.Loop == data.Beat.Loop)
+        if (
+            Math.Abs(Math.Round(Beat.BeatPos, 1) - Math.Round(data.Beat.BeatPos, 1)) < 0.1
+            && Beat.Loop == data.Beat.Loop
+        )
         {
             if (Type == data.Type)
             {
@@ -142,7 +145,7 @@ public struct Beat : IEquatable<Beat>, IComparable<Beat>
         return this;
     }
 
-    public Beat RoundBeat()
+    public Beat RoundBeatToInt()
     {
         BeatPos = (int)Math.Round(BeatPos); //This can technically overflow, but causes no bugs yet.
         return this;

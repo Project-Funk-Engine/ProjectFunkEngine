@@ -105,13 +105,18 @@ public partial class BattleDirector : Node2D
     {
         NoteChart curChart = StageProducer.Config.CurSong.Chart;
 
-        Audio.SetStream(
-            StageProducer.Config.RoomType == Stages.Custom
-                ? AudioStreamOggVorbis.LoadFromFile(
-                    CustomSelection.UserSongDir + curChart.SongMapLocation
-                )
-                : GD.Load<AudioStream>("Audio/" + curChart.SongMapLocation)
-        );
+        if (StageProducer.Config.RoomType == Stages.Custom)
+        {
+            AudioStreamOggVorbis customSong = AudioStreamOggVorbis.LoadFromFile(
+                CustomSelection.UserSongDir + curChart.SongMapLocation
+            );
+            customSong.Loop = true;
+            Audio.SetStream(customSong);
+        }
+        else
+        {
+            Audio.SetStream(GD.Load<AudioStream>("Audio/" + curChart.SongMapLocation));
+        }
 
         double songLen = Audio.Stream.GetLength();
 

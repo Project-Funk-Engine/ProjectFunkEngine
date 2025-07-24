@@ -10,12 +10,12 @@ Length = 0.0
 
 [sub_resource type="Resource" id="Resource_l0i1e"]
 script = ExtResource("1_2eqea")
-Beat = 4.4
+Beat = 4.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_q06y0"]
 script = ExtResource("1_2eqea")
-Beat = 13.9
+Beat = 13.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_w8ofo"]
@@ -40,22 +40,22 @@ Length = 0.0
 
 [sub_resource type="Resource" id="Resource_exuk7"]
 script = ExtResource("1_2eqea")
-Beat = 12.2
+Beat = 12.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_dk24q"]
 script = ExtResource("1_2eqea")
-Beat = 18.4
+Beat = 18.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_wgol3"]
 script = ExtResource("1_2eqea")
-Beat = 17.2
+Beat = 17.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_qqfs2"]
 script = ExtResource("1_2eqea")
-Beat = 5.8
+Beat = 5.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_a68i2"]
@@ -85,7 +85,7 @@ Length = 0.0
 
 [sub_resource type="Resource" id="Resource_5g7v8"]
 script = ExtResource("1_2eqea")
-Beat = 7.1
+Beat = 7.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_s6s0g"]
@@ -95,12 +95,12 @@ Length = 0.0
 
 [sub_resource type="Resource" id="Resource_boxlj"]
 script = ExtResource("1_2eqea")
-Beat = 10.6
+Beat = 10.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_7os4q"]
 script = ExtResource("1_2eqea")
-Beat = 16.2
+Beat = 16.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_6h64d"]
@@ -120,7 +120,7 @@ Length = 0.0
 
 [sub_resource type="Resource" id="Resource_c66mr"]
 script = ExtResource("1_2eqea")
-Beat = 15.4
+Beat = 15.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_7gaev"]
@@ -160,22 +160,22 @@ Length = 0.0
 
 [sub_resource type="Resource" id="Resource_rijti"]
 script = ExtResource("1_2eqea")
-Beat = 18.4
+Beat = 18.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_nu6ys"]
 script = ExtResource("1_2eqea")
-Beat = 17.2
+Beat = 17.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_68fmb"]
 script = ExtResource("1_2eqea")
-Beat = 5.8
+Beat = 5.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_5kcxv"]
 script = ExtResource("1_2eqea")
-Beat = 9.6
+Beat = 9.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_ow73n"]
@@ -185,17 +185,17 @@ Length = 0.0
 
 [sub_resource type="Resource" id="Resource_1flyl"]
 script = ExtResource("1_2eqea")
-Beat = 4.4
+Beat = 4.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_k72np"]
 script = ExtResource("1_2eqea")
-Beat = 12.2
+Beat = 12.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_kj2ca"]
 script = ExtResource("1_2eqea")
-Beat = 13.9
+Beat = 13.0
 Length = 0.0
 
 [sub_resource type="Resource" id="Resource_priv2"]

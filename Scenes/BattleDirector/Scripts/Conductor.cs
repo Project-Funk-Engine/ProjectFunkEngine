@@ -51,7 +51,12 @@ public partial class Conductor : Node
         {
             foreach (NoteInfo Note in MM.GetNotes(type))
             {
-                AddNoteData(Scribe.NoteDictionary[0], type, new Beat((int)Note.Beat), Note.Length);
+                AddNoteData(
+                    Scribe.NoteDictionary[0],
+                    type,
+                    new Beat(Math.Round(Note.Beat, 1)),
+                    Note.Length
+                );
             }
         }
     }
@@ -252,7 +257,7 @@ public partial class Conductor : Node
 
     public void AddPlayerNote(Note noteRef, ArrowType type, Beat beat)
     {
-        Beat compBeat = new Beat(beat.BeatPos, beat.Loop + 1);
+        Beat compBeat = new Beat((int)beat.BeatPos, beat.Loop + 1);
         int index = GetIndexOfData(new ArrowData(type, compBeat, null)); //Player notes should sorted based on immediately incrementing loop
         if (index != -1)
         {
@@ -266,7 +271,7 @@ public partial class Conductor : Node
     public void ProgressiveSpawnNotes(Beat beat)
     {
         Beat spawnBeat = beat + _beatSpawnOffset;
-        SpawnNotesAtBeat(spawnBeat.RoundBeat());
+        SpawnNotesAtBeat(spawnBeat.RoundBeatToInt());
     }
 
     private double GetTimingDif(Beat beat)

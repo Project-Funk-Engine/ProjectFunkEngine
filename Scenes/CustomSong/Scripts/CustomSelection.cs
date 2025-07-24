@@ -9,7 +9,7 @@ using FileAccess = Godot.FileAccess;
 public partial class CustomSelection : CanvasLayer, IFocusableMenu
 {
     public const string LoadPath = "res://Scenes/CustomSong/CustomSelection.tscn";
-    public const string UserSongDir = "user://Exports/";
+    public const string UserSongDir = "user://CustomSongs/";
 
     [Export]
     private Button _returnButton;
